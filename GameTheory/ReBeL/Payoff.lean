@@ -1,11 +1,9 @@
 /-
-# ReBeL rewards and strategy values through the canonical evaluator
+# ReBeL rewards through the canonical evaluator
 
-Section 3 distinguishes the immediate reward R_i(w,a), its cumulative return,
-and expected strategy value. Rewards remain external to ExecutionProtocol.
-Continuation values exclude rewards already received. Nothing in this module
-performs a posterior update or assigns a conditional probability to an
-unreachable information set; those obligations belong to M03.
+Immediate rewards R_i(w,a), cumulative return and expected strategy value are
+distinct. Continuation values remove realized past rewards; they do not assign
+posterior probabilities to unreachable information sets (the M03 obligation).
 -/
 
 import GameTheory.Protocol.Strategic
@@ -18,20 +16,17 @@ namespace GameTheory.ReBeL
 open GameTheory.Protocol ExecutionProtocol GameTheory.Math.Probability
 
 universe uι us ua
-
 variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 
-/-- The paper's immediate reward depends on the world and joint action, not
-on an additional analyst-selected terminal utility. -/
+/-- The paper's immediate reward: world, joint action and player. -/
 abbrev StageReward (E : ExecutionProtocol ι) :=
   E.State → (∀ i, Option (E.Action i)) → ι → ℝ
 
-/-- Cumulative utility is exactly the existing Protocol history value fold. -/
+/-- Cumulative utility is the existing history-value fold. -/
 def cumulativeUtility (reward : StageReward E) (history : E.History) (i : ι) : ℝ :=
   history.valueSum (fun event => reward event.source event.joint i)
 
-/-- Subtract the fixed root's realized past when valuing a continuation. This
-is meaningful for all histories without dividing by a reach probability. -/
+/-- Future reward excludes the fixed root's realized past. -/
 def futureUtility (reward : StageReward E) (root history : E.History) (i : ι) : ℝ :=
   cumulativeUtility reward history i - cumulativeUtility reward root i
 
@@ -56,8 +51,7 @@ theorem futureUtility_init (reward : StageReward E) (history : E.History) (i : �
     futureUtility reward E.initHistory history i = cumulativeUtility reward history i := by
   simp [futureUtility]
 
-/-- An additive state potential is an optional *proved* simplification of the
-history sum, not a replacement definition. It need not exist in general. -/
+/-- A potential is an optional proved simplification, not a new utility. -/
 theorem cumulativeUtility_eq_potential (reward : StageReward E)
     (potential : E.State → ι → ℝ)
     (initial : ∀ i, potential E.init i = 0)
@@ -74,8 +68,7 @@ theorem cumulativeUtility_eq_potential (reward : StageReward E)
       rw [increment ⟨_, joint, legal, _, realized⟩ i]
       exact congrArg (fun past => past + reward _ joint i) ih
 
-/-- Stagewise zero-sum rewards give zero-sum cumulative utility on every
-realized history, not just in expectation under one chosen profile. -/
+/-- Stagewise zero-sum rewards remain zero-sum on every realized history. -/
 theorem cumulativeUtility_zeroSum [Fintype ι] (reward : StageReward E)
     (zeroSum : ∀ event : E.StepEvent, ∑ i, reward event.source event.joint i = 0) :
     IsZeroSum (cumulativeUtility reward) := by
@@ -84,35 +77,33 @@ theorem cumulativeUtility_zeroSum [Fintype ι] (reward : StageReward E)
   induction trace with
   | start => simp [cumulativeUtility, History.valueSum, Trace.valueSum]
   | extend prior joint legal realized ih =>
-      change (∑ i, prior.valueSum (fun event => reward event.source event.joint i) +
-        reward _ joint i) = 0
+      change (∑ i, (prior.valueSum (fun event => reward event.source event.joint i) +
+        reward _ joint i)) = 0
       rw [Finset.sum_add_distrib]
       change (∑ i, prior.valueSum (fun event => reward event.source event.joint i)) = 0 at ih
       rw [ih, zeroSum ⟨_, joint, legal, _, realized⟩, add_zero]
 
-/-- Removing the past preserves the zero-sum condition. -/
+/-- Removing past rewards preserves zero-sum utility. -/
 theorem futureUtility_zeroSum [Fintype ι] (reward : StageReward E)
     (zeroSum : ∀ event : E.StepEvent, ∑ i, reward event.source event.joint i = 0)
     (root : E.History) : IsZeroSum (futureUtility reward root) := by
   intro history
-  simp only [futureUtility, Finset.sum_sub_distrib,
-    cumulativeUtility_zeroSum reward zeroSum, sub_self]
+  change (∑ i, (cumulativeUtility reward history i - cumulativeUtility reward root i)) = 0
+  rw [Finset.sum_sub_distrib, cumulativeUtility_zeroSum reward zeroSum history,
+    cumulativeUtility_zeroSum reward zeroSum root, sub_self]
 
-/-- Expected return of a behavioral strategy profile under the canonical
-information-local game form. No hidden state is added to the strategy type. -/
+/-- Behavioral profile value uses the canonical information-local game form. -/
 def policyValue [Fintype ι] (M : InformationModel E) (reward : StageReward E)
     (horizon : Nat) (profile : Profile M.behavioralSignature) (i : ι) : ℝ :=
   expectedUtility (cumulativeUtility reward) i ((M.toBehavioralGameForm horizon).play profile)
 
-/-- Value from a concrete reached history. Belief-weighted values of a fiber
-are a separate M03 construction, especially at zero-probability information. -/
+/-- Value from a concrete reached history, without any posterior update. -/
 def continuationValue [Fintype ι] (M : InformationModel E) (reward : StageReward E)
     (fuel : Nat) (profile : Profile M.behavioralSignature) (root : E.History) (i : ι) : ℝ :=
   expectedUtility (futureUtility reward root) i (M.runBehavioralFrom profile fuel root)
 
-/-- The paper's maximum characterization of a Nash profile is exactly the
-existing unilateral-deviation definition. This does not assume existence of
-an equilibrium or install an unproved best-response oracle. -/
+/-- The paper's maximum characterization is the existing Nash definition.
+No equilibrium existence theorem or best-response oracle is assumed. -/
 theorem isNash_iff_policyValue_greatest [Fintype ι] [DecidableEq ι]
     (M : InformationModel E) (reward : StageReward E) (horizon : Nat)
     (profile : Profile M.behavioralSignature) :
@@ -125,7 +116,8 @@ theorem isNash_iff_policyValue_greatest [Fintype ι] [DecidableEq ι]
   constructor
   · intro hnash i
     refine ⟨⟨profile i, ?_⟩, ?_⟩
-    · rw [Profile.update_eq_self]
+    · change policyValue M reward horizon (Profile.update profile i (profile i)) i = _
+      rw [Profile.update_eq_self]
     · intro value hvalue
       obtain ⟨replacement, rfl⟩ := hvalue
       exact hnash i replacement
