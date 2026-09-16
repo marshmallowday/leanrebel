@@ -14,19 +14,19 @@ from pathlib import Path
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
-PROBE = "GameTheory.Tests.ReBeLSourceDiagnostics"
 AUDITOR = r'''
 open Lean Elab Command in
 run_cmd do
   let env ← getEnv
-  let prefix : Name := `GameTheory.ReBeL
+  let modulePrefix : Name := `GameTheory.ReBeL
   let probe : Name := `GameTheory.Tests.ReBeLSourceDiagnostics
+  let moduleNames := env.header.moduleNames
   let allowed : List Name := [`propext, `Classical.choice, `Quot.sound]
   let mut count := 0
   for (name, _) in env.constants.toList do
     if let some idx := env.getModuleIdxFor? name then
-      let modName := env.header.moduleNames[idx.toNat]!
-      if prefix.isPrefixOf modName || modName == probe then
+      let modName := moduleNames[idx.toNat]!
+      if modulePrefix.isPrefixOf modName || modName == probe then
         let axioms ← Lean.collectAxioms name
         logInfo m!"REBEL_AXIOMS {name}: {axioms.toList}"
         for ax in axioms do
