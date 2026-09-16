@@ -1,4 +1,4 @@
 {
-  "timeout_seconds": 60,
-  "script": "cp .m02-response.log docs/rebel/M02-compiler-log.txt\nsed -n '1,220p' GameTheory/Protocol/Information.lean > docs/rebel/M02-api-inspection.txt\n"
+  "timeout_seconds": 300,
+  "script": "python3 - <<'PY'\nfrom pathlib import Path\np=Path('GameTheory/ReBeL/Information.lean')\ns=p.read_text().replace('InfoSignals.{uι, us, ua, up, uq, uk} E','InfoSignals E')\np.write_text(s)\nPY\nlake build GameTheory.ReBeL.Information 2>&1 | tee docs/rebel/M02-compiler-log.txt\n"
 }
