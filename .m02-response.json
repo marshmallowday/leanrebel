@@ -1,0 +1,10 @@
+{
+  "request_sha256": "f2f89b30b1bde6cd238ecb571455ebc5d804875d8b91034596652c8c0e917694",
+  "source_before": "3b5843cb68ba50f7cc52c334f89c611be57367e2",
+  "exit_code": 1,
+  "elapsed_seconds": 4.693,
+  "log_bytes": 11581,
+  "log_sha256": "417cad31433ab4302fc59c3f4750b5f03c52b148901f5d1f239122dfc3d3560a",
+  "toolchain": "leanprover/lean4:v4.33.1",
+  "note": "Iteration result, not a milestone completion claim."
+}
