@@ -64,7 +64,7 @@ def reduceAOH (i : ι) :
   | .initial privateObservation publicObservation =>
       S.initInfo i privateObservation publicObservation
   | .step prior action privateObservation publicObservation =>
-      S.pushInfo i (reduceAOH S i prior) action privateObservation publicObservation
+      S.pushInfo i (reduceAOH i prior) action privateObservation publicObservation
 
 /-- Retain all observations and own actions rather than compressing them. -/
 @[reducible]
@@ -83,7 +83,7 @@ def fullSignals : InfoSignals E where
 def publicTrace : {state : E.State} → E.Trace state → List S.PublicSignal
   | _, .start => [S.initialPublic]
   | _, .extend prior joint legal realized =>
-      S.publicSignal ⟨_, joint, legal, _, realized⟩ :: publicTrace S prior
+      S.publicSignal ⟨_, joint, legal, _, realized⟩ :: publicTrace prior
 
 /-- Full histories refine, rather than identify themselves with, the original
 compressed information state. -/
@@ -164,8 +164,6 @@ def fullInformation (M : InformationModel E) : InformationModel E where
   menu i info := M.menu i (reduceAOH M.toInfoSignals i info)
   menu_adequate := by
     intro i state trace choice
-    change choice ∈ M.menu i
-      (reduceAOH M.toInfoSignals i ((fullSignals M.toInfoSignals).infoOf i trace)) ↔ _
     rw [reduceAOH_infoOf]
     exact M.menu_adequate i trace choice
 
