@@ -37,37 +37,6 @@ jobs:
           retention-days: 7
           if-no-files-found: error
 
-  baseline:
-    name: Historical M00 baseline build, lint and architecture audits
-    if: github.ref == 'refs/heads/rebel/m01-a'
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-        with:
-          ref: 5532a9c1d900261ae8e6ac4fe877ebd1c175cc1c
-          persist-credentials: false
-      - name: Identify historical source
-        run: git rev-parse HEAD
-      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1.5.0
-        with:
-          auto-config: false
-          build: true
-          test: false
-          lint: true
-          use-mathlib-cache: true
-      - name: Phase 1 architecture audit
-        shell: pwsh
-        run: ./scripts/phase1-audit.ps1 -VerifyExpected
-      - name: Phase 2 architecture and reachability audit
-        shell: pwsh
-        run: ./scripts/phase2-audit.ps1 -VerifyExpected -DeepReachability
-      - name: Phase 3 architecture and reachability audit
-        shell: pwsh
-        run: ./scripts/phase3-audit.ps1 -VerifyExpected -DeepReachability
-      - name: Check historical tracked-file cleanliness
-        run: git diff --exit-code
-
   diagnostics:
     name: ReBeL compiler, lint, and transitive axiom checks
     runs-on: ubuntu-latest
@@ -82,11 +51,14 @@ jobs:
           build: false
           test: false
           lint: false
-          use-mathlib-cache: true
+          use-mathlib-cache: false
+          use-github-cache: false
       - name: Identify exact source and toolchain
         run: |
           git rev-parse HEAD
           lake env lean --version
+      - name: Fetch only the diagnostic's Mathlib dependency cache
+        run: lake exe cache get Mathlib.Algebra.Order.Field.Rat Mathlib.Tactic.NormNum Mathlib.Tactic.Linarith
       - name: Check ledger structure
         run: python3 scripts/rebel/check_coverage.py
       - name: Compile and lint every ReBeL module and audit transitive axioms

@@ -1,0 +1,48 @@
+name: ReBeL historical baseline
+
+# This independent workflow is not cancelled by edits to the compiler probe.
+# A source-only probe iteration need not repeat the unchanged historical build.
+on:
+  push:
+    branches: ['rebel/m01-a']
+    paths: ['.github/workflows/rebel-baseline.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebel-baseline-5532a9c1d900261ae8e6ac4fe877ebd1c175cc1c
+  cancel-in-progress: false
+
+jobs:
+  baseline:
+    name: Historical baseline build, lint and architecture audits
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: 5532a9c1d900261ae8e6ac4fe877ebd1c175cc1c
+          persist-credentials: false
+      - name: Identify historical source
+        run: git rev-parse HEAD
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1.5.0
+        with:
+          auto-config: false
+          build: true
+          test: false
+          lint: true
+          use-mathlib-cache: true
+          use-github-cache: false
+      - name: Phase 1 architecture audit
+        shell: pwsh
+        run: ./scripts/phase1-audit.ps1 -VerifyExpected
+      - name: Phase 2 architecture and reachability audit
+        shell: pwsh
+        run: ./scripts/phase2-audit.ps1 -VerifyExpected -DeepReachability
+      - name: Phase 3 architecture and reachability audit
+        shell: pwsh
+        run: ./scripts/phase3-audit.ps1 -VerifyExpected -DeepReachability
+      - name: Check historical tracked-file cleanliness
+        run: git diff --exit-code

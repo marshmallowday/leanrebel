@@ -10,7 +10,7 @@ The whole-library build, Phase 2/3 source audits, dedicated Batteries lint,
 and scripts/rebel/audit_axioms.py all include this file.
 -/
 
-import Mathlib.Data.Rat.Order
+import Mathlib.Algebra.Order.Field.Rat
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Linarith
 
