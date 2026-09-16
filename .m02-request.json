@@ -1,4 +1,4 @@
 {
   "timeout_seconds": 300,
-  "script": "python3 - <<'PY'\nfrom pathlib import Path\np=Path('GameTheory/ReBeL/Information.lean')\ns=p.read_text().replace('InfoSignals.{uι, us, ua, up, uq, uk} E','InfoSignals E')\np.write_text(s)\nPY\nlake build GameTheory.ReBeL.Information 2>&1 | tee docs/rebel/M02-compiler-log.txt\n"
+  "script": "python3 - <<'PY'\nfrom pathlib import Path\np=Path('GameTheory/ReBeL/Information.lean')\ns=p.read_text().replace('S.pushInfo i (reduceAOH S i prior)', 'S.pushInfo i (reduceAOH i prior)').replace(':: publicTrace S prior', ':: publicTrace prior')\ns=s.replace('    change choice ∈ M.menu i\n      (reduceAOH M.toInfoSignals i ((fullSignals M.toInfoSignals).infoOf i trace)) ↔ _\n','')\np.write_text(s)\nPY\nlake build GameTheory.ReBeL.Information 2>&1 | tee docs/rebel/M02-compiler-log.txt\n"
 }
