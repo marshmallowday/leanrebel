@@ -1,0 +1,4 @@
+{
+  "timeout_seconds": 600,
+  "script": "lake build GameTheory.ReBeL.Information\n"
+}
