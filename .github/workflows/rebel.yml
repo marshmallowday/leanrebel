@@ -57,14 +57,56 @@ jobs:
         run: |
           git rev-parse HEAD
           lake env lean --version
-      - name: Fetch only the diagnostic's Mathlib dependency cache
-        run: lake exe cache get Mathlib.Algebra.Order.Field.Rat Mathlib.Tactic.NormNum Mathlib.Tactic.Linarith
+      - name: Fetch the actual ReBeL Mathlib dependency closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' > "$RUNNER_TEMP/rebel-mathlib-roots.txt"
+          from pathlib import Path
+          files = [Path('GameTheory/Tests/ReBeLSourceDiagnostics.lean')]
+          files.extend(Path('GameTheory/ReBeL').rglob('*.lean'))
+          if Path('GameTheory/ReBeL.lean').is_file():
+              files.append(Path('GameTheory/ReBeL.lean'))
+          pending = [str(p.with_suffix('')).replace('/', '.') for p in files]
+          seen, roots = set(), set()
+          while pending:
+              name = pending.pop()
+              if name in seen:
+                  continue
+              seen.add(name)
+              if name.startswith('Mathlib.'):
+                  roots.add(name)
+                  continue
+              path = Path(name.replace('.', '/') + '.lean')
+              if path.is_file():
+                  for line in path.read_text(encoding='utf-8').splitlines():
+                      if line.startswith('import '):
+                          pending.extend(line.split()[1:])
+          if not roots:
+              raise SystemExit('No Mathlib dependency roots found')
+          print(' '.join(sorted(roots)))
+          PY
+          cat "$RUNNER_TEMP/rebel-mathlib-roots.txt"
+          lake exe cache get $(cat "$RUNNER_TEMP/rebel-mathlib-roots.txt")
       - name: Check ledger, inventory, and adversarial fixtures
         run: |
           python3 scripts/rebel/check_coverage.py
           python3 scripts/rebel/check_inventory.py
           python3 -W error -m unittest discover -s scripts/rebel/tests -v
       - name: Compile and lint every ReBeL module and audit transitive axioms
-        run: python3 scripts/rebel/audit_axioms.py
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rev-parse HEAD | tee "$RUNNER_TEMP/rebel-validation.log"
+          python3 scripts/rebel/audit_axioms.py 2>&1 | tee -a "$RUNNER_TEMP/rebel-validation.log"
       - name: Check tracked-file cleanliness
         run: git diff --exit-code
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: rebel-validation-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/rebel-validation.log
+            ${{ runner.temp }}/rebel-mathlib-roots.txt
+          retention-days: 7
+          if-no-files-found: warn
