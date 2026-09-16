@@ -1,0 +1,43 @@
+name: ReBeL checks
+
+on:
+  push:
+    branches: [main, 'rebel/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebel-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  diagnostics:
+    name: ReBeL compiler, lint, and transitive axiom checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1.5.0
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+      - name: Identify exact source and toolchain
+        run: |
+          git rev-parse HEAD
+          lake env lean --version
+      - name: Check ledger structure
+        run: python3 scripts/rebel/check_coverage.py
+      - name: Compile every ReBeL module and audit transitive axioms
+        run: python3 scripts/rebel/audit_axioms.py
+      - name: Lint ReBeL declarations including diagnostic tests
+        run: lake exe batteries/runLinter GameTheory.ReBeL GameTheory.ReBeL.Tests.SourceDiagnostics
+      - name: Check tracked-file cleanliness
+        run: git diff --exit-code
