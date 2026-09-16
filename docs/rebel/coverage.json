@@ -3,7 +3,7 @@
   "repository":"marshmallowday/leanrebel",
   "baseline_commit":"5532a9c1d900261ae8e6ac4fe877ebd1c175cc1c",
   "official_commit":"7960a42750f3407ea9eb2c3333d4c2a7961f6df4",
-  "inventory_status":"M01_B_inventory_complete_integration_pending",
+  "inventory_status":"M01_B_complete",
   "source_ids":["main","supp","arxiv","base","official","project"],
   "sources_document":"docs/rebel/README.md",
   "milestones":["M00","M01","M02","M03","M04","M05","M06","M07","M08","M09","M10","M11"],

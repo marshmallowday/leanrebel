@@ -2,7 +2,7 @@
 
 ## 現在地
 
-- **M01-A 完了。M01-B の原典棚卸し・R1–R7監査を実施済み。更新後SHAの統合検証中であり、M01全体の完了はまだ宣言しない。**
+- **M01（M01-A → M01-B）完了。次の作業は M02-A。ReBeL 全体の形式化はまだ完了していない。**
 - M01-A の完了ログを確認する前に M01-B の原典棚卸しには着手していない。
 - 書込み先: `marshmallowday/leanrebel` のみ。作業ブランチ: `rebel/m01-b`。M01-A先端 `ec152983ce74c6d5c56bf5e16ae6add5e1bab245` を保持。
 - 作業開始時 main: `c66c51c8917748bc1f64e3d0548dbe54921dba4e`。
@@ -31,7 +31,7 @@ Lean 4.33.1 / compiler `819816b2e0a3bf405af45ae5c7af2491d8f5bee6`。
 通常のローカル環境では Lean は実行しておらず、上記は GitHub Actions による実行である。
 台帳検査器は証明検査ではない。ローカルでは有効データと 8 種の不正台帳 fixture を確認した。
 
-## M01-B の成果と現在の統合ゲート
+## M01-B の成果と受入証拠
 
 - `M01-B.md` に本文・補遺・arXiv v2・公式実装、R1–R7、引用依存、再利用前提を記録。
 - `inventory/` は論文356項目、公式53エントリ（51ファイル・2 gitlink）と2578構文/設定出現を追跡する。
@@ -46,16 +46,38 @@ Lean 4.33.1 / compiler `819816b2e0a3bf405af45ae5c7af2491d8f5bee6`。
 - 生成データの完全再現は `63262218154269395214db788f5b58cac5743884` の
   run `35149443912` / job `104973717567` で成功。生成4blobのSHA256がレビュー済み値と一致。
   この一時jobは当該リポジトリ内のblobだけを保存し、ref/commitを変更していない。
-  一時writer/workflowは本統合候補から削除し、通常CIはread-onlyを維持。
-- **残る一作業:** この更新後ブランチSHAのfull build/lint/architecture、23候補のcompiler型確認、
-  ReBeL公理監査、原典index/PDF比較、23 Pythonテストの実ログを取得して統合ゲートを閉じる。
-  実行中を成功と扱わない。完了後coverage/STATUSを更新し、main先端再取得後にfast-forwardする。
+  一時writer/workflowは受入対象9ecbc4641907から削除し、通常CIはread-onlyを維持。
+
+**M01-B の実装・監査成果の受入対象は `9ecbc4641907c8ddbc8181836036dab4de797759`。**
+以下の3 workflowはすべて完了・成功で、各jobのフルログを取得して確認した。
+
+| 検査 | run / job | 実ログの結果 |
+|---|---|---|
+| full CI | `35151402989` / `104980487227` | full build 4011 jobs、23候補の実際のLean型、Phase 1/2/3 expected count、Phase 2/3各8件のdeep probe、全public lint 3781 jobs、tracked diff: 全成功 |
+| ReBeL checks | `35151402962` / `104980333101` | coverage/inventory、23 Pythonテスト、narrow build 816 jobs、16宣言の推移的公理監査、明示的test-module lint、tracked diff: 全成功 |
+| source inventory | `35151403168` / `104980332983` | 公式53エントリ・2578出現の完全再生成、PDF50頁・25版対応のハッシュ比較、coverage/inventory、23 Pythonテスト、tracked diff: 全成功 |
+
+公理監査では全16宣言が `[propext, Classical.choice, Quot.sound]` のみに依存することを再確認した。
+再利用候補の型は `REUSE_COMPILER_TYPES_PASS declarations=23` で確認したが、
+全候補を `candidate_not_applied` のままにした。これはReBeLでの適用可能性の証明ではない。
+M01-A先端から受入対象9ecまでにLeanソース・toolchain・依存pinの変更はない。
+
+coverage の `inventory_status` は `M01_B_complete` とした。
+この完了記録commitはSTATUSと当該ラベルのみを変更する。
+上の実行証拠を自己参照の完了記録commitにすり替えず、対象SHAを明示して保持する。
+完了記録commit自身のCI状態と実際のmain先端はGitHubから確認すること。
+mainへの統合は先端を再取得したうえで通常のfast-forwardを用い、force-pushしない。
+
+展開台帳でM01に属する73行は `context_indexed=72` と `verified=1`。
+残る `pending=2643` はM02–M11の形式化義務であり、原典索引の完了を数学的証明の完了に読み替えない。
+R3/R5の初期診断と原典解釈の監査はM01で完了したが、元ゲームへの埋め込みや
+solverの誤差伝播を証明する後続義務は削除していない。
 
 既存Windows main run `35134440926` はPhase 3でcancelledであり成功扱いしない。
 全検査成功を確認した対象はUbuntu。Windows manual経路は保持し、検査を削っていない。
 Actions基盤のNode 20/24 deprecation warningとLeanの警告・エラーを混同しない。
 
-## M01統合後の次タスク: M02-A
+## 次タスク: M02-A
 
 二段階隠れ情報ゲームの縦断例を作る。PBSは相関を保持し、ゼロ到達・off-pathと
 情報漏洩の負例を含める。未コンパイルのPBS/CFR実装を大量追加しない。
