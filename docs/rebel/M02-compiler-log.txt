@@ -1,0 +1,247 @@
+✖ [1722/1722] Building GameTheory.ReBeL.Information (2.6s)
+trace: .> LEAN_PATH=/home/runner/work/leanrebel/leanrebel/.lake/packages/Cli/.lake/build/lib/lean:/home/runner/work/leanrebel/leanrebel/.lake/packages/batteries/.lake/build/lib/lean:/home/runner/work/leanrebel/leanrebel/.lake/packages/Qq/.lake/build/lib/lean:/home/runner/work/leanrebel/leanrebel/.lake/packages/aesop/.lake/build/lib/lean:/home/runner/work/leanrebel/leanrebel/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/runner/work/leanrebel/leanrebel/.lake/packages/importGraph/.lake/build/lib/lean:/home/runner/work/leanrebel/leanrebel/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/runner/work/leanrebel/leanrebel/.lake/packages/plausible/.lake/build/lib/lean:/home/runner/work/leanrebel/leanrebel/.lake/packages/mathlib/.lake/build/lib/lean:/home/runner/work/leanrebel/leanrebel/.lake/packages/fixed-point-theorems/.lake/build/lib/lean:/home/runner/work/leanrebel/leanrebel/.lake/build/lib/lean /home/runner/.elan/toolchains/leanprover--lean4---v4.33.1/bin/lean /home/runner/work/leanrebel/leanrebel/GameTheory/ReBeL/Information.lean -o /home/runner/work/leanrebel/leanrebel/.lake/build/lib/lean/GameTheory/ReBeL/Information.olean -i /home/runner/work/leanrebel/leanrebel/.lake/build/lib/lean/GameTheory/ReBeL/Information.ilean -c /home/runner/work/leanrebel/leanrebel/.lake/build/ir/GameTheory/ReBeL/Information.c --setup /home/runner/work/leanrebel/leanrebel/.lake/build/ir/GameTheory/ReBeL/Information.setup.json --json
+error: GameTheory/ReBeL/Information.lean:58:51: Application type mismatch: The argument
+  E
+has type
+  ExecutionProtocol.{uι, us, ua} ι
+of sort
+  Type (max (max (ua + 1) (us + 1)) uι)
+but is expected to have type
+  ExecutionProtocol.{uι, uq, uk} ?m.1
+of sort
+  Type (max (max (uk + 1) (uq + 1)) uι)
+in the application
+  InfoSignals E
+error: GameTheory/ReBeL/Information.lean:63:22: Unknown identifier `S.PrivateSignal`
+error: GameTheory/ReBeL/Information.lean:63:41: Unknown identifier `S.PublicSignal`
+error: GameTheory/ReBeL/Information.lean:63:58: Unknown identifier `S.InfoState`
+error: GameTheory/ReBeL/Information.lean:65:6: Unknown identifier `S.initInfo`
+error: GameTheory/ReBeL/Information.lean:67:6: Unknown identifier `S.pushInfo`
+error: GameTheory/ReBeL/Information.lean:72:18: Unknown identifier `S.PublicSignal`
+error: GameTheory/ReBeL/Information.lean:73:19: Unknown identifier `S.PrivateSignal`
+error: GameTheory/ReBeL/Information.lean:74:19: Unknown identifier `S.initialPublic`
+error: GameTheory/ReBeL/Information.lean:75:20: Unknown identifier `S.initialPrivate`
+error: GameTheory/ReBeL/Information.lean:76:18: Unknown identifier `S.publicSignal`
+error: GameTheory/ReBeL/Information.lean:77:19: Unknown identifier `S.privateSignal`
+error: GameTheory/ReBeL/Information.lean:78:35: Unknown identifier `S.PrivateSignal`
+error: GameTheory/ReBeL/Information.lean:78:54: Unknown identifier `S.PublicSignal`
+error: GameTheory/ReBeL/Information.lean:83:59: Unknown identifier `S.PublicSignal`
+error: GameTheory/ReBeL/Information.lean:84:18: Unknown identifier `S.initialPublic`
+error: GameTheory/ReBeL/Information.lean:86:6: Unknown identifier `S.publicSignal`
+error: GameTheory/ReBeL/Information.lean:86:67: Unknown identifier `S`
+error: GameTheory/ReBeL/Information.lean:92:53: Invalid field notation: Type of
+  S
+is not known; cannot resolve field `infoOf`
+
+Hint: Consider replacing the field projection `.infoOf` with a call to the function `InfoSignals.infoOf`.
+error: GameTheory/ReBeL/Information.lean:96:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+error: GameTheory/ReBeL/Information.lean:96:51: declaration uses `sorry`
+error: GameTheory/ReBeL/Information.lean:96:51: declaration uses `sorry`
+error: GameTheory/ReBeL/Information.lean:96:51: declaration uses `sorry`
+error: GameTheory/ReBeL/Information.lean:96:51: declaration uses `sorry`
+error: GameTheory/ReBeL/Information.lean:96:51: declaration uses `sorry`
+error: GameTheory/ReBeL/Information.lean:104:6: Function expected at
+  fullSignals
+but this term has type
+  InfoSignals ?m.16
+
+Note: Expected a function because this term is being applied to the argument
+  S
+error: GameTheory/ReBeL/Information.lean:108:69: declaration uses `sorry`
+error: GameTheory/ReBeL/Information.lean:108:69: declaration uses `sorry`
+error: GameTheory/ReBeL/Information.lean:108:17: This simp argument is unused:
+  InfoSignals.infoOf
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [fullSignals, AOH.publicHistory, publicTrace, ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: GameTheory/ReBeL/Information.lean:108:37: This simp argument is unused:
+  fullSignals
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [InfoSignals.infoOf, AOH.publicHistory, publicTrace, ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: GameTheory/ReBeL/Information.lean:108:50: This simp argument is unused:
+  AOH.publicHistory
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [InfoSignals.infoOf, fullSignals, publicTrace, ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: GameTheory/ReBeL/Information.lean:108:69: This simp argument is unused:
+  publicTrace
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [InfoSignals.infoOf, fullSignals, AOH.publicHistory, ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: GameTheory/ReBeL/Information.lean:108:82: This simp argument is unused:
+  ih
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [InfoSignals.infoOf, fullSignals, AOH.publicHistory, publicTrace]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: GameTheory/ReBeL/Information.lean:112:6: Function expected at
+  fullSignals
+but this term has type
+  InfoSignals ?m.10
+
+Note: Expected a function because this term is being applied to the argument
+  S
+error: GameTheory/ReBeL/Information.lean:115:41: unsolved goals
+case extend
+ι : Type uι
+E : ExecutionProtocol ι
+i : ι
+state source✝ target✝ : E.State
+prior : E.Trace source✝
+joint : (i : ι) → Option (E.Action i)
+legal : E.Legal source✝ joint
+realized : target✝ ∈ (E.step source✝ ⟨joint, legal⟩).support
+ih : sorry = prior.length
+⊢ prior.length = prior.length + 1
+error: GameTheory/ReBeL/Information.lean:116:17: This simp argument is unused:
+  InfoSignals.infoOf
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [fullSignals, AOH.length, Trace.length, ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: GameTheory/ReBeL/Information.lean:116:37: This simp argument is unused:
+  fullSignals
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [InfoSignals.infoOf, AOH.length, Trace.length, ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: GameTheory/ReBeL/Information.lean:116:50: This simp argument is unused:
+  AOH.length
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [InfoSignals.infoOf, fullSignals, Trace.length, ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: GameTheory/ReBeL/Information.lean:120:6: Function expected at
+  fullSignals
+but this term has type
+  InfoSignals ?m.9
+
+Note: Expected a function because this term is being applied to the argument
+  S
+error: GameTheory/ReBeL/Information.lean:120:48: Function expected at
+  fullSignals
+but this term has type
+  InfoSignals ?m.14
+
+Note: Expected a function because this term is being applied to the argument
+  S
+error: GameTheory/ReBeL/Information.lean:124:25: Function expected at
+  fullSignals
+but this term has type
+  InfoSignals ?m.47
+
+Note: Expected a function because this term is being applied to the argument
+  S
+error: GameTheory/ReBeL/Information.lean:129:37: Function expected at
+  fullSignals
+but this term has type
+  InfoSignals ?m.3
+
+Note: Expected a function because this term is being applied to the argument
+  S
+error: GameTheory/ReBeL/Information.lean:130:8: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+⊢ sorry
+error: GameTheory/ReBeL/Information.lean:137:14: Function expected at
+  fullSignals
+but this term has type
+  InfoSignals ?m.26
+
+Note: Expected a function because this term is being applied to the argument
+  S
+error: GameTheory/ReBeL/Information.lean:138:7: Function expected at
+  fullSignals
+but this term has type
+  InfoSignals ?m.30
+
+Note: Expected a function because this term is being applied to the argument
+  S
+error: GameTheory/ReBeL/Information.lean:140:8: Unknown identifier `publicHistory_infoOf`
+error: GameTheory/ReBeL/Information.lean:139:60: unsolved goals
+ι : Type uι
+E : ExecutionProtocol ι
+ι✝ : Type u_1
+self✝ : ExecutionProtocol ι✝
+a✝ : self✝.State
+S : self✝.Trace a✝
+i : ι
+first second : E.State
+traceFirst : E.Trace first
+traceSecond : E.Trace second
+hinfo : sorry = sorry
+⊢ sorry = sorry
+error: GameTheory/ReBeL/Information.lean:144:37: Unknown identifier `S.PublicSignal`
+error: GameTheory/ReBeL/Information.lean:145:38: Unknown identifier `S`
+error: GameTheory/ReBeL/Information.lean:150:30: Unknown identifier `S.PrivateSignal`
+error: GameTheory/ReBeL/Information.lean:150:49: Unknown identifier `S.PublicSignal`
+error: GameTheory/ReBeL/Information.lean:151:27: Function expected at
+  fullSignals
+but this term has type
+  InfoSignals ?m.11
+
+Note: Expected a function because this term is being applied to the argument
+  S
+error: GameTheory/ReBeL/Information.lean:157:44: Function expected at
+  PublicFiber S
+but this term has type
+  Type (max 0 (max ?u.21 ?u.22) ?u.23)
+
+Note: Expected a function because this term is being applied to the argument
+  info.publicHistory
+error: GameTheory/ReBeL/Information.lean:163:19: Function expected at
+  fullSignals
+but this term has type
+  InfoSignals ?m.6
+
+Note: Expected a function because this term is being applied to the argument
+  M.toInfoSignals
+error: GameTheory/ReBeL/Information.lean:169:8: Unknown identifier `reduceAOH_infoOf`
+error: GameTheory/ReBeL/Information.lean:165:19: unsolved goals
+ι : Type uι
+E : ExecutionProtocol ι
+M : InformationModel E
+i : ι
+state : E.State
+trace : E.Trace state
+choice : Option (E.Action i)
+⊢ choice ∈ M.menu i sorry ↔ LegalOption E state i choice
+error: GameTheory/ReBeL/Information.lean:172:0: declaration `GameTheory.ReBeL.fullInformation_legalOptions` contains universe level metavariables at the expression
+  InformationModel.menu_adequate.{uι, us, ua, ?u.71, ?u.70, ?u.69}
+    (fullInformation.{uι, us, ua, u_1, u_2, u_3, ?u.71, ?u.70, ?u.69} M) i trace choice
+in the declaration body
+  fun {ι} {E} M i {state} trace choice ↦
+    InformationModel.menu_adequate.{uι, us, ua, ?u.71, ?u.70, ?u.69}
+      (fullInformation.{uι, us, ua, u_1, u_2, u_3, ?u.71, ?u.70, ?u.69} M) i trace choice
+error: GameTheory/ReBeL/Information.lean:185:36: Function expected at
+  fullSignals
+but this term has type
+  InfoSignals ?m.36
+
+Note: Expected a function because this term is being applied to the argument
+  S
+error: GameTheory/ReBeL/Information.lean:186:9: Function expected at
+  fullSignals
+but this term has type
+  InfoSignals ?m.40
+
+Note: Expected a function because this term is being applied to the argument
+  S
+error: Lean exited with code 1
+Some required targets logged failures:
+- GameTheory.ReBeL.Information
+error: build failed
