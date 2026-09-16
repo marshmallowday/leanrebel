@@ -62,6 +62,11 @@ jobs:
           lake env lean --version
           if ($LASTEXITCODE -ne 0) { throw 'Cannot identify pinned toolchain' }
 
+      - name: Check ReBeL inventory and compiler-resolved reuse signatures
+        run: |
+          python scripts/rebel/check_inventory.py --lean
+          if ($LASTEXITCODE -ne 0) { throw 'ReBeL inventory or candidate type check failed' }
+
       - name: Verify Phase 1 architecture measurements
         run: ./scripts/phase1-audit.ps1 -VerifyExpected
 

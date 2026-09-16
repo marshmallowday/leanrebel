@@ -59,8 +59,11 @@ jobs:
           lake env lean --version
       - name: Fetch only the diagnostic's Mathlib dependency cache
         run: lake exe cache get Mathlib.Algebra.Order.Field.Rat Mathlib.Tactic.NormNum Mathlib.Tactic.Linarith
-      - name: Check ledger structure
-        run: python3 scripts/rebel/check_coverage.py
+      - name: Check ledger, inventory, and adversarial fixtures
+        run: |
+          python3 scripts/rebel/check_coverage.py
+          python3 scripts/rebel/check_inventory.py
+          python3 -W error -m unittest discover -s scripts/rebel/tests -v
       - name: Compile and lint every ReBeL module and audit transitive axioms
         run: python3 scripts/rebel/audit_axioms.py
       - name: Check tracked-file cleanliness

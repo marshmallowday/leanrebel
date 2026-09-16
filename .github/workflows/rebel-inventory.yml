@@ -1,0 +1,51 @@
+name: ReBeL source inventory
+
+on:
+  push:
+    branches: [main, 'rebel/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebel-inventory-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  source-inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: facebookresearch/rebel
+          ref: 7960a42750f3407ea9eb2c3333d4c2a7961f6df4
+          path: .lake/rebel-official
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.5'
+      - name: Install pinned readers, not the official runtime
+        run: python -m pip install tree-sitter==0.25.2 tree-sitter-cpp==0.23.4 PyYAML==6.0.3 PyMuPDF==1.26.7
+      - name: Verify full pinned official syntax inventory
+        run: python scripts/rebel/inventory_official.py --source .lake/rebel-official --tree docs/rebel/inventory/official-tree.txt --output docs/rebel/inventory/official.json.gz --check
+      - name: Verify pinned PDF edition comparison
+        run: |
+          mkdir -p "$RUNNER_TEMP/rebel-pdfs"
+          curl --fail --location --retry 2 --max-time 180 'https://papers.nips.cc/paper/2020/file/c61f571dbd2fb949d3fe5ae1608dd48b-Paper.pdf' -o "$RUNNER_TEMP/rebel-pdfs/main.pdf"
+          curl --fail --location --retry 2 --max-time 180 'https://papers.nips.cc/paper_files/paper/2020/file/c61f571dbd2fb949d3fe5ae1608dd48b-Supplemental.pdf' -o "$RUNNER_TEMP/rebel-pdfs/supp.pdf"
+          curl --fail --location --retry 2 --max-time 180 'https://arxiv.org/pdf/2007.13544v2' -o "$RUNNER_TEMP/rebel-pdfs/arxiv-v2.pdf"
+          python scripts/rebel/compare_papers.py --pdf-dir "$RUNNER_TEMP/rebel-pdfs" --manifest docs/rebel/inventory/sources.json
+      - name: Check inventory and adversarial fixtures
+        run: |
+          python scripts/rebel/check_coverage.py
+          python scripts/rebel/check_inventory.py
+          python -W error -m unittest discover -s scripts/rebel/tests -v
+      - name: Check tracked-file cleanliness
+        run: git diff --exit-code

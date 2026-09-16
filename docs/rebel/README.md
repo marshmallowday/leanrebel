@@ -2,7 +2,7 @@
 
 この fork の目的は Brown, Bakhtin, Lerer, Gong (2020) の ReBeL を、本文・補遺・アルゴリズム変種・学習/数値実装まで追跡して Lean で形式化することです。Theorem 1–3 や抽象 value oracle だけでは最終完了にしません。
 
-**現状は準備段階です。ReBeL の新規 Lean 定義・証明はまだありません。**
+**M01-A の Lean 診断と実行経路を検証済みです。M01-B の原典 inventory と意味監査を追加しました。現在の統合状態と対象 SHA は STATUS.md を参照してください。ReBeL 全体の形式化は未完了です。**
 
 ## 読む順序
 
@@ -10,6 +10,7 @@
 2. [STATUS.md](STATUS.md): 現在位置、検証結果、次の一作業。
 3. [ROADMAP.md](ROADMAP.md): 範囲、依存関係、段階ごとの受入条件。
 4. [coverage.json](coverage.json): 原典と成果の対応台帳。候補コードの存在は証明完了を意味しません。
+5. [M01-A.md](M01-A.md)、[M01-B.md](M01-B.md): 実行記録、原典・版差・前提監査。`inventory/` はハッシュ固定の子台帳と出典です。
 
 変更可能な GitHub リポジトリは **`marshmallowday/leanrebel` のみ**です。upstream、公式 ReBeL、他の fork への push・PR・issue 等は行いません。
 
@@ -24,7 +25,7 @@
 | official | Meta 公開実装 | [`facebookresearch/rebel@7960a42750f3407ea9eb2c3333d4c2a7961f6df4`](https://github.com/facebookresearch/rebel/tree/7960a42750f3407ea9eb2c3333d4c2a7961f6df4) |
 | toolchain | Lean | `leanprover/lean4:v4.33.1`。Mathlib、補助依存は既存 `lake-manifest.json` を維持する |
 
-PDF はここへ転載していません。数式は PDF のページ画像を確認し、取得時には取得 URL・SHA-256・版・ページ番号を台帳へ追記します。**この準備時点では PDF バイト列のハッシュは未取得です。** リンクやパース済みテキストをバイト固定済みと報告しないこと。
+PDF はここへ転載していません。M01-B で本文・補遺・arXiv v2 のバイトハッシュ、全50頁の比較用ハッシュ、全出版頁と異なるarXiv頁の画像確認を記録しました。取得 URL・SHA-256・版・ページ番号は `inventory/sources.json`、解釈の監査は `M01-B.md` を参照してください。
 
 公式実装の README は公開対象を Liar's Dice に限定しています。HUNL/TEH は論文の規則・設定を基に再構成し、非公開の Meta ポーカー実装との同一性は主張しません。公式コードを移植・転載する場合は、その Apache ライセンスと著作権表示を保持します。論文 PDF の再配布許諾とは区別します。
 
@@ -51,6 +52,9 @@ GitHub の読み書きツールは Lean 実行器ではありません。利用�
 
 ```text
 python scripts/rebel/check_coverage.py
+python scripts/rebel/check_coverage.py --expanded-json
+python scripts/rebel/check_inventory.py
+python -W error -m unittest discover -s scripts/rebel/tests -v
 ```
 
 Lean コードを追加した後に実行するコマンド:
@@ -64,6 +68,6 @@ lake lint
 
 `<実在する対象モジュール>` は説明用です。現時点で `GameTheory.ReBeL` の Lean root は作成していません。最初の実質的な縦断実装が成立してから作成します。
 
-既存 CI は push/PR/manual 実行に対応し、全 GameTheory サブモジュールと既存の architecture audit をビルドします。ただし fork 側の Actions 有効化は別途確認が必要です。新規モジュールを lint/public-import/axiom audit に含める作業も M01 の対象です。台帳検査だけでは Lean の正しさは検証されません。
+既存 CI は push/PR/manual 実行に対応し、全 GameTheory サブモジュールと既存の architecture audit をビルドします。fork 側の Actions 実行を M01-A で確認済みです。ReBeL 診断は対象モジュールを実際に列挙する lint/axiom audit に含まれます。新規モジュールでもこの消費側への接続を維持してください。台帳検査だけでは Lean の正しさは検証されません。
 
 参考: [Lean の証明検証](https://lean-lang.org/doc/reference/latest/ValidatingProofs/)、[GitHub fork の workflow](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)。将来の API 変更より、固定 toolchain での実測を優先します。

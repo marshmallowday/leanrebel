@@ -2,9 +2,9 @@
 
 ## 現在地
 
-- **M01-A 完了。M01-B が次の一作業。M01 全体は未完了。**
+- **M01-A 完了。M01-B の原典棚卸し・R1–R7監査を実施済み。更新後SHAの統合検証中であり、M01全体の完了はまだ宣言しない。**
 - M01-A の完了ログを確認する前に M01-B の原典棚卸しには着手していない。
-- 書込み先: `marshmallowday/leanrebel` のみ。作業ブランチ: `rebel/m01-a`。
+- 書込み先: `marshmallowday/leanrebel` のみ。作業ブランチ: `rebel/m01-b`。M01-A先端 `ec152983ce74c6d5c56bf5e16ae6add5e1bab245` を保持。
 - 作業開始時 main: `c66c51c8917748bc1f64e3d0548dbe54921dba4e`。
 - 準備前 baseline: `5532a9c1d900261ae8e6ac4fe877ebd1c175cc1c`。
 - 公式実装固定点: `7960a42750f3407ea9eb2c3333d4c2a7961f6df4`。
@@ -31,27 +31,36 @@ Lean 4.33.1 / compiler `819816b2e0a3bf405af45ae5c7af2491d8f5bee6`。
 通常のローカル環境では Lean は実行しておらず、上記は GitHub Actions による実行である。
 台帳検査器は証明検査ではない。ローカルでは有効データと 8 種の不正台帳 fixture を確認した。
 
-## M01 の残るゲート
+## M01-B の成果と現在の統合ゲート
 
-1. M01-B: 原典 PDF のバイトハッシュ・全ページ画像確認、全定義・式・定理・擬似コード操作・公式関数/設定の子台帳化。
-2. M01-B: R3/R5 の原文・版差・修正版候補の分離、引用依存と再利用候補の前提監査。
-3. M01 統合: 更新後ブランチの full build/lint/architecture audit と coverage 検査。
-   実行中ジョブを成功と記録しない。main 統合前にブランチ先端を再取得する。
+- `M01-B.md` に本文・補遺・arXiv v2・公式実装、R1–R7、引用依存、再利用前提を記録。
+- `inventory/` は論文356項目、公式53エントリ（51ファイル・2 gitlink）と2578構文/設定出現を追跡する。
+- `coverage.json` の親61項目とハッシュ付き子台帳を合わせて3048項目。
+  `pending=2643`, `verified=1`, `context_indexed=404`。項目数は証明完成率ではない。
+- 23候補宣言・17モジュールの型/前提を記録。存在の確認と適用可能性の証明は別。
+- ローカルの構造/改変検査20件と独立誤差漸化式の有理数検査3件は成功。
+  漸化式テストはゲームの有限反復誤差定理の証明ではない。
+- M01-B前の最新SHA `ec152983ce74c6d5c56bf5e16ae6add5e1bab245` について、
+  full CI `35142659993` / `104951188305` と ReBeL `35142660014` / `104950755521` は全成功。
+  full build 4011 jobs、public lint、Phase 1/2/3 deep、16宣言の推移的公理監査を実ログで確認。
+- 生成データの完全再現は `63262218154269395214db788f5b58cac5743884` の
+  run `35149443912` / job `104973717567` で成功。生成4blobのSHA256がレビュー済み値と一致。
+  この一時jobは当該リポジトリ内のblobだけを保存し、ref/commitを変更していない。
+  一時writer/workflowは本統合候補から削除し、通常CIはread-onlyを維持。
+- **残る一作業:** この更新後ブランチSHAのfull build/lint/architecture、23候補のcompiler型確認、
+  ReBeL公理監査、原典index/PDF比較、23 Pythonテストの実ログを取得して統合ゲートを閉じる。
+  実行中を成功と扱わない。完了後coverage/STATUSを更新し、main先端再取得後にfast-forwardする。
 
-既存 Windows main run `35134440926` は Phase 3 で cancelled のため成功扱いしない。
-厳密な historical baseline は別 Ubuntu run で全成功した。
-CI は同じ全チェックを Ubuntu で既定実行し、Windows は manual input で選択可能にした。
-これは Windows 全検証の成功宣言ではない。検査項目は削っていない。
+既存Windows main run `35134440926` はPhase 3でcancelledであり成功扱いしない。
+全検査成功を確認した対象はUbuntu。Windows manual経路は保持し、検査を削っていない。
+Actions基盤のNode 20/24 deprecation warningとLeanの警告・エラーを混同しない。
 
-## 次の一作業: M01-B
+## M01統合後の次タスク: M02-A
 
-`README.md` で固定した本文・補遺・arXiv v2・公式 commit を取得し、原典全項目を
-台帳の子行として展開する。R3 の診断だけで VAL-THEOREM1 を refuted にしない。
-Theorem 2 の N/T・値/方策・量化、Theorem 3 の誤差項、各 solver 変種を別項目に保つ。
-既存候補の存在と適用可能性を混同しない。
-
-M01-B と統合ゲートが閉じた後の次タスクは M02-A（二段階隠れ情報ゲームの縦断例）。
-未コンパイルの PBS/CFR 実装を大量に追加しない。
+二段階隠れ情報ゲームの縦断例を作る。PBSは相関を保持し、ゼロ到達・off-pathと
+情報漏洩の負例を含める。未コンパイルのPBS/CFR実装を大量追加しない。
+R3の診断をVAL-THEOREM1の全解釈の反証に昇格させない。
+R5では原文の誤差項と独立漸化式の候補を分離し、solverが漸化式を満たす証明をM06に残す。
 
 ## 決定済み
 

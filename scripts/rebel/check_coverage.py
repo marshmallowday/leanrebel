@@ -13,6 +13,8 @@ from pathlib import Path, PurePosixPath
 import re
 import sys
 
+from coverage_inventory import expand
+
 REPOSITORY = "marshmallowday/leanrebel"
 STATUSES = {"pending", "in_progress", "blocked", "formalized", "verified",
             "qualified", "refuted", "empirical_documented", "context_indexed"}
@@ -118,6 +120,8 @@ def validate(data: object, root: Path) -> list[str]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[2])
+    parser.add_argument("--expanded-json", action="store_true",
+                        help="print the complete normalized ledger instead of the summary")
     args = parser.parse_args()
     root = args.root.resolve()
     ledger = root / "docs/rebel/coverage.json"
@@ -126,11 +130,19 @@ def main() -> int:
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
+    try:
+        data = expand(data, root)
+    except (OSError, ValueError, KeyError, TypeError, UnicodeError) as exc:
+        print(f"ERROR: child ledger: {exc}", file=sys.stderr)
+        return 1
     errors = validate(data, root)
     if errors:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
         return 1
+    if args.expanded_json:
+        print(json.dumps(data, ensure_ascii=False, indent=2))
+        return 0
     counts = Counter(item["status"] for item in data["items"])
     print(f"Ledger structure OK: {len(data['items'])} items; {dict(sorted(counts.items()))}")
     print("No Lean compilation, axiom audit, source-coverage completeness, or semantic verification performed.")

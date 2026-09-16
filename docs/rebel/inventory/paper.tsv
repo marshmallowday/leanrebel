@@ -1,0 +1,357 @@
+id	parent	source	locator	kind	obligation
+P-ABSTRACT	SCOPE-INTRO	main	p1-2 abstract/sections 1-2; ABSTRACT	context	Locate contributions, empirical strength and claimed two-player zero-sum scope; not proof evidence.
+P-INTRO	SCOPE-INTRO	main	p1-2 abstract/sections 1-2; INTRO	context	Index strategy-dependent leaf values and motivation for search plus learning.
+P-RELATED	SCOPE-INTRO	main	p1-2 abstract/sections 1-2; RELATED	context	Index related-work comparisons; cited results enter proof scope only if used.
+P-FIG1A	FOUND-MODEL	main	p1-2 abstract/sections 1-2; FIG1A	definition	Specify modified rock-paper-scissors payoffs and hidden information from Figure 1a.
+P-FIG1B	PBS-PERFECT	main	p1-2 abstract/sections 1-2; FIG1B	definition	Specify the public-belief one-ply example of Figure 1b and its contrast with fixed state values.
+P-WORLD	FOUND-MODEL	main	p3 section 3; WORLD	definition	World states W, initial w0, terminal states and player set N.
+P-ACTION	FOUND-MODEL	main	p3 section 3; ACTION	definition	Player actions, joint actions and state-dependent legal sets.
+P-TRANSITION	FOUND-MODEL	main	p3 section 3; TRANSITION	definition	Stochastic transition tau and its legal-action domain.
+P-OBSERVATION	FOUND-MODEL	main	p3 section 3; OBSERVATION	definition	Private and public observation maps and timing relative to transition.
+P-HISTORY	FOUND-HISTORY	main	p3 section 3; HISTORY	definition	World/action history, prefixes, terminal histories and induced transition on histories.
+P-AOH	FOUND-INFO	main	p3 section 3; AOH	definition	Action-observation history si; distinguish full recall from compressed implementations.
+P-INFOSET	FOUND-INFO	main	p3 section 3; INFOSET	definition	Information-state fiber as compatible histories; equality and legal choices.
+P-PERFECT-INFO	FOUND-INFO	main	p3 section 3; PERFECT-INFO	definition	Perfect-information singleton knowledge versus imperfect-information fibers.
+P-REWARD	FOUND-REWARD	main	p3-4 section 3; REWARD	definition	Per-player rewards and cumulative expected return convention.
+P-ZERO-SUM	FOUND-REWARD	main	p3-4 section 3; ZERO-SUM	definition	Two players and zero-sum return assumption; finite horizon is a later explicit restriction.
+P-POLICY	FOUND-POLICY	main	p3 section 3; POLICY	definition	Behavioral policy pi_i at an information state and policy profile pi.
+P-POLICY-VALUE	FOUND-POLICY	main	p3 section 3; POLICY-VALUE	definition	Expected value for a fixed policy and best-response maximization.
+P-BEST-RESPONSE	FOUND-NASH	main	p3-4 section 3; BEST-RESPONSE	definition	Legal unilateral deviations and exact best response.
+P-NASH	FOUND-NASH	main	p3-4 section 3; NASH	definition	Nash and epsilon-Nash inequalities and units.
+P-EQ-VALUE-UNIQUE	FOUND-NASH	main	p3-4 section 3; EQ-VALUE-UNIQUE	definition	Uniqueness of equilibrium value in the specified two-player zero-sum domain.
+P-PUBLIC-HISTORY	PUBLIC-STATE	main	p3 section 3; PUBLIC-HISTORY	definition	Public-observation history spub; common knowledge versus available public signal.
+P-PUBLIC-FIBER	PUBLIC-STATE	main	p3 section 3; PUBLIC-FIBER	definition	Public state as compatible-history fiber, including dice cardinality example.
+P-PUBLIC-SUBGAME	PBS-SUBGAME	main	p3-5 sections 3-4; PUBLIC-SUBGAME	definition	Imperfect-information subgame closure and public-root convention.
+P-DEPTH-SUBGAME	PBS-SUBGAME	main	p3-5 sections 3-4; DEPTH-SUBGAME	definition	Depth-limited subgame, leaves and distinction from original terminal histories.
+P-PBS-ROOT-SUBGAME	PBS-SUBGAME	main	p3-5 sections 3-4; PBS-ROOT-SUBGAME	definition	Belief-representation subgame rooted at a public belief; root chance law.
+P-PBS-JOINT	PBS-LAW	main	p4 section 4; PBS-JOINT	definition	PBS beta is a joint law compatible with the public history, not arbitrary product marginals.
+P-PBS-REFEREE	PBS-LAW	main	p4 section 4; PBS-REFEREE	definition	Referee representation and publicly observed policy prescriptions.
+P-PBS-MARGINAL	PBS-ENCODING	main	p4 section 4; PBS-MARGINAL	claim	Per-player infostate-law representation requires a separate correlation/reach-factor bridge.
+P-PBS-COMPACT	PBS-ENCODING	main	p4 section 4; PBS-COMPACT	claim	Size/compression claims and compatibility with public history.
+P-PBS-LD-COMPACT	PBS-ENCODING	main	p4 section 4; PBS-LD-COMPACT	claim	Compact dice belief representation and its cardinality assumptions.
+P-BAYES-PBS	PBS-UPDATE	main	p4 section 4; BAYES-PBS	definition	Bayes update T(beta,pi,a), public observation, support and zero denominator.
+P-BELIEF-EQUIVALENCE	PBS-EQUIVALENCE	main	p4 section 4; BELIEF-EQUIVALENCE	claim	Strategic equivalence of original and belief games must preserve unilateral deviations.
+P-BELIEF-PERFECT	PBS-PERFECT	main	p4 section 4; BELIEF-PERFECT	claim	Perfect-information representation and original perfect-information degeneration.
+P-PBS-EXPECTED	PBS-EV	main	p5 section 4; PBS-EXPECTED	definition	V_i^pi(beta) as expectation over compatible histories.
+P-PBS-EQUILIBRIUM	PBS-EV	main	p5 section 4; PBS-EQUILIBRIUM	definition	V_i(beta) as common equilibrium value; existence needed.
+P-PBS-CONCAVE	PBS-EV	main	p5 section 4; PBS-CONCAVE	definition	Concavity on own-belief simplex with fixed opponent belief; admissible domain.
+P-TYPE-CF-VALUE	PBS-INFOVALUE	main	p5 section 4; TYPE-CF-VALUE	definition	Infostate value uses best response and opponent reach, including own-zero-probability types.
+P-TYPE-EQUILIBRIUM	PBS-INFOVALUE	main	p5 section 4; TYPE-EQUILIBRIUM	definition	Choice of an equilibrium opponent and nonuniqueness of type-value vectors.
+P-SEARCH-SETUP	SEARCH-FRONTIER	main	p5-6 sections 5-5.1; SEARCH-SETUP	definition	Finite-depth subgame choice and conversion between discrete and belief representations.
+P-SEARCH-LEAF	SEARCH-FRONTIER	main	p5-6 sections 5-5.1; SEARCH-LEAF	definition	A cut leaf requires an oracle but an original terminal leaf has actual utility.
+P-CFRD-ITERATION	SEARCH-CFRD	main	p6 section 5.1; CFRD-ITERATION	claim	Each iteration recomputes leaf PBS and infostate values from current policy.
+P-CFRD-TARGET	SEARCH-CFRD	main	p6 section 5.1; CFRD-TARGET	claim	Store vector of infostate root values, not just scalar expected root value.
+P-CFRD-AVERAGE	SEARCH-CFRD	main	p6 section 5.1; CFRD-AVERAGE	claim	Uniform average of iterative value targets and convergence of average, not final, policy.
+P-SELFPLAY-RECURSE	RL-MEMORY	main	p6-7 section 5.2; SELFPLAY-RECURSE	definition	Solve root, add data, sample new leaf and recur until actual terminal state.
+P-MEMORIZER	RL-MEMORY	main	p6-7 section 5.2; MEMORIZER	definition	Ideal learner returns the most recent target; not an arbitrary trained neural network.
+P-EXPLORATION	RL-MEMORY	main	p6-7 section 5.2; EXPLORATION	definition	Explore one selected player uniformly; distinguish data-path law and unperturbed PBS.
+P-INFINITE-TRAINING	RL-MEMORY	main	p6-7 section 5.2; INFINITE-TRAINING	definition	Separate number of training samples N from iterations T and game depth.
+P-ITERATION-RANDOM	ALG-SAMPLE	main	p6-7 section 5.2; ITERATION-RANDOM	definition	Uniform iteration 0..T-1 in prose versus warm-offset pseudocode.
+P-EXPLORATION-NEEDED	ALG-SAMPLE	main	p6-7 section 5.2; EXPLORATION-NEEDED	definition	Positive exploratory reach for strategically relevant off-path private states.
+P-POLICY-OPTIONAL	NN-POLICY	main	p7 section 5.3; POLICY-OPTIONAL	claim	Policy network is optional for theory and stores average-policy targets.
+P-WARM-PROSE	VAR-WARMSTART	main	p7 section 5.3; WARM-PROSE	claim	Policy prediction used for initialized average policy and regret warm start.
+P-UNSAFE-RESOLVE	SAFE-THEOREM3	main	p7-8 section 6; UNSAFE-RESOLVE	claim	Near-equilibrium opponent does not make arbitrary best-response re-solving safe.
+P-UNSAFE-RPS	SAFE-THEOREM3	main	p7-8 section 6; UNSAFE-RPS	claim	Audit numeric RPS example 0.4001,0.3999,0.2 and exploitable pure reply.
+P-RANDOM-POLICY	SAFE-THEOREM3	main	p7-8 section 6; RANDOM-POLICY	claim	Test-time randomly selected iteration; expectation over a whole policy is not each realization.
+P-UNKNOWN-OPPONENT	SAFE-THEOREM3	main	p7-8 section 6; UNKNOWN-OPPONENT	claim	Own guaranteed payoff against arbitrary legal opponent is distinct from mutual Nash profile.
+P-EXPLOITABILITY	EVAL-METRIC	main	p8 section 7; EXPLOITABILITY	definition	Average best-response utility over players, with zero-sum and normalization assumptions.
+P-EXPERIMENT-SOLVERS	VAR-WEIGHTED	main	p8 section 7; EXPERIMENT-SOLVERS	setting	Alternating linear CFR and FLOP are distinct from vanilla CFR-D assumptions.
+P-ACTION-NINE	GAME-ABSTRACTION	main	p8 section 7; ACTION-NINE	setting	Main text maximum nine actions; compare supplement maximum eight, do not silently reconcile.
+P-ABSTRACTION-RANDOM	GAME-ABSTRACTION	main	p8 section 7; ABSTRACTION-RANDOM	setting	Random stack/bet perturbations and no information abstraction.
+P-MLP	NN-VALUE	main	p8 section 7; MLP	setting	Multilayer perceptron with GeLU and LayerNorm; architecture depends on game.
+P-LOSSES	NN-LOSS	main	p8 section 7; LOSSES	setting	Pointwise Huber for values versus MSE for policies; inspect exact implementation scaling.
+P-ADAM	NN-OPTIMIZER	main	p8 section 7; ADAM	setting	Adam optimizer; update correctness does not entail oracle-error bound.
+P-PARALLEL	NN-CONCURRENT	main	p8 section 7; PARALLEL	setting	PyTorch training and parallel data generation require a staleness/snapshot contract.
+P-RESULTS	EVAL-REPRO	main	p8-9 section 8; RESULTS	experiment	Index comparisons to human and AI baselines without treating observed scores as theorem truth.
+P-FIG2	EVAL-REPRO	main	p8-9 section 8; FIG2	experiment	TEH Figure 2: axes, iteration counts, compared variants and error interpretation.
+P-TABLE1	EVAL-REPRO	main	p8-9 section 8; TABLE1	experiment	HUNL Table 1: opponents, samples, units and caption one-standard-deviation convention.
+P-TABLE2	EVAL-REPRO	main	p8-9 section 8; TABLE2	experiment	Dice Table 2: four variants, 1024 iterations, depth two, 1024-playthrough average upper bound.
+P-LIMITS	SCOPE-SUMMARY	main	p9-10 section 9/broader impact; LIMITS	context	Two-player zero-sum and linear infostate-size limitations; not general multiplayer guarantee.
+P-BROADER-IMPACT	SCOPE-SUMMARY	main	p9-10 section 9/broader impact; BROADER-IMPACT	context	Index applications, released dice-only code, reproducibility and stated limitations.
+P-FN-STAR	SCOPE-INTRO	main	p1 footnote STAR	context	Author equal-contribution marker; contextual only.
+P-FN-2	EXEC-REFINE	main	p2 footnote 2	footnote	Official repository link; public implementation scope and immutable commit.
+P-FN-3	FOUND-POLICY	main	p3 footnote 3	footnote	Known-policy modelling explanation is not observability of private actions.
+P-FN-4	PUBLIC-STATE	main	p3 footnote 4	footnote	Public observation need not include all common knowledge.
+P-FN-5	PBS-ENCODING	main	p4 footnote 5	footnote	Joint history law versus joint infostate law cites [45,52]; bridge dependency.
+P-FN-6	PBS-ENCODING	main	p4 footnote 6	footnote	Compact public-state/history encoding assumptions.
+P-FN-7	PBS-SUBGAME	main	p5 footnote 7	footnote	Public-root versus PBS-root definition of subgame.
+P-FN-8	VAL-THEOREM1	main	p5 footnote 8	footnote	Printed linear combination of supergradients needs convex-coefficient conditions.
+P-FN-9	ALG-SAMPLE	main	p6 footnote 9	footnote	FP sampling uses current selected-player policy with opponents averaged.
+P-FN-10	ALG-SAMPLE	main	p7 footnote 10	footnote	All-player exploration also claimed correct but less efficient; reach obligations.
+P-EQ-01	PBS-INFOVALUE	main	p5 equation (1)	equation	Type best-response value and conditional history law; define zero-reach case.
+P-EQ-02	VAL-THEOREM1	main	p5 equation (2)	equation	V plus centered-supergradient coordinate equals equilibrium infostate value.
+P-EQ-03	VAL-THEOREM1	supp	p20 equation (3)	equation	Theorem 1 restatement; distinguish simplex support from normalized cone extension.
+P-EQ-04	VAL-THEOREM1	supp	p20 equation (4)	equation	Expand scalar value as belief-weighted type values against chosen equilibrium opponent.
+P-EQ-05	VAL-THEOREM1	supp	p20 equation (5)	equation	Product-rule derivative requires differentiability of the chosen affine branch.
+P-EQ-06	VAL-THEOREM1	supp	p20 equation (6)	equation	Derivative of type best-response value in own belief claimed zero; off-path gluing required.
+P-EQ-07	VAL-THEOREM1	supp	p20 equation (7)	equation	Chain rule for normalization map; exclude origin and identify domain.
+P-EQ-08	VAL-THEOREM1	supp	p20 equation (8)	equation	Normalization Jacobian; check identity/all-ones tensor dimensions.
+P-EQ-09	VAL-THEOREM1	supp	p20 equation (9)	equation	Jacobian specialization to probability simplex with coordinate sum one.
+P-EQ-10	VAL-THEOREM1	supp	p20 equation (10)	equation	Expand transposed gradient/Jacobian contraction with correct dimensions.
+P-EQ-11	VAL-THEOREM1	supp	p20 equation (11)	equation	Replace type-value expectation by scalar equilibrium value.
+P-EQ-12	VAL-THEOREM1	supp	p20 equation (12)	equation	Centered gradient coordinate result; do not infer global concavity of normalized extension.
+P-EQ-13	VAR-THEOREM5	supp	p25 equation (13)	equation	Cumulative action-value maximizing set over iterations 0..t.
+P-EQ-14	VAR-THEOREM5	supp	p25 equation (14)	equation	Counterfactual regret definition for T+1 steps.
+P-EQ-15	VAR-THEOREM5	supp	p25 equation (15)	equation	Separate last step of cumulative regret sum.
+P-EQ-16	VAR-THEOREM5	supp	p25 equation (16)	equation	Earlier maximizing action dominates substituted action for earlier cumulative values.
+P-EQ-17	VAR-THEOREM5	supp	p25 equation (17)	equation	Regret recurrence with current baseline value.
+P-EQ-18	VAR-THEOREM5	supp	p25 equation (18)	equation	Last term nonpositive needs exact continuation/best-response compatibility, not just a label.
+P-THM1-M	VAL-THEOREM1	main	p5 Theorem 1	theorem	Audit all quantifiers, equilibrium selection, gradient convention and type values.
+P-THM1-S	VAL-THEOREM1	supp	p20 Theorem 1	theorem	Restated theorem and proof; do not merge diagnostic with original source claim.
+P-THM2-M	RL-THEOREM2	main	p7 Theorem 2	theorem	Ideal latest-sample learner; specify error target/norm, N limit, fixed T and constant C.
+P-THM2-S	RL-THEOREM2	supp	p21 Theorem 2	theorem	Restatement speaks of values of an approximate-equilibrium policy, not automatically exact value error.
+P-THM3-M	SAFE-THEOREM3	main	p8 Theorem 3	theorem	Printed delta*C1+delta*C2/sqrt(T); preserve as source obligation separately from repaired bound.
+P-THM3-S	SAFE-THEOREM3	supp	p21 Theorem 3	theorem	Same printed delta twice; source proof has an independent finite-iteration term.
+P-THM4	VAR-THEOREM4	supp	p22 Theorem 4	theorem	FLOP as GWFP and two-player zero-sum convergence; exact step-size/error conditions.
+P-THM5	VAR-THEOREM5	supp	p23 Theorem 5	theorem	CFR-AVG with exact continuation solves; not modified difference-target variant.
+P-LEM1	VAL-LEMMA1	supp	p19 Lemma 1	lemma	Own-belief linearity at fixed opponent needs a single legal stitched best response.
+P-LEM2	VAL-LEMMA2	supp	p19 Lemma 2	lemma	Minimum over opponent policies equals equilibrium value and minimizers are equilibrium opponents.
+P-LEM3	RL-LEMMA3	supp	p20-21 Lemma 3	lemma	Depth induction, stable queries and relevant infinite visits; values/policies and quantifiers.
+P-ALG1-01	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 1: PARAMS	operation	Input root PBS, value/policy parameters and replay datasets.
+P-ALG1-02	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 2: WHILE	operation	Continue only while root is not terminal; termination and leaf progress.
+P-ALG1-03	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 3: CONSTRUCT	operation	Construct finite depth-limited subgame with public closure.
+P-ALG1-04	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 4: INITIALIZE	operation	Initialize average/current policy and warm-start offset; uniform policy when offset zero.
+P-ALG1-05	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 5: LEAF-INIT	operation	Set initial leaf values; preserve exact helper signature and selected policy.
+P-ALG1-06	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 6: EV-INIT	operation	Initialize root infostate value vector by expected-value calculation.
+P-ALG1-07	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 7: DRAW-T	operation	Draw iteration from warm+1..T; require nonempty range and exact sampling weights. Distribution uniform.
+P-ALG1-08	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 8: FOR-T	operation	Iterate every t from warm+1 through T inclusive.
+P-ALG1-09	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 9: IF-SAMPLED	operation	Compare current iteration to previously drawn sample index.
+P-ALG1-10	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 10: DRAW-LEAF	operation	Sample one or multiple leaf PBSs using current pi at t-1, before update.
+P-ALG1-11	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 11: UPDATE	operation	Apply solver policy update to previous iterate; make variant explicit.
+P-ALG1-12	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 12: AVERAGE	operation	Update behavioral average with own-reach semantics and printed coefficients. Weights t/(t+1) and 1/(t+1).
+P-ALG1-13	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 13: LEAF-UPDATE	operation	Recompute leaf values with designated current and/or average policy.
+P-ALG1-14	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 14: EV-AVERAGE	operation	Update root value target with printed scalar weights and current policy value. Weights t/(t+1) and 1/(t+1).
+P-ALG1-15	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 15: VALUE-DATA	operation	Insert root PBS/value-vector pair into value replay memory.
+P-ALG1-16	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 16: FOR-PBS	operation	Iterate over PBS at every public state in subgame, not only visited path.
+P-ALG1-17	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 17: POLICY-DATA	operation	Insert average-policy targets into optional policy replay memory.
+P-ALG1-18	ALG-ONE	main	p6 Algorithm 1 SELFPLAY operation 18: NEXT-ROOT	operation	Advance to sampled leaf; specify handling of multiple sampled leaves.
+P-ALG2-01	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 1: PARAMS	operation	Input root PBS, value/policy parameters and replay datasets.
+P-ALG2-02	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 2: WHILE	operation	Continue only while root is not terminal; termination and leaf progress.
+P-ALG2-03	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 3: CONSTRUCT	operation	Construct finite depth-limited subgame with public closure.
+P-ALG2-04	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 4: INITIALIZE	operation	Initialize average/current policy and warm-start offset; uniform policy when offset zero.
+P-ALG2-05	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 5: LEAF-INIT	operation	Set initial leaf values; preserve exact helper signature and selected policy.
+P-ALG2-06	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 6: EV-INIT	operation	Initialize root infostate value vector by expected-value calculation.
+P-ALG2-07	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 7: DRAW-T	operation	Draw iteration from warm+1..T; require nonempty range and exact sampling weights. Distribution proportional to t.
+P-ALG2-08	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 8: FOR-T	operation	Iterate every t from warm+1 through T inclusive.
+P-ALG2-09	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 9: IF-SAMPLED	operation	Compare current iteration to previously drawn sample index.
+P-ALG2-10	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 10: DRAW-LEAF	operation	Sample one or multiple leaf PBSs using current pi at t-1, before update.
+P-ALG2-11	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 11: UPDATE	operation	Apply solver policy update to previous iterate; make variant explicit.
+P-ALG2-12	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 12: AVERAGE	operation	Update behavioral average with own-reach semantics and printed coefficients. Weights t/(t+2) and 2/(t+2).
+P-ALG2-13	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 13: LEAF-UPDATE	operation	Recompute leaf values with designated current and/or average policy.
+P-ALG2-14	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 14: EV-AVERAGE	operation	Update root value target with printed scalar weights and current policy value. Weights t/(t+2) and 2/(t+2).
+P-ALG2-15	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 15: VALUE-DATA	operation	Insert root PBS/value-vector pair into value replay memory.
+P-ALG2-16	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 16: FOR-PBS	operation	Iterate over PBS at every public state in subgame, not only visited path.
+P-ALG2-17	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 17: POLICY-DATA	operation	Insert average-policy targets into optional policy replay memory.
+P-ALG2-18	ALG-TWO	supp	p15 Algorithm 2 REBEL-LINEAR-CFR-D operation 18: NEXT-ROOT	operation	Advance to sampled leaf; specify handling of multiple sampled leaves.
+P-LEAF-01	SEARCH-CFRD	supp	p15 Algorithm 2 SETLEAFVALUES operation 1: PARAMS	operation	Inputs beta, policy and value parameters; compare four-argument Algorithm 1 usage.
+P-LEAF-02	SEARCH-CFRD	supp	p15 Algorithm 2 SETLEAFVALUES operation 2: ISLEAF	operation	Branch on cut/terminal leaf; no prediction substitution for actual terminal payoff without contract.
+P-LEAF-03	SEARCH-CFRD	supp	p15 Algorithm 2 SETLEAFVALUES operation 3: FORTYPE	operation	Enumerate every compatible private information state.
+P-LEAF-04	SEARCH-CFRD	supp	p15 Algorithm 2 SETLEAFVALUES operation 4: PREDICT	operation	Assign network value to the designated type and PBS.
+P-LEAF-05	SEARCH-CFRD	supp	p15 Algorithm 2 SETLEAFVALUES operation 5: ELSE	operation	Internal public-belief state branch.
+P-LEAF-06	SEARCH-CFRD	supp	p15 Algorithm 2 SETLEAFVALUES operation 6: FORACTION	operation	Enumerate legal joint actions with correct empty/zero-reach behavior.
+P-LEAF-07	SEARCH-CFRD	supp	p15 Algorithm 2 SETLEAFVALUES operation 7: RECURSE	operation	Apply T(beta,pi,a) and recursively assign leaves.
+P-SAMPLE-01	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 1: PARAMS	operation	Inputs subgame and selected iterative policy.
+P-SAMPLE-02	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 2: DRAW-PLAYER	operation	Draw exploration player uniformly once per sampled trajectory.
+P-SAMPLE-03	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 3: DRAW-HISTORY	operation	Draw compatible hidden root history from root PBS.
+P-SAMPLE-04	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 4: WHILE	operation	Continue until sampled history is a leaf of the subgame.
+P-SAMPLE-05	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 5: DRAW-COIN	operation	Draw c uniform on [0,1] at each step; shared comparison versus per-player coins.
+P-SAMPLE-06	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 6: FORPLAYER	operation	Iterate over all players in the joint action.
+P-SAMPLE-07	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 7: EXPLORE-IF	operation	Explore only selected player when c<epsilon.
+P-SAMPLE-08	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 8: UNIFORM	operation	Uniformly sample a legal action in exploration branch.
+P-SAMPLE-09	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 9: ELSE	operation	Nonexploration branch.
+P-SAMPLE-10	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 10: POLICY	operation	Sample action from information-local policy, not hidden state.
+P-SAMPLE-11	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 11: TRANSITION	operation	Sample successor history under stochastic transition and joint action.
+P-SAMPLE-12	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 12: RETURN	operation	Return PBS corresponding to reached leaf under intended policy, not perturbed trajectory posterior.
+P-SAMPLE-13	ALG-SAMPLE	supp	p15 Algorithm 2 SAMPLELEAF operation 13: EPSILON	operation	Training epsilon=.25; test epsilon=0.
+P-A-1	SCOPE-INTRO	supp	p14 appendix A; A-1	context	Belief-state search plus learning contribution.
+P-A-2	SCOPE-INTRO	supp	p14 appendix A; A-2	context	Alternative to safe-search techniques and Theorem 3 scope.
+P-A-3	SCOPE-INTRO	supp	p14 appendix A; A-3	context	Modified CFR-AVG contribution and distinction from proved exact variant.
+P-A-4	SCOPE-INTRO	supp	p14 appendix A; A-4	context	Connection between scalar PBS gradients and infostate values.
+P-A-5	SCOPE-INTRO	supp	p14 appendix A; A-5	context	FLOP contribution and empirical near-inverse-iteration rate, not a proved rate.
+P-OWN-REACH	POLICY-AVERAGE	supp	p14 appendix B unnumbered displays; OWN-REACH	equation	Own action reach product x_i^pi(s_i); use perfect recall and history compatibility.
+P-REACH-MIX	POLICY-AVERAGE	supp	p14 appendix B unnumbered displays; REACH-MIX	equation	Weighted behavioral mixture numerator and denominator with alpha and own reach.
+P-REACH-ZERO	POLICY-AVERAGE	supp	p14 appendix B unnumbered displays; REACH-ZERO	equation	Zero own-reach denominator requires explicit fallback preserving realization equivalence.
+P-L1-EXPECTATION	VAL-LEMMA1	supp	p19 appendix F proof Lemma 1; L1-EXPECTATION	claim	Unnumbered sum beta_i(si)*v_i(si|beta_-i,pi_-i); compatible chance/conditioning law.
+P-L1-GLUING	VAL-LEMMA1	supp	p19 appendix F proof Lemma 1; L1-GLUING	claim	Simultaneously attain type best responses in one information-local legal policy.
+P-L1-FIXED-OPPONENT	VAL-LEMMA1	supp	p19 appendix F proof Lemma 1; L1-FIXED-OPPONENT	claim	Type conditional values independent of own mixing weights, including zero-probability types.
+P-L2-MINIMAX	VAL-LEMMA2	supp	p19 appendix F proof Lemma 2; L2-MINIMAX	claim	Best-response/minimum characterization needs finite-game existence or explicit compactness.
+P-L2-EQUILIBRIUM	VAL-LEMMA2	supp	p19 appendix F proof Lemma 2; L2-EQUILIBRIUM	claim	Characterize minimizing opponents without uniqueness assumption.
+P-L2-CONCAVITY	VAL-LEMMA2	supp	p19 appendix F proof Lemma 2; L2-CONCAVITY	claim	Pointwise minimum of affine branches on the admissible own-belief simplex.
+P-F-FIG3	VAL-THEOREM1	supp	p19-20 appendix F; F-FIG3	claim	Coin-game Figure 3 and nonunique type values at nondifferentiable scalar value.
+P-F-NORMALIZE	VAL-THEOREM1	supp	p19-20 appendix F; F-NORMALIZE	claim	Zero-homogeneous extension b -> value(b/|b|_1) excludes origin.
+P-F-SUPERGRADIENT	VAL-THEOREM1	supp	p19-20 appendix F; F-SUPERGRADIENT	claim	Global supporting inequality for concave supergradient; specify domain.
+P-F-CONCAVITY-STEP	VAL-THEOREM1	supp	p19-20 appendix F; F-CONCAVITY-STEP	claim	Printed assertion that normalized extension stays concave is not generally valid (DIAG-R3-Q).
+P-F-RADIAL-NORMAL	VAL-THEOREM1	supp	p19-20 appendix F; F-RADIAL-NORMAL	claim	Constancy on rays is not constancy normal to simplex; compare derivative claims.
+P-F-BR-AFFINE-BRANCH	VAL-THEOREM1	supp	p19-20 appendix F; F-BR-AFFINE-BRANCH	claim	Select active affine opponent branch and distinguish its derivative from value-function derivative.
+P-F-GRADIENT-TO-VALUE	VAL-THEOREM1	supp	p19-20 appendix F; F-GRADIENT-TO-VALUE	claim	Conclude centered derivative/type value only under audited extension convention.
+P-F-BOUNDARY	VAL-THEOREM1	supp	p19-20 appendix F; F-BOUNDARY	claim	Handle simplex boundary, unavailable types and directional derivatives separately.
+P-L3-DEPTH	RL-LEMMA3	supp	p20-21 appendix G Lemma 3 proof; L3-DEPTH	claim	Finite sequence of recursively searched subgames supplies induction measure.
+P-L3-BASE	RL-LEMMA3	supp	p20-21 appendix G Lemma 3 proof; L3-BASE	claim	Terminal-leaf subgame uses actual payoff and retains C/sqrt(T) solve error.
+P-L3-INDUCTION	RL-LEMMA3	supp	p20-21 appendix G Lemma 3 proof; L3-INDUCTION	claim	Replace converged descendant values only after query/target correspondence is established.
+P-L3-STABILITY	RL-LEMMA3	supp	p20-21 appendix G Lemma 3 proof; L3-STABILITY	claim	Deterministic solving/tie breaks imply stabilized recurrent queries; conditions must be explicit.
+P-L3-VISITS	RL-LEMMA3	supp	p20-21 appendix G Lemma 3 proof; L3-VISITS	claim	Positive exploratory probability and infinite recurrent trials imply relevant infinite visits.
+P-L3-IRRELEVANT	RL-LEMMA3	supp	p20-21 appendix G Lemma 3 proof; L3-IRRELEVANT	claim	States never explored have zero counterfactual reach for both players, not just actual reach.
+P-L3-ERROR	RL-LEMMA3	supp	p20-21 appendix G Lemma 3 proof; L3-ERROR	claim	Approximate-equilibrium policy value consistency is not coordinatewise exact-equilibrium value error.
+P-T2-FROM-L3	RL-THEOREM2	supp	p21 appendix G Theorem 2 proof; T2-FROM-L3	claim	Derive theorem from Lemma 3 with separate N,T,depth and an explicit convergence mode.
+P-T3-BASE	SAFE-THEOREM3	supp	p21-22 appendix G Theorem 3 proof; T3-BASE	claim	Depth-one solver base retains k1/sqrt(T), even when leaf prediction error is zero.
+P-T3-POLICY-MIX	SAFE-THEOREM3	supp	p21-22 appendix G Theorem 3 proof; T3-POLICY-MIX	claim	Single random iteration is equivalent to correctly reach-weighted average for required payoff law.
+P-T3-RECURSE	SAFE-THEOREM3	supp	p21-22 appendix G Theorem 3 proof; T3-RECURSE	claim	Counterfactual oracle error propagates through recursion using [16] Theorem 2 and finite-T terms.
+P-T3-CONCLUSION	SAFE-THEOREM3	supp	p21-22 appendix G Theorem 3 proof; T3-CONCLUSION	claim	Printed delta*C1+delta*C2/sqrt(T) differs from the independently retained iteration term.
+P-T3-REPAIR	SAFE-THEOREM3	supp	p21-22 appendix G Theorem 3 proof; T3-REPAIR	claim	Separate candidate A_d*delta+B_d/sqrt(T); derive coefficients from a verified solver recurrence later.
+P-H-INIT	VAR-FLOP	supp	p22 appendix H unnumbered displays; H-INIT	equation	FP initializes pi0 uniformly and average pi0.
+P-H-BR	VAR-FLOP	supp	p22 appendix H unnumbered displays; H-BR	equation	FP current iterate is best response to opponents average.
+P-H-AVERAGE	VAR-FLOP	supp	p22 appendix H unnumbered displays; H-AVERAGE	equation	FP averaging weights (t-1)/t and 1/t, with domain t>=1.
+P-H-OPTIMISM	VAR-FLOP	supp	p22 appendix H unnumbered displays; H-OPTIMISM	equation	FLOP opponent prediction t/(t+2)*average(t-1)+2/(t+2)*current(t-1).
+P-H-LINEAR	VAR-FLOP	supp	p22 appendix H unnumbered displays; H-LINEAR	equation	Printed FLOP average (t-1)/(t+1)*average(t-1)+2/(t+1)*current(t).
+P-T4-GWFP	VAR-THEOREM4	supp	p22 appendix H Theorem 4 proof; T4-GWFP	claim	Check the precise GWFP definition and convergence theorem of [38].
+P-T4-ERROR	VAR-THEOREM4	supp	p22 appendix H Theorem 4 proof; T4-ERROR	claim	Audit epsilon<2M/(t+2), definition of M and both payoff perturbation terms.
+P-T4-STEP	VAR-THEOREM4	supp	p22 appendix H Theorem 4 proof; T4-STEP	claim	Printed alpha_t=2/t versus preceding update coefficient 2/(t+1); audit indexing.
+P-T4-SUMS	VAR-THEOREM4	supp	p22 appendix H Theorem 4 proof; T4-SUMS	claim	Positive steps tend to zero, diverging step sum, vanishing BR errors and perturbation conditions.
+P-I-CFRD-BOUND	SEARCH-ERROR	supp	p22 appendix I; I-CFRD-BOUND	claim	Printed depth-limited CFR-D bound k1*delta+k2/sqrt(T), cited to [40].
+P-AVG-QUERY	VAR-CFRAVG	supp	p22-23 appendix I; AVG-QUERY	definition	Leaf PBS uses average rather than current policy.
+P-AVG-SAMPLE	VAR-CFRAVG	supp	p22-23 appendix I; AVG-SAMPLE	definition	Sampling path follows current policy while stored/query PBS follows average.
+P-AVG-EXACT	VAR-CFRAVG	supp	p22-23 appendix I; AVG-EXACT	definition	Continuation subgames solved to exact Nash with T-prime tending to infinity.
+P-AVG-REPLACE	VAR-CFRAVG	supp	p22-23 appendix I; AVG-REPLACE	definition	Replace continuation root law by average trunk policy while preserving reach/value consistency.
+P-MODIFIED-DIFF	VAR-MODIFIED	supp	p24 appendix I unnumbered display; MODIFIED-DIFF	equation	Leaf target t*vhat(beta_average_t)-(t-1)*vhat(beta_average_tminus1).
+P-MODIFIED-LINEARITY	VAR-MODIFIED	supp	p24 appendix I unnumbered display; MODIFIED-LINEARITY	equation	Motivation uses policy/value linearity; behavioral mixture needs own-reach weighting.
+P-MODIFIED-SPECIAL	VAR-MODIFIED	supp	p24 appendix I unnumbered display; MODIFIED-SPECIAL	equation	Conditional correctness when fixed-history continuation values remain unchanged, including terminal case.
+P-MODIFIED-GENERAL	VAR-MODIFIED	supp	p24 appendix I unnumbered display; MODIFIED-GENERAL	equation	General neural-oracle guarantee remains a separate proof/counterexample obligation.
+P-T5-TRUNK	VAR-THEOREM5	supp	p25 appendix I.1 proof; T5-TRUNK	claim	Trunk immediate regret O(sqrt(T)) and finite aggregate bound.
+P-T5-OFFTRUNK	VAR-THEOREM5	supp	p25 appendix I.1 proof; T5-OFFTRUNK	claim	Claim cumulative immediate regrets outside trunk are nonpositive.
+P-T5-BASE	VAR-THEOREM5	supp	p25 appendix I.1 proof; T5-BASE	claim	First exact solve needs counterfactual best response even at off-path information states.
+P-T5-INDUCTION	VAR-THEOREM5	supp	p25 appendix I.1 proof; T5-INDUCTION	claim	Induction using equations 13-18 needs consistency between average-root solve and current values.
+P-T5-FULL-BOUND	VAR-THEOREM5	supp	p25 appendix I.1 proof; T5-FULL-BOUND	claim	Convert local/trunk regrets to total regret and epsilon-Nash with explicit constants.
+P-WARM-REGRETS	VAR-WARMSTART	supp	p25 appendix J; WARM-REGRETS	definition	Initialize cumulative regrets from best response times 15.
+P-WARM-AVERAGE	VAR-WARMSTART	supp	p25 appendix J; WARM-AVERAGE	definition	Give predicted average policy pseudocount 15; validate warm offset versus T.
+P-WARM-CITATION	VAR-WARMSTART	supp	p25 appendix J; WARM-CITATION	definition	Exact best response used here versus soft best response in cited [10].
+P-HUNL-BLINDS	GAME-HUNL	supp	p14 appendix C.1; HUNL-BLINDS	setting	Blinds 50/100 and two-player chip accounting.
+P-HUNL-STACKS	GAME-HUNL	supp	p14 appendix C.1; HUNL-STACKS	setting	Training stacks 5000..25000 and test stack 20000.
+P-HUNL-ROUNDS	GAME-HUNL	supp	p16 appendix C.1; HUNL-ROUNDS	setting	Four betting rounds and public-card reveal schedule.
+P-HUNL-ACTIONS	GAME-HUNL	supp	p16 appendix C.1; HUNL-ACTIONS	setting	Fold/check/call/bet/raise/all-in legality and minimum raise.
+P-HUNL-SHOWDOWN	GAME-HUNL	supp	p16 appendix C.1; HUNL-SHOWDOWN	setting	Hand ranking, showdown, ties and payoff scale.
+P-TEH-ROUNDS	GAME-TEH	supp	p16 appendix C.2; TEH-ROUNDS	setting	Automatically reach two-round endgame with five public cards.
+P-TEH-POT	GAME-TEH	supp	p16 appendix C.2; TEH-POT	setting	Initial pot 1000 and stack range 5000..50000.
+P-TEH-ACTIONS	GAME-TEH	supp	p16 appendix C.2; TEH-ACTIONS	setting	Raise options, +/-0.1-pot perturbations and legal clipping.
+P-TEH-EVAL	GAME-TEH	supp	p16 appendix C.2; TEH-EVAL	setting	Fixed public board and evaluation initial-belief conditions.
+P-LD-DICE	GAME-LIARS	supp	p16 appendix C.3; LD-DICE	setting	Private dice count d, faces f and chance distribution.
+P-LD-WILD	GAME-LIARS	supp	p16 appendix C.3; LD-WILD	setting	Highest face is wild, including counting a wild-face bid.
+P-LD-BIDS	GAME-LIARS	supp	p16 appendix C.3; LD-BIDS	setting	Legal increasing bid sequence and bid encoding.
+P-LD-CALL	GAME-LIARS	supp	p16 appendix C.3; LD-CALL	setting	Call action, true/false bid terminal payoff and winner.
+P-D-EIGHT	GAME-ABSTRACTION	supp	p16-17 appendix D; D-EIGHT	setting	Supplement maximum eight actions versus main maximum nine.
+P-D-PUBLIC	GAME-ABSTRACTION	supp	p16-17 appendix D; D-PUBLIC	setting	Use public state and both player type-belief inputs; no card information abstraction.
+P-D-ROOTS	GAME-ABSTRACTION	supp	p16-17 appendix D; D-ROOTS	setting	Self-play-generated PBS versus random-root sampling used elsewhere.
+P-D-EXPLORE	GAME-ABSTRACTION	supp	p16-17 appendix D; D-EXPLORE	setting	One-player exploration epsilon=.25.
+P-D-ALLIN	GAME-ABSTRACTION	supp	p16-17 appendix D; D-ALLIN	setting	Learn all-in outcomes rather than silently substitute full-card enumeration.
+P-D-DEPTH	GAME-ABSTRACTION	supp	p16-17 appendix D; D-DEPTH	setting	Search to end of current betting round with special depth conventions.
+P-D-COMPUTE	GAME-ABSTRACTION	supp	p16-17 appendix D; D-COMPUTE	setting	Single-CPU solver, network evaluation layer count and shared network across rounds.
+P-E-INPUT-POKER	NN-VALUE	supp	p18 appendix E; E-INPUT-POKER	setting	Poker dimensions 1+1+1+5+2*1326 and exact normalization/encoding.
+P-E-INPUT-DICE	NN-VALUE	supp	p18 appendix E; E-INPUT-DICE	setting	Printed dice input dimension 1+1+d*f+2*f^d; compare official action dimension 2*d*f+1.
+P-E-HIDDEN-DICE	NN-VALUE	supp	p18 appendix E; E-HIDDEN-DICE	setting	Dice two hidden layers of width 256.
+P-E-HIDDEN-POKER	NN-VALUE	supp	p18 appendix E; E-HIDDEN-POKER	setting	Poker six hidden layers of width 1536.
+P-E-ACTIVATION	NN-VALUE	supp	p18 appendix E; E-ACTIVATION	setting	GeLU and LayerNorm definitions, feature/order and shape contracts.
+P-E-POLICY	NN-POLICY	supp	p18 appendix E; E-POLICY	setting	Policy network used only for poker experiments; exact output/legality semantics.
+P-E-REPLAY-CAPACITY	NN-REPLAY	supp	p18 appendix E; E-REPLAY-CAPACITY	setting	Poker capacity 12 million, uniform/circular replay; compare released dice configuration.
+P-E-REPLAY-QUANT	NN-REPLAY	supp	p18 appendix E; E-REPLAY-QUANT	setting	Policy-data quantization and restoration errors.
+P-E-REPLAY-EVICT	NN-REPLAY	supp	p18 appendix E; E-REPLAY-EVICT	setting	Remove half of data after twenty epochs; boundary/scheduling semantics.
+P-E-POKER-LR	NN-OPTIMIZER	supp	p18 appendix E; E-POKER-LR	setting	Poker Adam 3e-4, halve every 800 epochs.
+P-E-POKER-EPOCH	NN-OPTIMIZER	supp	p18 appendix E; E-POKER-EPOCH	setting	Poker 2560000 examples/epoch and batch 1024.
+P-E-TEH-LR	NN-OPTIMIZER	supp	p18 appendix E; E-TEH-LR	setting	TEH 4e-4, halve every 100 epochs, 300 epochs.
+P-E-DICE-LR	NN-OPTIMIZER	supp	p18 appendix E; E-DICE-LR	setting	Dice Adam 3e-4, halve every 400 epochs.
+P-E-DICE-EPOCH	NN-OPTIMIZER	supp	p18 appendix E; E-DICE-EPOCH	setting	Dice 25600 examples/epoch, batch 512 and 1000 epochs; YAML max_epochs=10000 is distinct.
+P-E-POKER-HARDWARE	NN-CONCURRENT	supp	p18 appendix E; E-POKER-HARDWARE	setting	90 DGX machines with 8 GPUs and CPU/data generation configuration; empirical setup.
+P-E-DICE-HARDWARE	NN-CONCURRENT	supp	p18 appendix E; E-DICE-HARDWARE	setting	One GPU and 60 CPU generation threads; compare released CUDA assertion.
+P-E-HUNL-LENGTH	EVAL-REPRO	supp	p18-19 appendix E.1; E-HUNL-LENGTH	setting	Poker training 1750 epochs and selected checkpoints.
+P-E-DICE-ITERS	EVAL-REPRO	supp	p18-19 appendix E.1; E-DICE-ITERS	setting	Dice solves use 1024 iterations; last three checkpoints averaged.
+P-E-HUMAN	EVAL-REPRO	supp	p18-19 appendix E.1; E-HUMAN	setting	7500 human games and opponent/evaluation protocol.
+P-E-TIMING	EVAL-REPRO	supp	p18-19 appendix E.1; E-TIMING	setting	Five-second action limit, preflop caching and actual timing observations.
+P-E-AIVAT	EVAL-REPRO	supp	p18-19 appendix E.1; E-AIVAT	setting	AIVAT baseline/variance reduction and raw versus adjusted score.
+P-E-ERRORBARS	EVAL-REPRO	supp	p18-19 appendix E.1; E-ERRORBARS	setting	Supplement calls errors standard error; main Table 1 calls standard deviation.
+P-FIG4	EVAL-REPRO	supp	p23 appendix I FIG4	experiment	Dice CFR variants: plotted curves, axes, game/depth/iteration settings.
+P-FIG5	EVAL-REPRO	supp	p23 appendix I FIG5	experiment	TEH variants: plotted curves, axes and exact versus approximate value conditions.
+P-FIG6	EVAL-REPRO	supp	p24 appendix I FIG6	experiment	Oracle and self-play variant comparisons; no inference of general convergence from curves.
+P-I-EMPIRICAL	EVAL-REPRO	supp	p24 appendix I I-EMPIRICAL	experiment	Current/average-input experiments, unsuccessful alternative and HUNL observations.
+P-REF-01	SCOPE-INTRO	main	p10 reference [1]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-02	SCOPE-INTRO	main	p10 reference [2]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-03	SCOPE-INTRO	main	p10 reference [3]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-04	SCOPE-INTRO	main	p10 reference [4]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-05	SCOPE-INTRO	main	p10 reference [5]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-06	SCOPE-INTRO	main	p10 reference [6]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-07	SCOPE-INTRO	main	p10 reference [7]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-08	SCOPE-INTRO	main	p10 reference [8]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-09	SCOPE-INTRO	main	p10 reference [9]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-10	SCOPE-INTRO	main	p10 reference [10]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-11	SCOPE-INTRO	main	p10 reference [11]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-12	SCOPE-INTRO	main	p10 reference [12]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-13	SCOPE-INTRO	main	p10 reference [13]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-14	SCOPE-INTRO	main	p11 reference [14]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-15	SCOPE-INTRO	main	p11 reference [15]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-16	SCOPE-INTRO	main	p11 reference [16]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-17	SCOPE-INTRO	main	p11 reference [17]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-18	SCOPE-INTRO	main	p11 reference [18]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-19	SCOPE-INTRO	main	p11 reference [19]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-20	SCOPE-INTRO	main	p11 reference [20]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-21	SCOPE-INTRO	main	p11 reference [21]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-22	SCOPE-INTRO	main	p11 reference [22]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-23	SCOPE-INTRO	main	p11 reference [23]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-24	SCOPE-INTRO	main	p11 reference [24]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-25	SCOPE-INTRO	main	p11 reference [25]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-26	SCOPE-INTRO	main	p11 reference [26]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-27	SCOPE-INTRO	main	p11 reference [27]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-28	SCOPE-INTRO	main	p11 reference [28]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-29	SCOPE-INTRO	main	p11 reference [29]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-30	SCOPE-INTRO	main	p11 reference [30]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-31	SCOPE-INTRO	main	p12 reference [31]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-32	SCOPE-INTRO	main	p12 reference [32]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-33	SCOPE-INTRO	main	p12 reference [33]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-34	SCOPE-INTRO	main	p12 reference [34]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-35	SCOPE-INTRO	main	p12 reference [35]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-36	SCOPE-INTRO	main	p12 reference [36]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-37	SCOPE-INTRO	main	p12 reference [37]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-38	SCOPE-INTRO	main	p12 reference [38]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-39	SCOPE-INTRO	main	p12 reference [39]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-40	SCOPE-INTRO	main	p12 reference [40]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-41	SCOPE-INTRO	main	p12 reference [41]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-42	SCOPE-INTRO	main	p12 reference [42]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-43	SCOPE-INTRO	main	p12 reference [43]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-44	SCOPE-INTRO	main	p12 reference [44]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-45	SCOPE-INTRO	main	p12 reference [45]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-46	SCOPE-INTRO	main	p12 reference [46]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-47	SCOPE-INTRO	main	p12 reference [47]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-48	SCOPE-INTRO	main	p12 reference [48]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-49	SCOPE-INTRO	main	p12 reference [49]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-50	SCOPE-INTRO	main	p13 reference [50]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-51	SCOPE-INTRO	main	p13 reference [51]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-52	SCOPE-INTRO	main	p13 reference [52]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-53	SCOPE-INTRO	main	p13 reference [53]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-54	SCOPE-INTRO	main	p13 reference [54]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-55	SCOPE-INTRO	main	p13 reference [55]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-56	SCOPE-INTRO	main	p13 reference [56]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-57	SCOPE-INTRO	main	p13 reference [57]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-58	SCOPE-INTRO	main	p13 reference [58]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-59	SCOPE-INTRO	main	p13 reference [59]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-60	SCOPE-INTRO	main	p13 reference [60]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-REF-61	SCOPE-INTRO	main	p13 reference [61]	context	Index cited work; proof-use dependencies are separately listed in M01-B.md and P-DEP rows.
+P-DEP-05	VAR-FLOP	main	main p6; supp H; reference [5]	dependency	Fictitious play definition and convergence domain; asymptotic rate not assumed.
+P-DEP-10	VAR-WARMSTART	main	supp J; reference [10]	dependency	Warm-start regret guarantees; distinguish soft/exact best response and weights.
+P-DEP-16	SEARCH-ERROR	main	main p6; supp G; reference [16]	dependency	CFR-D/decomposition Theorem 2; finite perfect-recall game and continuation regret hypotheses.
+P-DEP-28	CFR-REGRET	main	main p6; reference [28]	dependency	Smoothing-technique solver alternative; not the regret-matching theorem and not automatically used by ReBeL.
+P-DEP-35	VAR-WEIGHTED	main	main p6; reference [35]	dependency	Solver variant update and convergence domain must be checked before reuse.
+P-DEP-36	VAR-WEIGHTED	main	main p6; reference [36]	dependency	Solver variant dependency cannot transfer vanilla guarantees without weight proof.
+P-DEP-38	VAR-THEOREM4	main	supp H; reference [38]	dependency	GWFP definition, vanishing perturbations/step sizes and two-player zero-sum convergence.
+P-DEP-40	SEARCH-ERROR	main	supp I; reference [40]	dependency	DeepStack depth-limited approximation bound; separately transfer counterfactual-value conventions.
+P-DEP-45	PBS-ENCODING	main	main footnote 5; reference [45]	dependency	Sufficient plan-time statistics for decentralized POMDPs; distinguish that source domain from two-player zero-sum use.
+P-DEP-52	PBS-ENCODING	main	main footnote 5; reference [52]	dependency	Alternative public-belief compression result; preserve chance correlation and support.
+P-DEP-61	CFR-NASH	main	main p6; supp I.1; reference [61]	dependency	Counterfactual regret decomposition and average-strategy Nash conversion for finite perfect-recall games.
+P-DEP-02	PUBLIC-STATE	main	main section 3; reference [2]	dependency	Common knowledge interpretation; public observations need not exhaust all common knowledge.
+P-DEP-03	NN-VALUE	main	main section 7; reference [3]	dependency	LayerNorm normalization/epsilon convention and concrete implementation contract.
+P-DEP-13	VAR-WEIGHTED	main	main section 7; supplement H; reference [13]	dependency	Discounted regret minimization and linear weighting; variant-specific bound.
+P-DEP-17	EVAL-METRIC	main	supplement E.1; reference [17]	dependency	AIVAT unbiasedness/variance assumptions and actual evaluation estimator.
+P-DEP-27	NN-VALUE	main	main section 7; reference [27]	dependency	GeLU mathematical function versus concrete torch approximation.
+P-DEP-32	NN-OPTIMIZER	main	main section 7; reference [32]	dependency	Adam moment/bias-correction update and implementation parameter convention.
+P-DEP-34	FOUND-MODEL	main	main section 3; reference [34]	dependency	FOSG model definitions and observation/perfect-recall assumptions.
+P-DEP-48	VAL-THEOREM1	main	main section 4; reference [48]	dependency	Convex-analysis supergradient convention, relative domain and boundary existence.
+P-VERSION-1	VAL-THEOREM1	arxiv	v2 pp5,19-20	audit	Theorem 1 and its normalized-cone proof unchanged from publication; DIAG-R3-Q remains separate.
+P-VERSION-2	SAFE-THEOREM3	arxiv	v2 pp8,21-22	audit	Theorem 3 has delta on both terms in main and supplement; no version repair found.
+P-VERSION-3	RL-THEOREM2	arxiv	v2 pp7,21	audit	Theorem 2 main/restatement distinction exists in both editions.
+P-VERSION-4	VAR-THEOREM4	arxiv	v2 p22	audit	FLOP coefficient/index discrepancy exists in both editions.
+P-VERSION-5	SCOPE-INTRO	arxiv	v2 pp1-25	audit	Full edition comparison recorded in sources.json; stamp, reflow and glyph differences are not mathematical repairs.
