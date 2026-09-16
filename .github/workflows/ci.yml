@@ -4,18 +4,29 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      runner:
+        description: Runner for the unchanged build and architecture checks
+        type: choice
+        default: ubuntu-latest
+        options:
+          - ubuntu-latest
+          - windows-latest
 
 permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.ref }}-${{ inputs.runner || 'ubuntu-latest' }}
   cancel-in-progress: true
 
 jobs:
   verify:
-    name: Build and architecture audits
-    runs-on: windows-latest
+    name: Build, lint and architecture audits
+    # The historical M00 baseline passed all these checks on Ubuntu. Keep the
+    # original Windows path available manually, without depending on its much
+    # slower cold-run feedback for every small compiler-loop revision.
+    runs-on: ${{ inputs.runner || 'ubuntu-latest' }}
     timeout-minutes: 60
     defaults:
       run:
@@ -23,10 +34,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
-      # lean-action reads the repository's pinned lean-toolchain.  The build is
-      # selected explicitly rather than inferred, and runs before the action
-      # saves its `.lake` cache.
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1.5.0
         with:
           auto-config: false
@@ -34,12 +44,10 @@ jobs:
           test: false
           lint: false
           use-mathlib-cache: true
+          use-github-cache: false
 
-      # lean-action's internal Bash steps can see Elan, but on Windows its
-      # shim directory is not currently propagated to later PowerShell steps.
-      # The deep audits invoke `lake env lean`, so expose the pinned shims once
-      # and fail here with a useful message if the action layout changes.
-      - name: Expose pinned Lean toolchain to audit steps
+      - name: Expose pinned Lean toolchain to Windows audit steps
+        if: runner.os == 'Windows'
         run: |
           $elanBin = Join-Path $env:USERPROFILE '.elan\bin'
           $lake = Join-Path $elanBin 'lake.exe'
@@ -48,8 +56,12 @@ jobs:
           }
           $elanBin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-      # Source-level checks stay fast for local iteration. CI additionally
-      # exercises the intentionally expensive compiler reachability probes.
+      - name: Identify exact validated source and toolchain
+        run: |
+          git rev-parse HEAD
+          lake env lean --version
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot identify pinned toolchain' }
+
       - name: Verify Phase 1 architecture measurements
         run: ./scripts/phase1-audit.ps1 -VerifyExpected
 
@@ -59,12 +71,12 @@ jobs:
       - name: Verify Phase 3 architecture measurements and reachability probes
         run: ./scripts/phase3-audit.ps1 -VerifyExpected -DeepReachability
 
-      # M01 adds an actual full-library lint gate; ReBeL diagnostic tests are
-      # additionally linted explicitly by the dedicated ReBeL workflow.
       - name: Lint the complete public library
         run: |
           lake lint
           if ($LASTEXITCODE -ne 0) { throw 'Full-library lint failed' }
 
       - name: Verify build and audits do not mutate tracked files
-        run: git diff --exit-code
+        run: |
+          git diff --exit-code
+          if ($LASTEXITCODE -ne 0) { throw 'Validation mutated tracked files' }
