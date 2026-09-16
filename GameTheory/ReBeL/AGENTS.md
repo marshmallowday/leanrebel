@@ -1,13 +1,13 @@
 # ReBeL implementation rules
 
 This directory is reserved for the full ReBeL formalization in the fork
-`marshmallowday/GameTheory`. Read root AGENTS.md, docs/rebel/README.md,
+`marshmallowday/leanrebel`. Read root AGENTS.md, docs/rebel/README.md,
 docs/rebel/STATUS.md, docs/rebel/ROADMAP.md, and docs/rebel/coverage.json first.
 This file does not establish a Lean library or any proved ReBeL declaration.
 
 ## Scope and continuity
 
-- Write, push, create PRs, and update issues only in marshmallowday/GameTheory.
+- Write, push, create PRs, and update issues only in marshmallowday/leanrebel.
   Read upstream sources without mutating them. Never open an upstream PR.
 - Preserve unrelated changes. Use fork-local `rebel/<task-id>` branches for
   implementation. Do not force-push, rewrite history, or upgrade dependencies

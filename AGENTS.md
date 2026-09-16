@@ -2,7 +2,7 @@
 
 ## Fork-specific active mission: ReBeL
 
-In `marshmallowday/GameTheory`, the active delivery order is the complete ReBeL
+In `marshmallowday/leanrebel`, the active delivery order is the complete ReBeL
 formalization plan in `docs/rebel/README.md` and `docs/rebel/ROADMAP.md`.
 Read `docs/rebel/STATUS.md`, `docs/rebel/coverage.json`, and
 `GameTheory/ReBeL/AGENTS.md` before ReBeL work. The inherited architecture and
@@ -10,7 +10,7 @@ proof discipline below still apply; the upstream post-architecture delivery
 queue is not a request to work on unrelated theorem families in this fork.
 
 All remote writes, commits, pushes, PRs, and issue changes must stay inside
-`marshmallowday/GameTheory`. Upstream and official ReBeL repositories are
+`marshmallowday/leanrebel`. Upstream and official ReBeL repositories are
 read-only references. Preserve existing code and dependency pins unless a
 reviewed ReBeL obligation needs a focused change. Do not treat prior chat
 summaries or the presence of a similarly named theorem as completion evidence.

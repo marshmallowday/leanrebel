@@ -11,7 +11,7 @@
 3. [ROADMAP.md](ROADMAP.md): 範囲、依存関係、段階ごとの受入条件。
 4. [coverage.json](coverage.json): 原典と成果の対応台帳。候補コードの存在は証明完了を意味しません。
 
-変更可能な GitHub リポジトリは **`marshmallowday/GameTheory` のみ**です。upstream、公式 ReBeL、他の fork への push・PR・issue 等は行いません。
+変更可能な GitHub リポジトリは **`marshmallowday/leanrebel` のみ**です。upstream、公式 ReBeL、他の fork への push・PR・issue 等は行いません。
 
 ## 原典と固定点
 
@@ -20,7 +20,7 @@
 | main | NeurIPS 2020 本文 | [出版版 PDF](https://papers.nips.cc/paper/2020/file/c61f571dbd2fb949d3fe5ae1608dd48b-Paper.pdf) — 13 PDF pages |
 | supp | 同補遺 | [出版版 PDF](https://papers.nips.cc/paper_files/paper/2020/file/c61f571dbd2fb949d3fe5ae1608dd48b-Supplemental.pdf) — 12 PDF pages、印刷頁 14–25 |
 | arxiv | 版の照合用 | [2007.13544v2](https://arxiv.org/abs/2007.13544v2)。出版版と同一と決めつけず、相違は記録する |
-| base | fork の開始点 | `3dd93bf05286e5c6996fdf3e991d96a386156d4d` |
+| base | leanrebel の開始点 | `5532a9c1d900261ae8e6ac4fe877ebd1c175cc1c` |
 | official | Meta 公開実装 | [`facebookresearch/rebel@7960a42750f3407ea9eb2c3333d4c2a7961f6df4`](https://github.com/facebookresearch/rebel/tree/7960a42750f3407ea9eb2c3333d4c2a7961f6df4) |
 | toolchain | Lean | `leanprover/lean4:v4.33.1`。Mathlib、補助依存は既存 `lake-manifest.json` を維持する |
 

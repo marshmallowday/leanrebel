@@ -3,8 +3,8 @@
 ## 現在地
 
 - 段階: **M00（準備）**。理論・アルゴリズムの ReBeL 新規 Lean 宣言は 0。
-- 書込み先: `marshmallowday/GameTheory` のみ。
-- 準備前 `main`: `3dd93bf05286e5c6996fdf3e991d96a386156d4d`。
+- 書込み先: `marshmallowday/leanrebel` のみ。
+- 準備前 `main`: `5532a9c1d900261ae8e6ac4fe877ebd1c175cc1c`。
 - 公式実装固定点: `7960a42750f3407ea9eb2c3333d4c2a7961f6df4`。
 - 既存 Lean/Lake/依存/workflow は変更しない bootstrap。
 - `coverage.json` の候補対応は未検証。既存部品の存在と ReBeL の主張への適用を区別する。
@@ -17,12 +17,12 @@
 
 準備時の環境確認:
 
-- GitHub プラグインで fork の読み取りと push 権限を確認。
+- Git remote (`origin`) で leanrebel の読み取りと push 権限を確認。
 - `lean-toolchain` は `leanprover/lean4:v4.33.1`。
 - `lakefile.lean` は GameTheory 以下の全サブモジュールを default build に含め、warningAsError を指定。
 - 既存 `.github/workflows/ci.yml` は push、pull_request、workflow_dispatch に対応。
-- fork の Actions runs の初回照会は **0 件**。有効化済み/無効化中の設定そのものは未確認。
-- このチャットのローカル環境から GitHub clone は DNS 解決に失敗。ローカル Lean build は実行していない。
+- 準備時点の fork の Actions runs の初回照会は **0 件**。有効化済み/無効化中の設定そのものは未確認。
+- 通常のサンドボックスからの GitHub 接続は失敗したが、昇格した Git remote 操作で読み書きを確認。ローカル Lean build は実行していない。
 - 出版版本文・補遺のテキストを参照。補遺 G の Theorem 3 再掲の画像を確認。PDF 全ページの画像確認とバイトハッシュ取得は未完了。
 
 準備ファイルのローカル検査:
@@ -36,7 +36,7 @@ Lean 検証記録:
 
 | 対象 commit | command / workflow | 結果 | 証拠 |
 |---|---|---|---|
-| baseline `3dd93bf...` | `lake build` / 既存 CI | 未実行・未確認 | 次回取得 |
+| baseline `5532a9c...` | `lake build` / 既存 CI | 未実行・未確認 | 次回取得 |
 | ReBeL | narrow build / axiom audit | 該当コード未作成 | M01 以降 |
 
 ## 次に行う一作業: M01-A
@@ -44,7 +44,7 @@ Lean 検証記録:
 **目的:** GitHub 経由で実際に Lean を検証できることを確認する。
 
 1. 最新 main、ブランチ、対象 SHA の Actions runs を読み、他の作業を上書きしない。
-2. fork の Actions タブで有効化が必要なら、その操作だけをユーザーへ案内する。公開 fork で自動実行されると推測しない。現在のプラグインには workflow 有効化/任意 shell 実行の専用操作は確認できていない。
+2. fork の Actions タブで有効化が必要なら、その操作だけをユーザーへ案内する。公開 fork で自動実行されると推測しない。利用する GitHub 連携に workflow 有効化/任意 shell 実行の専用操作がない場合は、ユーザー操作が必要な箇所を明示する。
 3. 既存 CI の manual 実行、または fork 内の小さい作業ブランチへの実質的な commit を用い、baseline と compiler-loop を確認する。自動実行の前提が成立していないなら先に解消する。
 4. 最初の小さな Lean 成果として ROADMAP R3 の有理数診断不等式を証明し、余力があれば実数版を接続する。配置候補は `GameTheory/ReBeL/Tests/SourceDiagnostics.lean`。これは Theorem 1 の完成ではない。
 5. 実在する対象の narrow build と推移的公理依存を検査する。許容されない依存がある場合は除去する。新しい lint/axiom-audit 組込み方法を確定する。
@@ -65,12 +65,12 @@ Lean 検証記録:
 ## 次回チャット用プロンプト
 
 ```text
-GitHubプラグインで marshmallowday/GameTheory の最新状態を読み、
+Git remote と利用可能な GitHub 読み取り手段で marshmallowday/leanrebel の最新状態を読み、
 AGENTS.md、GameTheory/ReBeL/AGENTS.md、docs/rebel/README.md、
 docs/rebel/STATUS.md、docs/rebel/ROADMAP.md、docs/rebel/coverage.json
 を確認してください。STATUSの次の一作業からReBeLの完全Lean形式化を進めてください。
 
-変更・commit・push・PRは marshmallowday/GameTheory 内だけ許可します。
+変更・commit・push・PRは marshmallowday/leanrebel 内だけ許可します。
 原典の定義と前提を照合し、小さい検証可能な単位で実装してください。
 実際の対象SHAでコンパイル/公理依存を確認できたものだけを検証済みとし、
 検証不能なら理由と再開手順を残してください。原文の誤記・反例・条件追加は隠さず、

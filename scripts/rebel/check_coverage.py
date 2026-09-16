@@ -13,7 +13,7 @@ from pathlib import Path, PurePosixPath
 import re
 import sys
 
-REPOSITORY = "marshmallowday/GameTheory"
+REPOSITORY = "marshmallowday/leanrebel"
 STATUSES = {"pending", "in_progress", "blocked", "formalized", "verified",
             "qualified", "refuted", "empirical_documented", "context_indexed"}
 REUSE = {"existing_candidate", "bridge_candidate", "new"}
@@ -35,7 +35,7 @@ def validate(data: object, root: Path) -> list[str]:
     if data.get("schema_version") != 1:
         errors.append("unsupported schema_version")
     if data.get("repository") != REPOSITORY:
-        errors.append("repository must be marshmallowday/GameTheory")
+        errors.append("repository must be marshmallowday/leanrebel")
     for key in ("baseline_commit", "official_commit"):
         if not re.fullmatch(r"[0-9a-f]{40}", str(data.get(key, ""))):
             errors.append(f"{key}: expected full commit SHA")

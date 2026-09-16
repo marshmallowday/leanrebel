@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "repository": "marshmallowday/GameTheory",
-  "baseline_commit": "3dd93bf05286e5c6996fdf3e991d96a386156d4d",
+  "repository": "marshmallowday/leanrebel",
+  "baseline_commit": "5532a9c1d900261ae8e6ac4fe877ebd1c175cc1c",
   "official_commit": "7960a42750f3407ea9eb2c3333d4c2a7961f6df4",
   "inventory_status": "seed_requires_equation_operation_and_function_expansion_in_M01",
   "source_ids": [
