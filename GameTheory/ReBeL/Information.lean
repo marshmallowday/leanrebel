@@ -55,7 +55,7 @@ theorem publicHistory_length (aoh : AOH Action Private Public) :
 
 end AOH
 
-variable (S : InfoSignals.{uι, us, ua, up, uq, uk} E)
+variable (S : InfoSignals E)
 
 /-- Replay observations through an existing (possibly compressed) information
 state update. This is a function of local observations alone. -/
