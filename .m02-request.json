@@ -1,4 +1,4 @@
 {
-  "timeout_seconds": 600,
-  "script": "lake build GameTheory.ReBeL.Information\n"
+  "timeout_seconds": 60,
+  "script": "cp .m02-response.log docs/rebel/M02-compiler-log.txt\nsed -n '1,220p' GameTheory/Protocol/Information.lean > docs/rebel/M02-api-inspection.txt\n"
 }
