@@ -22,7 +22,7 @@ run_cmd do
   let probe : Name := `GameTheory.Tests.ReBeLSourceDiagnostics
   let moduleNames := env.header.moduleNames
   let allowed : List Name := [`propext, `Classical.choice, `Quot.sound]
-  let mut count := 0
+  let mut count : Nat := 0
   for (name, _) in env.constants.toList do
     if let some idx := env.getModuleIdxFor? name then
       let modName := moduleNames[idx.toNat]!

@@ -45,5 +45,17 @@ The proof module has Git blob 9b346667d5dad982083a7681f6e24e68063133a4,
 retrieved and SHA-256 checked before local structural/semantic inspection.
 Independent rational arithmetic gives f(z)=1/4, plane(z)=0, midpoint value
 1/3 and average endpoint value 3/8. These are semantic controls, not a
-replacement for the missing axiom/lint run. The replacement auditor must
-receive its own successful exact-SHA run before acceptance.
+replacement for the missing axiom/lint run.
+
+## Third probe: ambiguous mutable counter in the auditor
+
+Commit: 1b5fe76c58532f870d6a71a7b6aa153c41d759ae.
+Run: 35140333551. Job: 104942962413.
+The proof module again compiled successfully at 2026-09-16T19:28:20Z.
+The generated auditor failed with OfNat MessageData 0, BEq MessageData and
+HAdd MessageData Nat MessageData errors. The unannotated mutable counter's
+type was inferred from message interpolation, rather than as Nat.
+
+Repair: explicitly declare `let mut count : Nat := 0`. This is an auditor
+implementation repair, not a proof or trust-policy change. The replacement
+must receive its own successful axiom/lint run before acceptance.
