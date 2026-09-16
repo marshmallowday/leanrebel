@@ -9,6 +9,9 @@ state transition and uses the horizon, never `IsTreeShaped`.
 -/
 
 import GameTheory.Protocol.Randomized
+import Mathlib.Data.Fintype.Pi
+import Mathlib.Data.Fintype.Option
+import Mathlib.Data.Fintype.Prod
 
 noncomputable section
 
@@ -24,9 +27,9 @@ variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 because terminal histories cannot be extended by a legal action. -/
 theorem trace_length_le (horizon : Nat) (bounded : E.BoundedHorizon horizon)
     {state : E.State} (trace : E.Trace state) : trace.length ≤ horizon := by
-  induction trace with
+  cases trace with
   | start => exact Nat.zero_le _
-  | extend prior joint legal realized ih =>
+  | extend prior joint legal realized =>
       have hlt : prior.length < horizon := by
         by_contra h
         exact legal.1 (bounded _ prior (Nat.le_of_not_gt h))
@@ -42,6 +45,7 @@ theorem trace_rank_bound (rank : E.State → Nat)
   | start => simp [Trace.length]
   | extend prior joint legal realized ih =>
       have hd := decreases ⟨_, joint, legal, _, realized⟩
+      dsimp only at hd
       simp only [Trace.length]
       omega
 
@@ -54,6 +58,7 @@ theorem terminal_of_rank_zero (rank : E.State → Nat)
   obtain ⟨joint, legal⟩ := E.exists_legal hterm
   obtain ⟨target, realized⟩ := (E.step state ⟨joint, legal⟩).support_nonempty
   have hd := decreases ⟨state, joint, legal, target, realized⟩
+  dsimp only at hd
   omega
 
 /-- A rank certificate produces the canonical Protocol horizon predicate. -/
@@ -81,11 +86,16 @@ theorem run_terminal_of_horizon (horizon : Nat) (bounded : E.BoundedHorizon hori
 abbrev EventCode (E : ExecutionProtocol ι) :=
   E.State × (∀ i, Option (E.Action i)) × E.State
 
+/-- Forget only the proof fields of a realized event. -/
+def stepEventCode (event : E.StepEvent) : EventCode E :=
+  (event.source, event.joint, event.target)
+
 /-- Encode the realized trace in newest-first order, retaining joint actions
 and both endpoints; an endpoint alone would lose merging histories. -/
 def traceCode : {state : E.State} → E.Trace state → List (EventCode E)
   | _, .start => []
-  | _, .extend prior joint _ _ => (_, joint, _) :: traceCode prior
+  | _, .extend prior joint legal realized =>
+      stepEventCode ⟨_, joint, legal, _, realized⟩ :: traceCode prior
 
 @[simp]
 theorem traceCode_length {state : E.State} (trace : E.Trace state) :
@@ -150,7 +160,9 @@ history/state bijection or a general finite-to-enumeration escape hatch. -/
 @[reducible]
 def boundedHistoryFintype [Fintype ι] [Fintype E.State]
     [∀ i, Fintype (E.Action i)] (horizon : Nat) (bounded : E.BoundedHorizon horizon) :
-    Fintype E.History :=
-  Fintype.ofInjective (boundedHistoryCode horizon) (boundedHistoryCode_injective horizon bounded)
+    Fintype E.History := by
+  classical
+  exact Fintype.ofInjective (boundedHistoryCode horizon)
+    (boundedHistoryCode_injective horizon bounded)
 
 end GameTheory.ReBeL
