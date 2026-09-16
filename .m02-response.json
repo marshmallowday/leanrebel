@@ -1,10 +1,10 @@
 {
-  "request_sha256": "a096e650d9ef85c77c78f1996d3428d40798661e1d266f075e4b002a24efc525",
-  "source_before": "8b01640e88b4a8957441d4f656ecde5c0dd79e86",
+  "request_sha256": "1d0ed5e6204a740af9457732ad481c192404f192848fea2a41648f6a826bc56f",
+  "source_before": "85cc7b7102d91efd6c2f0d958f4c9fdc3ce99228",
   "exit_code": 1,
-  "elapsed_seconds": 3.536,
-  "log_bytes": 3461,
-  "log_sha256": "32a929c218dc37300666ef81b9492185e4d91638557940c28ba602d5fcc22c6a",
+  "elapsed_seconds": 0.12,
+  "log_bytes": 153,
+  "log_sha256": "920792cf1ba51154a11c1b173c1e1ba866f546904f0da6a664911adeb3cda169",
   "toolchain": "leanprover/lean4:v4.33.1",
   "note": "Iteration result, not a milestone completion claim."
 }
