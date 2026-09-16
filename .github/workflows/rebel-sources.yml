@@ -1,0 +1,75 @@
+name: ReBeL fixed-source acquisition
+
+# Read-only acquisition for M01-B; downloaded code is never executed.
+# Public PDFs are review artifacts, not vendored into the source repository.
+on:
+  push:
+    branches: ['rebel/m01-a']
+    paths: ['.github/workflows/rebel-sources.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebel-fixed-sources
+  cancel-in-progress: false
+
+jobs:
+  sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          path: project
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: facebookresearch/rebel
+          ref: 7960a42750f3407ea9eb2c3333d4c2a7961f6df4
+          persist-credentials: false
+          submodules: false
+          path: official
+      - name: Snapshot fixed official code and current review source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/rebel-sources"
+          out="$RUNNER_TEMP/rebel-sources"
+          test "$(git -C official rev-parse HEAD)" = 7960a42750f3407ea9eb2c3333d4c2a7961f6df4
+          git -C official archive --format=tar --output="$out/official.tar" HEAD
+          git -C official ls-tree -r -l HEAD > "$out/official-tree.txt"
+          git -C official rev-parse HEAD > "$out/official-commit.txt"
+          git -C project archive --format=tar --output="$out/project.tar" HEAD
+          git -C project rev-parse HEAD > "$out/project-commit.txt"
+      - name: Fetch exact publication PDFs and byte provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/rebel-sources"
+          fetch_pdf() {
+            name="$1"
+            url="$2"
+            printf '%s\n' "$url" > "$out/$name.url"
+            curl --fail --location --retry 3 --retry-delay 5 --max-time 180 \
+              --user-agent 'ReBeL-source-audit/1.0' \
+              --write-out '%{url_effective}\n%{http_code}\n%{content_type}\n' \
+              --output "$out/$name.pdf" "$url" > "$out/$name.response"
+            head -c 5 "$out/$name.pdf" | grep -q '%PDF-'
+          }
+          fetch_pdf main 'https://papers.nips.cc/paper/2020/file/c61f571dbd2fb949d3fe5ae1608dd48b-Paper.pdf'
+          fetch_pdf supp 'https://papers.nips.cc/paper_files/paper/2020/file/c61f571dbd2fb949d3fe5ae1608dd48b-Supplemental.pdf'
+          fetch_pdf arxiv-v2 'https://arxiv.org/pdf/2007.13544v2'
+          date -u +%Y-%m-%dT%H:%M:%SZ > "$out/retrieved-at.txt"
+          cd "$out"
+          sha256sum *.pdf *.tar > SHA256SUMS
+          wc -c *.pdf *.tar > byte-counts.txt
+          cat SHA256SUMS byte-counts.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: rebel-fixed-sources-${{ github.sha }}
+          path: ${{ runner.temp }}/rebel-sources/
+          retention-days: 7
+          if-no-files-found: error
