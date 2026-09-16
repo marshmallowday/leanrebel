@@ -27,34 +27,72 @@ jobs:
           build: false
           test: false
           lint: false
-          use-mathlib-cache: true
+          use-mathlib-cache: false
           use-github-cache: false
+      - name: Cache only the semantic dependency closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' > "$RUNNER_TEMP/mathlib-roots.txt"
+          from pathlib import Path
+          pending = ['GameTheory.Protocol', 'GameTheory.Languages.FOSG']
+          seen, roots = set(), set()
+          while pending:
+              name = pending.pop()
+              if name in seen:
+                  continue
+              seen.add(name)
+              if name.startswith('Mathlib.'):
+                  roots.add(name)
+                  continue
+              path = Path(name.replace('.', '/') + '.lean')
+              if path.is_file():
+                  for line in path.read_text().splitlines():
+                      if line.startswith('import '):
+                          pending.extend(line.split()[1:])
+          roots.update(['Mathlib.Tactic.NormNum', 'Mathlib.Tactic.Linarith', 'Mathlib.Tactic.FinCases', 'Mathlib.Data.Fintype.List'])
+          print(' '.join(sorted(roots)))
+          PY
+          cat "$RUNNER_TEMP/mathlib-roots.txt"
+          lake exe cache get $(cat "$RUNNER_TEMP/mathlib-roots.txt")
       - name: Compile the existing semantic dependency surface
         run: |
           git rev-parse HEAD
           lake env lean --version
           lake build GameTheory.Protocol GameTheory.Languages.FOSG
-      - name: Package pinned toolchain and public dependency workspace only
+          df -h .
+          du -sh .lake "$(lean --print-prefix)"
+      - name: Archive pinned toolchain directly without a duplicate copy
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/m02-export/toolchain" "$RUNNER_TEMP/m02-export/workspace"
-          prefix="$(lean --print-prefix)"
-          cp -a "$prefix"/. "$RUNNER_TEMP/m02-export/toolchain/"
-          cp -a .lake "$RUNNER_TEMP/m02-export/workspace/"
-          git rev-parse HEAD > "$RUNNER_TEMP/m02-export/source-commit.txt"
-          cp lean-toolchain lake-manifest.json "$RUNNER_TEMP/m02-export/"
-          # No checkout .git, credentials, environment variables or private keys are exported.
-          du -sh "$RUNNER_TEMP/m02-export"/*
-          tar -I 'zstd -T0 -3' -cf "$RUNNER_TEMP/rebel-m02-workspace.tar.zst" -C "$RUNNER_TEMP/m02-export" .
-          sha256sum "$RUNNER_TEMP/rebel-m02-workspace.tar.zst" > "$RUNNER_TEMP/rebel-m02-workspace.sha256"
-          ls -lh "$RUNNER_TEMP/rebel-m02-workspace.tar.zst"
+          tar -I 'zstd -T2 -3' -cf "$RUNNER_TEMP/rebel-m02-toolchain.tar.zst" -C "$(lean --print-prefix)" .
+          sha256sum "$RUNNER_TEMP/rebel-m02-toolchain.tar.zst" > "$RUNNER_TEMP/rebel-m02-toolchain.sha256"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: rebel-m02-workspace-${{ github.sha }}
+          name: rebel-m02-toolchain-${{ github.sha }}
           path: |
-            ${{ runner.temp }}/rebel-m02-workspace.tar.zst
-            ${{ runner.temp }}/rebel-m02-workspace.sha256
+            ${{ runner.temp }}/rebel-m02-toolchain.tar.zst
+            ${{ runner.temp }}/rebel-m02-toolchain.sha256
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - name: Archive public dependency and build workspace directly
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rev-parse HEAD > "$RUNNER_TEMP/source-commit.txt"
+          # Only .lake and pinned manifest files, never checkout .git or credentials.
+          tar -I 'zstd -T2 -3' -cf "$RUNNER_TEMP/rebel-m02-lake.tar.zst" .lake lean-toolchain lake-manifest.json
+          sha256sum "$RUNNER_TEMP/rebel-m02-lake.tar.zst" > "$RUNNER_TEMP/rebel-m02-lake.sha256"
+          ls -lh "$RUNNER_TEMP"/rebel-m02-*.tar.zst
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: rebel-m02-lake-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/rebel-m02-lake.tar.zst
+            ${{ runner.temp }}/rebel-m02-lake.sha256
+            ${{ runner.temp }}/source-commit.txt
           compression-level: 0
           retention-days: 1
           if-no-files-found: error
