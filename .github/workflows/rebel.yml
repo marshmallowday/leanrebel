@@ -14,6 +14,60 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  source-snapshot:
+    name: Exact-source snapshot for reproducible review
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - name: Archive tracked source only, without Git credentials or local state
+        run: |
+          git rev-parse HEAD > "$RUNNER_TEMP/source-commit.txt"
+          git archive --format=tar --output="$RUNNER_TEMP/rebel-source.tar" HEAD
+          sha256sum "$RUNNER_TEMP/rebel-source.tar" > "$RUNNER_TEMP/source-sha256.txt"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: rebel-source-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/rebel-source.tar
+            ${{ runner.temp }}/source-commit.txt
+            ${{ runner.temp }}/source-sha256.txt
+          retention-days: 7
+          if-no-files-found: error
+
+  baseline:
+    name: Historical M00 baseline build, lint and architecture audits
+    if: github.ref == 'refs/heads/rebel/m01-a'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: 5532a9c1d900261ae8e6ac4fe877ebd1c175cc1c
+          persist-credentials: false
+      - name: Identify historical source
+        run: git rev-parse HEAD
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1.5.0
+        with:
+          auto-config: false
+          build: true
+          test: false
+          lint: true
+          use-mathlib-cache: true
+      - name: Phase 1 architecture audit
+        shell: pwsh
+        run: ./scripts/phase1-audit.ps1 -VerifyExpected
+      - name: Phase 2 architecture and reachability audit
+        shell: pwsh
+        run: ./scripts/phase2-audit.ps1 -VerifyExpected -DeepReachability
+      - name: Phase 3 architecture and reachability audit
+        shell: pwsh
+        run: ./scripts/phase3-audit.ps1 -VerifyExpected -DeepReachability
+      - name: Check historical tracked-file cleanliness
+        run: git diff --exit-code
+
   diagnostics:
     name: ReBeL compiler, lint, and transitive axiom checks
     runs-on: ubuntu-latest
@@ -35,9 +89,7 @@ jobs:
           lake env lean --version
       - name: Check ledger structure
         run: python3 scripts/rebel/check_coverage.py
-      - name: Compile every ReBeL module and audit transitive axioms
+      - name: Compile and lint every ReBeL module and audit transitive axioms
         run: python3 scripts/rebel/audit_axioms.py
-      - name: Lint ReBeL declarations including diagnostic tests
-        run: lake exe batteries/runLinter GameTheory.ReBeL GameTheory.ReBeL.Tests.SourceDiagnostics
       - name: Check tracked-file cleanliness
         run: git diff --exit-code

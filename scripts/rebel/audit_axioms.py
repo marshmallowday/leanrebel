@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Build every ReBeL module and check its transitive Lean axiom dependencies.
+"""Compile the complete ReBeL proof surface and audit transitive Lean axioms.
 
-Uses the pinned compiler's Lean.collectAxioms, not a source grep. The generated
-auditor includes tests and selects declarations by their defining module, so
-private declarations and declarations outside the advertised namespace are not
-silently omitted. This does not replace a semantic review or an independent
-implementation of the Lean kernel.
+M01's arithmetic probe lives in the existing architecture-owned Tests surface.
+Future GameTheory/ReBeL modules, including tests, are discovered recursively.
+Lean.collectAxioms checks types and proof bodies, not just source spellings.
+The defining module selects declarations, including private declarations and
+names outside the advertised namespace. This does not replace semantic review
+or an independent implementation of the Lean kernel.
 """
 from __future__ import annotations
 
@@ -13,17 +14,19 @@ from pathlib import Path
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
+PROBE = "GameTheory.Tests.ReBeLSourceDiagnostics"
 AUDITOR = r'''
 open Lean Elab Command in
 run_cmd do
   let env ← getEnv
   let prefix : Name := `GameTheory.ReBeL
+  let probe : Name := `GameTheory.Tests.ReBeLSourceDiagnostics
   let allowed : List Name := [`propext, `Classical.choice, `Quot.sound]
   let mut count := 0
   for (name, _) in env.constants.toList do
     if let some idx := env.getModuleIdxFor? name then
       let modName := env.header.moduleNames[idx.toNat]!
-      if prefix.isPrefixOf modName then
+      if prefix.isPrefixOf modName || modName == probe then
         let axioms ← Lean.collectAxioms name
         logInfo m!"REBEL_AXIOMS {name}: {axioms.toList}"
         for ax in axioms do
@@ -37,10 +40,14 @@ run_cmd do
 
 
 def main() -> None:
-    paths = [ROOT / "GameTheory/ReBeL.lean"]
+    probe = ROOT / "GameTheory/Tests/ReBeLSourceDiagnostics.lean"
+    if not probe.is_file():
+        raise SystemExit("Missing M01 ReBeL compiler probe")
+    paths = [probe]
+    public_root = ROOT / "GameTheory/ReBeL.lean"
+    if public_root.is_file():
+        paths.append(public_root)
     paths.extend(sorted((ROOT / "GameTheory/ReBeL").rglob("*.lean")))
-    if not all(path.is_file() for path in paths):
-        raise SystemExit("Missing ReBeL root or source module")
     modules = [path.relative_to(ROOT).with_suffix("").as_posix().replace("/", ".")
                for path in paths]
     for module in modules:
@@ -52,6 +59,8 @@ def main() -> None:
     imports.extend(f"import {module}" for module in modules)
     output.write_text("\n".join(imports) + "\n" + AUDITOR, encoding="utf-8")
     subprocess.run(["lake", "env", "lean", "-DwarningAsError=true", str(output)],
+                   cwd=ROOT, check=True)
+    subprocess.run(["lake", "exe", "batteries/runLinter", *modules],
                    cwd=ROOT, check=True)
 
 

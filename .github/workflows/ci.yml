@@ -59,5 +59,12 @@ jobs:
       - name: Verify Phase 3 architecture measurements and reachability probes
         run: ./scripts/phase3-audit.ps1 -VerifyExpected -DeepReachability
 
+      # M01 adds an actual full-library lint gate; ReBeL diagnostic tests are
+      # additionally linted explicitly by the dedicated ReBeL workflow.
+      - name: Lint the complete public library
+        run: |
+          lake lint
+          if ($LASTEXITCODE -ne 0) { throw 'Full-library lint failed' }
+
       - name: Verify build and audits do not mutate tracked files
         run: git diff --exit-code
