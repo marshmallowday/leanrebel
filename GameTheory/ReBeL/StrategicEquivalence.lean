@@ -25,13 +25,13 @@ variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 variable [Fintype ι] (M : InformationModel E)
 
 /-- The original full-memory game, starting at a fixed joint PBS. -/
-def originalGame (belief : PublicBelief.State (fullInformation M)) (fuel : Nat) :
+abbrev originalGame (belief : PublicBelief.State (fullInformation M)) (fuel : Nat) :
     GameForm ι where
   sig := (fullInformation M).behavioralSignature
   play profile := PublicBelief.continuationLaw (fullInformation M) profile fuel belief.2
 
 /-- The referee game uses public prescriptions and actual posterior transitions. -/
-def beliefGame (fallback : Profile (fullInformation M).behavioralSignature)
+abbrev beliefGame (fallback : Profile (fullInformation M).behavioralSignature)
     (belief : PublicBelief.State (fullInformation M)) (fuel : Nat) : GameForm ι where
   sig := signature M
   play profile :=
