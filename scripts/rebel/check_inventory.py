@@ -17,7 +17,22 @@ import subprocess
 import sys
 from collections import Counter
 from coverage_inventory import expand
-from check_coverage import validate
+from check_coverage import validate, safe_path
+
+
+def check_source(root: Path, item: dict) -> None:
+    """Pin the complete source and exact reviewed span, including reexport definitions."""
+    path = item["module"]
+    if not safe_path(path) or not path.endswith(".lean"):
+        raise ValueError("unsafe candidate source path")
+    raw = (root / path).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != item["sha256"]:
+        raise ValueError("candidate source changed without renewed premise review: " + path)
+    start, end = item["lines"]
+    if not (isinstance(start, int) and isinstance(end, int) and 1 <= start <= end):
+        raise ValueError("invalid candidate source range: " + path)
+    if "\n".join(raw.decode().splitlines()[start-1:end]) + "\n" != item["source_excerpt"]:
+        raise ValueError("candidate source range differs: " + path)
 
 
 def check(root: Path, data: dict | None = None) -> tuple[dict, dict]:
@@ -70,12 +85,15 @@ def check(root: Path, data: dict | None = None) -> tuple[dict, dict]:
     covered = set()
     for item in reuse["items"]:
         path = item["module"]
-        raw = (root / path).read_bytes()
-        if hashlib.sha256(raw).hexdigest() != item["sha256"]:
-            raise ValueError("candidate source changed without renewed premise review: " + path)
-        start, end = item["lines"]
-        if "\n".join(raw.decode().splitlines()[start-1:end]) + "\n" != item["source_excerpt"]:
-            raise ValueError("candidate source range differs: " + path)
+        check_source(root, item)
+        if "definition_source" in item:
+            definition = item["definition_source"]
+            check_source(root, definition)
+            # A reexport may not silently redirect to an unrelated module.
+            imported = definition["module"][:-5].replace("/", ".")
+            imports = re.findall(r"^import (.+)$", (root / path).read_text(), re.MULTILINE)
+            if not any(imported in line.split() for line in imports):
+                raise ValueError("candidate reexport no longer imports its pinned definition: " + path)
         if not re.fullmatch(r"[\w'.]+", item["declaration"]):
             raise ValueError("unsafe candidate declaration")
         covered.add(path)

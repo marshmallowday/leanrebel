@@ -27,6 +27,11 @@ class InventoryTests(unittest.TestCase):
             path = self.root / item["module"]
             path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / item["module"], path)
+            if "definition_source" in item:
+                definition = item["definition_source"]["module"]
+                target = self.root / definition
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(ROOT / definition, target)
         self.path = self.root / "docs/rebel/coverage.json"
         # Keep all original hostile fixtures on their exact M01-B baseline.
         fixture = Path(__file__).with_name("fixtures") / "coverage_m01_b.json"
@@ -126,6 +131,33 @@ class InventoryTests(unittest.TestCase):
         p.write_text(p.read_text() + "\n-- stale review fixture\n")
         self.rejected()
 
+    def test_candidate_definition_source_drift(self):
+        p = self.root / "GameTheory/Protocol/BehavioralReach.lean"
+        p.write_text(p.read_text() + "\n-- stale defining source fixture\n")
+        self.rejected()
+
+    def test_candidate_definition_range_drift(self):
+        p = self.root / "docs/rebel/inventory/reuse.json"
+        d = json.loads(p.read_text())
+        item = next(x for x in d["items"] if "definition_source" in x)
+        item["definition_source"]["lines"][0] += 1
+        p.write_text(json.dumps(d))
+        self.rejected()
+
+    def test_candidate_reexport_edge_drift_even_with_rehashed_source(self):
+        review = self.root / "docs/rebel/inventory/reuse.json"
+        d = json.loads(review.read_text())
+        item = next(x for x in d["items"] if "definition_source" in x)
+        path = self.root / item["module"]
+        raw = path.read_text().replace("import GameTheory.Protocol.BehavioralReach",
+                                       "import GameTheory.Protocol.BehavioralAssessment").encode()
+        path.write_bytes(raw)
+        item["sha256"] = hashlib.sha256(raw).hexdigest()
+        start, end = item["lines"]
+        item["source_excerpt"] = "\n".join(raw.decode().splitlines()[start-1:end]) + "\n"
+        review.write_text(json.dumps(d))
+        self.rejected()
+
     def test_candidate_range_drift(self):
         p = self.root / "docs/rebel/inventory/reuse.json"
         d = json.loads(p.read_text())
@@ -155,7 +187,6 @@ class InventoryTests(unittest.TestCase):
     def test_parent_cycle(self):
         self.data["items"][0]["parent_id"] = self.data["items"][0]["id"]
         self.rejected()
-
 
     def test_current_inventory_preserves_original_obligations(self):
         # Validate the evolving live ledger as well as the frozen negative controls.

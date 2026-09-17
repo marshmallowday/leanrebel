@@ -58,3 +58,23 @@ fatal; all action SHAs, read-only permissions and timeouts are retained.
 The final accepted implementation SHA and gate evidence will be recorded only
 after those actual jobs pass. The earlier compiler/lint success alone does not
 close this integration obligation.
+
+## Renewed candidate-source review
+
+At `a31cca8fbaf8b11e618b2117005766c957a518c0`, ReBeL run `35276195454`,
+job `105387307916`, the static Phase 2 audit passed with
+`ANALYSIS_IMPORTED_OUTSIDE_ROOT=0` and `VERIFIED=1`. The inventory guard then
+correctly rejected the changed candidate module hash before compiling Lean.
+That failed run is not accepted as implementation evidence.
+
+The reuse inventory now retains the complete previous candidate row in
+`previous_review`. Its current Analysis entry point and the unchanged
+Protocol definition each have a full SHA-256 and exact source span. The
+checker still rejects any wrapper drift and additionally rejects drift in
+the defining source or its reviewed span, or a reexport pointing to a
+different module even when the wrapper is rehashed. All 23 candidate
+qualified names and their stated premises are unchanged. The original
+paper/official ledgers and source identities are untouched. Three hostile
+fixtures exercise the added checks; the actual `#check` probes still run in
+Actions. This is a renewed premise/location review, not removal of the
+candidate-hash guard or a new assumed theorem.
