@@ -12,7 +12,6 @@ import GameTheory.Languages.Bridges.FOSGToEFG
 import GameTheory.Languages.Bridges.NFGFOSG
 import GameTheory.ReBeL.Information
 import GameTheory.Core.ZeroSum
-import Mathlib.Tactic.DeriveFintype
 import Mathlib.Tactic.NormNum
 
 noncomputable section
@@ -27,7 +26,11 @@ inductive Move where
   | rock
   | paper
   | scissors
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype Move where
+  elems := {.rock, .paper, .scissors}
+  complete move := by cases move <;> simp
 
 /-- The complete nine-entry payoff table, from the first player's perspective. -/
 def payoff : Move → Move → ℝ
@@ -103,7 +106,11 @@ def displayedLaw : FinDist Move :=
 theorem displayed_probabilities :
     displayedLaw.prob .rock = 2 / 5 ∧ displayedLaw.prob .paper = 2 / 5 ∧
       displayedLaw.prob .scissors = 1 / 5 := by
-  norm_num [displayedLaw, FinDist.prob_mix, FinDist.prob_pure_eq_ite]
+  have hrp : Move.rock ≠ Move.paper := by decide
+  have hrs : Move.rock ≠ Move.scissors := by decide
+  have hps : Move.paper ≠ Move.scissors := by decide
+  norm_num [displayedLaw, FinDist.prob_mix, FinDist.prob_pure_eq_ite,
+    hrp, hrs, hps, Ne.symm hrp, Ne.symm hrs, Ne.symm hps]
 
 /-- Every pure first action has value zero against the displayed opponent law. -/
 theorem displayed_row_value (row : Move) :
