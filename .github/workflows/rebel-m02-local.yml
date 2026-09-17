@@ -1,0 +1,70 @@
+name: ReBeL M02 local compiler
+
+on:
+  push:
+    branches: ['rebel/m02']
+    paths: ['.github/workflows/rebel-m02-local.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebel-m02-local-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1.5.0
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Fetch pinned dependencies and compile the available foundation
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rev-parse HEAD
+          lake env lean --version
+          lake exe cache get Mathlib.Probability.ProbabilityMassFunction.Monad Mathlib.Data.Fintype.Pi Mathlib.Data.Fintype.Option Mathlib.Data.Fintype.Prod Mathlib.Tactic.DeriveFintype Mathlib.Tactic.FinCases Mathlib.Tactic.Linarith Mathlib.Tactic.NormNum Mathlib.Algebra.Order.Field.Rat
+          lake build GameTheory.ReBeL.Adapter GameTheory.ReBeL.Payoff
+      - name: Export toolchain and dependency artifacts without checkout Git data or credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/m02-export"
+          lake env lean --print-prefix > "$RUNNER_TEMP/m02-export/prefix.txt"
+          prefix="$(cat "$RUNNER_TEMP/m02-export/prefix.txt")"
+          tar -I 'zstd -T2 -3' -cf "$RUNNER_TEMP/m02-export/toolchain.tar.zst" -C "$prefix" .
+          tar --exclude='*/.git' -I 'zstd -T2 -3' -cf "$RUNNER_TEMP/m02-export/dependencies.tar.zst" .lake
+          git rev-parse HEAD > "$RUNNER_TEMP/m02-export/source-commit.txt"
+          sha256sum "$RUNNER_TEMP/m02-export/"*.tar.zst > "$RUNNER_TEMP/m02-export/SHA256SUMS"
+          du -h "$RUNNER_TEMP/m02-export/"*
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: rebel-m02-toolchain
+          path: |
+            ${{ runner.temp }}/m02-export/toolchain.tar.zst
+            ${{ runner.temp }}/m02-export/SHA256SUMS
+            ${{ runner.temp }}/m02-export/source-commit.txt
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: rebel-m02-dependencies
+          path: |
+            ${{ runner.temp }}/m02-export/dependencies.tar.zst
+            ${{ runner.temp }}/m02-export/SHA256SUMS
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
