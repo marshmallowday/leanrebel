@@ -8,7 +8,7 @@ opponent's private information.
 -/
 
 import GameTheory.ReBeL.Information
-import GameTheory.Analysis.Protocol.CounterfactualReach
+import GameTheory.Protocol.BehavioralReach
 
 noncomputable section
 

@@ -45,6 +45,10 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           persist-credentials: false
+      - name: Check static architecture before the compiler loop
+        shell: pwsh
+        run: |
+          ./scripts/phase2-audit.ps1 -VerifyExpected 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/rebel-architecture.log"
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1.5.0
         with:
           auto-config: false
@@ -108,5 +112,6 @@ jobs:
           path: |
             ${{ runner.temp }}/rebel-validation.log
             ${{ runner.temp }}/rebel-mathlib-roots.txt
+            ${{ runner.temp }}/rebel-architecture.log
           retention-days: 7
           if-no-files-found: warn

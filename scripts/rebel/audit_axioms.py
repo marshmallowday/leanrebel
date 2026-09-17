@@ -3,6 +3,8 @@
 
 M01's arithmetic probe lives in the existing architecture-owned Tests surface.
 Future GameTheory/ReBeL modules, including tests, are discovered recursively.
+The canonical reach module extracted during M03 and its analysis entry point
+are explicitly included in both the declaration audit and full/slow lint.
 Lean.collectAxioms checks types and proof bodies, not just source spellings.
 The defining module selects declarations, including private declarations and
 names outside the advertised namespace. This does not replace semantic review
@@ -20,13 +22,16 @@ run_cmd do
   let env ← getEnv
   let modulePrefix : Name := `GameTheory.ReBeL
   let probe : Name := `GameTheory.Tests.ReBeLSourceDiagnostics
+  let reach : Name := `GameTheory.Protocol.BehavioralReach
+  let reachAnalysis : Name := `GameTheory.Analysis.Protocol.CounterfactualReach
   let moduleNames := env.header.moduleNames
   let allowed : List Name := [`propext, `Classical.choice, `Quot.sound]
   let mut count : Nat := 0
   for (name, _) in env.constants.toList do
     if let some idx := env.getModuleIdxFor? name then
       let modName := moduleNames[idx.toNat]!
-      if modulePrefix.isPrefixOf modName || modName == probe then
+      if modulePrefix.isPrefixOf modName || modName == probe ||
+          modName == reach || modName == reachAnalysis then
         let axioms ← Lean.collectAxioms name
         logInfo m!"REBEL_AXIOMS {name}: {axioms.toList}"
         for ax in axioms do
@@ -41,9 +46,12 @@ run_cmd do
 
 def main() -> None:
     probe = ROOT / "GameTheory/Tests/ReBeLSourceDiagnostics.lean"
-    if not probe.is_file():
-        raise SystemExit("Missing M01 ReBeL compiler probe")
-    paths = [probe]
+    paths = [probe,
+             ROOT / "GameTheory/Protocol/BehavioralReach.lean",
+             ROOT / "GameTheory/Analysis/Protocol/CounterfactualReach.lean"]
+    for required in paths:
+        if not required.is_file():
+            raise SystemExit(f"Missing required proof surface: {required.relative_to(ROOT)}")
     public_root = ROOT / "GameTheory/ReBeL.lean"
     if public_root.is_file():
         paths.append(public_root)
@@ -60,10 +68,8 @@ def main() -> None:
     output.write_text("\n".join(imports) + "\n" + AUDITOR, encoding="utf-8")
     subprocess.run(["lake", "env", "lean", "-DwarningAsError=true", str(output)],
                    cwd=ROOT, check=True)
-    # The pinned linter imports each module's complete package dependency surface.
-    # Separate processes release native imports between modules and identify the
-    # exact failing module. All normal and slow checks remain enabled; no checks,
-    # declarations, or existing nolint rules are removed or added here.
+    # Each selected module, including the extracted foundation, receives the
+    # complete normal and slow lint checks. No existing gate is removed.
     for module in modules:
         print(f"REBEL_LINT_BEGIN {module}", flush=True)
         subprocess.run(["lake", "exe", "batteries/runLinter", "--no-build", "--trace", module],
