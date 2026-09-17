@@ -38,6 +38,7 @@ def potential : State → Player → ℝ
 theorem potential_step (prior : FinDist Dice) (event : (protocol prior).StepEvent) (i : Player) :
     potential event.target i = potential event.source i + reward prior event.source event.joint i := by
   rcases event with ⟨source, joint, legal, target, realized⟩
+  change potential target i = potential source i + reward prior source joint i
   cases source with
   | initial =>
       change target ∈ (prior.map (fun dice => State.live dice 0 none)).support at realized
@@ -51,7 +52,9 @@ theorem potential_step (prior : FinDist Dice) (event : (protocol prior).StepEven
       have permitted := selected_allowed prior dice turn last joint legal
       cases choice : selected joint turn with
       | bid next =>
-          cases last <;> simp [advance, potential, reward, choice]
+          cases last with
+          | none => simp [advance, potential, reward]
+          | some previous => simp [advance, potential, reward, choice]
       | call =>
           rw [choice] at permitted
           cases last with
@@ -66,17 +69,17 @@ theorem cumulative_eq (prior : FinDist Dice) (history : (protocol prior).History
 
 theorem reward_zeroSum (prior : FinDist Dice) (event : (protocol prior).StepEvent) :
     ∑ i, reward prior event.source event.joint i = 0 := by
-  cases source : event.source with
-  | initial => simp [reward, source]
+  cases event.source with
+  | initial => simp [reward]
   | live dice turn last =>
       cases last with
-      | none => simp [reward, source]
+      | none => simp [reward]
       | some previous =>
           by_cases call : selected event.joint turn = .call
-          · simp only [source, reward, if_pos call]
+          · simp only [reward, if_pos call]
             exact winnerValue_zeroSum _
-          · simp [reward, source, call]
-  | finished winner => simp [reward, source]
+          · simp [reward, call]
+  | finished winner => simp [reward]
 
 /-- Zero-sum holds for every legal history, not only for the example policy. -/
 theorem cumulative_zeroSum (prior : FinDist Dice) :
@@ -93,7 +96,7 @@ theorem run_call (prior : FinDist Dice) (opening : Bid) (dice : Dice)
   change (FinDist.pure (advance dice turn (some previous)
     (selected (fun i => bidCallAction opening i (view i (.live dice turn (some previous)))) turn))).bind
       (fun state => (protocol prior).runFor (bidCallChooser prior opening) fuel state) = _
-  simp only [selected, bidCallAction, view, phase, if_pos rfl, Option.getD_some, advance]
+  simp only [selected, bidCallAction, view, phase, advance]
   rw [FinDist.pure_bind]
   exact runFor_of_terminal _ fuel (by simp [terminal])
 
@@ -105,7 +108,7 @@ theorem run_opening (prior : FinDist Dice) (opening : Bid) (dice : Dice) :
   change (FinDist.pure (advance dice 0 none
     (selected (fun i => bidCallAction opening i (view i (.live dice 0 none))) 0))).bind
       (fun state => (protocol prior).runFor (bidCallChooser prior opening) 1 state) = _
-  simp only [selected, bidCallAction, view, phase, if_pos rfl, Option.getD_some, advance]
+  simp only [selected, bidCallAction, view, phase, advance]
   rw [FinDist.pure_bind]
   simpa [other] using run_call prior opening dice (other 0) opening 0
 
@@ -154,16 +157,16 @@ def testPrior : FinDist Dice :=
 theorem testPrior_value : rootValue testPrior 3 0 = 1 / 2 := by
   rw [rootValue_formula]
   norm_num [testPrior, FinDist.expect_mix, FinDist.expect_pure,
-    truthful, quantity, dieMatches, bidFace, winnerValue]
+    truthful_wild_example, false_bid_example, winnerValue]
 
 theorem testPrior_opponent_value : rootValue testPrior 3 1 = -(1 / 2) := by
   rw [rootValue_formula]
   norm_num [testPrior, FinDist.expect_mix, FinDist.expect_pure,
-    truthful, quantity, dieMatches, bidFace, winnerValue]
+    truthful_wild_example, false_bid_example, winnerValue]
 
 /-- The same policy loses against a surely false bid; legality is unchanged. -/
 theorem false_bid_loses : rootValue (FinDist.pure (0, 1)) 3 0 = -1 := by
   rw [rootValue_formula]
-  norm_num [FinDist.expect_pure, truthful, quantity, dieMatches, bidFace, winnerValue]
+  norm_num [FinDist.expect_pure, false_bid_example, winnerValue]
 
 end GameTheory.ReBeL.Examples.LiarsDice
