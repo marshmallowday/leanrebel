@@ -17,10 +17,12 @@ open scoped BigOperators
 
 universe u
 
-/-- Nonnegative, not necessarily normalized reach weights on a finite carrier.
+/-- Nonnegative, not necessarily normalized reach weights.
 The finite enumeration is supplied to operations, not stored in this data. -/
 structure ReachWeights (α : Type u) where
+  /-- Unnormalized mass assigned to each carrier element. -/
   weight : α → ℝ
+  /-- Reach factors cannot assign negative mass. -/
   nonneg : ∀ a, 0 ≤ weight a
 
 namespace ReachWeights

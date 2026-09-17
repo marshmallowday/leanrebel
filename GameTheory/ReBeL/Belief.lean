@@ -20,7 +20,9 @@ variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 
 /-- A joint history law supported at the named public history. -/
 structure PublicBelief (S : InfoSignals E) (observations : List S.PublicSignal) where
+  /-- The complete joint law on canonical histories. -/
   law : FinDist E.History
+  /-- Every positively weighted history agrees with the indexed public observation. -/
   supported : ∀ h ∈ law.support, publicTrace S h.trace = observations
 
 namespace PublicBelief

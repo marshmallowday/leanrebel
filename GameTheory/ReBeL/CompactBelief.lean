@@ -109,7 +109,7 @@ def compactWeights (profile : Profile (fullInformation M).behavioralSignature)
 
 /-- Exact equality to the public restriction of the canonical finite-depth execution law.
 The depth condition prevents silently equating a truncated run with an eventual outcome. -/
-theorem compactWeights_eq_reference [Fintype E.History]
+theorem compactWeights_eq_reference
     (profile : Profile (fullInformation M).behavioralSignature) (depth : Nat)
     (observations : List M.PublicSignal) (length : observations.length = depth + 1) :
     compactWeights M profile observations =

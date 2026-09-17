@@ -63,7 +63,8 @@ theorem extend_at_history (i : ι) (fallback : M.BehavioralPolicy i)
   classical
   exact dif_pos (show Realizable M i (M.infoOf i h.trace) from ⟨h, rfl⟩)
 
-@[simp]
+/-- Restriction round-trip at a real history; the general extend_at_history simp rule
+already reduces its left side, so this specialized equality is an explicit rewrite lemma. -/
 theorem extend_restrict_at_history (i : ι) (fallback policy : M.BehavioralPolicy i)
     (h : E.History) :
     extend M i fallback (restrict M i policy) (M.infoOf i h.trace) =

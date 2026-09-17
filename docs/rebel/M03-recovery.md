@@ -25,15 +25,37 @@ and the Figure 1b zero-leaf diagnostic. Its exact-source tar SHA-256 is
 Run `35270513857` compiled every general M03 module and BeliefSearch. It found
 an unapplied-function unfolding issue in PublicBelief's payoff test and an
 unnecessary second split in CompactCards. Compiler-generated sorry terms in
-that failed log are cascading error recovery, not authored placeholders.
-The failed job was not accepted and its diagnostics are retained.
+failed logs are cascading error recovery, not authored placeholders. Failed
+jobs are never accepted as complete proof evidence.
 
-The next checkpoint repairs those scripts, adds a nonuniform public-observation
-posterior, imports every M03 module into the opt-in root, wraps four overlong
-lines, and removes the temporary environment-export workflow. No theorem
-statement, assumption, lint setting, dependency pin, or trust gate is weakened.
+Commit `2d77105d23fb317c30c2584661ae52d826b33b61` integrated every module into
+the opt-in root, added the nonuniform public-observation test, wrapped four
+overlong lines, and deleted the temporary environment-export workflow.
+Run `35271701154` compiled CompactCards but exposed missing explicit reductions
+at the canonical history root and in BayesObservation. These were repaired in
+`5e3efa33dcda3402f61bc731f11093becada6313` without changing their statements.
 
-This is not yet an M03 acceptance declaration. Compilation and trust checks
-execute only in GitHub Actions. Final acceptance requires actual target-SHA
-compiler, lint, transitive axiom, source-identity, and full architecture logs;
-coverage/STATUS must distinguish source claims from their qualified readings.
+## First complete compiler and axiom pass
+
+At `5e3efa33dcda3402f61bc731f11093becada6313`, run `35272434274`, job
+`105374816107`, all 31 audit modules built (1770 build jobs), and the actual
+log reports `REBEL_AXIOM_AUDIT_PASS declarations=1282`. Only propext,
+Classical.choice, and Quot.sound occur. This includes the nonuniform Bayes
+posterior, same-game unequal payoff control, and both Nash directions.
+Source artifact `10518752218` has source-tar SHA-256
+`85bce96d4ae21218e73181da0fe40216502ec87307cf594e81b20af8644fb7a9`.
+Validation artifact `10519378032` preserves the actual output.
+
+That job still failed full/slow lint: three missing documentation strings,
+a redundant specialized simp rule whose left side the general rule already
+reduces, and an unnecessary Fintype-history argument on the unnormalized
+weight equality. The recovery adds documentation, retains the specialized
+theorem as an explicit rewrite lemma with its original proof and statement,
+and removes the unused finite-history assumption (strengthening that equality).
+The normalizing operations still require a finite carrier. No nolint entry,
+linter option, expected architecture count, dependency pin, proof statement
+weakening, or trust allowlist change is used.
+
+M03 acceptance still requires target-SHA full/slow lint, full architecture
+and public-library CI, inventory checks, and the evidence/STATUS update. A
+compiler/axiom pass alone is not the milestone acceptance declaration.

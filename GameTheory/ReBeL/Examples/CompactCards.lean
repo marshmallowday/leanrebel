@@ -55,6 +55,7 @@ theorem updated_mass : updatedWeights.mass = 3 / 2 := by
 /-- A certified positive normalizer, so no division-by-zero convention is used. -/
 theorem updated_positive : 0 < updatedWeights.mass := by rw [updated_mass]; norm_num
 
+/-- The normalized two-card posterior after the nonuniform observed action. -/
 def posterior : FinDist (Fin 2 × Fin 2) := updatedWeights.normalize updated_positive
 
 /-- Exact nonuniform posterior and both forbidden diagonal events. -/
