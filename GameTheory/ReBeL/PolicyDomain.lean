@@ -94,8 +94,14 @@ theorem restrictProfile_update [DecidableEq ι] (profile : Profile M.behavioralS
   funext j
   by_cases hj : j = i
   · subst j
-    simp [restrictProfile]
-  · simp [restrictProfile, hj]
+    exact (congrArg (restrict M i)
+      (Profile.update_same (sig := M.behavioralSignature) profile i replacement)).trans
+      (Profile.update_same (sig := signature M) (restrictProfile M profile)
+        i (restrict M i replacement)).symm
+  · exact (congrArg (restrict M j)
+      (Profile.update_of_ne (sig := M.behavioralSignature) profile replacement hj)).trans
+      (Profile.update_of_ne (sig := signature M) (restrictProfile M profile)
+        (restrict M i replacement) hj).symm
 
 /-- Extension commutes with canonical profile update, with the same fixed fallback. -/
 theorem extendProfile_update [DecidableEq ι] (fallback : Profile M.behavioralSignature)
@@ -105,8 +111,14 @@ theorem extendProfile_update [DecidableEq ι] (fallback : Profile M.behavioralSi
   funext j
   by_cases hj : j = i
   · subst j
-    simp [extendProfile]
-  · simp [extendProfile, hj]
+    exact (congrArg (extend M i (fallback i))
+      (Profile.update_same (sig := signature M) profile i replacement)).trans
+      (Profile.update_same (sig := M.behavioralSignature) (extendProfile M fallback profile)
+        i (extend M i (fallback i) replacement)).symm
+  · exact (congrArg (extend M j (fallback j))
+      (Profile.update_of_ne (sig := signature M) profile replacement hj)).trans
+      (Profile.update_of_ne (sig := M.behavioralSignature) (extendProfile M fallback profile)
+        (extend M i (fallback i) replacement) hj).symm
 
 /-- Full history-law preservation, for every root and every profile, not only on-policy roots. -/
 theorem run_extend_restrict [Fintype ι] (fallback profile : Profile M.behavioralSignature)
