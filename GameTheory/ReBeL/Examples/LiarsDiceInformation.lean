@@ -36,6 +36,7 @@ def privateObservation (i : Player) : State → Option Face
   | .live dice _ _ => some (ownDie i dice)
   | _ => none
 
+/-- Current public phase and one's own observed die; full AOH retains earlier observations. -/
 abbrev View := Phase × Option Face
 
 /-- An analyst-side characterization of the compressed observation. -/
