@@ -60,8 +60,16 @@ def main() -> None:
     output.write_text("\n".join(imports) + "\n" + AUDITOR, encoding="utf-8")
     subprocess.run(["lake", "env", "lean", "-DwarningAsError=true", str(output)],
                    cwd=ROOT, check=True)
-    subprocess.run(["lake", "exe", "batteries/runLinter", *modules],
-                   cwd=ROOT, check=True)
+    # The pinned linter imports each module's complete package dependency surface.
+    # Separate processes release native imports between modules and identify the
+    # exact failing module. All normal and slow checks remain enabled; no checks,
+    # declarations, or existing nolint rules are removed or added here.
+    for module in modules:
+        print(f"REBEL_LINT_BEGIN {module}", flush=True)
+        subprocess.run(["lake", "exe", "batteries/runLinter", "--no-build", "--trace", module],
+                       cwd=ROOT, check=True)
+        print(f"REBEL_LINT_PASS {module}", flush=True)
+    print(f"REBEL_VALIDATION_PASS modules={len(modules)}", flush=True)
 
 
 if __name__ == "__main__":
