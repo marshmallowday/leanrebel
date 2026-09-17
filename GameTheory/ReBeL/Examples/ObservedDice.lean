@@ -57,54 +57,60 @@ def draw (dice : Dice) : protocol.History :=
       rw [FinDist.support_map]
       exact ⟨dice, FinDist.mem_support_uniformOfFintype dice, rfl⟩)
 
-/-- The initial state has no nonempty incoming history. -/
-theorem trace_initial (trace : protocol.Trace .initial) : trace = .start := by
-  cases trace with
-  | start => rfl
-  | @extend source _ previous joint legal realized =>
-      cases source with
-      | initial =>
-          change State.initial ∈ (chanceLaw.map State.rolled).support at realized
-          rw [FinDist.support_map] at realized
-          obtain ⟨dice, _, equal⟩ := realized
-          cases equal
-      | rolled dice => exact False.elim (legal.1 trivial)
+/-- The one-step draw is tree-shaped, proved from real predecessor events. -/
+theorem treeShaped : protocol.IsTreeShaped := by
+  apply isTreeShaped_of_predecessor_unique
+  · intro source joint legal realized
+    cases source with
+    | initial =>
+        change State.initial ∈ (chanceLaw.map State.rolled).support at realized
+        rw [FinDist.support_map] at realized
+        obtain ⟨dice, _, equal⟩ := realized
+        cases equal
+    | rolled dice => exact False.elim (legal.1 trivial)
+  · intro target firstSource secondSource firstJoint secondJoint firstLegal secondLegal _ _
+    have firstInitial : firstSource = .initial := by
+      cases firstSource with
+      | initial => rfl
+      | rolled dice => exact False.elim (firstLegal.1 trivial)
+    have secondInitial : secondSource = .initial := by
+      cases secondSource with
+      | initial => rfl
+      | rolled dice => exact False.elim (secondLegal.1 trivial)
+    refine ⟨firstInitial.trans secondInitial.symm, ?_⟩
+    exact (protocol.eq_noop_of_legal_of_inactive firstLegal (fun _ => not_false)).trans
+      (protocol.eq_noop_of_legal_of_inactive secondLegal (fun _ => not_false)).symm
+
+/-- The initial state has only the empty incoming history. -/
+theorem trace_initial (trace : protocol.Trace .initial) : trace = .start :=
+  (treeShaped .initial).elim trace .start
 
 /-- No synthetic, duplicated, or longer histories enter the fiber counts. -/
 theorem history_cases (history : protocol.History) :
     history = protocol.initHistory ∨ ∃ dice, history = draw dice := by
   rcases history with ⟨state, trace⟩
-  cases trace with
-  | start => exact Or.inl rfl
-  | @extend source target previous joint legal realized =>
-      cases source with
-      | initial =>
-          have joint_none : joint = fun _ => none := by
-            funext i
-            have hi := legal.2 i
-            cases choice : joint i with
-            | none => rfl
-            | some action =>
-                rw [choice] at hi
-                exact False.elim hi.1
-          subst joint
-          have start := trace_initial previous
-          subst previous
-          change target ∈ (chanceLaw.map State.rolled).support at realized
-          rw [FinDist.support_map] at realized
-          obtain ⟨dice, _, rfl⟩ := realized
-          exact Or.inr ⟨dice, rfl⟩
-      | rolled dice => exact False.elim (legal.1 trivial)
+  cases state with
+  | initial =>
+      left
+      have equal := trace_initial trace
+      cases equal
+      rfl
+  | rolled dice =>
+      right
+      refine ⟨dice, ?_⟩
+      have equal := (treeShaped (.rolled dice)).elim trace (draw dice).trace
+      cases equal
+      rfl
 
 /-- Termination is a property of the protocol, not an imposed rollout truncation. -/
 theorem bounded : protocol.BoundedHorizon 1 := by
   intro state trace enough
   cases trace with
   | start => change 1 ≤ 0 at enough; omega
-  | @extend source target previous joint legal realized =>
+  | @extend source _ previous joint legal realized =>
       cases source with
       | initial =>
-          change target ∈ (chanceLaw.map State.rolled).support at realized
+          change _ ∈ (chanceLaw.map State.rolled).support at realized
           rw [FinDist.support_map] at realized
           obtain ⟨dice, _, rfl⟩ := realized
           trivial
@@ -161,8 +167,8 @@ def publicFiberEquiv : PublicFiber signals publicObservations ≃ (Face × Face)
     · rcases dice with ⟨⟨a, b⟩, ⟨c, d⟩⟩
       change [some (b, d), none] = [some ((3 : Face), 5), none] at observed
       have pairEqual := Option.some.inj (List.cons.inj observed).1
-      have hb := congrArg Prod.fst pairEqual
-      have hd := congrArg Prod.snd pairEqual
+      have hb : b = 3 := congrArg Prod.fst pairEqual
+      have hd : d = 5 := congrArg Prod.snd pairEqual
       subst b
       subst d
       apply Subtype.ext
@@ -185,8 +191,8 @@ def secondFiberEquiv : InformationFiber signals 1 secondInfo ≃ Face where
         AOH.step (.initial none none) none (some 4) (some (3, 5)) at observed
       have hc := Option.some.inj (AOH.step.inj observed).2.2.1
       have publicEqual := Option.some.inj (AOH.step.inj observed).2.2.2
-      have hb := congrArg Prod.fst publicEqual
-      have hd := congrArg Prod.snd publicEqual
+      have hb : b = 3 := congrArg Prod.fst publicEqual
+      have hd : d = 5 := congrArg Prod.snd publicEqual
       subst b
       subst c
       subst d
