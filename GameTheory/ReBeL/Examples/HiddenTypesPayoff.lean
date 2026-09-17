@@ -41,7 +41,7 @@ theorem potential_step (prior : FinDist Types) (event : (protocol prior).StepEve
       change target ∈ (FinDist.map State.first prior).support at realized
       rw [FinDist.support_map] at realized
       obtain ⟨types, _, rfl⟩ := realized
-      rfl
+      simp [potential, reward]
   | first types =>
       change target ∈ (FinDist.pure (.second types (firstResult joint))).support at realized
       rw [FinDist.mem_support_pure] at realized
@@ -51,7 +51,9 @@ theorem potential_step (prior : FinDist Types) (event : (protocol prior).StepEve
       change target ∈ (FinDist.pure (.finished firstWin (finalResult types joint))).support at realized
       rw [FinDist.mem_support_pure] at realized
       subst target
-      by_cases hi : i = 0 <;> simp [potential, reward, signed, hi, neg_add]
+      by_cases hi : i = 0
+      · simp [potential, reward, signed, hi]
+      · simp [potential, reward, signed, hi, add_comm]
   | finished firstWin finalWin => exact False.elim (legal.1 trivial)
 
 theorem cumulative_eq (prior : FinDist Types) (history : (protocol prior).History) (i : Player) :
@@ -136,18 +138,18 @@ theorem run_second (prior : FinDist Types) (plans : Player → Plan) (types : Ty
     (firstWin : Bool) (fuel : Nat) :
     (protocol prior).runFor (planChooser prior plans) (fuel + 1) (.second types firstWin) =
       FinDist.pure (.finished firstWin (finalResult types (secondJoint plans types firstWin))) := by
-  rw [runFor_succ_of_not_terminal _ fuel (by trivial)]
+  rw [runFor_succ_of_not_terminal _ fuel (by simp [protocol, terminal])]
   change (FinDist.pure (.finished firstWin
     (finalResult types (secondJoint plans types firstWin)))).bind
       (fun state => (protocol prior).runFor (planChooser prior plans) fuel state) = _
   rw [FinDist.pure_bind]
-  exact runFor_of_terminal _ fuel (by trivial)
+  exact runFor_of_terminal _ fuel (by simp [protocol, terminal])
 
 theorem run_first (prior : FinDist Types) (plans : Player → Plan) (types : Types) :
     (protocol prior).runFor (planChooser prior plans) 2 (.first types) =
       FinDist.pure (.finished (firstResult (firstJoint plans types))
         (finalResult types (secondJoint plans types (firstResult (firstJoint plans types))))) := by
-  rw [runFor_succ_of_not_terminal _ 1 (by trivial)]
+  rw [runFor_succ_of_not_terminal _ 1 (by simp [protocol, terminal])]
   change (FinDist.pure (.second types (firstResult (firstJoint plans types)))).bind
     (fun state => (protocol prior).runFor (planChooser prior plans) 1 state) = _
   rw [FinDist.pure_bind]
@@ -157,7 +159,7 @@ theorem run_initial (prior : FinDist Types) (plans : Player → Plan) :
     (protocol prior).runFor (planChooser prior plans) 3 .initial =
       prior.map (fun types => .finished (firstResult (firstJoint plans types))
         (finalResult types (secondJoint plans types (firstResult (firstJoint plans types))))) := by
-  rw [runFor_succ_of_not_terminal _ 2 (by trivial)]
+  rw [runFor_succ_of_not_terminal _ 2 (by simp [protocol, terminal])]
   change (prior.map State.first).bind
     (fun state => (protocol prior).runFor (planChooser prior plans) 2 state) = _
   rw [FinDist.bind_map, FinDist.map_eq_bind]
@@ -184,7 +186,10 @@ theorem rootValue_formula (prior : FinDist Types) (plans : Player → Plan) (i :
       exact cumulative_eq prior history i
     _ = (FinDist.map History.state
         ((model prior).run (fun j => fullPlanPolicy prior j (plans j)) 3)).expect
-          (fun state => potential state i) := (FinDist.expect_map ..).symm
+          (fun state => potential state i) :=
+      (FinDist.expect_map (fun history : (protocol prior).History => history.state)
+        ((model prior).run (fun j => fullPlanPolicy prior j (plans j)) 3)
+        (fun state => potential state i)).symm
     _ = _ := by rw [map_state_plan_run, run_initial, FinDist.expect_map]
 
 /-- Correlated hidden types; both one-player marginals are fair. -/
