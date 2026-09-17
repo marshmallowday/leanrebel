@@ -112,8 +112,8 @@ theorem continuation_terminal_or_cut (profile : Profile M.behavioralSignature)
       rw [belief.supported first positive] at rootLength
       omega
 
-/-- Zero-fuel output at a live history is already a cut, not evidence of game termination. -/
 omit [Fintype ι] in
+/-- Zero-fuel output at a live history is already a cut, not evidence of game termination. -/
 theorem zero_fuel_cut (history : E.History) (live : ¬ E.terminal history.state) :
     CutLeaf M (publicTrace M.toInfoSignals history.trace) 0 history := by
   exact ⟨live, by rw [publicTrace_length, Nat.add_zero]⟩
