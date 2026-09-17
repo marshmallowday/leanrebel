@@ -136,7 +136,7 @@ theorem selected_allowed (prior : FinDist Dice) (dice : Dice) (turn : Player)
       exact False.elim (h rfl)
   | some move =>
       rw [choice] at h
-      simpa [selected, choice] using h.2
+      simpa [selected, choice, available] using h.2
 
 /-- Strictly increasing encoded bids yield a decreasing rank through every possible play. -/
 def rank : State → Nat
