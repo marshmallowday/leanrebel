@@ -1,0 +1,110 @@
+name: M02 architecture repair preparation
+
+on:
+  push:
+    branches: [rebel/m02]
+    paths: [.github/workflows/rebel-m02-repair.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    if: github.repository == 'marshmallowday/leanrebel'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # The sole write is an unattached blob in this repository. No commit/ref,
+    # workflow dispatch, external repository, or credential export is allowed.
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Prepare exact registration and print the complete patch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import difflib, hashlib, json, os, re, subprocess, urllib.request
+          from pathlib import Path
+          repo = 'marshmallowday/leanrebel'
+          assert os.environ['GITHUB_REPOSITORY'] == repo
+          path = Path('scripts/phase2-audit.ps1')
+          raw = path.read_bytes()
+          old_sha = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+          assert old_sha == '5f63de667144f4a8367c62f19bff85c6bb548ee6', old_sha
+          text = raw.decode('utf-8').replace('\r', '')
+          def strip(source):
+              out = []; i = 0; depth = 0; quoted = False; escaped = False
+              while i < len(source):
+                  c = source[i]; pair = source[i:i+2]
+                  if depth:
+                      if pair == '/-': depth += 1; i += 2; continue
+                      if pair == '-/': depth -= 1; i += 2; continue
+                      if c == '\n': out.append(c)
+                  elif quoted:
+                      if escaped: escaped = False
+                      elif c == '\\': escaped = True
+                      elif c == '"': quoted = False
+                      elif c == '\n': quoted = False; out.append(c)
+                  elif pair == '/-': depth = 1; i += 2; continue
+                  elif pair == '--':
+                      while i < len(source) and source[i] != '\n': i += 1
+                      continue
+                  elif c == '"': quoted = True
+                  else: out.append(c)
+                  i += 1
+              return ''.join(out)
+          files = [Path('GameTheory/ReBeL.lean'), *sorted(Path('GameTheory/ReBeL').rglob('*.lean'))]
+          pattern = r'(?<![A-Za-z0-9_])(cast|HEq|change)(?![A-Za-z0-9_])|Eq\.(ndrec|mpr|rec)(?![A-Za-z0-9_])|▸'
+          nondef = r'(?<![A-Za-z0-9_])(cast|HEq)(?![A-Za-z0-9_])|Eq\.(ndrec|mpr|rec)(?![A-Za-z0-9_])|▸'
+          count = 0
+          for source in files:
+              content = source.read_text(encoding='utf-8')
+              code = strip(content)
+              current = len(re.findall(pattern, code)); count += current
+              assert not re.search(nondef, code), str(source)
+              print('REBEL_BASELINE', source, 'transport=', current)
+              for number, line in enumerate(content.splitlines(), 1):
+                  width = len(line.encode('utf-16-le')) // 2
+                  if width > 100: print('OVER_100', source, number, width, repr(line))
+          anchor = "Report 'TRANSPORT_MATH_SOURCE' (Count-Pattern $MathFiles $TransportPattern)"
+          insert = '''# M02 is an opt-in layer, not part of any frozen pre-ReBeL budget.
+          # Preserve the original transport definition and expose every new use.
+          $ReBeLFiles = @($AllFiles | Where-Object {
+            $_ -eq 'GameTheory/ReBeL.lean' -or $_.StartsWith('GameTheory/ReBeL/') })
+          Report 'TRANSPORT_REBEL_SOURCE' (Count-Pattern $ReBeLFiles $TransportPattern)
+          Report 'REBEL_NONDEFINITIONAL_TRANSPORT' `
+            (Count-Pattern $ReBeLFiles `
+              '(?<![A-Za-z0-9_])(cast|HEq)(?![A-Za-z0-9_])|Eq\\.(ndrec|mpr|rec)(?![A-Za-z0-9_])|▸')
+          '''
+          assert text.count(anchor) == 1
+          text = text.replace(anchor, insert + anchor)
+          anchor = '  $CooperativeFiles + $MathFiles +\n'
+          assert text.count(anchor) == 1
+          text = text.replace(anchor, '  $CooperativeFiles + $MathFiles + $ReBeLFiles +\n')
+          anchor = '    TRANSPORT_POST_ARCHITECTURE = 0\n'
+          assert text.count(anchor) == 1
+          text = text.replace(anchor, anchor +
+              f'    # Exact d07b173 M02 source baseline; no earlier allowance is increased.\n'
+              f'    TRANSPORT_REBEL_SOURCE = {count}\n'
+              f'    REBEL_NONDEFINITIONAL_TRANSPORT = 0\n')
+          old_expected = dict(re.findall(r'^    ([A-Z][A-Z0-9_]+) = (\d+)\s*$', raw.decode(), re.M))
+          new_expected = dict(re.findall(r'^    ([A-Z][A-Z0-9_]+) = (\d+)\s*$', text, re.M))
+          assert all(new_expected.get(k) == v for k, v in old_expected.items())
+          print(''.join(difflib.unified_diff(raw.decode().splitlines(True), text.splitlines(True),
+              fromfile='a/scripts/phase2-audit.ps1', tofile='b/scripts/phase2-audit.ps1')))
+          path.write_text(text, encoding='utf-8', newline='\n')
+          subprocess.run(['pwsh', '-NoProfile', '-File', str(path), '-VerifyExpected'], check=True)
+          subprocess.run(['pwsh', '-NoProfile', '-File', 'scripts/phase3-audit.ps1'], check=True)
+          payload = json.dumps({'content': text, 'encoding': 'utf-8'}).encode()
+          req = urllib.request.Request(f'https://api.github.com/repos/{repo}/git/blobs',
+              data=payload, headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+              'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json'}, method='POST')
+          with urllib.request.urlopen(req, timeout=30) as response: blob = json.load(response)
+          print('PREPARED_PHASE2_BLOB', blob['sha'])
+          print('PRESERVED_EXISTING_EXPECTED', len(old_expected))
+          print('M02_TRANSPORT_BASELINE', count)
+          print('No commit or branch reference was changed by this job.')
+          PY
