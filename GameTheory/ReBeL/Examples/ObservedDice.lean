@@ -18,13 +18,17 @@ namespace GameTheory.ReBeL.Examples.ObservedDice
 
 open GameTheory.Protocol ExecutionProtocol GameTheory.Math.Probability
 
+/-- The two observers of the private and public dice. -/
 abbrev Player := Fin 2
+/-- Six die faces encoded from zero; displayed labels are one greater. -/
 abbrev Face := Fin 6
+/-- Each player contributes a private/public die pair to the joint roll. -/
 abbrev Dice := (Face × Face) × (Face × Face)
 
 /-- All four dice are jointly sampled; every roll is possible. -/
 def chanceLaw : FinDist Dice := FinDist.uniformOfFintype
 
+/-- The initial position and the completed chance roll. -/
 inductive State where
   | initial
   | rolled (dice : Dice)
