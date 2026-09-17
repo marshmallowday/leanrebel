@@ -32,7 +32,7 @@ abbrev Policy (i : ι) :=
     FinDist ((fullInformation M).Choice i info.1.1)
 
 /-- Public prescriptions and the canonical history outcome carrier. -/
-def signature : GameSignature ι where
+abbrev signature : GameSignature ι where
   Strategy := Policy M
   Outcome := E.History
 

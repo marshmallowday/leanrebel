@@ -126,7 +126,7 @@ theorem compactWeights_eq_reference [Fintype E.History]
     have factor := historyReach_eq_chance_mul_own M profile h.trace
     simp only [InformationModel.historyReachProbability, hdepth] at factor
     simpa only [compactWeights, ReachEncoding.joint, publicChance, ReachWeights.restrict,
-      Set.mem_setOf_eq, inside, if_true, localFactors, ReachWeights.ofLaw] using factor.symm
+      Set.mem_ofPred_eq, inside, if_true, localFactors, ReachWeights.ofLaw] using factor.symm
   · simp [compactWeights, ReachEncoding.joint, publicChance, ReachWeights.restrict,
       inside]
 
