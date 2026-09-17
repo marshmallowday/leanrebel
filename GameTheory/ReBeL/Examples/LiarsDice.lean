@@ -132,7 +132,8 @@ def protocol (prior : FinDist Dice) : ExecutionProtocol Player where
 
 /-- A legal live step supplies a real move from the public rule menu. -/
 theorem selected_allowed (prior : FinDist Dice) (dice : Dice) (turn : Player)
-    (last : Option Bid) (joint : Joint) (legal : (protocol prior).Legal (.live dice turn last) joint) :
+    (last : Option Bid) (joint : Joint)
+    (legal : (protocol prior).Legal (.live dice turn last) joint) :
     allowed last (selected joint turn) := by
   have h := legal.2 turn
   cases choice : joint turn with
@@ -162,7 +163,8 @@ theorem rank_decreases (prior : FinDist Dice) (event : (protocol prior).StepEven
       change 7 < 8
       decide
   | live dice turn last =>
-      change target ∈ (FinDist.pure (advance dice turn last (selected joint turn))).support at realized
+      change target ∈
+        (FinDist.pure (advance dice turn last (selected joint turn))).support at realized
       rw [FinDist.mem_support_pure] at realized
       subst target
       have permitted := selected_allowed prior dice turn last joint legal

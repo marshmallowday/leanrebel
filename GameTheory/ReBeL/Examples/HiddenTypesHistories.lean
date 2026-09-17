@@ -156,7 +156,8 @@ theorem offPath_zero_reach :
   apply FinDist.prob_eq_zero_iff.mpr
   intro reachable
   have mapped : offPathHistory.state ∈ (FinDist.map History.state
-      ((model fullPrior).run (fun i => fullPlanPolicy fullPrior i (baselinePlans i)) 2)).support := by
+      ((model fullPrior).run
+        (fun i => fullPlanPolicy fullPrior i (baselinePlans i)) 2)).support := by
     rw [FinDist.support_map]
     exact ⟨offPathHistory, reachable, rfl⟩
   rw [baseline_after_two, FinDist.support_map] at mapped

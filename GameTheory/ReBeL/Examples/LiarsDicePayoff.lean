@@ -36,7 +36,8 @@ def potential : State → Player → ℝ
 
 /-- Actual legal transitions, including all raises, telescope the stage reward. -/
 theorem potential_step (prior : FinDist Dice) (event : (protocol prior).StepEvent) (i : Player) :
-    potential event.target i = potential event.source i + reward prior event.source event.joint i := by
+    potential event.target i =
+      potential event.source i + reward prior event.source event.joint i := by
   rcases event with ⟨source, joint, legal, target, realized⟩
   change potential target i = potential source i + reward prior source joint i
   cases source with
@@ -46,7 +47,8 @@ theorem potential_step (prior : FinDist Dice) (event : (protocol prior).StepEven
       obtain ⟨dice, _, rfl⟩ := realized
       simp [potential, reward]
   | live dice turn last =>
-      change target ∈ (FinDist.pure (advance dice turn last (selected joint turn))).support at realized
+      change target ∈
+        (FinDist.pure (advance dice turn last (selected joint turn))).support at realized
       rw [FinDist.mem_support_pure] at realized
       subst target
       have permitted := selected_allowed prior dice turn last joint legal
@@ -94,7 +96,8 @@ theorem run_call (prior : FinDist Dice) (opening : Bid) (dice : Dice)
         FinDist.pure (.finished (if truthful dice previous then other turn else turn)) := by
   rw [runFor_succ_of_not_terminal _ fuel (by simp [terminal])]
   change (FinDist.pure (advance dice turn (some previous)
-    (selected (fun i => bidCallAction opening i (view i (.live dice turn (some previous)))) turn))).bind
+    (selected
+      (fun i => bidCallAction opening i (view i (.live dice turn (some previous)))) turn))).bind
       (fun state => (protocol prior).runFor (bidCallChooser prior opening) fuel state) = _
   simp only [selected, bidCallAction, view, phase, advance]
   rw [FinDist.pure_bind]

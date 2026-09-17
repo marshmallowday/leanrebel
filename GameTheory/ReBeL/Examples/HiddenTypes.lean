@@ -116,7 +116,8 @@ theorem rank_decreases (prior : FinDist Types) (event : (protocol prior).StepEve
       change 1 < 2
       decide
   | second types firstWin =>
-      change target ∈ (FinDist.pure (.finished firstWin (finalResult types joint))).support at realized
+      change target ∈
+        (FinDist.pure (.finished firstWin (finalResult types joint))).support at realized
       rw [FinDist.mem_support_pure] at realized
       subst target
       change 0 < 1
@@ -192,7 +193,8 @@ theorem view_update (prior : FinDist Types) (event : (protocol prior).StepEvent)
       subst target
       rfl
   | second types firstWin =>
-      change target ∈ (FinDist.pure (.finished firstWin (finalResult types joint))).support at realized
+      change target ∈
+        (FinDist.pure (.finished firstWin (finalResult types joint))).support at realized
       rw [FinDist.mem_support_pure] at realized
       subst target
       rfl

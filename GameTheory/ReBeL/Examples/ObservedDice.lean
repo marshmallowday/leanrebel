@@ -256,7 +256,8 @@ def revealingSignals : InfoSignals protocol where
 /-- With fully revealing observations, all players identify the complete history. -/
 theorem revealing_injective (i : Player) :
     Function.Injective
-      (fun history : protocol.History => (fullSignals revealingSignals).infoOf i history.trace) := by
+      (fun history : protocol.History =>
+        (fullSignals revealingSignals).infoOf i history.trace) := by
   intro first second equal
   rcases history_cases first with rfl | ⟨firstDice, rfl⟩ <;>
     rcases history_cases second with rfl | ⟨secondDice, rfl⟩

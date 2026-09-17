@@ -121,6 +121,14 @@ $CooperativeFiles = @(@(Select-Files 'GameTheory/Cooperative') +
   @('GameTheory/Cooperative.lean') | Sort-Object -Unique)
 $StochasticFiles = @(@(Select-Files 'GameTheory/Stochastic') +
   @('GameTheory/Stochastic.lean') | Sort-Object -Unique)
+# M02 is an opt-in layer, not part of any frozen pre-ReBeL budget.
+# Preserve the original transport definition and expose every new use.
+$ReBeLFiles = @($AllFiles | Where-Object {
+  $_ -eq 'GameTheory/ReBeL.lean' -or $_.StartsWith('GameTheory/ReBeL/') })
+Report 'TRANSPORT_REBEL_SOURCE' (Count-Pattern $ReBeLFiles $TransportPattern)
+Report 'REBEL_NONDEFINITIONAL_TRANSPORT' `
+  (Count-Pattern $ReBeLFiles `
+    '(?<![A-Za-z0-9_])(cast|HEq)(?![A-Za-z0-9_])|Eq\.(ndrec|mpr|rec)(?![A-Za-z0-9_])|▸')
 Report 'TRANSPORT_MATH_SOURCE' (Count-Pattern $MathFiles $TransportPattern)
 Report 'TRANSPORT_ANALYSIS_SOURCE' (Count-Pattern $AnalysisFiles $TransportPattern)
 Report 'TRANSPORT_REPEATED_SOURCE' (Count-Pattern $RepeatedFiles $TransportPattern)
@@ -170,7 +178,7 @@ Report 'TRANSPORT_POST_ARCHITECTURE' `
 $Bucketed = @($Phase1Files + $Phase2ProbeFiles + $Phase4Files + $PostArchitectureFiles +
   $Phase2Files + $Phase3Files + $AnalysisFiles + $RepeatedFiles + $EpistemicFiles +
   $EvolutionaryFiles + $CongestionFiles + $MechanismFiles + $StochasticFiles +
-  $CooperativeFiles + $MathFiles +
+  $CooperativeFiles + $MathFiles + $ReBeLFiles +
   @($ProfileModule) + @(Select-Files 'GameTheory/Languages'))
 Report 'UNBUCKETED_FILES' (@($AllFiles | Where-Object { $Bucketed -notcontains $_ }).Count)
 # D2 requires the finite-law representation to stay hidden. D57 adds exactly
@@ -1761,6 +1769,9 @@ if ($VerifyExpected) {
     # D2's single representation-internal `change` now belongs to Math.
     TRANSPORT_MATH_SOURCE = 1
     TRANSPORT_POST_ARCHITECTURE = 0
+    # Exact d07b173 M02 source baseline; no earlier allowance is increased.
+    TRANSPORT_REBEL_SOURCE = 58
+    REBEL_NONDEFINITIONAL_TRANSPORT = 0
     ANALYSIS_IMPORTED_OUTSIDE_ROOT = 0
     # One: the module that applies the fixed-point theorem, and nothing else.
     FIXED_POINT_IMPORTERS = 1

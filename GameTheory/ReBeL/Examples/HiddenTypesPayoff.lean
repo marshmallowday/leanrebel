@@ -34,7 +34,8 @@ def potential : State → Player → ℝ
   | _, _ => 0
 
 theorem potential_step (prior : FinDist Types) (event : (protocol prior).StepEvent) (i : Player) :
-    potential event.target i = potential event.source i + reward prior event.source event.joint i := by
+    potential event.target i =
+      potential event.source i + reward prior event.source event.joint i := by
   rcases event with ⟨source, joint, legal, target, realized⟩
   cases source with
   | initial =>
@@ -48,7 +49,8 @@ theorem potential_step (prior : FinDist Types) (event : (protocol prior).StepEve
       subst target
       simp [potential, reward]
   | second types firstWin =>
-      change target ∈ (FinDist.pure (.finished firstWin (finalResult types joint))).support at realized
+      change target ∈
+        (FinDist.pure (.finished firstWin (finalResult types joint))).support at realized
       rw [FinDist.mem_support_pure] at realized
       subst target
       by_cases hi : i = 0
@@ -173,7 +175,8 @@ def rootValue (prior : FinDist Types) (plans : Player → Plan) (i : Player) : �
 theorem rootValue_formula (prior : FinDist Types) (plans : Player → Plan) (i : Player) :
     rootValue prior plans i = prior.expect (fun types =>
       potential (.finished (firstResult (firstJoint plans types))
-        (finalResult types (secondJoint plans types (firstResult (firstJoint plans types))))) i) := by
+        (finalResult types
+          (secondJoint plans types (firstResult (firstJoint plans types))))) i) := by
   unfold rootValue policyValue
   rw [InformationModel.toBehavioralGameForm_play_toBehavioral,
     InformationModel.toGameForm_play]
