@@ -28,8 +28,9 @@ theorem publicSubgame_info_closed (S : InfoSignals E) (root : List S.PublicSigna
     (i : ι) (first second : E.History)
     (same : (fullSignals S).infoOf i first.trace = (fullSignals S).infoOf i second.trace)
     (inside : first ∈ PublicSubgame S root) : second ∈ PublicSubgame S root := by
-  unfold PublicSubgame at inside ⊢
-  simpa only [publicTrace_eq_of_infoOf_eq S i first.trace second.trace same] using inside
+  show root <:+ publicTrace S second.trace
+  rw [← publicTrace_eq_of_infoOf_eq S i first.trace second.trace same]
+  exact inside
 
 /-- Every legal continuation preserves the public root, independently of any policy's reach. -/
 theorem publicTrace_suffix_of_reaches (S : InfoSignals E)
@@ -84,7 +85,9 @@ theorem continuation_in_publicSubgame (profile : Profile M.behavioralSignature)
   simp only [Set.mem_iUnion] at reached
   obtain ⟨first, positive, rest⟩ := reached
   have suffix := publicTrace_suffix_of_run M profile fuel first target rest
-  simpa only [belief.supported first positive] using suffix
+  show root <:+ publicTrace M.toInfoSignals target.trace
+  rw [← belief.supported first positive]
+  exact suffix
 
 /-- A nonterminal depth-cut leaf, explicitly separate from a true game terminal. -/
 def CutLeaf (root : List M.PublicSignal) (fuel : Nat) (target : E.History) : Prop :=
@@ -110,6 +113,7 @@ theorem continuation_terminal_or_cut (profile : Profile M.behavioralSignature)
       omega
 
 /-- Zero-fuel output at a live history is already a cut, not evidence of game termination. -/
+omit [Fintype ι] in
 theorem zero_fuel_cut (history : E.History) (live : ¬ E.terminal history.state) :
     CutLeaf M (publicTrace M.toInfoSignals history.trace) 0 history := by
   exact ⟨live, by rw [publicTrace_length, Nat.add_zero]⟩

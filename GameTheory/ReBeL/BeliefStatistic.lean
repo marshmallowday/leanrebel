@@ -35,7 +35,7 @@ theorem expect_tilt (prior : FinDist H) (observe : H → I) (likelihood : I → 
     ((tiltWeights prior observe likelihood nonneg).normalize positive).expect value =
       prior.expect (fun h => likelihood (observe h) * value h) /
         (tiltWeights prior observe likelihood nonneg).mass := by
-  rw [FinDist.expect_eq_sum, FinDist.expect_eq_sum, Finset.sum_div]
+  rw [FinDist.expect_eq_sum, FinDist.expect_eq_sum, div_eq_mul_inv, Finset.sum_mul]
   apply Finset.sum_congr rfl
   intro h _
   rw [ReachWeights.prob_normalize]
