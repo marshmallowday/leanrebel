@@ -1,0 +1,190 @@
+# M03 acceptance evidence — checked implementation 703796b
+
+This file preserves selected exact compiler/audit lines and the provenance of the
+complete source logs. It is an excerpt, not a claim to contain all 1348 printed
+axiom sets. Declaration counts include generated helpers, not paper theorems.
+The full source logs were downloaded through the GitHub connector and inspected.
+No local Lean compilation was used. GitHub job summaries were re-read after all
+steps had completed; the earlier conversational report of pending lint was stale.
+
+## Exact implementation and completed gates
+
+Implementation: 703796b7a7a90b60851a0876ba99976b0be59341
+Lean: 4.33.1; compiler 819816b2e0a3bf405af45ae5c7af2491d8f5bee6
+ReBeL: https://github.com/marshmallowday/leanrebel/actions/runs/35276996529/job/105389909678
+Full CI: https://github.com/marshmallowday/leanrebel/actions/runs/35276996593/job/105390107946
+Inventory: https://github.com/marshmallowday/leanrebel/actions/runs/35276996583/job/105389909669
+
+All three jobs completed SUCCESS, including tracked-file cleanliness. Full CI
+passed the whole-library build, all 23 compiler-resolved reuse names, Phase 1,
+Phase 2 and Phase 3 with deep probes, and whole-library lint. ReBeL passed the
+33-module build, all 33 normal/slow module lints and transitive axiom checks.
+Inventory passed fixed official-source/PDF reproduction and 27 Python tests.
+Those 27 tests preceded the additional M03 metadata tests in the acceptance
+record commit; their later execution is a separate metadata validation gate.
+
+Neither 5576151 nor a31cca8 is substituted for this all-gates-passing SHA.
+Their failures remain documented in M03-integration.md.
+
+## Retrieved artifact hashes
+
+Source artifact 10521350530, run 35276996529:
+ZIP SHA256 f17ea12ad35401a1375f32b69985dda6953e32250b1c052f4349e1895de61af1
+source tar SHA256 e94148323b622a0c9066bf794bf98630c951c38e63e33e6bcc009be86cacd21e
+
+ReBeL validation artifact 10521376408, run 35276996529:
+ZIP SHA256 b1343bfc92f9b49208d585bec75fb5c8ce984630192a824d8f15fc59ab0d6d73
+rebel-validation.log SHA256 ac407821a418a54112f53e5782f61ff70553299b5d848652a7c456e135342960
+
+Full-CI audit artifact 10521329107, run 35276996593:
+ZIP SHA256 a579be806d6f483bd84574c50e88d05110dd8b472d5cb025b775d579103b0381
+ci-inventory.log SHA256 2e0dcf9e3764cc194bd8fb17a1c133e38f4cbb0258227df7864d3c310c7ba859
+ci-lint.log SHA256 9b69f446a6cbd749a4642bfd1299c96a47e0b6426391e6a3dbe979894d41976e
+ci-phase1.log SHA256 27e3ad05672a11917f23549bdaf591eb06f333115b37b156fbeeb6a258572d7b
+ci-phase2.log SHA256 bd26f72d86e1419a87d29896137dbaaf091fb71b728ffcc2168bbeead440701c
+ci-phase3.log SHA256 1328da901759ab2f0d7bcbc3b07e7edc53f3b762e50c5011f6812ad661fdeb34
+ci-source.txt SHA256 2f53a6e4e6f357b1564785b185ded1ea508404546ad341d929486a4b116312f9
+
+Artifacts have limited retention; this tracked excerpt preserves the essential
+acceptance evidence even after they expire. An excerpt/hash alone is not a fresh
+kernel check. Reproduce using the pinned source and the commands below.
+
+## Reproduction
+
+python3 scripts/rebel/check_coverage.py
+python3 scripts/rebel/check_inventory.py
+python3 -W error -m unittest discover -s scripts/rebel/tests -v
+python3 scripts/rebel/audit_axioms.py
+lake build
+python3 scripts/rebel/check_inventory.py --lean
+pwsh -File scripts/phase1-audit.ps1 -VerifyExpected
+pwsh -File scripts/phase2-audit.ps1 -VerifyExpected -DeepReachability
+pwsh -File scripts/phase3-audit.ps1 -VerifyExpected -DeepReachability
+lake lint
+git diff --exit-code
+
+## Selected exact lines from rebel-validation.log
+
+703796b7a7a90b60851a0876ba99976b0be59341
+REBEL_AUDIT_MODULE GameTheory.Tests.ReBeLSourceDiagnostics
+REBEL_AUDIT_MODULE GameTheory.Protocol.BehavioralReach
+REBEL_AUDIT_MODULE GameTheory.Analysis.Protocol.CounterfactualReach
+REBEL_AUDIT_MODULE GameTheory.ReBeL
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Adapter
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Belief
+REBEL_AUDIT_MODULE GameTheory.ReBeL.BeliefExecution
+REBEL_AUDIT_MODULE GameTheory.ReBeL.BeliefStatistic
+REBEL_AUDIT_MODULE GameTheory.ReBeL.CompactBelief
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.BayesObservation
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.BeliefSearch
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.CommonKnowledge
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.CompactCards
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.HiddenTypes
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.HiddenTypesHistories
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.HiddenTypesPayoff
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.LiarsDice
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.LiarsDiceInformation
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.LiarsDicePayoff
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.ModifiedRPS
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.ObservedDice
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.PublicBelief
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Finite
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Information
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Knowledge
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Payoff
+REBEL_AUDIT_MODULE GameTheory.ReBeL.PolicyDomain
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Prescription
+REBEL_AUDIT_MODULE GameTheory.ReBeL.PublicSubgame
+REBEL_AUDIT_MODULE GameTheory.ReBeL.ReachFactorization
+REBEL_AUDIT_MODULE GameTheory.ReBeL.ReachWeights
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Response
+REBEL_AUDIT_MODULE GameTheory.ReBeL.StrategicEquivalence
+Build completed successfully (1771 jobs).
+REBEL_AXIOM_AUDIT_PASS declarations=1348
+REBEL_LINT_PASS GameTheory.Tests.ReBeLSourceDiagnostics
+REBEL_LINT_PASS GameTheory.Protocol.BehavioralReach
+REBEL_LINT_PASS GameTheory.Analysis.Protocol.CounterfactualReach
+REBEL_LINT_PASS GameTheory.ReBeL
+REBEL_LINT_PASS GameTheory.ReBeL.Adapter
+REBEL_LINT_PASS GameTheory.ReBeL.Belief
+REBEL_LINT_PASS GameTheory.ReBeL.BeliefExecution
+REBEL_LINT_PASS GameTheory.ReBeL.BeliefStatistic
+REBEL_LINT_PASS GameTheory.ReBeL.CompactBelief
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.BayesObservation
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.BeliefSearch
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.CommonKnowledge
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.CompactCards
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.HiddenTypes
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.HiddenTypesHistories
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.HiddenTypesPayoff
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.LiarsDice
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.LiarsDiceInformation
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.LiarsDicePayoff
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.ModifiedRPS
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.ObservedDice
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.PublicBelief
+REBEL_LINT_PASS GameTheory.ReBeL.Finite
+REBEL_LINT_PASS GameTheory.ReBeL.Information
+REBEL_LINT_PASS GameTheory.ReBeL.Knowledge
+REBEL_LINT_PASS GameTheory.ReBeL.Payoff
+REBEL_LINT_PASS GameTheory.ReBeL.PolicyDomain
+REBEL_LINT_PASS GameTheory.ReBeL.Prescription
+REBEL_LINT_PASS GameTheory.ReBeL.PublicSubgame
+REBEL_LINT_PASS GameTheory.ReBeL.ReachFactorization
+REBEL_LINT_PASS GameTheory.ReBeL.ReachWeights
+REBEL_LINT_PASS GameTheory.ReBeL.Response
+REBEL_LINT_PASS GameTheory.ReBeL.StrategicEquivalence
+REBEL_VALIDATION_PASS modules=33
+
+## Selected exact principal-declaration axiom lines
+
+REBEL_AXIOMS GameTheory.ReBeL.PublicBelief: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.PublicBelief.compact_normalize_eq_condition: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.PublicBelief.run_law: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Prescription.isNash_encode_iff: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Prescription.isNash_decode_iff: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.PublicBelief.eq_pure_of_public_injective: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.PublicBelief.continuation_in_publicSubgame: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.PolicyDomain.run_extend_restrict: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Examples.ModifiedRPS.zeroLeaf_misses_exploitation: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.publicSubgame_info_closed: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.PublicBelief.continuation_terminal_or_cut: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.PublicBelief.continuationLaw: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Examples.HiddenTypes.drawBelief_payoff_separation: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Prescription.policyEquiv: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.ReachEncoding.variable_slots: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.ReachEncoding.dice_variable_slots: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.PublicBelief.prob_condition: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.ReachEncoding.tilt_reconstruct: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Examples.ObservedDice.postdraw_public_key: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.ReachEncoding.tilt_reconstruct_continuation: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.ReachEncoding.joint_reconstruct: [propext, Classical.choice, Quot.sound]
+
+## Selected exact full-CI audit and lint lines
+
+ci-inventory.log:
+REUSE_COMPILER_TYPES_PASS declarations=23; applicability not proved
+
+ci-phase2.log:
+ANALYSIS_IMPORTED_OUTSIDE_ROOT=0
+SORRY_OR_ADMIT=0
+CUSTOM_AXIOM=0
+REBEL_NONDEFINITIONAL_TRANSPORT=0
+VERIFIED=1
+
+ci-phase1.log and ci-phase3.log each end:
+VERIFIED=1
+
+ci-lint.log:
+Build completed successfully (3812 jobs).
+Running linter on specified modules: [GameTheory.LintAll]
+-- Linting passed for GameTheory.LintAll.
+
+## Trust and completion boundary
+
+The allowlist is unchanged: propext, Classical.choice, Quot.sound. No sorry,
+admit, additional axiom, lowered threshold, relaxed linter or dependency-pin
+change is accepted. This verifies the stated Lean declarations, not unrestricted
+readings of all ReBeL prose, nor learned-oracle/CFR/C++ correctness.
+The qualified source readings remain explicit in M03.md and coverage.json.
+The subsequent metadata commit is not retrospectively called this checked SHA.
