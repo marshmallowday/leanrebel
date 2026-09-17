@@ -45,11 +45,11 @@ def quantity (bid : Bid) : Nat := 1 + bid.val / 3
 def bidFace (bid : Bid) : Face := ⟨bid.val % 3, Nat.mod_lt _ (by decide)⟩
 
 /-- A die matching both the bid face and the wild face is counted only once. -/
-def matches (die face : Face) : Nat := if die = face ∨ die = 2 then 1 else 0
+def dieMatches (die face : Face) : Nat := if die = face ∨ die = 2 then 1 else 0
 
 /-- Truth of a bid, evaluated by the game, not supplied to a player's policy. -/
 def truthful (dice : Dice) (bid : Bid) : Prop :=
-  quantity bid ≤ matches dice.1 (bidFace bid) + matches dice.2 (bidFace bid)
+  quantity bid ≤ dieMatches dice.1 (bidFace bid) + dieMatches dice.2 (bidFace bid)
 
 instance (dice : Dice) (bid : Bid) : Decidable (truthful dice bid) :=
   inferInstanceAs (Decidable (_ ≤ _))
@@ -132,15 +132,9 @@ theorem selected_allowed (prior : FinDist Dice) (dice : Dice) (turn : Player)
   have h := legal.2 turn
   cases choice : joint turn with
   | none =>
-      change (match joint turn with
-        | some move => turn = turn ∧ allowed last move
-        | none => ¬ turn = turn) at h
       rw [choice] at h
       exact False.elim (h rfl)
   | some move =>
-      change (match joint turn with
-        | some move => turn = turn ∧ allowed last move
-        | none => ¬ turn = turn) at h
       rw [choice] at h
       simpa [selected, choice] using h.2
 
@@ -154,11 +148,13 @@ def rank : State → Nat
 theorem rank_decreases (prior : FinDist Dice) (event : (protocol prior).StepEvent) :
     rank event.target < rank event.source := by
   rcases event with ⟨source, joint, legal, target, realized⟩
+  change rank target < rank source
   cases source with
   | initial =>
       change target ∈ (prior.map (fun dice => State.live dice 0 none)).support at realized
       rw [FinDist.support_map] at realized
       obtain ⟨dice, _, rfl⟩ := realized
+      change 7 < 8
       decide
   | live dice turn last =>
       change target ∈ (FinDist.pure (advance dice turn last (selected joint turn))).support at realized
@@ -209,8 +205,8 @@ theorem after_maximum_only_call (move : Move) (legal : allowed (some 5) move) : 
       have bound := bid.isLt
       omega
 
-theorem wild_counts_once (face : Face) : matches 2 face = 1 := by
-  simp [matches]
+theorem wild_counts_once (face : Face) : dieMatches 2 face = 1 := by
+  simp [dieMatches]
 
 theorem truthful_wild_example : truthful (0, 2) 3 := by decide
 
