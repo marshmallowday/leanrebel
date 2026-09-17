@@ -216,6 +216,7 @@ import GameTheory.Protocol.Strategic
 import GameTheory.Protocol.SubgamePerfect
 import GameTheory.Protocol.Tree
 import GameTheory.Protocol.Zermelo
+import GameTheory.ReBeL
 import GameTheory.Repeated
 import GameTheory.Repeated.Basic
 import GameTheory.Repeated.Discounted
