@@ -22,13 +22,13 @@ variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 variable (M : InformationModel E)
 
 /-- A realizable private AOH compatible with the stated public history. -/
-abbrev Info (public : List M.PublicSignal) (i : ι) :=
-  {info : PolicyDomain.Info (fullInformation M) i // info.1.publicHistory = public}
+abbrev Info (pub : List M.PublicSignal) (i : ι) :=
+  {info : PolicyDomain.Info (fullInformation M) i // info.1.publicHistory = pub}
 
 /-- A legal prescription at each public history. Private information indexes
 components of a prescription; it is not supplied to the public selector. -/
 abbrev Policy (i : ι) :=
-  (public : List M.PublicSignal) → (info : Info M public i) →
+  (pub : List M.PublicSignal) → (info : Info M pub i) →
     FinDist ((fullInformation M).Choice i info.1.1)
 
 /-- Public prescriptions and the canonical history outcome carrier. -/
@@ -52,9 +52,9 @@ theorem toRealized_ofRealized (i : ι)
 @[simp]
 theorem ofRealized_toRealized (i : ι) (policy : Policy M i) :
     ofRealized M i (toRealized M i policy) = policy := by
-  funext public info
+  funext pub info
   obtain ⟨info, hpublic⟩ := info
-  subst public
+  subst pub
   rfl
 
 /-- An actual equivalence of legal local strategy carriers, not an assumed play equality. -/
