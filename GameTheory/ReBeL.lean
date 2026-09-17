@@ -11,6 +11,7 @@ import GameTheory.ReBeL.Knowledge
 import GameTheory.ReBeL.Finite
 import GameTheory.ReBeL.Adapter
 import GameTheory.ReBeL.Payoff
+import GameTheory.ReBeL.Response
 import GameTheory.ReBeL.Examples.HiddenTypes
 import GameTheory.ReBeL.Examples.HiddenTypesHistories
 import GameTheory.ReBeL.Examples.HiddenTypesPayoff
