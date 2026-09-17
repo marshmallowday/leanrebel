@@ -69,7 +69,8 @@ theorem prob_condition (law : FinDist E.History) (observations : List S.PublicSi
       if publicTrace S h.trace = observations then
         law.prob h / law.probOf {k | publicTrace S k.trace = observations} else 0 := by
   classical
-  exact FinDist.prob_condOn law _ possible h
+  by_cases hp : publicTrace S h.trace = observations <;>
+    simp [condition, FinDist.prob_condOn, hp]
 
 /-- Conditioning an already-supported PBS on its public history does nothing. -/
 theorem condition_self (belief : PublicBelief S observations) :
