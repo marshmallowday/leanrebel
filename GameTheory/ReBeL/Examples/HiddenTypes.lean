@@ -20,8 +20,11 @@ namespace GameTheory.ReBeL.Examples.HiddenTypes
 
 open GameTheory.Protocol ExecutionProtocol GameTheory.Math.Probability
 
+/-- Exactly two strategic players; chance is not a third player. -/
 abbrev Player := Fin 2
+/-- The jointly drawn pair of privately observed Boolean types. -/
 abbrev Types := Bool × Bool
+/-- Simultaneous optional actions, including no-ops at the chance node. -/
 abbrev Joint := Player → Option Bool
 
 /-- Physical state, deliberately not an encoding of the complete history. -/
@@ -57,8 +60,10 @@ def terminal : State → Prop
 /-- The unused `none` case is irrelevant at legal active nodes. -/
 def action (joint : Joint) (i : Player) : Bool := (joint i).getD false
 
+/-- Player zero wins stage one exactly when the simultaneous actions match. -/
 def firstResult (joint : Joint) : Bool := action joint 0 == action joint 1
 
+/-- At stage two, player one's bit selects whether a correct type guess wins. -/
 def finalResult (types : Types) (joint : Joint) : Bool :=
   (action joint 0 == types.2) == action joint 1
 
@@ -69,6 +74,7 @@ def transition (prior : FinDist Types) : State → Joint → FinDist State
   | .second types firstWin, joint => FinDist.pure (.finished firstWin (finalResult types joint))
   | .finished firstWin finalWin, _ => FinDist.pure (.finished firstWin finalWin)
 
+/-- The canonical execution protocol with one chance step and two simultaneous stages. -/
 @[reducible]
 def protocol (prior : FinDist Types) : ExecutionProtocol Player where
   State := State
@@ -126,6 +132,7 @@ This specification-level instance is not an executable enumeration algorithm. -/
 def historyFintype (prior : FinDist Types) : Fintype (protocol prior).History :=
   boundedHistoryFintype 3 (bounded prior)
 
+/-- The publicly announced phase and completed-stage results. -/
 def phase : State → Phase
   | .initial => .initial
   | .first _ => .first
@@ -137,8 +144,10 @@ def privateObservation (i : Player) : State → Option Bool
   | .first types => some (ownType i types)
   | _ => none
 
+/-- A reduced observation consisting of public phase and one's own retained type. -/
 abbrev View := Phase × Bool
 
+/-- State characterization of the reduced observations, not an argument to a policy. -/
 def view (i : Player) : State → View
   | .initial => (.initial, false)
   | .first types => (.first, ownType i types)
@@ -153,6 +162,7 @@ def updateView (previous : View) (privateSignal : Option Bool) : Phase → View
   | .second firstWin => (.second firstWin, previous.2)
   | .finished firstWin finalWin => (.finished firstWin finalWin, false)
 
+/-- Initial and event observations, together with their reduced local accumulator. -/
 @[reducible]
 def signals (prior : FinDist Types) : InfoSignals (protocol prior) where
   PublicSignal := Phase
@@ -199,6 +209,7 @@ def menu (info : View) : Set (Option Bool) :=
   | .second _ => {choice | ∃ value, choice = some value}
   | _ => {none}
 
+/-- The reduced model has adequate menus, but is not claimed to have perfect recall. -/
 @[reducible]
 def reducedModel (prior : FinDist Types) : InformationModel (protocol prior) where
   toInfoSignals := signals prior
