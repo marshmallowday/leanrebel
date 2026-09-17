@@ -91,3 +91,16 @@ It assumes neither a Nash opponent nor a solver; existence and computation of
 best responses are not obtained from this characterization alone.
 M03 public beliefs and conditioning, M04 CFR/equilibrium results, later learning,
 and the full implementation-refinement obligations remain open.
+
+
+## Final gate resolution
+
+Implementation 95dbfb2a32175038938315a3da5026deb4287610 subsequently passed all three workflows.
+Full CI 35243144402 / 105276473279 built 4027 jobs, passed all Phase 1/2/3 gates including
+deep probes, and passed the public lint (3797 build jobs) at 2026-09-17T16:09:33Z.
+ReBeL 35243144308 / 105276776415 passed all 17 module builds/lints and the 963-declaration
+transitive axiom audit. Source inventory 35243144305 / 105276430059 also succeeded.
+Complete job logs were inspected before acceptance. The implementation SHA is not the
+later record-only commit. Coverage, STATUS, and M02.md contain the exact scope and counts.
+The original 23 Python tests retain an immutable M01-B coverage fixture; a new live-ledger
+preservation regression brings the tested total to 24 without weakening the original checks.

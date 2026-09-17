@@ -28,7 +28,10 @@ class InventoryTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / item["module"], path)
         self.path = self.root / "docs/rebel/coverage.json"
-        self.data = json.loads(self.path.read_text())
+        # Keep all original hostile fixtures on their exact M01-B baseline.
+        fixture = Path(__file__).with_name("fixtures") / "coverage_m01_b.json"
+        self.data = json.loads(fixture.read_text(encoding="utf-8"))
+        self.path.write_text(json.dumps(self.data), encoding="utf-8")
 
     def tearDown(self):
         self.temp.cleanup()
@@ -153,6 +156,27 @@ class InventoryTests(unittest.TestCase):
         self.data["items"][0]["parent_id"] = self.data["items"][0]["id"]
         self.rejected()
 
+
+    def test_current_inventory_preserves_original_obligations(self):
+        # Validate the evolving live ledger as well as the frozen negative controls.
+        fixture = Path(__file__).with_name("fixtures") / "coverage_m01_b.json"
+        raw = fixture.read_bytes()
+        digest = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+        self.assertEqual(digest, "43764c9b96754183127ffb8c3441630b90ae9afc")
+        baseline = expand(json.loads(raw), ROOT)
+        live, _ = check(ROOT)
+        by_id = {item["id"]: item for item in live["items"]}
+        fields = ("id", "parent_id", "source", "locator", "obligation", "milestone")
+        for previous in baseline["items"]:
+            with self.subTest(ident=previous["id"]):
+                self.assertIn(previous["id"], by_id)
+                current = by_id[previous["id"]]
+                self.assertEqual([current.get(key) for key in fields],
+                                 [previous.get(key) for key in fields])
+                if previous["status"] == "verified":
+                    self.assertEqual(current["status"], "verified")
+                    for proof in previous["evidence"]:
+                        self.assertIn(proof, current["evidence"])
 
 if __name__ == "__main__":
     unittest.main()

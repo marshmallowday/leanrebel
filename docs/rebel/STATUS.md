@@ -2,6 +2,81 @@
 
 ## 現在地
 
+**M02 完了。次の作業は M03。ReBeL 全体の形式化はまだ完了していない。**
+作業ブランチは `rebel/m02`。M02 開始時の main は
+`8beff57b70f3c5e28fb28724c655207ced881c88`。
+中断時の `d07b17315ab31788dec2c4a87b5d0c2ba47fe0c0` までのコミットは全て保存済みだった。
+回復時に main より52コミット先行・0遅れと確認し、reset/force-push/worktreeは使用していない。
+受入対象95dbfb2はその後継で、監査分類漏れと12行の文字数超過を修正した。
+実際の最新 main と記録commitのSHAは GitHub の refs/history を取得して確認すること。
+このファイルは、自己参照の完了記録commitを過去の検証対象SHAとして扱わない。
+書込み先は `marshmallowday/leanrebel` のみ。通常CIはread-onlyであり、一時blob準備workflowは
+完了記録commitから削除する。以下のM01記録は履歴として保持し、現在の状態と混同しない。
+
+## M02 最終受入
+
+**M02 完了。受入対象の実装 SHA は `95dbfb2a32175038938315a3da5026deb4287610`。**
+論文全体・ReBeL 全体の形式化完了ではなく、ROADMAP の M02 に限る。
+次段階は M03。検証対象 SHA と、その後の完了記録 commit は区別する。
+
+| 検査 | run / job | 実ログで確認した結果 |
+|---|---|---|
+| full CI | `35243144402` / `105276473279` | 全体 build 4027 jobs、23候補型、Phase 1/2/3（2/3は deep）、public lint 3797 build jobs、tracked diff: 全成功 |
+| ReBeL checks | `35243144308` / `105276776415` | 明示的17 modules、1752 build jobs、963宣言の推移的公理監査、全17 module lint、23 Python tests、tracked diff: 全成功 |
+| source inventory | `35243144305` / `105276430059` | 公式53エントリ・2578出現、PDF50頁・25版対応の再現、台帳・23 Python tests・tracked diff: 全成功 |
+
+full CI の最後の public lint は 2026-09-17T16:09:33Z に成功した。
+ReBeL の最終マーカーは `REBEL_VALIDATION_PASS modules=17`、公理監査は
+`REBEL_AXIOM_AUDIT_PASS declarations=963`。963は生成補助宣言を含み、963個の独立定理ではない。
+許容公理は propext / Classical.choice / Quot.sound のみ（各宣言はその部分集合を使用）。
+Lean 4.33.1、compiler `819816b2e0a3bf405af45ae5c7af2491d8f5bee6`。
+この検証で sorry/admit・独自公理は0。依存 pin と既存の監査基準値は変更していない。
+ReBeL 層は新しい明示的測定区分として58個の `change` を登録し、非定義的 transport は0。
+未分類ファイル0、100文字超過行0、Phase 2/3 の deep probes も含めて合格した。
+修正過程と負例検査は `M02-integration.md` を参照。
+
+### coverage と完了記録の検査
+
+M02 は27項目（`verified=26`, `context_indexed=1`）。脚注3の「方策が既知」は
+モデル前提の説明として分類し、観測していない乱数や隠れ状態を知る定理にはしていない。
+全体は3052項目（`verified=27`, `context_indexed=405`, `pending=2620`）。
+元の3048項目の ID・親・原典・locator・主張・milestone を全て保持した。
+M01-B の原典索引ハッシュと、DIAG-R3-Q の既存証拠も変更していない。
+項目数を形式化完成率や証明数として解釈しない。
+
+元の23 Pythonテストは、厳密に同じ M01-B coverage blob を不変fixtureとして保持して再実行した。
+さらに現在の台帳と原典3048項目の同一性・既存検証証拠の保存を検査する1テストを追加し、
+合計24テストに合格した。完了記録の変更は台帳・文書・Pythonテスト/fixtureだけであり、
+95dbfb2 の Lean ソースや production validator / workflow / toolchain は変更しない。
+完了記録用の実行証拠: run `35245853980` の `METADATA_REGRESSION_PASS tests=24`。
+
+## 追加の意味論境界と未完了義務
+
+`Response.isBestResponse_iff_policyValue_greatest` は、任意の固定された合法な相手方策に
+対する最良応答の最大値による特徴付けである。相手に Nash 性を仮定しないが、最大値を
+達成する方策の存在や計算アルゴリズムを証明したことにもならない。
+その存在義務を `BR-ATTAINMENT`（M04、親 FOUND-NASH）として明示した。
+
+一般の InformationModel の menu_adequate は実現した履歴上の合法性を保証するもので、
+到達不能な構文上の全 AOH に非空な menu を自動で保証するものではない。
+一般の実行保存定理は供給された合法方策について述べ、縦断例では
+fullPlanPolicy / fullBidCallPolicy を実際に構成して非空性を示している。
+これを「全ての抽象モデルで方策空間が非空」「実現情報集合への制限と拡張が一般に同値」と
+読み替えない。終端・構文上不可能な観測の扱い、実現可能だが特定方策で確率0となる履歴の
+合法な逸脱を保持した方策領域の同値性は `PBS-POLICY-DOMAIN`（M03）に残す。
+この項目は PBS-EQUIVALENCE の分解であって、元の義務の削除・弱化ではない。
+
+M02-HIDDEN-TYPES と M02-LIARS-INSTANCE は今回の限定された非自明な縦断例の証拠であり、
+GAME-LIARS の一般パラメータ/C++ refinement 義務は pending のままである。
+P-DEP-02/P-DEP-34 は実際に必要な有限鎖の共通知識解釈と FOSG 観測・完全記憶の前提を
+直接証明・具体化した範囲に限る。引用文献全体の再形式化を宣言していない。
+M03 の joint PBS/conditioning/戦略同値性、M04 のCFRと均衡存在、後続の学習・数値実行・
+一般ゲームと公式実装 refinement は引き続き未完了である。
+
+## M01 受入記録の保存
+
+## M01 時点の現在地（履歴）
+
 - **M01（M01-A → M01-B）完了。次の作業は M02-A。ReBeL 全体の形式化はまだ完了していない。**
 - M01-A の完了ログを確認する前に M01-B の原典棚卸しには着手していない。
 - 書込み先: `marshmallowday/leanrebel` のみ。作業ブランチ: `rebel/m01-b`。M01-A先端 `ec152983ce74c6d5c56bf5e16ae6add5e1bab245` を保持。
@@ -77,7 +152,7 @@ solverの誤差伝播を証明する後続義務は削除していない。
 全検査成功を確認した対象はUbuntu。Windows manual経路は保持し、検査を削っていない。
 Actions基盤のNode 20/24 deprecation warningとLeanの警告・エラーを混同しない。
 
-## 次タスク: M02-A
+## M01 時点の次タスク: M02-A（現在は完了）
 
 二段階隠れ情報ゲームの縦断例を作る。PBSは相関を保持し、ゼロ到達・off-pathと
 情報漏洩の負例を含める。未コンパイルのPBS/CFR実装を大量追加しない。
