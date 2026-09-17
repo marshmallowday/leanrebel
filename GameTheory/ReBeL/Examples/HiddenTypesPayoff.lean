@@ -138,18 +138,18 @@ theorem run_second (prior : FinDist Types) (plans : Player → Plan) (types : Ty
     (firstWin : Bool) (fuel : Nat) :
     (protocol prior).runFor (planChooser prior plans) (fuel + 1) (.second types firstWin) =
       FinDist.pure (.finished firstWin (finalResult types (secondJoint plans types firstWin))) := by
-  rw [runFor_succ_of_not_terminal _ fuel (by simp [protocol, terminal])]
+  rw [runFor_succ_of_not_terminal _ fuel (by simp [terminal])]
   change (FinDist.pure (.finished firstWin
     (finalResult types (secondJoint plans types firstWin)))).bind
       (fun state => (protocol prior).runFor (planChooser prior plans) fuel state) = _
   rw [FinDist.pure_bind]
-  exact runFor_of_terminal _ fuel (by simp [protocol, terminal])
+  exact runFor_of_terminal _ fuel (by simp [terminal])
 
 theorem run_first (prior : FinDist Types) (plans : Player → Plan) (types : Types) :
     (protocol prior).runFor (planChooser prior plans) 2 (.first types) =
       FinDist.pure (.finished (firstResult (firstJoint plans types))
         (finalResult types (secondJoint plans types (firstResult (firstJoint plans types))))) := by
-  rw [runFor_succ_of_not_terminal _ 1 (by simp [protocol, terminal])]
+  rw [runFor_succ_of_not_terminal _ 1 (by simp [terminal])]
   change (FinDist.pure (.second types (firstResult (firstJoint plans types)))).bind
     (fun state => (protocol prior).runFor (planChooser prior plans) 1 state) = _
   rw [FinDist.pure_bind]
@@ -159,7 +159,7 @@ theorem run_initial (prior : FinDist Types) (plans : Player → Plan) :
     (protocol prior).runFor (planChooser prior plans) 3 .initial =
       prior.map (fun types => .finished (firstResult (firstJoint plans types))
         (finalResult types (secondJoint plans types (firstResult (firstJoint plans types))))) := by
-  rw [runFor_succ_of_not_terminal _ 2 (by simp [protocol, terminal])]
+  rw [runFor_succ_of_not_terminal _ 2 (by simp [terminal])]
   change (prior.map State.first).bind
     (fun state => (protocol prior).runFor (planChooser prior plans) 2 state) = _
   rw [FinDist.bind_map, FinDist.map_eq_bind]
