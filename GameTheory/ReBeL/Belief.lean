@@ -69,15 +69,16 @@ theorem prob_condition (law : FinDist E.History) (observations : List S.PublicSi
       if publicTrace S h.trace = observations then
         law.prob h / law.probOf {k | publicTrace S k.trace = observations} else 0 := by
   classical
-  exact FinDist.prob_condOn ..
+  exact FinDist.prob_condOn law _ possible h
 
 /-- Conditioning an already-supported PBS on its public history does nothing. -/
 theorem condition_self (belief : PublicBelief S observations) :
     (condition belief.law observations (by
       obtain ⟨h, hh⟩ := belief.law.support_nonempty
       exact ⟨h, belief.supported h hh, hh⟩)).law = belief.law := by
-  apply FinDist.condOn_of_support_subset
-  exact belief.supported
+  exact FinDist.condOn_of_support_subset belief.law _
+    (by obtain ⟨h, hh⟩ := belief.law.support_nonempty
+        exact ⟨h, belief.supported h hh, hh⟩) belief.supported
 
 /-- Package the posterior only for a public observation with positive mass. -/
 def atObservation (law : FinDist E.History) (observations : List S.PublicSignal)
@@ -122,10 +123,10 @@ theorem split_bind_continuation {Outcome : Type*} (law : FinDist E.History)
 theorem eq_pure_of_public_injective
     (separates : Function.Injective fun h : E.History => publicTrace S h.trace)
     (belief : PublicBelief S observations) (h : E.History)
-    (matches : publicTrace S h.trace = observations) : belief.law = FinDist.pure h := by
+    (hmatches : publicTrace S h.trace = observations) : belief.law = FinDist.pure h := by
   apply FinDist.eq_pure_of_support_subset_singleton
   intro other positive
-  exact separates ((belief.supported other positive).trans matches.symm)
+  exact separates ((belief.supported other positive).trans hmatches.symm)
 
 /-- Each player's information law is a marginal of the joint history law. -/
 def marginal (belief : PublicBelief S observations) (i : ι) :

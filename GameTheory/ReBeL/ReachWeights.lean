@@ -37,8 +37,9 @@ theorem mass_nonneg (w : ReachWeights α) : 0 ≤ w.mass :=
 def normalize (w : ReachWeights α) (positive : 0 < w.mass) : FinDist α :=
   FinDist.ofWeights (fun a => w.weight a / w.mass)
     (fun a => div_nonneg (w.nonneg a) positive.le) (by
-      rw [← Finset.sum_div]
-      exact div_self positive.ne')
+      simp only [div_eq_mul_inv]
+      rw [← Finset.sum_mul]
+      exact mul_inv_cancel₀ positive.ne')
 
 @[simp]
 theorem prob_normalize (w : ReachWeights α) (positive : 0 < w.mass) (a : α) :
@@ -56,7 +57,7 @@ theorem normalize?_eq_none (w : ReachWeights α) : w.normalize? = none ↔ w.mas
   by_cases positive : 0 < w.mass
   · simp [normalize?, positive, ne_of_gt positive]
   · have hz : w.mass = 0 := le_antisymm (le_of_not_gt positive) w.mass_nonneg
-    simp [normalize?, positive, hz]
+    simp [normalize?, hz]
 
 /-- A canonical probability law can be viewed as normalized reach weights. -/
 def ofLaw (law : FinDist α) : ReachWeights α := ⟨law.prob, law.prob_nonneg⟩
@@ -103,7 +104,7 @@ theorem mass_restrict_ofLaw (law : FinDist α) (event : Set α) :
   rw [← FinDist.expect_indicator_eq_probOf, FinDist.expect_eq_sum]
   apply Finset.sum_congr rfl
   intro a _
-  by_cases ha : a ∈ event <;> simp [mass, restrict, ofLaw, ha]
+  by_cases ha : a ∈ event <;> simp [restrict, ofLaw, ha]
 
 /-- Normalizing restricted probability weights is exactly canonical Bayes conditioning. -/
 theorem normalize_restrict_ofLaw (law : FinDist α) (event : Set α)
