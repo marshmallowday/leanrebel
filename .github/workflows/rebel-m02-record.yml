@@ -1,0 +1,379 @@
+name: M02 acceptance record preparation
+
+on:
+  push:
+    branches: [rebel/m02]
+    paths: [.github/workflows/rebel-m02-record.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    if: github.repository == 'marshmallowday/leanrebel'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify acceptance provenance and test metadata before preparing blobs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 -u - <<'PY'
+          import copy, difflib, hashlib, json, os, re, subprocess, sys, textwrap
+          import urllib.request
+          from collections import Counter
+          from pathlib import Path
+          repo = 'marshmallowday/leanrebel'
+          source = '95dbfb2a32175038938315a3da5026deb4287610'
+          assert os.environ['GITHUB_REPOSITORY'] == repo
+          root = Path.cwd()
+          def request(path, payload=None):
+              req = urllib.request.Request(f'https://api.github.com/repos/{repo}/{path}',
+                  data=None if payload is None else json.dumps(payload).encode(),
+                  headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+                    'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json'},
+                  method='GET' if payload is None else 'POST')
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  return json.load(response)
+          def sha(data):
+              return hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+          for run in (35243144402, 35243144308, 35243144305):
+              result = request(f'actions/runs/{run}')
+              assert result['head_sha'] == source
+              assert result['status'] == 'completed' and result['conclusion'] == 'success'
+              print('ACCEPTED_IMPLEMENTATION_RUN', run, source, 'success')
+          tree = request('git/trees/78f35b0436800bb7c86fd3d72299b5635f944719?recursive=1')
+          assert not tree['truncated']
+          expected = {row['path']: row['sha'] for row in tree['tree'] if row['type'] == 'blob'}
+          for path, expected_sha in expected.items():
+              assert sha(Path(path).read_bytes()) == expected_sha, path
+          print('ACCEPTED_TRACKED_SOURCE_UNCHANGED', len(expected))
+          sys.path.insert(0, str(root / 'scripts/rebel'))
+          from check_inventory import check
+          from coverage_inventory import expand
+          baseline, _ = check(root)
+          coverage_path = Path('docs/rebel/coverage.json')
+          original_bytes = coverage_path.read_bytes()
+          assert sha(original_bytes) == '43764c9b96754183127ffb8c3441630b90ae9afc'
+          data = json.loads(original_bytes)
+          old_data = copy.deepcopy(data)
+          records = {row['id']: row for row in data['items']}
+          full = {row['id']: row for row in baseline['items']}
+          prefix = 'GameTheory.ReBeL.'
+          build_url = f'https://github.com/{repo}/actions/runs/35243144308/job/105276776415'
+          ci_url = f'https://github.com/{repo}/actions/runs/35243144402/job/105276473279'
+          def evidence(module, declaration, review, extras=()):
+              path = 'GameTheory/ReBeL/' + module + '.lean'
+              contents = Path(path).read_text(encoding='utf-8')
+              short = declaration.rsplit('.', 1)[-1]
+              assert re.search(r'\b(?:def|abbrev|theorem)\s+' + re.escape(short) + r'\b', contents), (path, short)
+              return {'commit': source, 'module': path, 'declaration': prefix + declaration,
+                  'source_blob': expected[path],
+                  'build_command': 'python3 scripts/rebel/audit_axioms.py; lake build; lake lint; Phase 1/2/3 -VerifyExpected with Phase 2/3 -DeepReachability',
+                  'build_log': build_url + '; 17 modules / 1752 jobs and all explicit module lints passed. Full CI: ' + ci_url + '; 4027 build jobs, 3797 lint-build jobs, reuse signatures, all architecture gates and clean tracked diff passed.',
+                  'axioms_log': build_url + '; REBEL_AXIOM_AUDIT_PASS declarations=963; all dependency sets contained in [propext, Classical.choice, Quot.sound]. REBEL_VALIDATION_PASS modules=17.',
+                  'semantic_review': 'docs/rebel/M02.md; docs/rebel/M02-integration.md. ' + review,
+                  'additional_declarations': [prefix + name for name in extras]}
+          specs = {
+              'FOUND-MODEL': ('Finite', 'boundedHorizon_of_rank',
+                  'Finite players, states and actions plus an actual stopping bound; existing legal simultaneous joint actions and chance transitions. No assumption that physical states form a tree.',
+                  ['boundedHistoryFintype', 'Examples.HiddenTypes.simultaneous_first', 'Examples.HiddenTypes.simultaneous_second', 'Examples.LiarsDice.bounded']),
+              'FOUND-HISTORY': ('Finite', 'history_eq_of_traceCode_eq',
+                  'Canonical complete Trace/History, finite injective history coding, and non-tree-shaped merging-path controls; state equality is not history equality.',
+                  ['boundedHistoryFintype', 'Examples.HiddenTypes.merging_same_state', 'Examples.HiddenTypes.merging_different_histories']),
+              'FOUND-INFO': ('Information', 'fullSignals_perfectRecall',
+                  'Full initial and step action/private/public observations determine own play and the common public trace. Legal local menus are proved adequate on every realized history.',
+                  ['fullInformation_legalOptions', 'ownPlay_infoOf', 'publicHistory_infoOf']),
+              'FOUND-REWARD': ('Payoff', 'cumulativeUtility_eq_potential',
+                  'Immediate rewards are folded by canonical history.valueSum; expected and continuation utilities use existing evaluators. Zero-sum is proved from stage rewards, not asserted for arbitrary games.',
+                  ['cumulativeUtility_extend', 'cumulativeUtility_zeroSum', 'futureUtility_zeroSum', 'Examples.LiarsDice.rootValue_formula']),
+              'FOUND-POLICY': ('Adapter', 'liftPolicy_runFrom',
+                  'Existing legal behavioral strategy interface is retained; deterministic reduced policies lift to full AOH and preserve execution. Statements quantify over supplied legal profiles; examples supply total legal policies. General realized-domain restriction/extension is separately tracked by PBS-POLICY-DOMAIN.',
+                  ['liftPolicy_run', 'Examples.HiddenTypes.no_hidden_state_policy', 'Examples.HiddenTypes.offPath_two_legal_options']),
+              'PUBLIC-STATE': ('Information', 'publicHistory_infoOf',
+                  'Public state is a compatible canonical-history fiber; public traces are reconstructed by all players. This is not a PBS law or a Bayes-conditioning theorem.',
+                  ['publicTrace_eq_of_knowledge_chain', 'informationFiberToPublic', 'Examples.ObservedDice.public_card', 'Examples.ObservedDice.second_card']),
+              'P-FIG1-A': ('Examples/ModifiedRPS', 'Examples.ModifiedRPS.protocol_utility_law',
+                  'The nine-entry Figure 1a payoff table, displayed law and hidden-action sequential representation are connected to actual Protocol semantics. Figure 1b/search and general equilibrium preservation are not closed.',
+                  ['Examples.ModifiedRPS.sequential_exact', 'Examples.ModifiedRPS.displayed_probabilities', 'Examples.ModifiedRPS.displayed_row_value', 'Examples.ModifiedRPS.displayed_column_value']),
+              'P-WORLD': ('Examples/HiddenTypes', 'Examples.HiddenTypes.protocol',
+                  'Concrete finite world-state specification uses canonical ExecutionProtocol; generic finite-history construction and merging histories distinguish worlds from histories.',
+                  ['boundedHistoryFintype', 'Examples.HiddenTypes.merging_same_state']),
+              'P-ACTION': ('Examples/LiarsDiceInformation', 'Examples.LiarsDice.menu_view',
+                  'Information-local legal action menu equals canonical LegalOption. HiddenTypes preserves simultaneous decisions and inactive chance positions.',
+                  ['Examples.HiddenTypes.simultaneous_first', 'Examples.HiddenTypes.simultaneous_second', 'Examples.HiddenTypes.no_chance_player']),
+              'P-TRANSITION': ('Examples/LiarsDice', 'Examples.LiarsDice.transition',
+                  'Joint finite chance law followed by actual strategic transitions; support-level rank decrease proves termination. General C++ refinement remains M10.',
+                  ['Examples.LiarsDice.rank_decreases', 'Examples.LiarsDice.run_initial']),
+              'P-OBSERVATION': ('Examples/LiarsDiceInformation', 'Examples.LiarsDice.infoOf_view',
+                  'Private signals expose only the observer own die and public signals expose phases/bids. Full AOH retains the whole sequence, unlike the convenience reduced view.',
+                  ['Examples.LiarsDice.perfectRecall', 'Examples.HiddenTypes.no_omniscient_guess']),
+              'P-HISTORY': ('Finite', 'history_eq_of_traceCode_eq',
+                  'Canonical legal realized histories encode complete events injectively, including choice and chance outcomes. No physical-state uniqueness hypothesis.',
+                  ['traceCode_length', 'Examples.HiddenTypes.merging_different_histories']),
+              'P-AOH': ('Information', 'reduceAOH_infoOf',
+                  'Initial observations and all subsequent own-action/private/public observations are retained; old compressed information is only a projection.',
+                  ['ownPlay_infoOf', 'length_infoOf', 'publicHistory_infoOf']),
+              'P-INFOSET': ('Information', 'fullInformation_legalOptions',
+                  'InformationFiber is the canonical history fiber of a full local AOH; its legal menu is observation-local. Realized fibers are finite; impossible syntactic AOHs may have empty fibers.',
+                  ['informationFiberToPublic', 'informationFiberFintype', 'Examples.ObservedDice.second_card']),
+              'P-PERFECT-INFO': ('Knowledge', 'infoOf_injective_iff_fibers_subsingleton',
+                  'Complete-history identification iff every information fiber is subsingleton. At realized observations the fiber has a unique history; both private and fully revealing controls are provided.',
+                  ['existsUnique_history_of_injective', 'Examples.ObservedDice.second_not_perfect', 'Examples.ObservedDice.revealing_unique']),
+              'P-REWARD': ('Payoff', 'cumulativeUtility_extend',
+                  'The stage reward R_i(world,joint) is accumulated through the existing trace fold; future utility removes sunk rewards.',
+                  ['futureUtility_init', 'cumulativeUtility_eq_potential']),
+              'P-ZEROSUM': ('Payoff', 'cumulativeUtility_zeroSum',
+                  'Stagewise zero-sum implies zero-sum on every legal realized history, including off-policy paths. The example rewards discharge its hypothesis.',
+                  ['Examples.HiddenTypes.cumulative_zeroSum', 'Examples.LiarsDice.cumulative_zeroSum']),
+              'P-POLICY': ('Adapter', 'liftPolicy_run',
+                  'Policies use the existing local menu-certified interface and full AOHs; concrete total policy witnesses avoid empty-profile vacuity. General policy-domain equivalence is tracked separately in PBS-POLICY-DOMAIN.',
+                  ['Examples.HiddenTypes.fullPlanPolicy', 'Examples.LiarsDice.fullBidCallPolicy']),
+              'P-POLICY-VALUE': ('Response', 'isBestResponse_iff_policyValue_greatest',
+                  'Canonical policy expectation and exact greatest-value characterization for arbitrary fixed legal opponents. This characterization does not prove existence or compute an optimizer; BR-ATTAINMENT remains pending in M04.',
+                  ['policyValue', 'continuationValue', 'Examples.HiddenTypes.rootValue_formula', 'Examples.LiarsDice.rootValue_formula']),
+              'P-PUBLIC-HISTORY': ('Information', 'publicHistory_infoOf',
+                  'The same newest-first public sequence, including its initial observation, is recovered by every observer and is invariant along knowledge-indistinguishability chains.',
+                  ['publicTrace_eq_of_knowledge_chain']),
+              'P-PUBLIC-FIBER': ('Examples/ObservedDice', 'Examples.ObservedDice.public_card',
+                  'A bijection from actual chance-Protocol histories to two hidden dice proves 36 public-compatible histories, whereas player two has six. Not a separately postulated tuple count.',
+                  ['Examples.ObservedDice.second_card', 'Examples.ObservedDice.publicFiberEquiv', 'Examples.ObservedDice.secondFiberEquiv']),
+              'P-FN-4': ('Examples/CommonKnowledge', 'Examples.CommonKnowledge.not_same_knowledge_component',
+                  'Under a separate explicit observation control, two histories have the same public trace but different common-knowledge components. This proves public observations need not exhaust common knowledge, without altering the original dice example.',
+                  ['Examples.CommonKnowledge.same_public', 'Examples.CommonKnowledge.knowledge_chain_eq', 'publicTrace_eq_of_knowledge_chain']),
+              'P-DEP-02': ('Examples/CommonKnowledge', 'Examples.CommonKnowledge.not_same_knowledge_component',
+                  'The needed finite-chain common-knowledge interpretation is proved directly on canonical histories, with public invariance and a strictness counterexample. No assertion that the entire cited Aumann work is formalized.',
+                  ['Examples.CommonKnowledge.knowledge_chain_eq', 'publicTrace_eq_of_knowledge_chain']),
+              'P-DEP-34': ('Information', 'fullSignals_perfectRecall',
+                  'The used FOSG/Protocol observation and perfect-recall requirements are concretely discharged, including simultaneous and hidden-action serialized instances. Not a formalization of the whole cited FOSG publication.',
+                  ['fullInformation_legalOptions', 'Examples.ModifiedRPS.perfectRecall', 'Examples.ModifiedRPS.sequential_exact'])}
+          original_m02 = {row['id'] for row in baseline['items'] if row['milestone'] == 'M02'}
+          assert original_m02 == set(specs) | {'P-FN-3'}, original_m02.symmetric_difference(set(specs) | {'P-FN-3'})
+          for ident, specification in specs.items():
+              assert full[ident]['status'] == 'pending'
+              fields = {'status': 'verified', 'evidence': [evidence(*specification)]}
+              if ident in records: records[ident].update(fields)
+              else: data['child_overrides'][ident] = fields
+          data['child_overrides']['P-FN-3'] = {'status': 'context_indexed', 'evidence': [{
+              'source_review': 'docs/rebel/M02.md; published Section 3 footnote 3',
+              'scope': 'Execution is parameterized by a fixed known policy profile. Knowing a policy is not observing its private random choices or hidden state. Statistical inference from repeated play is not proved or assumed as a theorem.'}]}
+          def project(ident, parent, milestone, obligation, proofs=()):
+              return {'id': ident, 'parent_id': parent, 'source': 'project',
+                  'locator': 'docs/rebel/ROADMAP.md ' + milestone + ' at ' + source + '; docs/rebel/M02.md semantic boundaries',
+                  'obligation': obligation, 'milestone': milestone, 'reuse': 'new',
+                  'candidates': [], 'status': 'verified' if proofs else 'pending', 'evidence': list(proofs)}
+          data['items'].extend([
+              project('M02-HIDDEN-TYPES', 'FOUND-POLICY', 'M02',
+                  'Nontrivial two-stage private-type game: canonical execution/payoffs distinguish correlated and anticorrelated joint laws with equal marginals; merging-history, legal zero-reach continuation, and hidden-state-policy negative controls.',
+                  [evidence('Examples/HiddenTypesHistories', 'Examples.HiddenTypes.offPath_two_legal_options',
+                    'Actual legal histories, including zero-policy-reach positions, retain nontrivial continuation and full recall; private information does not leak.',
+                    ['Examples.HiddenTypes.offPath_zero_reach', 'Examples.HiddenTypes.offPath_future_rewards', 'Examples.HiddenTypes.merging_different_information', 'Examples.HiddenTypes.no_omniscient_guess']),
+                   evidence('Examples/HiddenTypesPayoff', 'Examples.HiddenTypes.same_marginals_different_payoffs',
+                    'The same information-local policy has canonical values 2 and 0 under joint laws with identical marginals; correlations cannot be replaced by arbitrary product marginals.',
+                    ['Examples.HiddenTypes.rootValue_formula', 'Examples.HiddenTypes.correlated_value', 'Examples.HiddenTypes.anticorrelated_value'])]),
+              project('M02-LIARS-INSTANCE', 'GAME-LIARS', 'M02',
+                  'One die per player, three faces with highest wild: all legal raises and calls, genuine bounded termination, private observations, and nonzero canonical policy payoffs. General parameters and C++ refinement remain the original GAME-LIARS obligation.',
+                  [evidence('Examples/LiarsDice', 'Examples.LiarsDice.bounded',
+                    'All legal raises retained; no opening call or repeated bid; maximum bid forces a call; wild matches counted once. Bound eight follows real rank decrease.',
+                    ['Examples.LiarsDice.wild_counts_once', 'Examples.LiarsDice.opening_call_illegal', 'Examples.LiarsDice.after_maximum_only_call']),
+                   evidence('Examples/LiarsDicePayoff', 'Examples.LiarsDice.rootValue_formula',
+                    'Full-AOH bid/call policies evaluated through canonical policyValue yield +1/2 and -1/2 on the test prior, and -1 for a surely false bid; all-history cumulative zero-sum is proved.',
+                    ['Examples.LiarsDice.testPrior_value', 'Examples.LiarsDice.testPrior_opponent_value', 'Examples.LiarsDice.false_bid_loses', 'Examples.LiarsDice.cumulative_zeroSum'])]),
+              project('PBS-POLICY-DOMAIN', 'PBS-EQUIVALENCE', 'M03',
+                  'Prove restriction/extension between complete syntactic AOH policies and realized-information policies, with explicit nonempty legal choices including terminal/unrealized observations; preserve every legal off-policy deviation and outcome/payoff law. Given-profile execution lemmas alone do not establish this equivalence.'),
+              project('BR-ATTAINMENT', 'FOUND-NASH', 'M04',
+                  'Prove existence of an attaining legal best response against arbitrary fixed legal opponents in the stated finite game class. An IsGreatest characterization is not an existence proof, optimizer, or oracle.')])
+          data['notes'].append('M02 implementation accepted at ' + source + ' after all three workflows succeeded. M02 definitions and vertical examples do not close M03 policy-domain/PBS equivalence, M04 best-response attainment/CFR, or M10 general game/refinement obligations. See M02.md and M02-integration.md.')
+          new_expanded = expand(data, root)
+          current = {row['id']: row for row in new_expanded['items']}
+          identity = ('id', 'parent_id', 'source', 'locator', 'obligation', 'milestone')
+          for previous in baseline['items']:
+              now = current[previous['id']]
+              assert all(now.get(field) == previous.get(field) for field in identity)
+              if previous['id'] not in original_m02: assert now == previous, previous['id']
+          assert data['child_ledgers'] == old_data['child_ledgers']
+          all_counts = Counter(row['status'] for row in new_expanded['items'])
+          m02_counts = Counter(row['status'] for row in new_expanded['items'] if row['milestone'] == 'M02')
+          print('PRESERVED_ORIGINAL_OBLIGATIONS', len(baseline['items']))
+          print('NEW_LEDGER_COUNTS', len(new_expanded['items']), dict(all_counts))
+          print('M02_COUNTS', sum(m02_counts.values()), dict(m02_counts))
+          assert len(new_expanded['items']) == 3052
+          assert all_counts == {'verified': 27, 'context_indexed': 405, 'pending': 2620}
+          assert m02_counts == {'verified': 26, 'context_indexed': 1}
+          coverage_path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          fixture = Path('scripts/rebel/tests/fixtures/coverage_m01_b.json')
+          fixture.parent.mkdir(parents=True, exist_ok=True)
+          fixture.write_bytes(original_bytes)
+          test_path = Path('scripts/rebel/tests/test_inventory.py')
+          before = test_path.read_text(encoding='utf-8')
+          assert sha(test_path.read_bytes()) == '9c52841bdcf740c920f08d6f69dc3edf7583bd04'
+          old = '        self.data = json.loads(self.path.read_text())\n'
+          new = '''        # Keep all original hostile fixtures on their exact M01-B baseline.
+                  fixture = Path(__file__).with_name("fixtures") / "coverage_m01_b.json"
+                  self.data = json.loads(fixture.read_text(encoding="utf-8"))
+                  self.path.write_text(json.dumps(self.data), encoding="utf-8")
+          '''
+          new = '\n'.join(line[8:] if line.startswith('        ') else line for line in new.splitlines())
+          new = textwrap.indent(new, '        ').rstrip() + '\n'
+          assert before.count(old) == 1
+          after = before.replace(old, new)
+          addition = '''
+              def test_current_inventory_preserves_original_obligations(self):
+                  # Validate the evolving live ledger as well as the frozen negative controls.
+                  fixture = Path(__file__).with_name("fixtures") / "coverage_m01_b.json"
+                  raw = fixture.read_bytes()
+                  digest = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\\0" + raw).hexdigest()
+                  self.assertEqual(digest, "43764c9b96754183127ffb8c3441630b90ae9afc")
+                  baseline = expand(json.loads(raw), ROOT)
+                  live, _ = check(ROOT)
+                  by_id = {item["id"]: item for item in live["items"]}
+                  fields = ("id", "parent_id", "source", "locator", "obligation", "milestone")
+                  for previous in baseline["items"]:
+                      with self.subTest(ident=previous["id"]):
+                          self.assertIn(previous["id"], by_id)
+                          current = by_id[previous["id"]]
+                          self.assertEqual([current.get(key) for key in fields],
+                                           [previous.get(key) for key in fields])
+                          if previous["status"] == "verified":
+                              self.assertEqual(current["status"], "verified")
+                              for proof in previous["evidence"]:
+                                  self.assertIn(proof, current["evidence"])
+          '''
+          addition = textwrap.dedent(addition)
+          addition = textwrap.indent(addition, '    ')
+          anchor = '\n\nif __name__ == "__main__":'
+          assert after.count(anchor) == 1
+          after = after.replace(anchor, '\n' + addition.rstrip() + anchor)
+          print(''.join(difflib.unified_diff(before.splitlines(True), after.splitlines(True),
+              fromfile='a/' + str(test_path), tofile='b/' + str(test_path))))
+          test_path.write_text(after, encoding='utf-8')
+          subprocess.run([sys.executable, '-m', 'py_compile', str(test_path)], check=True)
+          subprocess.run([sys.executable, 'scripts/rebel/check_coverage.py'], check=True)
+          subprocess.run([sys.executable, 'scripts/rebel/check_inventory.py'], check=True)
+          subprocess.run([sys.executable, '-W', 'error', '-m', 'unittest', 'discover',
+              '-s', 'scripts/rebel/tests', '-v'], check=True)
+          print('METADATA_REGRESSION_PASS tests=24; no Lean source changed')
+          prep_run = os.environ['GITHUB_RUN_ID']
+          accepted = '''## M02 最終受入
+
+          **M02 完了。受入対象の実装 SHA は `95dbfb2a32175038938315a3da5026deb4287610`。**
+          論文全体・ReBeL 全体の形式化完了ではなく、ROADMAP の M02 に限る。
+          次段階は M03。検証対象 SHA と、その後の完了記録 commit は区別する。
+
+          | 検査 | run / job | 実ログで確認した結果 |
+          |---|---|---|
+          | full CI | `35243144402` / `105276473279` | 全体 build 4027 jobs、23候補型、Phase 1/2/3（2/3は deep）、public lint 3797 build jobs、tracked diff: 全成功 |
+          | ReBeL checks | `35243144308` / `105276776415` | 明示的17 modules、1752 build jobs、963宣言の推移的公理監査、全17 module lint、23 Python tests、tracked diff: 全成功 |
+          | source inventory | `35243144305` / `105276430059` | 公式53エントリ・2578出現、PDF50頁・25版対応の再現、台帳・23 Python tests・tracked diff: 全成功 |
+
+          full CI の最後の public lint は 2026-09-17T16:09:33Z に成功した。
+          ReBeL の最終マーカーは `REBEL_VALIDATION_PASS modules=17`、公理監査は
+          `REBEL_AXIOM_AUDIT_PASS declarations=963`。963は生成補助宣言を含み、963個の独立定理ではない。
+          許容公理は propext / Classical.choice / Quot.sound のみ（各宣言はその部分集合を使用）。
+          Lean 4.33.1、compiler `819816b2e0a3bf405af45ae5c7af2491d8f5bee6`。
+          この検証で sorry/admit・独自公理は0。依存 pin と既存の監査基準値は変更していない。
+          ReBeL 層は新しい明示的測定区分として58個の `change` を登録し、非定義的 transport は0。
+          未分類ファイル0、100文字超過行0、Phase 2/3 の deep probes も含めて合格した。
+          修正過程と負例検査は `M02-integration.md` を参照。
+
+          ### coverage と完了記録の検査
+
+          M02 は27項目（`verified=26`, `context_indexed=1`）。脚注3の「方策が既知」は
+          モデル前提の説明として分類し、観測していない乱数や隠れ状態を知る定理にはしていない。
+          全体は3052項目（`verified=27`, `context_indexed=405`, `pending=2620`）。
+          元の3048項目の ID・親・原典・locator・主張・milestone を全て保持した。
+          M01-B の原典索引ハッシュと、DIAG-R3-Q の既存証拠も変更していない。
+          項目数を形式化完成率や証明数として解釈しない。
+
+          元の23 Pythonテストは、厳密に同じ M01-B coverage blob を不変fixtureとして保持して再実行した。
+          さらに現在の台帳と原典3048項目の同一性・既存検証証拠の保存を検査する1テストを追加し、
+          合計24テストに合格した。完了記録の変更は台帳・文書・Pythonテスト/fixtureだけであり、
+          95dbfb2 の Lean ソースや production validator / workflow / toolchain は変更しない。
+          '''
+          accepted = textwrap.dedent(accepted)
+          accepted += f'完了記録用の実行証拠: run `{prep_run}` の `METADATA_REGRESSION_PASS tests=24`。\n'
+          boundaries = '''
+          ## 追加の意味論境界と未完了義務
+
+          `Response.isBestResponse_iff_policyValue_greatest` は、任意の固定された合法な相手方策に
+          対する最良応答の最大値による特徴付けである。相手に Nash 性を仮定しないが、最大値を
+          達成する方策の存在や計算アルゴリズムを証明したことにもならない。
+          その存在義務を `BR-ATTAINMENT`（M04、親 FOUND-NASH）として明示した。
+
+          一般の InformationModel の menu_adequate は実現した履歴上の合法性を保証するもので、
+          到達不能な構文上の全 AOH に非空な menu を自動で保証するものではない。
+          一般の実行保存定理は供給された合法方策について述べ、縦断例では
+          fullPlanPolicy / fullBidCallPolicy を実際に構成して非空性を示している。
+          これを「全ての抽象モデルで方策空間が非空」「実現情報集合への制限と拡張が一般に同値」と
+          読み替えない。終端・構文上不可能な観測の扱い、実現可能だが特定方策で確率0となる履歴の
+          合法な逸脱を保持した方策領域の同値性は `PBS-POLICY-DOMAIN`（M03）に残す。
+          この項目は PBS-EQUIVALENCE の分解であって、元の義務の削除・弱化ではない。
+
+          M02-HIDDEN-TYPES と M02-LIARS-INSTANCE は今回の限定された非自明な縦断例の証拠であり、
+          GAME-LIARS の一般パラメータ/C++ refinement 義務は pending のままである。
+          P-DEP-02/P-DEP-34 は実際に必要な有限鎖の共通知識解釈と FOSG 観測・完全記憶の前提を
+          直接証明・具体化した範囲に限る。引用文献全体の再形式化を宣言していない。
+          M03 の joint PBS/conditioning/戦略同値性、M04 のCFRと均衡存在、後続の学習・数値実行・
+          一般ゲームと公式実装 refinement は引き続き未完了である。
+          '''
+          boundaries = textwrap.dedent(boundaries)
+          m02_path = Path('docs/rebel/M02.md')
+          old_m02 = m02_path.read_text(encoding='utf-8')
+          assert '## 受入状態\n' in old_m02 and '## 読了した資料\n' in old_m02
+          body = old_m02[old_m02.index('## 読了した資料\n'):]
+          body = body[:body.index('## 完了までのゲートと次段階\n')]
+          body = body.replace('最後の build は', 'この旧検証での build は')
+          m02_path.write_text('# M02 — 有限ゲーム・情報意味論と縦断例\n\n' + accepted + '\n' + body + boundaries,
+              encoding='utf-8')
+          status_path = Path('docs/rebel/STATUS.md')
+          old_status = status_path.read_text(encoding='utf-8')
+          history = old_status.split('\n', 1)[1].lstrip()
+          history = history.replace('## 現在地\n', '## M01 時点の現在地（履歴）\n', 1)
+          history = history.replace('## 次タスク: M02-A\n', '## M01 時点の次タスク: M02-A（現在は完了）\n', 1)
+          current_status = '''## 現在地
+
+          **M02 完了。次の作業は M03。ReBeL 全体の形式化はまだ完了していない。**
+          作業ブランチは `rebel/m02`。M02 開始時の main は
+          `8beff57b70f3c5e28fb28724c655207ced881c88`。
+          中断時の `d07b17315ab31788dec2c4a87b5d0c2ba47fe0c0` までのコミットは全て保存済みだった。
+          回復時に main より52コミット先行・0遅れと確認し、reset/force-push/worktreeは使用していない。
+          受入対象95dbfb2はその後継で、監査分類漏れと12行の文字数超過を修正した。
+          実際の最新 main と記録commitのSHAは GitHub の refs/history を取得して確認すること。
+          このファイルは、自己参照の完了記録commitを過去の検証対象SHAとして扱わない。
+          書込み先は `marshmallowday/leanrebel` のみ。通常CIはread-onlyであり、一時blob準備workflowは
+          完了記録commitから削除する。以下のM01記録は履歴として保持し、現在の状態と混同しない。
+
+          '''
+          current_status = textwrap.dedent(current_status)
+          status_path.write_text('# ReBeL — 継続用状態\n\n' + current_status + accepted + boundaries +
+              '\n## M01 受入記録の保存\n\n' + history, encoding='utf-8')
+          integration_path = Path('docs/rebel/M02-integration.md')
+          integration_path.write_text(integration_path.read_text(encoding='utf-8') + textwrap.dedent('''
+
+          ## Final gate resolution
+
+          Implementation 95dbfb2a32175038938315a3da5026deb4287610 subsequently passed all three workflows.
+          Full CI 35243144402 / 105276473279 built 4027 jobs, passed all Phase 1/2/3 gates including
+          deep probes, and passed the public lint (3797 build jobs) at 2026-09-17T16:09:33Z.
+          ReBeL 35243144308 / 105276776415 passed all 17 module builds/lints and the 963-declaration
+          transitive axiom audit. Source inventory 35243144305 / 105276430059 also succeeded.
+          Complete job logs were inspected before acceptance. The implementation SHA is not the
+          later record-only commit. Coverage, STATUS, and M02.md contain the exact scope and counts.
+          The original 23 Python tests retain an immutable M01-B coverage fixture; a new live-ledger
+          preservation regression brings the tested total to 24 without weakening the original checks.
+          '''), encoding='utf-8')
+          paths = [str(coverage_path), str(fixture), str(test_path), str(m02_path), str(status_path), str(integration_path)]
+          for path in paths:
+              contents = Path(path).read_text(encoding='utf-8')
+              result = request('git/blobs', {'content': contents, 'encoding': 'utf-8'})
+              assert result['sha'] == sha(contents.encode())
+              print('PREPARED_RECORD_BLOB', path, result['sha'])
+          print('M02_ACCEPTANCE_RECORD_PREPARED', source)
+          print('No commit, ref, upstream repository, or production validator was changed by this job.')
+          PY
