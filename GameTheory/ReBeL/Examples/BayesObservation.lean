@@ -35,24 +35,26 @@ theorem bayes_distinct :
   · intro equal
     have impossible : (0 : Face) = 1 :=
       congrArg (fun h : protocol.History => (hiddenParts h.state).1) equal
-    norm_num at impossible
+    exact (by decide : (0 : Face) ≠ 1) impossible
   · intro equal
     have impossible : (4 : Face) = 0 :=
       congrArg (fun h : protocol.History => (hiddenParts h.state).2) equal
-    norm_num at impossible
+    exact (by decide : (4 : Face) ≠ 0) impossible
   · intro equal
     have impossible : (1 : Face) = 0 :=
       congrArg (fun h : protocol.History => (hiddenParts h.state).1) equal
-    norm_num at impossible
+    exact (by decide : (1 : Face) ≠ 0) impossible
 
 /-- Exactly one quarter of the incoming mass is excluded by the observation. -/
 theorem bayes_public_mass :
     bayesIncoming.probOf {h | publicTrace signals h.trace = publicObservations} = 3 / 4 := by
   classical
+  have firstObserved : publicTrace signals bayesFirst.trace = publicObservations := rfl
+  have secondObserved : publicTrace signals bayesSecond.trace = publicObservations := rfl
+  have otherExcluded : publicTrace signals bayesOther.trace ≠ publicObservations := by decide
   rw [← FinDist.expect_indicator_eq_probOf]
   norm_num [bayesIncoming, FinDist.expect_mix, FinDist.expect_pure,
-    bayesFirst, bayesSecond, bayesOther, draw, publicTrace, signals,
-    publicObservation, publicObservations, History.extend]
+    firstObserved, secondObserved, otherExcluded]
 
 /-- The conditional API receives a real positive-support witness. -/
 theorem bayes_possible :
@@ -62,7 +64,7 @@ theorem bayes_possible :
 
 /-- The complete normalized joint posterior, including the still-hidden die. -/
 def bayesPosterior : PublicBelief signals publicObservations :=
-  PublicBelief.condition bayesIncoming publicObservations bayes_possible
+  PublicBelief.condition (S := signals) bayesIncoming publicObservations bayes_possible
 
 /-- Conditioning changes the masses to 2/3 and 1/3 and gives the excluded history zero. -/
 theorem bayes_posterior_probabilities :

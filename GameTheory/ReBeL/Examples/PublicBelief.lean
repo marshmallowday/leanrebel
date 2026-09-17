@@ -73,7 +73,9 @@ theorem drawBelief_value (law : FinDist Types) :
       exact FinDist.expect_congr fun h _ => cumulative_eq fullPrior h 0
     _ = _ := by
       unfold pbsProfile
-      rw [map_state_plan_continuation, run_first, FinDist.expect_pure]
+      rw [map_state_plan_continuation]
+      have rootState : (fullDraw types).state = State.first types := rfl
+      rw [rootState, run_first, FinDist.expect_pure]
       simp [potential, signed, firstResult, finalResult, firstJoint, secondJoint,
         action, correlationPlans, ownType, winValue]
 
