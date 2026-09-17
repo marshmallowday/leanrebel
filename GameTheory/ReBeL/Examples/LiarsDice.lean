@@ -18,9 +18,13 @@ namespace GameTheory.ReBeL.Examples.LiarsDice
 
 open GameTheory.Protocol ExecutionProtocol GameTheory.Math.Probability
 
+/-- The two strategic players; chance is represented separately by a transition law. -/
 abbrev Player := Fin 2
+/-- Three die faces encoded from zero; face two is wild. -/
 abbrev Face := Fin 3
+/-- One private die per player, retained jointly to allow correlated priors. -/
 abbrev Dice := Face × Face
+/-- Quantity-first encoding of two quantities and three faces. -/
 abbrev Bid := Fin 6
 
 /-- Six quantity-first bids and the separate challenge action. -/
@@ -83,6 +87,7 @@ def terminal : State → Prop
   | .finished _ => True
   | _ => False
 
+/-- Optional moves for both players; legality enforces inactivity off turn. -/
 abbrev Joint := Player → Option Move
 
 /-- Total analyst-side selector; its fallback is unreachable at a legal live step. -/
