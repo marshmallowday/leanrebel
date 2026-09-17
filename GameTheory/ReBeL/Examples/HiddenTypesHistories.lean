@@ -24,7 +24,7 @@ def drawHistory (prior : FinDist Types) (types : Types) (possible : types ∈ pr
   (protocol prior).initHistory.extend
     (joint := fun _ => none)
     (show (protocol prior).Legal .initial (fun _ => none) from
-      ⟨by simp [terminal], by intro i; trivial⟩)
+      ⟨by simp [terminal], by intro i; change ¬ False; exact not_false⟩)
     (target := .first types)
     (by
       change State.first types ∈ (FinDist.map State.first prior).support
@@ -110,8 +110,8 @@ theorem merging_different_information :
     (model fullPrior).infoOf 0 (mergingHistory false).trace ≠
       (model fullPrior).infoOf 0 (mergingHistory true).trace := by
   intro equal
-  change AOH.step _ (some false) none (.second true) =
-    AOH.step _ (some true) none (.second true) at equal
+  change AOH.step _ (some false) (none : Option Bool) (Phase.second true) =
+    AOH.step _ (some true) (none : Option Bool) (Phase.second true) at equal
   cases equal
 
 theorem merging_different_histories : mergingHistory false ≠ mergingHistory true := by
