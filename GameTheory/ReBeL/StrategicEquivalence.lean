@@ -97,7 +97,8 @@ theorem isNash_encode_iff [DecidableEq ι]
     (belief : PublicBelief.State (fullInformation M)) (fuel : Nat)
     (profile : Profile (fullInformation M).behavioralSignature) (utility : E.History → ι → ℝ) :
     IsNash (originalGame M belief fuel) (euPreference utility) profile ↔
-      IsNash (beliefGame M fallback belief fuel) (euPreference utility) (encodeProfile M profile) := by
+      IsNash (beliefGame M fallback belief fuel) (euPreference utility)
+        (encodeProfile M profile) := by
   rw [isNash_iff, isNash_iff]
   constructor
   · intro hnash i replacement

@@ -72,7 +72,8 @@ theorem drawBelief_value (law : FinDist Types) :
       rw [FinDist.expect_map]
       exact FinDist.expect_congr fun h _ => cumulative_eq fullPrior h 0
     _ = _ := by
-      rw [pbsProfile, map_state_plan_continuation, run_first, FinDist.expect_pure]
+      unfold pbsProfile
+      rw [map_state_plan_continuation, run_first, FinDist.expect_pure]
       simp [potential, signed, firstResult, finalResult, firstJoint, secondJoint,
         action, correlationPlans, ownType, winValue]
 
@@ -81,7 +82,8 @@ theorem drawBelief_payoff_separation :
     (PublicBelief.continuationLaw (model fullPrior) pbsProfile 2
       (drawBelief correlated)).expect (fun h => cumulativeUtility (reward fullPrior) h 0) = 2 ∧
     (PublicBelief.continuationLaw (model fullPrior) pbsProfile 2
-      (drawBelief anticorrelated)).expect (fun h => cumulativeUtility (reward fullPrior) h 0) = 0 := by
+      (drawBelief anticorrelated)).expect
+        (fun h => cumulativeUtility (reward fullPrior) h 0) = 0 := by
   constructor <;> rw [drawBelief_value] <;>
     norm_num [correlated, anticorrelated, FinDist.expect_mix, FinDist.expect_pure, winValue]
 

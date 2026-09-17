@@ -127,7 +127,8 @@ theorem decodeProfile_update [DecidableEq ι]
     (fallback : Profile (fullInformation M).behavioralSignature)
     (profile : Profile (signature M)) (i : ι) (replacement : Policy M i) :
     decodeProfile M fallback (Profile.update profile i replacement) =
-      Profile.update (decodeProfile M fallback profile) i (decode M i (fallback i) replacement) := by
+      Profile.update (decodeProfile M fallback profile) i
+        (decode M i (fallback i) replacement) := by
   funext j
   by_cases hj : j = i
   · subst j

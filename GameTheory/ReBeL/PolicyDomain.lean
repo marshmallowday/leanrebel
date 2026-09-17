@@ -107,7 +107,8 @@ theorem restrictProfile_update [DecidableEq ι] (profile : Profile M.behavioralS
 theorem extendProfile_update [DecidableEq ι] (fallback : Profile M.behavioralSignature)
     (profile : Profile (signature M)) (i : ι) (replacement : Policy M i) :
     extendProfile M fallback (Profile.update profile i replacement) =
-      Profile.update (extendProfile M fallback profile) i (extend M i (fallback i) replacement) := by
+      Profile.update (extendProfile M fallback profile) i
+        (extend M i (fallback i) replacement) := by
   funext j
   by_cases hj : j = i
   · subst j

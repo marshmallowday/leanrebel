@@ -37,11 +37,11 @@ theorem no_duplicate (n : Nat) (factors : Fin 2 → ReachWeights (Fin n))
 /-- In the two-card calculation, one observed action is twice as likely with card zero. -/
 def actionFactors (i : Fin 2) : ReachWeights (Fin 2) where
   weight card := if i = 0 then if card = 0 then 1 else 1 / 2 else 1
-  nonneg card := by split <;> split_ifs <;> norm_num
+  nonneg card := by split_ifs <;> norm_num
 
 /-- These are valid likelihood factors in [0,1], not arbitrary large potentials. -/
 theorem actionFactors_le_one (i card : Fin 2) : (actionFactors i).weight card ≤ 1 := by
-  unfold actionFactors
+  show (if i = 0 then if card = 0 then (1 : ℝ) else 1 / 2 else 1) ≤ 1
   split_ifs <;> norm_num
 
 /-- The fixed chance and local likelihood factors are decoded jointly. -/
@@ -61,8 +61,9 @@ def posterior : FinDist (Fin 2 × Fin 2) := updatedWeights.normalize updated_pos
 theorem posterior_probabilities :
     posterior.prob (0, 1) = 2 / 3 ∧ posterior.prob (1, 0) = 1 / 3 ∧
       posterior.prob (0, 0) = 0 ∧ posterior.prob (1, 1) = 0 := by
-  norm_num [posterior, ReachWeights.prob_normalize, updated_mass, updatedWeights,
-    ReachEncoding.joint, distinctCards, observe, actionFactors, Fin.prod_univ_two]
+  simp only [posterior, ReachWeights.prob_normalize, updated_mass]
+  norm_num [updatedWeights, ReachEncoding.joint, distinctCards, observe,
+    actionFactors, Fin.prod_univ_two]
 
 /-- The paper's three-action prescription has 156 probabilities per acting player. -/
 theorem one_card_prescription_slots : Fintype.card (Fin 52 × Fin 3) = 156 := by norm_num
