@@ -101,23 +101,27 @@ theorem rank_decreases (prior : FinDist Types) (event : (protocol prior).StepEve
       change target ∈ (FinDist.map State.first prior).support at realized
       rw [FinDist.support_map] at realized
       obtain ⟨types, _, rfl⟩ := realized
+      change 2 < 3
       decide
   | first types =>
       change target ∈ (FinDist.pure (.second types (firstResult joint))).support at realized
       rw [FinDist.mem_support_pure] at realized
       subst target
+      change 1 < 2
       decide
   | second types firstWin =>
       change target ∈ (FinDist.pure (.finished firstWin (finalResult types joint))).support at realized
       rw [FinDist.mem_support_pure] at realized
       subst target
+      change 0 < 1
       decide
   | finished firstWin finalWin => exact False.elim (legal.1 trivial)
 
 theorem bounded (prior : FinDist Types) : (protocol prior).BoundedHorizon 3 :=
-  boundedHorizon_of_rank rank (rank_decreases prior)
+  boundedHorizon_of_rank (E := protocol prior) rank (rank_decreases prior)
 
-/-- Enumerate all histories, including off-policy histories and merging paths. -/
+/-- Finite history certificate, including off-policy histories and merging paths.
+This specification-level instance is not an executable enumeration algorithm. -/
 @[reducible]
 def historyFintype (prior : FinDist Types) : Fintype (protocol prior).History :=
   boundedHistoryFintype 3 (bounded prior)
