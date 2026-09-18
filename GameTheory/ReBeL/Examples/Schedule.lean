@@ -45,16 +45,14 @@ theorem zeroReach_decisions_scheduled :
 /-- The canonical decision information site after a supported nature draw. -/
 def drawSite (types : Types) (who : Player) : (model fullPrior).InformationSite who :=
   (model fullPrior).informationSite who (fullDraw types) false
-    (by change ¬ terminal (.first types); simp [terminal])
+    (by intro impossible; exact impossible)
     (by apply ((model fullPrior).menu_adequate who (fullDraw types).trace _).mpr; trivial)
 
 /-- First-stage decisions occur after the chance transition, at depth one. -/
 @[simp]
 theorem drawSite_depth (types : Types) (who : Player) :
-    decisionClock.depth who (drawSite types who).1 = 1 := by
-  change decisionClock.depth who ((model fullPrior).infoOf who (fullDraw types).trace) = 1
-  rw [decisionClock.correct]
-  rfl
+    decisionClock.depth who (drawSite types who).1 = 1 :=
+  decisionClock.correct who (fullDraw types)
 
 /-- The stable chronological order keeps distinct sites at the same depth.
 The example uses private information legitimately available to player one. -/

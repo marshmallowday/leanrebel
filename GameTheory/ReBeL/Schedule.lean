@@ -112,9 +112,7 @@ theorem scheduledSites_covers [Fintype E.History] (clock : ObservationClock M)
     exact ExecutionProtocol.legalOption_of_legal hjoint who
   let site := M.informationSite who history action hterm hmenu
   refine ⟨site, (mem_scheduledSites M clock horizon who site).mpr ?_, rfl⟩
-  change clock.depth who (M.infoOf who history.trace) < horizon
-  rw [clock.correct]
-  exact hbefore
+  exact lt_of_eq_of_lt (clock.correct who history) hbefore
 
 /-- No site is scheduled for a zero-step run. -/
 @[simp]
