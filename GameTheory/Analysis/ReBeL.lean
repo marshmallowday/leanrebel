@@ -13,3 +13,5 @@ import GameTheory.Analysis.ReBeL.Examples.ChronologicalLocality
 import GameTheory.Analysis.ReBeL.PolicyPatching
 import GameTheory.Analysis.ReBeL.RootDecomposition
 import GameTheory.Analysis.ReBeL.Examples.RootDecomposition
+import GameTheory.Analysis.ReBeL.RegretMatching
+import GameTheory.Analysis.ReBeL.CFRTrace
