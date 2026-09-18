@@ -11,3 +11,5 @@ import GameTheory.Analysis.ReBeL.Examples.LocalRegret
 import GameTheory.Analysis.ReBeL.ChronologicalLocality
 import GameTheory.Analysis.ReBeL.Examples.ChronologicalLocality
 import GameTheory.Analysis.ReBeL.PolicyPatching
+import GameTheory.Analysis.ReBeL.RootDecomposition
+import GameTheory.Analysis.ReBeL.Examples.RootDecomposition

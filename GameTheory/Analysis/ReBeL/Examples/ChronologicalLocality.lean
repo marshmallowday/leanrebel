@@ -21,8 +21,8 @@ local instance localityHistoryFintype : Fintype (protocol fullPrior).History :=
   historyFintype fullPrior
 
 /-- Local updates use equality only on a player's own full AOH. -/
-local instance (who : Player) : DecidableEq ((model fullPrior).InfoState who) :=
-  Classical.decEq _
+local instance localityInfoDecidableEq (who : Player) :
+    DecidableEq ((model fullPrior).InfoState who) := Classical.decEq _
 
 /-- Updating a distinct private-information site at the same depth leaves
 all canonical local regrets at the other site unchanged. -/
