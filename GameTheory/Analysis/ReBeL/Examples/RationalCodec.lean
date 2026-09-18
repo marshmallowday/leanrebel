@@ -95,23 +95,23 @@ theorem decode_closed (row : Row) (joint : Player → Option Bool)
       have hnoop : joint = fun _ => none :=
         (protocol fullPrior).eq_noop_of_legal_of_inactive legal (fun _ => not_false)
       subst joint
-      change target ∈ (FinDist.map State.first fullPrior).support at realized
-      rw [FinDist.support_map] at realized
-      obtain ⟨⟨x, y⟩, _, rfl⟩ := realized
+      have htarget : target ∈ (FinDist.map State.first fullPrior).support := realized
+      rw [FinDist.support_map] at htarget
+      obtain ⟨⟨x, y⟩, _, rfl⟩ := htarget
       exact ⟨.drawn x y, rfl⟩
   | drawn x y =>
       obtain ⟨a, b, rfl⟩ := joint_of_active joint legal (fun _ => trivial)
-      change target ∈ (FinDist.pure
-        (State.second (x, y) (firstResult (fun who => some (own who a b))))).support at realized
-      rw [FinDist.mem_support_pure] at realized
+      have htarget : target ∈ (FinDist.pure
+        (State.second (x, y) (firstResult (fun who => some (own who a b))))).support := realized
+      rw [FinDist.mem_support_pure] at htarget
       subst target
       exact ⟨.second x y a b, rfl⟩
   | second x y a b =>
       obtain ⟨c, d, rfl⟩ := joint_of_active joint legal (fun _ => trivial)
-      change target ∈ (FinDist.pure
+      have htarget : target ∈ (FinDist.pure
         (State.finished (firstResult (fun who => some (own who a b)))
-          (finalResult (x, y) (fun who => some (own who c d))))).support at realized
-      rw [FinDist.mem_support_pure] at realized
+          (finalResult (x, y) (fun who => some (own who c d))))).support := realized
+      rw [FinDist.mem_support_pure] at htarget
       subst target
       exact ⟨.finished x y a b c d, rfl⟩
   | finished x y a b c d => exact False.elim (legal.1 trivial)
