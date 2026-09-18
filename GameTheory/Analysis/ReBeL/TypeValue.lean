@@ -20,7 +20,7 @@ open GameTheory.Math.Probability GameTheory.MatrixGame
 
 universe u
 
-variable {T B : Type u} [Fintype T] [Fintype B] [Nonempty B]
+variable {T B : Type u} [Fintype T]
 variable {Action : T → Type u}
 variable [∀ t, Fintype (Action t)] [∀ t, Nonempty (Action t)]
 variable (payoff : (t : T) → Action t → B → ℝ)
@@ -40,6 +40,7 @@ own type's probability, and hence also defines an off-path best response. -/
 def infoValue (opponent : FinDist B) (t : T) : ℝ :=
   opponent.expect (payoff t (typeResponse payoff opponent t))
 
+omit [Fintype T] in
 /-- Every legal action is bounded by the selected type best response. -/
 theorem le_infoValue (opponent : FinDist B) (t : T) (action : Action t) :
     opponent.expect (payoff t action) ≤ infoValue payoff opponent t :=
@@ -50,10 +51,7 @@ theorem le_infoValue (opponent : FinDist B) (t : T) (action : Action t) :
 def branch (weight : T → ℝ) (opponent : FinDist B) : ℝ :=
   ∑ t, weight t * infoValue payoff opponent t
 
-/-- The scalar value comes from the existing finite minimax theorem. -/
-def value (weight : T → ℝ) : ℝ :=
-  MatrixGame.value (matrix payoff weight)
-
+omit [∀ t, Fintype (Action t)] [∀ t, Nonempty (Action t)] in
 /-- Expanding the canonical pure-row payoff leaves the actual conditional
 opponent expectation inside each type summand. -/
 theorem pure_payoff_eq (weight : T → ℝ) (plan : (t : T) → Action t)
@@ -95,6 +93,21 @@ theorem branch_isGreatest (weight : T → ℝ) (nonneg : ∀ t, 0 ≤ weight t)
   · exact ⟨FinDist.pure (typeResponse payoff opponent), simultaneous_response payoff _ _⟩
   · rintro candidate ⟨row, rfl⟩
     exact payoff_le_branch payoff weight nonneg row opponent
+
+/-- The fixed-opponent branch is linear in the own weights, on its whole
+ambient vector space. The type values do not depend on those weights. -/
+theorem branch_linear (first second : T → ℝ) (a b : ℝ) (opponent : FinDist B) :
+    branch payoff (fun t => a * first t + b * second t) opponent =
+      a * branch payoff first opponent + b * branch payoff second opponent := by
+  unfold branch
+  simp only [add_mul, Finset.sum_add_distrib, mul_assoc, Finset.mul_sum]
+
+variable [DecidableEq T] [Fintype B] [Nonempty B]
+
+/-- The scalar value comes from the existing finite minimax theorem. The
+finite dependent-plan instance uses the explicit decidable type equality. -/
+def value (weight : T → ℝ) : ℝ :=
+  MatrixGame.value (matrix payoff weight)
 
 /-- Any fixed opponent gives an upper affine bound on the minimax value. -/
 theorem value_le_branch (weight : T → ℝ) (nonneg : ∀ t, 0 ≤ weight t)
@@ -148,13 +161,5 @@ theorem branch_eq_value_iff_equilibriumOpponent
         ⟨valueRow_guarantees (matrix payoff weight), optimal⟩⟩
   · rintro ⟨row, equilibrium⟩
     exact ((optimal_pairs_iff_isNash _ _ _).mpr equilibrium).2
-
-/-- The fixed-opponent branch is linear in the own weights, on its whole
-ambient vector space. The type values do not depend on those weights. -/
-theorem branch_linear (first second : T → ℝ) (a b : ℝ) (opponent : FinDist B) :
-    branch payoff (fun t => a * first t + b * second t) opponent =
-      a * branch payoff first opponent + b * branch payoff second opponent := by
-  unfold branch
-  simp only [add_mul, Finset.sum_add_distrib, mul_assoc, Finset.mul_sum]
 
 end GameTheory.ReBeL.TypeGame
