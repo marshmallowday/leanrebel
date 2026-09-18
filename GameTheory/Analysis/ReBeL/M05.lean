@@ -8,3 +8,4 @@ separate statements. Importing this root does not by itself certify coverage.
 
 import GameTheory.Analysis.ReBeL.PBSOptimalOpponent
 import GameTheory.Analysis.ReBeL.Examples.ValueGeometry
+import GameTheory.Analysis.ReBeL.GlobalExtension
