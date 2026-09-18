@@ -80,7 +80,8 @@ theorem concrete_profile_realizes (numeric : NumericProfile) (semantic : CFRStat
     (hstate : ∀ who (key : ActiveKey) a,
       (numeric who key.1 a : ℝ) =
         (semantic who (canonicalSite who key)).ofLp (keyChoiceEquiv who key a)) :
-    RowRealizes (table.profile fallback numeric) (cfrProfile (model fullPrior) cfrFallback semantic) := by
+    RowRealizes (table.profile fallback numeric)
+      (cfrProfile (model fullPrior) cfrFallback semantic) := by
   intro who row a
   cases row with
   | initial =>

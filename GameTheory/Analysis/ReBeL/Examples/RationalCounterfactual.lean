@@ -117,7 +117,8 @@ theorem counterfactualValue_correct
     (horizon : ℕ) :
     (table.counterfactualValue reachNumeric continueNumeric who key.1 horizon : ℝ) =
       (model fullPrior).counterfactualContinuationValue semantic who (canonicalSite who key)
-        alternative (cfrPayoff who) (horizon - decisionClock.depth who (canonicalSite who key).1) := by
+        alternative (cfrPayoff who)
+        (horizon - decisionClock.depth who (canonicalSite who key).1) := by
   rw [counterfactualValue_eq_fiber reachNumeric continueNumeric semantic
     (Profile.update semantic who alternative) hreach hcontinue who key horizon,
     canonicalSite_depth]

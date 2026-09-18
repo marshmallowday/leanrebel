@@ -162,10 +162,12 @@ def printProfile (rounds : ℕ) : IO Unit := do
       | .first ownType =>
           let zero := profile who (.first ownType) false
           let one := profile who (.first ownType) true
-          IO.println s!"{rounds},{who.val},0,{ownType.toNat},0,0,{zero.num},{zero.den},{one.num},{one.den}"
+          IO.println (s!"{rounds},{who.val},0,{ownType.toNat},0,0," ++
+            s!"{zero.num},{zero.den},{one.num},{one.den}")
       | .second ownType ownAction result =>
           let zero := profile who (.second ownType ownAction result) false
           let one := profile who (.second ownType ownAction result) true
-          IO.println s!"{rounds},{who.val},1,{ownType.toNat},{ownAction.toNat},{result.toNat},{zero.num},{zero.den},{one.num},{one.den}"
+          IO.println (s!"{rounds},{who.val},1,{ownType.toNat}," ++
+            s!"{ownAction.toNat},{result.toNat},{zero.num},{zero.den},{one.num},{one.den}")
 
 end GameTheory.ReBeL.Rational.HiddenTypes

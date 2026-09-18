@@ -122,7 +122,8 @@ theorem concrete_average_idle (horizon rounds : ℕ) (who : Player) :
 average on every legal history, not just on the current play's support. -/
 theorem concrete_average_correct (horizon rounds : ℕ) [NeZero rounds] :
     RowRealizes (table.average fallback horizon rounds)
-      (cfrAveragedProfile (model fullPrior) decisionClock cfrFallback cfrPayoff horizon rounds) := by
+      (cfrAveragedProfile (model fullPrior) decisionClock cfrFallback cfrPayoff
+        horizon rounds) := by
   intro who row a
   cases row with
   | initial =>
@@ -173,8 +174,8 @@ same canonical strategy for which the uniform deviation guarantee was proved. -/
 theorem solve_value_correct (rounds : ℕ) [NeZero rounds] (who : Player) :
     (table.outputValue fallback 3 rounds who : ℝ) =
       ((model fullPrior).runBehavioral
-        (cfrAveragedProfile (model fullPrior) decisionClock cfrFallback cfrPayoff 3 rounds) 3).expect
-          (cfrPayoff who) :=
+        (cfrAveragedProfile (model fullPrior) decisionClock cfrFallback cfrPayoff
+          3 rounds) 3).expect (cfrPayoff who) :=
   root_value_correct (solve rounds) _ (concrete_average_correct 3 rounds) 3 who
 
 end GameTheory.ReBeL.Rational.HiddenTypes.Canonical
