@@ -26,6 +26,8 @@ variable (M : InformationModel.{uι, us, ua, up, uq, uk} E)
 abbrev CFRState := (who : ι) → (site : M.InformationSite who) →
   EuclideanSpace ℝ (M.Choice who site.1)
 
+variable [∀ who info, Fintype (M.Choice who info)]
+
 /-- A single behavioral profile is assembled from all current tables. Outside
 actual decision sites the explicitly supplied legal fallback is used. -/
 def cfrProfile (fallback : (who : ι) → M.Policy who) (state : CFRState M) :
@@ -132,6 +134,7 @@ theorem cfrState_smul_eq_sum (clock : ObservationClock M)
   induction t with
   | zero => simp [cfrState]
   | succ n ih =>
+      have hn : (n : ℝ) + 1 ≠ 0 := by positivity
       have c1 : ((n : ℝ) + 1) * ((n : ℝ) / ((n : ℝ) + 1)) = (n : ℝ) := by
         field_simp
       have c2 : ((n : ℝ) + 1) * (1 / ((n : ℝ) + 1)) = 1 := by field_simp

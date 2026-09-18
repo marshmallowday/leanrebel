@@ -22,9 +22,9 @@ variable (M : InformationModel.{uι, us, ua, up, uq, uk} E)
 /-- Every own-action factor lies in the unit interval, on any legal trace. -/
 theorem playerStep_unitInterval (strategy : Profile M.behavioralSignature)
     (who : ι) {state : E.State} (trace : E.Trace state)
-    (joint : E.JointAction) (hlegal : E.Legal state joint) :
-    0 ≤ M.playerStepProb strategy who trace joint hlegal ∧
-      M.playerStepProb strategy who trace joint hlegal ≤ 1 := by
+    (joint : { action : ∀ i, Option (E.Action i) // E.Legal state action }) :
+    0 ≤ M.playerStepProb strategy who trace joint ∧
+      M.playerStepProb strategy who trace joint ≤ 1 := by
   unfold InformationModel.playerStepProb
   exact ⟨FinDist.prob_nonneg _ _, FinDist.prob_le_one _ _⟩
 
@@ -36,11 +36,11 @@ theorem playerReach_unitInterval (strategy : Profile M.behavioralSignature)
   induction trace with
   | start => simp [InformationModel.playerReachProbability]
   | extend prior joint hlegal realized ih =>
-      have hstep := playerStep_unitInterval M strategy who prior joint hlegal
+      have hstep := playerStep_unitInterval M strategy who prior ⟨joint, hlegal⟩
       simp only [InformationModel.playerReachProbability]
       refine ⟨mul_nonneg ih.1 hstep.1, ?_⟩
       calc
-        _ ≤ 1 * M.playerStepProb strategy who prior joint hlegal :=
+        _ ≤ 1 * M.playerStepProb strategy who prior ⟨joint, hlegal⟩ :=
           mul_le_mul_of_nonneg_right ih.2 hstep.1
         _ ≤ 1 := by simpa using hstep.2
 
@@ -50,25 +50,24 @@ variable [Fintype ι] [DecidableEq ι]
 focal player's factor does not turn a single-history weight into a posterior. -/
 theorem counterfactualStep_unitInterval (strategy : Profile M.behavioralSignature)
     (who : ι) {state : E.State} (trace : E.Trace state)
-    (joint : E.JointAction) (hlegal : E.Legal state joint) (next : E.State) :
-    0 ≤ M.counterfactualStepProb strategy who trace joint hlegal next ∧
-      M.counterfactualStepProb strategy who trace joint hlegal next ≤ 1 := by
+    (joint : { action : ∀ i, Option (E.Action i) // E.Legal state action })
+    (next : E.State) :
+    0 ≤ M.counterfactualStepProb strategy who trace joint next ∧
+      M.counterfactualStepProb strategy who trace joint next ≤ 1 := by
   have hproduct0 : 0 ≤ ∏ other ∈ Finset.univ.erase who,
-      M.playerStepProb strategy other trace joint hlegal :=
+      M.playerStepProb strategy other trace joint :=
     Finset.prod_nonneg fun other _ =>
-      (playerStep_unitInterval M strategy other trace joint hlegal).1
+      (playerStep_unitInterval M strategy other trace joint).1
   have hproduct1 : (∏ other ∈ Finset.univ.erase who,
-      M.playerStepProb strategy other trace joint hlegal) ≤ 1 :=
+      M.playerStepProb strategy other trace joint) ≤ 1 :=
     Finset.prod_le_one
-      (fun other _ => (playerStep_unitInterval M strategy other trace joint hlegal).1)
-      (fun other _ => (playerStep_unitInterval M strategy other trace joint hlegal).2)
-  unfold InformationModel.counterfactualStepProb
-  refine ⟨mul_nonneg (FinDist.prob_nonneg _ _) hproduct0, ?_⟩
-  calc
-    _ ≤ 1 * (∏ other ∈ Finset.univ.erase who,
-        M.playerStepProb strategy other trace joint hlegal) :=
-      mul_le_mul_of_nonneg_right (FinDist.prob_le_one _ _) hproduct0
-    _ ≤ 1 := by simpa using hproduct1
+      (fun other _ => (playerStep_unitInterval M strategy other trace joint).1)
+      (fun other _ => (playerStep_unitInterval M strategy other trace joint).2)
+  unfold InformationModel.counterfactualStepProb InformationModel.opponentsStepProb
+  refine ⟨mul_nonneg hproduct0 (FinDist.prob_nonneg _ _), ?_⟩
+  exact le_trans
+    (mul_le_mul_of_nonneg_right hproduct1 (FinDist.prob_nonneg (E.step state joint) next))
+    (by simpa using FinDist.prob_le_one (E.step state joint) next)
 
 /-- Every single-history counterfactual reach is nonnegative and at most one,
 including histories impossible under the current focal policy. -/
@@ -79,11 +78,11 @@ theorem counterfactualReach_unitInterval (strategy : Profile M.behavioralSignatu
   induction trace with
   | start => simp [InformationModel.counterfactualReachProbability]
   | @extend source next prior joint hlegal realized ih =>
-      have hstep := counterfactualStep_unitInterval M strategy who prior joint hlegal next
+      have hstep := counterfactualStep_unitInterval M strategy who prior ⟨joint, hlegal⟩ next
       simp only [InformationModel.counterfactualReachProbability]
       refine ⟨mul_nonneg ih.1 hstep.1, ?_⟩
       calc
-        _ ≤ 1 * M.counterfactualStepProb strategy who prior joint hlegal next :=
+        _ ≤ 1 * M.counterfactualStepProb strategy who prior ⟨joint, hlegal⟩ next :=
           mul_le_mul_of_nonneg_right ih.2 hstep.1
         _ ≤ 1 := by simpa using hstep.2
 
@@ -130,7 +129,9 @@ theorem euclidean_norm_le_coordinate_bound {A : Type*} [Fintype A]
         apply Finset.sum_le_sum
         intro a _
         have ha := abs_le.mp (hbound a)
-        nlinarith [sq_nonneg (bound - x.ofLp a), sq_nonneg (bound + x.ofLp a)]
+        have hp := mul_nonneg (sub_nonneg.mpr ha.2)
+          (show 0 ≤ bound + x.ofLp a by linarith)
+        nlinarith
       _ = _ := by simp
   have hright0 : 0 ≤ Real.sqrt (Fintype.card A) * bound :=
     mul_nonneg (Real.sqrt_nonneg _) hbound0
@@ -156,6 +157,8 @@ theorem regretPayoff_norm_le_of_abs_bound {A Q : Type*} [Fintype A]
     _ ≤ |utility action environment| + |law.expect (fun other => utility other environment)| :=
       abs_sub _ _
     _ ≤ 2 * bound := by linarith [hbound action environment]
+
+variable [∀ who info, Fintype (M.Choice who info)]
 
 /-- An explicit structural constant for the local Euclidean regret payoff. -/
 def counterfactualPayoffBound (who : ι) (site : M.InformationSite who)
