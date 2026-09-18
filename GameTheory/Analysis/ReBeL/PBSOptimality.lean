@@ -128,7 +128,8 @@ theorem branch_eq_value_iff_nashOpponent (hrecall : M.PerfectRecall)
       own reference equilibrium
     refine ⟨Profile.update reference 1 (opponents 1), ?_, Profile.update_same _ _ _⟩
     apply nash_replaceOpponent_of_upper_bound
-      (behavioralBeliefForm M (slice.mixture own) fuel) utility hzero reference opponents equilibrium
+      (behavioralBeliefForm M (slice.mixture own) fuel) utility hzero
+        reference opponents equilibrium
     intro replacement
     exact (slice.payoff_le_branch hrecall fallback fuel
       (fun history => utility history 0) own opponents replacement).trans_eq

@@ -85,7 +85,6 @@ theorem radialValue_hasFDerivAt :
     apply ContinuousLinearMap.ext
     intro point
     norm_num
-    ring
   have linear : ((1 / 2 : ℝ) • (ContinuousLinearMap.toSpanSingleton ℝ (-1 : ℝ)).comp
       (ContinuousLinearMap.fst ℝ ℝ ℝ + ContinuousLinearMap.snd ℝ ℝ ℝ) +
         ContinuousLinearMap.fst ℝ ℝ ℝ) = radialGradient := by

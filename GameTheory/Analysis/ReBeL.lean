@@ -65,3 +65,4 @@ import GameTheory.Analysis.ReBeL.TypeBeliefSlice
 import GameTheory.Analysis.ReBeL.PBSInfoValue
 import GameTheory.Analysis.ReBeL.PBSValue
 import GameTheory.Analysis.ReBeL.PBSGeometry
+import GameTheory.Analysis.ReBeL.PBSOptimality

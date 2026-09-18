@@ -61,8 +61,8 @@ theorem plan_le_infoValue (fallback : Profile M.strategicSignature) (fuel : ℕ)
         (FinitePlan.toPolicy M (fallback who) plan).toBehavioral type ≤
       slice.infoValue fallback fuel payoff opponents type := by
   classical
-  letI : Fintype (FinitePlan M who) := finitePlanFintype M who
-  letI : Nonempty (FinitePlan M who) := ⟨fun info => fallback who info.1⟩
+  let : Fintype (FinitePlan M who) := finitePlanFintype M who
+  let : Nonempty (FinitePlan M who) := ⟨fun info => fallback who info.1⟩
   exact Classical.choose_spec (Finite.exists_max fun plan : FinitePlan M who =>
     slice.conditionalPayoff opponents fuel payoff
       (FinitePlan.toPolicy M (fallback who) plan).toBehavioral type) plan
