@@ -114,8 +114,9 @@ theorem weightedBranch_eq_value_of_nash (hrecall : M.PerfectRecall)
       slice.value fallback fuel (fun history => utility history 0) own.prob := by
   rw [← slice.branch_eq_weightedBranch fallback fuel
     (fun history => utility history 0) own profile]
-  exact (slice.branch_eq_equilibriumPayoff hrecall fallback fuel utility own profile equilibrium).trans
-    (slice.value_eq_equilibriumPayoff hrecall fallback fuel utility hzero own profile equilibrium).symm
+  exact (slice.branch_eq_equilibriumPayoff hrecall fallback fuel utility
+    own profile equilibrium).trans (slice.value_eq_equilibriumPayoff hrecall fallback fuel
+      utility hzero own profile equilibrium).symm
 
 /-- Theorem 1's existential-extension interpretation for the actual joint
 PBS game. Eq. (2) is tied to its canonical expected equilibrium utility.
@@ -135,7 +136,8 @@ theorem theorem1_canonicalPBS (hrecall : M.PerfectRecall)
       (∀ type, slice.infoValue fallback fuel (fun history => utility history 0) profile type =
         expectedUtility utility 0
           ((behavioralBeliefForm M (slice.mixture own) fuel).play profile) +
-        slice.centeredVector fallback fuel (fun history => utility history 0) own.prob profile type) := by
+        slice.centeredVector fallback fuel (fun history => utility history 0)
+          own.prob profile type) := by
   refine ⟨slice.allSpaceExtension fallback fuel (fun history => utility history 0) own.prob,
     slice.allSpaceExtension_eq_on_simplex fallback fuel _ own.prob,
     slice.allSpaceExtension_concave fallback fuel _ own.prob,
@@ -158,7 +160,8 @@ theorem averaged_global_support (fallback : Profile M.strategicSignature) (fuel 
     slice.allSpaceExtension fallback fuel payoff base point ≤
       slice.allSpaceExtension fallback fuel payoff base base +
         ∑ type, opponents.expect (fun profile =>
-          slice.centeredVector fallback fuel payoff base profile type) * (point type - base type) := by
+          slice.centeredVector fallback fuel payoff base profile type) *
+          (point type - base type) := by
   calc
     slice.allSpaceExtension fallback fuel payoff base point = opponents.expect
         (fun _ => slice.allSpaceExtension fallback fuel payoff base point) :=

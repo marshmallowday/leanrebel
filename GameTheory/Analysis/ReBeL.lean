@@ -40,7 +40,7 @@ import GameTheory.Analysis.ReBeL.Examples.RationalReach
 import GameTheory.Analysis.ReBeL.Examples.RationalSites
 import GameTheory.Analysis.ReBeL.Examples.RationalCounterfactual
 import GameTheory.Analysis.ReBeL.Examples.RationalProjection
-import GameTheory.Analysis.ReBeL.Examples.RationalMatching
+import GameTheory.Analysis.ReBeL.RationalMatching
 import GameTheory.Analysis.ReBeL.Examples.RationalRegret
 import GameTheory.Analysis.ReBeL.Examples.RationalIteration
 import GameTheory.Analysis.ReBeL.RationalAverageEquiv

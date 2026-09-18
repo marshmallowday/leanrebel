@@ -91,7 +91,8 @@ theorem infoValue_isGreatest (hrecall : M.PerfectRecall)
   · exact ⟨(FinitePlan.toPolicy M (fallback who)
       (slice.bestResponsePlan fallback fuel payoff opponents type)).toBehavioral, rfl⟩
   · rintro result ⟨replacement, rfl⟩
-    exact slice.conditionalPayoff_le_infoValue hrecall fallback fuel payoff opponents type replacement
+    exact slice.conditionalPayoff_le_infoValue hrecall fallback fuel payoff opponents
+      type replacement
 
 /-- One legal information-local policy pastes all the attaining type plans. -/
 def simultaneousResponse (fallback : Profile M.strategicSignature) (fuel : ℕ)
@@ -121,7 +122,8 @@ theorem payoff_le_branch (hrecall : M.PerfectRecall)
     (own : FinDist T) (opponents : Profile M.behavioralSignature)
     (replacement : M.BehavioralPolicy who) :
     (PublicBelief.continuationLaw M (Profile.update opponents who replacement)
-        fuel (slice.mixture own)).expect payoff ≤ slice.branch fallback fuel payoff own opponents := by
+        fuel (slice.mixture own)).expect payoff ≤
+      slice.branch fallback fuel payoff own opponents := by
   rw [mixture_payoff]
   exact FinDist.expect_mono fun type _ =>
     slice.conditionalPayoff_le_infoValue hrecall fallback fuel payoff opponents type replacement
@@ -132,7 +134,8 @@ theorem branch_attained (fallback : Profile M.strategicSignature) (fuel : ℕ)
     (payoff : E.History → ℝ) (own : FinDist T) (opponents : Profile M.behavioralSignature) :
     (PublicBelief.continuationLaw M (Profile.update opponents who
       (slice.simultaneousResponse fallback fuel payoff opponents).toBehavioral)
-        fuel (slice.mixture own)).expect payoff = slice.branch fallback fuel payoff own opponents := by
+        fuel (slice.mixture own)).expect payoff =
+      slice.branch fallback fuel payoff own opponents := by
   rw [mixture_payoff]
   exact FinDist.expect_congr fun type _ =>
     slice.simultaneousResponse_attains fallback fuel payoff opponents type
@@ -143,7 +146,8 @@ theorem branch_isGreatest (hrecall : M.PerfectRecall)
     (own : FinDist T) (opponents : Profile M.behavioralSignature) :
     IsGreatest (Set.range fun replacement : M.BehavioralPolicy who =>
       (PublicBelief.continuationLaw M (Profile.update opponents who replacement)
-        fuel (slice.mixture own)).expect payoff) (slice.branch fallback fuel payoff own opponents) := by
+        fuel (slice.mixture own)).expect payoff)
+      (slice.branch fallback fuel payoff own opponents) := by
   constructor
   · exact ⟨(slice.simultaneousResponse fallback fuel payoff opponents).toBehavioral,
       slice.branch_attained fallback fuel payoff own opponents⟩
