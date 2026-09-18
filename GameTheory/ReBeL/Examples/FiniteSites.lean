@@ -16,6 +16,7 @@ namespace GameTheory.ReBeL.Examples.HiddenTypes
 
 open GameTheory.Protocol GameTheory.Math.Probability
 
+/-- Enumerate all legal histories of the full-prior two-stage game. -/
 local instance : Fintype (protocol fullPrior).History := historyFintype fullPrior
 
 /-- Every arbitrary fixed behavioral opponent has an attaining pure best
