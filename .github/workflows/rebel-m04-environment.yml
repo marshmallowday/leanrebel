@@ -20,34 +20,71 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
+          ref: cf733bd1ffa977681d1197bf80b1dfd7be82ff6e
           persist-credentials: false
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
           auto-config: false
-          build: true
+          build: false
           test: false
           lint: false
-          use-mathlib-cache: true
+          use-mathlib-cache: false
           use-github-cache: false
+      - name: Build only the accepted source and CFR dependency closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/m04-offline"
+          python3 - <<'PY' > "$RUNNER_TEMP/m04-roots.txt"
+          from pathlib import Path
+          pending = ['GameTheory.ReBeL',
+                     'GameTheory.Analysis.Protocol.CounterfactualRootRegretTest',
+                     'GameTheory.Analysis.Protocol.CounterfactualZeroSumLearningTest',
+                     'GameTheory.Analysis.Minimax']
+          seen, roots = set(), set()
+          while pending:
+              name = pending.pop()
+              if name in seen:
+                  continue
+              seen.add(name)
+              if name.startswith('Mathlib.'):
+                  roots.add(name)
+                  continue
+              path = Path(name.replace('.', '/') + '.lean')
+              if path.is_file():
+                  for line in path.read_text().splitlines():
+                      if line.startswith('import '):
+                          pending.extend(line.split()[1:])
+          print(' '.join(sorted(roots)))
+          PY
+          lake exe cache get $(cat "$RUNNER_TEMP/m04-roots.txt")
+          lake build GameTheory.ReBeL \
+            GameTheory.Analysis.Protocol.CounterfactualRootRegretTest \
+            GameTheory.Analysis.Protocol.CounterfactualZeroSumLearningTest \
+            GameTheory.Analysis.Minimax
       - name: Export pinned compiler and built dependencies without credentials
         shell: bash
         run: |
           set -euo pipefail
           out="$RUNNER_TEMP/m04-offline"
-          mkdir -p "$out"
           git rev-parse HEAD > "$out/source-commit.txt"
           lake env lean --version > "$out/lean-version.txt"
           sha256sum lean-toolchain lake-manifest.json > "$out/pin-sha256.txt"
           prefix="$(lake env lean --print-prefix)"
-          tar --exclude='*.a' --exclude='*.o' -I 'zstd -T0 -3' \
+          df -h > "$out/disk-before.txt"
+          du -sh "$prefix" .lake/packages .lake/build >> "$out/disk-before.txt"
+          tar --exclude='*.a' --exclude='*.o' --exclude='*.ilean' \
+            --exclude='*.olean.server' -I 'zstd -T2 -3' \
             -cf "$out/toolchain.tar.zst" -C "$prefix" .
           tar --exclude='.git' --exclude='*.a' --exclude='*.o' --exclude='*.c' \
-            -I 'zstd -T0 -3' -cf "$out/compiled-source.tar.zst" \
+            --exclude='*.ilean' --exclude='*.olean.server' \
+            -I 'zstd -T2 -3' -cf "$out/compiled-source.tar.zst" \
             .lake/build .lake/packages lakefile.lean lake-manifest.json lean-toolchain
           cd "$out"
           sha256sum *.tar.zst > archive-sha256.txt
           cat source-commit.txt lean-version.txt pin-sha256.txt archive-sha256.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
         with:
           name: rebel-m04-offline-${{ github.sha }}
           path: ${{ runner.temp }}/m04-offline
