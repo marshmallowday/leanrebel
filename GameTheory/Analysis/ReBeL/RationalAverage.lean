@@ -86,7 +86,7 @@ theorem informationReach_eq
       simp only [HistoryTable.informationReach, hfind]
       unfold informationOwnReach
       rw [dif_neg hnone]
-      rfl
+      exact Rat.cast_zero
   | some history =>
       have hmatch : G.info who history = info :=
         of_decide_eq_true (List.find?_eq_some_iff_append.mp hfind).1

@@ -31,3 +31,4 @@ import GameTheory.Analysis.ReBeL.RationalReach
 import GameTheory.Analysis.ReBeL.RationalCounterfactual
 import GameTheory.Analysis.ReBeL.RationalIteration
 import GameTheory.Analysis.ReBeL.RationalAverage
+import GameTheory.Analysis.ReBeL.Examples.RationalCodec
