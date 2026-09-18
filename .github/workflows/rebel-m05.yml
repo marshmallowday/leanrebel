@@ -1,0 +1,44 @@
+name: ReBeL M05 targeted diagnostics
+
+on:
+  push:
+    branches: ['rebel/m05']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebel-m05-targeted-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compile:
+    name: M05 ${{ matrix.module }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - Examples.ValueGeometry
+          - ContinuationRealization
+          - BeliefExistence
+          - RootTypeMemory
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Identify exact source
+        run: git rev-parse HEAD
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          build: true
+          build-args: GameTheory.Analysis.ReBeL.${{ matrix.module }}
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: true
+      - name: Preserve tracked-file cleanliness
+        run: git diff --exit-code

@@ -51,3 +51,7 @@ import GameTheory.Analysis.ReBeL.TypeValue
 import GameTheory.Analysis.ReBeL.ValueGeometry
 import GameTheory.Analysis.ReBeL.ContinuationConsistency
 import GameTheory.Analysis.ReBeL.ContinuationRealization
+import GameTheory.Analysis.ReBeL.ContinuationDeviations
+import GameTheory.Analysis.ReBeL.BeliefExistence
+import GameTheory.Analysis.ReBeL.RootTypeMemory
+import GameTheory.Analysis.ReBeL.Examples.ValueGeometry

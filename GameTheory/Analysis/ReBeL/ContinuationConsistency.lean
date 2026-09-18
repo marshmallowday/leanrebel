@@ -38,7 +38,7 @@ theorem ownPlay_depth_lt (clock : ObservationClock M) (who : ι)
       | some action =>
           rw [hchoice] at hentry
           rcases List.mem_cons.mp hentry with rfl | hprior
-          · simpa only [clock.correct who ⟨source, prior⟩] using
+          · simpa only [clock.correct who ⟨source, prior⟩, Trace.length] using
               Nat.lt_succ_self prior.length
           · exact Nat.lt_succ_of_lt (ih entry hprior)
 
