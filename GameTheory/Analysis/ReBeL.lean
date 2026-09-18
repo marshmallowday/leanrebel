@@ -39,3 +39,6 @@ import GameTheory.Analysis.ReBeL.Examples.RationalExecution
 import GameTheory.Analysis.ReBeL.Examples.RationalReach
 import GameTheory.Analysis.ReBeL.Examples.RationalSites
 import GameTheory.Analysis.ReBeL.Examples.RationalCounterfactual
+import GameTheory.Analysis.ReBeL.Examples.RationalProjection
+import GameTheory.Analysis.ReBeL.RationalMatching
+import GameTheory.Analysis.ReBeL.Examples.RationalRegret
