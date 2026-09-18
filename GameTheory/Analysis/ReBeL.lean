@@ -55,3 +55,5 @@ import GameTheory.Analysis.ReBeL.ContinuationConsistency
 import GameTheory.Analysis.ReBeL.ContinuationRealization
 import GameTheory.Analysis.ReBeL.ValueEnvelopeBridge
 import GameTheory.Analysis.ReBeL.Examples.ValueRadial
+import GameTheory.Analysis.ReBeL.Examples.ValueKink
+import GameTheory.Analysis.ReBeL.ValueDeviations

@@ -45,7 +45,7 @@ theorem infoValue_abs_le (bound : ℝ)
       -bound = opponent.expect (fun _ => -bound) := (FinDist.expect_const _ _).symm
       _ ≤ infoValue payoff opponent t := FinDist.expect_mono fun current _ =>
         (abs_le.mp (bounded t (typeResponse payoff opponent t) current)).1
-  · exact FinDist.expect_le_of_forall fun current _ =>
+  · exact FinDist.expect_le_of_forall opponent _ bound fun current _ =>
       (abs_le.mp (bounded t (typeResponse payoff opponent t) current)).2
 
 omit [DecidableEq T] [Nonempty B] in
@@ -87,7 +87,7 @@ theorem allSpaceExtension_eq_on_simplex (base : T → ℝ) :
 boundary beliefs. No extension by the negative-weight matrix value is used. -/
 theorem allSpaceExtension_concave (base : T → ℝ) :
     ConcaveOn ℝ Set.univ (allSpaceExtension payoff base) := by
-  letI : Nonempty (FinDist B) := ⟨FinDist.pure (Classical.choice ‹Nonempty B›)⟩
+  let : Nonempty (FinDist B) := ⟨FinDist.pure (Classical.choice ‹Nonempty B›)⟩
   exact ValueGeometry.extension_concave (infoValue payoff) (value payoff base)
     (branches_bounded_below payoff)
 
