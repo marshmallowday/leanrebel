@@ -4,10 +4,8 @@ on:
   push:
     branches: ['rebel/m05-review']
     paths:
-      - 'GameTheory/Analysis/ReBeL/Value*.lean'
-      - 'GameTheory/Analysis/ReBeL/TypeValue.lean'
-      - 'GameTheory/Analysis/ReBeL/Continuation*.lean'
-      - 'GameTheory/Analysis/ReBeL/Examples/Value*.lean'
+      - 'GameTheory/Analysis/ReBeL/**'
+      - 'GameTheory/Analysis/ReBeL.lean'
       - '.github/workflows/rebel-m05-review.yml'
 
 permissions:
@@ -45,7 +43,8 @@ jobs:
           targets = sorted(set(root.glob('Value*.lean')) |
                            set(root.glob('Continuation*.lean')) |
                            set(root.glob('Examples/Value*.lean')) |
-                           {root / 'TypeValue.lean'})
+                           {root / 'TypeValue.lean', root / 'BeliefExistence.lean',
+                            root / 'RootTypeMemory.lean'})
           modules = [str(p.with_suffix('')).replace('/', '.') for p in targets]
           sources = [Path('.'), *Path('.lake/packages').iterdir()]
           pending, seen, imports = modules[:], set(), set()

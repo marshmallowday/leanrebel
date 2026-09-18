@@ -57,3 +57,7 @@ import GameTheory.Analysis.ReBeL.ValueEnvelopeBridge
 import GameTheory.Analysis.ReBeL.Examples.ValueRadial
 import GameTheory.Analysis.ReBeL.Examples.ValueKink
 import GameTheory.Analysis.ReBeL.ValueDeviations
+import GameTheory.Analysis.ReBeL.ContinuationDeviations
+import GameTheory.Analysis.ReBeL.BeliefExistence
+import GameTheory.Analysis.ReBeL.RootTypeMemory
+import GameTheory.Analysis.ReBeL.Examples.ValueGeometry
