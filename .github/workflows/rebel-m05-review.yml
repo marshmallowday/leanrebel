@@ -2,7 +2,7 @@ name: M05 focused compiler feedback
 
 on:
   push:
-    branches: ['rebel/m05-review']
+    branches: ['rebel/m05-review', 'rebel/m05-resume']
     paths:
       - 'GameTheory/Analysis/ReBeL/**'
       - 'GameTheory/Analysis/ReBeL.lean'
@@ -43,8 +43,9 @@ jobs:
           targets = sorted(set(root.glob('Value*.lean')) |
                            set(root.glob('Continuation*.lean')) |
                            set(root.glob('Examples/Value*.lean')) |
+                           set(root.glob('PBS*.lean')) |
                            {root / 'TypeValue.lean', root / 'BeliefExistence.lean',
-                            root / 'RootTypeMemory.lean'})
+                            root / 'RootTypeMemory.lean', root / 'TypeBeliefSlice.lean'})
           modules = [str(p.with_suffix('')).replace('/', '.') for p in targets]
           sources = [Path('.'), *Path('.lake/packages').iterdir()]
           pending, seen, imports = modules[:], set(), set()
