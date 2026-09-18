@@ -99,7 +99,7 @@ theorem terminal_probability_stable (strategy : Profile M.behavioralSignature)
       simp [M.runBehavioralFrom_of_terminal strategy _ hterm]
     · by_cases hpriorTerminal : E.terminal prior.state
       · simp [M.runBehavioralFrom_of_terminal strategy _ hpriorTerminal,
-          FinDist.prob_pure_eq_ite, hequal, Ne.symm hequal]
+          FinDist.prob_pure_eq_ite, hequal]
       · have hdepth : prior.trace.length = history.trace.length := by
           rcases M.terminal_or_trace_length_eq_of_mem_support_runBehavioralFrom
               strategy history.trace.length E.initHistory prior hprior with ht | hl
@@ -129,10 +129,11 @@ theorem terminal_probability_stable (strategy : Profile M.behavioralSignature)
 A history's own-depth reach alone would incorrectly retain unfinished prefixes. -/
 theorem run_probability_at_cut (strategy : Profile M.behavioralSignature)
     (fuel : ℕ) (history : E.History) :
-    (M.runBehavioral strategy fuel).prob history =
-      if history.trace.length ≤ fuel ∧
+    (M.runBehavioral strategy fuel).prob history = (by
+      classical
+      exact if history.trace.length ≤ fuel ∧
           (history.trace.length = fuel ∨ E.terminal history.state) then
-        M.historyReachProbability strategy history else 0 := by
+        M.historyReachProbability strategy history else 0) := by
   classical
   by_cases hcut : history.trace.length ≤ fuel ∧
       (history.trace.length = fuel ∨ E.terminal history.state)
