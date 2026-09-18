@@ -40,7 +40,7 @@ import GameTheory.Analysis.ReBeL.Examples.RationalReach
 import GameTheory.Analysis.ReBeL.Examples.RationalSites
 import GameTheory.Analysis.ReBeL.Examples.RationalCounterfactual
 import GameTheory.Analysis.ReBeL.Examples.RationalProjection
-import GameTheory.Analysis.ReBeL.RationalMatching
+import GameTheory.Analysis.ReBeL.Examples.RationalMatching
 import GameTheory.Analysis.ReBeL.Examples.RationalRegret
 import GameTheory.Analysis.ReBeL.Examples.RationalIteration
 import GameTheory.Analysis.ReBeL.RationalAverageEquiv
@@ -61,3 +61,7 @@ import GameTheory.Analysis.ReBeL.ContinuationDeviations
 import GameTheory.Analysis.ReBeL.BeliefExistence
 import GameTheory.Analysis.ReBeL.RootTypeMemory
 import GameTheory.Analysis.ReBeL.Examples.ValueGeometry
+import GameTheory.Analysis.ReBeL.TypeBeliefSlice
+import GameTheory.Analysis.ReBeL.PBSInfoValue
+import GameTheory.Analysis.ReBeL.PBSValue
+import GameTheory.Analysis.ReBeL.PBSGeometry
