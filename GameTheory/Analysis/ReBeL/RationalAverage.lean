@@ -182,9 +182,9 @@ theorem average_realizes (G : HistoryTable E.History M.InfoState M.Choice)
       · intro round
         exact informationReach_eq M G cert.info_correct cert.path_correct
           cert.histories_complete hrecall _ _
-          (play_realizes_cfrPlay M G clock fallback payoff cert fallback horizon round.val) who info
+          (play_realizes_cfrPlay M G clock payoff cert fallback horizon round.val) who info
       · intro round a
-        exact play_realizes_cfrPlay M G clock fallback payoff cert fallback horizon round.val who info a
+        exact play_realizes_cfrPlay M G clock payoff cert fallback horizon round.val who info a
     _ = ((weights.scale (rounds : ℝ)⁻¹ hscale.le).average
           (fun round => plays round who info) (FinDist.pure (fallback who info))).prob choice := by
       rw [ReachWeights.average_scale weights _ _ _ hscale]
