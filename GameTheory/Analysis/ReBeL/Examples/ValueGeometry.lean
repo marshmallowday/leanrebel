@@ -25,13 +25,13 @@ def indicatorPayoff (type : Fin 2) (_ : Unit) (_ : Unit) : ℝ :=
 
 /-- Conditional best-response values are fixed even for a zero-mass type. -/
 theorem indicator_infoValue (opponent : FinDist Unit) (type : Fin 2) :
-    infoValue indicatorPayoff opponent type = if type = 0 then 1 else 0 := by
-  simp [infoValue, indicatorPayoff]
+    infoValue indicatorPayoff opponent type = if type = 0 then 1 else 0 :=
+  FinDist.expect_const opponent (if type = 0 then 1 else 0)
 
 /-- Every opponent branch is the own mass of type zero. -/
 theorem indicator_branch (weight : Fin 2 → ℝ) (opponent : FinDist Unit) :
     branch indicatorPayoff weight opponent = weight 0 := by
-  simp [branch, indicator_infoValue, Fin.sum_univ_two]
+  simp [branch, indicator_infoValue]
 
 /-- The actual minimax value of the canonical game, not a separately assigned
 value function, equals the first type's mass. -/
@@ -59,16 +59,19 @@ theorem normalizedIndicatorValue_not_concave :
     ¬ ConcaveOn ℝ {weight : Fin 2 → ℝ | ∀ type, 0 < weight type}
       normalizedIndicatorValue := by
   intro concave
-  have hfirst : (fun type : Fin 2 => ![(1 : ℝ), 1] type) ∈
+  have hfirst : (![(1 : ℝ), 1] : Fin 2 → ℝ) ∈
       {weight : Fin 2 → ℝ | ∀ type, 0 < weight type} := by
     intro type
     fin_cases type <;> norm_num
-  have hsecond : (fun type : Fin 2 => ![(1 : ℝ), 3] type) ∈
+  have hsecond : (![(1 : ℝ), 3] : Fin 2 → ℝ) ∈
       {weight : Fin 2 → ℝ | ∀ type, 0 < weight type} := by
     intro type
     fin_cases type <;> norm_num
-  have inequality := concave.2 hfirst hsecond (a := (1 / 2 : ℝ)) (b := (1 / 2 : ℝ))
-    (by norm_num) (by norm_num) (by norm_num)
+  have inequality : (1 / 2 : ℝ) • normalizedIndicatorValue ![1, 1] +
+      (1 / 2 : ℝ) • normalizedIndicatorValue ![1, 3] ≤
+        normalizedIndicatorValue
+          ((1 / 2 : ℝ) • (![1, 1] : Fin 2 → ℝ) + (1 / 2 : ℝ) • ![1, 3]) :=
+    concave.2 hfirst hsecond (by norm_num) (by norm_num) (by norm_num)
   have midpoint : (1 / 2 : ℝ) • (![(1 : ℝ), 1] : Fin 2 → ℝ) +
       (1 / 2 : ℝ) • (![(1 : ℝ), 3] : Fin 2 → ℝ) = ![1, 2] := by
     funext type
@@ -216,7 +219,7 @@ theorem coinSimplexValue_not_differentiable :
     congr 1
     ring
   apply not_differentiableAt_abs_zero
-  simpa only [Function.comp_def, identity] using composed
+  simpa only [Function.comp_def, Pi.neg_apply, identity] using composed
 
 /-- Two distinct pure opponents both attain the midpoint value. Thus the
 support theorem cannot require a unique minimizing opponent. -/
@@ -229,7 +232,7 @@ theorem coin_nonunique_opponents :
   constructor
   · intro equality
     have probability := congrArg (fun law : FinDist (Fin 2) => law.prob 0) equality
-    norm_num at probability
+    norm_num [FinDist.prob_pure_eq_ite] at probability
   · constructor <;> norm_num [coin_branch, coin_value]
 
 /-- Both equilibrium opponents give valid support at the nondifferentiable

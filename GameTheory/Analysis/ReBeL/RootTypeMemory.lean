@@ -85,8 +85,14 @@ def fullRootTypeMemory (observations : List M.PublicSignal) (who : ι) {T : Type
   typeAt info := encode (info.prefixAt (observations.length - 1))
   persistent first later hpublic := by
     intro fuel reaches
-    have depth := AOH.publicHistory_length ((fullInformation M).infoOf who first.trace)
-    rw [publicHistory_infoOf, length_infoOf, hpublic] at depth
+    have depth : (publicTrace (fullInformation M).toInfoSignals first.trace).length =
+        first.trace.length + 1 := by
+      rcases first with ⟨state, trace⟩
+      induction trace with
+      | start => rfl
+      | extend prior joint legal realized ih =>
+          simp only [publicTrace, List.length_cons, Trace.length, ih]
+    rw [hpublic] at depth
     exact congrArg encode (prefixAt_infoOf_reaches M (observations.length - 1) who reaches
       (by omega))
 
