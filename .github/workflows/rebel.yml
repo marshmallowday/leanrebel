@@ -96,6 +96,12 @@ jobs:
           python3 scripts/rebel/check_coverage.py
           python3 scripts/rebel/check_inventory.py
           python3 -W error -m unittest discover -s scripts/rebel/tests -v
+      - name: Execute rational Lean solver and independently check every pure response
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake build GameTheory.ReBeL.Rational.HiddenTypes
+          python3 scripts/rebel/check_rational_runtime.py --report "$RUNNER_TEMP/rebel-rational-runtime.json"
       - name: Compile and lint every ReBeL module and audit transitive axioms
         shell: bash
         run: |
@@ -128,5 +134,6 @@ jobs:
             ${{ runner.temp }}/rebel-validation.log
             ${{ runner.temp }}/rebel-mathlib-roots.txt
             ${{ runner.temp }}/rebel-architecture.log
+            ${{ runner.temp }}/rebel-rational-runtime.json
           retention-days: 7
           if-no-files-found: warn

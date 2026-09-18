@@ -93,7 +93,7 @@ theorem run_one_eq_table (hinfo : G.info = fun who h => M.infoOf who h.trace)
   intro target realized
   rfl
 
-variable [∀ who info, Fintype (M.Choice who info)]
+variable [DecidableEq ι] [∀ who info, Fintype (M.Choice who info)]
 
 /-- Every sparse rational continuation value agrees exactly with the existing
 behavioral runner. Table correctness is checked at primitive transition rows,

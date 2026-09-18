@@ -43,3 +43,4 @@ import GameTheory.ReBeL.Schedule
 import GameTheory.ReBeL.Examples.Schedule
 import GameTheory.ReBeL.Rational.Algorithm
 import GameTheory.ReBeL.Rational.FullGame
+import GameTheory.ReBeL.Rational.HiddenTypes
