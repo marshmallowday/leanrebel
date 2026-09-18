@@ -10,3 +10,4 @@ import GameTheory.Analysis.ReBeL.LocalRegret
 import GameTheory.Analysis.ReBeL.Examples.LocalRegret
 import GameTheory.Analysis.ReBeL.ChronologicalLocality
 import GameTheory.Analysis.ReBeL.Examples.ChronologicalLocality
+import GameTheory.Analysis.ReBeL.PolicyPatching

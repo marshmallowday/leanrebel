@@ -89,7 +89,10 @@ theorem counterfactualValue_eq_of_clock_cut [Fintype ι] [DecidableEq ι]
   · intro other hne
     rw [Profile.update_of_ne _ _ hne, Profile.update_of_ne _ _ hne]
     exact hothers other hne
-  · simpa only [Profile.update_same, history.2] using hhere
+  · rw [Profile.update_same, Profile.update_same]
+    have hinfo : M.infoOf who history.1.trace = site.1 := history.2
+    rw [hinfo]
+    exact hhere
   · intro info hafter
     rw [Profile.update_same, Profile.update_same]
     apply hfuture info
@@ -164,11 +167,14 @@ theorem withLaw_regret_eq_expect [Fintype ι] [DecidableEq ι]
     M.counterfactualRegret strategy who site payoff fuel
         ((strategy who).withLaw site.1 law) =
       law.expect (M.counterfactualActionRegret strategy who site payoff fuel) := by
-  unfold InformationModel.counterfactualRegret
-  rw [counterfactual_withLaw_eq_expect M hactsOnce strategy who site
-    (strategy who) law payoff fuel]
-  simp only [InformationModel.counterfactualActionRegret,
-    InformationModel.counterfactualRegret, FinDist.expect_sub, FinDist.expect_const]
+  have hexpand : M.counterfactualActionRegret strategy who site payoff fuel =
+      (fun choice => M.counterfactualContinuationValue strategy who site
+        ((strategy who).commit site.1 choice) payoff fuel -
+          M.counterfactualContinuationValue strategy who site (strategy who) payoff fuel) := rfl
+  rw [hexpand, FinDist.expect_sub, FinDist.expect_const,
+    InformationModel.counterfactualRegret,
+    counterfactual_withLaw_eq_expect M hactsOnce strategy who site
+      (strategy who) law payoff fuel]
 
 /-- The clock and perfect recall discharge the premises of the exact
 single-site root decomposition for an arbitrary replacement law. This is an
