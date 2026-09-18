@@ -49,6 +49,13 @@ theorem active_decision (who : Player) (key : ActiveKey) :
   | first ownType => rfl
   | second ownType ownAction result => rfl
 
+/-- A raw inactive menu always returns its sole no-op with probability one. -/
+theorem concrete_profile_idle (numeric : NumericProfile) (who : Player) :
+    table.profile fallback numeric who .idle () = 1 := by
+  rw [HistoryTable.profile,
+    if_neg (show ¬ table.decision who .idle = true from Bool.false_ne_true)]
+  rfl
+
 /-- At every active key, the numeric matcher has the original canonical local law. -/
 theorem concrete_key_profile (numeric : NumericProfile) (semantic : CFRState (model fullPrior))
     (hstate : ∀ who (key : ActiveKey) a,
@@ -77,10 +84,10 @@ theorem concrete_profile_realizes (numeric : NumericProfile) (semantic : CFRStat
   intro who row a
   cases row with
   | initial =>
+      cases a
       calc
-        _ = (1 : ℝ) := by
-          cases a
-          norm_num [HistoryTable.profile, table, information, pointMass, fallback]
+        _ = (1 : ℝ) :=
+          (congrArg (fun q : ℚ => (q : ℝ)) (concrete_profile_idle numeric who)).trans Rat.cast_one
         _ = _ := (idle_choice_prob (cfrProfile (model fullPrior) cfrFallback semantic)
           who .initial rfl _).symm
   | drawn x y =>
@@ -91,10 +98,10 @@ theorem concrete_profile_realizes (numeric : NumericProfile) (semantic : CFRStat
         ⟨.second (own who x y) (own who firstAction secondAction)
           (firstAction == secondAction), by simp⟩ a
   | finished x y firstAction secondAction finalFirst finalSecond =>
+      cases a
       calc
-        _ = (1 : ℝ) := by
-          cases a
-          norm_num [HistoryTable.profile, table, information, pointMass, fallback]
+        _ = (1 : ℝ) :=
+          (congrArg (fun q : ℚ => (q : ℝ)) (concrete_profile_idle numeric who)).trans Rat.cast_one
         _ = _ := (idle_choice_prob (cfrProfile (model fullPrior) cfrFallback semantic)
           who (.finished x y firstAction secondAction finalFirst finalSecond) rfl _).symm
 
@@ -117,7 +124,9 @@ theorem concrete_state_correct (horizon round : ℕ) :
   induction round with
   | zero =>
       intro who key a
-      simp [HistoryTable.state, cfrState]
+      calc
+        _ = (0 : ℝ) := Rat.cast_zero
+        _ = _ := rfl
   | succ round ih =>
       have hprofile : RowRealizes (table.play fallback horizon round)
           (cfrPlay (model fullPrior) decisionClock cfrFallback cfrPayoff horizon round) :=

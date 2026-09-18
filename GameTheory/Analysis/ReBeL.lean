@@ -44,3 +44,4 @@ import GameTheory.Analysis.ReBeL.RationalMatching
 import GameTheory.Analysis.ReBeL.Examples.RationalRegret
 import GameTheory.Analysis.ReBeL.Examples.RationalIteration
 import GameTheory.Analysis.ReBeL.RationalAverageEquiv
+import GameTheory.Analysis.ReBeL.Examples.RationalAverage
