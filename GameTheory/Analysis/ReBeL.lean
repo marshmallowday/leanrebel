@@ -28,3 +28,4 @@ import GameTheory.Analysis.ReBeL.Examples.CFRNash
 import GameTheory.Analysis.ReBeL.RationalArithmetic
 import GameTheory.Analysis.ReBeL.RationalEvaluation
 import GameTheory.Analysis.ReBeL.RationalReach
+import GameTheory.Analysis.ReBeL.RationalCounterfactual
