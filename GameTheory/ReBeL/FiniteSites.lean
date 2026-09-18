@@ -52,6 +52,7 @@ def FinitePlan.toPolicy [Fintype E.History] {i : ι}
   InformationModel.Policy.assembleWithin M fallback (finiteSites M i) plan
 
 /-- Finite actions and the finite cover yield a genuinely finite plan space. -/
+@[instance_reducible]
 def finitePlanFintype [Fintype E.History] (i : ι) [Fintype (E.Action i)] :
     Fintype (FinitePlan M i) := by
   classical
@@ -61,10 +62,10 @@ section Realization
 
 variable [Fintype ι] [DecidableEq ι]
 
+omit [Fintype ι] in
 /-- Finite predrawing commutes with unilateral replacement. The replacement's
 fallback may differ from the fixed opponents' fallbacks. -/
-omit [Fintype ι] in
- theorem finitePredraw_update
+theorem finitePredraw_update
     (sites : (i : ι) → Finset (M.InfoState i))
     (behavioral : Profile M.behavioralSignature)
     (fallback : Profile M.strategicSignature) (who : ι)
@@ -155,8 +156,8 @@ theorem exists_finitePlan_bestResponse [Fintype E.History]
       (M.runBehavioral (Profile.update behavioral who replacement) fuel).expect payoff ≤
       (M.runBehavioral (Profile.update behavioral who
         (FinitePlan.toPolicy M (fallback who) plan).toBehavioral) fuel).expect payoff := by
-  letI := finitePlanFintype M who
-  letI : Nonempty (FinitePlan M who) := ⟨fun info => fallback who info.1⟩
+  let := finitePlanFintype M who
+  let : Nonempty (FinitePlan M who) := ⟨fun info => fallback who info.1⟩
   obtain ⟨plan, hplan⟩ := Finite.exists_max fun plan : FinitePlan M who =>
     (M.runBehavioral (Profile.update behavioral who
       (FinitePlan.toPolicy M (fallback who) plan).toBehavioral) fuel).expect payoff
