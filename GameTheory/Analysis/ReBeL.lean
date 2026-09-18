@@ -45,3 +45,5 @@ import GameTheory.Analysis.ReBeL.Examples.RationalRegret
 import GameTheory.Analysis.ReBeL.Examples.RationalIteration
 import GameTheory.Analysis.ReBeL.RationalAverageEquiv
 import GameTheory.Analysis.ReBeL.Examples.RationalAverage
+import GameTheory.Analysis.ReBeL.EquilibriumValue
+import GameTheory.Analysis.ReBeL.Examples.EquilibriumValue
