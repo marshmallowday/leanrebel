@@ -44,7 +44,8 @@ run_cmd do
 '''
 
 
-def main() -> None:
+def proof_modules() -> list[str]:
+    """Exact module list shared by compilation, lint, axiom audit and regressions."""
     probe = ROOT / "GameTheory/Tests/ReBeLSourceDiagnostics.lean"
     paths = [probe,
              ROOT / "GameTheory/Protocol/BehavioralReach.lean",
@@ -58,6 +59,11 @@ def main() -> None:
     paths.extend(sorted((ROOT / "GameTheory/ReBeL").rglob("*.lean")))
     modules = [path.relative_to(ROOT).with_suffix("").as_posix().replace("/", ".")
                for path in paths]
+    return modules
+
+
+def main() -> None:
+    modules = proof_modules()
     for module in modules:
         print(f"REBEL_AUDIT_MODULE {module}", flush=True)
     subprocess.run(["lake", "build", *modules], cwd=ROOT, check=True)

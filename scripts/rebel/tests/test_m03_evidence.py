@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "scripts/rebel"))
 from check_inventory import check
 from coverage_inventory import expand
+from audit_axioms import proof_modules
 
 IMPLEMENTATION = "703796b7a7a90b60851a0876ba99976b0be59341"
 BASELINE_BLOB = "0e5648d3ab155fe4a0c998d2d3854c14d6593925"
@@ -123,11 +124,18 @@ class M03EvidenceTests(unittest.TestCase):
         self.assertEqual(built, linted)
         self.assertTrue({"GameTheory.Protocol.BehavioralReach",
                          "GameTheory.Analysis.Protocol.CounterfactualReach"} <= built)
+        # M03's log is immutable historical evidence. New modules cannot have
+        # appeared in that past run; they must occur in today's actual compiler,
+        # lint and axiom consumer instead. Keep every historical module too.
+        current = set(proof_modules())
+        self.assertTrue(built <= current)
+        for module in built:
+            self.assertTrue((ROOT / (module.replace(".", "/") + ".lean")).is_file())
         umbrella = (ROOT / "GameTheory/ReBeL.lean").read_text(encoding="utf-8")
         for path in (ROOT / "GameTheory/ReBeL").rglob("*.lean"):
             module = path.relative_to(ROOT).with_suffix("").as_posix().replace("/", ".")
             self.assertIn("import " + module, umbrella)
-            self.assertIn(module, built)
+            self.assertIn(module, current)
 
     def test_failed_old_sha_is_rejected(self):
         rows = copy.deepcopy(self.rows)
