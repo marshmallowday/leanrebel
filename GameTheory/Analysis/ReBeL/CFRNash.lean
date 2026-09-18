@@ -70,7 +70,11 @@ theorem cfrAveragedProfile_isNash (clock : ObservationClock M)
     (fun n : Fin t => cfrPlay M clock fallback payoff horizon n.val) fallback horizon
     payoff hzero (fun who => cfrCumulativeBound M clock horizon who (bound who) t / t)
   intro who target
-  rw [cfrIterationLaw_expect]
+  rw [cfrIterationLaw_expect t (fun n =>
+    (M.runBehavioral (Profile.update (cfrPlay M clock fallback payoff horizon n)
+      who target) horizon).expect (payoff who) -
+      (M.runBehavioral (cfrPlay M clock fallback payoff horizon n)
+        horizon).expect (payoff who))]
   exact cfr_average_root_regret_le M clock hrecall fallback payoff horizon who
     (hbound0 who) (hbound who) target (Nat.pos_of_ne_zero (NeZero.ne t))
 
