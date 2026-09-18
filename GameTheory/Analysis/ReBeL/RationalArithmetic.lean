@@ -23,7 +23,7 @@ def realScore (score : A → ℚ) : EuclideanSpace ℝ A :=
 
 /-- Positive-part summation commutes with the exact rational embedding. -/
 theorem cast_positiveMass (score : A → ℚ) :
-    (positiveMass score : ℝ) = ∑ a, max (realScore score).ofLp a 0 := by
+    (positiveMass score : ℝ) = ∑ a, max ((realScore score).ofLp a) 0 := by
   simp only [positiveMass, realScore, WithLp.ofLp_toLp]
   push_cast
 
@@ -39,7 +39,7 @@ theorem cast_pointMass (fallback a : A) :
 theorem cast_matchProb (fallback : A) (score : A → ℚ) (a : A) :
     (matchProb fallback score a : ℝ) =
       (regretMatchWith fallback (realScore score)).prob a := by
-  have hpos : (0 : ℝ) < ∑ b, max (realScore score).ofLp b 0 ↔
+  have hpos : (0 : ℝ) < ∑ b, max ((realScore score).ofLp b) 0 ↔
       0 < positiveMass score := by
     rw [← cast_positiveMass]
     exact Rat.cast_pos
