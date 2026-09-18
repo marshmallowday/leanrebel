@@ -5,6 +5,8 @@ on:
     branches: ['rebel/m05-review']
     paths:
       - 'GameTheory/Analysis/ReBeL/Value*.lean'
+      - 'GameTheory/Analysis/ReBeL/TypeValue.lean'
+      - 'GameTheory/Analysis/ReBeL/Continuation*.lean'
       - 'GameTheory/Analysis/ReBeL/Examples/Value*.lean'
       - '.github/workflows/rebel-m05-review.yml'
 
@@ -35,12 +37,17 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          lake env lean --version
           python3 - <<'PY'
           from pathlib import Path
-          import os
+          import os, re
           root = Path('GameTheory/Analysis/ReBeL')
-          targets = sorted(root.glob('Value*.lean')) + sorted(root.glob('Examples/Value*.lean'))
+          targets = sorted(set(root.glob('Value*.lean')) |
+                           set(root.glob('Continuation*.lean')) |
+                           set(root.glob('Examples/Value*.lean')) |
+                           {root / 'TypeValue.lean'})
           modules = [str(p.with_suffix('')).replace('/', '.') for p in targets]
+          sources = [Path('.'), *Path('.lake/packages').iterdir()]
           pending, seen, imports = modules[:], set(), set()
           while pending:
               name = pending.pop()
@@ -50,11 +57,13 @@ jobs:
               if name.startswith('Mathlib.'):
                   imports.add(name)
                   continue
-              p = Path(name.replace('.', '/') + '.lean')
-              if p.is_file():
+              relative = Path(name.replace('.', '/') + '.lean')
+              p = next((base / relative for base in sources if (base / relative).is_file()), None)
+              if p is not None:
                   for line in p.read_text().splitlines():
-                      if line.startswith('import '):
-                          pending.extend(line.split()[1:])
+                      match = re.match(r'^(?:(?:public|private) )?import (.+)$', line)
+                      if match:
+                          pending.extend(match.group(1).split('--')[0].split())
           if not modules or not imports:
               raise SystemExit('Missing compiler targets or dependency roots')
           temp = Path(os.environ['RUNNER_TEMP'])

@@ -47,5 +47,9 @@ import GameTheory.Analysis.ReBeL.RationalAverageEquiv
 import GameTheory.Analysis.ReBeL.Examples.RationalAverage
 import GameTheory.Analysis.ReBeL.EquilibriumValue
 import GameTheory.Analysis.ReBeL.Examples.EquilibriumValue
-import GameTheory.Analysis.ReBeL.ValueGeometry
+import GameTheory.Analysis.ReBeL.ValueEnvelope
 import GameTheory.Analysis.ReBeL.ValuePlans
+import GameTheory.Analysis.ReBeL.TypeValue
+import GameTheory.Analysis.ReBeL.ValueGeometry
+import GameTheory.Analysis.ReBeL.ContinuationConsistency
+import GameTheory.Analysis.ReBeL.ContinuationRealization

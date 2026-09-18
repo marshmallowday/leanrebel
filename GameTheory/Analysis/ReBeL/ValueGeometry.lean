@@ -1,145 +1,193 @@
 /-
-# Lower-envelope geometry for ReBeL values
+# Simplex support and a corrected concave extension
 
-The opponent index may be infinite: replacing all mixed opponents by finitely
-many pure opponents would give the wrong value. Boundedness is explicit.
-The affine mass correction is distinct from degree-zero radial normalization.
+The value is an attained minimum of affine fixed-opponent branches. This
+module proves the simplex supporting inequality first, and then extends it
+by an affine mass correction. It does not identify that extension with the
+radially normalized expression in Appendix F: the latter need not be concave.
 -/
 
+import GameTheory.Analysis.ReBeL.TypeValue
+import GameTheory.Math.Probability.Simplex
 import Mathlib.Analysis.Convex.Function
-import Mathlib.Algebra.Order.Archimedean.Real.Basic
-import Mathlib.Order.ConditionallyCompleteLattice.Basic
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
 
 noncomputable section
 
-namespace GameTheory.ReBeL.ValueGeometry
+namespace GameTheory.ReBeL.TypeGame
 
-open scoped BigOperators
+open GameTheory.Math.Probability GameTheory.MatrixGame
 
-variable {I J : Type*} [Fintype I]
+universe u
 
-/-- Coordinate pairing, with the belief in the second argument. -/
-def pairing (v x : I → ℝ) : ℝ := ∑ i, x i * v i
+variable {T B : Type u} [Fintype T] [DecidableEq T] [Fintype B] [Nonempty B]
+variable {Action : T → Type u}
+variable [∀ t, Fintype (Action t)] [∀ t, Nonempty (Action t)]
+variable (payoff : (t : T) → Action t → B → ℝ)
 
-/-- Infimum of opponent-indexed linear best-response branches. -/
-def envelope (q : J → I → ℝ) (x : I → ℝ) : ℝ :=
-  sInf (Set.range fun j => pairing (q j) x)
+/-- Lemma 2's concavity on the full nonnegative cone of own weights. It is
+proved using an attaining opponent at the combined point, not assumed. -/
+theorem value_concaveOn :
+    ConcaveOn ℝ {weight : T → ℝ | ∀ t, 0 ≤ weight t} (value payoff) := by
+  constructor
+  · intro first hfirst second hsecond a b ha hb _ t
+    exact add_nonneg (mul_nonneg ha (hfirst t)) (mul_nonneg hb (hsecond t))
+  · intro first hfirst second hsecond a b ha hb _
+    let combined : T → ℝ := fun t => a * first t + b * second t
+    have hcombined : ∀ t, 0 ≤ combined t := fun t =>
+      add_nonneg (mul_nonneg ha (hfirst t)) (mul_nonneg hb (hsecond t))
+    let opponent := valueColumn (matrix payoff combined)
+    have hfirst' := value_le_branch payoff first hfirst opponent
+    have hsecond' := value_le_branch payoff second hsecond opponent
+    have attained := branch_valueColumn payoff combined hcombined
+    have linear := branch_linear payoff first second a b opponent
+    have bound := add_le_add (mul_le_mul_of_nonneg_left hfirst' ha)
+      (mul_le_mul_of_nonneg_left hsecond' hb)
+    have result : a * value payoff first + b * value payoff second ≤
+        value payoff combined := by
+      exact bound.trans_eq (linear.symm.trans attained)
+    simpa only [combined, Pi.add_apply, Pi.smul_apply, smul_eq_mul] using result
 
-/-- The finite coordinate sum; no sign or normalization is implicit. -/
-def mass (x : I → ℝ) : ℝ := ∑ i, x i
+/-- Restricting the own weights to the existing probability simplex preserves
+concavity, including its boundary. -/
+theorem value_concaveOn_simplex : ConcaveOn ℝ (stdSimplex ℝ T) (value payoff) :=
+  (value_concaveOn payoff).subset (fun _ h => h.1) (convex_stdSimplex ℝ T)
 
-/-- Anchored affine correction of the homogeneous lower envelope. -/
-def extension (q : J → I → ℝ) (c : ℝ) (x : I → ℝ) : ℝ :=
-  envelope q x - (mass x - 1) * c
+/-- The centered value vector appearing in Eq. (2). -/
+def centeredVector (base : T → ℝ) (opponent : FinDist B) (t : T) : ℝ :=
+  infoValue payoff opponent t - value payoff base
 
-theorem pairing_add (v x y : I → ℝ) :
-    pairing v (x + y) = pairing v x + pairing v y := by
-  simp [pairing, add_mul, Finset.sum_add_distrib]
+/-- A purely algebraic identity separating the simplex normal direction from
+its tangent directions. It makes no positivity or differentiability claim. -/
+theorem centered_dot_eq (base point : T → ℝ) (opponent : FinDist B) :
+    (∑ t, centeredVector payoff base opponent t * (point t - base t)) =
+      branch payoff point opponent - branch payoff base opponent -
+        ((∑ t, point t) - ∑ t, base t) * value payoff base := by
+  calc
+    (∑ t, centeredVector payoff base opponent t * (point t - base t)) =
+        ∑ t, (point t * infoValue payoff opponent t -
+          base t * infoValue payoff opponent t) -
+            (point t - base t) * value payoff base := by
+      apply Finset.sum_congr rfl
+      intro t _
+      unfold centeredVector
+      ring
+    _ = branch payoff point opponent - branch payoff base opponent -
+        ((∑ t, point t) - ∑ t, base t) * value payoff base := by
+      rw [Finset.sum_sub_distrib, Finset.sum_sub_distrib, ← Finset.sum_mul,
+        Finset.sum_sub_distrib]
+      rfl
 
-theorem pairing_sub (v x y : I → ℝ) :
-    pairing v (x - y) = pairing v x - pairing v y := by
-  simp [pairing, sub_mul, Finset.sum_sub_distrib]
+/-- Theorem 1 on the simplex: any minimizing opponent supplies a supporting
+centered value vector, even where the value is nondifferentiable. -/
+theorem simplex_support {base point : T → ℝ}
+    (hbase : base ∈ stdSimplex ℝ T) (hpoint : point ∈ stdSimplex ℝ T)
+    (opponent : FinDist B)
+    (optimal : branch payoff base opponent = value payoff base) :
+    value payoff point ≤ value payoff base +
+      ∑ t, centeredVector payoff base opponent t * (point t - base t) := by
+  have bound := value_le_branch payoff point hpoint.1 opponent
+  rw [centered_dot_eq, optimal, hbase.2, hpoint.2]
+  linarith
 
-theorem pairing_smul (v x : I → ℝ) (a : ℝ) :
-    pairing v (a • x) = a * pairing v x := by
-  simp [pairing, Finset.mul_sum, mul_assoc]
+/-- This concave extension agrees with the value on mass-one weights. Its
+normal derivative is fixed by the value at the chosen base point. It is not
+Appendix F's radial normalization. -/
+def centeredExtension (base point : T → ℝ) : ℝ :=
+  value payoff point + (1 - ∑ t, point t) * value payoff base
 
-theorem pairing_center (v x : I → ℝ) (c : ℝ) :
-    pairing (fun i => v i - c) x = pairing v x - mass x * c := by
-  simp [pairing, mass, mul_sub, Finset.sum_sub_distrib, Finset.sum_mul]
+/-- The repaired extension really extends the same simplex value. -/
+theorem centeredExtension_eq_on_simplex (base : T → ℝ) :
+    Set.EqOn (centeredExtension payoff base) (value payoff) (stdSimplex ℝ T) := by
+  intro point hpoint
+  simp only [centeredExtension, hpoint.2, sub_self, zero_mul, add_zero]
 
-theorem mass_mix (x y : I → ℝ) (a b : ℝ) :
-    mass (a • x + b • y) = a * mass x + b * mass y := by
-  simp [mass, Finset.sum_add_distrib, Finset.mul_sum]
+/-- Adding the affine mass correction preserves concavity on the whole
+nonnegative cone, unlike radial normalization. -/
+theorem centeredExtension_concaveOn (base : T → ℝ) :
+    ConcaveOn ℝ {weight : T → ℝ | ∀ t, 0 ≤ weight t}
+      (centeredExtension payoff base) := by
+  refine ⟨(value_concaveOn payoff).1, ?_⟩
+  intro first hfirst second hsecond a b ha hb hab
+  have bound := (value_concaveOn payoff).2 hfirst hsecond ha hb hab
+  have mass : (∑ t, (a • first + b • second) t) =
+      a * (∑ t, first t) + b * ∑ t, second t := by
+    simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Finset.sum_add_distrib,
+      Finset.mul_sum]
+  have affine : a * ((1 - ∑ t, first t) * value payoff base) +
+      b * ((1 - ∑ t, second t) * value payoff base) =
+        (1 - ∑ t, (a • first + b • second) t) * value payoff base := by
+    rw [mass]
+    calc
+      _ = ((a + b) - (a * (∑ t, first t) + b * ∑ t, second t)) *
+          value payoff base := by ring
+      _ = _ := by rw [hab]
+  calc
+    a • centeredExtension payoff base first + b • centeredExtension payoff base second =
+        (a * value payoff first + b * value payoff second) +
+          (1 - ∑ t, (a • first + b • second) t) * value payoff base := by
+      rw [← affine]
+      simp only [centeredExtension, smul_eq_mul]
+      ring
+    _ ≤ centeredExtension payoff base (a • first + b • second) :=
+      add_le_add_right bound _
 
-/-- A uniform payoff bound supplies the lower-bound obligation even away
-from the simplex, including signed coordinates. -/
-theorem bounded_below_of_abs_bound (q : J → I → ℝ) (B : ℝ)
-    (hB : ∀ j i, |q j i| ≤ B) (x : I → ℝ) :
-    BddBelow (Set.range fun j => pairing (q j) x) := by
-  refine ⟨∑ i, -(|x i| * B), ?_⟩
-  rintro _ ⟨j, rfl⟩
-  apply Finset.sum_le_sum
-  intro i _
-  have h : |x i * q j i| ≤ |x i| * B := by
-    rw [abs_mul]
-    exact mul_le_mul_of_nonneg_left (hB j i) (abs_nonneg _)
-  exact (abs_le.mp h).1
-
-/-- Every branch is an upper bound on the lower envelope. -/
-theorem envelope_le (q : J → I → ℝ)
-    (hb : ∀ x, BddBelow (Set.range fun j => pairing (q j) x))
-    (x : I → ℝ) (j : J) : envelope q x ≤ pairing (q j) x :=
-  csInf_le (hb x) ⟨j, rfl⟩
-
-/-- The corrected extension agrees with the value on the mass-one plane,
-in particular on the entire simplex, including its boundary. -/
-theorem extension_eq_of_mass_one (q : J → I → ℝ) (c : ℝ)
-    (x : I → ℝ) (hx : mass x = 1) : extension q c x = envelope q x := by
-  simp [extension, hx]
-
-variable [Nonempty J]
-
-/-- A simultaneous lower bound for all branches bounds their infimum. -/
-theorem le_envelope (q : J → I → ℝ) (x : I → ℝ) (a : ℝ)
-    (h : ∀ j, a ≤ pairing (q j) x) : a ≤ envelope q x := by
-  apply le_csInf (Set.range_nonempty _)
-  rintro _ ⟨j, rfl⟩
-  exact h j
-
-/-- Minimax values expressed as lower envelopes are concave. Neither
-attainment nor a unique equilibrium is required for this step. -/
-theorem envelope_concave (q : J → I → ℝ)
-    (hb : ∀ x, BddBelow (Set.range fun j => pairing (q j) x)) :
-    ConcaveOn ℝ Set.univ (envelope q) := by
-  refine ⟨convex_univ, ?_⟩
-  intro x _ y _ a b ha hb' _
-  apply le_envelope
-  intro j
-  simpa only [pairing_add, pairing_smul, smul_eq_mul] using
-    add_le_add (mul_le_mul_of_nonneg_left (envelope_le q hb x j) ha)
-      (mul_le_mul_of_nonneg_left (envelope_le q hb y j) hb')
-
-/-- An affine correction preserves concavity; radial normalization need not. -/
-theorem extension_concave (q : J → I → ℝ) (c : ℝ)
-    (hb : ∀ x, BddBelow (Set.range fun j => pairing (q j) x)) :
-    ConcaveOn ℝ Set.univ (extension q c) := by
-  refine ⟨convex_univ, ?_⟩
-  intro x _ y _ a b ha hb' hab
-  have h := (envelope_concave q hb).2 (Set.mem_univ x) (Set.mem_univ y) ha hb' hab
-  have hc := congrArg (fun t : ℝ => t * c) hab
-  simp only [smul_eq_mul] at h ⊢
-  simp only [extension, mass_mix]
-  nlinarith only [h, hc]
-
-omit [Nonempty J] in
-/-- An active opponent branch gives the centered global supergradient of
-our corrected extension. This is not a claim about the radial extension. -/
-theorem centered_support (q : J → I → ℝ)
-    (hb : ∀ x, BddBelow (Set.range fun j => pairing (q j) x))
-    (base : I → ℝ) (hbase : mass base = 1) (j : J)
-    (hactive : envelope q base = pairing (q j) base) (x : I → ℝ) :
-    extension q (envelope q base) x ≤
-      extension q (envelope q base) base +
-        pairing (fun i => q j i - envelope q base) (x - base) := by
-  have h := envelope_le q hb x j
-  rw [pairing_sub, pairing_center, pairing_center]
-  simp only [extension, hbase]
+/-- Global support on the repaired extension. Both the base and candidate
+may lie on the boundary; no division by a type probability occurs. -/
+theorem centeredExtension_support {base : T → ℝ}
+    (hbase : base ∈ stdSimplex ℝ T) (point : T → ℝ) (hpoint : ∀ t, 0 ≤ point t)
+    (opponent : FinDist B)
+    (optimal : branch payoff base opponent = value payoff base) :
+    centeredExtension payoff base point ≤ centeredExtension payoff base base +
+      ∑ t, centeredVector payoff base opponent t * (point t - base t) := by
+  have bound := value_le_branch payoff point hpoint opponent
+  rw [centered_dot_eq, optimal, hbase.2]
+  simp only [centeredExtension, hbase.2, sub_self, zero_mul, add_zero]
   nlinarith
 
-omit [Nonempty J] in
-/-- The unextended value has the same centered supporting inequality when
-both beliefs have mass one. No positive-coordinate assumption is needed. -/
-theorem simplex_support (q : J → I → ℝ)
-    (hb : ∀ x, BddBelow (Set.range fun j => pairing (q j) x))
-    (base x : I → ℝ) (hbase : mass base = 1) (hx : mass x = 1) (j : J)
-    (hactive : envelope q base = pairing (q j) base) :
-    envelope q x ≤ envelope q base +
-      pairing (fun i => q j i - envelope q base) (x - base) := by
-  simpa only [extension_eq_of_mass_one q _ _ hx,
-    extension_eq_of_mass_one q _ _ hbase] using
-    centered_support q hb base hbase j hactive x
+/-- Eq. (2)'s coordinate identity for the vector certified above. -/
+theorem infoValue_eq_value_add_centered (base : T → ℝ) (opponent : FinDist B) (t : T) :
+    infoValue payoff opponent t = value payoff base + centeredVector payoff base opponent t := by
+  unfold centeredVector
+  ring
 
-end GameTheory.ReBeL.ValueGeometry
+/-- The source's existential extension and Eq. (2), under the explicit finite
+normal-form interpretation. This theorem chooses the corrected extension,
+not the nonconcave normalized formula printed in Appendix F. -/
+theorem theorem1_correctedExtension {base : T → ℝ} (hbase : base ∈ stdSimplex ℝ T)
+    (opponent : FinDist B)
+    (optimal : branch payoff base opponent = value payoff base) :
+    ∃ extension : (T → ℝ) → ℝ,
+      Set.EqOn extension (value payoff) (stdSimplex ℝ T) ∧
+      ConcaveOn ℝ {weight : T → ℝ | ∀ t, 0 ≤ weight t} extension ∧
+      (∀ point : T → ℝ, (∀ t, 0 ≤ point t) →
+        extension point ≤ extension base +
+          ∑ t, centeredVector payoff base opponent t * (point t - base t)) ∧
+      (∀ t, infoValue payoff opponent t =
+        value payoff base + centeredVector payoff base opponent t) := by
+  exact ⟨centeredExtension payoff base, centeredExtension_eq_on_simplex payoff base,
+    centeredExtension_concaveOn payoff base,
+    fun point hpoint => centeredExtension_support payoff hbase point hpoint opponent optimal,
+    infoValue_eq_value_add_centered payoff base opponent⟩
+
+/-- Footnote 8: finite convex combinations of optimal value vectors retain
+simplex support. A `FinDist` enforces nonnegative weights summing to one. -/
+theorem averaged_simplex_support {base point : T → ℝ}
+    (hbase : base ∈ stdSimplex ℝ T) (hpoint : point ∈ stdSimplex ℝ T)
+    (opponents : FinDist (FinDist B))
+    (optimal : ∀ opponent ∈ opponents.support,
+      branch payoff base opponent = value payoff base) :
+    value payoff point ≤ value payoff base +
+      ∑ t, opponents.expect (fun opponent => centeredVector payoff base opponent t) *
+        (point t - base t) := by
+  calc
+    value payoff point = opponents.expect (fun _ => value payoff point) :=
+      (FinDist.expect_const _ _).symm
+    _ ≤ opponents.expect (fun opponent => value payoff base +
+        ∑ t, centeredVector payoff base opponent t * (point t - base t)) :=
+      FinDist.expect_mono fun opponent supported =>
+        simplex_support payoff hbase hpoint opponent (optimal opponent supported)
+    _ = _ := by
+      rw [FinDist.expect_add, FinDist.expect_const, ← FinDist.expect_sum_comm]
+      simp only [FinDist.expect_mul_const]
+
+end GameTheory.ReBeL.TypeGame
