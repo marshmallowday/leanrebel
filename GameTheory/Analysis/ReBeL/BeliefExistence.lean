@@ -89,8 +89,8 @@ theorem finiteBeliefRealization_update (clock : ObservationClock M)
     (mixed : (i : ι) → FinDist (FinitePlan M i)) (who : ι) (plan : FinitePlan M who) :
     finiteBeliefRealization M clock fallback
       (Profile.update fallback who (FinitePlan.toPolicy M (fallback who) plan)) cut
-      (Profile.update (sig := { Strategy := fun i => FinDist (FinitePlan M i),
-        Outcome := E.History }) mixed who (FinDist.pure plan)) =
+      (Profile.update (sig := ⟨(fun i => FinDist (FinitePlan M i)), E.History⟩)
+        mixed who (FinDist.pure plan)) =
         Profile.update (finiteBeliefRealization M clock fallback fallback cut mixed) who
           (FinitePlan.toPolicy M (fallback who) plan).toBehavioral := by
   funext other

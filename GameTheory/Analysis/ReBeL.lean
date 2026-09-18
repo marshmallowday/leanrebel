@@ -61,3 +61,10 @@ import GameTheory.Analysis.ReBeL.ContinuationDeviations
 import GameTheory.Analysis.ReBeL.BeliefExistence
 import GameTheory.Analysis.ReBeL.RootTypeMemory
 import GameTheory.Analysis.ReBeL.Examples.ValueGeometry
+import GameTheory.Analysis.ReBeL.TypeBeliefSlice
+import GameTheory.Analysis.ReBeL.PBSInfoValue
+import GameTheory.Analysis.ReBeL.PBSValue
+import GameTheory.Analysis.ReBeL.PBSOptimalOpponent
+import GameTheory.Analysis.ReBeL.ValuePBS
+import GameTheory.Analysis.ReBeL.Examples.ValueDerivative
+import GameTheory.Analysis.ReBeL.M05

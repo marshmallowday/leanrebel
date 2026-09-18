@@ -4,14 +4,12 @@
 This is a finite two-player zero-sum type game with one legal continuation
 per type and one opponent continuation. Payoff is one in the first type and
 zero in the second. The scalar is the canonical minimax value, not a supplied
-rational function. Its normalized extension is differentiable at an interior
-belief but the resulting gradient does not give global concave support.
+rational function. `ValueDerivative` certifies the genuine interior derivative;
+the centered vector below fails global support for the radial extension.
 -/
 
 import GameTheory.Analysis.ReBeL.ValueEnvelopeBridge
-import Mathlib.Analysis.Calculus.Deriv.Inv
 import Mathlib.Analysis.Calculus.FDeriv.Prod
-import Mathlib.Tactic.Convert
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Ring
 
@@ -62,42 +60,13 @@ theorem radialValue_eq (point : ℝ × ℝ) : radialValue point =
     point.1 / (point.1 + point.2) := by
   rw [radialValue, value_eq, weights_zero]
 
-/-- The genuine Fréchet derivative at the interior belief `(1/2, 1/2)`. -/
+/-- The centered vector at `(1/2, 1/2)`, represented as a continuous linear map.
+Its Fréchet derivative interpretation is proved in `ValueDerivative`. -/
 def radialGradient : (ℝ × ℝ) →L[ℝ] ℝ :=
   (1 / 2 : ℝ) • ContinuousLinearMap.fst ℝ ℝ ℝ -
     (1 / 2 : ℝ) • ContinuousLinearMap.snd ℝ ℝ ℝ
 
-theorem radialValue_hasFDerivAt :
-    HasFDerivAt radialValue radialGradient ((1 / 2 : ℝ), (1 / 2 : ℝ)) := by
-  have first := (ContinuousLinearMap.fst ℝ ℝ ℝ).hasFDerivAt
-    (x := ((1 / 2 : ℝ), (1 / 2 : ℝ)))
-  have second := (ContinuousLinearMap.snd ℝ ℝ ℝ).hasFDerivAt
-    (x := ((1 / 2 : ℝ), (1 / 2 : ℝ)))
-  have inverse := (hasFDerivAt_inv (by norm_num : (1 / 2 : ℝ) + 1 / 2 ≠ 0)).comp
-    ((1 / 2 : ℝ), (1 / 2 : ℝ)) (first.add second)
-  have derivative : HasFDerivAt (fun point : ℝ × ℝ => point.1 * (point.1 + point.2)⁻¹)
-      ((1 / 2 : ℝ) • (ContinuousLinearMap.toSpanSingleton ℝ (-1 : ℝ)).comp
-        (ContinuousLinearMap.fst ℝ ℝ ℝ + ContinuousLinearMap.snd ℝ ℝ ℝ) +
-          ContinuousLinearMap.fst ℝ ℝ ℝ) ((1 / 2 : ℝ), (1 / 2 : ℝ)) := by
-    have calculation := first.mul inverse
-    norm_num at calculation
-    simpa using calculation
-  have linear : ((1 / 2 : ℝ) • (ContinuousLinearMap.toSpanSingleton ℝ (-1 : ℝ)).comp
-      (ContinuousLinearMap.fst ℝ ℝ ℝ + ContinuousLinearMap.snd ℝ ℝ ℝ) +
-        ContinuousLinearMap.fst ℝ ℝ ℝ) = radialGradient := by
-    apply ContinuousLinearMap.ext
-    intro point
-    norm_num [radialGradient]
-    ring
-  rw [linear] at derivative
-  have equality : radialValue = fun point : ℝ × ℝ =>
-      point.1 * (point.1 + point.2)⁻¹ := by
-    funext point
-    rw [radialValue_eq, div_eq_mul_inv]
-  rw [equality]
-  exact derivative
-
-/-- The derivative is precisely the centered Eq. (1) value vector. -/
+/-- The linear map is precisely the centered Eq. (1) value vector. -/
 theorem gradient_eq_centered (direction : ℝ × ℝ) :
     radialGradient direction = ∑ t,
       TypeGame.centeredVector payoff (weights ((1 / 2 : ℝ), (1 / 2 : ℝ)))
