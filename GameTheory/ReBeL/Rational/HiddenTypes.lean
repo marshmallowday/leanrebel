@@ -8,6 +8,8 @@ canonical-history decoding/refinement is a separate proof obligation.
 -/
 
 import GameTheory.ReBeL.Rational.FullGame
+import Mathlib.Data.Fintype.Sum
+import Mathlib.Data.Fintype.Sigma
 import Mathlib.Tactic.DeriveFintype
 
 namespace GameTheory.ReBeL.Rational.HiddenTypes
