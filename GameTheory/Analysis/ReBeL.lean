@@ -29,3 +29,4 @@ import GameTheory.Analysis.ReBeL.RationalArithmetic
 import GameTheory.Analysis.ReBeL.RationalEvaluation
 import GameTheory.Analysis.ReBeL.RationalReach
 import GameTheory.Analysis.ReBeL.RationalCounterfactual
+import GameTheory.Analysis.ReBeL.RationalIteration

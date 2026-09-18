@@ -55,9 +55,11 @@ theorem ownReach_eq_playerReach
     (G.ownReach numeric who history : ℝ) =
       M.playerReachProbability semantic who history.trace := by
   unfold HistoryTable.ownReach
-  rw [hpath, cast_map_prod]
-  simp_rw [hreal]
-  exact choicePath_product M semantic who history.trace
+  rw [hpath, cast_map_prod, ← choicePath_product M semantic who history.trace]
+  congr 1
+  apply List.map_congr_left
+  intro entry _
+  exact hreal who entry.1 entry.2
 
 variable [Fintype ι] [DecidableEq ι]
 
@@ -90,9 +92,9 @@ theorem counterfactualReach_eq
     (G.counterfactualReach numeric who history : ℝ) =
       M.counterfactualReachProbability semantic who history.trace := by
   unfold HistoryTable.counterfactualReach
-  push_cast
-  rw [hchance, counterfactualReach_eq_chance_prod]
+  rw [Rat.cast_mul, hchance, counterfactualReach_eq_chance_prod]
   congr 1
+  push_cast
   exact Finset.prod_congr rfl fun other _ =>
     ownReach_eq_playerReach M G hpath numeric semantic hreal other history
 
