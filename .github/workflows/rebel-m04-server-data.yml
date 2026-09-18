@@ -1,0 +1,82 @@
+name: ReBeL M04 offline module data
+
+on:
+  push:
+    branches: ['rebel/m04']
+    paths: ['.github/workflows/rebel-m04-server-data.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebel-m04-server-data-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: cf733bd1ffa977681d1197bf80b1dfd7be82ff6e
+          persist-credentials: false
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Fetch exactly the pinned dependency closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' > "$RUNNER_TEMP/m04-roots.txt"
+          from pathlib import Path
+          pending = ['GameTheory.ReBeL',
+                     'GameTheory.Analysis.Protocol.CounterfactualRootRegret',
+                     'GameTheory.Analysis.Protocol.CounterfactualZeroSumLearning',
+                     'GameTheory.Analysis.Minimax']
+          seen, roots = set(), set()
+          while pending:
+              name = pending.pop()
+              if name in seen:
+                  continue
+              seen.add(name)
+              if name.startswith('Mathlib.'):
+                  roots.add(name)
+                  continue
+              path = Path(name.replace('.', '/') + '.lean')
+              if path.is_file():
+                  for line in path.read_text().splitlines():
+                      if line.startswith('import '):
+                          pending.extend(line.split()[1:])
+          roots.add('Mathlib.Data.Finset.Sort')
+          print(' '.join(sorted(roots)))
+          PY
+          lake exe cache get $(cat "$RUNNER_TEMP/m04-roots.txt")
+      - name: Export required server-level data without credentials or Git metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/m04-server-data"
+          mkdir -p "$out"
+          git rev-parse HEAD > "$out/source-commit.txt"
+          lake env lean --version > "$out/lean-version.txt"
+          sha256sum lean-toolchain lake-manifest.json > "$out/pin-sha256.txt"
+          prefix="$(lake env lean --print-prefix)"
+          (cd "$prefix"; find . -type f -name '*.olean.server' -print0 |
+            tar --null -T - -I 'zstd -T2 -3' -cf "$out/toolchain-server.tar.zst")
+          find .lake/packages -type f -name '*.olean.server' -print0 |
+            tar --null -T - -I 'zstd -T2 -3' -cf "$out/dependencies-server.tar.zst"
+          (cd "$out"; sha256sum *.tar.zst > archive-sha256.txt)
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rebel-m04-server-data-${{ github.sha }}
+          path: ${{ runner.temp }}/m04-server-data/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
