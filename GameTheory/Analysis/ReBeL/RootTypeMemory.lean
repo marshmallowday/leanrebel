@@ -85,7 +85,8 @@ def fullRootTypeMemory (observations : List M.PublicSignal) (who : ι) {T : Type
   typeAt info := encode (info.prefixAt (observations.length - 1))
   persistent first later hpublic := by
     intro fuel reaches
-    have depth := AOH.publicHistory_length ((fullInformation M).infoOf who first.trace)
+    have depth := AOH.publicHistory_length
+      ((fullSignals (fullInformation M).toInfoSignals).infoOf who first.trace)
     rw [publicHistory_infoOf, length_infoOf, hpublic] at depth
     exact congrArg encode (prefixAt_infoOf_reaches M (observations.length - 1) who reaches
       (by omega))
@@ -125,7 +126,8 @@ theorem splice_law [Fintype ι] [DecidableEq ι]
   by_cases same : player = who
   · subst player
     rw [Profile.update_same, Profile.update_same]
-    exact congrArg FinDist.pure (memory.splice_eq_of_reaches plans first later hpublic reaches typed)
+    exact congrArg FinDist.pure
+      (memory.splice_eq_of_reaches plans first later hpublic reaches typed)
   · rw [Profile.update_of_ne _ _ same, Profile.update_of_ne _ _ same]
 
 end RootTypeMemory

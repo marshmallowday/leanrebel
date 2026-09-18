@@ -89,7 +89,8 @@ theorem finiteBeliefRealization_update (clock : ObservationClock M)
     (mixed : (i : ι) → FinDist (FinitePlan M i)) (who : ι) (plan : FinitePlan M who) :
     finiteBeliefRealization M clock fallback
       (Profile.update fallback who (FinitePlan.toPolicy M (fallback who) plan)) cut
-      (Profile.update mixed who (FinDist.pure plan)) =
+      (Profile.update (sig := { Strategy := fun i => FinDist (FinitePlan M i),
+        Outcome := E.History }) mixed who (FinDist.pure plan)) =
         Profile.update (finiteBeliefRealization M clock fallback fallback cut mixed) who
           (FinitePlan.toPolicy M (fallback who) plan).toBehavioral := by
   funext other
@@ -154,7 +155,8 @@ theorem exists_publicBelief_nash [∀ i, Fintype (E.Action i)]
   obtain ⟨mixed, equilibrium⟩ := exists_isNash_mixed
     (F := finiteBeliefForm M fallback belief fuel) utility
   exact ⟨finiteBeliefRealization M clock fallback fallback (observations.length - 1) mixed,
-    finiteBeliefForm_nash_realization M hrecall clock fallback belief fuel utility mixed equilibrium⟩
+    finiteBeliefForm_nash_realization M hrecall clock fallback belief fuel utility
+      mixed equilibrium⟩
 
 /-- Full action-observation histories discharge recall and the observation
 clock structurally, yielding existence in the existing M03 original game. -/
