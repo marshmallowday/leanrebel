@@ -24,3 +24,5 @@ import GameTheory.Analysis.ReBeL.IndependentRealization
 import GameTheory.Analysis.ReBeL.UnilateralAverage
 import GameTheory.Analysis.ReBeL.AverageNash
 import GameTheory.Analysis.ReBeL.CFRNash
+import GameTheory.Analysis.ReBeL.Examples.CFRNash
+import GameTheory.Analysis.ReBeL.RationalArithmetic

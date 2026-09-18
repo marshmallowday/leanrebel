@@ -41,3 +41,4 @@ import GameTheory.ReBeL.Examples.BayesObservation
 
 import GameTheory.ReBeL.Schedule
 import GameTheory.ReBeL.Examples.Schedule
+import GameTheory.ReBeL.Rational.Algorithm
