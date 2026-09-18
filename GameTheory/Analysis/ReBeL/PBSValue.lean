@@ -37,14 +37,15 @@ theorem branch_eq_equilibriumPayoff (hrecall : M.PerfectRecall)
     slice.branch fallback fuel (fun history => utility history 0) own profile =
       expectedUtility utility 0
         ((behavioralBeliefForm M (slice.mixture own) fuel).play profile) := by
+  rw [isNash_iff] at equilibrium
   apply le_antisymm
   · rw [← slice.branch_attained fallback fuel (fun history => utility history 0) own profile]
-    exact (isNash_iff profile).mp equilibrium 0
+    exact equilibrium 0
       (slice.simultaneousResponse fallback fuel (fun history => utility history 0)
         profile).toBehavioral
   · have bound := slice.payoff_le_branch hrecall fallback fuel
       (fun history => utility history 0) own profile (profile 0)
-    simpa only [Profile.update_eq_self] using bound
+    simpa only [Profile.update_eq_self, expectedUtility] using bound
 
 /-- The equilibrium player's strategy guarantees its value against every
 opponent. The opponent's Nash inequality is used through zero-sum utility. -/
@@ -57,6 +58,7 @@ theorem equilibriumPayoff_le_branch (hrecall : M.PerfectRecall)
     expectedUtility utility 0
         ((behavioralBeliefForm M (slice.mixture own) fuel).play profile) ≤
       slice.branch fallback fuel (fun history => utility history 0) own opponents := by
+  rw [isNash_iff] at equilibrium
   have cross : Profile.update profile 1 (opponents 1) =
       Profile.update opponents 0 (profile 0) := by
     funext who
@@ -68,7 +70,7 @@ theorem equilibriumPayoff_le_branch (hrecall : M.PerfectRecall)
         (Profile.update profile 1 (opponents 1))) ≤
       expectedUtility utility 1
         ((behavioralBeliefForm M (slice.mixture own) fuel).play profile) :=
-    (isNash_iff profile).mp equilibrium 1 (opponents 1)
+    equilibrium 1 (opponents 1)
   rw [hzero.expectedUtility_one, hzero.expectedUtility_one, cross] at column
   have upper : expectedUtility utility 0
       ((behavioralBeliefForm M (slice.mixture own) fuel).play

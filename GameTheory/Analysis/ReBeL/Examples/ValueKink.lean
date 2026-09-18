@@ -24,13 +24,13 @@ def payoff (t : Fin 2) (_action : Unit) (opponent : Fin 2) : ℝ :=
 
 theorem matrix_eq (weight : Fin 2 → ℝ) (plan : Fin 2 → Unit) (opponent : Fin 2) :
     TypeGame.matrix payoff weight plan opponent = weight opponent := by
-  fin_cases opponent <;> simp [TypeGame.matrix, payoff, Fin.sum_univ_two]
+  fin_cases opponent <;> simp [TypeGame.matrix, payoff]
 
 theorem expectedPayoff_eq (weight : Fin 2 → ℝ)
     (row : FinDist (Fin 2 → Unit)) (opponent : FinDist (Fin 2)) :
     expectedPayoff (TypeGame.matrix payoff weight) row opponent = opponent.expect weight := by
   rw [expectedPayoff_eq_expect_rows]
-  simp_rw [expectedPayoff_pure_row, matrix_eq, FinDist.expect_const]
+  simp only [expectedPayoff_pure_row, matrix_eq, FinDist.expect_const]
 
 /-- A closed form for the canonical minimax value, derived using the selected
 saddle strategies rather than defining the game value by this formula. -/
@@ -38,7 +38,7 @@ theorem value_eq (weight : Fin 2 → ℝ) :
     TypeGame.value payoff weight = min (weight 0) (weight 1) := by
   have upper (opponent : Fin 2) : TypeGame.value payoff weight ≤ weight opponent := by
     have bound := valueRow_guarantees (TypeGame.matrix payoff weight) (FinDist.pure opponent)
-    simpa only [expectedPayoff_eq, FinDist.expect_pure] using bound
+    simpa only [TypeGame.value, expectedPayoff_eq, FinDist.expect_pure] using bound
   have lower : min (weight 0) (weight 1) ≤ TypeGame.value payoff weight := by
     have bound := valueColumn_caps (TypeGame.matrix payoff weight)
       (FinDist.pure (fun _ : Fin 2 => ()))
@@ -68,10 +68,14 @@ theorem infoValue_pure (opponent t : Fin 2) :
 theorem value_not_differentiable : ¬ DifferentiableAt ℝ
     (fun p : ℝ => TypeGame.value payoff (weights (p, 1 - p))) (1 / 2) := by
   intro differentiable
+  have shift : DifferentiableAt ℝ (fun z : ℝ => 1 / 2 + z) 0 :=
+    (differentiableAt_const (1 / 2 : ℝ)).add differentiableAt_id
+  have atShift : DifferentiableAt ℝ
+      (fun p : ℝ => TypeGame.value payoff (weights (p, 1 - p))) ((1 / 2 : ℝ) + 0) := by
+    simpa only [add_zero] using differentiable
   have shifted : DifferentiableAt ℝ
-      (fun z : ℝ => TypeGame.value payoff (weights (1 / 2 + z, 1 - (1 / 2 + z)))) 0 := by
-    simpa only [Function.comp_def, add_zero] using differentiable.comp 0
-      ((differentiableAt_const (1 / 2 : ℝ)).add differentiableAt_id)
+      (fun z : ℝ => TypeGame.value payoff (weights (1 / 2 + z, 1 - (1 / 2 + z)))) 0 :=
+    atShift.comp 0 shift
   have identity : (fun z : ℝ => (1 / 2 : ℝ) -
       TypeGame.value payoff (weights (1 / 2 + z, 1 - (1 / 2 + z)))) = abs := by
     funext z
@@ -81,7 +85,9 @@ theorem value_not_differentiable : ¬ DifferentiableAt ℝ
       ring
     · rw [min_eq_left (by linarith), abs_of_neg (lt_of_not_ge nonnegative)]
       ring
-  have impossible := (differentiableAt_const (1 / 2 : ℝ)).sub shifted
+  have impossible : DifferentiableAt ℝ (fun z : ℝ => (1 / 2 : ℝ) -
+      TypeGame.value payoff (weights (1 / 2 + z, 1 - (1 / 2 + z)))) 0 :=
+    (differentiableAt_const (1 / 2 : ℝ)).sub shifted
   rw [identity] at impossible
   exact not_differentiableAt_abs_zero impossible
 
@@ -140,7 +146,7 @@ theorem arbitrary_linear_combination_not_supporting : ¬ (∀ point : Fin 2 → 
   have boundary : weights ((0 : ℝ), (1 : ℝ)) ∈ stdSimplex ℝ (Fin 2) := by
     constructor
     · intro t
-      simp [weights]
+      fin_cases t <;> norm_num [weights]
     · norm_num [weights, Fin.sum_univ_two]
   have impossible := supporting (weights ((0 : ℝ), (1 : ℝ))) boundary
   norm_num [value_eq, TypeGame.centeredVector, infoValue_pure, weights,
