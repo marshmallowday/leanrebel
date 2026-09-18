@@ -7,7 +7,7 @@ The affine mass correction is distinct from degree-zero radial normalization.
 -/
 
 import Mathlib.Analysis.Convex.Function
-import Mathlib.Data.Real.Basic
+import Mathlib.Algebra.Order.Archimedean.Real.Basic
 import Mathlib.Order.ConditionallyCompleteLattice.Basic
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Ring
@@ -18,7 +18,7 @@ namespace GameTheory.ReBeL.ValueGeometry
 
 open scoped BigOperators
 
-variable {I J : Type*} [Fintype I] [Nonempty J]
+variable {I J : Type*} [Fintype I]
 
 /-- Coordinate pairing, with the belief in the second argument. -/
 def pairing (v x : I → ℝ) : ℝ := ∑ i, x i * v i
@@ -74,6 +74,14 @@ theorem envelope_le (q : J → I → ℝ)
     (x : I → ℝ) (j : J) : envelope q x ≤ pairing (q j) x :=
   csInf_le (hb x) ⟨j, rfl⟩
 
+/-- The corrected extension agrees with the value on the mass-one plane,
+in particular on the entire simplex, including its boundary. -/
+theorem extension_eq_of_mass_one (q : J → I → ℝ) (c : ℝ)
+    (x : I → ℝ) (hx : mass x = 1) : extension q c x = envelope q x := by
+  simp [extension, hx]
+
+variable [Nonempty J]
+
 /-- A simultaneous lower bound for all branches bounds their infimum. -/
 theorem le_envelope (q : J → I → ℝ) (x : I → ℝ) (a : ℝ)
     (h : ∀ j, a ≤ pairing (q j) x) : a ≤ envelope q x := by
@@ -94,12 +102,6 @@ theorem envelope_concave (q : J → I → ℝ)
     add_le_add (mul_le_mul_of_nonneg_left (envelope_le q hb x j) ha)
       (mul_le_mul_of_nonneg_left (envelope_le q hb y j) hb')
 
-/-- The corrected extension agrees with the value on the mass-one plane,
-in particular on the entire simplex, including its boundary. -/
-theorem extension_eq_of_mass_one (q : J → I → ℝ) (c : ℝ)
-    (x : I → ℝ) (hx : mass x = 1) : extension q c x = envelope q x := by
-  simp [extension, hx]
-
 /-- An affine correction preserves concavity; radial normalization need not. -/
 theorem extension_concave (q : J → I → ℝ) (c : ℝ)
     (hb : ∀ x, BddBelow (Set.range fun j => pairing (q j) x)) :
@@ -107,10 +109,12 @@ theorem extension_concave (q : J → I → ℝ) (c : ℝ)
   refine ⟨convex_univ, ?_⟩
   intro x _ y _ a b ha hb' hab
   have h := (envelope_concave q hb).2 (Set.mem_univ x) (Set.mem_univ y) ha hb' hab
+  have hc := congrArg (fun t : ℝ => t * c) hab
   simp only [smul_eq_mul] at h ⊢
   simp only [extension, mass_mix]
-  nlinarith
+  nlinarith only [h, hc]
 
+omit [Nonempty J] in
 /-- An active opponent branch gives the centered global supergradient of
 our corrected extension. This is not a claim about the radial extension. -/
 theorem centered_support (q : J → I → ℝ)
@@ -125,6 +129,7 @@ theorem centered_support (q : J → I → ℝ)
   simp only [extension, hbase]
   nlinarith
 
+omit [Nonempty J] in
 /-- The unextended value has the same centered supporting inequality when
 both beliefs have mass one. No positive-coordinate assumption is needed. -/
 theorem simplex_support (q : J → I → ℝ)
