@@ -81,7 +81,7 @@ theorem radialValue_hasFDerivAt :
           ContinuousLinearMap.fst ℝ ℝ ℝ) ((1 / 2 : ℝ), (1 / 2 : ℝ)) := by
     have calculation := first.mul inverse
     norm_num at calculation
-    simpa using calculation
+    convert! calculation using 1
   have linear : ((1 / 2 : ℝ) • (ContinuousLinearMap.toSpanSingleton ℝ (-1 : ℝ)).comp
       (ContinuousLinearMap.fst ℝ ℝ ℝ + ContinuousLinearMap.snd ℝ ℝ ℝ) +
         ContinuousLinearMap.fst ℝ ℝ ℝ) = radialGradient := by
