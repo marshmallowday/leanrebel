@@ -34,8 +34,11 @@ def rowChoiceEquiv (who : Player) (row : Row) :
       (model fullPrior).Choice who ((model fullPrior).infoOf who (decode row).trace) := by
   cases row with
   | initial =>
-      refine { toFun := fun _ => ⟨none, rfl⟩, invFun := fun _ => (),
-        left_inv := ?_, right_inv := ?_ }
+      refine {
+        toFun := fun _ => ⟨none, rfl⟩
+        invFun := fun _ => ()
+        left_inv := ?_
+        right_inv := ?_ }
       · intro a
         cases a
         rfl
@@ -46,8 +49,11 @@ def rowChoiceEquiv (who : Player) (row : Row) :
   | second x y a b =>
       exact activeChoiceEquiv who (.second (own who x y) (own who a b) (a == b)) (by simp)
   | finished x y a b c d =>
-      refine { toFun := fun _ => ⟨none, rfl⟩, invFun := fun _ => (),
-        left_inv := ?_, right_inv := ?_ }
+      refine {
+        toFun := fun _ => ⟨none, rfl⟩
+        invFun := fun _ => ()
+        left_inv := ?_
+        right_inv := ?_ }
       · intro a
         cases a
         rfl
@@ -73,11 +79,13 @@ theorem idle_choice_prob (semantic : Profile (model fullPrior).behavioralSignatu
     (who : Player) (row : Row) (hidle : information who row = .idle)
     (a : (model fullPrior).Choice who ((model fullPrior).infoOf who (decode row).trace)) :
     (semantic who ((model fullPrior).infoOf who (decode row).trace)).prob a = 1 := by
-  letI : Subsingleton (Choice (information who row)) := by rw [hidle]; infer_instance
-  letI : Subsingleton ((model fullPrior).Choice who
+  let : Subsingleton (Choice (information who row)) := by rw [hidle]; infer_instance
+  let : Subsingleton ((model fullPrior).Choice who
       ((model fullPrior).infoOf who (decode row).trace)) :=
     ⟨fun x y => (rowChoiceEquiv who row).symm.injective (Subsingleton.elim _ _)⟩
-  rw [FinDist.eq_pure_of_subsingleton _ a, FinDist.prob_pure_self]
+  rw [FinDist.eq_pure_of_subsingleton
+    (semantic who ((model fullPrior).infoOf who (decode row).trace)) a,
+    FinDist.prob_pure_self]
 
 /-- Runtime terminality is exactly the canonical stopping predicate. -/
 theorem terminal_correct (row : Row) :
@@ -100,11 +108,15 @@ The statement covers every legal history code and both players. -/
 theorem payoff_correct (row : Row) (who : Player) :
     (GameTheory.ReBeL.Rational.HiddenTypes.payoff row who : ℝ) =
       cumulativeUtility (reward fullPrior) (decode row) who := by
+  have castWin (won : Bool) :
+      (GameTheory.ReBeL.Rational.HiddenTypes.winValue won : ℝ) =
+        GameTheory.ReBeL.Examples.HiddenTypes.winValue won := by
+    cases won <;> norm_num [GameTheory.ReBeL.Rational.HiddenTypes.winValue,
+      GameTheory.ReBeL.Examples.HiddenTypes.winValue]
   rw [cumulative_eq]
   cases row <;> fin_cases who <;>
     simp [GameTheory.ReBeL.Rational.HiddenTypes.payoff,
-      GameTheory.ReBeL.Rational.HiddenTypes.winValue,
-      potential, signed, GameTheory.ReBeL.Examples.HiddenTypes.winValue,
-      decode, finish, firstHistory, fullDraw, drawHistory, firstResult, finalResult, action, own]
+      potential, signed, decode, finish, firstHistory, fullDraw, drawHistory,
+      ExecutionProtocol.History.extend, firstResult, finalResult, action, own, castWin]
 
 end GameTheory.ReBeL.Rational.HiddenTypes.Canonical

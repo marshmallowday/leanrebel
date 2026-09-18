@@ -34,3 +34,5 @@ import GameTheory.Analysis.ReBeL.RationalAverage
 import GameTheory.Analysis.ReBeL.Examples.RationalCodec
 import GameTheory.Analysis.ReBeL.Examples.RationalInformation
 import GameTheory.Analysis.ReBeL.Examples.RationalPrimitives
+import GameTheory.Analysis.ReBeL.Examples.RationalChance
+import GameTheory.Analysis.ReBeL.Examples.RationalExecution
