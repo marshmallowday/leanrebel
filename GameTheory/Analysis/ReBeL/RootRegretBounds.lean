@@ -20,9 +20,7 @@ open GameTheory.Math.Probability GameTheory.Math.OrthantProjection
 universe uι us ua up uq uk
 variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 variable (M : InformationModel.{uι, us, ua, up, uq, uk} E)
-variable [Fintype ι] [DecidableEq ι] [Fintype E.History]
-variable [∀ who, DecidableEq (M.InfoState who)]
-variable [∀ who info, Fintype (M.Choice who info)]
+variable [DecidableEq ι]
 
 /-- Fixing the deviator's policy fixes its own-reach coefficient, independently
 of all opponents and of the baseline policy being replaced. -/
@@ -35,6 +33,10 @@ theorem targetReach_independent_profile
   · intro history _ _ _
     rw [Profile.update_same, Profile.update_same]
   · exact le_rfl
+
+variable [Fintype ι] [Fintype E.History]
+variable [∀ who, DecidableEq (M.InfoState who)]
+variable [∀ who info, Fintype (M.Choice who info)]
 
 /-- Finite iteration sums commute with finite-support expectation. -/
 private theorem range_sum_expect {A : Type*} (law : FinDist A)
@@ -134,7 +136,7 @@ theorem cfr_local_cumulative_le (clock : ObservationClock M) (hrecall : M.Perfec
   have he : law.expect x.ofLp ≤ d := by
     apply FinDist.expect_le_of_forall
     intro choice _
-    exact le_trans (le_max_left _ _) (max_coord_le_infDist x choice)
+    exact le_trans (le_max_left _ _) (positivePart_le_infDist x choice)
   have hsquared : ((t : ℝ) * d) ^ 2 ≤ (2 * c * Real.sqrt t) ^ 2 := by
     rw [mul_pow, mul_pow, Real.sq_sqrt ht]
     nlinarith [mul_le_mul_of_nonneg_right hs ht]

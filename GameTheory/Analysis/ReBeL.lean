@@ -19,3 +19,5 @@ import GameTheory.Analysis.ReBeL.PayoffBounds
 import GameTheory.Analysis.ReBeL.RootRegretBounds
 import GameTheory.Analysis.ReBeL.WeightedAverage
 import GameTheory.Analysis.ReBeL.OwnReachAverage
+import GameTheory.Analysis.ReBeL.OutcomeReach
+import GameTheory.Analysis.ReBeL.IndependentRealization
