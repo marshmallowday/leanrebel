@@ -9,7 +9,6 @@ The fallback is supplied, not inferred from progress at nonterminal states.
 
 import GameTheory.ReBeL.Finite
 import GameTheory.ReBeL.Response
-import Mathlib.Order.Finite
 
 noncomputable section
 
@@ -64,7 +63,8 @@ variable [Fintype ι] [DecidableEq ι]
 
 /-- Finite predrawing commutes with unilateral replacement. The replacement's
 fallback may differ from the fixed opponents' fallbacks. -/
-theorem finitePredraw_update
+omit [Fintype ι] in
+ theorem finitePredraw_update
     (sites : (i : ι) → Finset (M.InfoState i))
     (behavioral : Profile M.behavioralSignature)
     (fallback : Profile M.strategicSignature) (who : ι)
