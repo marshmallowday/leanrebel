@@ -26,12 +26,6 @@ def Realizes (numeric : Profile (tableSignature E.History M.InfoState M.Choice))
     (semantic : Profile M.behavioralSignature) : Prop :=
   ∀ who info choice, (numeric who info choice : ℝ) = (semantic who info).prob choice
 
-private theorem cast_map_sum {α : Type*} (xs : List α) (f : α → ℚ) :
-    ((xs.map f).sum : ℝ) = (xs.map fun x => (f x : ℝ)).sum := by
-  induction xs with
-  | nil => simp
-  | cons head tail ih => simp only [List.map_cons, List.sum_cons, Rat.cast_add, ih]
-
 variable (G : HistoryTable E.History M.InfoState M.Choice)
 
 /-- A runtime draw denotes a legal canonical joint, without exposing the world
@@ -144,6 +138,6 @@ theorem value_eq_runBehavioralFrom
         rw [hjoint]
         congr 1
         rw [← hrows history hterm draw]
-        simpa only [cast_map_sum, Rat.cast_mul, ih]
+        simp only [List.map_map, Function.comp_def, Rat.cast_mul, ih]
 
 end GameTheory.ReBeL.Rational
