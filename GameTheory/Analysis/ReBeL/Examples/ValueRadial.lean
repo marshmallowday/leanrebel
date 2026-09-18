@@ -82,8 +82,9 @@ theorem radialValue_hasFDerivAt :
     have calculation := first.mul inverse
     norm_num at calculation
     convert! calculation using 1
-    ext point
-    simp
+    apply ContinuousLinearMap.ext
+    intro point
+    norm_num
     ring
   have linear : ((1 / 2 : ℝ) • (ContinuousLinearMap.toSpanSingleton ℝ (-1 : ℝ)).comp
       (ContinuousLinearMap.fst ℝ ℝ ℝ + ContinuousLinearMap.snd ℝ ℝ ℝ) +

@@ -169,6 +169,7 @@ theorem ofJointBelief_reconstruct (memory : RootTypeMemory M observations who T)
   have positiveFibre : ∃ history ∈ readType ⁻¹' {type},
       history ∈ belief.law.support := positive
   rw [conditionedKernel, dif_pos positiveKernel, FinDist.condOnFibre, dif_pos positiveFibre]
+  rfl
 
 end TypeBeliefSlice
 end GameTheory.ReBeL

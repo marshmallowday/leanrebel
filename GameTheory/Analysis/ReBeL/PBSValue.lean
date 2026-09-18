@@ -70,11 +70,12 @@ theorem equilibriumPayoff_le_branch (hrecall : M.PerfectRecall)
         ((behavioralBeliefForm M (slice.mixture own) fuel).play profile) :=
     (isNash_iff profile).mp equilibrium 1 (opponents 1)
   rw [hzero.expectedUtility_one, hzero.expectedUtility_one, cross] at column
-  have upper := slice.payoff_le_branch hrecall fallback fuel
-    (fun history => utility history 0) own opponents (profile 0)
-  change expectedUtility utility 0
+  have upper : expectedUtility utility 0
       ((behavioralBeliefForm M (slice.mixture own) fuel).play
-        (Profile.update opponents 0 (profile 0))) ≤ _ at upper
+        (Profile.update opponents 0 (profile 0))) ≤
+      slice.branch fallback fuel (fun history => utility history 0) own opponents :=
+    slice.payoff_le_branch hrecall fallback fuel
+      (fun history => utility history 0) own opponents (profile 0)
   exact (by linarith : expectedUtility utility 0
     ((behavioralBeliefForm M (slice.mixture own) fuel).play profile) ≤
       expectedUtility utility 0 ((behavioralBeliefForm M (slice.mixture own) fuel).play
@@ -148,7 +149,7 @@ theorem value_eq_equilibriumPayoff (hrecall : M.PerfectRecall)
     slice.value fallback fuel (fun history => utility history 0) own.prob =
       expectedUtility utility 0
         ((behavioralBeliefForm M (slice.mixture own) fuel).play profile) := by
-  change sInf (Set.range
+  show sInf (Set.range
     (slice.weightedBranch fallback fuel (fun history => utility history 0) own.prob)) = _
   have same : slice.weightedBranch fallback fuel (fun history => utility history 0) own.prob =
       slice.branch fallback fuel (fun history => utility history 0) own := by
