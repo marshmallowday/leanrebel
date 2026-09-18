@@ -166,6 +166,7 @@ def counterfactualPayoffBound (who : ι) (site : M.InformationSite who)
   Real.sqrt (Fintype.card (M.Choice who site.1)) *
     (2 * ((Fintype.card (M.InformationHistory who site.1) : ℝ) * bound))
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- The structural payoff constant is nonnegative for a lawful payoff bound. -/
 theorem counterfactualPayoffBound_nonneg (who : ι) (site : M.InformationSite who)
     [Fintype (M.InformationHistory who site.1)] {bound : ℝ} (hbound0 : 0 ≤ bound) :
