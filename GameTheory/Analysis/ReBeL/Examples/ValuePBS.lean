@@ -35,7 +35,8 @@ theorem twoStage_joint_theorem1 (law : FinDist Types) :
       IsNash (behavioralBeliefForm (model fullPrior) (drawBelief law) 2)
         (euPreference (cumulativeUtility (reward fullPrior))) profile ∧
       Set.EqOn extension
-        (slice.value valueFallback 2 (fun history => cumulativeUtility (reward fullPrior) history 0))
+        (slice.value valueFallback 2
+          (fun history => cumulativeUtility (reward fullPrior) history 0))
         (stdSimplex ℝ (PublicRootType (reducedModel fullPrior)
           [Phase.first, Phase.initial] 0)) ∧
       ConcaveOn ℝ Set.univ extension ∧
