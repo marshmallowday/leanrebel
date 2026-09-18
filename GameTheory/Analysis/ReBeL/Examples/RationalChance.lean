@@ -34,6 +34,12 @@ def rowJoint (row : Row) (hterm : ¬ (protocol fullPrior).terminal (decode row).
       ((model fullPrior).menu_adequate who (decode row).trace _).mp
         (rowChoiceEquiv who row (draw who)).2⟩
 
+private def chosenContinuation (history : (protocol fullPrior).History)
+    (joint : {joint : Player → Option Bool // (protocol fullPrior).Legal history.state joint}) :
+    FinDist (protocol fullPrior).History :=
+  ((protocol fullPrior).step history.state joint).bindOnSupport
+    fun _ realized => FinDist.pure (history.extend joint.2 realized)
+
 /-- The actual one-step continuation law after fixing that legal joint. -/
 def rowDrawLaw (row : Row) (hterm : ¬ (protocol fullPrior).terminal (decode row).state)
     (draw : (who : Player) → Choice (information who row)) :
@@ -74,9 +80,14 @@ theorem rowDrawLaw_drawn (x y : Bool)
     apply Subtype.ext
     funext who
     fin_cases who <;> rfl
-  unfold rowDrawLaw
-  rw [hjoint]
-  simp only [decode, firstHistory, protocol, transition, FinDist.pure_bindOnSupport]
+  calc
+    _ = chosenContinuation (decode (.drawn x y))
+        ⟨fun who => some (own who (draw 0) (draw 1)),
+          ⟨hterm, by intro who; trivial⟩⟩ :=
+      congrArg (chosenContinuation (decode (.drawn x y))) hjoint
+    _ = _ := by
+      simp only [chosenContinuation, decode, firstHistory, fullDraw, drawHistory,
+        History.extend, protocol, transition, FinDist.pure_bindOnSupport]
 
 /-- The second strategic step retains the complete action tuple despite state merging. -/
 theorem rowDrawLaw_second (x y a b : Bool)
@@ -90,9 +101,14 @@ theorem rowDrawLaw_second (x y a b : Bool)
     apply Subtype.ext
     funext who
     fin_cases who <;> rfl
-  unfold rowDrawLaw
-  rw [hjoint]
-  simp only [decode, finish, firstHistory, protocol, transition, FinDist.pure_bindOnSupport]
+  calc
+    _ = chosenContinuation (decode (.second x y a b))
+        ⟨fun who => some (own who (draw 0) (draw 1)),
+          ⟨hterm, by intro who; trivial⟩⟩ :=
+      congrArg (chosenContinuation (decode (.second x y a b))) hjoint
+    _ = _ := by
+      simp only [chosenContinuation, decode, finish, firstHistory, fullDraw, drawHistory,
+        History.extend, protocol, transition, FinDist.pure_bindOnSupport]
 
 /-- Sparse numeric successor rows have exactly the expected value of the
 canonical chance transition for every real observable on complete histories. -/
@@ -106,7 +122,8 @@ theorem children_expect (row : Row)
   | initial =>
       rw [rowDrawLaw_initial, FinDist.expect_map, FinDist.expect_eq_sum]
       simp [children, pairs, bits, fullPrior, Fintype.sum_prod_type,
-        FinDist.prob_uniformOfFintype] <;> ring
+        FinDist.prob_uniformOfFintype]
+      ring
   | drawn x y => simp [children, rowDrawLaw_drawn]
   | second x y a b => simp [children, rowDrawLaw_second]
   | finished x y a b c d => exact False.elim (hterm trivial)
