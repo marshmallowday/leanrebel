@@ -11,6 +11,7 @@ is concave or that its derivative is a global supporting supergradient.
 import GameTheory.Analysis.ReBeL.ValueEnvelope
 import Mathlib.Analysis.Calculus.Deriv.Inv
 import Mathlib.Analysis.Calculus.FDeriv.Pi
+import Mathlib.Tactic.Convert
 import Mathlib.Tactic.Ring
 
 noncomputable section
@@ -52,14 +53,14 @@ theorem normalize_hasFDerivAt (base : T → ℝ) (nonzero : massMap base ≠ 0) 
   apply hasFDerivAt_pi.mpr
   intro type
   have inverse := (hasFDerivAt_inv nonzero).comp base massMap.hasFDerivAt
-  simpa only [div_eq_mul_inv, Function.comp_def] using
-    (hasFDerivAt_apply type base).mul inverse
+  convert! (hasFDerivAt_apply type base).mul inverse using 1
 
 /-- Coordinate formula for the Jacobian acting on an arbitrary direction. -/
 theorem normalizationJacobian_apply (base direction : T → ℝ) (type : T) :
     normalizationJacobian base direction type =
       direction type / massMap base - base type * massMap direction / massMap base ^ 2 := by
   simp [normalizationJacobian, div_eq_mul_inv]
+  rw [← Finset.sum_mul]
   ring
 
 /-- Equation (9): at mass one the derivative removes the radial component. -/
@@ -117,7 +118,7 @@ theorem centeredMap_coordinate [DecidableEq T] (values base : T → ℝ) (type :
 
 /-- Fixed conditional values do not depend on own weights (equation (6)). -/
 theorem conditional_coordinate_derivative_zero (values : T → ℝ) (type : T) (base : T → ℝ) :
-    HasFDerivAt (fun _ : T → ℝ => values type) 0 base :=
+    HasFDerivAt (fun _ : T → ℝ => values type) (0 : (T → ℝ) →L[ℝ] ℝ) base :=
   hasFDerivAt_const base (values type)
 
 end GameTheory.ReBeL.ValueDifferential

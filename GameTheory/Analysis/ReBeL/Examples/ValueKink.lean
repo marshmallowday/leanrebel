@@ -29,8 +29,10 @@ theorem matrix_eq (weight : Fin 2 → ℝ) (plan : Fin 2 → Unit) (opponent : F
 theorem expectedPayoff_eq (weight : Fin 2 → ℝ)
     (row : FinDist (Fin 2 → Unit)) (opponent : FinDist (Fin 2)) :
     expectedPayoff (TypeGame.matrix payoff weight) row opponent = opponent.expect weight := by
+  have rowConstant (current : Fin 2 → Unit) : TypeGame.matrix payoff weight current = weight :=
+    funext (matrix_eq weight current)
   rw [expectedPayoff_eq_expect_rows]
-  simp only [expectedPayoff_pure_row, matrix_eq, FinDist.expect_const]
+  simp only [expectedPayoff_pure_row, rowConstant, FinDist.expect_const]
 
 /-- A closed form for the canonical minimax value, derived using the selected
 saddle strategies rather than defining the game value by this formula. -/

@@ -69,7 +69,8 @@ theorem nash_replaceOpponent_of_upper_bound (form : GameForm (Fin 2))
     rcases (by decide : ∀ who : Fin 2, who = 0 ∨ who = 1) who with rfl | rfl
     · simp only [joined, Profile.update_of_ne _ _ (by decide : (0 : Fin 2) ≠ 1)]
     · rw [Profile.update_same, Profile.update_same]
-  apply (isNash_iff joined).mpr
+  show IsNash form (euPreference utility) joined
+  rw [isNash_iff]
   intro who replacement
   rcases (by decide : ∀ who : Fin 2, who = 0 ∨ who = 1) who with rfl | rfl
   · rw [euPreference_apply, sameRow]
