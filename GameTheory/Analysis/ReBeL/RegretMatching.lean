@@ -57,7 +57,7 @@ theorem regretMatchWith_steering (fallback : A) (utility : A → Q → ℝ)
     (x : EuclideanSpace ℝ A) (environment : Q) :
     inner ℝ (regretPayoff utility (regretMatchWith fallback x) environment - orthantProj x)
       (x - orthantProj x) ≤ 0 := by
-  letI : Nonempty A := ⟨fallback⟩
+  let : Nonempty A := ⟨fallback⟩
   by_cases hpos : 0 < ∑ a, max (x.ofLp a) 0
   · rw [regretMatchWith_eq_regretMatch fallback x hpos]
     exact regretMatch_steering utility x environment
