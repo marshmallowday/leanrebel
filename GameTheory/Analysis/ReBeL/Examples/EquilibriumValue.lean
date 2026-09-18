@@ -48,7 +48,8 @@ theorem strategy_isNash (row : Fin 3) (hrow : row ≠ 2) :
   rw [isNash_iff]
   intro who alternative
   fin_cases who <;> fin_cases alternative <;>
-    norm_num [form, strategy, utility, rowPayoff, hrow]
+    norm_num [form, strategy, utility, rowPayoff, hrow] <;>
+    split_ifs <;> norm_num
 
 /-- Positive control: different equilibrium strategies, the same nonzero value. -/
 theorem distinct_equilibria_same_value :
@@ -62,7 +63,9 @@ theorem distinct_equilibria_same_value :
     have hrow := congrFun h 0
     norm_num [strategy] at hrow
   · norm_num [form, strategy, utility, rowPayoff]
+    decide
   · norm_num [form, strategy, utility, rowPayoff]
+    decide
 
 /-- The general value theorem is exercised on the two distinct concrete equilibria. -/
 theorem value_theorem_applies :
@@ -84,7 +87,7 @@ theorem coordination_isNash (action : Fin 3) (haction : action = 0 ∨ action = 
   rcases haction with rfl | rfl <;>
     rw [isNash_iff] <;> intro who alternative <;>
     fin_cases who <;> fin_cases alternative <;>
-    norm_num [form, coordinated, coordination]
+    norm_num [form, coordinated, coordination] <;> split_ifs <;> norm_num
 
 /-- Negative control: removing zero sum admits two different exact equilibrium values. -/
 theorem zeroSum_is_necessary :
