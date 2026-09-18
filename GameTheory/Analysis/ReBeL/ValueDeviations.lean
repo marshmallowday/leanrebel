@@ -76,20 +76,20 @@ theorem deviationLaw_eq_bind_finitePlans [Fintype E.History]
     (behavioral : Profile M.behavioralSignature)
     (fallback : Profile M.strategicSignature) (who : ι)
     (replacement : M.BehavioralPolicy who)
-    {public : List M.PublicSignal} (belief : PublicBelief M.toInfoSignals public) :
+    {root : List M.PublicSignal} (belief : PublicBelief M.toInfoSignals root) :
     continuationLaw M (Profile.update behavioral who replacement) fuel belief =
       (FinDist.pi fun info : finiteSites M who => replacement info.1).bind
         fun plan => continuationLaw M (Profile.update behavioral who
           (FinitePlan.toPolicy M (fallback who) plan).toBehavioral) fuel belief := by
   unfold continuationLaw
   calc
-    _ = belief.law.bind (fun root =>
+    _ = belief.law.bind (fun history =>
         (FinDist.pi fun info : finiteSites M who => replacement info.1).bind
           fun plan => M.runBehavioralFrom (Profile.update behavioral who
-            (FinitePlan.toPolicy M (fallback who) plan).toBehavioral) fuel root) := by
+            (FinitePlan.toPolicy M (fallback who) plan).toBehavioral) fuel history) := by
       apply FinDist.bind_congr
-      intro root _
-      exact deviationLaw_eq_bind_finitePlans_from M hrecall fuel root
+      intro history _
+      exact deviationLaw_eq_bind_finitePlans_from M hrecall fuel history
         behavioral fallback who replacement
     _ = _ := FinDist.bind_comm _ _ _
 
@@ -99,11 +99,12 @@ theorem deviationValue_le_of_finitePlans_le [Fintype E.History]
     (hrecall : M.PerfectRecall) (fuel : ℕ)
     (behavioral : Profile M.behavioralSignature)
     (fallback : Profile M.strategicSignature) (who : ι)
-    {public : List M.PublicSignal} (belief : PublicBelief M.toInfoSignals public)
+    {root : List M.PublicSignal} (belief : PublicBelief M.toInfoSignals root)
     (payoff : E.History → ℝ) (bound : ℝ)
     (bounded : ∀ plan : FinitePlan M who,
       (continuationLaw M (Profile.update behavioral who
-        (FinitePlan.toPolicy M (fallback who) plan).toBehavioral) fuel belief).expect payoff ≤ bound)
+        (FinitePlan.toPolicy M (fallback who) plan).toBehavioral) fuel belief).expect payoff ≤
+          bound)
     (replacement : M.BehavioralPolicy who) :
     (continuationLaw M (Profile.update behavioral who replacement) fuel belief).expect payoff ≤
       bound := by

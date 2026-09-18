@@ -37,7 +37,7 @@ theorem value_eq (weight : Fin 2 → ℝ) : TypeGame.value payoff weight = weigh
   have matrix_eq : TypeGame.matrix payoff weight =
       fun (_plan : Fin 2 → Unit) (_opponent : Unit) => weight 0 := by
     funext plan opponent
-    simp [TypeGame.matrix, payoff, Fin.sum_univ_two]
+    simp [TypeGame.matrix, payoff]
   rw [TypeGame.value, matrix_eq, ← expectedPayoff_valueProfile,
     expectedPayoff_eq_expect_rows]
   simp only [expectedPayoff_pure_row, FinDist.expect_const]
@@ -45,13 +45,12 @@ theorem value_eq (weight : Fin 2 → ℝ) : TypeGame.value payoff weight = weigh
 /-- Eq. (1) retains the off-path conditional payoff rather than assigning
 zero to every zero-probability type. -/
 theorem infoValue_eq (opponent : FinDist Unit) (t : Fin 2) :
-    TypeGame.infoValue payoff opponent t = if t = 0 then 1 else 0 := by
-  unfold TypeGame.infoValue
-  simp only [payoff, FinDist.expect_const]
+    TypeGame.infoValue payoff opponent t = if t = 0 then 1 else 0 :=
+  FinDist.expect_const _ _
 
 theorem branch_eq (weight : Fin 2 → ℝ) (opponent : FinDist Unit) :
     TypeGame.branch payoff weight opponent = weight 0 := by
-  simp [TypeGame.branch, infoValue_eq, Fin.sum_univ_two]
+  simp [TypeGame.branch, infoValue_eq]
 
 /-- Appendix F's degree-zero normalization, evaluated at the actual game
 value. Counterexamples below use strictly positive coordinates only. -/
@@ -76,17 +75,25 @@ theorem radialValue_hasFDerivAt :
     (x := ((1 / 2 : ℝ), (1 / 2 : ℝ)))
   have inverse := (hasFDerivAt_inv (by norm_num : (1 / 2 : ℝ) + 1 / 2 ≠ 0)).comp
     ((1 / 2 : ℝ), (1 / 2 : ℝ)) (first.add second)
-  have derivative := first.mul inverse
+  have derivative : HasFDerivAt (fun point : ℝ × ℝ => point.1 * (point.1 + point.2)⁻¹)
+      ((1 / 2 : ℝ) • (ContinuousLinearMap.toSpanSingleton ℝ (-1 : ℝ)).comp
+        (ContinuousLinearMap.fst ℝ ℝ ℝ + ContinuousLinearMap.snd ℝ ℝ ℝ) +
+          ContinuousLinearMap.fst ℝ ℝ ℝ) ((1 / 2 : ℝ), (1 / 2 : ℝ)) := by
+    simpa using first.mul inverse
+  have linear : ((1 / 2 : ℝ) • (ContinuousLinearMap.toSpanSingleton ℝ (-1 : ℝ)).comp
+      (ContinuousLinearMap.fst ℝ ℝ ℝ + ContinuousLinearMap.snd ℝ ℝ ℝ) +
+        ContinuousLinearMap.fst ℝ ℝ ℝ) = radialGradient := by
+    apply ContinuousLinearMap.ext
+    intro point
+    norm_num [radialGradient]
+    ring
+  rw [linear] at derivative
   have equality : radialValue = fun point : ℝ × ℝ =>
       point.1 * (point.1 + point.2)⁻¹ := by
     funext point
     rw [radialValue_eq, div_eq_mul_inv]
   rw [equality]
-  convert! derivative using 1
-  ext point
-  norm_num [radialGradient, ContinuousLinearMap.comp_apply,
-    ContinuousLinearMap.toSpanSingleton_apply, ContinuousLinearMap.smulRight_apply]
-  ring
+  exact derivative
 
 /-- The derivative is precisely the centered Eq. (1) value vector. -/
 theorem gradient_eq_centered (direction : ℝ × ℝ) :
@@ -113,9 +120,9 @@ theorem radialValue_not_concave :
     ¬ ConcaveOn ℝ {point : ℝ × ℝ | 0 < point.1 ∧ 0 < point.2} radialValue := by
   intro concave
   have impossible := concave.2
-    (x := ((1 : ℝ), (1 : ℝ))) (by norm_num)
-    (y := ((1 : ℝ), (3 : ℝ))) (by norm_num)
-    (a := (1 / 2 : ℝ)) (b := (1 / 2 : ℝ)) (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num : ((1 : ℝ), (1 : ℝ)) ∈ {point : ℝ × ℝ | 0 < point.1 ∧ 0 < point.2})
+    (by norm_num : ((1 : ℝ), (3 : ℝ)) ∈ {point : ℝ × ℝ | 0 < point.1 ∧ 0 < point.2})
+    (by norm_num : (0 : ℝ) ≤ 1 / 2) (by norm_num : (0 : ℝ) ≤ 1 / 2) (by norm_num)
   norm_num [radialValue_eq] at impossible
 
 /-- A boundary belief with a nonzero value at its unrepresented own type. -/

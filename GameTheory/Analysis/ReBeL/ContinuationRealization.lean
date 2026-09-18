@@ -126,6 +126,7 @@ theorem publicBelief_root_depth {root : List M.PublicSignal}
     (supported : history ∈ belief.law.support) : history.trace.length = root.length - 1 := by
   have depth : (publicTrace M.toInfoSignals history.trace).length =
       history.trace.length + 1 := by
+    clear supported
     rcases history with ⟨state, trace⟩
     induction trace with
     | start => rfl
