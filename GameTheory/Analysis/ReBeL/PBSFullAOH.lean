@@ -22,6 +22,15 @@ universe uι us ua up uq uk
 variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 variable (M : InformationModel.{uι, us, ua, up, uq, uk} E) [Fintype E.History]
 
+omit [Fintype E.History] in
+/-- Refining private memory leaves the public observation trace unchanged. -/
+theorem publicRoot_trace_eq {state : E.State} (trace : E.Trace state) :
+    publicTrace (fullInformation M).toInfoSignals trace = publicTrace M.toInfoSignals trace := by
+  induction trace with
+  | start => rfl
+  | extend prior joint legal realized ih =>
+      simp only [publicTrace, fullInformation, fullSignals, ih]
+
 /-- All physically attained root AOH values, including currently off-path ones. -/
 def publicRootInfos (observations : List M.PublicSignal) (who : ι) :
     Finset ((fullInformation M).InfoState who) := by
@@ -54,9 +63,10 @@ def publicRootFallback {observations : List M.PublicSignal}
     (belief : PublicBelief (fullInformation M).toInfoSignals observations) (who : ι) :
     PublicRootType M observations who := by
   let history := belief.law.support_nonempty.choose
+  have hpublic := belief.supported history belief.law.support_nonempty.choose_spec
+  rw [publicRoot_trace_eq] at hpublic
   exact ⟨(fullInformation M).infoOf who history.trace,
-    (mem_publicRootInfos M observations who _).mpr
-      ⟨history, belief.supported history belief.law.support_nonempty.choose_spec, rfl⟩⟩
+    (mem_publicRootInfos M observations who _).mpr ⟨history, hpublic, rfl⟩⟩
 
 /-- A total encoding on syntactic information. Only unattained prefixes use
 this fallback; every legal root prefix is represented by itself. -/
@@ -111,9 +121,9 @@ def publicRootOffPath {observations : List M.PublicSignal} {who : ι}
     PublicBelief (fullInformation M).toInfoSignals observations where
   law := FinDist.pure (publicRootWitness M type)
   supported history supported := by
-    have equal : history = publicRootWitness M type := by
-      simpa only [FinDist.support_pure, Set.mem_singleton_iff] using supported
+    have equal : history = publicRootWitness M type := FinDist.mem_support_pure.mp supported
     subst history
+    rw [publicRoot_trace_eq]
     exact (publicRootWitness_spec M type).1
 
 /-- The off-path completion has the named full infostate, even when that
@@ -123,8 +133,7 @@ theorem publicRootOffPath_typed {observations : List M.PublicSignal} {who : ι}
     (supported : history ∈ (publicRootOffPath M type).law.support) :
     (publicRootMemory M fallback).typeAt ((fullInformation M).infoOf who history.trace) =
       type := by
-  have equal : history = publicRootWitness M type := by
-    simpa only [publicRootOffPath, FinDist.support_pure, Set.mem_singleton_iff] using supported
+  have equal : history = publicRootWitness M type := FinDist.mem_support_pure.mp supported
   subst history
   apply Subtype.ext
   exact (publicRootMemory_read M fallback _ (publicRootWitness_spec M type).1).trans

@@ -119,6 +119,6 @@ theorem centeredMap_coordinate [DecidableEq T] (values base : T → ℝ) (type :
 /-- Fixed conditional values do not depend on own weights (equation (6)). -/
 theorem conditional_coordinate_derivative_zero (values : T → ℝ) (type : T) (base : T → ℝ) :
     HasFDerivAt (fun _ : T → ℝ => values type) (0 : (T → ℝ) →L[ℝ] ℝ) base :=
-  hasFDerivAt_const base (values type)
+  hasFDerivAt_const (values type) base
 
 end GameTheory.ReBeL.ValueDifferential

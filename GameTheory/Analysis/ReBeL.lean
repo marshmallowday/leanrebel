@@ -69,3 +69,4 @@ import GameTheory.Analysis.ReBeL.PBSOptimality
 import GameTheory.Analysis.ReBeL.PBSFullAOH
 import GameTheory.Analysis.ReBeL.ValueDifferential
 import GameTheory.Analysis.ReBeL.PBSTheorem1
+import GameTheory.Analysis.ReBeL.Examples.ValuePBS
