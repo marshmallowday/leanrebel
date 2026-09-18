@@ -109,7 +109,7 @@ theorem counterfactualValue_eq_sum (clock : ObservationClock M)
       rw [tsum_fintype]
       apply Finset.sum_congr rfl
       intro history _
-      rfl
+      by_cases h : M.infoOf who history.trace = info <;> simp [h]
     _ = ∑' history : M.InformationHistory who info, f history.1 :=
       (tsum_subtype {history | M.infoOf who history.trace = info} f).symm
     _ = ∑ history : M.InformationHistory who info, f history.1 := tsum_fintype _
