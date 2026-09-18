@@ -39,11 +39,11 @@ theorem nash_value_eq (form : GameForm (Fin 2))
     have column : expectedUtility utility 1
         (form.play (Profile.update left 1 (right 1))) ≤
           expectedUtility utility 1 (form.play left) :=
-      (isNash_iff.mp hleft) 1 (right 1)
+      (isNash_iff left).mp hleft 1 (right 1)
     have row : expectedUtility utility 0
         (form.play (Profile.update right 0 (left 0))) ≤
           expectedUtility utility 0 (form.play right) :=
-      (isNash_iff.mp hright) 0 (left 0)
+      (isNash_iff right).mp hright 0 (left 0)
     rw [hzero.expectedUtility_one, hzero.expectedUtility_one, cross] at column
     linarith
   exact le_antisymm (ordered first second hfirst hsecond)
