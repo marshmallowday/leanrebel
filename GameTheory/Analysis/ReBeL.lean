@@ -37,3 +37,5 @@ import GameTheory.Analysis.ReBeL.Examples.RationalPrimitives
 import GameTheory.Analysis.ReBeL.Examples.RationalChance
 import GameTheory.Analysis.ReBeL.Examples.RationalExecution
 import GameTheory.Analysis.ReBeL.Examples.RationalReach
+import GameTheory.Analysis.ReBeL.Examples.RationalSites
+import GameTheory.Analysis.ReBeL.Examples.RationalCounterfactual

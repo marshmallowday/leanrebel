@@ -37,12 +37,13 @@ theorem value_correct (numeric : NumericProfile)
   induction fuel with
   | zero =>
       intro row who
-      simpa only [HistoryTable.value, InformationModel.runBehavioralFrom,
+      simpa only [HistoryTable.value, table, InformationModel.runBehavioralFrom,
         runRandomizedFor_zero, FinDist.expect_pure] using payoff_correct row who
   | succ fuel ih =>
       intro row who
       by_cases hterm : (protocol fullPrior).terminal (decode row).state
-      · rw [HistoryTable.value, if_pos ((terminal_correct row).mpr hterm),
+      · have htrue : table.terminal row = true := (terminal_correct row).mpr hterm
+        rw [HistoryTable.value, if_pos htrue,
           (model fullPrior).runBehavioralFrom_of_terminal semantic (fuel + 1) hterm,
           FinDist.expect_pure]
         exact payoff_correct row who
@@ -70,6 +71,7 @@ theorem value_correct (numeric : NumericProfile)
         congr 1
         rw [← children_expect row hterm draw]
         simp only [List.map_map, Function.comp_def, Rat.cast_mul, ih]
+        rfl
 
 /-- In particular the actual numeric root evaluation is the original full-game payoff. -/
 theorem root_value_correct (numeric : NumericProfile)
