@@ -102,6 +102,22 @@ jobs:
           set -euo pipefail
           git rev-parse HEAD | tee "$RUNNER_TEMP/rebel-validation.log"
           python3 scripts/rebel/audit_axioms.py 2>&1 | tee -a "$RUNNER_TEMP/rebel-validation.log"
+      - name: Publish compiler diagnostics without replacing the failing gate
+        if: failure()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import os, re
+          from pathlib import Path
+          path = Path(os.environ['RUNNER_TEMP']) / 'rebel-validation.log'
+          if path.exists():
+              text = path.read_text(encoding='utf-8', errors='replace')
+              pattern = re.compile(r'^error: ([^\n]+\.lean):(\d+):(\d+): (.*?)(?=^error: |^trace: |^[✔✖]|\Z)', re.M | re.S)
+              for match in list(pattern.finditer(text))[:40]:
+                  file, line, column, message = match.groups()
+                  message = message[:10000].replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+                  print(f'::error file={file},line={line},col={column}::{message}')
+          PY
       - name: Check tracked-file cleanliness
         run: git diff --exit-code
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

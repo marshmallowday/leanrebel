@@ -45,9 +45,9 @@ theorem matchProb_nonneg (fallback : A) (score : A → ℚ) (a : A) :
 theorem sum_matchProb (fallback : A) (score : A → ℚ) :
     ∑ a, matchProb fallback score a = 1 := by
   by_cases h : 0 < positiveMass score
-  · simp only [matchProb, if_pos h]
-    rw [← Finset.sum_div]
-    exact div_self h.ne'
+  · simp only [matchProb, if_pos h, div_eq_mul_inv]
+    rw [← Finset.sum_mul]
+    exact mul_inv_cancel₀ h.ne'
   · simp [matchProb, h, pointMass]
 
 /-- Zero-regret initialization yields exactly the selected fallback. -/
@@ -67,6 +67,7 @@ def weightedPolicy {K : Type*} [Fintype K] (fallback : A)
   if 0 < ∑ k, weights k then (∑ k, weights k * policies k a) / ∑ k, weights k
   else pointMass fallback a
 
+omit [Fintype A] in
 /-- No fictitious posterior or uniform distribution is introduced at zero reach. -/
 theorem weightedPolicy_zero {K : Type*} [Fintype K] (fallback : A)
     (policies : K → A → ℚ) :

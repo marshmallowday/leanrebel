@@ -26,10 +26,10 @@ theorem cast_positiveMass (score : A → ℚ) :
     (positiveMass score : ℝ) = ∑ a, max (realScore score).ofLp a 0 := by
   simp only [positiveMass, realScore, WithLp.ofLp_toLp]
   push_cast
-  rfl
 
 variable [DecidableEq A]
 
+omit [Fintype A] in
 /-- The rational fallback is the probability vector of the canonical point mass. -/
 theorem cast_pointMass (fallback a : A) :
     (pointMass fallback a : ℝ) = (FinDist.pure fallback).prob a := by
@@ -48,7 +48,6 @@ theorem cast_matchProb (fallback : A) (score : A → ℚ) (a : A) :
       FinDist.prob_ofWeights]
     push_cast
     rw [cast_positiveMass]
-    rfl
   · rw [matchProb, if_neg h, regretMatchWith, dif_neg (fun hp => h (hpos.mp hp))]
     exact cast_pointMass fallback a
 
