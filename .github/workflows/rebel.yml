@@ -45,6 +45,24 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           persist-credentials: false
+      - name: Report exact library line-width violations before compilation
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          bad = 0
+          for path in sorted(Path('GameTheory').rglob('*.lean')):
+              if path.as_posix().startswith('GameTheory/Experimental'):
+                  continue
+              for number, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
+                  width = len(line.encode('utf-16-le')) // 2
+                  if width > 100:
+                      bad += 1
+                      text = line.replace('%', '%25')
+                      print(f'::error file={path},line={number}::Width {width} exceeds 100: {text}')
+          print(f'LIBRARY_LINES_OVER_100={bad}')
+          raise SystemExit(1 if bad else 0)
+          PY
       - name: Check static architecture before the compiler loop
         shell: pwsh
         run: |

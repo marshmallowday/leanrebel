@@ -2,48 +2,55 @@
 
 ## 現在地
 
-**M04 は `rebel/m04` で継続中。M04 と ReBeL 全体は未完了。**
-2026-09-18 の再開時に、リモート HEAD
-`22c6c999d8ea511abe6205353429d39e7d2ba73f` を GitHub プラグインで確認した。
-最後の commit と branch ref 更新は成功しており、未反映の最終コミットはない。
-main は実読で `cf733bd1ffa977681d1197bf80b1dfd7be82ff6e` のまま。
-旧 STATUS は `M04-status-before-rational-recovery.md` に元の blob のまま保存した。
-M03 の証拠・qualified 境界・原典台帳は保持する。
+**M04 は `rebel/m04` で継続中。ReBeL 全体も未完了。**
+2026-09-19 の再開で GitHub プラグインから次のリモート ref を実読した。
 
-## 最初の依頼と読取の限界
+- `rebel/m04`: `f646c009e0176f703da0e434296294c17e4d8440`
+- `main`: `cf733bd1ffa977681d1197bf80b1dfd7be82ff6e`
 
-今回のコンテキストには最初の M04 依頼全文がない。履歴検索を二通り試したが、
-得られたのは要約であり全文ではない。`M04-document-review.md` の過去の全文読了記録を
-今回の原文再確認と同一視しない。確認できた制約は、docs/rebel 全読了、M04 完了、
-既存不備の修正、主要段階ごとの plugin commit/push、許可待ちで不要に停止しないこと、
-worktree 回避である。最新のユーザー指示と AGENTS/ROADMAP を併せて継続する。
-GitHub 読み書きは plugin、コンパイルは Actions を使う。
+前回の最終実装コミットはブランチに反映済み。既存の証明をやり直さない。
+最新実装チェックポイントは `M04-concrete-final-checkpoint.md`。
+その文書の「検証待ち」は作成時点の記録であり、以下の実読結果で更新する。
+過去の STATUS は `M04-status-before-rational-recovery.md` に保存済み。
+M03 の証拠・qualified 境界・原典の親義務と子台帳は保持する。
 
-## 検証済みの進展と未検証の区別
+## 対象 SHA の実際の検証結果
 
-`fbe3c805d2dcffd7c528edb0d5c3f59fc82c3ff1` の ReBeL run
-`35347213313` / job `105606504621` では、一般の real CFR、root regret、
-private own-reach averaging、canonical approximate Nash と具体例がコンパイル済み。
-有理数の arithmetic/evaluation/reach/counterfactual/iteration refinement もコンパイル済み。
-同 run の46 Python tests と T=0/1/2 の実 Lean solver 独立全探索照合は成功した。
-ただし `RationalAverage.lean` の zero cast で失敗し、後続 lint/axiom audit は未完了。
-zero cast は `22c6c99` で修正されたが、その新 SHA の ReBeL run `35348183808` /
-job `105609659342` はコンパイル前の静的監査で停止した。
-原因は `Examples/RationalCodec.lean` の3個の `change` による
-`TRANSPORT_ANALYSIS_SOURCE: expected 0, got 3`。権限不足・push失敗ではない。
+対象は `f646c009e0176f703da0e434296294c17e4d8440`。
 
-今回の復旧コミットは既存の証明目標・監査基準を変えず、3箇所で canonical support
-の型付き補題を直接使用する。新しい SHA の CI を確認するまで成功と扱わない。
-一般の rational averaged-output theorem と concrete history codec の受入はまだ保留。
+1. **ReBeL checks は成功。** run `35363536383`、job `105660357662`。
+   静的構造監査、台帳/inventory、46 Python tests、実 Lean 有理数 solver の
+   T=0/1/2 独立全探索照合、全 ReBeL build、通常/低速 lint、推移的公理監査、
+   tracked-file cleanliness が成功。validation artifact は `10556275430`。
+   正しい source artifact は `10554754280`（前回報告の番号は誤り）。
+2. **全体 CI は失敗。** 正しい run は `35363536384`、job `105660678715`。
+   前回報告の `35363536494` は誤記で、404 は権限障害ではない。
+   全体 `lake build` は4089 jobs成功。inventory と Phase 1/2 は成功。
+   Phase 3 が `LIBRARY_LINES_OVER_100: expected 0, got 7` で停止した。
+   最大行長136。全体 lint と tracked-file cleanliness は未実行。
+   したがって「全体 CI が進行中/確認不能」との前回報告は訂正する。
+
+具体 runtime の履歴・情報集合・合法手・chance・payoff・continuation・reach・
+反事実価値・局所 commitment・regret・全反復・own-reach average・canonical
+approximate Nash への接続は ReBeL 対象でコンパイル/公理/lint 検証済み。
+`solve_isNash` の存在を ReBeL 全体の完成や公式 C++ 同値性と取り違えない。
+
+## 今回の復旧段階
+
+既存の100文字制限を変更せず、ReBeL workflowのコンパイル前に違反箇所を
+ファイル/行番号付きで報告する fail-fast 検査を追加する。
+.NET文字列長に合わせてUTF-16 code unitsを数える。元のPhase 3監査も保持する。
+この復旧コミット自体は新しいSHAであり、新SHAのCI結果は別途確認する。
 
 ## 次の作業
 
-1. この復旧コミットの ReBeL checks と full CI の結果を確認し、実エラーを修復する。
-2. Runtime Row/Site の情報・合法手・遷移・reach の対応を証明し、具体的な有理数
-   solver と一般の canonical solver theorem を接続する。履歴全単射だけでは不十分。
-3. 正確な対象 SHA で全 build、normal/slow lint、構造監査、推移的公理監査を確認する。
-4. 原典・具体例との意味レビュー後にのみ coverage を昇格し、STATUS を更新して統合する。
+1. fail-fast出力の7行を改行のみで修復し、pluginでcommit/ref更新する。
+2. 新SHAのReBeL checksと全体CIを実読し、残る実エラーを直す。
+3. ROADMAPのM04受入条件と一般定理・具体例・独立検算・原典義務を照合する。
+4. 検証と意味レビューに応じてcoverage/STATUS/受入記録を同時更新し、
+   そのSHAの検証を確認してからmainを非forceで統合する。
 
-force push、未検証 main 更新、依存 pin 変更、監査緩和はしない。
-詳細な独立検算は `M04-rational-runtime.md`、過去の全文読了範囲は
-`M04-document-review.md` に保存されている。
+GitHubの読み書き/操作はplugin、コンパイルはActions。
+force push、未検証main更新、依存pin変更、監査緩和はしない。
+最初の依頼全文は今回のコンテキストにもなく、履歴検索の要約を全文と偽らない。
+今回は最新の継続指示、AGENTS、ROADMAPと保存済み成果から再開する。
