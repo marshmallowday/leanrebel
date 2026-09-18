@@ -55,8 +55,8 @@ theorem privateSeedProfile_ownReach (plays : K → Profile M.behavioralSignature
 
 variable [Fintype ι]
 
-/-- The executable meaning of private independent iteration randomization:
-draw a vector of seeds once, then run the original canonical game. -/
+/-- The meaning of private independent iteration randomization: draw a vector
+of seeds once, then run the original canonical game. -/
 def privateSeedOutcome (seeds : ι → FinDist K)
     (plays : K → Profile M.behavioralSignature) (horizon : ℕ) : FinDist E.History :=
   (FinDist.pi seeds).bind fun selection =>
@@ -78,7 +78,10 @@ theorem ownReachAverage_realizes_privateSeeds (hrecall : M.PerfectRecall)
   rw [run_probability_factorization M, privateSeedOutcome, FinDist.prob_bind]
   simp_rw [run_probability_factorization M, privateSeedProfile_ownReach M,
     ownReachAverage_playerReach M hrecall]
-  rw [FinDist.expect_smul, independent_seed_product_expectation]
+  rw [FinDist.expect_smul]
+  exact congrArg (fun value : ℝ => outcomeChanceWeight horizon history * value)
+    (independent_seed_product_expectation seeds
+      (fun who k => M.playerReachProbability (plays k) who history.trace)).symm
 
 /-- Realization preserves every expected history payoff, not merely terminal
 state marginals or one hand-picked utility function. -/
