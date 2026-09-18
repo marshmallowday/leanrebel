@@ -18,12 +18,12 @@ namespace GameTheory.ReBeL.Examples.EquilibriumValue
 open GameTheory.Math.Probability
 
 /-- A finite table used only to test the canonical equilibrium theorem. -/
-def signature : GameSignature (Fin 2) where
+abbrev signature : GameSignature (Fin 2) where
   Strategy _ := Fin 3
   Outcome := Fin 3 × Fin 3
 
 /-- Deterministic outcomes use the existing canonical game-form constructor. -/
-def form : GameForm (Fin 2) :=
+abbrev form : GameForm (Fin 2) :=
   GameForm.deterministic signature fun profile => (profile 0, profile 1)
 
 /-- Two maximizing rows have value one at column zero; the third row loses. -/
@@ -48,8 +48,7 @@ theorem strategy_isNash (row : Fin 3) (hrow : row ≠ 2) :
   rw [isNash_iff]
   intro who alternative
   fin_cases who <;> fin_cases alternative <;>
-    simp [euPreference_apply, expectedUtility, form, GameForm.deterministic,
-      strategy, utility, rowPayoff, hrow, Profile.update_same, Profile.update_of_ne]
+    norm_num [form, strategy, utility, rowPayoff, hrow]
 
 /-- Positive control: different equilibrium strategies, the same nonzero value. -/
 theorem distinct_equilibria_same_value :
@@ -62,8 +61,8 @@ theorem distinct_equilibria_same_value :
   · intro h
     have hrow := congrFun h 0
     norm_num [strategy] at hrow
-  · norm_num [expectedUtility, form, GameForm.deterministic, strategy, utility, rowPayoff]
-  · norm_num [expectedUtility, form, GameForm.deterministic, strategy, utility, rowPayoff]
+  · norm_num [form, strategy, utility, rowPayoff]
+  · norm_num [form, strategy, utility, rowPayoff]
 
 /-- The general value theorem is exercised on the two distinct concrete equilibria. -/
 theorem value_theorem_applies :
@@ -85,8 +84,7 @@ theorem coordination_isNash (action : Fin 3) (haction : action = 0 ∨ action = 
   rcases haction with rfl | rfl <;>
     rw [isNash_iff] <;> intro who alternative <;>
     fin_cases who <;> fin_cases alternative <;>
-    norm_num [euPreference_apply, expectedUtility, form, GameForm.deterministic,
-      coordinated, coordination, Profile.update_same, Profile.update_of_ne]
+    norm_num [form, coordinated, coordination]
 
 /-- Negative control: removing zero sum admits two different exact equilibrium values. -/
 theorem zeroSum_is_necessary :
@@ -100,6 +98,6 @@ theorem zeroSum_is_necessary :
   · intro hzero
     have h := hzero (0, 0)
     norm_num [Fin.sum_univ_two, coordination] at h
-  · norm_num [expectedUtility, form, GameForm.deterministic, coordination, coordinated]
+  · norm_num [form, coordination, coordinated]
 
 end GameTheory.ReBeL.Examples.EquilibriumValue
