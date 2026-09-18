@@ -1,48 +1,75 @@
-# ReBeL — 継続用状態
+# ReBeL status — M04 finite full-game CFR accepted
 
-## 現在地
+## Accepted implementation and resume point
 
-**M04 は `rebel/m04` で受入検証中。ReBeL 全体は未完了。**
-2026-09-19 の再開で plugin からリモートを確認した。
-再開元は `f646c009e0176f703da0e434296294c17e4d8440`、
-main は `cf733bd1ffa977681d1197bf80b1dfd7be82ff6e` のまま。
-前回の最終実装はブランチに反映済み。完成した証明を再実装しない。
+M04's ROADMAP deliverable is complete for the stated finite, clocked,
+perfect-recall game class. The accepted implementation is
+`ee8fdf1d63af8c592d1d2ee4949df385a6341a4f` on `rebel/m04`.
+All three required workflows for that exact source succeeded:
 
-## 検証済みの基準
+| Gate | Run | Job | Result |
+|---|---|---|---|
+| Full build, library lint, architecture and deep-reachability audits | 35379068655 | 105710826059 | success |
+| ReBeL compiler, normal/slow lint, transitive axioms, rational runtime | 35379068914 | 105710649946 | success |
+| Source inventory | 35379068803 | 105710657784 | success |
 
-`f646c009e0176f703da0e434296294c17e4d8440` の ReBeL checks は成功。
-run `35363536383` / job `105660357662`。46 Python tests、実 Lean solver
-T=0/1/2独立全探索照合、全ReBeL build、通常/低速lint、推移的公理監査、
-tracked-file cleanlinessを確認した。validation artifact `10556275430`、
-正しいsource artifactは `10554754280`。
+The evidence/bookkeeping commit containing this STATUS must also pass the
+normal workflows before main is advanced. Integrate by a non-force fast-forward
+of main to the validated documentation commit; do not rebuild or replay earlier
+M04 proofs. After interruption, read the actual `main` and `rebel/m04` refs and
+exact-SHA CI results first. This file deliberately names the implementation
+SHA, not an impossible self-referential documentation SHA.
 
-全体CIの正しいrunは `35363536384` / job `105660678715`。
-4089-job buildとinventory/Phase 1/2は成功したが、Phase 3の
-`LIBRARY_LINES_OVER_100: expected 0, got 7` で失敗。最大幅136。
-全体lintとcleanlinessは未実行。前回報告のrun `35363536494` は誤記であり、
-その404をアクセス障害と解釈しない。「進行中/確認不能」との報告も訂正する。
+## What was closed
 
-## 保存済みの復旧
+The finite information-set cover and chronological scheduler are constructed.
+Canonical counterfactual values realize the actual simultaneous coupled CFR
+updates; bounded game payoffs supply the learner constants. The proved root
+identity gives a uniform finite-T regret bound for every complete legal
+behavioral deviation. Independent private own-reach averages preserve the
+outcome law and give the canonical approximate Nash guarantee.
 
-`609d111a4b247a04bd75f2598c5baeadbdb91133` は再開状態と早期幅検査を保存。
-run `35371274354` / job `105685560599` は同じ7違反を特定した。
-`a5502224e6a337b6dbfca033c6a42aef06c8df1e` は5宣言行と2CSV出力行を改行。
-直後の差分レビューで、その全ファイル置換時に混入した余分な引数2箇所を発見。
-本コミットで両方を元の検証済み呼出しへ戻す。現在の新SHAはCI検証待ち。
-`M04-width-recovery.md`、`M04-concrete-final-checkpoint.md`も参照。
+An attaining pure best response against arbitrary legal behavioral opponents
+is proved, not merely characterized. Two given exact zero-sum equilibria have
+the same value; positive and non-zero-sum negative controls compile. The exact
+rational two-stage solver is connected to the canonical solver for every
+iteration, including its averaged output. The positive-T Nash certificate has
+no unproved refinement or regret-oracle premise.
 
-実装の正味変更は宣言の空白とCSV文字列の同一内容の連結のみ。
-定理の前提/結論、solver、テスト、依存pin、監査基準は維持する。
-新SHAのReBeL checksと全体CIが成功するまではM04受入やmain統合を行わない。
+The latest repair fixed profile arguments in the value proof and finite-carrier
+and conditional elaboration in its regression games. Earlier failed commits
+`04e956a`, `0dedfc9`, and `3260052` are not acceptance evidence.
 
-## 次の作業
+## Evidence and limits
 
-1. この最新refのReBeL checksと全体CIの実結果を取得し、残る実エラーを直す。
-2. ROADMAP M04の一般solver、全deviation finite-T bound、private own-reach
-   realization、二段階具体例、有理数refinement、独立検算を意味レビューする。
-3. 証拠とcoverage/STATUSを同時更新し、そのSHAのCIを確認してmainへ非force統合。
+Read [M04.md](M04.md) for the acceptance matrix, assumptions, exact finite-time
+constant, rational execution results and scope. [M04-sources.md](M04-sources.md)
+records the original CFR dependency and unused smoothing citation.
+[M04-compiler-log.txt](M04-compiler-log.txt) retains selected exact build,
+82-module lint and 2,189-declaration axiom evidence plus full-CI audit excerpts.
+`coverage.json` pins the principal source blobs and preserves M02/M03 evidence.
+The acceptance regressions additionally detect lost original obligations,
+forged source blobs, failed source SHAs and unsupported verification promotions.
 
-GitHub読み書きはplugin、コンパイルはActions。M03の証拠・qualified境界・
-原典親義務/子台帳を保持。M05以降のPBS value/existence、CFR-D、各変種、
-学習、公式実装同値性はM04の完了と混同しない。
-最初の依頼全文は現在のコンテキストになく、検索で得た要約を全文と偽らない。
+The independent executable check enumerates all 1,024 pure policies per player
+and compares actual Lean output for T=0,1,2. The measured NashConv is 2,2,1;
+these tests are not claims of exact equilibrium at T=2. Zero samples use the
+specified fallback; only positive T receives the averaged Nash certificate.
+A whole-game use must choose a horizon covering termination.
+
+The expanded ledger has 3,054 rows: 56 verified, 11 qualified, 406 context
+indexed, one empirical runtime record and 2,580 pending. In particular, the
+522 official C++ syntax obligations inherited under the M04 parent are still
+pending: they are not silently promoted by the Lean finite-game proof. Their
+depth-limited, variant and concrete numeric correspondence belongs to the
+already documented M06/M08/M09 implementation refinement work. The frozen
+original source identities and milestone tags remain intact.
+
+## Next work
+
+Start M05 from the accepted M04 interface: construct PBS equilibrium values
+and required minimax/strategy correspondences, then address Theorem 1 with the
+recorded source-claim qualifications. Value uniqueness for two given equilibria
+is already M04 evidence and must not be confused with M05 existence. ReBeL's
+complete framework, learned-leaf search, variant solvers, neural training,
+C++/floating-point refinement and full release remain M05–M11 work.

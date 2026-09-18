@@ -1,0 +1,561 @@
+M04 ACCEPTED-IMPLEMENTATION EVIDENCE EXCERPT
+Source: ee8fdf1d63af8c592d1d2ee4949df385a6341a4f
+This is a selected exact log excerpt with explicitly labeled metadata, not a complete job log.
+ReBeL: run 35379068914 / job 105710649946; conclusion success.
+Full CI: run 35379068655 / job 105710826059; conclusion success.
+Source inventory: run 35379068803 / job 105710657784; conclusion success.
+ReBeL source artifact 10561761498; ZIP SHA256 edb61eec6ff13d7aa75482cc171474baf6d0ca8b91bd2831d6618d82e933d73c.
+ReBeL validation artifact 10561118353; ZIP SHA256 3f1ec23dda94e25cd443f588913950d2a0dd9b446c8e1fde58ba974722d8a4e8.
+Raw rebel-validation.log SHA256 f52b64611696add0820234568ee935e0822c046eee87d14c6bfeef051b33298e.
+Pinned toolchain: leanprover/lean4:v4.33.1.
+Pinned dependency: «fixed-point-theorems» 8506daa06b98520a97e36a90abe7c314d53af626.
+Pinned dependency: mathlib 0df444a360eaa60ab8c11dca51a86af692955474.
+Pinned dependency: plausible b7eb3304aeae834b12dda98993a37f6a41f6f0bb.
+Pinned dependency: LeanSearchClient 5f4d51b81cbd3f6b32b156bfad9056621a040404.
+Pinned dependency: importGraph 16f02aa7642864af59f1ff0e384a015994db9118.
+Pinned dependency: proofwidgets 4be2e3d5087eeb272cf5a8853b8f9dd025ef5957.
+Pinned dependency: aesop 3448c0bcc5ce01b2d1546e483ec3620e32df3d0e.
+Pinned dependency: Qq 92c15be17b7caf78c2ad767ec40f89052d908d81.
+Pinned dependency: batteries 4488d40d070b9700d4d5a6aa342f0d40c31b2a2d.
+Pinned dependency: Cli 6130a47896ce867c6a4a55373441e59e565bad0f.
+Observed ReBeL step results: early width check, architecture, 46 existing Python regressions,
+actual rational Lean runtime comparison, full selected build, normal/slow lints,
+all defining-module transitive axioms and tracked-file cleanliness succeeded.
+The eight new acceptance-bookkeeping regressions run in the later documentation commit.
+
+BEGIN EXACT COMPILER/AUDIT/LINT MARKERS
+REBEL_AUDIT_MODULE GameTheory.Tests.ReBeLSourceDiagnostics
+REBEL_AUDIT_MODULE GameTheory.Protocol.BehavioralReach
+REBEL_AUDIT_MODULE GameTheory.Analysis.Protocol.CounterfactualReach
+REBEL_AUDIT_MODULE GameTheory.ReBeL
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Adapter
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Belief
+REBEL_AUDIT_MODULE GameTheory.ReBeL.BeliefExecution
+REBEL_AUDIT_MODULE GameTheory.ReBeL.BeliefStatistic
+REBEL_AUDIT_MODULE GameTheory.ReBeL.CompactBelief
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.BayesObservation
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.BeliefSearch
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.CommonKnowledge
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.CompactCards
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.FiniteSites
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.HiddenTypes
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.HiddenTypesHistories
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.HiddenTypesPayoff
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.LiarsDice
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.LiarsDiceInformation
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.LiarsDicePayoff
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.ModifiedRPS
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.ObservedDice
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.PublicBelief
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Examples.Schedule
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Finite
+REBEL_AUDIT_MODULE GameTheory.ReBeL.FiniteSites
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Information
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Knowledge
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Payoff
+REBEL_AUDIT_MODULE GameTheory.ReBeL.PolicyDomain
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Prescription
+REBEL_AUDIT_MODULE GameTheory.ReBeL.PublicSubgame
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Rational.Algorithm
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Rational.FullGame
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Rational.HiddenTypes
+REBEL_AUDIT_MODULE GameTheory.ReBeL.ReachFactorization
+REBEL_AUDIT_MODULE GameTheory.ReBeL.ReachWeights
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Response
+REBEL_AUDIT_MODULE GameTheory.ReBeL.Schedule
+REBEL_AUDIT_MODULE GameTheory.ReBeL.StrategicEquivalence
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.AverageNash
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.CFRNash
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.CFRTrace
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.ChronologicalLocality
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.EquilibriumValue
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.CFRNash
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.ChronologicalLocality
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.EquilibriumValue
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.LocalRegret
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RationalAverage
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RationalChance
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RationalCodec
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RationalCounterfactual
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RationalExecution
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RationalInformation
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RationalIteration
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RationalPrimitives
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RationalProjection
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RationalReach
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RationalRegret
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RationalSites
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.Examples.RootDecomposition
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.IndependentRealization
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.LocalRegret
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.OutcomeReach
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.OwnReachAverage
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.PayoffBounds
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.PolicyPatching
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.RationalArithmetic
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.RationalAverage
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.RationalAverageEquiv
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.RationalCounterfactual
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.RationalEvaluation
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.RationalIteration
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.RationalMatching
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.RationalReach
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.RegretMatching
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.RootDecomposition
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.RootRegretBounds
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.UnilateralAverage
+REBEL_AUDIT_MODULE GameTheory.Analysis.ReBeL.WeightedAverage
+Build completed successfully (2531 jobs).
+REBEL_AXIOM_AUDIT_PASS declarations=2189
+REBEL_LINT_PASS GameTheory.Tests.ReBeLSourceDiagnostics
+REBEL_LINT_PASS GameTheory.Protocol.BehavioralReach
+REBEL_LINT_PASS GameTheory.Analysis.Protocol.CounterfactualReach
+REBEL_LINT_PASS GameTheory.ReBeL
+REBEL_LINT_PASS GameTheory.ReBeL.Adapter
+REBEL_LINT_PASS GameTheory.ReBeL.Belief
+REBEL_LINT_PASS GameTheory.ReBeL.BeliefExecution
+REBEL_LINT_PASS GameTheory.ReBeL.BeliefStatistic
+REBEL_LINT_PASS GameTheory.ReBeL.CompactBelief
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.BayesObservation
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.BeliefSearch
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.CommonKnowledge
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.CompactCards
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.FiniteSites
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.HiddenTypes
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.HiddenTypesHistories
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.HiddenTypesPayoff
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.LiarsDice
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.LiarsDiceInformation
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.LiarsDicePayoff
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.ModifiedRPS
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.ObservedDice
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.PublicBelief
+REBEL_LINT_PASS GameTheory.ReBeL.Examples.Schedule
+REBEL_LINT_PASS GameTheory.ReBeL.Finite
+REBEL_LINT_PASS GameTheory.ReBeL.FiniteSites
+REBEL_LINT_PASS GameTheory.ReBeL.Information
+REBEL_LINT_PASS GameTheory.ReBeL.Knowledge
+REBEL_LINT_PASS GameTheory.ReBeL.Payoff
+REBEL_LINT_PASS GameTheory.ReBeL.PolicyDomain
+REBEL_LINT_PASS GameTheory.ReBeL.Prescription
+REBEL_LINT_PASS GameTheory.ReBeL.PublicSubgame
+REBEL_LINT_PASS GameTheory.ReBeL.Rational.Algorithm
+REBEL_LINT_PASS GameTheory.ReBeL.Rational.FullGame
+REBEL_LINT_PASS GameTheory.ReBeL.Rational.HiddenTypes
+REBEL_LINT_PASS GameTheory.ReBeL.ReachFactorization
+REBEL_LINT_PASS GameTheory.ReBeL.ReachWeights
+REBEL_LINT_PASS GameTheory.ReBeL.Response
+REBEL_LINT_PASS GameTheory.ReBeL.Schedule
+REBEL_LINT_PASS GameTheory.ReBeL.StrategicEquivalence
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.AverageNash
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.CFRNash
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.CFRTrace
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.ChronologicalLocality
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.EquilibriumValue
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.CFRNash
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.ChronologicalLocality
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.EquilibriumValue
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.LocalRegret
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RationalAverage
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RationalChance
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RationalCodec
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RationalCounterfactual
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RationalExecution
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RationalInformation
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RationalIteration
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RationalPrimitives
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RationalProjection
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RationalReach
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RationalRegret
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RationalSites
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.Examples.RootDecomposition
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.IndependentRealization
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.LocalRegret
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.OutcomeReach
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.OwnReachAverage
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.PayoffBounds
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.PolicyPatching
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.RationalArithmetic
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.RationalAverage
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.RationalAverageEquiv
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.RationalCounterfactual
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.RationalEvaluation
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.RationalIteration
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.RationalMatching
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.RationalReach
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.RegretMatching
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.RootDecomposition
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.RootRegretBounds
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.UnilateralAverage
+REBEL_LINT_PASS GameTheory.Analysis.ReBeL.WeightedAverage
+REBEL_VALIDATION_PASS modules=82
+REBEL_AXIOMS GameTheory.ReBeL.Examples.EquilibriumValue.distinct_equilibria_same_value: [propext,
+ Classical.choice,
+ Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Examples.EquilibriumValue.value_theorem_applies: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Examples.EquilibriumValue.zeroSum_is_necessary: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Rational.HiddenTypes.Canonical.solve_isNash: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Rational.HiddenTypes.Canonical.solve_value_correct: [propext,
+ Classical.choice,
+ Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Rational.HiddenTypes.Canonical.solve_zero: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.ReachWeights.mass_mul_prob_average: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.actionRegret_eq_sub_expect: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.behavioralNash_value_eq: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.canonical_regretPayoff_norm_le: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.cfrAveragedProfile_isNash: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.cfrPlay_zero: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.cfr_average_root_regret_le: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.cfr_instantaneous_realization: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.exists_pure_bestResponse: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.historyReach_eq_chance_mul_own: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.nash_value_eq: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.ownReachAveragePolicy_zero: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.ownReachAverage_playerReach: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.ownReachAverage_realizes_privateSeeds: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.ownReach_eq_of_info_eq: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.scheduled_root_gain: [propext, Classical.choice, Quot.sound]
+END EXACT COMPILER/AUDIT/LINT MARKERS
+
+BEGIN ACTUAL RUNTIME REPORT (lean_output omitted)
+{
+  "source_sha": "ee8fdf1d63af8c592d1d2ee4949df385a6341a4f",
+  "status": "pass",
+  "scope": "actual Lean runtime cross-check; not the full semantic refinement",
+  "histories": 85,
+  "records": [
+    {
+      "rounds": 0,
+      "compared_local_probabilities": 40,
+      "root_value": "1",
+      "best_response_values": [
+        "1",
+        "1"
+      ],
+      "best_response_masks": [
+        0,
+        3
+      ],
+      "deviation_gains": [
+        "0",
+        "2"
+      ],
+      "nash_conv": "2",
+      "pure_policies_per_player": 1024
+    },
+    {
+      "rounds": 1,
+      "compared_local_probabilities": 40,
+      "root_value": "1",
+      "best_response_values": [
+        "1",
+        "1"
+      ],
+      "best_response_masks": [
+        0,
+        3
+      ],
+      "deviation_gains": [
+        "0",
+        "2"
+      ],
+      "nash_conv": "2",
+      "pure_policies_per_player": 1024
+    },
+    {
+      "rounds": 2,
+      "compared_local_probabilities": 40,
+      "root_value": "0",
+      "best_response_values": [
+        "0",
+        "1"
+      ],
+      "best_response_masks": [
+        0,
+        3
+      ],
+      "deviation_gains": [
+        "0",
+        "1"
+      ],
+      "nash_conv": "1",
+      "pure_policies_per_player": 1024
+    }
+  ]
+}
+END ACTUAL RUNTIME REPORT
+
+FULL-CI ACCEPTANCE: tool-observed complete job and every required step succeeded.
+Full library build, compiler reuse signatures, Phase 1/2/3 audits (2/3 deep
+reachability), complete library lint, and clean tracked diff all passed.
+Full-CI artifact 10561313917; ZIP SHA256 9fc3320daa33f40f7fbfb181826beb65c3c53b9bfc4cf948bb0751882e07e5ab.
+
+BEGIN EXACT FULL-CI ci-source.txt; SHA256 35fe07b307ea5a103ed3d7bf607de94e5f7a97b44de8ecc76b25f0bdc03786eb
+ee8fdf1d63af8c592d1d2ee4949df385a6341a4f
+END EXACT FULL-CI ci-source.txt
+
+BEGIN EXACT FULL-CI ci-phase1.log; SHA256 27e3ad05672a11917f23549bdaf591eb06f333115b37b156fbeeb6a258572d7b
+D1_INDEXED_TRANSPORT=2
+D1_INDEXED_TOREAL=0
+D1_INDEXED_ENNREAL=0
+D1_INDEXED_CLASSICAL=1
+D1_BUNDLED_TRANSPORT=2
+D1_BUNDLED_TOREAL=0
+D1_BUNDLED_ENNREAL=0
+D1_BUNDLED_CLASSICAL=1
+D1_STRESS_TRANSPORT=2
+D1_STRESS_TOREAL=0
+D1_STRESS_ENNREAL=0
+D1_STRESS_CLASSICAL=1
+D2_PMF_TRANSPORT=3
+D2_PMF_TOREAL=24
+D2_PMF_ENNREAL=41
+D2_PMF_CLASSICAL=5
+D2_FINSUPP_TRANSPORT=4
+D2_FINSUPP_TOREAL=0
+D2_FINSUPP_ENNREAL=1
+D2_FINSUPP_CLASSICAL=8
+D2_INTEROP_TRANSPORT=3
+D2_INTEROP_TOREAL=3
+D2_INTEROP_ENNREAL=3
+D2_INTEROP_CLASSICAL=4
+D1_INDEXED_PROFILE_ALLOWANCE=1
+D1_BUNDLED_PROFILE_ALLOWANCE=1
+D1_INDEXED_STRESS_TRANSPORT=0
+D1_BUNDLED_STRESS_TRANSPORT=2
+D1_INDEXED_PATH_TRANSPORT=1
+D1_BUNDLED_PATH_TRANSPORT=3
+VERIFIED=1
+END EXACT FULL-CI ci-phase1.log
+
+BEGIN EXACT FULL-CI ci-phase2.log; SHA256 bd26f72d86e1419a87d29896137dbaaf091fb71b728ffcc2168bbeead440701c
+FUNCTION_UPDATE_OUTSIDE_PROFILE=0
+TRANSPORT_IN_PROFILE_MODULE=1
+TRANSPORT_REBEL_SOURCE=58
+REBEL_NONDEFINITIONAL_TRANSPORT=0
+TRANSPORT_MATH_SOURCE=1
+TRANSPORT_ANALYSIS_SOURCE=0
+TRANSPORT_REPEATED_SOURCE=0
+TRANSPORT_EPISTEMIC_SOURCE=0
+TRANSPORT_EVOLUTIONARY_SOURCE=0
+TRANSPORT_CONGESTION_SOURCE=0
+TRANSPORT_MECHANISM_SOURCE=0
+TRANSPORT_COOPERATIVE_SOURCE=0
+TRANSPORT_STOCHASTIC_SOURCE=0
+TRANSPORT_PHASE2_SOURCE=0
+TRANSPORT_PHASE3_SOURCE=0
+TRANSPORT_PHASE2_PROBE=0
+TRANSPORT_PHASE1_EVIDENCE=16
+CARRIER_INSTANCES_NOT_REDUCIBLE=0
+TRANSPORT_PHASE4_EVIDENCE=1
+TRANSPORT_POST_ARCHITECTURE=0
+UNBUCKETED_FILES=0
+REPRESENTATION_EXPERIMENT_BOUNDARY_FILES=4
+REPRESENTATION_TOKENS_OUTSIDE_OWNERS=0
+TOPMF_OUTSIDE_OWNERS=0
+REPRESENTATION_TOKENS_EXPERIMENT_BOUNDARY=42
+TOPMF_EXPERIMENT_BOUNDARY=12
+VNM_REPRESENTATION_TOKENS=0
+FINTYPE_OF_FINITE=0
+ALGORITHM_OPEN_CLASSICAL=0
+SORRY_OR_ADMIT=0
+CUSTOM_AXIOM=0
+BUILD_OUTPUT_COMMANDS=0
+CORE_FORBIDDEN_IMPORTS=0
+ALGORITHM_FORBIDDEN_IMPORTS=0
+KNAPSACK_AGGREGATE_GAMETHEORY_IMPORTS=0
+KNAPSACK_BASIC_FORBIDDEN_IMPORTS=0
+SIGNATURE_PROBABILITY_IMPORTS=0
+REPEATED_FORBIDDEN_IMPORTS=0
+EPISTEMIC_FORBIDDEN_IMPORTS=0
+EVOLUTIONARY_FORBIDDEN_IMPORTS=0
+STOCHASTIC_FORBIDDEN_IMPORTS=0
+MATH_FORBIDDEN_IMPORTS=0
+ANALYSIS_IMPORTED_OUTSIDE_ROOT=0
+FIXED_POINT_IMPORTERS=1
+DEF_COUNT_ISEQUILIBRIUM=1
+DEF_COUNT_ISNASH=1
+DEF_COUNT_ISCOARSECORRELATEDEQ=1
+DEF_COUNT_ISCORRELATEDEQ=1
+DEF_COUNT_ISSTRONGNASH=1
+DEF_COUNT_ISBESTRESPONSE=1
+DEF_COUNT_WEAKLYDOMINATES=1
+DEF_COUNT_STRICTLYDOMINATESON=1
+DEF_COUNT_ISDOMINANT=1
+DEF_COUNT_ISWEAKLYUNDOMINATED=1
+DEF_COUNT_ISWEAKLYUNDOMINATEDPROFILE=1
+DEF_COUNT_ISCORRELATEDRATIONALIZABLE=1
+DEF_COUNT_SURVIVESALLPUREELIMINATIONROUNDS=1
+DEF_COUNT_ISPARETOEFFICIENT=1
+DEF_COUNT_ISUNDOMINATEDIMPLEMENTATION=1
+CONCEPTS_NOT_DEFINED_EXACTLY_ONCE=0
+UNREACHABLE_PROBES_PASSED=6
+KNAPSACK_ALGORITHM_BOUNDARY_PROBES_REJECTED=7
+KNAPSACK_APPROXIMATION_ALGORITHM_BOUNDARY_PROBES_REJECTED=7
+KNAPSACK_AGGREGATE_BOUNDARY_PROBES_REJECTED=8
+KNAPSACK_BASIC_BOUNDARY_PROBES_REJECTED=7
+KNAPSACK_ROOT_INPUT_PROBES_REACHED=5
+KNAPSACK_MECHANISM_INPUT_PROBES_REACHED=6
+FAIR_DIVISION_INPUT_PROBES_REACHED=6
+FAIR_DIVISION_BOUNDARY_PROBES_REJECTED=4
+MATCHING_INPUT_PROBES_REACHED=5
+MATCHING_BOUNDARY_PROBES_REJECTED=4
+BARGAINING_INPUT_PROBES_REACHED=3
+BARGAINING_BOUNDARY_PROBES_REJECTED=4
+BALANCEDNESS_INPUT_PROBES_REACHED=5
+BALANCEDNESS_BOUNDARY_PROBES_REJECTED=5
+BALANCEDNESS_ROOT_PROBES_REJECTED=3
+ANALYSIS_PROBES_REACHED=2
+MATRIX_CORE_INPUT_PROBES_REACHED=5
+MATRIX_CORE_BOUNDARY_PROBES_REJECTED=3
+MATRIX_ANALYSIS_INPUT_PROBES_REACHED=5
+MATRIX_ANALYSIS_BOUNDARY_PROBES_REJECTED=2
+UTILITY_INVARIANCE_INPUT_PROBES_REACHED=4
+UTILITY_INVARIANCE_BOUNDARY_PROBES_REJECTED=3
+INDIVIDUAL_RATIONALITY_INPUT_PROBES_REACHED=4
+INDIVIDUAL_RATIONALITY_BOUNDARY_PROBES_REJECTED=3
+CORRELATED_DOMINANCE_INPUT_PROBES_REACHED=4
+CORRELATED_DOMINANCE_BOUNDARY_PROBES_REJECTED=3
+GIBBARD_INPUT_PROBES_REACHED=4
+GIBBARD_BOUNDARY_PROBES_REJECTED=5
+VNM_INPUT_PROBES_REACHED=8
+VNM_BOUNDARY_PROBES_REJECTED=6
+RATIONALIZABILITY_INPUT_PROBES_REACHED=6
+RATIONALIZABILITY_BOUNDARY_PROBES_REJECTED=3
+REPEATED_ANALYSIS_PROBES_REJECTED=6
+REPEATED_BRIDGE_PROBES_REACHED=3
+REPEATED_BRIDGE_PROTOCOL_REJECTED=1
+MATH_GAME_REJECTED=1
+MATH_LEARNING_BOUNDARY_PROBES_REJECTED=2
+CORE_LEARNING_MW_PROBES_REJECTED=2
+CORE_FICTITIOUS_INPUT_PROBES_REACHED=2
+CORE_FICTITIOUS_BOUNDARY_PROBES_REJECTED=2
+CORE_MIXED_POTENTIAL_INPUT_PROBES_REACHED=2
+CORE_MIXED_POTENTIAL_BOUNDARY_PROBES_REJECTED=2
+CORE_MIXED_IMPROVEMENT_INPUT_PROBES_REACHED=2
+CORE_MIXED_IMPROVEMENT_BOUNDARY_PROBES_REJECTED=2
+CORE_FICTITIOUS_POTENTIAL_INPUT_PROBES_REACHED=5
+CORE_FICTITIOUS_POTENTIAL_BOUNDARY_PROBES_REJECTED=2
+HARMONIC_SEQUENCE_INPUT_PROBES_REACHED=2
+HARMONIC_SEQUENCE_BOUNDARY_PROBES_REJECTED=2
+MATH_APPROACHABILITY_INPUT_PROBES_REACHED=3
+MATH_APPROACHABILITY_BOUNDARY_PROBES_REJECTED=2
+APPROACHABILITY_ANALYSIS_INPUT_PROBES_REACHED=4
+APPROACHABILITY_ANALYSIS_BOUNDARY_PROBES_REJECTED=2
+FICTITIOUS_POTENTIAL_ANALYSIS_INPUT_PROBES_REACHED=4
+FICTITIOUS_POTENTIAL_ANALYSIS_BOUNDARY_PROBES_REJECTED=2
+LEARNING_BRIDGE_INPUT_PROBES_REACHED=8
+LEARNING_BRIDGE_BOUNDARY_PROBES_REJECTED=2
+PROTOCOL_FINITE_LAW_INPUT_PROBES_REACHED=2
+PROTOCOL_FINITE_LAW_BOUNDARY_PROBES_REJECTED=1
+EPISTEMIC_INPUT_PROBES_REACHED=6
+EPISTEMIC_BOUNDARY_PROBES_REJECTED=5
+ELECTRONIC_MAIL_INPUT_PROBES_REACHED=4
+ELECTRONIC_MAIL_BOUNDARY_PROBES_REJECTED=4
+BAYESIAN_EPISTEMIC_PROBE_REJECTED=1
+EPISTEMIC_BAYESIAN_PROBE_REJECTED=1
+EVOLUTIONARY_BASIC_INPUT_PROBES_REACHED=2
+EVOLUTIONARY_BASIC_BOUNDARY_PROBES_REJECTED=6
+EVOLUTIONARY_BRIDGE_INPUT_PROBES_REACHED=3
+EVOLUTIONARY_BRIDGE_BOUNDARY_PROBES_REJECTED=4
+CORE_EVOLUTIONARY_PROBES_REJECTED=2
+CHEAP_TALK_INPUT_PROBES_REACHED=2
+CHEAP_TALK_BOUNDARY_PROBES_REJECTED=4
+CHEAP_TALK_RANDOMIZATION_INPUT_PROBES_REACHED=2
+CHEAP_TALK_RANDOMIZATION_BOUNDARY_PROBES_REJECTED=4
+TRANSFORM_INPUT_PROBES_REACHED=6
+PROBABILITY_REINDEX_INPUT_PROBES_REACHED=2
+PROBABILITY_REINDEX_BOUNDARY_PROBES_REJECTED=2
+TREMBLING_CORE_INPUT_PROBES_REACHED=3
+TREMBLING_CORE_BOUNDARY_PROBES_REJECTED=2
+TREMBLING_ANALYSIS_INPUT_PROBES_REACHED=5
+TREMBLING_ANALYSIS_BOUNDARY_PROBES_REJECTED=4
+STOCHASTIC_INPUT_PROBES_REACHED=18
+STOCHASTIC_BOUNDARY_PROBES_REJECTED=5
+STOCHASTIC_ANALYSIS_INPUT_PROBES_REACHED=11
+STOCHASTIC_ANALYSIS_BOUNDARY_PROBES_REJECTED=2
+VERIFIED=1
+END EXACT FULL-CI ci-phase2.log
+
+BEGIN EXACT FULL-CI ci-phase3.log; SHA256 1328da901759ab2f0d7bcbc3b07e7edc53f3b762e50c5011f6812ad661fdeb34
+PROTOCOL_FORBIDDEN_IMPORTS=0
+LANGUAGE_FORBIDDEN_IMPORTS=0
+ROOT_REEXPORTS_PROTOCOL=1
+ROOT_REEXPORTS_EPISTEMIC=1
+ROOT_REEXPORTS_EVOLUTIONARY=1
+ROOT_FORBIDDEN_IMPORTS=0
+TRANSPORT_PROTOCOL=0
+TRANSPORT_LANGUAGES=0
+FUNCTION_UPDATE_SEQUENTIAL=0
+MAID_SHARED_PI_REINDEX_USES=1
+SORRY_OR_ADMIT_SEQUENTIAL=0
+CUSTOM_AXIOM_SEQUENTIAL=0
+EXECUTION_IMPORTS_INFORMATION=0
+LIBRARY_MAX_LINE_LENGTH=100
+LIBRARY_LINES_OVER_100=0
+PROTOCOL_MODULES=16
+LANGUAGE_MODULES=29
+UNREACHABLE_PROBES_PASSED=3
+BAYESIAN_SOLUTION_PROBES_REJECTED=2
+BAYESIAN_INPUT_PROBES_REACHED=2
+REPEATED_BOUNDARY_PROBES_REJECTED=3
+REPEATED_INPUT_PROBES_REACHED=2
+PROTOCOL_ANALYSIS_PROBES_REJECTED=2
+POLICY_MEASURE_INPUT_PROBES_REACHED=15
+POLICY_MEASURE_PATH_BOUNDARY_REJECTED=1
+PROTOCOL_EPISTEMIC_PROBES_REJECTED=2
+PROTOCOL_EVOLUTIONARY_PROBES_REJECTED=2
+SEQUENTIAL_BRIDGE_INPUTS_REACHED=3
+SEQUENTIAL_BRIDGE_GEOMETRY_REJECTED=2
+EFG_SYNTAX_SOLUTION_PROBES_REJECTED=3
+EFG_SYNTAX_INPUT_PROBES_REACHED=3
+MAID_BASIC_BOUNDARY_PROBES_REJECTED=2
+MAID_BASIC_INPUT_PROBES_REACHED=3
+MAID_STRATEGIC_INPUT_PROBES_REACHED=4
+NFG_BOUNDARY_PROBES_REJECTED=2
+NFG_INPUT_PROBES_REACHED=3
+FOSG_SOLUTION_PROBES_REJECTED=3
+FOSG_INPUT_PROBES_REACHED=3
+MULTI_ROUND_INPUT_PROBES_REACHED=5
+MULTI_ROUND_BOUNDARY_PROBES_REJECTED=4
+FOSG_KUHN_INPUT_PROBES_REACHED=5
+FOSG_KUHN_EFG_PROBES_REJECTED=1
+NFG_FOSG_BRIDGE_INPUT_PROBES_REACHED=4
+EFG_BRIDGE_INPUT_PROBES_REACHED=3
+VERIFIED=1
+END EXACT FULL-CI ci-phase3.log
+
+BEGIN EXACT FULL-CI ci-lint.log; SHA256 cbf2f9cc0a4d2cded2ee5a6c998bb8e0f9cda9dfc197f31d6da45ab3db3fb7f5
+✔ [24/52] Built Batteries.Util.LibraryNote:c.o (289ms)
+✔ [25/52] Built Batteries.Tactic.Lint.Misc:c.o (713ms)
+✔ [26/52] Built Batteries.Tactic.Lint.TypeClass:c.o (456ms)
+✔ [27/52] Built Batteries.Tactic.Lint:c.o (69ms)
+✔ [28/52] Built Batteries.Tactic.Lint.Basic:c.o (982ms)
+✔ [29/52] Built Batteries.Tactic.Lint.Simp:c.o (1.6s)
+✔ [30/52] Built Batteries.CodeAction.Deprecated:c.o (718ms)
+✔ [31/52] Built Batteries.Tactic.Unreachable:c.o (160ms)
+✔ [32/52] Built Batteries.Lean.TagAttribute:c.o (95ms)
+✔ [33/52] Built Batteries.Lean.AttributeExtra:c.o (285ms)
+✔ [34/52] Built Batteries.Linter.UnreachableTactic:c.o (1.2s)
+✔ [35/52] Built Batteries.Linter:c.o (73ms)
+✔ [36/52] Built Batteries.Linter.UnnecessarySeqFocus:c.o (914ms)
+✔ [37/52] Built Batteries.Tactic.Init:c.o (425ms)
+✔ [39/52] Built Batteries.Tactic.Alias:c.o (2.4s)
+✔ [40/52] Built Batteries.Tactic.SeqFocus:c.o (408ms)
+✔ [41/52] Built Batteries.Lean.Syntax:c.o (107ms)
+✔ [44/52] Built Batteries.Tactic.Basic:c.o (62ms)
+✔ [45/52] Built Batteries.Classes.Order:c.o (73ms)
+✔ [46/52] Built Batteries.Data.UInt:c.o (55ms)
+✔ [47/52] Built Batteries.Tactic.Lint.Frontend:c.o (2.9s)
+✔ [48/52] Built Batteries.Data.Array.Basic:c.o (651ms)
+✔ [49/52] Built runLinter (2.1s)
+✔ [50/52] Built Batteries.Util.ProofWanted:c.o (2.6s)
+✔ [51/52] Built runLinter:c.o (633ms)
+✔ [52/52] Built runLinter:exe (1.2s)
+✔ [3861/3861] Built GameTheory.LintAll (1.5s)
+Build completed successfully (3861 jobs).
+Running linter on specified modules: [GameTheory.LintAll]
+-- Linting passed for GameTheory.LintAll.
+END EXACT FULL-CI ci-lint.log

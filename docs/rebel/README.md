@@ -2,7 +2,7 @@
 
 この fork の目的は Brown, Bakhtin, Lerer, Gong (2020) の ReBeL を、本文・補遺・アルゴリズム変種・学習/数値実装まで追跡して Lean で形式化することです。Theorem 1–3 や抽象 value oracle だけでは最終完了にしません。
 
-**M01-A の Lean 診断と実行経路を検証済みです。M01-B の原典 inventory と意味監査を追加しました。現在の統合状態と対象 SHA は STATUS.md を参照してください。ReBeL 全体の形式化は未完了です。**
+**M04 の全ゲーム CFR、全行動戦略への有限反復保証、有理数基準 solver と具体例の refinement を検証済みです。対象範囲・実装 SHA・CI は [M04.md](M04.md) と [STATUS.md](STATUS.md) を参照してください。ReBeL 全体の形式化は未完了です。**
 
 ## 読む順序
 
@@ -61,12 +61,14 @@ Lean コードを追加した後に実行するコマンド:
 
 ```text
 lake env lean --version
-lake build GameTheory.ReBeL.<実在する対象モジュール>
+lake build GameTheory.ReBeL GameTheory.Analysis.ReBeL
+python3 scripts/rebel/audit_axioms.py
+python3 scripts/rebel/check_rational_runtime.py --report .lake/rebel/runtime.json
 lake build
 lake lint
 ```
 
-`<実在する対象モジュール>` は説明用です。現時点で `GameTheory.ReBeL` の Lean root は作成していません。最初の実質的な縦断実装が成立してから作成します。
+`GameTheory.ReBeL` は基礎・実行側、`GameTheory.Analysis.ReBeL` は解析・証明側の実在する umbrella です。推移的公理監査と通常/低速 lint は双方を再帰的に検査します。
 
 既存 CI は push/PR/manual 実行に対応し、全 GameTheory サブモジュールと既存の architecture audit をビルドします。fork 側の Actions 実行を M01-A で確認済みです。ReBeL 診断は対象モジュールを実際に列挙する lint/axiom audit に含まれます。新規モジュールでもこの消費側への接続を維持してください。台帳検査だけでは Lean の正しさは検証されません。
 
