@@ -1,0 +1,93 @@
+name: M05 focused compiler feedback
+
+on:
+  push:
+    branches: ['rebel/m05-review']
+    paths:
+      - 'GameTheory/Analysis/ReBeL/Value*.lean'
+      - 'GameTheory/Analysis/ReBeL/Examples/Value*.lean'
+      - '.github/workflows/rebel-m05-review.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: m05-focused-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  focused:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Compute the focused dependency closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import os
+          root = Path('GameTheory/Analysis/ReBeL')
+          targets = sorted(root.glob('Value*.lean')) + sorted(root.glob('Examples/Value*.lean'))
+          modules = [str(p.with_suffix('')).replace('/', '.') for p in targets]
+          pending, seen, imports = modules[:], set(), set()
+          while pending:
+              name = pending.pop()
+              if name in seen:
+                  continue
+              seen.add(name)
+              if name.startswith('Mathlib.'):
+                  imports.add(name)
+                  continue
+              p = Path(name.replace('.', '/') + '.lean')
+              if p.is_file():
+                  for line in p.read_text().splitlines():
+                      if line.startswith('import '):
+                          pending.extend(line.split()[1:])
+          if not modules or not imports:
+              raise SystemExit('Missing compiler targets or dependency roots')
+          temp = Path(os.environ['RUNNER_TEMP'])
+          (temp / 'm05-targets.txt').write_text(' '.join(modules))
+          (temp / 'm05-mathlib.txt').write_text(' '.join(sorted(imports)))
+          PY
+          lake exe cache get $(cat "$RUNNER_TEMP/m05-mathlib.txt")
+      - name: Compile focused source without replacing the full acceptance gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rev-parse HEAD | tee "$RUNNER_TEMP/m05-focused.log"
+          lake env lean --version | tee -a "$RUNNER_TEMP/m05-focused.log"
+          lake build $(cat "$RUNNER_TEMP/m05-targets.txt") 2>&1 | tee -a "$RUNNER_TEMP/m05-focused.log"
+      - name: Publish exact compiler errors
+        if: failure()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import os, re
+          from pathlib import Path
+          p = Path(os.environ['RUNNER_TEMP']) / 'm05-focused.log'
+          if p.exists():
+              pattern = r'^error: ([^\n]+\.lean):(\d+):(\d+): (.*?)(?=^error: |^trace: |^[✔✖]|\Z)'
+              for m in list(re.finditer(pattern, p.read_text(), re.M | re.S))[:40]:
+                  file, line, col, message = m.groups()
+                  message = message[:10000].replace('%', '%25').replace('\n', '%0A')
+                  print(f'::error file={file},line={line},col={col}::{message}')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: m05-focused-${{ github.sha }}
+          path: ${{ runner.temp }}/m05-focused.log
+          retention-days: 3
+          if-no-files-found: warn
