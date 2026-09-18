@@ -55,8 +55,11 @@ theorem mixture_typeLaw (slice : TypeBeliefSlice M observations who T) (own : Fi
       apply FinDist.bind_congr
       intro type _
       calc
-        _ = ((slice.kernel type).law).map (fun _ => type) :=
-          FinDist.map_congr fun history supported => slice.typed type history supported
+        _ = ((slice.kernel type).law).map (fun _ => type) := by
+          simp only [FinDist.map_eq_bind]
+          apply FinDist.bind_congr
+          intro history supported
+          exact congrArg FinDist.pure (slice.typed type history supported)
         _ = _ := FinDist.map_const _ _
     _ = own := FinDist.bind_pure _
 
@@ -160,7 +163,12 @@ theorem ofJointBelief_reconstruct (memory : RootTypeMemory M observations who T)
     rw [FinDist.support_map] at supported
     obtain ⟨history, hhistory, htype⟩ := supported
     exact ⟨history, htype, hhistory⟩
-  simp only [conditionedKernel, FinDist.condOnFibre, dif_pos positive]
+  have positiveKernel : ∃ history ∈
+      {h : E.History | memory.typeAt (M.infoOf who h.trace) = type},
+        history ∈ belief.law.support := positive
+  have positiveFibre : ∃ history ∈ readType ⁻¹' {type},
+      history ∈ belief.law.support := positive
+  rw [conditionedKernel, dif_pos positiveKernel, FinDist.condOnFibre, dif_pos positiveFibre]
 
 end TypeBeliefSlice
 end GameTheory.ReBeL
