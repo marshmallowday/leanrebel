@@ -70,15 +70,15 @@ theorem ownReachAverage_isNash_of_regret (hrecall : M.PerfectRecall)
   have hcolumn (target : M.BehavioralPolicy 1) :
       mean - value (Profile.update average 1 target) ≤ error 1 := by
     have h := hregret 1 target
-    simp_rw [hone] at h
-    rw [FinDist.expect_sub, FinDist.expect_neg, FinDist.expect_neg] at h
+    simp_rw [hone, neg_sub_neg] at h
+    rw [FinDist.expect_sub] at h
     rw [hcolumnLaw]
-    linarith
+    exact h
   have hbaseRow : value average - mean ≤ error 0 := by
     simpa only [Profile.update_eq_self] using hrow (average 0)
   have hbaseColumn : mean - value average ≤ error 1 := by
     simpa only [Profile.update_eq_self] using hcolumn (average 1)
-  apply (isNash_iff _).mpr
+  rw [isNash_iff]
   intro who target
   fin_cases who
   · have h := hrow target
