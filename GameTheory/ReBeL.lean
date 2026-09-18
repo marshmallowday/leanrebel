@@ -38,3 +38,6 @@ import GameTheory.ReBeL.Examples.PublicBelief
 import GameTheory.ReBeL.Examples.CompactCards
 import GameTheory.ReBeL.Examples.BeliefSearch
 import GameTheory.ReBeL.Examples.BayesObservation
+
+import GameTheory.ReBeL.Schedule
+import GameTheory.ReBeL.Examples.Schedule

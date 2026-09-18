@@ -67,11 +67,10 @@ jobs:
           set -euo pipefail
           python3 - <<'PY' > "$RUNNER_TEMP/rebel-mathlib-roots.txt"
           from pathlib import Path
-          files = [Path('GameTheory/Tests/ReBeLSourceDiagnostics.lean')]
-          files.extend(Path('GameTheory/ReBeL').rglob('*.lean'))
-          if Path('GameTheory/ReBeL.lean').is_file():
-              files.append(Path('GameTheory/ReBeL.lean'))
-          pending = [str(p.with_suffix('')).replace('/', '.') for p in files]
+          import sys
+          sys.path.insert(0, 'scripts/rebel')
+          from audit_axioms import proof_modules
+          pending = proof_modules()
           seen, roots = set(), set()
           while pending:
               name = pending.pop()

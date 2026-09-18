@@ -2,7 +2,7 @@
 """Compile the complete ReBeL proof surface and audit transitive Lean axioms.
 
 M01's arithmetic probe lives in the existing architecture-owned Tests surface.
-Future GameTheory/ReBeL modules, including tests, are discovered recursively.
+Basic and analytic ReBeL modules, including tests, are discovered recursively.
 The canonical reach module extracted during M03 and its analysis entry point
 are explicitly included in both the declaration audit and full/slow lint.
 Lean.collectAxioms checks types and proof bodies, not just source spellings.
@@ -21,6 +21,7 @@ open Lean Elab Command in
 run_cmd do
   let env ← getEnv
   let modulePrefix : Name := `GameTheory.ReBeL
+  let analysisPrefix : Name := `GameTheory.Analysis.ReBeL
   let probe : Name := `GameTheory.Tests.ReBeLSourceDiagnostics
   let reach : Name := `GameTheory.Protocol.BehavioralReach
   let reachAnalysis : Name := `GameTheory.Analysis.Protocol.CounterfactualReach
@@ -30,7 +31,8 @@ run_cmd do
   for (name, _) in env.constants.toList do
     if let some idx := env.getModuleIdxFor? name then
       let modName := moduleNames[idx.toNat]!
-      if modulePrefix.isPrefixOf modName || modName == probe ||
+      if modulePrefix.isPrefixOf modName || analysisPrefix.isPrefixOf modName ||
+          modName == probe ||
           modName == reach || modName == reachAnalysis then
         let axioms ← Lean.collectAxioms name
         logInfo m!"REBEL_AXIOMS {name}: {axioms.toList}"
@@ -57,6 +59,10 @@ def proof_modules() -> list[str]:
     if public_root.is_file():
         paths.append(public_root)
     paths.extend(sorted((ROOT / "GameTheory/ReBeL").rglob("*.lean")))
+    analysis_root = ROOT / "GameTheory/Analysis/ReBeL.lean"
+    if analysis_root.is_file():
+        paths.append(analysis_root)
+    paths.extend(sorted((ROOT / "GameTheory/Analysis/ReBeL").rglob("*.lean")))
     modules = [path.relative_to(ROOT).with_suffix("").as_posix().replace("/", ".")
                for path in paths]
     return modules

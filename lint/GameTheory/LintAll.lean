@@ -190,7 +190,6 @@ import GameTheory.Mechanism.Knapsack.Aggregate
 import GameTheory.Mechanism.Knapsack.Algorithm
 import GameTheory.Mechanism.Knapsack.Approximation
 import GameTheory.Mechanism.Knapsack.ApproximationAlgorithm
-import GameTheory.Mechanism.Knapsack.ApproximationCorrectness
 import GameTheory.Mechanism.Knapsack.Basic
 import GameTheory.Mechanism.Knapsack.Correctness
 import GameTheory.Mechanism.Knapsack.ExactBridge
@@ -241,3 +240,5 @@ import GameTheory.Stochastic.PerfectMonitoring
 import GameTheory.Stochastic.PublicPolicy
 import GameTheory.Stochastic.Uniform
 import GameTheory.Stochastic.ZeroSum
+
+import GameTheory.Analysis.ReBeL
