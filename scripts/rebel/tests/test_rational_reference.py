@@ -52,14 +52,18 @@ class RationalReferenceTests(unittest.TestCase):
         correct = ref.update(regrets, 0)
         mutant = dict(regrets)
         first_snapshot = ref.profile_from_regrets(regrets)
+        # Player 1 is the initially losing player. Updating player 0 first is
+        # an ineffective mutation at round zero because its policy stays put.
         for key in ref.KEYS:
-            if key[0] == 0:
+            if key[0] == 1:
                 mutant[key] = ref.local_regret(first_snapshot, *key)
         wrong_snapshot = ref.profile_from_regrets(mutant)
         for key in ref.KEYS:
-            if key[0] == 1:
+            if key[0] == 0:
                 mutant[key] = ref.local_regret(wrong_snapshot, *key)
         self.assertNotEqual(correct, mutant)
+        self.assertEqual(correct[0, (0, 0)][1], -1)
+        self.assertEqual(mutant[0, (0, 0)][1], 1)
 
     def test_own_reach_average_is_not_coordinate_mean(self):
         first = {key: ref.pure(0) for key in ref.KEYS}
