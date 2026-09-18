@@ -30,7 +30,7 @@ def finish (x y a b c d : Bool) : (protocol fullPrior).History :=
     (show (protocol fullPrior).Legal
       (.second (x, y) (firstResult (fun who => some (own who a b))))
       (fun who => some (own who c d)) from
-        ⟨by simp [terminal], by intro who; trivial⟩)
+        ⟨not_false, by intro who; trivial⟩)
     (target := .finished (firstResult (fun who => some (own who a b)))
       (finalResult (x, y) (fun who => some (own who c d))))
     (by exact FinDist.mem_support_pure.mpr rfl)
