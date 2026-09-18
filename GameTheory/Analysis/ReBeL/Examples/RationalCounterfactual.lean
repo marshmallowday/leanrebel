@@ -22,6 +22,17 @@ open GameTheory.ReBeL.Examples.HiddenTypes
 local instance counterfactualHistoryFintype : Fintype (protocol fullPrior).History :=
   historyFintype fullPrior
 
+/-- Equality is proof-level on the canonical full observation carrier. -/
+local instance counterfactualInfoDecidableEq (who : Player) :
+    DecidableEq ((model fullPrior).InfoState who) := Classical.decEq _
+
+/-- Each information fiber is a finite subtype of all legal histories. -/
+local instance counterfactualFiberFintype (who : Player)
+    (info : (model fullPrior).InfoState who) :
+    Fintype ((model fullPrior).InformationHistory who info) := by
+  classical
+  infer_instance
+
 private theorem cast_map_sum {α : Type*} (xs : List α) (f : α → ℚ) :
     ((xs.map f).sum : ℝ) = (xs.map fun x => (f x : ℝ)).sum := by
   induction xs with
@@ -78,7 +89,8 @@ theorem counterfactualValue_eq_fiber
           fun hc => h ((information_matches who row key).mp hc)
         simp only [if_neg h, if_neg hc, Rat.cast_zero]
     _ = ∑ history, if (model fullPrior).infoOf who history.trace = decodeInfo key.1 then
-        f history else 0 := row_sum_eq _
+        f history else 0 := row_sum_eq (fun history =>
+          if (model fullPrior).infoOf who history.trace = decodeInfo key.1 then f history else 0)
     _ = ∑' history : (protocol fullPrior).History,
         {history | (model fullPrior).infoOf who history.trace = decodeInfo key.1}.indicator
           f history := by

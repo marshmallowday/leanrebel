@@ -22,8 +22,8 @@ open GameTheory.ReBeL.Examples.HiddenTypes
 theorem choiceOption_injective (site : Site) : Function.Injective (choiceOption site) := by
   cases site with
   | idle => intro a b _; exact Subsingleton.elim a b
-  | first ownType => exact Option.some.inj
-  | second ownType ownAction result => exact Option.some.inj
+  | first ownType => intro a b h; exact Option.some.inj h
+  | second ownType ownAction result => intro a b h; exact Option.some.inj h
 
 /-- The weight of one optional action, read from a finite local numeric menu. -/
 def optionWeight (site : Site) (law : Choice site → ℚ) (action : Option Bool) : ℚ :=
@@ -141,12 +141,16 @@ theorem concrete_commit_realizes (numeric : NumericProfile)
     rw [Profile.update_same]
     by_cases hi : information who row = key.1
     · have hcanonical := (information_matches who row key).mpr hi
-      rw [if_pos ⟨rfl, hi⟩, hcanonical, BehavioralPolicy.commit_self,
+      rw [if_pos ⟨rfl, hi⟩, hcanonical,
+        BehavioralPolicy.commit_self (M := model fullPrior)
+          (semantic who) (decodeInfo key.1) (keyChoiceEquiv who key a),
         FinDist.map_pure, FinDist.prob_pure_eq_ite, keyChoiceEquiv_val]
       split <;> simp_all
     · have hcanonical : (model fullPrior).infoOf who (decode row).trace ≠ decodeInfo key.1 :=
         fun h => hi ((information_matches who row key).mp h)
-      rw [if_neg (fun h => hi h.2), BehavioralPolicy.commit_of_ne _ _ _ hcanonical]
+      rw [if_neg (fun h => hi h.2),
+        BehavioralPolicy.commit_of_ne (M := model fullPrior)
+          (semantic who) (decodeInfo key.1) (keyChoiceEquiv who key a) hcanonical]
       exact hprojected who row action
   · rw [if_neg (fun h => hp h.1), Profile.update_of_ne _ _ hp]
     exact hprojected player row action
