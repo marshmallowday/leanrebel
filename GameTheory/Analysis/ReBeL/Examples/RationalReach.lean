@@ -28,9 +28,11 @@ theorem initial_noop_prob (semantic : Profile (model fullPrior).behavioralSignat
 theorem playerReach_drawn (semantic : Profile (model fullPrior).behavioralSignature)
     (who : Player) (x y : Bool) :
     (model fullPrior).playerReachProbability semantic who (decode (.drawn x y)).trace = 1 := by
-  simpa only [decode, fullDraw, drawHistory, History.extend, initHistory,
-    InformationModel.playerReachProbability, InformationModel.playerStepProb, one_mul]
-    using initial_noop_prob semantic who
+  calc
+    _ = (1 : ℝ) *
+        (semantic who ((model fullPrior).infoOf who (decode .initial).trace)).prob
+          (rowChoiceEquiv who .initial ()) := rfl
+    _ = 1 := by rw [one_mul, initial_noop_prob]
 
 /-- The first strategic factor is read at exactly the original private observation. -/
 theorem playerReach_second (semantic : Profile (model fullPrior).behavioralSignature)
@@ -61,24 +63,42 @@ theorem ownReach_correct (numeric : NumericProfile)
     (table.ownReach numeric who row : ℝ) =
       (model fullPrior).playerReachProbability semantic who (decode row).trace := by
   cases row with
-  | initial => norm_num [HistoryTable.ownReach, table, ownPath, decode,
-      initHistory, InformationModel.playerReachProbability]
+  | initial =>
+      calc
+        _ = (1 : ℝ) := by norm_num [HistoryTable.ownReach, table, ownPath]
+        _ = _ := rfl
   | drawn x y =>
       rw [playerReach_drawn]
       norm_num [HistoryTable.ownReach, table, ownPath]
   | second x y a b =>
-      rw [playerReach_second]
-      simpa only [HistoryTable.ownReach, table, ownPath, firstEntry,
-        List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
-        using hreal who (.drawn x y) (own who a b)
+      calc
+        _ = (numeric who (information who (.drawn x y)) (own who a b) : ℝ) := by
+          simp only [HistoryTable.ownReach, table, ownPath, firstEntry,
+            List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
+          rfl
+        _ = (semantic who ((model fullPrior).infoOf who (decode (.drawn x y)).trace)).prob
+            (rowChoiceEquiv who (.drawn x y) (own who a b)) :=
+          hreal who (.drawn x y) (own who a b)
+        _ = _ := (playerReach_second semantic who x y a b).symm
   | finished x y a b c d =>
-      rw [playerReach_finished, playerReach_second]
-      have hfirst := hreal who (.drawn x y) (own who a b)
-      have hsecond := hreal who (.second x y a b) (own who c d)
-      simp only [HistoryTable.ownReach, table, ownPath, firstEntry, secondEntry,
-        List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, Rat.cast_mul]
-      rw [hfirst, hsecond]
-      ring
+      calc
+        _ = (numeric who (information who (.second x y a b)) (own who c d) : ℝ) *
+            (numeric who (information who (.drawn x y)) (own who a b) : ℝ) := by
+          simp only [HistoryTable.ownReach, table, ownPath, firstEntry, secondEntry,
+            List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, Rat.cast_mul]
+          rfl
+        _ = (semantic who ((model fullPrior).infoOf who (decode (.second x y a b)).trace)).prob
+              (rowChoiceEquiv who (.second x y a b) (own who c d)) *
+            (semantic who ((model fullPrior).infoOf who (decode (.drawn x y)).trace)).prob
+              (rowChoiceEquiv who (.drawn x y) (own who a b)) :=
+          congrArg₂ (fun x y : ℝ => x * y)
+            (hreal who (.second x y a b) (own who c d))
+            (hreal who (.drawn x y) (own who a b))
+        _ = (semantic who ((model fullPrior).infoOf who (decode (.drawn x y)).trace)).prob
+              (rowChoiceEquiv who (.drawn x y) (own who a b)) *
+            (semantic who ((model fullPrior).infoOf who (decode (.second x y a b)).trace)).prob
+              (rowChoiceEquiv who (.second x y a b) (own who c d)) := mul_comm _ _
+        _ = _ := by rw [playerReach_finished, playerReach_second]
 
 /-- Each private type pair has exactly one quarter of the original chance mass. -/
 theorem initial_chance_prob (x y : Bool) :
