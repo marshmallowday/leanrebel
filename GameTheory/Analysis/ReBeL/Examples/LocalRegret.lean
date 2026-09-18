@@ -16,7 +16,8 @@ namespace GameTheory.ReBeL.Examples.HiddenTypes
 open GameTheory.Protocol GameTheory.Math.Probability
 
 /-- Enumerate the complete legal history carrier for all information fibers. -/
-local instance localRegretHistoryFintype : Fintype (protocol fullPrior).History := historyFintype fullPrior
+local instance localRegretHistoryFintype : Fintype (protocol fullPrior).History :=
+  historyFintype fullPrior
 
 /-- Equality is used only to install a law at a specified full-AOH site. -/
 local instance (who : Player) : DecidableEq ((model fullPrior).InfoState who) :=

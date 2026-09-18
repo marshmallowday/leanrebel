@@ -1,0 +1,47 @@
+name: M04 exact document review
+
+on:
+  push:
+    branches: ['rebel/m04']
+    paths: ['.github/workflows/rebel-m04-review.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [0, 1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Print exact remaining document bytes and complete manifest
+        env:
+          PART: ${{ matrix.part }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          root = Path('docs/rebel')
+          all_files = sorted(p for p in root.rglob('*') if p.is_file())
+          for p in all_files:
+              raw = p.read_bytes()
+              blob = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+              print('MANIFEST', p, len(raw), blob, hashlib.sha256(raw).hexdigest())
+          paths = [root / 'coverage.json'] + sorted((root / 'inventory').glob('*'))
+          text = ''.join('\nBEGIN_FILE ' + str(p) + '\n' + p.read_text(encoding='utf-8')
+                         + '\nEND_FILE ' + str(p) + '\n'
+                         for p in paths if p.is_file() and p.suffix != '.gz')
+          part = int(os.environ['PART'])
+          start, stop = len(text) * part // 6, len(text) * (part + 1) // 6
+          print('TOTAL_CHARACTERS', len(text), 'START', start, 'STOP', stop)
+          print('BEGIN_EXACT_SLICE')
+          print(text[start:stop])
+          print('END_EXACT_SLICE')
+          PY

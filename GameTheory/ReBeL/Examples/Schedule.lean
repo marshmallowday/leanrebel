@@ -16,7 +16,8 @@ namespace GameTheory.ReBeL.Examples.HiddenTypes
 open GameTheory.Protocol GameTheory.Math.Probability
 
 /-- Enumerate every legal history, not only positive-probability histories. -/
-local instance scheduleHistoryFintype : Fintype (protocol fullPrior).History := historyFintype fullPrior
+local instance scheduleHistoryFintype : Fintype (protocol fullPrior).History :=
+  historyFintype fullPrior
 
 /-- The two-stage game uses the length of the player's own full AOH. -/
 def decisionClock : ObservationClock (model fullPrior) :=
