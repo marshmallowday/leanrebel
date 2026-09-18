@@ -30,7 +30,7 @@ jobs:
           lint: false
           use-mathlib-cache: false
           use-github-cache: false
-      - name: Export pinned compiler before compiling any proof
+      - name: Export pinned compiler in pieces below the plugin 512 MiB limit
         shell: bash
         run: |
           set -euo pipefail
@@ -46,12 +46,28 @@ jobs:
             --exclude='*.olean.server' -I 'zstd -T2 -3' \
             -cf "$out/toolchain.tar.zst" -C "$prefix" .
           cd "$out"
-          sha256sum *.tar.zst > archive-sha256.txt
+          sha256sum toolchain.tar.zst > archive-sha256.txt
+          split -b 384M -d -a 1 toolchain.tar.zst toolchain.tar.zst.part-
+          sha256sum *.part-* > parts-sha256.txt
+          rm toolchain.tar.zst
+          test -f toolchain.tar.zst.part-0
+          test -f toolchain.tar.zst.part-1
+          test ! -e toolchain.tar.zst.part-2
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: always()
         with:
-          name: rebel-m04-compiler-${{ github.sha }}
-          path: ${{ runner.temp }}/m04-compiler
+          name: rebel-m04-compiler-0-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/m04-compiler/toolchain.tar.zst.part-0
+            ${{ runner.temp }}/m04-compiler/*.txt
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rebel-m04-compiler-1-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/m04-compiler/toolchain.tar.zst.part-1
+            ${{ runner.temp }}/m04-compiler/*.txt
           compression-level: 0
           retention-days: 1
           if-no-files-found: error
@@ -84,7 +100,7 @@ jobs:
           print(' '.join(sorted(roots)))
           PY
           lake exe cache get $(cat "$RUNNER_TEMP/m04-roots.txt")
-      - name: Export public dependency sources and compiled closure
+      - name: Export public dependencies in pieces below the plugin limit
         if: always()
         shell: bash
         run: |
@@ -99,12 +115,30 @@ jobs:
             -I 'zstd -T2 -3' -cf "$out/dependencies.tar.zst" \
             .lake/packages lakefile.lean lake-manifest.json lean-toolchain
           cd "$out"
-          sha256sum *.tar.zst > archive-sha256.txt
+          sha256sum dependencies.tar.zst > archive-sha256.txt
+          split -b 384M -d -a 1 dependencies.tar.zst dependencies.tar.zst.part-
+          sha256sum *.part-* > parts-sha256.txt
+          rm dependencies.tar.zst
+          test -f dependencies.tar.zst.part-0
+          test -f dependencies.tar.zst.part-1
+          test ! -e dependencies.tar.zst.part-2
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: rebel-m04-dependencies-${{ github.sha }}
-          path: ${{ runner.temp }}/m04-dependencies
+          name: rebel-m04-dependencies-0-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/m04-dependencies/dependencies.tar.zst.part-0
+            ${{ runner.temp }}/m04-dependencies/*.txt
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: rebel-m04-dependencies-1-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/m04-dependencies/dependencies.tar.zst.part-1
+            ${{ runner.temp }}/m04-dependencies/*.txt
           compression-level: 0
           retention-days: 1
           if-no-files-found: error
