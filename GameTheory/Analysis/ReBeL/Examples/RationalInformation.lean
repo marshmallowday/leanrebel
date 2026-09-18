@@ -70,7 +70,8 @@ theorem active_information_eq_iff (who : Player) (first second : Row)
       information who first = information who second := by
   constructor
   · intro h
-    simpa only [encodeInfo_actual] using congrArg encodeInfo h
+    exact (encodeInfo_actual who first).symm.trans
+      ((congrArg encodeInfo h).trans (encodeInfo_actual who second))
   · intro h
     rw [info_decode_active who first hfirst, info_decode_active who second hsecond, h]
 
