@@ -16,3 +16,6 @@ import GameTheory.Analysis.ReBeL.Examples.RootDecomposition
 import GameTheory.Analysis.ReBeL.RegretMatching
 import GameTheory.Analysis.ReBeL.CFRTrace
 import GameTheory.Analysis.ReBeL.PayoffBounds
+import GameTheory.Analysis.ReBeL.RootRegretBounds
+import GameTheory.Analysis.ReBeL.WeightedAverage
+import GameTheory.Analysis.ReBeL.OwnReachAverage

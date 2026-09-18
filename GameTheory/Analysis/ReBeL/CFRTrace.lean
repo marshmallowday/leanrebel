@@ -49,6 +49,7 @@ theorem cfrProfile_at_site (fallback : (who : ι) → M.Policy who) (state : CFR
   classical
   unfold cfrProfile
   rw [dif_pos site.2]
+  rfl
 
 variable [Fintype ι] [DecidableEq ι] [Fintype E.History]
 variable [∀ who, DecidableEq (M.InfoState who)]
@@ -70,6 +71,17 @@ def cfrState (clock : ObservationClock M) (fallback : (who : ι) → M.Policy wh
 def cfrPlay (clock : ObservationClock M) (fallback : (who : ι) → M.Policy who)
     (payoff : ι → E.History → ℝ) (horizon n : ℕ) : Profile M.behavioralSignature :=
   cfrProfile M fallback (cfrState M clock fallback payoff horizon n)
+
+/-- A pointwise recurrence preserves the named information-site carrier
+instead of exposing a semireducible dependent function during rewriting. -/
+theorem cfrState_succ_at (clock : ObservationClock M)
+    (fallback : (who : ι) → M.Policy who) (payoff : ι → E.History → ℝ)
+    (horizon n : ℕ) (who : ι) (site : M.InformationSite who) :
+    cfrState M clock fallback payoff horizon (n + 1) who site =
+      ((n : ℝ) / ((n : ℝ) + 1)) • cfrState M clock fallback payoff horizon n who site +
+        (1 / ((n : ℝ) + 1)) • M.localCounterfactualRegretVector
+          (cfrPlay M clock fallback payoff horizon n) who site (payoff who)
+          (horizon - clock.depth who site.1) := rfl
 
 /-- With no completed iterations, every information-local law is the supplied
 fallback. This fixes the indexing and does not silently insert a warm start. -/
@@ -115,11 +127,7 @@ theorem cfrState_eq_avgVec (clock : ObservationClock M) (hrecall : M.PerfectReca
   induction n with
   | zero => rfl
   | succ n ih =>
-      have hreal := cfr_instantaneous_realization M clock hrecall fallback payoff
-        horizon n who site
-      simp only [cfrPlay] at hreal
-      rw [cfrState, hreal]
-      rw [ih]
+      rw [cfrState_succ_at, cfr_instantaneous_realization M clock hrecall, ih]
       rfl
 
 /-- Every table equals the sum of the actual canonical local regrets divided
@@ -138,8 +146,8 @@ theorem cfrState_smul_eq_sum (clock : ObservationClock M)
       have c1 : ((n : ℝ) + 1) * ((n : ℝ) / ((n : ℝ) + 1)) = (n : ℝ) := by
         field_simp
       have c2 : ((n : ℝ) + 1) * (1 / ((n : ℝ) + 1)) = 1 := by field_simp
-      rw [Finset.sum_range_succ, ← ih]
-      simp only [Nat.cast_add, Nat.cast_one, cfrState, cfrPlay]
+      rw [Finset.sum_range_succ, ← ih, cfrState_succ_at]
+      simp only [Nat.cast_add, Nat.cast_one]
       rw [smul_add, smul_smul, smul_smul, c1, c2, one_smul]
 
 /-- Uniformly bounded canonical action values supply a finite-time bound to
