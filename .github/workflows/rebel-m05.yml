@@ -14,16 +14,9 @@ concurrency:
 
 jobs:
   compile:
-    name: M05 ${{ matrix.module }}
+    name: M05 dependency-closed build
     runs-on: ubuntu-latest
     timeout-minutes: 25
-    strategy:
-      fail-fast: false
-      matrix:
-        module:
-          - Examples.ValueGeometry
-          - BeliefExistence
-          - PBSInfoValue
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -34,7 +27,7 @@ jobs:
         with:
           auto-config: false
           build: true
-          build-args: GameTheory.Analysis.ReBeL.${{ matrix.module }}
+          build-args: GameTheory.Analysis.ReBeL.M05
           test: false
           lint: false
           use-mathlib-cache: true

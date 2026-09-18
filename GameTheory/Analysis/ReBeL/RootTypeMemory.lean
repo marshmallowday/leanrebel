@@ -87,6 +87,7 @@ def fullRootTypeMemory (observations : List M.PublicSignal) (who : ι) {T : Type
     intro fuel reaches
     have depth : (publicTrace (fullInformation M).toInfoSignals first.trace).length =
         first.trace.length + 1 := by
+      clear hpublic reaches
       rcases first with ⟨state, trace⟩
       induction trace with
       | start => rfl
