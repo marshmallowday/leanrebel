@@ -8,3 +8,5 @@ canonical Protocol execution and information, rather than a parallel model.
 
 import GameTheory.Analysis.ReBeL.LocalRegret
 import GameTheory.Analysis.ReBeL.Examples.LocalRegret
+import GameTheory.Analysis.ReBeL.ChronologicalLocality
+import GameTheory.Analysis.ReBeL.Examples.ChronologicalLocality
