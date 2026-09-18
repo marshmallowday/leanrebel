@@ -10,6 +10,7 @@ radially normalized expression in Appendix F: the latter need not be concave.
 import GameTheory.Analysis.ReBeL.TypeValue
 import GameTheory.Math.Probability.Simplex
 import Mathlib.Analysis.Convex.Function
+import Mathlib.Tactic.Convert
 
 noncomputable section
 
@@ -43,9 +44,8 @@ theorem value_concaveOn :
     have bound := add_le_add (mul_le_mul_of_nonneg_left hfirst' ha)
       (mul_le_mul_of_nonneg_left hsecond' hb)
     have result : a * value payoff first + b * value payoff second ≤
-        value payoff combined := by
-      exact bound.trans_eq (linear.symm.trans attained)
-    simpa only [combined, Pi.add_apply, Pi.smul_apply, smul_eq_mul] using result
+        value payoff combined := bound.trans_eq (linear.symm.trans attained)
+    convert! result using 1
 
 /-- Restricting the own weights to the existing probability simplex preserves
 concavity, including its boundary. -/
@@ -64,9 +64,9 @@ theorem centered_dot_eq (base point : T → ℝ) (opponent : FinDist B) :
         ((∑ t, point t) - ∑ t, base t) * value payoff base := by
   calc
     (∑ t, centeredVector payoff base opponent t * (point t - base t)) =
-        ∑ t, (point t * infoValue payoff opponent t -
+        ∑ t, ((point t * infoValue payoff opponent t -
           base t * infoValue payoff opponent t) -
-            (point t - base t) * value payoff base := by
+            (point t - base t) * value payoff base) := by
       apply Finset.sum_congr rfl
       intro t _
       unfold centeredVector
@@ -121,15 +121,9 @@ theorem centeredExtension_concaveOn (base : T → ℝ) :
       _ = ((a + b) - (a * (∑ t, first t) + b * ∑ t, second t)) *
           value payoff base := by ring
       _ = _ := by rw [hab]
-  calc
-    a • centeredExtension payoff base first + b • centeredExtension payoff base second =
-        (a * value payoff first + b * value payoff second) +
-          (1 - ∑ t, (a • first + b • second) t) * value payoff base := by
-      rw [← affine]
-      simp only [centeredExtension, smul_eq_mul]
-      ring
-    _ ≤ centeredExtension payoff base (a • first + b • second) :=
-      add_le_add_right bound _
+  simp only [smul_eq_mul] at bound ⊢
+  unfold centeredExtension
+  nlinarith only [bound, affine]
 
 /-- Global support on the repaired extension. Both the base and candidate
 may lie on the boundary; no division by a type probability occurs. -/

@@ -53,3 +53,5 @@ import GameTheory.Analysis.ReBeL.TypeValue
 import GameTheory.Analysis.ReBeL.ValueGeometry
 import GameTheory.Analysis.ReBeL.ContinuationConsistency
 import GameTheory.Analysis.ReBeL.ContinuationRealization
+import GameTheory.Analysis.ReBeL.ValueEnvelopeBridge
+import GameTheory.Analysis.ReBeL.Examples.ValueRadial

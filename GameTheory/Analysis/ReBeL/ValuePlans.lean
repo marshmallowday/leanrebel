@@ -58,9 +58,9 @@ theorem exists_planGame_nash [∀ i, Fintype (E.Action i)]
     (utility : E.History → Fin 2 → ℝ) :
     ∃ mixed : Profile (planGame M fallback belief fuel).sig.mixed,
       IsNash (planGame M fallback belief fuel).mixed (euPreference utility) mixed := by
-  letI : ∀ i, Fintype (FinitePlan M i) := fun i => finitePlanFintype M i
-  letI : ∀ i, Nonempty (FinitePlan M i) := fun i => ⟨fun info => fallback i info.1⟩
-  exact exists_isNash_mixed utility
+  let : ∀ i, Fintype (FinitePlan M i) := fun i => finitePlanFintype M i
+  let : ∀ i, Nonempty (FinitePlan M i) := fun i => ⟨fun info => fallback i info.1⟩
+  exact exists_isNash_mixed (F := planGame M fallback belief fuel) utility
 
 /-- The existing minimax theorem applies to this concrete PBS-rooted game,
 not to an unrelated supplied payoff matrix. The quantifiers cover every
@@ -75,9 +75,9 @@ theorem exists_planGame_value [∀ i, Fintype (E.Action i)]
         ((planGame M fallback belief fuel).mixed.play (Profile.update mixed 1 column))) ∧
       ∀ other, IsSaddlePoint (F := planGame M fallback belief fuel) utility other →
         expectedUtility utility 0 ((planGame M fallback belief fuel).mixed.play other) = value := by
-  letI : ∀ i, Fintype (FinitePlan M i) := fun i => finitePlanFintype M i
-  letI : ∀ i, Nonempty (FinitePlan M i) := fun i => ⟨fun info => fallback i info.1⟩
-  exact exists_value utility hzero
+  let : ∀ i, Fintype (FinitePlan M i) := fun i => finitePlanFintype M i
+  let : ∀ i, Nonempty (FinitePlan M i) := fun i => ⟨fun info => fallback i info.1⟩
+  exact exists_value (F := planGame M fallback belief fuel) utility hzero
 
 /-- Equilibrium nonuniqueness does not make the PBS plan-game value ambiguous. -/
 theorem planGame_nash_value_eq (fallback : Profile M.strategicSignature)
