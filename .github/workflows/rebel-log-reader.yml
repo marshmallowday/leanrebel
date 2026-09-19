@@ -19,37 +19,58 @@ jobs:
     steps:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          name: rebel-validation-18d11b3daed088545c3afdd4a610b4941c194bee
-          run-id: 35402953535
+          name: rebel-validation-44cd2d674b5b94713407c450a8bfd0d6f6a0e191
+          run-id: 35410325950
           github-token: ${{ github.token }}
           path: saved-validation
-      - name: Extract the existing failure without rerunning or changing its result
+      - name: Extract existing compiler evidence without changing its result
         id: extract
         shell: bash
         run: |
           python3 - <<'PY'
-          import json, os, re
+          import hashlib, json, os, re
           from pathlib import Path
           files = list(Path('saved-validation').rglob('rebel-validation.log'))
           if len(files) != 1:
               raise SystemExit('Expected one saved validation log')
-          text = files[0].read_text(encoding='utf-8', errors='replace')
-          lines = text.splitlines()
-          selected = set()
-          for index, line in enumerate(lines):
-              if re.search(r'(^error:|: error:|^warning:|: warning:|Error|failed|unsolved goals)', line):
-                  selected.update(range(max(0, index - 1), min(len(lines), index + 12)))
-          excerpt = '\n'.join(lines[i] for i in sorted(selected))
-          if not excerpt:
-              excerpt = text[-4400:]
-          excerpt = excerpt[:4400]
-          chunks = [f'{i // 180:02d}: ' + excerpt[i:i+180].replace('\n', ' | ')
-                    for i in range(0, len(excerpt), 180)]
-          if not chunks:
-              chunks = ['The saved log contains no text.']
+          raw = files[0].read_bytes()
+          lines = raw.decode('utf-8', errors='strict').splitlines()
+          names = set('''exists_publicBelief_nash behavioralBeliefForm
+          infoValue_isGreatest simultaneousResponse_attains branch_attained branch_isGreatest
+          weightedBranch_linear branch_eq_equilibriumPayoff branch_isLeast_of_nash
+          value_eq_equilibriumPayoff exists_nash_with_value branch_eq_value_iff_nashOpponent
+          value_concaveOn_simplex allSpaceExtension_concave allSpaceExtension_support
+          theorem1_canonicalPBS averaged_global_support fullAOHBeliefSlice_eq theorem1_fullAOH
+          normalize_hasFDerivAt normalizationJacobian_apply normalizationJacobian_mass_one
+          normalizationJacobian_coordinate normalizedBranch_hasFDerivAt contraction_eq_centered
+          normalizedBranch_centered_derivative centeredMap_coordinate
+          conditional_coordinate_derivative_zero twoStage_joint_theorem1
+          valueSlice_correlation_control radialValue_eq radialValue_hasFDerivAt
+          radial_gradient_not_supporting radialValue_not_concave zero_mass_type_control
+          arbitrary_linear_combination_not_supporting coinSimplexValue_eq
+          coinSimplexValue_not_differentiable coin_nonunique_opponents coin_midpoint_support'''.split())
+          selected = [lines[0], 'LOG_SHA256=' + hashlib.sha256(raw).hexdigest()]
+          for line in lines:
+              if line.startswith(('REBEL_AXIOM_AUDIT_PASS ', 'REBEL_VALIDATION_PASS ')):
+                  selected.append(line)
+              elif line.startswith('REBEL_AXIOMS '):
+                  name = line[len('REBEL_AXIOMS '):].split(':', 1)[0]
+                  if name.startswith('GameTheory.ReBeL.') and name.rsplit('.', 1)[-1] in names:
+                      selected.append(line)
+          if not any(x.startswith('REBEL_VALIDATION_PASS ') for x in selected):
+              raise SystemExit('Saved source does not contain a complete validation pass')
+          modules = [x.removeprefix('REBEL_AUDIT_MODULE ') for x in lines
+                     if x.startswith('REBEL_AUDIT_MODULE ')]
+          linted = [x.removeprefix('REBEL_LINT_PASS ') for x in lines
+                    if x.startswith('REBEL_LINT_PASS ')]
+          selected.append(f'BUILD_MODULES={len(modules)} LINT_MODULES={len(linted)} '
+                          f'SAME_SURFACE={set(modules) == set(linted)}')
+          rows = [f'{i:02d}: {line}' for i, line in enumerate(selected)]
+          if len(rows) > 100 or any(len(row) > 245 for row in rows):
+              raise SystemExit('Transport bound exceeded; do not truncate proof evidence')
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as out:
-              out.write('diagnostics=' + json.dumps(chunks, ensure_ascii=True) + '\n')
-          print(excerpt)
+              out.write('diagnostics=' + json.dumps(rows, ensure_ascii=True) + '\n')
+          print('\n'.join(selected))
           PY
   expose:
     needs: extract
@@ -58,8 +79,9 @@ jobs:
     timeout-minutes: 2
     strategy:
       fail-fast: false
+      max-parallel: 10
       matrix:
         diagnostic: ${{ fromJSON(needs.extract.outputs.diagnostics) }}
     steps:
-      - name: Diagnostic transport only; the original validation remains failed
-        run: echo 'Read the job name for an ordered excerpt from the saved compiler log.'
+      - name: Read-only evidence transport; original validation is authoritative
+        run: echo 'The job name contains an exact line from the saved audit, or explicit metadata.'
