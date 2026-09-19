@@ -87,12 +87,14 @@ theorem ownReachAverage_security_of_regret (hrecall : M.PerfectRecall)
       (M.runBehavioral profile horizon).expect (payoff 1) =
         -(M.runBehavioral profile horizon).expect (payoff 0) :=
     hzero.expectedUtility_one _
-  fin_cases who
+  rcases (by decide : ∀ player : Fin 2, player = 0 ∨ player = 1) who with rfl | rfl
   · have hs := ownReachAverage_saddle_of_regret M hrecall seed plays fallback horizon payoff
       hzero error regret (reference 0) (unknown 1)
     have he : (M.runBehavioral (Profile.update reference 1 (average 1)) horizon).expect
         (payoff 1) ≤ (M.runBehavioral reference horizon).expect (payoff 1) :=
-      (isNash_iff reference).mp equilibrium 1 (average 1)
+      (isNash_iff (F := M.toBehavioralGameForm horizon)
+        (weaklyPrefers := euPreference (fun history who => payoff who history))
+        reference).mp equilibrium 1 (average 1)
     rw [hz, hz, ← twoPlayer_cross_profile M average reference] at he
     rw [twoPlayer_cross_profile M unknown average]
     dsimp only [average] at he ⊢
@@ -101,7 +103,9 @@ theorem ownReachAverage_security_of_regret (hrecall : M.PerfectRecall)
       hzero error regret (unknown 0) (reference 1)
     have he : (M.runBehavioral (Profile.update reference 0 (average 0)) horizon).expect
         (payoff 0) ≤ (M.runBehavioral reference horizon).expect (payoff 0) :=
-      (isNash_iff reference).mp equilibrium 0 (average 0)
+      (isNash_iff (F := M.toBehavioralGameForm horizon)
+        (weaklyPrefers := euPreference (fun history who => payoff who history))
+        reference).mp equilibrium 0 (average 0)
     rw [twoPlayer_cross_profile M reference average] at he
     rw [hz, hz, ← twoPlayer_cross_profile M average unknown]
     dsimp only [average] at he ⊢
@@ -162,6 +166,7 @@ theorem cfrDDepth_private_security (clock : ObservationClock M)
     (fun player target => cfrDDepth_mean_regret_le_constants M clock hrecall fallback payoff
       cut remaining oracle bound error loss hb he hl bounded accurate optimal player target t)
     reference equilibrium unknown who
-  convert security using 1 <;> ring
+  convert security using 1
+  ring
 
 end GameTheory.ReBeL
