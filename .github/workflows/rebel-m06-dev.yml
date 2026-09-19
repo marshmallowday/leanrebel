@@ -65,6 +65,27 @@ jobs:
           PY
           lake exe cache get $(cat "$RUNNER_TEMP/m06-target-roots.txt")
           lake build $(cat scripts/rebel/m06-targets.txt) 2>&1 | tee -a "$RUNNER_TEMP/m06-targeted.log"
+      - name: Expose compiler diagnostics for read-only review
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os, re
+          path = Path(os.environ['RUNNER_TEMP']) / 'm06-targeted.log'
+          if not path.is_file():
+              raise SystemExit(0)
+          text = re.sub(r'\x1b\[[0-9;]*m', '', path.read_text())
+          start = re.compile(r'^error: (GameTheory/[^:\n]+\.lean):(\d+):(\d+): (.*)$', re.M)
+          matches = list(start.finditer(text))
+          def escape(value):
+              return value.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+          for index, match in enumerate(matches):
+              end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+              body = text[match.start():end].split('error: Lean exited with code')[0]
+              body = body.split('trace: .>')[0].rstrip()
+              print(f'::error file={match[1]},line={match[2]},col={match[3]}::{escape(body)}')
+          PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
