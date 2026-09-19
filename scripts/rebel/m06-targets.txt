@@ -5,3 +5,4 @@ GameTheory.Analysis.ReBeL.CFRDRegret
 GameTheory.ReBeL.OracleReweighting
 GameTheory.Analysis.ReBeL.DominatingReach
 GameTheory.Analysis.ReBeL.CFRDProbe
+GameTheory.Analysis.ReBeL.CFRDCutBackup
