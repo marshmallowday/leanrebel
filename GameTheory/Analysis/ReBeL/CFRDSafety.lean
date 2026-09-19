@@ -95,7 +95,7 @@ theorem ownReachAverage_security_of_regret (hrecall : M.PerfectRecall)
       (isNash_iff reference).mp equilibrium 1 (average 1)
     rw [hz, hz, ← twoPlayer_cross_profile M average reference] at he
     rw [twoPlayer_cross_profile M unknown average]
-    change _ ≤ (M.runBehavioral (Profile.update average 1 (unknown 1)) horizon).expect _
+    dsimp only [average] at he ⊢
     linarith
   · have hs := ownReachAverage_saddle_of_regret M hrecall seed plays fallback horizon payoff
       hzero error regret (unknown 0) (reference 1)
@@ -104,7 +104,7 @@ theorem ownReachAverage_security_of_regret (hrecall : M.PerfectRecall)
       (isNash_iff reference).mp equilibrium 0 (average 0)
     rw [twoPlayer_cross_profile M reference average] at he
     rw [hz, hz, ← twoPlayer_cross_profile M average unknown]
-    change _ ≤ -(M.runBehavioral (Profile.update average 0 (unknown 0)) horizon).expect _
+    dsimp only [average] at he ⊢
     linarith
 
 /-- One private seed selects the focal player's complete legal policy. The
