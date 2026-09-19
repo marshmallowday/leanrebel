@@ -22,7 +22,7 @@ variable {E : ExecutionProtocol.{0, us, ua} (Fin 2)}
 variable (M : InformationModel.{0, us, ua, up, uq, uk} E)
 variable {K : Type*}
 
-/-- Original private iteration and the newest-first list of private profile draws. -/
+/-- Original private iteration and newest-first history of selected model profiles. -/
 abbrev CarriedResolveMemory (K : Type*) := K × List (Profile M.behavioralSignature)
 
 /-- Until the first re-solve, use the original selected profile; afterwards,
@@ -38,8 +38,9 @@ def enterCarriedMemory (state : PrivateIterationState M K) :
   history := state.history
   belief := state.belief
 
-/-- Flatten a fresh private draw into retained memory while preserving the
-actual history and the model posterior already computed by the canonical step. -/
+/-- Flatten the retained profile into memory, preserving the actual history
+and the model posterior already computed by the canonical step. At a stopped
+stage the retained profile is unchanged; no fresh random query is made. -/
 def storeCarriedDraw
     (state : PrivateIterationState M
       (CarriedResolveMemory M K × Profile M.behavioralSignature)) :
@@ -201,6 +202,60 @@ theorem privateRecursiveResolve_inherits_bound (seed : FinDist K)
     simp only [FinDist.expect_map, privateCarriedContinue, FinDist.expect_bind,
       enterCarriedMemory, carriedSelectedTail, carriedMemoryProfile, List.headD_nil]
   rw [oldValue] at transferred
-  exact (by linarith : lower - (stages.map allowance).sum ≤ _)
+  unfold privateRecursiveResolve
+  linarith
+
+variable [Fintype E.History] [∀ who info, Fintype (M.Choice who info)]
+variable [∀ who, DecidableEq (M.InfoState who)]
+
+/-- The actual depth-limited CFR-D solver supplies the initial lower bound;
+only the subsequent stage-local comparisons remain separate assumptions.
+Numerical, continuation, finite-iteration and recursive replacement errors
+are all retained explicitly. The unknown opponent remains arbitrary and seed-blind. -/
+theorem cfrDDepth_recursive_security (clock : ObservationClock M)
+    (hrecall : M.PerfectRecall) (fallback : (who : Fin 2) → M.Policy who)
+    (payoff : Fin 2 → E.History → ℝ)
+    (hzero : IsZeroSum (fun history who => payoff who history))
+    (cut finalFuel : Nat) (oracle : CFRDValueOracle M) (bound error loss : ℝ)
+    (hb : 0 ≤ bound) (he : 0 ≤ error) (hl : 0 ≤ loss)
+    (bounded : ∀ who history, |payoff who history| ≤ bound)
+    (t : Nat) [NeZero t] (stages : List (CarriedResolveStage M (Fin t)))
+    (accurate : CFRDDepthAccurate M clock fallback payoff cut
+      (carriedResolveFuel M finalFuel stages) oracle error)
+    (optimal : CFRDDepthLeafOptimal M clock fallback payoff cut
+      (carriedResolveFuel M finalFuel stages) oracle loss)
+    (reference : Profile M.behavioralSignature)
+    (equilibrium : IsNash (M.toBehavioralGameForm
+      (cut + carriedResolveFuel M finalFuel stages))
+      (euPreference (fun history who => payoff who history)) reference)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2)
+    (allowance : CarriedResolveStage M (Fin t) → ℝ)
+    (bounds : CarriedResolveStepBounds M
+      (fun n : Fin t => cfrDDepthPlay M clock fallback payoff cut
+        (carriedResolveFuel M finalFuel stages) oracle n.val)
+      unknown who finalFuel (payoff who) allowance stages
+      ((privateCarriedPrefix M (cfrIterationLaw t)
+        (fun n : Fin t => cfrDDepthPlay M clock fallback payoff cut
+          (carriedResolveFuel M finalFuel stages) oracle n.val)
+        unknown who cut).map (enterCarriedMemory M))) :
+    (M.runBehavioral reference (cut + carriedResolveFuel M finalFuel stages)).expect
+        (payoff who) -
+      ((cfrDDepthErrorConstant M clock fallback cut (carriedResolveFuel M finalFuel stages) 0 +
+          cfrDDepthErrorConstant M clock fallback cut (carriedResolveFuel M finalFuel stages) 1) *
+          error +
+        (cfrDDepthFiniteConstant M clock fallback cut
+            (carriedResolveFuel M finalFuel stages) bound 0 +
+          cfrDDepthFiniteConstant M clock fallback cut
+            (carriedResolveFuel M finalFuel stages) bound 1) / Real.sqrt t +
+        2 * loss) - (stages.map allowance).sum ≤
+      (privateRecursiveResolve M (cfrIterationLaw t)
+        (fun n : Fin t => cfrDDepthPlay M clock fallback payoff cut
+          (carriedResolveFuel M finalFuel stages) oracle n.val)
+        unknown who cut finalFuel stages).expect (payoff who) := by
+  apply privateRecursiveResolve_inherits_bound
+  · exact cfrDDepth_carried_security M clock hrecall fallback payoff hzero cut
+      (carriedResolveFuel M finalFuel stages) oracle bound error loss hb he hl bounded
+      accurate optimal reference equilibrium unknown who t
+  · exact bounds
 
 end GameTheory.ReBeL

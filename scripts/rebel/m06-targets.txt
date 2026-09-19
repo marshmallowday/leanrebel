@@ -20,3 +20,4 @@ GameTheory.Analysis.ReBeL.Examples.CFRDResolveControl
 GameTheory.Analysis.ReBeL.Examples.CFRDResolveNegative
 GameTheory.Analysis.ReBeL.CFRDResolveBelief
 GameTheory.Analysis.ReBeL.CFRDRecursivePlay
+GameTheory.Analysis.ReBeL.Examples.CFRDEquilibriumReplacement
