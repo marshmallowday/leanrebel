@@ -34,7 +34,6 @@ private theorem cfrD_mean_algebra (c d bound error : ℝ)
   calc
     _ = c * (bound + error) * (Real.sqrt t / t) + d * error := by
       field_simp
-      <;> ring
     _ = c * (bound + error) / Real.sqrt t + d * error := by rw [inverse]; ring
     _ = c * bound / Real.sqrt t + c * error / Real.sqrt t + d * error := by ring
     _ ≤ c * bound / Real.sqrt t + c * error + d * error := by linarith
@@ -73,8 +72,10 @@ theorem cfrDTrunkSiteBudget_mean_le (fallback : (who : ι) → M.Policy who)
   have h := cfrD_mean_algebra (cfrDSiteFiniteCoefficient M fallback who site)
     (2 / cfrDStructuralReach M fallback who site) bound error
     (cfrDSiteFiniteCoefficient_nonneg M fallback who site) he t
-  convert h using 1 <;>
-    unfold cfrDTrunkSiteBudget cfrDSiteErrorCoefficient cfrDSiteFiniteCoefficient <;> ring
+  convert h using 1
+  · unfold cfrDTrunkSiteBudget cfrDSiteFiniteCoefficient
+    ring
+  · rfl
 
 variable [Fintype ι] [DecidableEq ι] [Fintype E.History]
 variable [∀ who, DecidableEq (M.InfoState who)]
@@ -101,7 +102,7 @@ theorem cfrDDepthMeanBudget_le_constants (clock : ObservationClock M)
       cfrDDepthErrorConstant M clock fallback cut remaining who * error +
         cfrDDepthFiniteConstant M clock fallback cut remaining bound who / Real.sqrt t + loss := by
   unfold cfrDDepthMeanBudget cfrDTrunkBudget cfrDDepthErrorConstant cfrDDepthFiniteConstant
-  apply add_le_add_right
+  apply add_le_add _ (le_refl loss)
   generalize scheduledSites M clock (cut + remaining) who = sites
   induction sites with
   | nil => simp
