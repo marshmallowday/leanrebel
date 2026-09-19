@@ -71,3 +71,4 @@ import GameTheory.Analysis.ReBeL.ValueDifferential
 import GameTheory.Analysis.ReBeL.PBSTheorem1
 import GameTheory.Analysis.ReBeL.Examples.ValuePBS
 import GameTheory.Analysis.ReBeL.CFRDTrace
+import GameTheory.Analysis.ReBeL.CFRDRegret
