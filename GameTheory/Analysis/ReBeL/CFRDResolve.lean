@@ -66,10 +66,14 @@ theorem privateResolvedLoss_stopped (plays : K → Profile M.behavioralSignature
     (who : Fin 2) (cut remaining : Nat) (payoff : E.History → ℝ)
     (iteration : K) (history : E.History)
     (stopped : cfrDCutLive remaining history ≠ true) :
-    privateResolvedLoss M plays resolver unknown who cut remaining payoff iteration history = 0 := by
-  unfold privateResolvedLoss carriedResolvedTail
-  dsimp only [privateIterationState]
-  rw [if_neg stopped, FinDist.expect_pure,
+    privateResolvedLoss M plays resolver unknown who cut remaining payoff
+      iteration history = 0 := by
+  have tail : carriedResolvedTail M resolver unknown who remaining
+      (privateIterationState M plays cut iteration history) = FinDist.pure history := by
+    unfold carriedResolvedTail
+    exact if_neg stopped
+  unfold privateResolvedLoss
+  rw [tail, FinDist.expect_pure,
     cfrDCutValue_stopped M _ payoff remaining history stopped, sub_self]
 
 /-- A stopped conditional fiber also has zero replacement loss. -/
