@@ -36,10 +36,13 @@ theorem replacement_zeroSum : IsZeroSum replacementUtility := by
 all legal deviations checked in the canonical equilibrium predicate. -/
 theorem replacement_isNash (row : Fin 3) (good : row = 0 ∨ row = 1) :
     IsNash form (euPreference replacementUtility) (strategy row) := by
+  have zero_ne_two : (0 : Fin 3) ≠ 2 := by decide
+  have one_ne_two : (1 : Fin 3) ≠ 2 := by decide
   rcases good with rfl | rfl <;>
     rw [isNash_iff] <;> intro who alternative <;>
     fin_cases who <;> fin_cases alternative <;>
-    norm_num [form, strategy, replacementUtility, replacementPayoff]
+    norm_num [form, strategy, replacementUtility, replacementPayoff,
+      zero_ne_two, one_ne_two] <;> split_ifs <;> norm_num
 
 /-- The canonical common-equilibrium-value theorem remains valid. -/
 theorem replacement_same_equilibrium_value :
@@ -54,8 +57,11 @@ theorem replacement_security (row : Fin 3) (good : row = 0 ∨ row = 1)
     (opponent : Fin 3) :
     0 ≤ expectedUtility replacementUtility 0
       (form.play (Profile.update (strategy row) 1 opponent)) := by
+  have zero_ne_two : (0 : Fin 3) ≠ 2 := by decide
+  have one_ne_two : (1 : Fin 3) ≠ 2 := by decide
   rcases good with rfl | rfl <;> fin_cases opponent <;>
-    norm_num [form, strategy, replacementUtility, replacementPayoff]
+    norm_num [form, strategy, replacementUtility, replacementPayoff,
+      zero_ne_two, one_ne_two]
 
 /-- Changing between the exact Nash strategies loses one unit against the
 same fixed weak opponent, despite preserving the worst-case guarantee. -/
@@ -64,7 +70,10 @@ theorem replacement_loses_one :
         (form.play (Profile.update (strategy 1) 1 (1 : Fin 3))) -
       expectedUtility replacementUtility 0
         (form.play (Profile.update (strategy 0) 1 (1 : Fin 3))) = 1 := by
-  norm_num [form, strategy, replacementUtility, replacementPayoff]
+  have zero_ne_two : (0 : Fin 3) ≠ 2 := by decide
+  have one_ne_two : (1 : Fin 3) ≠ 2 := by decide
+  norm_num [form, strategy, replacementUtility, replacementPayoff,
+    zero_ne_two, one_ne_two]
 
 /-- An explicit regression guard against inferring pointwise no-loss from
 ordinary Nash: both premises hold while the proposed conclusion is false. -/
