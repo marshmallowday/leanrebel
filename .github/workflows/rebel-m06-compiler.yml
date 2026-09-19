@@ -77,20 +77,54 @@ jobs:
           cp lake-manifest.json "$RUNNER_TEMP/m06-lake-manifest.json"
           cd "$RUNNER_TEMP"
           sha256sum m06-toolchain.tar.zst m06-dependencies.tar.zst > m06-export-sha256.txt
+          # The connector has a 512 MiB per-artifact download limit.
+          split -b 400000000 m06-toolchain.tar.zst m06-toolchain-part-
+          split -b 400000000 m06-dependencies.tar.zst m06-dependencies-part-
+          sha256sum m06-toolchain-part-* m06-dependencies-part-* >> m06-export-sha256.txt
+          test "$(find . -maxdepth 1 -name 'm06-toolchain-part-*' | wc -l)" -le 3
+          test "$(find . -maxdepth 1 -name 'm06-dependencies-part-*' | wc -l)" -le 3
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: m06-toolchain-${{ github.sha }}
-          path: ${{ runner.temp }}/m06-toolchain.tar.zst
+          name: m06-toolchain-aa-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-toolchain-part-aa
           compression-level: 0
           retention-days: 3
           if-no-files-found: error
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: m06-dependencies-${{ github.sha }}
-          path: ${{ runner.temp }}/m06-dependencies.tar.zst
+          name: m06-toolchain-ab-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-toolchain-part-ab
           compression-level: 0
           retention-days: 3
           if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: m06-toolchain-ac-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-toolchain-part-ac
+          compression-level: 0
+          retention-days: 3
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: m06-dependencies-aa-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-dependencies-part-aa
+          compression-level: 0
+          retention-days: 3
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: m06-dependencies-ab-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-dependencies-part-ab
+          compression-level: 0
+          retention-days: 3
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: m06-dependencies-ac-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-dependencies-part-ac
+          compression-level: 0
+          retention-days: 3
+          if-no-files-found: warn
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
