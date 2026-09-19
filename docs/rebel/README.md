@@ -2,7 +2,7 @@
 
 この fork の目的は Brown, Bakhtin, Lerer, Gong (2020) の ReBeL を、本文・補遺・アルゴリズム変種・学習/数値実装まで追跡して Lean で形式化することです。Theorem 1–3 や抽象 value oracle だけでは最終完了にしません。
 
-**M04 の全ゲーム CFR、全行動戦略への有限反復保証、有理数基準 solver と具体例の refinement を検証済みです。対象範囲・実装 SHA・CI は [M04.md](M04.md) と [STATUS.md](STATUS.md) を参照してください。ReBeL 全体の形式化は未完了です。**
+**M05 の有限ゲームにおける PBS 均衡値・infostate 最適反応・Theorem 1 の採用解釈を検証済みです。補遺の径方向拡張や任意線形結合に関する誤った主張は、修正版と区別して反証を記録しました。[M05.md](M05.md)、[M05-validation.md](M05-validation.md)、[STATUS.md](STATUS.md) を参照してください。M04 の CFR と有理数 solver の成果は維持され、ReBeL 全体の形式化は M06-M11 が未完了です。**
 
 ## 読む順序
 
