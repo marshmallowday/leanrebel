@@ -80,7 +80,6 @@ theorem conditionalOracle_weighted_expect (law : FinDist Leaf)
   apply FinDist.expect_congr
   intro leaf reached
   rw [conditionalOracle_support law observe info sampled leaf reached]
-  rfl
 
 /-- Nonnegative bounded information-local reach coefficients propagate the
 vector error, without replacing conditional values by hidden-state values. -/
@@ -93,7 +92,7 @@ theorem conditionalOracle_weighted_error (law : FinDist Leaf)
       |prediction info - conditionalOracleValue law observe value info| ≤ error) :
     |(law.map observe).expect (fun info => weight info * prediction info) -
       law.expect (fun leaf => weight (observe leaf) * value leaf)| ≤ bound * error := by
-  rw [conditionalOracle_weighted_expect, ← FinDist.expect_sub]
+  rw [conditionalOracle_weighted_expect law observe value weight, ← FinDist.expect_sub]
   apply FinDist.abs_expect_le_of_abs_bound
   intro info sampled
   rw [← mul_sub, abs_mul, abs_of_nonneg (weight_bound info sampled).1]
@@ -156,7 +155,7 @@ law is conditioned on public observations; a private Bayes law is not used as
 its replacement. Each query retains the profile index that generated it. -/
 def frontierIterationQueries (frontier : PublicFrontier M.toInfoSignals)
     (plays : Nat → Profile M.behavioralSignature) (iteration fuel : Nat)
-    (history : E.History) : FinDist (Σ public, PublicBelief M.toInfoSignals public) :=
+    (history : E.History) : FinDist (Σ observation, PublicBelief M.toInfoSignals observation) :=
   PublicBelief.split ((frontierRun M frontier (plays iteration) fuel history).map Prod.snd)
 
 /-- Drawing a queried PBS and then its history recovers the current iteration's
