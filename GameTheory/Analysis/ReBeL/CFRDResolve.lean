@@ -83,7 +83,7 @@ theorem privateResolvedLoss_conditional_stopped
     (cut remaining : Nat) (payoff : E.History → ℝ) (iteration : K)
     (law : FinDist E.History) (info : M.InfoState opponent)
     (sampled : (info, false) ∈ (law.map fun history =>
-      (M.infoOf opponent history.trace, cfrDCutLive remaining history))).support) :
+      (M.infoOf opponent history.trace, cfrDCutLive remaining history)).support) :
     conditionalOracleValue law
       (fun history => (M.infoOf opponent history.trace, cfrDCutLive remaining history))
       (privateResolvedLoss M plays resolver unknown who cut remaining payoff iteration)
