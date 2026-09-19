@@ -22,6 +22,9 @@ class InventoryTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
         shutil.copytree(ROOT / "docs/rebel", self.root / "docs/rebel")
+        # This temporary M01-B fixture predates all live acceptance journals.
+        # Live preservation tests below still validate the complete current ledger.
+        shutil.rmtree(self.root / "docs/rebel/coverage-updates", ignore_errors=True)
         reuse = json.loads((self.root / "docs/rebel/inventory/reuse.json").read_text())
         for item in reuse["items"]:
             path = self.root / item["module"]
