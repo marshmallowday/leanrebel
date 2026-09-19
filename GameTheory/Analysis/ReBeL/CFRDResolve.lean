@@ -83,7 +83,7 @@ theorem privateResolvedLoss_conditional_stopped
     (cut remaining : Nat) (payoff : E.History → ℝ) (iteration : K)
     (law : FinDist E.History) (info : M.InfoState opponent)
     (sampled : (info, false) ∈ (law.map fun history =>
-      (M.infoOf opponent history.trace, cfrDCutLive remaining history)).support) :
+      (M.infoOf opponent history.trace, cfrDCutLive remaining history))).support) :
     conditionalOracleValue law
       (fun history => (M.infoOf opponent history.trace, cfrDCutLive remaining history))
       (privateResolvedLoss M plays resolver unknown who cut remaining payoff iteration)
@@ -182,8 +182,6 @@ theorem privateCarriedResolve_loss_le (hrecall : M.PerfectRecall)
   apply FinDist.expect_le_of_forall
   intro iteration _
   rw [FinDist.expect_bind, FinDist.expect_bind, ← FinDist.expect_sub]
-  change (M.runBehavioral (Profile.update unknown who (plays iteration who)) cut).expect
-    (privateResolvedLoss M plays resolver unknown who cut remaining payoff iteration) ≤ loss
   exact privateResolvedLoss_prefix_le M hrecall plays resolver fallback unknown who opponent
     different cut remaining payoff loss nonneg localBound iteration
 

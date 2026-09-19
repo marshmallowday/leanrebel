@@ -93,3 +93,4 @@ import GameTheory.Analysis.ReBeL.PBSLeafOptimality
 import GameTheory.Analysis.ReBeL.Examples.CFRDLiveControl
 import GameTheory.Analysis.ReBeL.CFRDResolve
 import GameTheory.Analysis.ReBeL.CFRDResolveSafety
+import GameTheory.Analysis.ReBeL.Examples.CFRDResolveControl
