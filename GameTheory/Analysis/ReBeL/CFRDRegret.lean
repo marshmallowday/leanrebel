@@ -136,7 +136,8 @@ theorem cfrD_site_cumulative_le (trunk : CFRDTrunk M)
     (law : FinDist (M.Choice who site.1)) (t : Nat) :
     (∑ n ∈ Finset.range t, law.expect
       (M.counterfactualActionRegret (cfrDPlay M trunk fallback oracle n)
-        who site payoff fuel)) ≤ cfrDSiteBudget M trunk who site scoreBound scoreError tailError t := by
+        who site payoff fuel)) ≤
+      cfrDSiteBudget M trunk who site scoreBound scoreError tailError t := by
   by_cases searched : trunk who site.1 = true
   · rw [cfrDSiteBudget, if_pos searched]
     have hstep (n : Nat) :

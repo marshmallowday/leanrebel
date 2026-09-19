@@ -110,7 +110,8 @@ theorem cfrDState_succ_at (trunk : CFRDTrunk M)
     cfrDState M trunk fallback oracle (n + 1) who site =
       ((n : ℝ) / ((n : ℝ) + 1)) • cfrDState M trunk fallback oracle n who site +
         (1 / ((n : ℝ) + 1)) • regretPayoff
-          (fun choice (k : Nat) => (cfrDQuery M trunk fallback oracle k).actionValue who site choice)
+          (fun choice (k : Nat) =>
+            (cfrDQuery M trunk fallback oracle k).actionValue who site choice)
           (regretMatchWith (fallback who site.1)
             (cfrDState M trunk fallback oracle n who site)) n := by
   simp only [cfrDState, searched, if_true, cfrDQuery, cfrProfile_at_site]

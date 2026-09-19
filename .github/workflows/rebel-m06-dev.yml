@@ -2,7 +2,7 @@ name: M06 targeted proof feedback
 
 on:
   push:
-    branches: ['rebel/m06']
+    branches: ['rebel/m06', 'rebel/m06-recovery']
     paths:
       - 'GameTheory/ReBeL/**'
       - 'GameTheory/Analysis/ReBeL/**'
