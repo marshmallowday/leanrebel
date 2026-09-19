@@ -17,10 +17,12 @@ namespace GameTheory.ReBeL.Examples.HiddenTypes
 open GameTheory.Protocol GameTheory.Protocol.InformationModel
 open GameTheory.Math.Probability
 
-local instance : Fintype (protocol fullPrior).History := historyFintype fullPrior
-local instance (who : Player) : DecidableEq ((model fullPrior).InfoState who) :=
+local instance cfrDControlHistoryFintype : Fintype (protocol fullPrior).History :=
+  historyFintype fullPrior
+local instance cfrDControlInfoDecidable (who : Player) :
+    DecidableEq ((model fullPrior).InfoState who) :=
   Classical.decEq _
-local instance (who : Player) (info : (model fullPrior).InfoState who) :
+local instance cfrDControlChoiceFintype (who : Player) (info : (model fullPrior).InfoState who) :
     Fintype ((model fullPrior).Choice who info) := by
   classical
   infer_instance

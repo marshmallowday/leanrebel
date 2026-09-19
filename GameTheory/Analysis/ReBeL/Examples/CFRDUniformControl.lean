@@ -18,9 +18,10 @@ namespace GameTheory.ReBeL.Examples.ModifiedRPS
 open GameTheory.Protocol GameTheory.Protocol.InformationModel
 open GameTheory.Languages GameTheory.Math.Probability
 
-local instance : Nonempty Move := ⟨Move.rock⟩
+local instance uniformControlMoveNonempty : Nonempty Move := ⟨Move.rock⟩
 
-local instance (who : Fin 2) : Nonempty (source.Action who) := ⟨Move.rock⟩
+local instance uniformControlActionNonempty (who : Fin 2) : Nonempty (source.Action who) :=
+  ⟨Move.rock⟩
 
 /-- A fixed action is lifted to the full information-local policy interface. -/
 def uniformControlPolicy (who : Fin 2) (move : Move) : fullModel.Policy who :=
