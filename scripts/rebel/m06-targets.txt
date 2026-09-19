@@ -17,3 +17,4 @@ GameTheory.Analysis.ReBeL.Examples.CFRDLiveControl
 GameTheory.Analysis.ReBeL.CFRDResolve
 GameTheory.Analysis.ReBeL.CFRDResolveSafety
 GameTheory.Analysis.ReBeL.Examples.CFRDResolveControl
+GameTheory.Analysis.ReBeL.Examples.CFRDResolveNegative

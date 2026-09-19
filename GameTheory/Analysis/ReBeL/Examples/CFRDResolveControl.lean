@@ -148,7 +148,7 @@ theorem livePublicResolver_security
       (privateCarriedResolve (model fullPrior) (cfrIterationLaw t)
         (liveResolvePlays (fun n : Fin t => n.val)) (livePublicResolver (Fin t))
         unknown who 2 1).expect (cfrPayoff who) := by
-  simpa only [mul_zero, zero_add, add_zero] using
+  simpa only [liveResolvePlays, mul_zero, zero_add, add_zero] using
     cfrDDepth_resolved_security (model fullPrior) decisionClock (perfectRecall fullPrior)
       cfrFallback cfrPayoff (cumulative_zeroSum fullPrior) 2 1 liveControlOracle 2 0 0
       (by norm_num) (le_refl _) (le_refl _) cfrPayoff_abs_le_two
