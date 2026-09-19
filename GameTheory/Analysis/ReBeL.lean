@@ -76,3 +76,4 @@ import GameTheory.Analysis.ReBeL.DominatingReach
 import GameTheory.Analysis.ReBeL.CFRDProbe
 import GameTheory.Analysis.ReBeL.CFRDCutBackup
 import GameTheory.Analysis.ReBeL.CFRDCutDriver
+import GameTheory.Analysis.ReBeL.CFRDSearch
