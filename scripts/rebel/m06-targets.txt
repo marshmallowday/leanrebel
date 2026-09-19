@@ -15,3 +15,4 @@ GameTheory.Analysis.ReBeL.Examples.CFRDSeedControl
 GameTheory.Analysis.ReBeL.PBSLeafOptimality
 GameTheory.Analysis.ReBeL.Examples.CFRDLiveControl
 GameTheory.Analysis.ReBeL.CFRDResolve
+GameTheory.Analysis.ReBeL.CFRDResolveSafety
