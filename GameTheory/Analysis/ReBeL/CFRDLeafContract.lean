@@ -99,7 +99,7 @@ def CFRDLeafOptimal (base : Profile M.behavioralSignature)
 
 /-- Local continuation optimality controls the remaining root difference
 under every unilateral prefix. The actual cut law is not replaced by a guessed
-posterior, and there is no assumption about the opponent following our model. -/
+posterior, and no positive factual own-reach premise is imposed. -/
 theorem cfrDLeafOptimal_tail_gain_le (clock : ObservationClock M)
     (hrecall : M.PerfectRecall) (base : Profile M.behavioralSignature)
     (fallback : (who : ι) → M.Policy who) (who : ι) (target : M.BehavioralPolicy who)
@@ -118,7 +118,7 @@ theorem cfrDLeafOptimal_tail_gain_le (clock : ObservationClock M)
     (cfrDLeafGain M base who target payoff remaining) loss
   rintro ⟨info, flag⟩ sampled
   cases flag
-  · rw [cfrDLeafGain_conditional_stopped _ base who target payoff remaining info sampled]
+  · rw [cfrDLeafGain_conditional_stopped M _ base who target payoff remaining info sampled]
     exact nonneg
   · exact optimal target info sampled
 
