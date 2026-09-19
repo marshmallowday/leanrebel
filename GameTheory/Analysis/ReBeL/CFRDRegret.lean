@@ -109,8 +109,11 @@ theorem cfrD_score_abs_le (trunk : CFRDTrunk M)
   calc
     _ ≤ |(cfrDQuery M trunk fallback oracle n).actionValue who site choice -
         M.counterfactualActionUtility strategy who site payoff fuel choice| +
-        |M.counterfactualActionUtility strategy who site payoff fuel choice| :=
-      abs_le_abs_sub_add _ _
+        |M.counterfactualActionUtility strategy who site payoff fuel choice| := by
+      simpa only [sub_add_cancel] using abs_add
+        ((cfrDQuery M trunk fallback oracle n).actionValue who site choice -
+          M.counterfactualActionUtility strategy who site payoff fuel choice)
+        (M.counterfactualActionUtility strategy who site payoff fuel choice)
     _ ≤ _ := by linarith [accurate choice]
 
 /-- Every local target law has bounded cumulative ACTUAL counterfactual
@@ -161,15 +164,16 @@ theorem cfrD_site_cumulative_le (trunk : CFRDTrunk M)
           (t : ℝ) * (2 * scoreError) := by
         rw [Finset.sum_add_distrib, htable]
         simp
-      _ ≤ _ := add_le_add_right
+      _ ≤ _ := add_le_add
         (cfrD_local_cumulative_le M trunk fallback oracle who site searched nonneg
-          (bounded searched) law t) _
+          (bounded searched) law t) (le_refl _)
   · rw [cfrDSiteBudget, if_neg searched]
     calc
       _ ≤ ∑ _n ∈ Finset.range t, tailError := by
         apply Finset.sum_le_sum
         intro n _
-        exact FinDist.expect_le_of_forall _ _ (fun choice _ => continuation searched n choice)
+        exact FinDist.expect_le_of_forall _ _ tailError
+          (fun choice _ => continuation searched n choice)
       _ = _ := by simp
 
 /-- The explicit root allowance is summed over the constructed complete legal
