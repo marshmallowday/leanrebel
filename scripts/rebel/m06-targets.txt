@@ -25,3 +25,4 @@ GameTheory.Analysis.ReBeL.CFRDDelayedSampling
 GameTheory.Analysis.ReBeL.CFRDChildResolve
 GameTheory.Analysis.ReBeL.CFRDChildOracle
 GameTheory.Analysis.ReBeL.Examples.CFRDChildControl
+GameTheory.Analysis.ReBeL.CFRDZeroReachCompletion
