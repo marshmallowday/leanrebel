@@ -17,11 +17,14 @@ namespace GameTheory.ReBeL.Examples.HiddenTypes
 open GameTheory.Protocol GameTheory.Protocol.InformationModel
 open GameTheory.Math.Probability
 
+/-- Finite canonical histories for the full-prior execution control. -/
 local instance cfrDControlHistoryFintype : Fintype (protocol fullPrior).History :=
   historyFintype fullPrior
+/-- Decidable information-state equality for this proof-only execution control. -/
 local instance cfrDControlInfoDecidable (who : Player) :
     DecidableEq ((model fullPrior).InfoState who) :=
   Classical.decEq _
+/-- Finite legal menus at every information state of the execution control. -/
 local instance cfrDControlChoiceFintype (who : Player) (info : (model fullPrior).InfoState who) :
     Fintype ((model fullPrior).Choice who info) := by
   classical
