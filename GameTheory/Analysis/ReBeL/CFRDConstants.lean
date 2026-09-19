@@ -93,6 +93,7 @@ def cfrDDepthFiniteConstant (clock : ObservationClock M)
     if clock.depth who site.1 < cut then
       cfrDSiteFiniteCoefficient M fallback who site * bound else 0).sum
 
+omit [Fintype ι] [DecidableEq ι] [∀ who, DecidableEq (M.InfoState who)] in
 /-- The corrected shape has an additive finite-T term, not delta times every
 term. The independent local continuation loss is displayed explicitly. -/
 theorem cfrDDepthMeanBudget_le_constants (clock : ObservationClock M)
