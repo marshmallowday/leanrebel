@@ -2,3 +2,4 @@ GameTheory.ReBeL.Frontier
 GameTheory.ReBeL.ConditionalOracle
 GameTheory.Analysis.ReBeL.CFRDTrace
 GameTheory.Analysis.ReBeL.CFRDRegret
+GameTheory.ReBeL.OracleReweighting

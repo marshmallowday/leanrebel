@@ -46,3 +46,4 @@ import GameTheory.ReBeL.Rational.FullGame
 import GameTheory.ReBeL.Rational.HiddenTypes
 import GameTheory.ReBeL.Frontier
 import GameTheory.ReBeL.ConditionalOracle
+import GameTheory.ReBeL.OracleReweighting
