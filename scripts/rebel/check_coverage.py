@@ -13,7 +13,7 @@ from pathlib import Path, PurePosixPath
 import re
 import sys
 
-from coverage_inventory import expand
+from coverage_updates import expand_with_updates as expand
 
 REPOSITORY = "marshmallowday/leanrebel"
 STATUSES = {"pending", "in_progress", "blocked", "formalized", "verified",

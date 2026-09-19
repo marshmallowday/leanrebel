@@ -16,7 +16,7 @@ import re
 import subprocess
 import sys
 from collections import Counter
-from coverage_inventory import expand
+from coverage_updates import expand_with_updates as expand
 from check_coverage import validate, safe_path
 
 
