@@ -1,0 +1,65 @@
+name: Saved ReBeL compiler diagnostics
+
+on:
+  push:
+    branches: ['diagnostics/m05-log-reader']
+    paths: ['.github/workflows/rebel-log-reader.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      diagnostics: ${{ steps.extract.outputs.diagnostics }}
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: rebel-validation-18d11b3daed088545c3afdd4a610b4941c194bee
+          run-id: 35402953535
+          github-token: ${{ github.token }}
+          path: saved-validation
+      - name: Extract the existing failure without rerunning or changing its result
+        id: extract
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+          from pathlib import Path
+          files = list(Path('saved-validation').rglob('rebel-validation.log'))
+          if len(files) != 1:
+              raise SystemExit('Expected one saved validation log')
+          text = files[0].read_text(encoding='utf-8', errors='replace')
+          lines = text.splitlines()
+          selected = set()
+          for index, line in enumerate(lines):
+              if re.search(r'(^error:|: error:|^warning:|: warning:|Error|failed|unsolved goals)', line):
+                  selected.update(range(max(0, index - 1), min(len(lines), index + 12)))
+          excerpt = '\n'.join(lines[i] for i in sorted(selected))
+          if not excerpt:
+              excerpt = text[-4400:]
+          excerpt = excerpt[:4400]
+          chunks = [f'{i // 180:02d}: ' + excerpt[i:i+180].replace('\n', ' | ')
+                    for i in range(0, len(excerpt), 180)]
+          if not chunks:
+              chunks = ['The saved log contains no text.']
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as out:
+              out.write('diagnostics=' + json.dumps(chunks, ensure_ascii=True) + '\n')
+          print(excerpt)
+          PY
+  expose:
+    needs: extract
+    name: '${{ matrix.diagnostic }}'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    strategy:
+      fail-fast: false
+      matrix:
+        diagnostic: ${{ fromJSON(needs.extract.outputs.diagnostics) }}
+    steps:
+      - name: Diagnostic transport only; the original validation remains failed
+        run: echo 'Read the job name for an ordered excerpt from the saved compiler log.'
