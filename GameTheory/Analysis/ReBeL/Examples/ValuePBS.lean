@@ -17,6 +17,7 @@ namespace GameTheory.ReBeL.Examples.HiddenTypes
 
 open GameTheory.Protocol InformationModel GameTheory.Math.Probability
 
+/-- The existing finite hidden-type protocol supplies the canonical history domain. -/
 local instance valueHistoryFintype : Fintype (protocol fullPrior).History :=
   historyFintype fullPrior
 
