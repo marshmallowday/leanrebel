@@ -1,0 +1,107 @@
+name: M06 reproducible compiler export
+
+on:
+  push:
+    branches: ['rebel/m06']
+    paths: ['.github/workflows/rebel-m06-compiler.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: m06-compiler-export-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Fetch pinned dependencies and compile the existing proof surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rev-parse HEAD | tee "$RUNNER_TEMP/m06-compiler.log"
+          lake env lean --version | tee -a "$RUNNER_TEMP/m06-compiler.log"
+          python3 - <<'PY'
+          from pathlib import Path
+          import os, re, sys
+          sys.path.insert(0, 'scripts/rebel')
+          from audit_axioms import proof_modules
+          modules = proof_modules()
+          sources = [Path('.'), *Path('.lake/packages').iterdir()]
+          pending, seen, roots = modules[:], set(), set()
+          while pending:
+              name = pending.pop()
+              if name in seen:
+                  continue
+              seen.add(name)
+              if name.startswith('Mathlib.'):
+                  roots.add(name)
+                  continue
+              relative = Path(name.replace('.', '/') + '.lean')
+              path = next((p / relative for p in sources if (p / relative).is_file()), None)
+              if path is not None:
+                  for line in path.read_text().splitlines():
+                      match = re.match(r'^(?:(?:public|private) )?import (.+)$', line)
+                      if match:
+                          pending.extend(match.group(1).split('--')[0].split())
+          if not modules or not roots:
+              raise SystemExit('Missing compiler closure')
+          temp = Path(os.environ['RUNNER_TEMP'])
+          (temp / 'm06-modules.txt').write_text(' '.join(modules))
+          (temp / 'm06-roots.txt').write_text(' '.join(sorted(roots)))
+          PY
+          lake exe cache get $(cat "$RUNNER_TEMP/m06-roots.txt")
+          lake build $(cat "$RUNNER_TEMP/m06-modules.txt") 2>&1 | tee -a "$RUNNER_TEMP/m06-compiler.log"
+      - name: Export only the compiler and dependency build trees
+        shell: bash
+        run: |
+          set -euo pipefail
+          toolchain="$(dirname "$(dirname "$(elan which lean)")")"
+          tar -I 'zstd -T0 -3' -cf "$RUNNER_TEMP/m06-toolchain.tar.zst" -C "$toolchain" .
+          tar --exclude=.git -I 'zstd -T0 -3' -cf "$RUNNER_TEMP/m06-dependencies.tar.zst" .lake/packages .lake/build
+          git rev-parse HEAD > "$RUNNER_TEMP/m06-source-sha.txt"
+          cp lean-toolchain "$RUNNER_TEMP/m06-lean-toolchain.txt"
+          cp lake-manifest.json "$RUNNER_TEMP/m06-lake-manifest.json"
+          cd "$RUNNER_TEMP"
+          sha256sum m06-toolchain.tar.zst m06-dependencies.tar.zst > m06-export-sha256.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: m06-toolchain-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-toolchain.tar.zst
+          compression-level: 0
+          retention-days: 3
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: m06-dependencies-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-dependencies.tar.zst
+          compression-level: 0
+          retention-days: 3
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: m06-compiler-evidence-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/m06-compiler.log
+            ${{ runner.temp }}/m06-source-sha.txt
+            ${{ runner.temp }}/m06-lean-toolchain.txt
+            ${{ runner.temp }}/m06-lake-manifest.json
+            ${{ runner.temp }}/m06-export-sha256.txt
+            ${{ runner.temp }}/m06-modules.txt
+            ${{ runner.temp }}/m06-roots.txt
+          retention-days: 3
+          if-no-files-found: warn
