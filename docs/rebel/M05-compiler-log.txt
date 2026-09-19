@@ -1,0 +1,33 @@
+Selected complete lines from the actual successful ReBeL compiler log.
+Source commit: 44cd2d674b5b94713407c450a8bfd0d6f6a0e191
+Original run: 35410325950, job 105808567589
+Full log SHA-256: 013fce26d9aaa47454ceb1fde339ff9a966f45e3cd9007a0f8bf64017127797a
+Read-only extraction: run 35411825818. This is an excerpt, not a complete log.
+The following compiler lines were read in full; wrapped incomplete entries are omitted.
+
+REBEL_AXIOMS GameTheory.ReBeL.ValueDifferential.normalize_hasFDerivAt: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.TypeBeliefSlice.theorem1_canonicalPBS: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.TypeBeliefSlice.allSpaceExtension_concave: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.ValueDifferential.normalizationJacobian_apply: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.theorem1_fullAOH: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.behavioralBeliefForm: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Examples.ValueGeometry.coin_midpoint_support: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.TypeBeliefSlice.branch_eq_equilibriumPayoff: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.TypeBeliefSlice.branch_isLeast_of_nash: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Examples.HiddenTypes.twoStage_joint_theorem1: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.TypeBeliefSlice.averaged_global_support: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.TypeBeliefSlice.branch_eq_value_iff_nashOpponent: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Examples.ValueGeometry.coin_nonunique_opponents: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Examples.ValueRadial.zero_mass_type_control: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Examples.ValueRadial.radialValue_hasFDerivAt: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.TypeBeliefSlice.weightedBranch_linear: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.TypeBeliefSlice.value_concaveOn_simplex: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.ValueDifferential.centeredMap_coordinate: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.TypeBeliefSlice.branch_attained: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.fullAOHBeliefSlice_eq: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.TypeBeliefSlice.allSpaceExtension_support: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.TypeBeliefSlice.value_eq_equilibriumPayoff: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.Examples.ValueRadial.radialValue_not_concave: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOMS GameTheory.ReBeL.exists_publicBelief_nash: [propext, Classical.choice, Quot.sound]
+REBEL_AXIOM_AUDIT_PASS declarations=2541
+REBEL_VALIDATION_PASS modules=105
