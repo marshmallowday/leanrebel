@@ -137,4 +137,83 @@ theorem conditionalOracle_reweight_value (reference alternative : FinDist Leaf)
   unfold conditionalOracleValue
   rw [informationReweight_conditional reference alternative observe weight density info sampled]
 
+/-- Restricting a value to live leaves commutes with conditioning on the
+information state and live flag. No terminal-status observability assumption
+is smuggled into the player's policy type. -/
+theorem conditionalOracle_live_value (law : FinDist Leaf) (observe : Leaf → Info)
+    (live : Leaf → Bool) (value : Leaf → ℝ) (tag : Info × Bool)
+    (sampled : tag ∈ (law.map (fun leaf => (observe leaf, live leaf))).support) :
+    conditionalOracleValue law (fun leaf => (observe leaf, live leaf))
+        (fun leaf => if live leaf = true then value leaf else 0) tag =
+      if tag.2 = true then
+        conditionalOracleValue law (fun leaf => (observe leaf, live leaf)) value tag else 0 := by
+  unfold conditionalOracleValue
+  by_cases active : tag.2 = true
+  · rw [if_pos active]
+    apply FinDist.expect_congr
+    intro leaf reached
+    have same := congrArg Prod.snd (conditionalOracle_support law
+      (fun leaf => (observe leaf, live leaf)) tag sampled leaf reached)
+    rw [if_pos (same.trans active)]
+  · rw [if_neg active]
+    calc
+      _ = (law.condOnFibre (fun leaf => (observe leaf, live leaf)) tag).expect
+          (fun _ => (0 : ℝ)) := by
+        apply FinDist.expect_congr
+        intro leaf reached
+        have same := congrArg Prod.snd (conditionalOracle_support law
+          (fun leaf => (observe leaf, live leaf)) tag sampled leaf reached)
+        rw [if_neg (fun h => active (same.symm.trans h))]
+      _ = 0 := FinDist.expect_const _ _
+
+/-- Exact terminal rewards plus approximate LIVE conditional values have the
+same delta backup bound under every dominated unilateral law. The prediction
+is not queried at a terminal leaf, and no accuracy premise is imposed there. -/
+theorem terminalExact_reweight_error (reference alternative : FinDist Leaf)
+    (observe : Leaf → Info) (live : Leaf → Bool) (weight : Info → ℝ)
+    (density : ∀ leaf, alternative.prob leaf = reference.prob leaf * weight (observe leaf))
+    (value : Leaf → ℝ) (prediction : Info → ℝ) (error : ℝ) (nonneg : 0 ≤ error)
+    (accurate : ∀ info,
+      (info, true) ∈ (reference.map (fun leaf => (observe leaf, live leaf))).support →
+      |prediction info - conditionalOracleValue reference
+        (fun leaf => (observe leaf, live leaf)) value (info, true)| ≤ error) :
+    |alternative.expect (fun leaf =>
+        if live leaf = true then prediction (observe leaf) else value leaf) -
+      alternative.expect value| ≤ error := by
+  have estimate := conditionalOracle_reweight_error reference alternative
+    (fun leaf => (observe leaf, live leaf)) (fun tag : Info × Bool => weight tag.1)
+    density (fun leaf => if live leaf = true then value leaf else 0)
+    (fun tag => if tag.2 = true then prediction tag.1 else 0) error (by
+      intro tag sampled
+      rw [conditionalOracle_live_value reference observe live value tag sampled]
+      rcases tag with ⟨info, flag⟩
+      cases flag
+      · simpa using nonneg
+      · simpa using accurate info sampled)
+  have identity :
+      alternative.expect (fun leaf =>
+          if live leaf = true then prediction (observe leaf) else value leaf) -
+        alternative.expect value =
+      (alternative.map (fun leaf => (observe leaf, live leaf))).expect
+          (fun tag => if tag.2 = true then prediction tag.1 else 0) -
+        alternative.expect (fun leaf => if live leaf = true then value leaf else 0) := by
+    rw [FinDist.expect_map, ← FinDist.expect_sub, ← FinDist.expect_sub]
+    apply FinDist.expect_congr
+    intro leaf _
+    dsimp only
+    by_cases active : live leaf = true <;> simp [active]
+  rw [identity]
+  exact estimate
+
+/-- When no sampled leaf is live, the backup is exact for every prediction,
+including an arbitrarily inaccurate one. This is the no-oracle boundary. -/
+theorem terminalExact_no_live (law : FinDist Leaf) (observe : Leaf → Info)
+    (live : Leaf → Bool) (value : Leaf → ℝ) (prediction : Info → ℝ)
+    (stopped : ∀ leaf ∈ law.support, live leaf ≠ true) :
+    law.expect (fun leaf => if live leaf = true then prediction (observe leaf) else value leaf) =
+      law.expect value := by
+  apply FinDist.expect_congr
+  intro leaf reached
+  exact if_neg (stopped leaf reached)
+
 end GameTheory.ReBeL
