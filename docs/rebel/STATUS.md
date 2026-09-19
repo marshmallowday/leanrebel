@@ -1,6 +1,38 @@
-# ReBeL status — M05 canonical PBS values and Theorem 1 accepted
+# ReBeL status — M06 in progress; M05 accepted
 
-## Accepted proof source and integration gate
+## Active M06 restart point
+
+Continue on `rebel/m06-recovery`, not the older `rebel/m06` head. The current
+proof checkpoint is `996fb00fb01e22a998fdbafc4597845096829fac`; inspect the actual
+remote ref before resuming because later repairs or evidence commits may exist.
+Main was rechecked at `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`; accepted M00-M05
+work is retained there. No M06 integration or acceptance is claimed.
+
+The resumed source at `4034c64f6e177a211c22faf5882e92713161ce33` already contains
+the coupled depth-limited driver, finite-time bounds and carried private play.
+Eight missing documentation strings were repaired through `99e07a54`; no
+proof or gate was weakened. The new generic public resolver transfer and its
+security connection compile at `04cf850a16e7cf9a56c3b97f66655f285e88a1d0`, targeted
+run `35471149309`, job `105972256452`. This targeted success is not full acceptance.
+
+The newer source adds canonical live-cut positive and negative replacement
+controls and belief-carrying execution after a public solve. The latest target
+run to inspect is `35472778849` for `996fb00f`; its full ReBeL run is `35472778812`,
+full repository CI `35472778958`, and inventory `35472778893`. They were not all
+complete when this status was written. Never infer validation of the latest
+source from the older core-only compiler success.
+
+Read [M06-resolver-transfer.md](M06-resolver-transfer.md),
+[M06-resolver-control.md](M06-resolver-control.md), and
+[M06-resolver-belief.md](M06-resolver-belief.md). General recursive PBS solving
+and construction of its continuation/replacement contracts remain open.
+`CFRDResolverLocal` is an explicit local continuation premise, not a proved
+consequence of ordinary on-path Nash. The positive live-cut example supplies
+it; that does not supply it for every recursively computed continuation.
+Numerical oracle error, continuation loss, replacement loss and finite-T error
+remain distinct. M06 coverage is not promoted by these intermediate commits.
+
+## Accepted M05 proof source and historical integration gate
 
 M05's finite-game ROADMAP deliverable is complete with the explicit source
 qualifications and refutations in [M05.md](M05.md). The accepted proof source is
@@ -17,11 +49,11 @@ validated in the documentation/test checkpoint
 | 20cbe32f11fdd1618110ed0e4a7d7359e78a4d6b | Full repository CI | 35412423211 | success |
 | 20cbe32f11fdd1618110ed0e4a7d7359e78a4d6b | Source inventory | 35412423259 | success |
 
-This acceptance/evidence commit must itself pass the same three workflows
-before main is advanced. Read actual `main` and `rebel/m05-evidence` refs and
-exact-SHA CI first after an interruption. Do not replay accepted proofs or
-force-update branches. A later main containing this file must be integrated
-from the validated evidence commit, not from the old failed `18d11b3` source.
+The historical acceptance/evidence commit was required to pass the same three
+workflows before main was advanced. Main now contains that accepted M05 work.
+Read actual `main` and work-branch refs and exact-SHA CI after an interruption.
+Do not replay accepted proofs, force-update branches, or resume from the old
+failed `18d11b3` source.
 
 ## What M05 establishes
 
@@ -86,13 +118,12 @@ remain ancestors, with their evidence in [M04.md](M04.md). The independent
 rational solver control still reports NashConv 2, 2, 1 for T=0, 1, 2 after
 checking all 1,024 pure policies per player; it is not an exact T=2 equilibrium.
 
-## Next milestone
+## Remaining milestones
 
-Start M06 from the accepted canonical PBS/value/infostate interfaces and M04
-CFR solver. Implement the ROADMAP's depth-limited subgame and leaf-value
-contracts, oracle-error and exploitability arguments without assuming their
-conclusions. Theorems 2/3, learned-leaf search safety, solver variants, neural
-training and C++/floating-point correspondence are not established by M05.
-The complete ReBeL framework remains M06-M11 work. Do not mark the 522 inherited
-official C++ source occurrences or other downstream obligations verified
-merely because these finite-game value theorems are now accepted.
+M06 continues from the accepted canonical PBS/value/infostate interfaces and
+M04 CFR solver, with its current work and limitations recorded above. Theorems
+2/3, unrestricted learned-leaf search safety, solver variants, neural training
+and C++/floating-point correspondence are not established by M05 or by the
+conditional M06 resolver checkpoints. The complete framework remains M06-M11
+work. Do not mark inherited official C++ occurrences or other downstream
+obligations verified merely because the finite-game value theorems are accepted.
