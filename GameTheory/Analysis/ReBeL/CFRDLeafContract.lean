@@ -174,7 +174,7 @@ theorem cfrDExactValueOracle_accurate (clock : ObservationClock M)
   let value := conditionalOracleValue (unilateralReferenceLaw M base fallback who cut)
     (fun history => (M.infoOf who history.trace, cfrDCutLive remaining history))
     (fun history => (M.runBehavioralFrom base remaining history).expect (payoff who)) (info, true)
-  change |value - value| ≤ 0
-  simp only [sub_self, abs_zero, le_refl]
+  have reflexive : |value - value| ≤ 0 := by simp only [sub_self, abs_zero, le_refl]
+  exact reflexive
 
 end GameTheory.ReBeL
