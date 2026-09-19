@@ -91,3 +91,4 @@ import GameTheory.Analysis.ReBeL.Examples.CFRDUniformControl
 import GameTheory.Analysis.ReBeL.Examples.CFRDSeedControl
 import GameTheory.Analysis.ReBeL.PBSLeafOptimality
 import GameTheory.Analysis.ReBeL.Examples.CFRDLiveControl
+import GameTheory.Analysis.ReBeL.CFRDResolve
