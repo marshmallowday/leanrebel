@@ -148,12 +148,14 @@ theorem livePublicResolver_security
       (privateCarriedResolve (model fullPrior) (cfrIterationLaw t)
         (liveResolvePlays (fun n : Fin t => n.val)) (livePublicResolver (Fin t))
         unknown who 2 1).expect (cfrPayoff who) := by
-  simpa only [liveResolvePlays, mul_zero, zero_add, add_zero] using
-    cfrDDepth_resolved_security (model fullPrior) decisionClock (perfectRecall fullPrior)
-      cfrFallback cfrPayoff (cumulative_zeroSum fullPrior) 2 1 liveControlOracle 2 0 0
-      (by norm_num) (le_refl _) (le_refl _) cfrPayoff_abs_le_two
-      liveControl_accurate liveControl_leaf_optimal reference equilibrium unknown who opponent
-      different t (livePublicResolver (Fin t)) 0 (le_refl _)
-      (livePublicResolver_local (fun n : Fin t => n.val) unknown who opponent)
+  have bound := cfrDDepth_resolved_security (model fullPrior) decisionClock
+    (perfectRecall fullPrior) cfrFallback cfrPayoff (cumulative_zeroSum fullPrior)
+    2 1 liveControlOracle 2 0 0 (by norm_num) (le_refl _) (le_refl _) cfrPayoff_abs_le_two
+    liveControl_accurate liveControl_leaf_optimal reference equilibrium unknown who opponent
+    different t (livePublicResolver (Fin t)) 0 (le_refl _)
+    (livePublicResolver_local (fun n : Fin t => n.val) unknown who opponent)
+  dsimp only [liveResolvePlays]
+  norm_num only [Nat.reduceAdd, mul_zero, zero_add, add_zero] at bound
+  exact bound
 
 end GameTheory.ReBeL.Examples.HiddenTypes
