@@ -6,3 +6,4 @@ GameTheory.ReBeL.OracleReweighting
 GameTheory.Analysis.ReBeL.DominatingReach
 GameTheory.Analysis.ReBeL.CFRDProbe
 GameTheory.Analysis.ReBeL.CFRDCutBackup
+GameTheory.Analysis.ReBeL.CFRDCutDriver

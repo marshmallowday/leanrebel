@@ -204,6 +204,9 @@ theorem cfrDCutScore_zero_remaining (clock : ObservationClock M)
     (choice : M.Choice who site.1) :
     cfrDCutScore M clock base fallback who site payoff cut 0 prediction choice =
       cfrDProbeFullScore M clock base fallback who site payoff cut choice := by
-  simp [cfrDCutScore, cfrDCutLeafValue, cfrDCutLive, cfrDProbeFullScore]
+  have leaf : cfrDCutLeafValue M who payoff 0 prediction = payoff := by
+    funext history
+    simp only [cfrDCutLeafValue, cfrDCutLive_zero, Bool.false_eq_true, if_false]
+  simp only [cfrDCutScore, cfrDProbeFullScore, leaf]
 
 end GameTheory.ReBeL
