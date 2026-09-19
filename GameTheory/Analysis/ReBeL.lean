@@ -100,3 +100,4 @@ import GameTheory.Analysis.ReBeL.CFRDRecursivePlay
 import GameTheory.Analysis.ReBeL.Examples.CFRDEquilibriumReplacement
 import GameTheory.Analysis.ReBeL.CFRDDelayedSampling
 import GameTheory.Analysis.ReBeL.CFRDChildResolve
+import GameTheory.Analysis.ReBeL.CFRDChildOracle
