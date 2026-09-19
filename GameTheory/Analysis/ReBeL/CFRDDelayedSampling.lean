@@ -50,10 +50,10 @@ fixed unknown opponent remains outside the draw; this is not shared-seed play. -
 theorem cfrD_delayed_private_sampling (clock : ObservationClock M)
     (hrecall : M.PerfectRecall) (seed : FinDist K)
     (plays : K → Profile M.behavioralSignature) (fallback : (who : ι) → M.Policy who)
-    (prefix unknown : Profile M.behavioralSignature) (who : ι) (cut remaining : Nat)
+    (trunk unknown : Profile M.behavioralSignature) (who : ι) (cut remaining : Nat)
     (agree : ∀ k ∈ seed.support, ∀ info, clock.depth who info < cut →
-      plays k who info = prefix who info) :
-    (M.runBehavioral (Profile.update unknown who (prefix who)) cut).bind
+      plays k who info = trunk who info) :
+    (M.runBehavioral (Profile.update unknown who (trunk who)) cut).bind
         (fun history => seed.bind fun k =>
           M.runBehavioralFrom (Profile.update unknown who (plays k who)) remaining history) =
       M.runBehavioral (Profile.update unknown who
@@ -65,7 +65,7 @@ theorem cfrD_delayed_private_sampling (clock : ObservationClock M)
           (M.runBehavioralFrom (Profile.update unknown who (plays k who)) remaining)) := by
       apply FinDist.bind_congr
       intro k sampled
-      rw [cfrD_run_cut_congr M clock unknown who (plays k who) (prefix who) cut
+      rw [cfrD_run_cut_congr M clock unknown who (plays k who) (trunk who) cut
         (agree k sampled)]
     _ = seed.bind (fun k =>
         M.runBehavioral (Profile.update unknown who (plays k who)) (cut + remaining)) := by
@@ -82,6 +82,7 @@ def cfrDChildProfiles (clock : ObservationClock M) (cut : Nat)
     K → Profile M.behavioralSignature :=
   fun k => cfrDDepthProfile M clock cut trunk (children k)
 
+omit [Fintype ι] [DecidableEq ι] [Fintype K] in
 /-- Every child has exactly the same searched prefix by construction. -/
 theorem cfrDChildProfiles_before (clock : ObservationClock M) (cut : Nat)
     (trunk : Profile M.behavioralSignature) (children : K → Profile M.behavioralSignature)
@@ -129,8 +130,15 @@ theorem cfrDDepthProfile_unilateral_bind (clock : ObservationClock M)
         (M.runBehavioralFrom (Profile.update unknown who (continuation who)) remaining) := by
   have split := cfrDPrefix_run_bind M clock
     (Profile.update unknown who (continuation who)) who (trunk who) cut remaining
-  simpa only [cfrDPrefixPolicy, cfrDDepthProfile, cfrDDepthTrunk, decide_eq_true_eq,
-    Profile.update_same, Profile.update_idem] using split
+  have policy_eq :
+      cfrDPrefixPolicy M clock (Profile.update unknown who (continuation who))
+          who (trunk who) cut =
+        cfrDDepthProfile M clock cut trunk continuation who := by
+    funext info
+    simp only [cfrDPrefixPolicy, cfrDDepthProfile, cfrDDepthTrunk,
+      decide_eq_true_eq, Profile.update_same]
+  rw [policy_eq] at split
+  simpa only [Profile.update_idem] using split
 
 /-- A constructed child draw is exactly the parent's virtual averaged
 continuation. Unlike a generic replacement inequality this needs no
@@ -150,7 +158,8 @@ theorem cfrDChild_sampling_eq (clock : ObservationClock M) (hrecall : M.PerfectR
     _ = M.runBehavioral (Profile.update unknown who (average who)) (cut + remaining) :=
       cfrD_delayed_private_sampling M clock hrecall seed
         (cfrDChildProfiles M clock cut trunk children) fallback trunk unknown who cut remaining
-        (fun k _ info before => cfrDChildProfiles_before M clock cut trunk children k who info before)
+        (fun k _ info before =>
+          cfrDChildProfiles_before M clock cut trunk children k who info before)
     _ = (M.runBehavioral (Profile.update unknown who (average who)) cut).bind
         (M.runBehavioralFrom (Profile.update unknown who (average who)) remaining) :=
       M.runBehavioralFrom_add _ cut remaining E.initHistory
