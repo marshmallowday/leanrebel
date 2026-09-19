@@ -154,7 +154,6 @@ theorem livePublicResolver_security
     liveControl_accurate liveControl_leaf_optimal reference equilibrium unknown who opponent
     different t (livePublicResolver (Fin t)) 0 (le_refl _)
     (livePublicResolver_local (fun n : Fin t => n.val) unknown who opponent)
-  dsimp only [liveResolvePlays]
   norm_num only [Nat.reduceAdd, mul_zero, zero_add, add_zero] at bound
   exact bound
 

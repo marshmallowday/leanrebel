@@ -5,7 +5,7 @@ A new solve changes the future model profile, not the observed past. Bayesian
 updating therefore starts from the stored joint PBS and uses canonical
 continuation execution, not a fresh run from the game's initial state.
 The new private draw is retained; the actual opponent never becomes part of
-the model posterior. Forgetting this extra state recovers the resolver law
+ the model posterior. Forgetting this extra state recovers the resolver law
 already used by the security theorem exactly.
 -/
 
@@ -57,8 +57,8 @@ theorem carriedBeliefUpdate_preserves_past {past : List M.PublicSignal}
       (PublicBelief.continuationLaw M chosen fuel belief) observed) :
     past <:+ observed := by
   obtain ⟨history, same, reached⟩ := supported
-  have extends := PublicBelief.continuation_in_publicSubgame M chosen fuel belief history reached
-  simpa only [PublicSubgame, Set.mem_setOf_eq, same] using extends
+  have extending := PublicBelief.continuation_in_publicSubgame M chosen fuel belief history reached
+  simpa only [PublicSubgame, Set.mem_setOf_eq, same] using extending
 
 /-- Both the preceding private iteration and the fresh private profile draw
 are retained. The posterior starts from the stored belief, not from a reset. -/
