@@ -97,11 +97,6 @@ theorem cfrDDepth_actionValue (clock : ObservationClock M)
         fallback who site (payoff who) cut remaining
         ((cfrDDepthQuery M clock fallback payoff cut remaining oracle n).prediction who)
         choice := by
-  change (if cfrDDepthTrunk M clock cut who site.1 = true then
-      cfrDCutScore M clock (cfrDDepthPlay M clock fallback payoff cut remaining oracle n)
-        fallback who site (payoff who) cut remaining
-        ((cfrDDepthQuery M clock fallback payoff cut remaining oracle n).prediction who) choice
-      else 0) = _
   exact if_pos (by simpa only [cfrDDepthTrunk, decide_eq_true_eq] using searched)
 
 /-- The oracle contract is checked against the actual same-iteration profile
