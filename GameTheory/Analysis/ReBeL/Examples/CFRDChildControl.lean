@@ -135,12 +135,7 @@ theorem childTable_resolver_value :
     (carriedResolvedTail (model fullPrior) childTableResolver
       (carriedBitProfile false) 0 1 childTableState).expect (cfrPayoff 0) = 1 := by
   rw [childTableResolver, cfrDChildResolvedTail_eq, FinDist.expect_bind]
-  change carriedBitLaw.expect (fun bit =>
-    ((model fullPrior).runBehavioralFrom
-      (Profile.update (carriedBitProfile false) 0
-        (cfrDChildProfiles (model fullPrior) decisionClock 2 cfrDControlBaseline
-          carriedBitProfile bit 0)) 1
-      (decode (.second false false false false))).expect (cfrPayoff 0)) = 1
+  dsimp only [childTableState, privateIterationState]
   simp_rw [childTable_bit_value]
   norm_num [carriedBitLaw, FinDist.expect_mix, FinDist.expect_pure]
 
