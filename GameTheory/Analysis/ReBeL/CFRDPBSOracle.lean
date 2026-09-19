@@ -24,7 +24,9 @@ variable (M : InformationModel.{uι, us, ua, up, uq, uk} E)
 Zero factual mass is not relabeled as an observed posterior: the separately
 identified unilateral completions retain those needed counterfactual branches. -/
 structure CFRDPBSQuery where
+  /-- Joint posteriors weighted by this iteration's actual public observations. -/
   factual : FinDist (Σ observations, PublicBelief M.toInfoSignals observations)
+  /-- Player-indexed joint completions under the positive unilateral reference law. -/
   counterfactual : (who : ι) →
     FinDist (Σ observations, PublicBelief M.toInfoSignals observations)
 
