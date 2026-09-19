@@ -108,13 +108,11 @@ def cfrDValueOracleOfPBS (fallback : (who : ι) → M.Policy who) (cut : Nat)
     (oracle : CFRDPBSOracle M) : CFRDValueOracle M :=
   fun n strategy => oracle n (cfrDCurrentPBS M fallback strategy cut)
 
-variable [∀ who, DecidableEq (M.InfoState who)]
-
 /-- The value response consumed by the actual learner was queried at this
 same iteration's PBSs, including its counterfactual completion packet. -/
-theorem cfrDDepthQuery_uses_PBS (clock : ObservationClock M)
-    (fallback : (who : ι) → M.Policy who) (payoff : ι → E.History → ℝ)
-    (cut remaining : Nat) (oracle : CFRDPBSOracle M) (n : Nat) :
+theorem cfrDDepthQuery_uses_PBS [∀ who, DecidableEq (M.InfoState who)]
+    (clock : ObservationClock M) (fallback : (who : ι) → M.Policy who)
+    (payoff : ι → E.History → ℝ) (cut remaining : Nat) (oracle : CFRDPBSOracle M) (n : Nat) :
     cfrDDepthQuery M clock fallback payoff cut remaining
         (cfrDValueOracleOfPBS M fallback cut oracle) n =
       oracle n (cfrDCurrentPBS M fallback

@@ -44,24 +44,24 @@ theorem cfrDDepth_root_cumulative_le (clock : ObservationClock M)
           (cut + remaining)).expect (payoff who))) ≤
       cfrDTrunkBudget M clock fallback cut remaining bound error who t + (t : ℝ) * loss := by
   let plays := cfrDDepthPlay M clock fallback payoff cut remaining oracle
-  let prefix (n : Nat) :=
+  let trunkGain (n : Nat) :=
     (M.runBehavioral (Profile.update (plays n) who
       (cfrDPrefixPolicy M clock (plays n) who target cut)) (cut + remaining)).expect (payoff who) -
       (M.runBehavioral (plays n) (cut + remaining)).expect (payoff who)
   have hstep (n : Nat) :
       (M.runBehavioral (Profile.update (plays n) who target) (cut + remaining)).expect
           (payoff who) - (M.runBehavioral (plays n) (cut + remaining)).expect (payoff who) ≤
-        prefix n + loss := by
+        trunkGain n + loss := by
     have htail := cfrDLeafOptimal_tail_gain_le M clock hrecall (plays n) fallback who target
       (payoff who) cut remaining loss hloss (optimal n who)
-    dsimp only [prefix]
+    dsimp only [trunkGain]
     linarith
   have htrunk := cfrDDepth_prefix_cumulative_le M clock hrecall fallback payoff cut remaining
     oracle bound error hbound herror bounded accurate who target t
   calc
-    _ ≤ ∑ n ∈ Finset.range t, (prefix n + loss) :=
+    _ ≤ ∑ n ∈ Finset.range t, (trunkGain n + loss) :=
       Finset.sum_le_sum fun n _ => hstep n
-    _ = (∑ n ∈ Finset.range t, prefix n) + (t : ℝ) * loss := by
+    _ = (∑ n ∈ Finset.range t, trunkGain n) + (t : ℝ) * loss := by
       rw [Finset.sum_add_distrib]
       simp
     _ ≤ _ := add_le_add htrunk (le_refl _)
@@ -89,7 +89,12 @@ theorem cfrDDepth_mean_regret_le (clock : ObservationClock M)
       (M.runBehavioral (cfrDDepthPlay M clock fallback payoff cut remaining oracle n.val)
         (cut + remaining)).expect (payoff who)) ≤
       cfrDDepthMeanBudget M clock fallback cut remaining bound error loss who t := by
-  rw [cfrIterationLaw_expect]
+  rw [cfrIterationLaw_expect t (fun n =>
+    (M.runBehavioral (Profile.update
+      (cfrDDepthPlay M clock fallback payoff cut remaining oracle n) who target)
+      (cut + remaining)).expect (payoff who) -
+    (M.runBehavioral (cfrDDepthPlay M clock fallback payoff cut remaining oracle n)
+      (cut + remaining)).expect (payoff who))]
   have positive : 0 < (t : ℝ) := Nat.cast_pos.mpr (Nat.pos_of_ne_zero (NeZero.ne t))
   have nonzero : (t : ℝ) ≠ 0 := ne_of_gt positive
   calc
