@@ -9,3 +9,6 @@ GameTheory.Analysis.ReBeL.CFRDCutBackup
 GameTheory.Analysis.ReBeL.CFRDCutDriver
 GameTheory.Analysis.ReBeL.CFRDSearch
 GameTheory.Analysis.ReBeL.CFRDCarriedPlay
+GameTheory.Analysis.ReBeL.Examples.CFRDExecution
+GameTheory.Analysis.ReBeL.Examples.CFRDUniformControl
+GameTheory.Analysis.ReBeL.Examples.CFRDSeedControl

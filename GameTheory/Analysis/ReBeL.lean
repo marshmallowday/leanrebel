@@ -86,3 +86,6 @@ import GameTheory.Analysis.ReBeL.CFRDSafety
 import GameTheory.Analysis.ReBeL.CFRDPBSOracle
 import GameTheory.Analysis.ReBeL.CFRDSearch
 import GameTheory.Analysis.ReBeL.CFRDCarriedPlay
+import GameTheory.Analysis.ReBeL.Examples.CFRDExecution
+import GameTheory.Analysis.ReBeL.Examples.CFRDUniformControl
+import GameTheory.Analysis.ReBeL.Examples.CFRDSeedControl
