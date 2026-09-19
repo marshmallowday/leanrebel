@@ -13,17 +13,42 @@ permissions:
 jobs:
   extract:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 12
     outputs:
       diagnostics: ${{ steps.extract.outputs.diagnostics }}
     steps:
+      - name: Require the exact existing proof run to finish successfully
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os, time, urllib.request
+          url = 'https://api.github.com/repos/marshmallowday/leanrebel/actions/runs/35411381522'
+          request = urllib.request.Request(url, headers={
+              'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+              'Accept': 'application/vnd.github+json',
+              'User-Agent': 'leanrebel-read-only-proof-evidence'})
+          for attempt in range(54):
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  run = json.load(response)
+              if run['head_sha'] != 'b1b557b7e3c9471e5f774c7fc400c1665742a614':
+                  raise SystemExit('Unexpected proof source')
+              if run['status'] == 'completed':
+                  if run['conclusion'] != 'success':
+                      raise SystemExit('The proof run did not succeed: ' + str(run['conclusion']))
+                  break
+              time.sleep(10)
+          else:
+              raise SystemExit('The existing proof run is not complete; no acceptance recorded')
+          PY
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          name: rebel-validation-44cd2d674b5b94713407c450a8bfd0d6f6a0e191
-          run-id: 35410325950
+          name: rebel-validation-b1b557b7e3c9471e5f774c7fc400c1665742a614
+          run-id: 35411381522
           github-token: ${{ github.token }}
           path: saved-validation
-      - name: Extract existing compiler evidence without changing its result
+      - name: Extract complete existing compiler records without changing their result
         id: extract
         shell: bash
         run: |
@@ -32,41 +57,52 @@ jobs:
           from pathlib import Path
           files = list(Path('saved-validation').rglob('rebel-validation.log'))
           if len(files) != 1:
-              raise SystemExit('Expected one saved validation log')
+              raise SystemExit('Expected exactly one saved validation log')
           raw = files[0].read_bytes()
-          lines = raw.decode('utf-8', errors='strict').splitlines()
-          names = set('''exists_publicBelief_nash behavioralBeliefForm
-          infoValue_isGreatest simultaneousResponse_attains branch_attained branch_isGreatest
-          weightedBranch_linear branch_eq_equilibriumPayoff branch_isLeast_of_nash
-          value_eq_equilibriumPayoff exists_nash_with_value branch_eq_value_iff_nashOpponent
-          value_concaveOn_simplex allSpaceExtension_concave allSpaceExtension_support
-          theorem1_canonicalPBS averaged_global_support fullAOHBeliefSlice_eq theorem1_fullAOH
-          normalize_hasFDerivAt normalizationJacobian_apply normalizationJacobian_mass_one
-          normalizationJacobian_coordinate normalizedBranch_hasFDerivAt contraction_eq_centered
-          normalizedBranch_centered_derivative centeredMap_coordinate
-          conditional_coordinate_derivative_zero twoStage_joint_theorem1
-          valueSlice_correlation_control radialValue_eq radialValue_hasFDerivAt
-          radial_gradient_not_supporting radialValue_not_concave zero_mass_type_control
-          arbitrary_linear_combination_not_supporting coinSimplexValue_eq
-          coinSimplexValue_not_differentiable coin_nonunique_opponents coin_midpoint_support'''.split())
-          selected = [lines[0], 'LOG_SHA256=' + hashlib.sha256(raw).hexdigest()]
-          for line in lines:
-              if line.startswith(('REBEL_AXIOM_AUDIT_PASS ', 'REBEL_VALIDATION_PASS ')):
-                  selected.append(line)
-              elif line.startswith('REBEL_AXIOMS '):
-                  name = line[len('REBEL_AXIOMS '):].split(':', 1)[0]
-                  if name.startswith('GameTheory.ReBeL.') and name.rsplit('.', 1)[-1] in names:
-                      selected.append(line)
-          if not any(x.startswith('REBEL_VALIDATION_PASS ') for x in selected):
-              raise SystemExit('Saved source does not contain a complete validation pass')
+          text = raw.decode('utf-8', errors='strict')
+          lines = text.splitlines()
+          if lines[0] != 'b1b557b7e3c9471e5f774c7fc400c1665742a614':
+              raise SystemExit('Saved log source mismatch')
+          markers = [line for line in lines if line.startswith(
+              ('REBEL_AXIOM_AUDIT_PASS ', 'REBEL_VALIDATION_PASS '))]
+          if len(markers) != 2:
+              raise SystemExit('Saved log lacks unique full validation markers')
           modules = [x.removeprefix('REBEL_AUDIT_MODULE ') for x in lines
                      if x.startswith('REBEL_AUDIT_MODULE ')]
           linted = [x.removeprefix('REBEL_LINT_PASS ') for x in lines
                     if x.startswith('REBEL_LINT_PASS ')]
+          selected = [lines[0], 'LOG_SHA256=' + hashlib.sha256(raw).hexdigest()] + markers
           selected.append(f'BUILD_MODULES={len(modules)} LINT_MODULES={len(linted)} '
                           f'SAME_SURFACE={set(modules) == set(linted)}')
+          names = {
+              'GameTheory.ReBeL.theorem1_fullAOH',
+              'GameTheory.ReBeL.exists_publicBelief_nash',
+              'GameTheory.ReBeL.TypeBeliefSlice.theorem1_canonicalPBS',
+              'GameTheory.ReBeL.TypeBeliefSlice.normalized_branch_derivative_of_nash',
+              'GameTheory.ReBeL.TypeBeliefSlice.infoValue_isGreatest',
+              'GameTheory.ReBeL.TypeBeliefSlice.simultaneousResponse_attains',
+              'GameTheory.ReBeL.TypeBeliefSlice.exists_nash_with_value',
+              'GameTheory.ReBeL.TypeBeliefSlice.branch_eq_value_iff_nashOpponent',
+              'GameTheory.ReBeL.TypeBeliefSlice.averaged_global_support',
+              'GameTheory.ReBeL.Examples.ValueRadial.normal_shift_annihilates_tangent',
+              'GameTheory.ReBeL.Examples.ValueRadial.radialValue_changes_along_simplex_normal',
+              'GameTheory.ReBeL.Examples.ValueRadial.radial_gradient_not_supporting',
+              'GameTheory.ReBeL.Examples.ValueKink.arbitrary_linear_combination_not_supporting',
+              'GameTheory.ReBeL.Examples.ValueGeometry.coinSimplexValue_not_differentiable',
+              'GameTheory.ReBeL.Examples.HiddenTypes.twoStage_joint_theorem1',
+          }
+          records = {}
+          for match in re.finditer(r'^REBEL_AXIOMS (\S+): \[([^\]]*)\]', text, re.M):
+              name, axioms = match.groups()
+              if name in names:
+                  if name in records:
+                      raise SystemExit('Duplicate declaration audit record')
+                  records[name] = 'REBEL_AXIOMS ' + name + ': [' + ' '.join(axioms.split()) + ']'
+          if set(records) != names:
+              raise SystemExit('Missing principal audit records: ' + repr(sorted(names - set(records))))
+          selected.extend(records[name] for name in sorted(records))
           rows = [f'{i:02d}: {line}' for i, line in enumerate(selected)]
-          if len(rows) > 100 or any(len(row) > 245 for row in rows):
+          if len(rows) > 25 or any(len(row) > 245 for row in rows):
               raise SystemExit('Transport bound exceeded; do not truncate proof evidence')
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as out:
               out.write('diagnostics=' + json.dumps(rows, ensure_ascii=True) + '\n')
@@ -83,5 +119,5 @@ jobs:
       matrix:
         diagnostic: ${{ fromJSON(needs.extract.outputs.diagnostics) }}
     steps:
-      - name: Read-only evidence transport; original validation is authoritative
-        run: echo 'The job name contains an exact line from the saved audit, or explicit metadata.'
+      - name: Read-only evidence transport; original validation remains authoritative
+        run: echo 'Job names contain original markers and complete whitespace-normalized axiom records.'
