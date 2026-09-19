@@ -110,7 +110,7 @@ theorem cfrD_score_abs_le (trunk : CFRDTrunk M)
     _ ≤ |(cfrDQuery M trunk fallback oracle n).actionValue who site choice -
         M.counterfactualActionUtility strategy who site payoff fuel choice| +
         |M.counterfactualActionUtility strategy who site payoff fuel choice| := by
-      simpa only [sub_add_cancel] using abs_add
+      simpa only [sub_add_cancel] using abs_add_le
         ((cfrDQuery M trunk fallback oracle n).actionValue who site choice -
           M.counterfactualActionUtility strategy who site payoff fuel choice)
         (M.counterfactualActionUtility strategy who site payoff fuel choice)
