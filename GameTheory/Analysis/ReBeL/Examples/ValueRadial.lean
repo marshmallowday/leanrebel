@@ -151,4 +151,17 @@ theorem corrected_support (point : Fin 2 → ℝ) :
     · norm_num [weights, Fin.sum_univ_two]
   · rw [branch_eq, value_eq]
 
+/-- The shift `(1/4,1/4)` annihilates every tangent to the mass-one simplex. -/
+theorem normal_shift_annihilates_tangent (direction : ℝ × ℝ)
+    (tangent : direction.1 + direction.2 = 0) :
+    (1 / 4 : ℝ) * direction.1 + (1 / 4 : ℝ) * direction.2 = 0 := by
+  linarith
+
+/-- Constancy on rays does not imply constancy perpendicular to the simplex:
+the two strictly positive points below have values `1/4` and `1/3`. -/
+theorem radialValue_changes_along_simplex_normal :
+    radialValue ((1 / 4 : ℝ), (3 / 4 : ℝ)) ≠
+      radialValue (((1 / 4 : ℝ), (3 / 4 : ℝ)) + ((1 / 4 : ℝ), (1 / 4 : ℝ))) := by
+  norm_num [radialValue_eq]
+
 end GameTheory.ReBeL.Examples.ValueRadial
