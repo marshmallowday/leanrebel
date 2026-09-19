@@ -11,8 +11,8 @@ GameTheory.Analysis.ReBeL.CFRDSearch
 GameTheory.Analysis.ReBeL.CFRDCarriedPlay
 GameTheory.Analysis.ReBeL.Examples.CFRDExecution
 GameTheory.Analysis.ReBeL.Examples.CFRDUniformControl
-GameTheory.Analysis.ReBeL.Examples.CFRDSeedControl
 GameTheory.Analysis.ReBeL.PBSLeafOptimality
+GameTheory.Analysis.ReBeL.Examples.CFRDSeedControl
 GameTheory.Analysis.ReBeL.Examples.CFRDLiveControl
 GameTheory.Analysis.ReBeL.CFRDResolve
 GameTheory.Analysis.ReBeL.CFRDResolveSafety
@@ -24,3 +24,4 @@ GameTheory.Analysis.ReBeL.Examples.CFRDEquilibriumReplacement
 GameTheory.Analysis.ReBeL.CFRDDelayedSampling
 GameTheory.Analysis.ReBeL.CFRDChildResolve
 GameTheory.Analysis.ReBeL.CFRDChildOracle
+GameTheory.Analysis.ReBeL.Examples.CFRDChildControl

@@ -8,7 +8,7 @@ it does not assert optimality of an arbitrary supplied child table.
 -/
 
 import GameTheory.Analysis.ReBeL.CFRDDelayedSampling
-import GameTheory.Analysis.ReBeL.CFRDResolve
+import GameTheory.Analysis.ReBeL.CFRDResolveBelief
 
 noncomputable section
 
@@ -111,5 +111,21 @@ theorem cfrDChildResolve_eq (clock : ObservationClock M) (hrecall : M.PerfectRec
   rw [cfrD_run_cut_congr M clock unknown who _ (trunks n who) cut before]
   exact cfrDChild_sampling_eq M clock hrecall cut remaining (seeds n) (trunks n)
     (children n) fallback unknown who
+
+/-- Retaining the newly drawn private profile and propagating its MODEL PBS
+from the stored past does not change the established child-sampling law. -/
+theorem cfrDChildResolveStep_history (clock : ObservationClock M) (hrecall : M.PerfectRecall)
+    (rootSeed : FinDist K) (seeds : K → FinDist J)
+    (trunks : K → Profile M.behavioralSignature)
+    (children : K → J → Profile M.behavioralSignature) (fallback : (who : Fin 2) → M.Policy who)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2) (cut remaining : Nat) :
+    (privateCarriedResolveStep M rootSeed
+        (cfrDChildParentProfiles M clock cut seeds trunks children fallback)
+        (cfrDChildPublicResolver M clock cut seeds trunks children)
+        unknown who cut remaining).map (fun state => state.history) =
+      privateIterationLaw M rootSeed
+        (cfrDChildParentProfiles M clock cut seeds trunks children fallback)
+        unknown who (cut + remaining) := by
+  rw [privateCarriedResolveStep_history, cfrDChildResolve_eq M clock hrecall]
 
 end GameTheory.ReBeL
