@@ -17,11 +17,14 @@ open GameTheory.Protocol GameTheory.Protocol.InformationModel
 open GameTheory.Math.Probability
 open GameTheory.ReBeL.Rational.HiddenTypes.Canonical
 
+/-- Finite canonical histories for the genuine live-cut control. -/
 local instance cfrDLiveHistoryFintype : Fintype (protocol fullPrior).History :=
   historyFintype fullPrior
+/-- Decidable information-state equality for this proof-only live-cut control. -/
 local instance cfrDLiveInfoDecidable (who : Player) :
     DecidableEq ((model fullPrior).InfoState who) :=
   Classical.decEq _
+/-- Finite legal menus at every information state of the live-cut control. -/
 local instance cfrDLiveChoiceFintype (who : Player) (info : (model fullPrior).InfoState who) :
     Fintype ((model fullPrior).Choice who info) := by
   classical
