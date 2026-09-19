@@ -1,0 +1,74 @@
+name: M06 targeted proof feedback
+
+on:
+  push:
+    branches: ['rebel/m06']
+    paths:
+      - 'GameTheory/ReBeL/**'
+      - 'GameTheory/Analysis/ReBeL/**'
+      - 'scripts/rebel/m06-targets.txt'
+      - '.github/workflows/rebel-m06-dev.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: m06-proof-feedback-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Compile the declared M06 targets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rev-parse HEAD | tee "$RUNNER_TEMP/m06-targeted.log"
+          lake env lean --version | tee -a "$RUNNER_TEMP/m06-targeted.log"
+          python3 - <<'PY'
+          from pathlib import Path
+          import os, re
+          pending = Path('scripts/rebel/m06-targets.txt').read_text().split()
+          sources = [Path('.'), *Path('.lake/packages').iterdir()]
+          seen, roots = set(), set()
+          while pending:
+              name = pending.pop()
+              if name in seen:
+                  continue
+              seen.add(name)
+              if name.startswith('Mathlib.'):
+                  roots.add(name)
+                  continue
+              relative = Path(name.replace('.', '/') + '.lean')
+              path = next((p / relative for p in sources if (p / relative).is_file()), None)
+              if path is not None:
+                  for line in path.read_text().splitlines():
+                      match = re.match(r'^(?:(?:public|private) )?import (.+)$', line)
+                      if match:
+                          pending.extend(match.group(1).split('--')[0].split())
+          if not seen or not roots:
+              raise SystemExit('Missing target closure')
+          (Path(os.environ['RUNNER_TEMP']) / 'm06-target-roots.txt').write_text(' '.join(sorted(roots)))
+          PY
+          lake exe cache get $(cat "$RUNNER_TEMP/m06-target-roots.txt")
+          lake build $(cat scripts/rebel/m06-targets.txt) 2>&1 | tee -a "$RUNNER_TEMP/m06-targeted.log"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: m06-targeted-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-targeted.log
+          retention-days: 7
+          if-no-files-found: warn
