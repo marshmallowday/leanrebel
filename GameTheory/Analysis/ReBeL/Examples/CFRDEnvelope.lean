@@ -9,6 +9,7 @@ that an opponent model ceiling need not preserve fixed-opponent exploitation.
 import GameTheory.Analysis.ReBeL.CFRDEnvelopeSafety
 import GameTheory.Analysis.ReBeL.Examples.CFRDFiniteChild
 import GameTheory.Analysis.ReBeL.Examples.CFRDEquilibriumReplacement
+import GameTheory.Analysis.ReBeL.Examples.ValueKink
 
 noncomputable section
 
@@ -135,3 +136,32 @@ theorem bad_candidate_breaks_model_ceiling :
   norm_num [form, strategy, replacementUtility, replacementPayoff]
 
 end GameTheory.ReBeL.Examples.EquilibriumReplacement
+
+namespace GameTheory.ReBeL.Examples.ValueKink
+
+open GameTheory.Math.Probability GameTheory.MatrixGame
+open ValueRadial (weights)
+
+/-- Independent exact Nash choices at the SAME PBS can disagree on a
+positive-mass opponent type's value. Thus neither common game value nor
+ordinary child Nash constructs the envelope's pointwise type ceiling.
+This refutes that proof shortcut, not source-consistent ReBeL recursion. -/
+theorem same_pbs_nash_not_type_ceiling :
+    (∃ row : FinDist (Fin 2 → Unit),
+      IsNash (form (Fin 2 → Unit) (Fin 2)).mixed
+        (euPreference (utility (TypeGame.matrix payoff
+          (weights ((1 / 2 : ℝ), (1 / 2 : ℝ))))))
+        (mixedProfile row (FinDist.pure 0))) ∧
+    (∃ row : FinDist (Fin 2 → Unit),
+      IsNash (form (Fin 2 → Unit) (Fin 2)).mixed
+        (euPreference (utility (TypeGame.matrix payoff
+          (weights ((1 / 2 : ℝ), (1 / 2 : ℝ))))))
+        (mixedProfile row (FinDist.pure 1))) ∧
+    0 < weights ((1 / 2 : ℝ), (1 / 2 : ℝ)) 0 ∧
+    ¬ TypeGame.infoValue payoff (FinDist.pure (0 : Fin 2)) 0 ≤
+      TypeGame.infoValue payoff (FinDist.pure (1 : Fin 2)) 0 := by
+  refine ⟨both_equilibrium_opponents 0, both_equilibrium_opponents 1, ?_, ?_⟩
+  · norm_num [weights]
+  · norm_num [infoValue_pure]
+
+end GameTheory.ReBeL.Examples.ValueKink

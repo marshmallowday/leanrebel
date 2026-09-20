@@ -86,7 +86,9 @@ theorem privateCarriedResolve_security_of_envelope (clock : ObservationClock M)
     resolver fallback unknown who opponent different cut remaining (payoff opponent)
     envelopeLoss nonneg envelope
   rw [FinDist.expect_sub] at focalRegret trunkRegret
-  simp_rw [opposite, FinDist.expect_neg] at trunkRegret resolved
+  have negate (f : K → ℝ) : seed.expect (fun n => -f n) = -seed.expect f := by
+    simpa only [neg_one_mul] using FinDist.expect_smul (-1) seed f
+  simp_rw [opposite, negate] at trunkRegret resolved
   linarith
 
 variable [Fintype E.History] [∀ who, DecidableEq (M.InfoState who)]
