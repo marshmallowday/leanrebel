@@ -3,32 +3,43 @@
 ## Active restart
 
 Continue on `rebel/m06-bounded-refresh-20260921`; re-read its remote HEAD.
-The base is `a39599e3b47b1e50ca78d5a6385aa24035d25738`, including repaired
-finite-child proof source f4671e42. Both full repository CI and full ReBeL
-validation of a39599e3 succeeded. The downloaded log ends with 173 modules
-and 3,544 transitive declaration checks. See M06-bounded-refresh-restart.md.
-Main remains 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098; no history is rewritten.
-The preceding STATUS is archived byte-for-byte in M06-status-before-bounded-refresh.md.
+The validated base is a39599e3b47b1e50ca78d5a6385aa24035d25738. Full repository
+CI and full ReBeL validation passed there (173 modules, 3,544 axiom records).
+Main stays 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. The original STATUS is
+preserved in M06-status-before-bounded-refresh.md. No history is rewritten.
 
-## New compiler checkpoint
+## Saved implementation awaiting exact-source verification
 
-CFRDRefreshMix composes one real carried-memory step with its retained-policy
-continuation, preserving the private selection and Bayesian state bookkeeping.
-It constructs a private mixture of a fresh resolver and the currently retained
-profile and derives a stage loss of at most 2*bound*rate from bounded utility.
-No local replacement comparison or recursive safety conclusion is supplied.
-Terminal and zero-fuel branches retain the canonical no-query behavior.
-The new module is a targeted compiler input, NOT yet a validated result.
-Add the concrete finite-PBS refresh schedule, umbrella/audit registration,
-nontrivial controls and exact-source validation before accepting the slice.
+CFRDRefreshMix derives complete selected-tail expectation identities and a
+2*bound*rate pointwise replacement allowance for a private profile mixture.
+CFRDFiniteRefresh computes finite-budget candidates at the actual carried PBS,
+retains the CURRENT profile when model support is missing, schedules each solve
+for the remaining horizon, and derives all recursive step-comparison premises.
+CFRDFiniteRefreshSafety connects this execution to the actual noisy outer
+finite-child CFR-D solver, retaining numerical, child, outer finite-time and
+refresh terms separately. The additional cost is stageCount*2*bound*rate.
+No child Nash, local replacement bound or recursive safety inequality is
+assumed. The original-game comparison equilibrium only names its value.
 
-The inherited finite normal-form child constructor remains unchanged. A fresh
-solve at each carried PBS and its recursive loss transfer are the next task.
-This bounded-refresh variant explicitly pays replacement loss. It is NOT a
-claim of lossless independent equilibrium replacement or the paper's fixed-T
-information-set child CFR. Retain the existing counterexamples and distinguish
-prediction error, child loss, outer regret and refresh allowance.
+The example module exercises actual nonzero replacement loss, missing beliefs,
+a live finite candidate, zero-fuel stopping and a two-stage forward-state bound.
+All four modules are registered in the umbrella, target list and supplemental
+normal/slow-lint and transitive-axiom audit. Compilation is not yet accepted.
+The first core target run 35534241817/job 106140278761 rejected an underspecified
+nonnegative scalar in the stopped branch; the proof now types it explicitly.
+The algebraic live-case scaling is explicit as well; no claim or gate is weakened.
 
-Coverage: SEARCH-CFRD and SEARCH-ERROR gain only an unvalidated candidate here.
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 parent obligations
-remain pending; no M06 acceptance or main integration is claimed.
+## Scope and coverage
+
+This is a bounded-refresh variant with a visible replacement penalty, NOT
+lossless arbitrary independent equilibrium replacement and NOT the paper's
+fixed-T information-set child CFR. Each fresh candidate is a finite adaptive
+real-arithmetic normal-form solve. The mixture as a whole is not asserted to
+be a child Nash profile. Missing model support is never silently repaired.
+
+SEARCH-CFRD gains a candidate construction of fresh carried-PBS solving and
+SEARCH-ERROR gains derived recursive replacement allowances. SEARCH-FRONTIER,
+SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 original source parents remain pending.
+Inspect exact-source compiler, lint, axiom and semantic evidence before accepting
+this slice. The paper-faithful recursive guarantee and original variant remain
+separate obligations; no M06 completion or main integration is claimed.

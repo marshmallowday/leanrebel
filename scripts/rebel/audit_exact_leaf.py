@@ -36,6 +36,10 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.CFRDFiniteContinuation",
     "GameTheory.Analysis.ReBeL.CFRDFiniteDriver",
     "GameTheory.Analysis.ReBeL.Examples.CFRDFiniteChild",
+    "GameTheory.Analysis.ReBeL.CFRDRefreshMix",
+    "GameTheory.Analysis.ReBeL.CFRDFiniteRefresh",
+    "GameTheory.Analysis.ReBeL.CFRDFiniteRefreshSafety",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDFiniteRefresh",
 )
 AUDITOR = r'''
 open Lean Elab Command in

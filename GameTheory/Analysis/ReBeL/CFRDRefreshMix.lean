@@ -126,8 +126,11 @@ theorem mixedCarriedStage_loss_le (initial : K → Profile M.behavioralSignature
       (fun chosen _ => FinDist.abs_expect_le_of_abs_bound _ payoff
         (fun history _ => bounded history))
     simp only [carriedSelectedTail] at oldBound ⊢
-    nlinarith [(abs_le.mp oldBound).2, (abs_le.mp newBound).1]
-  · simp only [mixedCarriedStage, if_neg live, sub_self]
-    exact mul_nonneg (mul_nonneg (by norm_num) boundNonneg) nonneg
+    have gap := sub_le_sub (abs_le.mp oldBound).2 (abs_le.mp newBound).1
+    have scaled := mul_le_mul_of_nonneg_left gap nonneg
+    nlinarith only [scaled]
+  · dsimp only [mixedCarriedStage]
+    rw [if_neg live, sub_self]
+    exact mul_nonneg (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) boundNonneg) nonneg
 
 end GameTheory.ReBeL
