@@ -1,0 +1,29 @@
+# Selected new declaration axiom evidence
+
+Exact source: af8b63282a49cdfb68df411e5527b6ba3e288d42
+Run: 35508389830; job: 106071929602
+Target artifact: 10604568141
+
+This is a normalized excerpt of the 16 newly added public theorems.
+The COMPLETE supplemental audit inspected 113 declarations in 13 modules,
+including private/generated declarations, not just this selected excerpt.
+Only propext, Classical.choice and Quot.sound are allowed.
+Full raw target-log SHA256:
+798bccdb7621883cf9133f324633bd1a9d753cffcdf1a9f604bc420a60cfa8eb
+
+GameTheory.ReBeL.TypeBeliefSlice.weighted_infoGap_le_of_approxNash : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.TypeBeliefSlice.conditional_gain_le_of_approxNash : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteBeliefForm_approxNash_realization : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.TypeBeliefSlice.mean_infoGap_le_of_approxNash : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.TypeBeliefSlice.conditional_gain_le_of_mass_budget : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDPublicResponseCompletion_approx_leafOptimal : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDReferenceTable_approx_leafOptimal : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDPublicResponseCompletion_loss_of_root_cases : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.factualChild_approximate_contract : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.ApproximateLeaf.rareMatrix_eq : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.ApproximateLeaf.rare_payoff_le : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.ApproximateLeaf.rare_supported_amplification : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.ApproximateLeaf.rare_absent_counterexample : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.ApproximateLeaf.rareWeight_simplex : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.ApproximateLeaf.rare_baseline_payoff : [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.ApproximateLeaf.rare_approxNash : [propext, Classical.choice, Quot.sound]

@@ -2,44 +2,78 @@
 
 ## Active restart point
 
-Continue on `rebel/m06-conditional-loss-20260920`; read its actual remote HEAD.
-This work descends from b5e15493d6efdc4fa641aeb690e40b24a0764d11 without replaying
-older stages. Main remains 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
-M06-status-before-conditional-loss.md preserves the preceding STATUS byte-for-byte.
+Continue on `rebel/m06-conditional-checkpoint-20260920`; read its remote HEAD.
+Its proof source is `af8b63282a49cdfb68df411e5527b6ba3e288d42` on the preserved
+`rebel/m06-conditional-loss-20260920` branch. This evidence update contains no
+Lean or dependency changes. All work descends from the checked restart
+`b5e15493d6efdc4fa641aeb690e40b24a0764d11`; do not replay older recovery stages.
+Main stays `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`, accepted through M05.
+M06-status-before-conditional-loss.md preserves the preceding driver STATUS
+with identical Git blob `bba1393b0b6cccbaabf9dc6552ac612f023d720c`.
 
-## Inherited verification now resolved
+## Exact-source verified dependency slice
 
-At b5e15493, ReBeL full run 35503671838/job 106059741567 PASSED. The downloaded
-artifact 10602644467 reports REBEL_AXIOM_AUDIT_PASS declarations=3394 and
-REBEL_VALIDATION_PASS modules=161. Every transitive set uses only propext,
-Classical.choice and Quot.sound. ZIP SHA256:
-2569715f99adaec69c23fba2b4940309b23302d7e902d4f0cde06548a4b1ecfc.
-The earlier 0b6d3f36 full CI 35503252425/job 106058634035 passed; its ReBeL run
-35503252397 was cancelled. The later b5e15493 success is separate exact-source
-evidence, not a relabeling of that cancellation.
+On af8b6328, target run `35508389830`, job `106071929602`, PASSED all 51 targets
+(3,306 Lake jobs) and the supplemental 13-module validation. All 113 complete
+transitive declaration records were inspected and use only `propext`,
+`Classical.choice`, `Quot.sound`; all 13 normal/slow module lints passed.
+The target log contains no error or warning records. This supplements, rather
+than replaces, full repository and ReBeL acceptance checks.
 
-## Current dependency slice
+Source inventory `35508389752` / `106071929279` also passed. At this recording
+checkpoint, full CI `35508389747` / `106071929220` and full ReBeL
+`35508389751` / `106071965121` still run. Re-read their actual results and
+artifacts before promoting any original obligation. No M06 acceptance or
+main integration is claimed. See M06-conditional-loss-validation.md and
+M06-conditional-loss-axioms.txt for source hashes, run IDs and scoped evidence.
 
-PBSApproximateOptimality derives mean and probability-weighted conditional
-gaps from canonical approximate Nash. Supported types require error/p, or a
-root error budget <= p*loss. CFRDApproximateLeaf connects those budgets and
-constructed zero-own-reach responses to the actual CFRDLeafOptimal contract.
-The reference table supplies query kernels and legal public-state splicing.
-Canonical rare-type and zero-mass negative controls, plus a live HiddenTypes
-positive specialization, are added in Examples/CFRDApproximateLeaf.
+The exact Actions source snapshot matches all six changed code/registration/
+audit files. All 76 existing Python tests and ledger/inventory structural
+checks passed on that snapshot. The original 3,054 expanded rows and all
+inherited imports, targets, dependency pins and negative controls are retained.
+All 489 non-Experimental Lean sources satisfy the unchanged line-width bound.
 
-The initial 594cfc65 source failed run 35507002570/job 106068402421. Its proof
-and target-path repairs are saved together with the contract and controls.
-All three new modules are added to the existing supplemental axiom/lint audit;
-the next exact-SHA compiler and acceptance jobs must be inspected. See
-M06-conditional-loss.md. No success is inferred from the baseline validation.
+## New proof and controls
 
-## Remaining M06 work
+PBSApproximateOptimality provides four conditional-gap lemmas and a finite-
+plan approximate-Nash realization theorem. A type of probability p has
+p*gap <= epsilon; only a supported type admits the epsilon/p bound. The
+explicit budget epsilon <= p*loss gives the desired conditional loss.
+Finite mixed-plan approximate Nash transfers to canonical behavioral PBS
+Nash without increasing epsilon and covers all behavioral future deviations.
 
-Construct finite-iteration child solves meeting the probability budgets, then
-connect fresh recursive carried execution. The existing exact/noisy drivers
-retain their noncomputable exact-child scope. Root epsilon Nash alone is not
-a probability-independent conditional guarantee. Numerical prediction error,
-child loss and outer finite-T error remain separate. SEARCH-FRONTIER,
-SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain open. No main integration,
-dependency update, test deletion or milestone acceptance is claimed.
+CFRDApproximateLeaf connects these probability budgets and constructed
+zero-own-reach responses through legal public splicing and the actual
+reference table to CFRDLeafOptimal at the specified loss. It has three new
+general theorems. Its remaining factual approximate-Nash premise is not a
+conditional-value inequality or a claimed implemented child algorithm.
+
+Eight compiled example theorems include canonical approximate Nash with root
+error p but conditional gain one for arbitrarily small p, exact root Nash at
+p=0 with an unconstrained omitted type, and a genuine live HiddenTypes
+application of the new leaf contract. The last example specializes the
+existing exact child to zero root error; it is not finite-child CFR.
+
+## Inherited verification resolved
+
+The baseline b5e15493 full ReBeL run `35503671838` / `106059741567` succeeded:
+161 modules and 3,394 inspected transitive axiom records. The earlier
+0b6d3f36 full CI `35503252425` / `106058634035` succeeded, but its ReBeL
+`35503252397` was cancelled. These are distinct exact-source observations,
+not a relabeling of the cancelled run. The validation document records hashes.
+
+## Remaining M06 construction and coverage
+
+Construct a finite-iteration child solver at the actual PBS/finiteBeliefForm
+and derive its error AND probability budgets. The new realization theorem
+supplies only its finite-plan-to-behavioral step. Do not infer uniform typewise
+loss from root epsilon-Nash or assume a global positive PBS mass floor.
+Then construct fresh recursive re-solving at the actual carried PBSs and
+transfer its guarantees to the outer depth-limited solver. The exact/noisy
+drivers still use their previously documented noncomputable exact children.
+
+Keep numerical prediction error, child loss, optional replacement loss and
+outer finite-T error separate, and preserve printed/corrected Theorem 3.
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain open.
+The updated coverage journal is in M06-conditional-loss.md. No original
+source row, evidence or gate is deleted or promoted by this partial result.
