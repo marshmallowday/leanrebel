@@ -172,25 +172,9 @@ theorem cfrDFactualChildProfile_referenceSlice
       cfrDReferenceKernel M (cfrDFactualChildProfile M trunk fallback cut remaining utility)
           fallback cut remaining type =
         cfrDReferenceKernel M trunk fallback cut remaining type := by
-    classical
     intro type
-    let observe := fun h : E.History =>
-      ((fullInformation M).infoOf who h.trace, cfrDCutLive remaining h)
-    by_cases sampled : (type.val, true) ∈
-        ((unilateralReferenceLaw (fullInformation M) trunk fallback who cut).map observe).support
-    · have selected : (type.val, true) ∈
-          ((unilateralReferenceLaw (fullInformation M)
-            (cfrDFactualChildProfile M trunk fallback cut remaining utility)
-            fallback who cut).map observe).support := by
-        simpa only [cfrDFactualChildProfile_referenceLaw] using sampled
-      simp only [cfrDReferenceKernel, dif_pos selected, dif_pos sampled,
-        cfrDFactualChildProfile_referenceLaw]
-    · have absent : (type.val, true) ∉
-          ((unilateralReferenceLaw (fullInformation M)
-            (cfrDFactualChildProfile M trunk fallback cut remaining utility)
-            fallback who cut).map observe).support := by
-        simpa only [cfrDFactualChildProfile_referenceLaw] using sampled
-      simp only [cfrDReferenceKernel, dif_neg absent, dif_neg sampled]
+    unfold cfrDReferenceKernel
+    rw [cfrDFactualChildProfile_referenceLaw]
   have kernelFunction := funext kernels
   simp only [cfrDReferenceSlice, kernelFunction]
 
