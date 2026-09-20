@@ -103,9 +103,9 @@ theorem finiteGameRegretAverage_externalRegret (fallback : Profile G.form.sig)
   rw [finiteGameRegretAverage, G.externalRegret_timeAverage]
   simp_rw [G.externalRegret_pi]
   show (∑ t : Fin n,
-    finiteGameActionValue G who action (finiteGameRegretPlay G fallback t.val) -
+    (finiteGameActionValue G who action (finiteGameRegretPlay G fallback t.val) -
       expectedUtility G.utility who
-        (G.form.mixed.play (finiteGameRegretPlay G fallback t.val))) / n =
+        (G.form.mixed.play (finiteGameRegretPlay G fallback t.val)))) / n =
     (finiteGameRegretState G fallback n who).ofLp action
   rw [Fin.sum_univ_eq_sum_range (fun t =>
     finiteGameActionValue G who action (finiteGameRegretPlay G fallback t) -
