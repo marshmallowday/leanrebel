@@ -1,0 +1,19 @@
+Selected normalized COMPLETE axiom records from the successful target log.
+This is an excerpt of 13 new proof anchors, not the full set of 87 audited declarations.
+Source: 0b6d3f3689b3d94a75f5da29d2c2a6879e65c130
+Run: 35503252402; job: 106058633996; artifact: 10602982590
+Raw full log SHA256: 462679377b59f502576b5c0fb82b655b973f609a6fb5257e5eeae1cd3f6cfd3d
+
+GameTheory.ReBeL.cfrDDepthProfile_continuation_atCut: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDDepthProfile_deviation_atCut: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDDepthProfile_referenceLaw: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDDepthProfile_leafOptimal: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDExactContinuation_referenceLaw: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDExactContinuation_leafOptimal: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDConstructedExactOracle_accurate: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDConstructedExactOracle_leafOptimal: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDConstructedExactOracle_isNash: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDConstructedExactOracle_carried_security: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDConstructedNoisyOracle_accurate: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDConstructedNoisyOracle_leafOptimal: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDConstructedNoisyOracle_carried_security: [propext, Classical.choice, Quot.sound]
