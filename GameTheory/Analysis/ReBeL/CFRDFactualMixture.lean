@@ -173,7 +173,36 @@ theorem cfrDFactualChildProfile_referenceSlice
           fallback cut remaining type =
         cfrDReferenceKernel M trunk fallback cut remaining type := by
     intro type
-    simp only [cfrDReferenceKernel, cfrDFactualChildProfile_referenceLaw]
+    classical
+    have reference :=
+      cfrDFactualChildProfile_referenceLaw M trunk fallback cut remaining utility who
+    have beliefExt (first second : PublicBelief (fullInformation M).toInfoSignals observations)
+        (equal : first.law = second.law) : first = second := by
+      cases first
+      cases second
+      cases equal
+      rfl
+    by_cases sampled : (type.val, true) ∈
+        ((unilateralReferenceLaw (fullInformation M) trunk fallback who cut).map
+          (fun h => ((fullInformation M).infoOf who h.trace, cfrDCutLive remaining h))).support
+    · have sampledChild : (type.val, true) ∈
+          ((unilateralReferenceLaw (fullInformation M)
+            (cfrDFactualChildProfile M trunk fallback cut remaining utility) fallback who cut).map
+            (fun h =>
+              ((fullInformation M).infoOf who h.trace, cfrDCutLive remaining h))).support := by
+        rw [reference]
+        exact sampled
+      apply beliefExt
+      rw [cfrDReferenceKernel_law M _ fallback cut remaining type sampledChild,
+        cfrDReferenceKernel_law M trunk fallback cut remaining type sampled, reference]
+    · have absentChild : (type.val, true) ∉
+          ((unilateralReferenceLaw (fullInformation M)
+            (cfrDFactualChildProfile M trunk fallback cut remaining utility) fallback who cut).map
+            (fun h =>
+              ((fullInformation M).infoOf who h.trace, cfrDCutLive remaining h))).support := by
+        rw [reference]
+        exact sampled
+      simp only [cfrDReferenceKernel, dif_neg sampled, dif_neg absentChild]
   have kernelFunction := funext kernels
   simp only [cfrDReferenceSlice, kernelFunction]
 
