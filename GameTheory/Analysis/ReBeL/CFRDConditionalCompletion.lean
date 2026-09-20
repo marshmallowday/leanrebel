@@ -159,11 +159,11 @@ theorem cfrDJointTypeCompletion_referenceOracle_optimal (hrecall : M.PerfectReca
       (unilateralReferenceLaw M base fallback who cut).condOnFibre observe tag)
     (factual : type ∈ own.support ↔ tag ∈ ((M.runBehavioral base cut).map observe).support)
     (target : M.BehavioralPolicy who) :
-    conditionalOracle (unilateralReferenceLaw M base fallback who cut) observe
+    conditionalOracleValue (unilateralReferenceLaw M base fallback who cut) observe
         (fun history => (M.runBehavioralFrom
           (Profile.update (cfrDJointTypeCompletion M slices fallback fuel utility base) who target)
           fuel history).expect (fun outcome => utility outcome who)) tag ≤
-      conditionalOracle (unilateralReferenceLaw M base fallback who cut) observe
+      conditionalOracleValue (unilateralReferenceLaw M base fallback who cut) observe
         (fun history => (M.runBehavioralFrom
           (cfrDJointTypeCompletion M slices fallback fuel utility base) fuel history).expect
           (fun outcome => utility outcome who)) tag := by
@@ -171,6 +171,6 @@ theorem cfrDJointTypeCompletion_referenceOracle_optimal (hrecall : M.PerfectReca
     fuel utility base who own equilibrium type cut observe readInfo information tag sampled
     kernel factual target
   simpa only [TypeBeliefSlice.conditionalPayoff, PublicBelief.continuationLaw,
-    FinDist.expect_bind, conditionalOracle_eq, kernel] using optimal
+    FinDist.expect_bind, conditionalOracleValue, kernel] using optimal
 
 end GameTheory.ReBeL
