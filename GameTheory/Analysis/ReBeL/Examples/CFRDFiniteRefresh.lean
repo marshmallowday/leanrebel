@@ -84,7 +84,7 @@ theorem finiteRefresh_missing_retains (memory : CarriedResolveMemory (model full
           1 (fun h who => cfrPayoff who h) 2 (1 / 4))
         rate nonneg atMostOne memory obs none =
       FinDist.pure (carriedMemoryProfile (model fullPrior) refreshControlPlays memory) := by
-  simp only [mixedCarriedResolver, finiteRefreshCandidate_none, FinDist.mix_self]
+  exact FinDist.mix_self rate nonneg atMostOne _
 
 /-- A genuinely live carried PBS invokes the finite recurrence with its actual
 joint posterior. This candidate is not an exact Nash witness chosen by existence. -/
