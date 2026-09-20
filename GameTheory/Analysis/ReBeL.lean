@@ -143,3 +143,6 @@ import GameTheory.Analysis.ReBeL.Examples.CFRDFiniteRefresh
 import GameTheory.Analysis.ReBeL.CFRDResolveEnvelope
 import GameTheory.Analysis.ReBeL.CFRDEnvelopeSafety
 import GameTheory.Analysis.ReBeL.Examples.CFRDEnvelope
+import GameTheory.Analysis.ReBeL.CFRDCoherentDraw
+import GameTheory.Analysis.ReBeL.CFRDFiniteCoherent
+import GameTheory.Analysis.ReBeL.Examples.CFRDCoherentDraw
