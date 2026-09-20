@@ -7,6 +7,7 @@ on:
       - 'GameTheory/ReBeL/**'
       - 'GameTheory/Analysis/ReBeL/**'
       - 'scripts/rebel/m06-targets.txt'
+      - 'scripts/rebel/audit_exact_leaf.py'
       - '.github/workflows/rebel-m06-dev.yml'
 
 permissions:
@@ -65,6 +66,11 @@ jobs:
           PY
           lake exe cache get $(cat "$RUNNER_TEMP/m06-target-roots.txt")
           lake build $(cat scripts/rebel/m06-targets.txt) 2>&1 | tee -a "$RUNNER_TEMP/m06-targeted.log"
+      - name: Validate the constructed exact child proof slice
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/rebel/audit_exact_leaf.py 2>&1 | tee -a "$RUNNER_TEMP/m06-targeted.log"
       - name: Expose compiler diagnostics for read-only review
         if: always()
         shell: bash

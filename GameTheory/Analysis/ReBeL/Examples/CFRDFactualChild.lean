@@ -142,11 +142,3 @@ theorem factualChild_completed_leafOptimal (who : Player) :
     cfrFallback 2 1 (fun h player => cfrPayoff player h) who
 
 end GameTheory.ReBeL.Examples.HiddenTypes
-
--- Exact-source transitive dependency output accompanies the compiled controls.
--- The full repository compiler/lint/axiom workflow remains a separate gate.
-#print axioms GameTheory.ReBeL.cfrDFactualChildProfile_completed_leafOptimal
-#print axioms GameTheory.ReBeL.cfrDFactualChildProfile_currentPBS
-#print axioms GameTheory.ReBeL.Examples.HiddenTypes.factualChild_completed_leafOptimal
-#print axioms GameTheory.ReBeL.Examples.HiddenTypes.factualChild_unvisited_absent
-#print axioms GameTheory.ReBeL.Examples.HiddenTypes.factualChild_zero_remaining_absent

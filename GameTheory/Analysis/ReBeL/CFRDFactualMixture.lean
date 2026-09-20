@@ -21,7 +21,7 @@ open GameTheory.Math.Probability
 universe uι us ua up uq uk
 variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 variable (M : InformationModel.{uι, us, ua, up, uq, uk} E)
-variable [Fintype ι] [DecidableEq ι] [Fintype E.History]
+variable [Fintype ι] [Fintype E.History]
 
 /-- The child type distribution is the pushforward of its actual joint law.
 The memory fallback only encodes syntactic states outside the physical fiber. -/
@@ -66,7 +66,7 @@ theorem cfrDFactualChildTypeLaw_support
     apply Subtype.ext
     exact (publicRootMemory_read M root h hpublic).trans info
 
-variable [∀ who info, Fintype ((fullInformation M).Choice who info)]
+variable [DecidableEq ι] [∀ who info, Fintype ((fullInformation M).Choice who info)]
 
 /-- Each supported encoded child kernel is precisely the child posterior's
 conditional. Its reference law, live mask and information encoding are derived. -/
@@ -172,8 +172,25 @@ theorem cfrDFactualChildProfile_referenceSlice
       cfrDReferenceKernel M (cfrDFactualChildProfile M trunk fallback cut remaining utility)
           fallback cut remaining type =
         cfrDReferenceKernel M trunk fallback cut remaining type := by
+    classical
     intro type
-    simp only [cfrDReferenceKernel, cfrDFactualChildProfile_referenceLaw]
+    let observe := fun h : E.History =>
+      ((fullInformation M).infoOf who h.trace, cfrDCutLive remaining h)
+    by_cases sampled : (type.val, true) ∈
+        ((unilateralReferenceLaw (fullInformation M) trunk fallback who cut).map observe).support
+    · have selected : (type.val, true) ∈
+          ((unilateralReferenceLaw (fullInformation M)
+            (cfrDFactualChildProfile M trunk fallback cut remaining utility)
+            fallback who cut).map observe).support := by
+        simpa only [cfrDFactualChildProfile_referenceLaw] using sampled
+      simp only [cfrDReferenceKernel, dif_pos selected, dif_pos sampled,
+        cfrDFactualChildProfile_referenceLaw]
+    · have absent : (type.val, true) ∉
+          ((unilateralReferenceLaw (fullInformation M)
+            (cfrDFactualChildProfile M trunk fallback cut remaining utility)
+            fallback who cut).map observe).support := by
+        simpa only [cfrDFactualChildProfile_referenceLaw] using sampled
+      simp only [cfrDReferenceKernel, dif_neg absent, dif_neg sampled]
   have kernelFunction := funext kernels
   simp only [cfrDReferenceSlice, kernelFunction]
 
