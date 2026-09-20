@@ -27,3 +27,4 @@ GameTheory.Analysis.ReBeL.CFRDChildOracle
 GameTheory.Analysis.ReBeL.Examples.CFRDChildControl
 GameTheory.Analysis.ReBeL.CFRDZeroReachCompletion
 GameTheory.Analysis.ReBeL.Examples.CFRDZeroReachControl
+GameTheory.Analysis.ReBeL.CFRDZeroReachOptimality

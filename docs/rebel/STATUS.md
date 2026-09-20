@@ -2,35 +2,60 @@
 
 ## Active M06 restart point
 
-Continue on `rebel/m06-recovery`, not the older `rebel/m06` head. The current
-proof checkpoint is `996fb00fb01e22a998fdbafc4597845096829fac`; inspect the actual
-remote ref before resuming because later repairs or evidence commits may exist.
-Main was rechecked at `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`; accepted M00-M05
-work is retained there. No M06 integration or acceptance is claimed.
+Continue on `rebel/m06-recovery`, not the older `rebel/m06` head. The new proof
+source is `ef5b781639ffa7180d87805061c0781eb725c6ac`; read the actual remote ref
+because the target-registration/evidence commits and later repairs may follow.
+Main was last checked at `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`, retaining
+accepted M00-M05 work. No M06 integration or milestone acceptance is claimed.
 
-The resumed source at `4034c64f6e177a211c22faf5882e92713161ce33` already contains
-the coupled depth-limited driver, finite-time bounds and carried private play.
-Eight missing documentation strings were repaired through `99e07a54`; no
-proof or gate was weakened. The new generic public resolver transfer and its
-security connection compile at `04cf850a16e7cf9a56c3b97f66655f285e88a1d0`, targeted
-run `35471149309`, job `105972256452`. This targeted success is not full acceptance.
+The inherited equilibrium-replacement control at `883f3329` passed its target,
+full repository CI, inventory and ReBeL compiler/lint/axiom job. The subsequent
+`75e37c12` delayed-child-sampling source had real compiler errors. The repair
+`b717496c` passed targeted run `35476164384`, job `105985660828`.
 
-The newer source adds canonical live-cut positive and negative replacement
-controls and belief-carrying execution after a public solve. The latest target
-run to inspect is `35472778849` for `996fb00f`; its full ReBeL run is `35472778812`,
-full repository CI `35472778958`, and inventory `35472778893`. They were not all
-complete when this status was written. Never infer validation of the latest
-source from the older core-only compiler success.
+## New saved M06 progress and observed validation
 
-Read [M06-resolver-transfer.md](M06-resolver-transfer.md),
-[M06-resolver-control.md](M06-resolver-control.md), and
-[M06-resolver-belief.md](M06-resolver-belief.md). General recursive PBS solving
-and construction of its continuation/replacement contracts remain open.
-`CFRDResolverLocal` is an explicit local continuation premise, not a proved
-consequence of ordinary on-path Nash. The positive live-cut example supplies
-it; that does not supply it for every recursively computed continuation.
-Numerical oracle error, continuation loss, replacement loss and finite-T error
-remain distinct. M06 coverage is not promoted by these intermediate commits.
+- `50953465ef67233f96217bfca353e8074bff0d06`: the constructed child resolver and
+  same-iteration value-oracle adapter passed target run `35476596169`, job
+  `105986817394`. Parent backup and actual private child draws now share one
+  table from the actual learned trunk, with no extra local replacement loss.
+- `538c0866` added carried-model-belief projection and live two-child controls.
+  Its target compiler step passed; its full architecture gate correctly
+  rejected a `change` tactic. `dfd2d861` repaired this by definitional
+  simplification without changing any frozen audit count.
+- `78107e72819214d73d81238c09d4423d922dad76`: all preceding modules plus generic
+  zero-own-reach completion passed target run `35477330791`, job `105988756019`.
+  Completion preserves actual play against arbitrary fixed opponents, all
+  unilateral deviation laws, and the ordinary Nash predicate.
+- `0414e326` adds canonical zero-own versus zero-joint reach controls, and
+  `ef5b7816` constructs an optimal focal completion from finite conditional
+  best-response plans. Their newest exact-source target and full checks must
+  still be read. Earlier target success is not validation of these additions.
+
+Read [M06-child-oracle.md](M06-child-oracle.md),
+[M06-child-controls.md](M06-child-controls.md),
+[M06-zero-reach-completion.md](M06-zero-reach-completion.md),
+[M06-zero-reach-controls.md](M06-zero-reach-controls.md), and
+[M06-zero-reach-optimality.md](M06-zero-reach-optimality.md).
+Existing full document-review records are preserved; incremental recovery
+review is not mislabeled as a new complete rereading of every source file.
+
+## Remaining M06 proof boundary
+
+The child table is constructed from the parent query and sampled consistently;
+this is not yet a fresh recursive solve at every realized carried PBS. The
+zero-own-reach best-response construction is focal against fixed opponents.
+Connect supported-type Nash optimality, joint off-path completion, recursively
+computed child tables, and the resulting child continuation bounds. Do not
+infer any of these merely from on-policy law equality or ordinary Nash.
+
+`CFRDResolverLocal` remains an explicit sufficient premise for arbitrary
+replacement, not a consequence of arbitrary equilibrium selection. The new
+constructed-table adapter does not need it. Numerical oracle error, child
+continuation loss, optional generic replacement loss and finite-T error remain
+distinct. Keep the printed and corrected Theorem 3 statements separate. M06
+coverage is not promoted by these intermediate proofs; complete exact-source
+compiler/lint/architecture/runtime/axiom checks remain mandatory.
 
 ## Accepted M05 proof source and historical integration gate
 
