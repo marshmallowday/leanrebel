@@ -68,7 +68,8 @@ and remembered-type splicing, not supplied as an assumed optimal policy. -/
 def zeroReachBestResponse (fallback : Profile M.strategicSignature) (fuel : Nat)
     (payoff : E.History → ℝ) (base : Profile M.behavioralSignature) : M.BehavioralPolicy who :=
   cfrDCompleteZeroReach M base
-    (Profile.update base who (slice.simultaneousResponse fallback fuel payoff base).toBehavioral) who
+    (Profile.update base who
+      (slice.simultaneousResponse fallback fuel payoff base).toBehavioral) who
 
 /-- All original-game laws against arbitrary fixed opponents are unchanged
 by this constructed focal completion. No Nash premise is needed for equality. -/
