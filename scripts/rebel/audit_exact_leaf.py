@@ -23,6 +23,9 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.CFRDExactSafety",
     "GameTheory.Analysis.ReBeL.CFRDNoisyDriver",
     "GameTheory.Analysis.ReBeL.Examples.CFRDExactDriver",
+    "GameTheory.Analysis.ReBeL.PBSApproximateOptimality",
+    "GameTheory.Analysis.ReBeL.CFRDApproximateLeaf",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDApproximateLeaf",
 )
 AUDITOR = r'''
 open Lean Elab Command in

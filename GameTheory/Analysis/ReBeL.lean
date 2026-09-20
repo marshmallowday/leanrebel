@@ -124,3 +124,5 @@ import GameTheory.Analysis.ReBeL.CFRDExactSafety
 import GameTheory.Analysis.ReBeL.Examples.CFRDExactDriver
 import GameTheory.Analysis.ReBeL.CFRDNoisyDriver
 import GameTheory.Analysis.ReBeL.PBSApproximateOptimality
+import GameTheory.Analysis.ReBeL.CFRDApproximateLeaf
+import GameTheory.Analysis.ReBeL.Examples.CFRDApproximateLeaf

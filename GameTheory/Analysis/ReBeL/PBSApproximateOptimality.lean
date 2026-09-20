@@ -43,14 +43,15 @@ theorem mean_infoGap_le_of_approxNash
   have actual : (PublicBelief.continuationLaw M profile fuel (slice.mixture own)).expect
         (fun h => utility h who) =
       own.expect (slice.conditionalPayoff profile fuel (fun h => utility h who) (profile who)) := by
-    rw [slice.mixture_payoff]
-    simp only [conditionalPayoff, Profile.update_eq_self]
+    simpa only [conditionalPayoff, Profile.update_eq_self] using
+      slice.mixture_payoff own profile fuel (fun h => utility h who)
   have attained := slice.branch_attained fallback fuel (fun h => utility h who) own profile
   rw [euPreferenceWithin_apply] at bound
   simp only [expectedUtility, behavioralBeliefForm] at bound
   rw [attained, actual] at bound
   rw [FinDist.expect_sub]
-  exact sub_le_iff_le_add.mpr bound
+  dsimp only [branch] at bound
+  linarith
 
 /-- Even at zero type mass the multiplied statement is valid. The absent
 case deliberately gives no conditional optimality guarantee. -/

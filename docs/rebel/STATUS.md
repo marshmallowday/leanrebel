@@ -20,21 +20,26 @@ evidence, not a relabeling of that cancellation.
 
 ## Current dependency slice
 
-PBSApproximateOptimality derives the mean and probability-weighted conditional
-best-response gaps from canonical approximate PBS Nash and the existing legal
-typewise response. A supported type yields error / type probability; an
-explicit mass-proportional root budget yields the desired conditional loss.
-Zero probability is not divided away or treated as conditional optimality.
-The new source has its own pending compiler/lint/axiom and example obligations.
-See M06-conditional-loss.md for scope and the coverage journal.
+PBSApproximateOptimality derives mean and probability-weighted conditional
+gaps from canonical approximate Nash. Supported types require error/p, or a
+root error budget <= p*loss. CFRDApproximateLeaf connects those budgets and
+constructed zero-own-reach responses to the actual CFRDLeafOptimal contract.
+The reference table supplies query kernels and legal public-state splicing.
+Canonical rare-type and zero-mass negative controls, plus a live HiddenTypes
+positive specialization, are added in Examples/CFRDApproximateLeaf.
+
+The initial 594cfc65 source failed run 35507002570/job 106068402421. Its proof
+and target-path repairs are saved together with the contract and controls.
+All three new modules are added to the existing supplemental axiom/lint audit;
+the next exact-SHA compiler and acceptance jobs must be inspected. See
+M06-conditional-loss.md. No success is inferred from the baseline validation.
 
 ## Remaining M06 work
 
-Connect the approximate estimate to joint off-path completion and the actual
-CFRDLeafOptimal contract. Then construct finite-iteration child solves with
-the needed budgets, and connect fresh recursive carried execution. The current
-exact/noisy drivers retain their noncomputable exact-child scope. Root epsilon
-Nash alone is not a probability-independent conditional guarantee.
-Keep numerical prediction error, child loss and outer finite-T error separate.
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain open; no main
-integration, dependency update, test deletion or acceptance promotion is made.
+Construct finite-iteration child solves meeting the probability budgets, then
+connect fresh recursive carried execution. The existing exact/noisy drivers
+retain their noncomputable exact-child scope. Root epsilon Nash alone is not
+a probability-independent conditional guarantee. Numerical prediction error,
+child loss and outer finite-T error remain separate. SEARCH-FRONTIER,
+SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain open. No main integration,
+dependency update, test deletion or milestone acceptance is claimed.
