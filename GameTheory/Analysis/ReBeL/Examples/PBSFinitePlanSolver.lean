@@ -124,4 +124,55 @@ theorem finiteBudget_live_child (error : ℝ) (positive : 0 < error) :
     (cumulative_zeroSum fullPrior) 2 (by norm_num)
     (fun history who => cfrPayoff_abs_le_two who history) error positive
 
+/-- Legal finite menus for the actual conditional reference slice. -/
+local instance finiteBudgetChoiceFintype (who : Player)
+    (info : (model fullPrior).InfoState who) : Fintype ((model fullPrior).Choice who info) := by
+  classical
+  infer_instance
+
+/-- Encode an actually reached private type at the live child root. -/
+def finiteBudgetControlRoot : PublicRootType (reducedModel fullPrior)
+    (publicTrace (model fullPrior).toInfoSignals factualChildHistory.trace) 0 := by
+  refine ⟨(model fullPrior).infoOf 0 factualChildHistory.trace, ?_⟩
+  apply (mem_publicRootInfos (reducedModel fullPrior) _ 0 _).mpr
+  exact ⟨factualChildHistory, (publicRoot_trace_eq (reducedModel fullPrior) _).symm, rfl⟩
+
+/-- The same constructed reference kernels used by the CFR-D parent. -/
+def finiteBudgetControlSlice :=
+  cfrDReferenceSlice (reducedModel fullPrior) (carriedBitProfile false) cfrFallback
+    2 1 finiteBudgetControlRoot
+
+/-- Type probabilities come from the actual factual child, not a mass-floor assumption. -/
+def finiteBudgetControlOwn :=
+  cfrDFactualChildTypeLaw (reducedModel fullPrior) (carriedBitProfile false) 2 1
+    factualChild_possible finiteBudgetControlRoot
+
+/-- The typed instance reconstructs the entire actual child posterior. -/
+theorem finiteBudgetControl_mixture_law :
+    (finiteBudgetControlSlice.mixture finiteBudgetControlOwn).law =
+      finiteBudgetControlBelief.law :=
+  cfrDFactualChild_referenceMixture (reducedModel fullPrior) (carriedBitProfile false)
+    cfrFallback 2 1 factualChild_possible finiteBudgetControlRoot
+
+/-- A finite, positive-loss solve controls every behavioral deviation at this
+actual private/live child query. Neither child Nash nor its error budget is supplied. -/
+theorem finiteBudget_conditional_child (loss : ℝ) (positive : 0 < loss)
+    (target : (model fullPrior).BehavioralPolicy 0) :
+    let profile := pbsConditionalBudgetProfile (model fullPrior) decisionClock cfrFallback
+      (finiteBudgetControlSlice.mixture finiteBudgetControlOwn) 1
+      (fun h who => cfrPayoff who h) 2 loss
+    finiteBudgetControlSlice.conditionalPayoff profile 1 (cfrPayoff 0) target
+        finiteBudgetControlRoot -
+      finiteBudgetControlSlice.conditionalPayoff profile 1 (cfrPayoff 0) (profile 0)
+        finiteBudgetControlRoot ≤ loss := by
+  have sampled : finiteBudgetControlRoot ∈ finiteBudgetControlOwn.support :=
+    (cfrDFactualChildTypeLaw_support (reducedModel fullPrior) (carriedBitProfile false)
+      2 1 factualChild_possible finiteBudgetControlRoot finiteBudgetControlRoot).mpr
+      factualChild_live_sampled
+  exact pbsConditionalBudgetProfile_gain (model fullPrior) (perfectRecall fullPrior)
+    decisionClock cfrFallback finiteBudgetControlSlice finiteBudgetControlOwn 1
+    (fun h who => cfrPayoff who h) (cumulative_zeroSum fullPrior) 2 (by norm_num)
+    (fun history who => cfrPayoff_abs_le_two who history) loss positive
+    finiteBudgetControlRoot sampled target
+
 end GameTheory.ReBeL.Examples.HiddenTypes

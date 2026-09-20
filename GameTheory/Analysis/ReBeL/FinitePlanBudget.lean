@@ -68,6 +68,7 @@ theorem finiteGameBudgetSolution_isNash (utility : F.sig.Outcome → Fin 2 → �
   intro who replacement
   have gain := equilibrium who replacement
   rw [euPreferenceWithin_apply] at gain ⊢
-  exact gain.trans (add_le_add_left (finiteGameBudgetRounds_error F bound nonneg error positive) _)
+  exact gain.trans (add_le_add (le_refl _)
+    (finiteGameBudgetRounds_error F bound nonneg error positive))
 
 end GameTheory.ReBeL
