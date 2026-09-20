@@ -111,7 +111,8 @@ theorem replacement_opponent_model_ceiling (opponent : Fin 3) :
   have bounded := replacement_security 0 (Or.inl rfl) opponent
   rw [replacement_zeroSum.expectedUtility_one, replacement_zeroSum.expectedUtility_one]
   have baseline : expectedUtility replacementUtility 0 (form.play (strategy 1)) = 0 := by
-    norm_num [form, strategy, replacementUtility, replacementPayoff]
+    have one_ne_two : (1 : Fin 3) ≠ 2 := by decide
+    norm_num [form, strategy, replacementUtility, replacementPayoff, one_ne_two]
   rw [baseline]
   linarith
 
@@ -133,7 +134,8 @@ theorem bad_candidate_breaks_model_ceiling :
     ¬ expectedUtility replacementUtility 1
         (form.play (Profile.update (strategy 2) 1 (0 : Fin 3))) ≤
       expectedUtility replacementUtility 1 (form.play (strategy 1)) := by
-  norm_num [form, strategy, replacementUtility, replacementPayoff]
+  have one_ne_two : (1 : Fin 3) ≠ 2 := by decide
+  norm_num [form, strategy, replacementUtility, replacementPayoff, one_ne_two]
 
 end GameTheory.ReBeL.Examples.EquilibriumReplacement
 
