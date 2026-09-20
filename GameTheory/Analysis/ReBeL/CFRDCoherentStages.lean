@@ -40,12 +40,17 @@ theorem cfrDCoherentStage_then (hrecall : M.PerfectRecall)
           (Profile.update unknown who (plays next.iteration.1 who)) remaining next.history) =
       M.runBehavioralFrom (Profile.update unknown who (plays state.iteration.1 who))
         (fuel + remaining) state.history := by
+  change ((carriedResolvedStep M (carriedMemoryProfile M plays)
+    (fun memory _ _ => cfrDPolicyDraw M fallback (plays memory.1))
+    unknown who fuel state).map (storeCarriedDraw M)).bind
+      (fun next => M.runBehavioralFrom
+        (Profile.update unknown who (plays next.iteration.1 who)) remaining next.history) = _
   by_cases live : cfrDCutLive fuel state.history = true
-  · simp only [carriedMemoryStep, carriedResolvedStep, cfrDCoherentStage, if_pos live,
+  · simp only [carriedResolvedStep, if_pos live,
       FinDist.bind_map, FinDist.bind_bind, storeCarriedDraw, resolvedNextState]
     rw [← FinDist.bind_bind, cfrDPolicyDraw_run M hrecall]
     exact (M.runBehavioralFrom_add _ fuel remaining state.history).symm
-  · simp only [carriedMemoryStep, carriedResolvedStep, cfrDCoherentStage, if_neg live,
+  · simp only [carriedResolvedStep, if_neg live,
       FinDist.bind_map, FinDist.pure_bind, storeCarriedDraw]
     rw [M.runBehavioralFrom_add,
       cfrD_run_stopped M _ fuel state.history live, FinDist.pure_bind]
@@ -73,9 +78,7 @@ theorem cfrDCoherentStages_run (hrecall : M.PerfectRecall)
       M.runBehavioralFrom (Profile.update unknown who (plays state.iteration.1 who))
         schedule.sum state.history := by
   induction schedule generalizing state with
-  | nil =>
-      simp only [List.map_nil, List.sum_nil, executeCarriedResolves, carriedSelectedTail,
-        InformationModel.runBehavioralFrom]
+  | nil => rfl
   | cons fuel schedule ih =>
       simp only [List.map_cons, List.sum_cons, executeCarriedResolves]
       calc
