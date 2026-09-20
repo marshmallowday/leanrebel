@@ -1,0 +1,43 @@
+# Normalized complete transitive-axiom records for the three new envelope modules
+# Proof source: 5aeb2d18027e6c89b0a5889fbca7192f322d6783
+# Source artifact: 10614740458; run 35539104136; job 106153413336
+# This is a selected normalized excerpt, NOT the byte-identical full compiler log.
+
+## GameTheory.Analysis.ReBeL.CFRDResolveEnvelope (11 declarations)
+GameTheory.ReBeL.cfrDResolverEnvelope_of_prediction: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.privateResolvedEnvelopeGap.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.CFRDResolverEnvelope: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.privateResolvedEnvelopeGap_prefix_le: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDLeafGain.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.privateResolvedEnvelopeGap: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.privateResolvedEnvelopeGap_stopped: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDLeafGain.congr_simp: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDResolverEnvelope_retained: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.privateCarriedResolve_envelope_le_prefix: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.privateResolvedEnvelopeGap_conditional_stopped: [propext, Classical.choice, Quot.sound]
+
+## GameTheory.Analysis.ReBeL.CFRDEnvelopeSafety (6 declarations)
+GameTheory.ReBeL.privateCarriedResolve_security_of_envelope: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.privateCarriedResolve_security_of_envelope._proof_1_2: [propext, Quot.sound]
+GameTheory.ReBeL.cfrDDepth_prefix_mean_le: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDDepthMeanBudget.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.privateCarriedResolve_security_of_envelope._proof_1_1: [propext, Quot.sound]
+GameTheory.ReBeL.cfrDDepth_resolve_envelope_security: [propext, Classical.choice, Quot.sound]
+
+## GameTheory.Analysis.ReBeL.Examples.CFRDEnvelope (15 declarations)
+GameTheory.ReBeL.Examples.HiddenTypes.envelopeControlOracle._proof_1: [propext]
+GameTheory.ReBeL.Examples.ValueKink.same_pbs_nash_not_type_ceiling: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.envelopeHistoryFintype: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.finite_retained_envelope_security: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.envelopeControlOracle._proof_2: [propext]
+GameTheory.ReBeL.Examples.EquilibriumReplacement.bad_candidate_breaks_model_ceiling: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.finite_retained_envelope: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.EquilibriumReplacement.model_ceiling_not_pointwise_retention: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.envelopeChoiceFintype: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.EquilibriumReplacement.replacement_opponent_model_ceiling: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.envelopeControlPlays: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.envelopeControlOracle._proof_3: [propext]
+GameTheory.ReBeL.Examples.HiddenTypes.envelopeInfoDecidable: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.envelope_zero_fuel: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.envelopeControlOracle: [propext, Classical.choice, Quot.sound]
+
