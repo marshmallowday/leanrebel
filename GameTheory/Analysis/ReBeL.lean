@@ -55,7 +55,7 @@ import GameTheory.Analysis.ReBeL.ContinuationConsistency
 import GameTheory.Analysis.ReBeL.ContinuationRealization
 import GameTheory.Analysis.ReBeL.ValueEnvelopeBridge
 import GameTheory.Analysis.ReBeL.Examples.ValueRadial
-import GameTheory.Analysis.ReBeL.Examples.ValueKink
+import GameTheory.Analysis.ReBeL.ValueKink
 import GameTheory.Analysis.ReBeL.ValueDeviations
 import GameTheory.Analysis.ReBeL.ContinuationDeviations
 import GameTheory.Analysis.ReBeL.BeliefExistence
@@ -146,3 +146,5 @@ import GameTheory.Analysis.ReBeL.Examples.CFRDEnvelope
 import GameTheory.Analysis.ReBeL.CFRDCoherentDraw
 import GameTheory.Analysis.ReBeL.CFRDFiniteCoherent
 import GameTheory.Analysis.ReBeL.Examples.CFRDCoherentDraw
+import GameTheory.Analysis.ReBeL.CFRDCoherentStages
+import GameTheory.Analysis.ReBeL.Examples.CFRDCoherentStages
