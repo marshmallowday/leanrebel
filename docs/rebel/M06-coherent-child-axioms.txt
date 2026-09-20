@@ -1,0 +1,43 @@
+Selected complete axiom records from the five new coherent execution modules.
+Source: 93b60fbdc3fe6539a7688124baa9be80b86602c1
+Run: 35545208144  Job: 106169798608
+This is a normalized excerpt, not the raw full log.
+Full raw log SHA256: 9edad14c6095086cbdf9e1ce23c5751448a3052548ac17f35e01e8e7942e26ae
+
+MODULE GameTheory.Analysis.ReBeL.CFRDCoherentDraw declarations=9
+GameTheory.ReBeL.cfrDPolicyDraw_marginal: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDCoherentResolver: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDCoherentResolver_resolve_eq: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDPolicyDraw: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDPolicyDraw_supported_pure: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDPolicyDraw_run: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDCoherentResolver_envelope: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDCoherentResolver_tail: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDCoherentResolver.eq_1: [propext, Classical.choice, Quot.sound]
+MODULE GameTheory.Analysis.ReBeL.CFRDFiniteCoherent declarations=4
+GameTheory.ReBeL.cfrDFiniteCoherentResolver_security: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDFiniteCoherentResolver_law: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDFiniteCoherentResolver: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDFiniteCoherentResolver_envelope: [propext, Classical.choice, Quot.sound]
+MODULE GameTheory.Analysis.ReBeL.Examples.CFRDCoherentDraw declarations=9
+GameTheory.ReBeL.Examples.HiddenTypes.coherent_zero_fuel: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.coherentChoiceFintype: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.coherent_finite_security: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.coherentHistoryFintype: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.coherent_fair_draw_not_source: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.coherent_fair_off_model_law: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.coherentInfoDecidable: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.coherent_finite_envelope: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.coherent_finite_law: [propext, Classical.choice, Quot.sound]
+MODULE GameTheory.Analysis.ReBeL.CFRDCoherentStages declarations=7
+GameTheory.ReBeL.cfrDCoherentStages_run: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDFiniteCoherentStages_security: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDCoherentStage.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDCoherentStages_recursive_eq: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDCoherentStage_then: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDCoherentStages_fuel: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDCoherentStage: [propext, Classical.choice, Quot.sound]
+MODULE GameTheory.Analysis.ReBeL.Examples.CFRDCoherentStages declarations=3
+GameTheory.ReBeL.Examples.HiddenTypes.coherent_stages_arbitrary_memory: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.coherentStagesHistory: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.coherent_two_live_stages: [propext, Classical.choice, Quot.sound]
