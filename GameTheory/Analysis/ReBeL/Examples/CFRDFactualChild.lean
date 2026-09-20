@@ -7,7 +7,7 @@ profile, never an input. Unvisited factual public states still have no factual
 posterior even when they are present in a unilateral reference query.
 -/
 
-import GameTheory.Analysis.ReBeL.CFRDFactualQuery
+import GameTheory.Analysis.ReBeL.CFRDFactualMixture
 import GameTheory.Analysis.ReBeL.Examples.CFRDPublicSplice
 
 noncomputable section
@@ -127,5 +127,17 @@ theorem factualChild_query_packet :
       cfrDCurrentPBS (model fullPrior) cfrFallback (carriedBitProfile false) 2 :=
   cfrDFactualChildProfile_currentPBS (reducedModel fullPrior) (carriedBitProfile false)
     cfrFallback 2 1 (fun history who => cfrPayoff who history)
+
+/-- Exact constructed children plus their constructed off-path responses now
+satisfy the existing leaf contract, without a supplied Nash or value premise. -/
+theorem factualChild_completed_leafOptimal (who : Player) :
+    CFRDLeafOptimal (model fullPrior)
+      (cfrDCompleteZeroReach (model fullPrior) factualChildProfile
+        (cfrDPublicResponseCompletion (reducedModel fullPrior) 2
+          (cfrDReferenceTable (reducedModel fullPrior) factualChildProfile cfrFallback 2 1)
+          cfrFallback 1 (fun h player => cfrPayoff player h) factualChildProfile))
+      cfrFallback who (cfrPayoff who) 2 1 0 :=
+  cfrDFactualChildProfile_completed_leafOptimal (reducedModel fullPrior) (carriedBitProfile false)
+    cfrFallback 2 1 (fun h player => cfrPayoff player h) who
 
 end GameTheory.ReBeL.Examples.HiddenTypes

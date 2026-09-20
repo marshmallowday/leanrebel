@@ -2,52 +2,52 @@
 
 ## Active restart point
 
-Continue on `rebel/m06-factual-child-20260920`; read its actual remote HEAD.
-Its base is c358cbff967988b32bfd6a22e832dc9400c705a1, not the older contract
-checkpoint or recovery branches. Main stays at
+Continue on rebel/m06-exact-leaf-20260920; read its actual remote HEAD.
+Its parent 104ccd964d4ba078602001c5f1bfeb604d48bfe2 is preserved on
+rebel/m06-factual-child-20260920 with its own running validation.
+Both descend from c358cbff967988b32bfd6a22e832dc9400c705a1. Main remains
 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098, accepted through M05.
-M06-status-before-factual-child.md preserves the preceding STATUS byte-for-byte.
+M06-status-before-factual-child.md preserves the preceding reference-table STATUS.
 
-## Constructed factual child Nash profile
+## New exact construction
 
-CFRDFactualChild builds an actual joint live public posterior from the trunk,
-selects a finite behavioral Nash equilibrium there, and installs one legal
-public-state splice while retaining all searched decisions. It proves equality
-of the whole child law and of every behavioral unilateral deviation law, then
-transfers Nash to the combined profile. The equilibrium is constructed, not
-provided as a premise. Unvisited and terminal queries are not fabricated.
+CFRDFactualChild constructs a live public posterior, chooses a finite canonical
+behavioral Nash equilibrium and splices the child policies while retaining the
+trunk. All child outcome and unilateral-deviation laws are connected, rather
+than identifying equal on-policy means with equal games. CFRDFactualQuery
+identifies the factual posterior's private/live kernels with the original
+unilateral-reference kernels and preserves the whole query packet.
 
-The first source checkpoint e3d625ac937fec775c720734ad71b977a86213c2 was saved
-on GitHub. Target run 35492411575/job 106029499820 found a field-notation line
-break error at line 51 and downstream missing-declaration errors. This repair
-moves the line break without changing any theorem statement or premise.
-The new HiddenTypes controls and both modules' analytic-root/target registration
-are included. Their new exact-SHA validation must be checked before acceptance.
+CFRDFactualMixture computes the type law and reconstructs the full child joint
+posterior from the reference kernels. It discharges the factual query-Nash
+premise of the existing reference-table theorem and derives the exact completed
+leaf contract with no Nash or continuation-quality premise. FinDistConditioning
+supplies a game-independent support-relative conditioning congruence.
+All new source requires this head's target, lint, architecture and axiom checks.
+See M06-factual-child.md, M06-factual-query.md and M06-exact-leaf.md.
 
-## Inherited verification
+## Observed feedback, not assumed success
 
-At c358cbff, M06 target 35491309579/job 106026607750, full CI 35491309534/job
-106026636449, and inventory 35491309488/job 106026607291 succeeded. ReBeL run
-35491309485/job 106026638305 was still running when checked. These parent
-successes do not validate the new source. The earlier accepted 8ab23b4b slice
-has complete evidence in M06-public-splice-restart.md.
+At c358cbff, target 35491309579/job 106026607750, full CI 35491309534/job
+106026636449, and inventory 35491309488/job 106026607291 passed. Its ReBeL run
+35491309485/job 106026638305 ultimately was cancelled, not accepted as passed.
+At 9fa128af, the general factual-child module compiled, but the example needed
+an explicit local classical instance. At b373a68d, the query module exposed
+an offside-layout error in a lambda proof; 104ccd96 repairs it without changing
+the statement. Read that exact-SHA result and the new exact-leaf source's checks.
+Earlier successes do not validate later source. No M06 acceptance is claimed.
 
-## Remaining construction and source scope
+## Remaining work and coverage
 
-The factual child posterior still must be identified with the supported mixture
-of cfrDReferenceSlice, so that the new constructed Nash profile discharges
-cfrDReferenceTable_leafOptimal's factual premise. This requires the actual type
-law, conditioning refinement, unilateral information-local reweighting, and
-prefix preservation; it is not a new assumed value inequality.
-
-This exact reference construction is noncomputable and is not a finite-T CFR
-child algorithm. Finite-T conditional loss and recursively carried execution
-must still connect to the depth-limited security theorem. Keep prediction error,
-child loss, optional replacement loss and finite-T error distinct. Preserve the
-printed and corrected Theorem 3 statements separately.
+The child constructor is an exact noncomputable reference, not finite-T CFR.
+Connect it to the actual coupled depth-driver oracle, then derive appropriate
+finite-T conditional child loss and recursive carried execution. An arbitrary
+outer trunk is not claimed safe. Prediction error, child loss, optional
+replacement loss and finite-T error remain distinct; keep the printed and
+corrected Theorem 3 statements separate.
 
 SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-See M06-factual-child.md and M06-factual-child-coverage.md for the intermediate
-scope. No accepted evidence, original source identity, negative test, dependency
-pin or audit gate is removed. Only propext, Classical.choice and Quot.sound
-are permitted on the strict proof surface. No main integration is claimed.
+The factual-child coverage journal and M06-exact-leaf.md record intermediate
+scope without promoting original source rows. All inherited negative tests,
+M00-M05 evidence and dependency pins remain. Only propext, Classical.choice
+and Quot.sound are allowed on the strict proof surface. No main integration.

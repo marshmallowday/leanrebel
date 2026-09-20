@@ -117,3 +117,4 @@ import GameTheory.Analysis.ReBeL.CFRDReferenceSlice
 import GameTheory.Analysis.ReBeL.CFRDFactualChild
 import GameTheory.Analysis.ReBeL.Examples.CFRDFactualChild
 import GameTheory.Analysis.ReBeL.CFRDFactualQuery
+import GameTheory.Analysis.ReBeL.CFRDFactualMixture
