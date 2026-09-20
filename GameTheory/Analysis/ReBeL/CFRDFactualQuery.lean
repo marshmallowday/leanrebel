@@ -74,9 +74,11 @@ theorem cfrDFactualChildBelief_referenceConditional
     _ = _ := informationReweight_conditional
       (unilateralReferenceLaw (fullInformation M) trunk fallback who cut) law observe
       (fun tag => unilateralDensity (fullInformation M) trunk fallback who (trunk who) tag.1)
-      (fun h => by simpa only [Profile.update_eq_self] using
-        unilateralReference_density (fullInformation M) (fullSignals_perfectRecall M.toInfoSignals)
-          trunk fallback who (trunk who) cut h) (info, true) sampled
+      (fun h => by
+        simpa only [Profile.update_eq_self] using
+          unilateralReference_density (fullInformation M)
+            (fullSignals_perfectRecall M.toInfoSignals) trunk fallback who (trunk who) cut h)
+      (info, true) sampled
 
 variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
 
