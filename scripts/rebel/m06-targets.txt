@@ -41,3 +41,5 @@ GameTheory.Analysis.ReBeL.CFRDFactualChild
 GameTheory.Analysis.ReBeL.Examples.CFRDFactualChild
 GameTheory.Analysis.ReBeL.CFRDFactualQuery
 GameTheory.Analysis.ReBeL.CFRDFactualMixture
+GameTheory.Analysis.ReBeL.CFRDClamp
+GameTheory.Analysis.ReBeL.CFRDExactDriver
