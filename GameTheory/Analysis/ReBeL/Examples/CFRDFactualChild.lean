@@ -7,7 +7,7 @@ profile, never an input. Unvisited factual public states still have no factual
 posterior even when they are present in a unilateral reference query.
 -/
 
-import GameTheory.Analysis.ReBeL.CFRDFactualChild
+import GameTheory.Analysis.ReBeL.CFRDFactualQuery
 import GameTheory.Analysis.ReBeL.Examples.CFRDPublicSplice
 
 noncomputable section
@@ -44,6 +44,7 @@ theorem factualChildHistory_supported :
 theorem factualChild_possible :
     CFRDFactualChildPossible (reducedModel fullPrior) (carriedBitProfile false) 2 1
       (publicTrace (model fullPrior).toInfoSignals factualChildHistory.trace) := by
+  classical
   refine ⟨factualChildHistory, ⟨rfl, ?_⟩, factualChildHistory_supported⟩
   rw [cfrDCutLive, decide_eq_true_eq]
   exact ⟨by decide, fun impossible => impossible⟩
@@ -85,5 +86,46 @@ theorem factualChild_zero_remaining_absent (observations : List Phase) :
     ¬ CFRDFactualChildPossible (reducedModel fullPrior) (carriedBitProfile false)
       2 0 observations :=
   cfrDFactualChildPossible_zero (reducedModel fullPrior) (carriedBitProfile false) 2 observations
+
+/-- Finite legal local menus for the actual reference-query bridge. -/
+local instance factualChildChoiceFintype (who : Player)
+    (info : (model fullPrior).InfoState who) :
+    Fintype ((model fullPrior).Choice who info) := by
+  classical
+  infer_instance
+
+/-- The same factual live observation can be obtained from the actual prefix. -/
+theorem factualChild_live_sampled :
+    ((model fullPrior).infoOf 0 factualChildHistory.trace, true) ∈
+      (((model fullPrior).runBehavioral (carriedBitProfile false) 2).map
+        (fun h => ((model fullPrior).infoOf 0 h.trace, cfrDCutLive 1 h))).support := by
+  classical
+  rw [FinDist.support_map]
+  refine ⟨factualChildHistory, factualChildHistory_supported, ?_⟩
+  apply Prod.ext rfl
+  simp only [cfrDCutLive, decide_eq_true_eq]
+  exact ⟨by decide, fun impossible => impossible⟩
+
+/-- Nested factual conditioning recovers exactly the reference private kernel. -/
+theorem factualChild_reference_kernel :
+    (cfrDFactualChildBelief (reducedModel fullPrior) (carriedBitProfile false) 2 1
+        (publicTrace (model fullPrior).toInfoSignals factualChildHistory.trace)
+        factualChild_possible).law.condOnFibre
+          (fun h => ((model fullPrior).infoOf 0 h.trace, cfrDCutLive 1 h))
+          ((model fullPrior).infoOf 0 factualChildHistory.trace, true) =
+      FinDist.condOnFibre
+        (unilateralReferenceLaw (model fullPrior) (carriedBitProfile false) cfrFallback 0 2)
+        (fun h => ((model fullPrior).infoOf 0 h.trace, cfrDCutLive 1 h))
+          ((model fullPrior).infoOf 0 factualChildHistory.trace, true) := by
+  apply cfrDFactualChildBelief_referenceConditional (reducedModel fullPrior)
+  · rfl
+  · exact factualChild_live_sampled
+
+/-- The computed child changes neither the factual nor the reference query packet. -/
+theorem factualChild_query_packet :
+    cfrDCurrentPBS (model fullPrior) cfrFallback factualChildProfile 2 =
+      cfrDCurrentPBS (model fullPrior) cfrFallback (carriedBitProfile false) 2 :=
+  cfrDFactualChildProfile_currentPBS (reducedModel fullPrior) (carriedBitProfile false)
+    cfrFallback 2 1 (fun history who => cfrPayoff who history)
 
 end GameTheory.ReBeL.Examples.HiddenTypes
