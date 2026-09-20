@@ -50,10 +50,11 @@ theorem first_regret_table (action : Bool) :
 theorem second_play_changes_action :
     finiteGameRegretPlay gainGame gainInitial 1 0 = FinDist.pure true := by
   classical
+  letI : Fintype Bool := gainStrategyFintype 0
   have total : (∑ action : Bool,
       max ((finiteGameRegretState gainGame gainInitial 1 0).ofLp action) 0) = 1 := by
     simp_rw [first_regret_table]
-    norm_num [Fintype.sum_bool]
+    norm_num [gainStrategyFintype, Fintype.sum_bool]
   apply FinDist.ext_of_prob
   intro action
   unfold finiteGameRegretPlay finiteGameRegretProfile
@@ -68,7 +69,7 @@ theorem generated_trace_nonconstant :
   rw [finiteGameRegretPlay_zero, second_play_changes_action]
   intro equal
   have masses := congrArg (fun law : FinDist Bool => law.prob false) equal
-  norm_num [gainInitial, GameForm.purify, pureProfile] at masses
+  norm_num [gainInitial, GameForm.purify, pureProfile, FinDist.prob_pure_eq_ite] at masses
 
 /-- A concrete finite budget is certified for all mixed plan deviations. -/
 theorem gain_budget_solve (error : ℝ) (positive : 0 < error) :
@@ -76,8 +77,9 @@ theorem gain_budget_solve (error : ℝ) (positive : 0 < error) :
       (finiteGameBudgetSolution gainGame.form gainGame.utility gainInitial 1 error) := by
   apply finiteGameBudgetSolution_isNash gainGame.form gainGame.utility
     (utility_isZeroSum gainMatrix) gainInitial 1 (by norm_num) _ error positive
-  intro outcome who
-  fin_cases who <;> cases outcome.1 <;> norm_num [utilityGame, utility, gainMatrix]
+  rintro ⟨row, column⟩ who
+  rcases (by decide : ∀ player : Fin 2, player = 0 ∨ player = 1) who with rfl | rfl <;>
+    cases row <;> norm_num [utilityGame, utility, gainMatrix]
 
 /-- Every proposed global positive floor is refuted by a genuine finite law.
 The constructor instead computes a different positive floor for each PBS. -/
@@ -88,7 +90,7 @@ theorem no_uniform_positive_floor (claimed : ℝ) (positive : 0 < claimed) :
   have hp1 : p ≤ 1 := (min_le_right _ _).trans (by norm_num)
   let law := FinDist.mix p hp.le hp1 (FinDist.pure false) (FinDist.pure true)
   have probability : law.prob false = p := by
-    simp [law, FinDist.prob_mix]
+    simp [law, FinDist.prob_mix, FinDist.prob_pure_eq_ite]
   have member : false ∈ law.support := FinDist.prob_pos_iff.mp (by rw [probability]; exact hp)
   refine ⟨law, ?_⟩
   have floor := law.positiveMassFloor_le false member
