@@ -144,7 +144,7 @@ theorem cfrDReferenceTable_query (base : Profile (fullInformation M).behavioralS
   have possible : Nonempty (PublicRootType M observations who) := ⟨type⟩
   let root := Classical.choice possible
   refine ⟨observations, root, type, ?_, rfl, ?_⟩
-  · simp only [cfrDReferenceTable, dif_pos possible]
+  · simp only [cfrDReferenceTable, dif_pos possible, root]
   · exact cfrDReferenceKernel_law M base fallback cut remaining type sampled
 
 /-- An empty public history is physically impossible because the initial
