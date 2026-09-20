@@ -114,3 +114,5 @@ import GameTheory.Analysis.ReBeL.CFRDPublicSplice
 import GameTheory.Analysis.ReBeL.CFRDPublicResponse
 import GameTheory.Analysis.ReBeL.Examples.CFRDPublicSplice
 import GameTheory.Analysis.ReBeL.CFRDReferenceSlice
+import GameTheory.Analysis.ReBeL.CFRDFactualChild
+import GameTheory.Analysis.ReBeL.Examples.CFRDFactualChild

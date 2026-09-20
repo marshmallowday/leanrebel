@@ -48,8 +48,9 @@ theorem cfrDFactualChildBelief_atCut
     (observations : List M.PublicSignal)
     (possible : CFRDFactualChildPossible M trunk cut remaining observations)
     (history : E.History)
-    (reached : history ∈ (cfrDFactualChildBelief M trunk cut remaining observations possible).
-      law.support) : history.trace.length = cut := by
+    (reached : history ∈
+      (cfrDFactualChildBelief M trunk cut remaining observations possible).law.support) :
+    history.trace.length = cut := by
   classical
   have member := FinDist.support_condOn _ _ possible reached
   have live : remaining ≠ 0 ∧ ¬ E.terminal history.state := by

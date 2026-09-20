@@ -38,3 +38,4 @@ GameTheory.Analysis.ReBeL.CFRDPublicResponse
 GameTheory.Analysis.ReBeL.Examples.CFRDPublicSplice
 GameTheory.Analysis.ReBeL.CFRDReferenceSlice
 GameTheory.Analysis.ReBeL.CFRDFactualChild
+GameTheory.Analysis.ReBeL.Examples.CFRDFactualChild
