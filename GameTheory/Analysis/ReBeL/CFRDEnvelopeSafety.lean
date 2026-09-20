@@ -60,8 +60,8 @@ theorem privateCarriedResolve_security_of_envelope (clock : ObservationClock M)
       exact zeroSum.expectedUtility_one law
     · have other : opponent = 0 := by omega
       subst opponent
-      have negation := zeroSum.expectedUtility_one law
-      change law.expect (payoff 1) = -law.expect (payoff 0) at negation
+      have negation : law.expect (payoff 1) = -law.expect (payoff 0) :=
+        zeroSum.expectedUtility_one law
       linarith
   have referenceLower :
       (M.runBehavioral reference (cut + remaining)).expect (payoff who) ≤
