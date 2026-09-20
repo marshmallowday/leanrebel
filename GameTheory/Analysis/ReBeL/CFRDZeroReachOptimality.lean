@@ -98,7 +98,7 @@ theorem zeroReachBestResponse_attains (hrecall : M.PerfectRecall)
   calc
     _ = slice.conditionalPayoff base fuel payoff response type := by
       unfold conditionalPayoff
-      apply congrArg (fun law => law.expect payoff)
+      apply congrArg (fun law : FinDist E.History => law.expect payoff)
       apply FinDist.bind_congr
       intro history supported
       have zero : M.playerReachProbability base who history.trace = 0 := by

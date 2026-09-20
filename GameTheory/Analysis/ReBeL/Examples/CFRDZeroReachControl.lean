@@ -28,7 +28,11 @@ theorem zeroControl_draw_prob (bit : Bool) (who : Player) (x y action : Bool) :
       ((model fullPrior).infoOf who (decode (.drawn x y)).trace) =
       FinDist.pure (rowChoiceEquiv who (.drawn x y) bit) := rfl
   rw [law, FinDist.prob_pure_eq_ite]
-  simp only [(rowChoiceEquiv who (.drawn x y)).injective.eq_iff]
+  by_cases same : action = bit
+  · subst action
+    simp
+  · rw [if_neg (fun equal => same ((rowChoiceEquiv who (.drawn x y)).injective equal)),
+      if_neg same]
 
 /-- Own reach, rather than joint reach, decides whether completion is allowed. -/
 theorem zeroControl_own_reach (bit : Bool) (who : Player) (x y a b : Bool) :
@@ -57,8 +61,9 @@ def zeroControlCompleted : Profile (model fullPrior).behavioralSignature :=
 theorem zeroControl_completed_second :
     liveSecondLaw zeroControlCompleted false false true false 0 = FinDist.pure true := by
   unfold liveSecondLaw zeroControlCompleted
-  rw [cfrDCompleteZeroReach_of_zero (model fullPrior) _ _ 0 _
-    zeroControl_information_zero]
+  have zero := zeroControl_information_zero
+  dsimp only [zeroControlHistory] at zero
+  rw [cfrDCompleteZeroReach_of_zero (model fullPrior) _ _ 0 _ zero]
   exact carriedBit_second_law true false false true false 0
 
 /-- Every seed-blind opposing policy sees the unchanged complete original-game law. -/
