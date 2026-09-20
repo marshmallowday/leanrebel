@@ -43,8 +43,11 @@ theorem mean_infoGap_le_of_approxNash
   have actual : (PublicBelief.continuationLaw M profile fuel (slice.mixture own)).expect
         (fun h => utility h who) =
       own.expect (slice.conditionalPayoff profile fuel (fun h => utility h who) (profile who)) := by
-    simpa only [conditionalPayoff, Profile.update_eq_self] using
-      slice.mixture_payoff own profile fuel (fun h => utility h who)
+    rw [slice.mixture_payoff]
+    apply FinDist.expect_congr
+    intro type _
+    unfold conditionalPayoff
+    rw [Profile.update_eq_self]
   have attained := slice.branch_attained fallback fuel (fun h => utility h who) own profile
   rw [euPreferenceWithin_apply] at bound
   simp only [expectedUtility, behavioralBeliefForm] at bound
@@ -120,3 +123,38 @@ theorem conditional_gain_le_of_mass_budget (hrecall : M.PerfectRecall)
     simpa only [mul_comm] using budget))
 
 end GameTheory.ReBeL.TypeBeliefSlice
+
+namespace GameTheory.ReBeL
+
+open GameTheory.Protocol GameTheory.Protocol.InformationModel
+open GameTheory.Math.Probability
+
+universe uι us ua up uq uk
+variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
+variable (M : InformationModel.{uι, us, ua, up, uq, uk} E)
+variable [Fintype ι] [DecidableEq ι] [Fintype E.History]
+
+/-- A finite-plan approximate equilibrium transfers with exactly the same
+error to the actual behavioral PBS game. All behavioral future deviations
+are covered by finite predrawing; no positive type-mass premise is needed
+for this ROOT statement. Typewise conversion is supplied separately above. -/
+theorem finiteBeliefForm_approxNash_realization (hrecall : M.PerfectRecall)
+    (clock : ObservationClock M) (fallback : Profile M.strategicSignature)
+    {observations : List M.PublicSignal} (belief : PublicBelief M.toInfoSignals observations)
+    (fuel : Nat) (utility : E.History → ι → ℝ) (error : ℝ)
+    (mixed : (i : ι) → FinDist (FinitePlan M i))
+    (equilibrium : IsNash (finiteBeliefForm M fallback belief fuel).mixed
+      (euPreferenceWithin error utility) mixed) :
+    IsNash (behavioralBeliefForm M belief fuel) (euPreferenceWithin error utility)
+      (finiteBeliefRealization M clock fallback fallback (observations.length - 1) mixed) := by
+  rw [isNash_iff] at equilibrium ⊢
+  intro who replacement
+  apply publicBelief_deviationValue_le_of_finitePlans_le M hrecall fuel _ fallback who
+    (fun history => utility history who) _ belief
+  intro plan
+  have bound := equilibrium who (FinDist.pure plan)
+  rw [euPreferenceWithin_apply, finiteBeliefForm_deviation_law M hrecall clock,
+    finiteBeliefForm_realization_law M hrecall clock fallback fallback] at bound
+  exact bound
+
+end GameTheory.ReBeL
