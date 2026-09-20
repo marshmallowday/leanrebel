@@ -63,3 +63,4 @@ GameTheory.Analysis.ReBeL.CFRDRefreshMix
 GameTheory.Analysis.ReBeL.CFRDFiniteRefresh
 GameTheory.Analysis.ReBeL.CFRDFiniteRefreshSafety
 GameTheory.Analysis.ReBeL.Examples.CFRDFiniteRefresh
+GameTheory.Analysis.ReBeL.CFRDResolveEnvelope
