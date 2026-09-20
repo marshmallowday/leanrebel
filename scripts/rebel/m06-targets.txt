@@ -55,3 +55,4 @@ GameTheory.Analysis.ReBeL.FinitePlanBudget
 GameTheory.Analysis.ReBeL.PBSFinitePlanSolver
 GameTheory.Math.Probability.FinDistMassFloor
 GameTheory.Analysis.ReBeL.Examples.PBSFinitePlanSolver
+GameTheory.Analysis.ReBeL.CFRDFiniteChild
