@@ -32,6 +32,10 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.PBSFinitePlanSolver",
     "GameTheory.Math.Probability.FinDistMassFloor",
     "GameTheory.Analysis.ReBeL.Examples.PBSFinitePlanSolver",
+    "GameTheory.Analysis.ReBeL.CFRDFiniteChild",
+    "GameTheory.Analysis.ReBeL.CFRDFiniteContinuation",
+    "GameTheory.Analysis.ReBeL.CFRDFiniteDriver",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDFiniteChild",
 )
 AUDITOR = r'''
 open Lean Elab Command in

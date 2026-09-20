@@ -132,3 +132,7 @@ import GameTheory.Analysis.ReBeL.FinitePlanBudget
 import GameTheory.Analysis.ReBeL.PBSFinitePlanSolver
 import GameTheory.Math.Probability.FinDistMassFloor
 import GameTheory.Analysis.ReBeL.Examples.PBSFinitePlanSolver
+import GameTheory.Analysis.ReBeL.CFRDFiniteChild
+import GameTheory.Analysis.ReBeL.CFRDFiniteContinuation
+import GameTheory.Analysis.ReBeL.CFRDFiniteDriver
+import GameTheory.Analysis.ReBeL.Examples.CFRDFiniteChild
