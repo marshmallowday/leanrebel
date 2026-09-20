@@ -40,13 +40,18 @@ def rareMatrix (p : ℝ) : (Fin 2 → Bool) → Unit → ℝ :=
 theorem rareMatrix_eq (p : ℝ) (plan : Fin 2 → Bool) (opponent : Unit) :
     rareMatrix p plan opponent = if plan 0 then p else 0 := by
   cases action : plan 0 <;>
-    simp [rareMatrix, TypeGame.matrix, rareWeight, rarePayoff, Fin.sum_univ_two, action]
+    simp [rareMatrix, TypeGame.matrix, rareWeight, rarePayoff, action]
 
 /-- The baseline declines the profitable action at every type. -/
 theorem rare_baseline_payoff (p : ℝ) (opponent : FinDist Unit) :
     expectedPayoff (rareMatrix p) (FinDist.pure (fun _ => false)) opponent = 0 := by
   rw [expectedPayoff_pure_row]
-  simp [rareMatrix_eq]
+  calc
+    _ = opponent.expect (fun _ => (0 : ℝ)) := by
+      apply FinDist.expect_congr
+      intro col _
+      exact rareMatrix_eq p (fun _ => false) col
+    _ = 0 := FinDist.expect_const _ _
 
 /-- Every mixed complete-plan deviation gains at most p at the root. -/
 theorem rare_payoff_le (p : ℝ) (nonneg : 0 ≤ p)
@@ -66,15 +71,15 @@ selected pure plans. At p=0 this is ordinary zero-error Nash as well. -/
 theorem rare_approxNash (p : ℝ) (nonneg : 0 ≤ p) :
     IsNash (form (Fin 2 → Bool) Unit).mixed (euPreferenceWithin p (utility (rareMatrix p)))
       (mixedProfile (FinDist.pure (fun _ => false)) (FinDist.pure ())) := by
-  rw [isNash_iff]
+  apply (isεNash_iff (form (Fin 2 → Bool) Unit).mixed (utility (rareMatrix p))).mpr
   intro who replacement
-  fin_cases who
-  · simp only [euPreferenceWithin_apply, mixedProfile_update_zero,
+  rcases (by decide : ∀ player : Fin 2, player = 0 ∨ player = 1) who with rfl | rfl
+  · rw [mixedProfile_update_zero, expectedUtility_zero_mixedProfile,
       expectedUtility_zero_mixedProfile, rare_baseline_payoff, zero_add]
     exact rare_payoff_le p nonneg replacement (FinDist.pure ())
-  · simp only [euPreferenceWithin_apply, mixedProfile_update_one,
-      expectedUtility_one_mixedProfile, rare_baseline_payoff, neg_zero, zero_add]
-    exact nonneg
+  · rw [mixedProfile_update_one, expectedUtility_one_mixedProfile,
+      expectedUtility_one_mixedProfile, rare_baseline_payoff, rare_baseline_payoff]
+    simpa only [neg_zero, zero_add] using nonneg
 
 /-- Root error can be arbitrarily small while the supported type's gain is one. -/
 theorem rare_supported_amplification (p : ℝ) (positive : 0 < p) (small : p < 1) :
@@ -92,7 +97,8 @@ theorem rare_absent_counterexample :
       (mixedProfile (FinDist.pure (fun _ => false)) (FinDist.pure ())) ∧
     rareWeight 0 0 = 0 ∧ rarePayoff 0 true () - rarePayoff 0 false () = 1 := by
   refine ⟨?_, rfl, by norm_num [rarePayoff]⟩
-  simpa only [euPreferenceWithin, euPreference, add_zero] using rare_approxNash 0 (le_refl 0)
+  exact (isNash_iff_isεNash_zero (form (Fin 2 → Bool) Unit).mixed
+    (utility (rareMatrix 0))).mpr (rare_approxNash 0 (le_refl 0))
 
 end GameTheory.ReBeL.Examples.ApproximateLeaf
 
@@ -128,7 +134,7 @@ theorem factualChild_approximate_contract (who : Player) (loss : ℝ) (nonneg : 
     (reducedModel fullPrior) (carriedBitProfile false) cfrFallback 2 1
     (fun h player => cfrPayoff player h) who observations root type sampled
   refine ⟨own, 0, ?_, supported, ?_⟩
-  · simpa only [euPreferenceWithin, euPreference, add_zero] using equilibrium
+  · exact IsεNash.of_isNash _ _ equilibrium (le_refl 0)
   · exact mul_nonneg (FinDist.prob_nonneg own type) nonneg
 
 end GameTheory.ReBeL.Examples.HiddenTypes
