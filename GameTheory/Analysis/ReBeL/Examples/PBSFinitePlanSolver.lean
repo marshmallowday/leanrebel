@@ -50,17 +50,20 @@ theorem first_regret_table (action : Bool) :
 theorem second_play_changes_action :
     finiteGameRegretPlay gainGame gainInitial 1 0 = FinDist.pure true := by
   classical
-  letI : Fintype Bool := gainStrategyFintype 0
+  let : Fintype Bool := gainStrategyFintype 0
+  have enumeration : (Finset.univ : Finset Bool) = {false, true} := by
+    ext action
+    cases action <;> simp
   have total : (∑ action : Bool,
       max ((finiteGameRegretState gainGame gainInitial 1 0).ofLp action) 0) = 1 := by
-    simp_rw [first_regret_table]
-    norm_num [gainStrategyFintype, Fintype.sum_bool]
+    rw [enumeration]
+    simp [first_regret_table]
   apply FinDist.ext_of_prob
   intro action
   unfold finiteGameRegretPlay finiteGameRegretProfile
   rw [regretMatchWith, dif_pos (by rw [total]; norm_num), FinDist.prob_ofWeights,
     total, first_regret_table, FinDist.prob_pure_eq_ite]
-  cases action <;> norm_num
+  cases action <;> simp
 
 /-- The generated trace is not a constant fallback or an unrelated Nash witness. -/
 theorem generated_trace_nonconstant :
