@@ -67,9 +67,9 @@ theorem cfrDPublicContinuation_beliefLaw (cut : Nat)
       PublicBelief.continuationLaw (fullInformation M) (responses observations) fuel belief := by
   apply FinDist.bind_congr
   intro history supported
-  have public := belief.supported history supported
-  rw [publicRoot_trace_eq] at public
-  simpa only [public] using
+  have rootPublic := belief.supported history supported
+  rw [publicRoot_trace_eq] at rootPublic
+  simpa only [rootPublic] using
     cfrDPublicContinuation_runFrom M cut responses history (atCut history supported) fuel
 
 variable [DecidableEq ι]
