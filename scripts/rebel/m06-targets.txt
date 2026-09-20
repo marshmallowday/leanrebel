@@ -32,3 +32,4 @@ GameTheory.Analysis.ReBeL.CFRDZeroReachContinuation
 GameTheory.Analysis.ReBeL.CFRDCompletedLeaf
 GameTheory.Analysis.ReBeL.CFRDConditionalCompletion
 GameTheory.Analysis.ReBeL.CFRDQuerySupport
+GameTheory.Analysis.ReBeL.CFRDCompletedContract
