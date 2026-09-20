@@ -10,6 +10,7 @@ seed. The normal-form reference is separate from information-set CFR.
 import GameTheory.Analysis.ReBeL.FinitePlanLearning
 import GameTheory.Analysis.ZeroSumLearning
 import Mathlib.Tactic.FinCases
+import Mathlib.SetTheory.Cardinal.Finite
 
 noncomputable section
 
@@ -140,12 +141,9 @@ theorem finiteGameMixedSolution_isNash (utility : F.sig.Outcome → Fin 2 → �
     (finiteGameRegretAverage_bound game initial 1 bound nonneg boundOne n)
   have total : finiteGameRegretBound game 0 bound n + finiteGameRegretBound game 1 bound n =
       finiteGameSolutionError F bound n := by
-    have cardZero : Fintype.card (game.form.sig.Strategy 0) =
-        Fintype.card (F.sig.Strategy 0) := Fintype.card_congr (Equiv.refl _)
-    have cardOne : Fintype.card (game.form.sig.Strategy 1) =
-        Fintype.card (F.sig.Strategy 1) := Fintype.card_congr (Equiv.refl _)
     simp only [finiteGameRegretBound, finiteGameSolutionError, finiteGameSolutionCoefficient,
-      cardZero, cardOne]
+      Fintype.card_eq_nat_card]
+    dsimp only [game, MatrixGame.utilityGame, MatrixGame.form, MatrixGame.Action]
     ring
   rw [total] at result
   exact finiteGameMatrix_nash_transfer F utility zeroSum _ _ _ result
