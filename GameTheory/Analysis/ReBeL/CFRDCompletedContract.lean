@@ -24,6 +24,9 @@ universe uι us ua up uq uk ut
 variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 variable (M : InformationModel.{uι, us, ua, up, uq, uk} E)
 variable [Fintype ι] [DecidableEq ι]
+
+section ReferenceQueries
+
 variable [∀ who info, Fintype (M.Choice who info)]
 
 /-- Completing opponents does not change the actual unilateral reference law.
@@ -73,7 +76,10 @@ theorem cfrDCompleteZeroReach_referenceDeviationValue {Tag : Type*}
   apply congrArg (fun law : FinDist E.History => law.expect payoff)
   exact cfrDCompleteZeroReach_deviation_continuation M hrecall base completion who target
     remaining history
-    (cfrDReference_conditional_opponents M base fallback who cut observe tag sampled history reached)
+    (cfrDReference_conditional_opponents M base fallback who cut observe tag sampled
+      history reached)
+
+end ReferenceQueries
 
 namespace TypeBeliefSlice
 
@@ -166,6 +172,7 @@ theorem completed_value_eq_of_local_response (hrecall : M.PerfectRecall)
 end TypeBeliefSlice
 
 variable [Fintype E.History] [∀ i, Fintype (E.Action i)]
+variable [∀ who info, Fintype (M.Choice who info)]
 
 /-- Canonical query equilibria and locally implemented computed responses
 supply the ACTUAL all-deviation leaf contract consumed by the depth solver.
