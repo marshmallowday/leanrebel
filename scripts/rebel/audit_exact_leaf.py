@@ -18,6 +18,10 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.CFRDFactualQuery",
     "GameTheory.Analysis.ReBeL.CFRDFactualMixture",
     "GameTheory.Analysis.ReBeL.Examples.CFRDFactualChild",
+    "GameTheory.Analysis.ReBeL.CFRDClamp",
+    "GameTheory.Analysis.ReBeL.CFRDExactDriver",
+    "GameTheory.Analysis.ReBeL.CFRDExactSafety",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDExactDriver",
 )
 AUDITOR = r'''
 open Lean Elab Command in
@@ -26,9 +30,9 @@ run_cmd do
   let modules : List Name := [__MODULE_NAMES__]
   let allowed : List Name := [`propext, `Classical.choice, `Quot.sound]
   let moduleNames := env.header.moduleNames
-  let mut total := 0
+  let mut total : Nat := 0
   for target in modules do
-    let mut count := 0
+    let mut count : Nat := 0
     for (name, _) in env.constants.toList do
       if let some idx := env.getModuleIdxFor? name then
         if moduleNames[idx.toNat]! == target then

@@ -84,7 +84,7 @@ theorem cfrDDepthProfile_leafOptimal (clock : ObservationClock M)
     (trunk continuation : Profile M.behavioralSignature)
     (fallback : Profile M.strategicSignature) (who : ι) (payoff : E.History → ℝ)
     (cut remaining : Nat) (loss : ℝ)
-    (prefix : unilateralReferenceLaw M continuation fallback who cut =
+    (prefixLaw : unilateralReferenceLaw M continuation fallback who cut =
       unilateralReferenceLaw M trunk fallback who cut)
     (optimal : CFRDLeafOptimal M continuation fallback who payoff cut remaining loss) :
     CFRDLeafOptimal M (cfrDDepthProfile M clock cut trunk continuation)
@@ -92,7 +92,7 @@ theorem cfrDDepthProfile_leafOptimal (clock : ObservationClock M)
   intro target info sampled
   have reference : unilateralReferenceLaw M (cfrDDepthProfile M clock cut trunk continuation)
       fallback who cut = unilateralReferenceLaw M continuation fallback who cut :=
-    (cfrDDepthProfile_referenceLaw M clock trunk continuation fallback who cut).trans prefix.symm
+    (cfrDDepthProfile_referenceLaw M clock trunk continuation fallback who cut).trans prefixLaw.symm
   rw [reference] at sampled ⊢
   have equal : conditionalOracleValue (unilateralReferenceLaw M continuation fallback who cut)
       (fun h => (M.infoOf who h.trace, cfrDCutLive remaining h))
