@@ -1,0 +1,16 @@
+EXACT EXCERPT of m06-targeted.log from artifact 10595974726.
+Source: 482ebe19486c92035f395fee92acf2bd49ab183c
+Run: 35482474735; successful retry job: 106002870720
+This is not the full log. Its raw full-log SHA-256 is recorded in
+M06-query-contract-validation.md; that hash is not the hash of this excerpt.
+
+--- exact compiler excerpt ---
+482ebe19486c92035f395fee92acf2bd49ab183c
+Lean (version 4.33.1, x86_64-unknown-linux-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)
+--- intervening successful dependency-build lines omitted ---
+✔ [3263/3278] Built GameTheory.Analysis.ReBeL.CFRDConditionalCompletion (3.0s)
+--- intervening successful build lines omitted ---
+✔ [3270/3278] Built GameTheory.Analysis.ReBeL.CFRDCompletedContract (3.0s)
+--- intervening successful build lines omitted ---
+✔ [3278/3278] Built GameTheory.Analysis.ReBeL.Examples.CFRDZeroReachControl (2.2s)
+Build completed successfully (3278 jobs).
