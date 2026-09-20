@@ -49,3 +49,4 @@ GameTheory.Analysis.ReBeL.CFRDNoisyDriver
 GameTheory.Analysis.ReBeL.PBSApproximateOptimality
 GameTheory.Analysis.ReBeL.CFRDApproximateLeaf
 GameTheory.Analysis.ReBeL.Examples.CFRDApproximateLeaf
+GameTheory.Analysis.ReBeL.FinitePlanLearning
