@@ -48,23 +48,23 @@ theorem cfrDFactualChildTypeLaw_support
   constructor
   · rintro ⟨h, reached, equal⟩
     have member := FinDist.support_condOn _ _ possible reached
-    have public := member.1.1
-    rw [publicRoot_trace_eq] at public
-    have read := publicRootMemory_read M root h public
+    have hpublic := member.1.1
+    rw [publicRoot_trace_eq] at hpublic
+    have read := publicRootMemory_read M root h hpublic
     refine ⟨h, member.2, Prod.ext ?_ member.1.2⟩
     exact read.symm.trans (congrArg Subtype.val equal)
   · rintro ⟨h, reached, equal⟩
     have info : (fullInformation M).infoOf who h.trace = type.val := congrArg Prod.fst equal
-    have public : publicTrace M.toInfoSignals h.trace = observations := by
+    have hpublic : publicTrace M.toInfoSignals h.trace = observations := by
       have known := congrArg AOH.publicHistory info
       simpa only [publicHistory_infoOf, cfrD_publicRootType_public M type] using known
     have rootPublic : publicTrace (fullInformation M).toInfoSignals h.trace = observations := by
       rw [publicRoot_trace_eq]
-      exact public
+      exact hpublic
     refine ⟨h, FinDist.mem_support_condOn _ _ possible
       ⟨rootPublic, congrArg Prod.snd equal⟩ reached, ?_⟩
     apply Subtype.ext
-    exact (publicRootMemory_read M root h public).trans info
+    exact (publicRootMemory_read M root h hpublic).trans info
 
 variable [∀ who info, Fintype ((fullInformation M).Choice who info)]
 
@@ -108,9 +108,9 @@ theorem cfrDFactualChildTypeLaw_kernel
   apply FinDist.condOnFibre_eq_of_support_iff
   intro h reached
   have member := FinDist.support_condOn _ _ possible reached
-  have public := member.1.1
-  rw [publicRoot_trace_eq] at public
-  have read := publicRootMemory_read M root h public
+  have hpublic := member.1.1
+  rw [publicRoot_trace_eq] at hpublic
+  have read := publicRootMemory_read M root h hpublic
   constructor
   · intro tagged
     apply Subtype.ext
@@ -168,7 +168,14 @@ theorem cfrDFactualChildProfile_referenceSlice
     cfrDReferenceSlice M (cfrDFactualChildProfile M trunk fallback cut remaining utility)
         fallback cut remaining root =
       cfrDReferenceSlice M trunk fallback cut remaining root := by
-  simp only [cfrDReferenceSlice, cfrDReferenceKernel, cfrDFactualChildProfile_referenceLaw]
+  have kernels : ∀ type : PublicRootType M observations who,
+      cfrDReferenceKernel M (cfrDFactualChildProfile M trunk fallback cut remaining utility)
+          fallback cut remaining type =
+        cfrDReferenceKernel M trunk fallback cut remaining type := by
+    intro type
+    simp only [cfrDReferenceKernel, cfrDFactualChildProfile_referenceLaw]
+  have kernelFunction := funext kernels
+  simp only [cfrDReferenceSlice, kernelFunction]
 
 /-- The factual Nash premise of the reference-table contract is now obtained
 from the constructed profile and actual sampled type, not supplied by a caller. -/
@@ -194,8 +201,8 @@ theorem cfrDFactualChildProfile_referenceNash
     obtain ⟨h, reached, same⟩ := witness
     refine ⟨h, ⟨?_, congrArg Prod.snd same⟩, reached⟩
     rw [publicRoot_trace_eq]
-    have public := congrArg AOH.publicHistory (congrArg Prod.fst same)
-    simpa only [publicHistory_infoOf, cfrD_publicRootType_public M type] using public
+    have hpublic := congrArg AOH.publicHistory (congrArg Prod.fst same)
+    simpa only [publicHistory_infoOf, cfrD_publicRootType_public M type] using hpublic
   let own := cfrDFactualChildTypeLaw M trunk cut remaining possible root
   have mixture : (cfrDReferenceSlice M trunk fallback cut remaining root).mixture own =
       cfrDFactualChildBelief M trunk cut remaining observations possible := by

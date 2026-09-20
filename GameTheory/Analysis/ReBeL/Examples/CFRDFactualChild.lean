@@ -102,9 +102,10 @@ theorem factualChild_live_sampled :
   classical
   rw [FinDist.support_map]
   refine ⟨factualChildHistory, factualChildHistory_supported, ?_⟩
-  apply Prod.ext rfl
-  simp only [cfrDCutLive, decide_eq_true_eq]
-  exact ⟨by decide, fun impossible => impossible⟩
+  apply Prod.ext
+  · rfl
+  · simp only [cfrDCutLive, decide_eq_true_eq]
+    exact ⟨by decide, fun impossible => impossible⟩
 
 /-- Nested factual conditioning recovers exactly the reference private kernel. -/
 theorem factualChild_reference_kernel :
@@ -141,3 +142,11 @@ theorem factualChild_completed_leafOptimal (who : Player) :
     cfrFallback 2 1 (fun h player => cfrPayoff player h) who
 
 end GameTheory.ReBeL.Examples.HiddenTypes
+
+-- Exact-source transitive dependency output accompanies the compiled controls.
+-- The full repository compiler/lint/axiom workflow remains a separate gate.
+#print axioms GameTheory.ReBeL.cfrDFactualChildProfile_completed_leafOptimal
+#print axioms GameTheory.ReBeL.cfrDFactualChildProfile_currentPBS
+#print axioms GameTheory.ReBeL.Examples.HiddenTypes.factualChild_completed_leafOptimal
+#print axioms GameTheory.ReBeL.Examples.HiddenTypes.factualChild_unvisited_absent
+#print axioms GameTheory.ReBeL.Examples.HiddenTypes.factualChild_zero_remaining_absent
