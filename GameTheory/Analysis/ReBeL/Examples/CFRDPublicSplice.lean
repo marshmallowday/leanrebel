@@ -6,7 +6,7 @@ Private types do not change the table selector. Later public signals must not
 replace the cut prefix: the deliberately wrong latest-state selector disagrees.
 -/
 
-import GameTheory.Analysis.ReBeL.CFRDPublicSplice
+import GameTheory.Analysis.ReBeL.CFRDReferenceSlice
 import GameTheory.Analysis.ReBeL.Examples.CFRDZeroReachControl
 
 noncomputable section
@@ -133,5 +133,33 @@ theorem publicSplice_unvisited_reference :
         (fun h => publicTrace (model fullPrior).toInfoSignals h.trace)).support := by
   rw [FinDist.support_map]
   exact ⟨zeroControlHistory, zeroControl_reference_supported, rfl⟩
+
+/-- Finite canonical histories for construction of the actual typed query table. -/
+local instance publicSpliceHistoryFintype : Fintype (protocol fullPrior).History :=
+  historyFintype fullPrior
+
+/-- The unvisited public-state reference query obtains an actual typed table
+entry and exactly its original joint conditional, without any kernel certificate. -/
+theorem publicSplice_constructed_reference_query :
+    ∃ (observations : List Phase)
+      (root type : PublicRootType (reducedModel fullPrior) observations 0),
+      cfrDReferenceTable (reducedModel fullPrior) (carriedBitProfile false) cfrFallback 2 1
+          observations 0 =
+        some ⟨PublicRootType (reducedModel fullPrior) observations 0,
+          cfrDReferenceSlice (reducedModel fullPrior) (carriedBitProfile false)
+            cfrFallback 2 1 root⟩ ∧
+      type.val = (model fullPrior).infoOf 0 zeroControlHistory.trace ∧
+      ((cfrDReferenceSlice (reducedModel fullPrior) (carriedBitProfile false)
+          cfrFallback 2 1 root).kernel type).law =
+        (unilateralReferenceLaw (model fullPrior) (carriedBitProfile false)
+          cfrFallback 0 2).condOnFibre
+          (fun h => ((model fullPrior).infoOf 0 h.trace, cfrDCutLive 1 h))
+          ((model fullPrior).infoOf 0 zeroControlHistory.trace, true) := by
+  apply cfrDReferenceTable_query (reducedModel fullPrior)
+  rw [FinDist.support_map]
+  refine ⟨zeroControlHistory, zeroControl_reference_supported, ?_⟩
+  apply Prod.ext rfl
+  rw [cfrDCutLive, decide_eq_true_eq]
+  exact ⟨by decide, fun impossible => impossible⟩
 
 end GameTheory.ReBeL.Examples.HiddenTypes

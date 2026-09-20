@@ -2,64 +2,68 @@
 
 ## Active restart point
 
-Continue on `rebel/m06-public-splice-20260920`; read its actual remote HEAD.
-The branch starts from verified checkpoint
-`8ab23b4bb20349df616736d9b5c6d980f3e7eb41` and restart record
-`3ca1e27c3adeb4cceb233c4fb484179c16da8443`.
+Continue on `rebel/m06-reference-table-20260920`; read its actual remote HEAD.
+The new table construction descends from public-splice source
+`c09ff8b50eaa9cc3949aadbb43c46063b907c1e1`, on its preserved source branch
+`rebel/m06-public-splice-20260920`. Both include validated inherited checkpoint
+`8ab23b4bb20349df616736d9b5c6d980f3e7eb41`.
 Main remains `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098` (M00-M05 accepted).
-Do not reset old branches or replay inherited compiler repairs.
+No history was rewritten and no old recovery source should be replayed.
 
-## Inherited validation confirmed
+## Inherited validation
 
 At 8ab23b4b, full CI 35483264757/job 106004834984, ReBeL validation
 35483264754/job 106004831910 and inventory 35483264769/job 106004796170
-all succeeded. The actual ReBeL artifact reports 148 modules and 3,262
+all succeeded. The downloaded ReBeL artifact reports 148 modules and 3,262
 transitive declaration checks. Only propext, Classical.choice, Quot.sound
-are permitted. The earlier 482ebe19 ReBeL run ultimately was cancelled;
-it is the later exact source that has complete successful evidence.
-See M06-public-splice-restart.md for artifact identities and hashes.
+are permitted. The older 482ebe19 ReBeL run ultimately was cancelled;
+the later exact source has complete successful evidence. Artifact identities
+and hashes are in M06-public-splice-restart.md.
 
-## Current public-splice implementation
+## Public-state splice and constructed query table
 
-CFRDPublicSplice constructs an information-local continuation from public-state
-response tables using full AOH prefixes at the cut. It preserves selection on
-all legal descendants, full joint and unilateral continuation laws, and joint
-public-belief continuation laws. CFRDPublicResponse computes finite conditional
-best responses and derives the reachable local-response agreement previously
-supplied to CFRDCompletedContract. Neither construction uses hidden histories
-as a strategy input. Optional table entries avoid impossible public beliefs.
+CFRDPublicSplice retains each player's public cut-prefix selector through every
+legal descendant and preserves full joint, joint-belief and unilateral laws.
+CFRDPublicResponse computes finite conditional best responses and derives the
+local response agreement previously supplied to CFRDCompletedContract. Its
+root-case theorem needs Nash only at genuinely factual live queries; an
+entirely unvisited public state uses its constructed zero-own-reach response.
 
-At 6e738d22387ced1666ca3c19cc121c00ad13096e, both general modules compiled;
-target run 35489109513/job 106020807002 failed only in the example module on
-a missing carriedBit_second_law import. Its actual dependency is now imported.
-The earlier `public` local-identifier parse error is repaired, not bypassed.
+At a8a52a6a both general modules, including the root-case extension, compiled;
+its target run 35489545094/job 106021991789 failed on redundant tactic steps
+in the public-absence control. c09ff8b5 repairs that proof without changing
+its statement. Read target run 35489821273/job 106022728784 and its full checks
+for the exact parent result. Do not infer parent success from the new branch.
 
-The new root-case interface only requires canonical Nash at factual live
-queries. At an entirely unvisited public state, the actual reference-supported
-zero-own-reach branch uses the computed response without a fictitious factual
-type distribution. See M06-public-splice.md and M06-public-splice-boundary.md.
-Seven public-splice/control theorems now cover distinct roots, private-type
-independence of selection, retained cut prefixes, arbitrary unknown opponents,
-and a whole public history absent from factual but present in reference play.
+CFRDReferenceSlice now CONSTRUCTS the actual typed public query table from
+canonical unilateral reference execution. It proves physical/public/private
+compatibility, supplies every sampled query's entry and exact joint kernel,
+and handles impossible public histories by none rather than an invented law.
+Its leaf-contract theorem removes query existence, kernel equality and local
+policy agreement from the caller's premises. Factual child-game Nash is still
+explicit and must come from an actual child solver.
 
-All three new modules are registered in the analytic umbrella and M06 target
-list (38 targets). The latest exact-source compile, normal/slow lint, architecture
-and axiom results must still be read before these additions are accepted.
+Eight HiddenTypes controls exercise different public roots, retained cut
+prefixes after later signals, private-type independence of table selection,
+unknown opponents, whole-public factual absence versus reference presence,
+and construction of an exact typed kernel at such a query. The generic empty
+public-history control is also retained. All four new modules are registered
+in the analytic umbrella and the 39 M06 targets. Their latest exact-source
+compile/lint/architecture/axiom checks are pending, not inherited from 8ab23b4b.
+See M06-public-splice.md, M06-public-splice-boundary.md and M06-reference-slice.md.
 
-## Remaining M06 construction
+## Remaining M06 work
 
-The public splice now supplies local policy agreement. Next construct the
-actual compatible typed query table and factual PBS Nash child responses;
-these data are still premises, not consequences of numerical prediction
-accuracy. Then construct recursive child solves and derive their finite-T
-conditional quality and the carried-execution security connection.
+Construct factual PBS child Nash profiles and their compatibility with the
+same prefix and query table, or prove the appropriate finite-T approximate
+conditional result. Exact Nash must not be inferred from a finite-T root
+regret bound. Connect recursively computed child continuations and actual
+carried execution to the depth-limited security theorem, keeping prediction
+error, child continuation loss, optional replacement loss and finite-T error
+separate. Preserve the printed and corrected Theorem 3 statements.
 
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-Preserve numerical prediction error, child loss, optional replacement loss and
-finite-T error separately. Printed and corrected Theorem 3 remain distinct.
-No main integration, arbitrary off-support posterior guarantee, or complete
-M06 acceptance is claimed. Original source identities and audit gates remain.
-
-M06-status-before-public-splice.md preserves the previous STATUS byte-for-byte,
-including links to accepted M05 evidence and earlier query-contract work. It
-is historical documentation, not the current restart instruction.
+M06 and SEARCH-FRONTIER/SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 remain pending.
+No main integration or complete framework acceptance is claimed. Original
+source identities, previous evidence and all adversarial gates are retained.
+M06-status-before-public-splice.md archives the preceding STATUS byte-for-byte
+with links to M05 acceptance; it is not the active restart instruction.

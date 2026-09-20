@@ -36,3 +36,4 @@ GameTheory.Analysis.ReBeL.CFRDCompletedContract
 GameTheory.Analysis.ReBeL.CFRDPublicSplice
 GameTheory.Analysis.ReBeL.CFRDPublicResponse
 GameTheory.Analysis.ReBeL.Examples.CFRDPublicSplice
+GameTheory.Analysis.ReBeL.CFRDReferenceSlice
