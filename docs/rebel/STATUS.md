@@ -1,79 +1,60 @@
 # ReBeL status — M06 in progress; M05 accepted
 
-## Active restart
+## Active implementation restart
 
-Continue on `rebel/m06-refresh-checkpoint-20260921`; read its remote HEAD.
-The proof source is `ae60d4105b67c478c23d594bca4cd7587c140ecb` on preserved
-`rebel/m06-bounded-refresh-20260921`. The checkpoint adds only evidence docs,
-leaving the proof source's running full validations undisturbed.
-The validated inherited base was a39599e3b47b1e50ca78d5a6385aa24035d25738,
-which already included the finite-child repair f4671e42. Do not replay old
-failed patches or revert to earlier chat checkpoints. Main remains
-6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. No force update or main integration.
-M06-status-before-bounded-refresh.md preserves the exact inherited STATUS.
+Continue on `rebel/m06-counterfactual-envelope-20260921`; read its actual HEAD.
+The base is ce55384a01cd91b6d8070314074f46690462a25f, preserved on the prior
+refresh-checkpoint branch. Main remains 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
+M06-status-before-envelope.md preserves the preceding STATUS with identical
+blob 3912632e8a153cfe02a603b078e5165461aa2520. No old work is replayed.
 
-## Inspected exact-source validation
+## Restart validation and current source boundary
 
-At ae60d410, target run 35535271115/job 106143057959 PASSED all 65 M06 targets
-(3,320 Lake jobs), then all 27 supplemental module lints and 292 transitive
-declaration audits. Every complete axiom record was inspected and lies within
-propext, Classical.choice, Quot.sound. The four new modules account for 49
-records, including generated equations/private helpers; the source adds 12
-general theorems and seven example theorems. There are no error/warning records.
-See M06-bounded-refresh-validation.md and M06-bounded-refresh-axioms.txt.
+Base full repository CI 35535912944/job 106144785492 succeeded. Base full
+ReBeL run 35535912927/job 106144785441 also completed successfully after the
+initial observation: its downloaded log ends REBEL_VALIDATION_PASS modules=177.
+Artifact 10613288740 has ZIP SHA256
+ffd42a08804cc4789209b0ffddafd73c1cc96f26d5820b870b368011575b3b99.
+These exact-base successes do not validate new proof source.
 
-Source inventory 35535271079/job 106143057820 passed. Full repository CI
-35535271071/job 106143096344 and full ReBeL compiler/lint/axiom run
-35535271126/job 106143099577 are still running at this evidence checkpoint.
-Re-read their final results before any original-obligation acceptance. The
-ReBeL width, static architecture, ledger/inventory/fixture and independent
-rational-runtime steps passed, but intermediate steps are not full success.
-The new documentation head has separate runs, not the same proof-source jobs.
+The initial envelope target 12f801cd, run 35537380417/job 106148766723,
+compiled the stopped-fiber, reweighting and prefix-comparison proofs but
+rejected the retained control's un-eta-expanded function rewrite. Its repair
+uses functional extensionality, without changing the theorem statement.
+All new sources below require this commit's target, normal/slow lint,
+architecture and transitive axiom checks. No success is inferred from presence.
 
-The inherited a39599e3 full CI and full ReBeL audit passed, with 173 modules
-and 3,544 axiom records. Final-source offline tests pass all 76 Python cases,
-ledger/inventory structure and line-width checks (503 Lean files). Original
-3,054 coverage rows, every prior target/import and all dependency pins remain.
-No compiler repair changed a statement, allowed axiom or validation setting.
+## Source-directed proof bridge
 
-## Constructed bounded-refresh execution
+CFRDResolveEnvelope compares the resolved OPPONENT payoff with the incumbent
+MODEL continuation on every positive opponent-reference information fiber.
+Perfect recall transfers this envelope to the actual unknown-opponent prefix.
+Stopped fibers have zero gap. Accuracy and a child-value upper bound combine
+additively on the same reference law; no factual posterior is invented.
+CFRDEnvelopeSafety combines focal full regret with opponent PREFIX regret,
+both instantiated from the actual depth-limited CFR-D recurrence, to prove
+V_ref - (A*predictionError + C/sqrt(T) + focalChildLoss + envelopeLoss).
+There is no refresh probability penalty or fixed-opponent retention premise.
 
-CFRDRefreshMix derives the actual carried-step/retained-tail expectation and
-2*bound*rate replacement loss at every carried state. CFRDFiniteRefresh
-computes fresh finite-budget candidates at the CURRENT carried MODEL PBS,
-selects the candidate once privately with probability rate and otherwise keeps
-the current complete profile. Missing model beliefs retain the current profile;
-terminal and zero-fuel stages keep the no-query rule. Fuel and local comparison
-premises are derived for an arbitrary finite schedule and actual forward laws.
+The local envelope is STILL an explicit recursive solver obligation. It is
+not obtained from two independently selected Nash policies. Current controls
+instantiate the bridge with actual noisy finite-child retained policies and
+separately show, in the canonical replacement game, that a universal opponent
+model ceiling does not imply preservation of exploitation against a fixed
+weak opponent. A bad legal candidate fails that ceiling. The original
+counterexamples and bounded-refresh variant remain intact.
 
-CFRDFiniteRefreshSafety connects this execution to the actual noisy finite-child
-outer CFR-D recurrence with the explicit lower bound
-V_ref - (A*predictionError + C/sqrt(T) + 2*childLoss) - stageCount*2*bound*rate.
-No child Nash, mass floor, local replacement or recursive-value certificate is
-assumed. Candidate approximate Nash is proved separately at a present PBS;
-the retain-old mixture is not claimed Nash at that same budget. The model PBS
-is not equated to the unknown opponent's true distribution.
+## Remaining construction and coverage
 
-Controls cover positive actual replacement loss (exactly rate for a bad legal
-candidate), arbitrary existing memory with missing beliefs, a live finite-PBS
-candidate, zero-fuel stopping and a two-stage execution's fuel and comparisons.
-The bad-candidate control is not presented as the finite solver's actual output.
+Construct a source-consistent recursive child table whose test-time strategy
+meets the opponent-reference envelope, including zero-factual-mass fibers and
+multiple actual carried PBS levels. Do not substitute a final security bound
+as data or assume an unknown opponent equals the model belief. The reference
+finite children remain adaptive complete-plan normal-form solves, distinct
+from the paper's information-set CFR and executable numerical refinements.
+Keep prediction, child, outer-iteration and optional replacement losses
+separate, and keep printed and corrected Theorem 3 distinct.
 
-## Remaining original M06 boundary
-
-This is a BOUNDED-REFRESH VARIANT with an additional conservative penalty. At
-large rates or many stages that penalty can make the bound vacuous. It is not
-a proof that arbitrary independent re-solving is lossless and not a replacement
-for the paper-faithful recursive test-time argument. The finite candidate is
-still an adaptive real-arithmetic complete-plan normal-form reference, not
-fixed-T information-set CFR or an executable numerical refinement.
-
-Next close the original solver's recursive counterfactual/global-security
-argument and its source correspondence without assuming that two Nash policies
-preserve value against each fixed opponent. Keep prediction error, child loss,
-outer finite-T error and optional replacement loss separate. Preserve the
-printed and corrected Theorem 3 statements and all prior counterexamples.
-
-SEARCH-CFRD/SEARCH-ERROR gain the explicit variant above; original parent rows
 SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-No M06 completion or complete-framework acceptance is claimed.
+This source-directed bridge advances dependency depth, not full M06 acceptance.
+All original coverage identities, M00-M05 evidence and gates are retained.

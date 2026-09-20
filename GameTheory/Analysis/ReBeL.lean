@@ -140,3 +140,6 @@ import GameTheory.Analysis.ReBeL.CFRDRefreshMix
 import GameTheory.Analysis.ReBeL.CFRDFiniteRefresh
 import GameTheory.Analysis.ReBeL.CFRDFiniteRefreshSafety
 import GameTheory.Analysis.ReBeL.Examples.CFRDFiniteRefresh
+import GameTheory.Analysis.ReBeL.CFRDResolveEnvelope
+import GameTheory.Analysis.ReBeL.CFRDEnvelopeSafety
+import GameTheory.Analysis.ReBeL.Examples.CFRDEnvelope

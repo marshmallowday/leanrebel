@@ -169,6 +169,41 @@ theorem cfrDResolverEnvelope_retained (plays : K → Profile M.behavioralSignatu
     · rw [privateResolvedEnvelopeGap_stopped M plays _ unknown who cut remaining payoff
         n history active, cfrDLeafGain_stopped M _ _ _ _ _ _ active]
   intro n info sampled
-  simpa only [conditionalOracleValue, gap] using optimal n (unknown opponent) info sampled
+  have gapFunction := funext (gap n)
+  simpa only [conditionalOracleValue, gapFunction] using optimal n (unknown opponent) info sampled
+
+/-- Numerical model-value accuracy and the resolved child's upper value bound
+supply the envelope additively. The same reference fiber is used on both sides;
+there is no premise equating the model PBS to the unknown opponent's law. -/
+theorem cfrDResolverEnvelope_of_prediction
+    (plays : K → Profile M.behavioralSignature) (resolver : CarriedPublicResolver M K)
+    (fallback : Profile M.strategicSignature) (unknown : Profile M.behavioralSignature)
+    (who opponent : Fin 2) (cut remaining : Nat) (payoff : E.History → ℝ)
+    (prediction : K → M.InfoState opponent → ℝ) (valueError childLoss : ℝ)
+    (accurate : ∀ n info,
+      (info, true) ∈ ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
+        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))).support →
+      |prediction n info -
+        conditionalOracleValue (unilateralReferenceLaw M (plays n) fallback opponent cut)
+          (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))
+          (fun h => (M.runBehavioralFrom (plays n) remaining h).expect payoff)
+          (info, true)| ≤ valueError)
+    (child : ∀ n info,
+      (info, true) ∈ ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
+        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))).support →
+      conditionalOracleValue (unilateralReferenceLaw M (plays n) fallback opponent cut)
+        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))
+        (fun h => (carriedResolvedTail M resolver unknown who remaining
+          (privateIterationState M plays cut n h)).expect payoff) (info, true) ≤
+        prediction n info + childLoss) :
+    CFRDResolverEnvelope M plays resolver fallback unknown who opponent cut remaining
+      payoff (valueError + childLoss) := by
+  intro n info sampled
+  have valueBound := (abs_le.mp (accurate n info sampled)).2
+  have childBound := child n info sampled
+  unfold conditionalOracleValue privateResolvedEnvelopeGap
+  rw [FinDist.expect_sub]
+  unfold conditionalOracleValue at valueBound childBound
+  linarith
 
 end GameTheory.ReBeL

@@ -40,6 +40,9 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.CFRDFiniteRefresh",
     "GameTheory.Analysis.ReBeL.CFRDFiniteRefreshSafety",
     "GameTheory.Analysis.ReBeL.Examples.CFRDFiniteRefresh",
+    "GameTheory.Analysis.ReBeL.CFRDResolveEnvelope",
+    "GameTheory.Analysis.ReBeL.CFRDEnvelopeSafety",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDEnvelope",
 )
 AUDITOR = r'''
 open Lean Elab Command in
