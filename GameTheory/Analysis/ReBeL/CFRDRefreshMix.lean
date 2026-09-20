@@ -129,8 +129,11 @@ theorem mixedCarriedStage_loss_le (initial : K → Profile M.behavioralSignature
     have gap := sub_le_sub (abs_le.mp oldBound).2 (abs_le.mp newBound).1
     have scaled := mul_le_mul_of_nonneg_left gap nonneg
     nlinarith only [scaled]
-  · dsimp only [mixedCarriedStage]
-    rw [if_neg live, sub_self]
-    exact mul_nonneg (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) boundNonneg) nonneg
+  · have stopped : ¬ cfrDCutLive
+        (mixedCarriedStage M initial fresh fuel rate nonneg atMostOne).fuel
+          state.history = true := live
+    rw [if_neg stopped]
+    simpa only [mixedCarriedStage, sub_self] using
+      (mul_nonneg (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) boundNonneg) nonneg)
 
 end GameTheory.ReBeL
