@@ -1,58 +1,26 @@
 /-
-# Conditional deviation laws under joint zero-own-reach completion
+# Conditional payoffs and values under joint zero-own-reach completion
 
-Completing opponents cannot alter a conditional deviation law when their
-original own reaches are nonzero on the root kernel. The deviator's own reach
-may be zero. Completing every player also preserves the actual conditional
-law on all-positive kernels. These facts connect supported-type Nash
-optimality to the completed profile without confusing it with root-law equality.
+Every focal deviation law is preserved when the opponents' original own
+reaches are nonzero on the conditional kernel. Thus the attained infostate
+value is unchanged too, even if the focal player's own reach is zero.
+The canonical deviation theorem is shared with CFRDCompletedLeaf.
 -/
 
-import GameTheory.Analysis.ReBeL.CFRDZeroReachContinuation
-import GameTheory.Analysis.ReBeL.PBSLeafOptimality
+import GameTheory.Analysis.ReBeL.CFRDCompletedLeaf
 
 noncomputable section
 
-namespace GameTheory.ReBeL
+namespace GameTheory.ReBeL.TypeBeliefSlice
 
-open GameTheory.Protocol GameTheory.Protocol.ExecutionProtocol
-open GameTheory.Protocol.InformationModel GameTheory.Math.Probability
+open GameTheory.Protocol GameTheory.Protocol.InformationModel
+open GameTheory.Math.Probability
 
 universe uι us ua up uq uk ut
 variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
-variable (M : InformationModel.{uι, us, ua, up, uq, uk} E)
+variable {M : InformationModel.{uι, us, ua, up, uq, uk} E}
 variable [Fintype ι] [DecidableEq ι]
-
-/-- Every complete unilateral deviation has the same conditional law against
-jointly completed opponents. Only opponents' original own reaches must be
-positive; no joint-reach or focal-own-reach assumption is imposed. -/
-theorem cfrDCompleteZeroReach_deviation_continuation (hrecall : M.PerfectRecall)
-    (base completion : Profile M.behavioralSignature) (who : ι)
-    (target : M.BehavioralPolicy who) (fuel : Nat) (history : E.History)
-    (positive : ∀ player, player ≠ who →
-      M.playerReachProbability base player history.trace ≠ 0) :
-    M.runBehavioralFrom
-        (Profile.update (cfrDCompleteZeroReach M base completion) who target) fuel history =
-      M.runBehavioralFrom (Profile.update base who target) fuel history := by
-  classical
-  have identify (first second : Profile M.behavioralSignature) :
-      (fun player => if player ∈ Finset.univ.erase who then first player
-        else (Profile.update second who target) player) =
-      Profile.update first who target := by
-    funext player
-    by_cases same : player = who
-    · subst player
-      simp [Profile.update_same]
-    · rw [if_pos (Finset.mem_erase.mpr ⟨same, Finset.mem_univ player⟩),
-        Profile.update_of_ne _ _ same]
-  have preserved := cfrDCompleteZeroReach_selected_continuation M hrecall base completion
-    (Profile.update base who target) (Finset.univ.erase who) fuel history
-    (fun player member => positive player (Finset.mem_erase.mp member).1)
-  simpa only [identify] using preserved
-
-namespace TypeBeliefSlice
-
-variable {M} {observations : List M.PublicSignal} {who : ι} {T : Type ut}
+variable {observations : List M.PublicSignal} {who : ι} {T : Type ut}
 variable (slice : TypeBeliefSlice M observations who T)
 
 /-- The conditional expected payoff of each behavioral deviation is unchanged
@@ -72,7 +40,7 @@ theorem completeZeroReach_conditionalPayoff (hrecall : M.PerfectRecall)
     fuel history (positive history supported)
 
 /-- With positive original own reach for every player, the actual completed
-conditional payoff is unchanged as well, including all future off-path decisions. -/
+conditional payoff is unchanged, including all future off-path decisions. -/
 theorem completeZeroReach_actualPayoff (hrecall : M.PerfectRecall)
     (base completion : Profile M.behavioralSignature) (fuel : Nat)
     (payoff : E.History → ℝ) (type : T)
@@ -91,30 +59,33 @@ theorem completeZeroReach_actualPayoff (hrecall : M.PerfectRecall)
 
 variable [Fintype E.History] [∀ i, Fintype (E.Action i)]
 
-/-- Supported-type Nash optimality survives simultaneous zero-reach completion
-on positive root kernels. Optimality is derived from the canonical Nash
-predicate, not added as a continuation-value certificate. -/
-theorem completeZeroReach_bestResponse_of_nash (hrecall : M.PerfectRecall)
-    (fallback : Profile M.strategicSignature) (fuel : Nat)
-    (utility : E.History → ι → ℝ) (own : FinDist T)
-    (base completion : Profile M.behavioralSignature)
-    (equilibrium : IsNash (behavioralBeliefForm M (slice.mixture own) fuel)
-      (euPreference utility) base) (type : T) (supported : type ∈ own.support)
+/-- The attained maximum over ALL behavioral deviations is also preserved.
+No positive own reach for the focal player and no Nash assumption are needed. -/
+theorem completeZeroReach_infoValue (hrecall : M.PerfectRecall)
+    (fallback : Profile M.strategicSignature) (fuel : Nat) (payoff : E.History → ℝ)
+    (base completion : Profile M.behavioralSignature) (type : T)
     (positive : ∀ history ∈ (slice.kernel type).law.support,
-      ∀ player, M.playerReachProbability base player history.trace ≠ 0)
-    (target : M.BehavioralPolicy who) :
-    slice.conditionalPayoff (cfrDCompleteZeroReach M base completion) fuel
-        (fun history => utility history who) target type ≤
-      slice.conditionalPayoff (cfrDCompleteZeroReach M base completion) fuel
-        (fun history => utility history who) (cfrDCompleteZeroReach M base completion who)
-        type := by
-  rw [slice.completeZeroReach_conditionalPayoff hrecall base completion fuel
-      (fun history => utility history who) target type
-      (fun history member player _ => positive history member player),
-    slice.completeZeroReach_actualPayoff hrecall base completion fuel
-      (fun history => utility history who) type positive]
-  exact slice.conditional_bestResponse_of_nash hrecall fallback fuel utility own base
-    equilibrium type supported target
+      ∀ player, player ≠ who → M.playerReachProbability base player history.trace ≠ 0) :
+    slice.infoValue fallback fuel payoff (cfrDCompleteZeroReach M base completion) type =
+      slice.infoValue fallback fuel payoff base type := by
+  let completed := cfrDCompleteZeroReach M base completion
+  let first := (slice.simultaneousResponse fallback fuel payoff completed).toBehavioral
+  let second := (slice.simultaneousResponse fallback fuel payoff base).toBehavioral
+  apply le_antisymm
+  · calc
+      _ = slice.conditionalPayoff completed fuel payoff first type :=
+        (slice.simultaneousResponse_attains fallback fuel payoff completed type).symm
+      _ = slice.conditionalPayoff base fuel payoff first type :=
+        slice.completeZeroReach_conditionalPayoff hrecall base completion fuel payoff
+          first type positive
+      _ ≤ _ := slice.conditionalPayoff_le_infoValue hrecall fallback fuel payoff base type first
+  · calc
+      _ = slice.conditionalPayoff base fuel payoff second type :=
+        (slice.simultaneousResponse_attains fallback fuel payoff base type).symm
+      _ = slice.conditionalPayoff completed fuel payoff second type :=
+        (slice.completeZeroReach_conditionalPayoff hrecall base completion fuel payoff
+          second type positive).symm
+      _ ≤ _ := slice.conditionalPayoff_le_infoValue hrecall fallback fuel payoff
+        completed type second
 
-end TypeBeliefSlice
-end GameTheory.ReBeL
+end GameTheory.ReBeL.TypeBeliefSlice

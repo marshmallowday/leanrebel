@@ -9,6 +9,7 @@ completion. All controls use the canonical two-stage hidden-type protocol.
 
 import GameTheory.Analysis.ReBeL.CFRDZeroReachCompletion
 import GameTheory.Analysis.ReBeL.Examples.CFRDChildControl
+import GameTheory.Analysis.ReBeL.CFRDCompletedLeaf
 
 noncomputable section
 
@@ -133,5 +134,44 @@ theorem zeroControl_opponent_exclusion_not_completed :
   apply cfrDCompleteZeroReach_of_ne
   rw [zeroControl_opponent_information_one]
   exact one_ne_zero
+
+/-- At the focal zero-reach control root the other player's own reach is positive. -/
+theorem zeroControl_other_own_positive (other : Player) (different : other ≠ 0) :
+    (model fullPrior).playerReachProbability (carriedBitProfile false) other
+      zeroControlHistory.trace ≠ 0 := by
+  fin_cases other
+  · exact (different rfl).elim
+  · rw [zeroControlHistory, zeroControl_own_reach]
+    norm_num [GameTheory.ReBeL.Rational.HiddenTypes.own]
+
+/-- Completing both players gives the same continuation as completing only
+the focal player, even at this zero-joint-probability conditional root. -/
+theorem zeroControl_joint_completion_law :
+    (model fullPrior).runBehavioralFrom zeroControlCompleted 1 zeroControlHistory =
+      (model fullPrior).runBehavioralFrom
+        (Profile.update (carriedBitProfile false) 0 (zeroControlCompleted 0))
+        1 zeroControlHistory := by
+  simpa only [zeroControlCompleted, Profile.update_eq_self] using
+    cfrDCompleteZeroReach_deviation_continuation (model fullPrior) (perfectRecall fullPrior)
+      (carriedBitProfile false) (carriedBitProfile true) 0 (zeroControlCompleted 0)
+      1 zeroControlHistory zeroControl_other_own_positive
+
+/-- Joint completion retains the focal off-path improvement: minus two becomes zero. -/
+theorem zeroControl_joint_completion_value :
+    ((model fullPrior).runBehavioralFrom zeroControlCompleted 1
+      zeroControlHistory).expect (cfrPayoff 0) = 0 := by
+  rw [zeroControl_joint_completion_law]
+  exact zeroControl_after_value
+
+/-- The positivity hypothesis cannot be dropped when completing all players:
+the full conditional law can change, despite equal initial-history laws. -/
+theorem zeroControl_joint_conditional_law_changes :
+    (model fullPrior).runBehavioralFrom zeroControlCompleted 1 zeroControlHistory ≠
+      (model fullPrior).runBehavioralFrom (carriedBitProfile false) 1 zeroControlHistory := by
+  intro same
+  have values := congrArg
+    (fun law : FinDist ((protocol fullPrior).History) => law.expect (cfrPayoff 0)) same
+  rw [zeroControl_joint_completion_value, zeroControl_before_value] at values
+  norm_num at values
 
 end GameTheory.ReBeL.Examples.HiddenTypes
