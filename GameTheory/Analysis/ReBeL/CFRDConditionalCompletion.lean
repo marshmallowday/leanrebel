@@ -8,6 +8,7 @@ The canonical deviation theorem is shared with CFRDCompletedLeaf.
 -/
 
 import GameTheory.Analysis.ReBeL.CFRDCompletedLeaf
+import GameTheory.Analysis.ReBeL.CFRDQuerySupport
 
 noncomputable section
 
