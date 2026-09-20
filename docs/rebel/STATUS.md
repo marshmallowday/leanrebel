@@ -17,33 +17,49 @@ all succeeded. The actual ReBeL artifact reports 148 modules and 3,262
 transitive declaration checks. Only propext, Classical.choice, Quot.sound
 are permitted. The earlier 482ebe19 ReBeL run ultimately was cancelled;
 it is the later exact source that has complete successful evidence.
-See M06-public-splice-restart.md for downloaded artifact identities and hashes.
+See M06-public-splice-restart.md for artifact identities and hashes.
 
-## Current implementation checkpoint
+## Current public-splice implementation
 
 CFRDPublicSplice constructs an information-local continuation from public-state
-response tables using full AOH prefixes at the cut. Its statements preserve
-selection on every legal descendant, joint continuation laws, joint-belief
-continuation laws and unilateral laws against arbitrary fixed opponents.
-It is registered in the analytic umbrella and the M06 target list.
-The NEW exact-source compiler, lint and axiom results must still be inspected;
-this is not validation inherited from 8ab23b4b.
+response tables using full AOH prefixes at the cut. It preserves selection on
+all legal descendants, full joint and unilateral continuation laws, and joint
+public-belief continuation laws. CFRDPublicResponse computes finite conditional
+best responses and derives the reachable local-response agreement previously
+supplied to CFRDCompletedContract. Neither construction uses hidden histories
+as a strategy input. Optional table entries avoid impossible public beliefs.
 
-Next add the computed best-response table constructor and discharge the
-reachable local-response agreement in CFRDCompletedContract. Add controls
-showing different public roots, retained cut prefixes after new signals,
-and private-information separation. Then construct actual compatible query
-games and finite-T recursive child quality. These are distinct obligations.
+At 6e738d22387ced1666ca3c19cc121c00ad13096e, both general modules compiled;
+target run 35489109513/job 106020807002 failed only in the example module on
+a missing carriedBit_second_law import. Its actual dependency is now imported.
+The earlier `public` local-identifier parse error is repaired, not bypassed.
 
-## Acceptance boundary
+The new root-case interface only requires canonical Nash at factual live
+queries. At an entirely unvisited public state, the actual reference-supported
+zero-own-reach branch uses the computed response without a fictitious factual
+type distribution. See M06-public-splice.md and M06-public-splice-boundary.md.
+Seven public-splice/control theorems now cover distinct roots, private-type
+independence of selection, retained cut prefixes, arbitrary unknown opponents,
+and a whole public history absent from factual but present in reference play.
 
-M06 is not accepted and main is not advanced. SEARCH-FRONTIER, SEARCH-CFRD,
-SEARCH-ERROR and SAFE-THEOREM3 remain pending; the original ledger and source
-identities are unchanged. Preserve numerical prediction error, child loss,
-optional replacement loss and finite-T error separately. Printed and corrected
-Theorem 3 remain distinct. No arbitrary off-path posterior or independent
-replacement equilibrium is inferred to satisfy the continuation contract.
+All three new modules are registered in the analytic umbrella and M06 target
+list (38 targets). The latest exact-source compile, normal/slow lint, architecture
+and axiom results must still be read before these additions are accepted.
+
+## Remaining M06 construction
+
+The public splice now supplies local policy agreement. Next construct the
+actual compatible typed query table and factual PBS Nash child responses;
+these data are still premises, not consequences of numerical prediction
+accuracy. Then construct recursive child solves and derive their finite-T
+conditional quality and the carried-execution security connection.
+
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
+Preserve numerical prediction error, child loss, optional replacement loss and
+finite-T error separately. Printed and corrected Theorem 3 remain distinct.
+No main integration, arbitrary off-support posterior guarantee, or complete
+M06 acceptance is claimed. Original source identities and audit gates remain.
 
 M06-status-before-public-splice.md preserves the previous STATUS byte-for-byte,
-including links to M05 acceptance and earlier query-contract evidence. It is
-historical documentation, not the current restart instruction.
+including links to accepted M05 evidence and earlier query-contract work. It
+is historical documentation, not the current restart instruction.

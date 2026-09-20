@@ -7,7 +7,7 @@ replace the cut prefix: the deliberately wrong latest-state selector disagrees.
 -/
 
 import GameTheory.Analysis.ReBeL.CFRDPublicSplice
-import GameTheory.Analysis.ReBeL.Examples.CFRDLiveControl
+import GameTheory.Analysis.ReBeL.Examples.CFRDZeroReachControl
 
 noncomputable section
 
@@ -88,5 +88,45 @@ theorem publicSplice_unknown_opponent
         (decode (.second x y a b)) := by
   exact cfrDPublicContinuation_unilateral_runFrom (reducedModel fullPrior) 2
     publicSpliceTable unknown who (decode (.second x y a b)) rfl fuel
+
+/-- An entire public state, not just a private type, can be absent from factual
+play while a unilateral reference legitimately queries it. -/
+theorem publicSplice_unvisited_public :
+    publicTrace (model fullPrior).toInfoSignals zeroControlHistory.trace ∉
+      (((model fullPrior).runBehavioral (carriedBitProfile false) 2).map
+        (fun h => publicTrace (model fullPrior).toInfoSignals h.trace)).support := by
+  intro sampled
+  rw [FinDist.support_map] at sampled
+  obtain ⟨history, reached, same⟩ := sampled
+  obtain ⟨row, rfl⟩ := decode_surjective history
+  have first := cfrD_run_support_ownReach (model fullPrior) (carriedBitProfile false)
+    2 (decode row) reached 0
+  have second := cfrD_run_support_ownReach (model fullPrior) (carriedBitProfile false)
+    2 (decode row) reached 1
+  cases row with
+  | initial => cases same
+  | drawn x y => cases same
+  | second x y a b =>
+      rw [zeroControl_own_reach] at first second
+      cases a <;> cases b <;>
+        norm_num [GameTheory.ReBeL.Rational.HiddenTypes.own] at first second
+      cases same
+  | finished x y a b c d => cases same
+
+/-- Finite legal menus for the unilateral-reference boundary control. -/
+local instance publicSpliceChoiceFintype (who : Player)
+    (info : (model fullPrior).InfoState who) : Fintype ((model fullPrior).Choice who info) := by
+  classical
+  infer_instance
+
+/-- The same unvisited public state has an actual reference-supported history;
+requiring a factual posterior at every reference query would lose this case. -/
+theorem publicSplice_unvisited_reference :
+    publicTrace (model fullPrior).toInfoSignals zeroControlHistory.trace ∈
+      ((unilateralReferenceLaw (model fullPrior) (carriedBitProfile false)
+          cfrFallback 0 2).map
+        (fun h => publicTrace (model fullPrior).toInfoSignals h.trace)).support := by
+  rw [FinDist.support_map]
+  exact ⟨zeroControlHistory, zeroControl_reference_supported, rfl⟩
 
 end GameTheory.ReBeL.Examples.HiddenTypes
