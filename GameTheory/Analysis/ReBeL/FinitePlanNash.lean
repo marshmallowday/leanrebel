@@ -41,7 +41,7 @@ theorem finiteGameMixedPair_payoff (utility : F.sig.Outcome → Fin 2 → ℝ)
       MatrixGame.expectedPayoff (finiteGameMatrix F utility) row column := by
   rw [MatrixGame.expectedPayoff_eq_expect_rows]
   simp_rw [MatrixGame.expectedPayoff_pure_row]
-  rw [GameForm.mixed_play, expectedUtility_bind, ← FinDist.piFin_eq_pi]
+  rw [expectedUtility_bind, ← FinDist.piFin_eq_pi]
   simp only [FinDist.piFin, FinDist.expect_map, FinDist.expect_product, FinDist.expect_pure]
   rfl
 
@@ -73,7 +73,7 @@ theorem finiteGameMatrix_nash_transfer (utility : F.sig.Outcome → Fin 2 → �
   rw [isεNash_iff] at equilibrium
   rw [isNash_iff]
   intro who replacement
-  fin_cases who
+  rcases (by decide : ∀ player : Fin 2, player = 0 ∨ player = 1) who with rfl | rfl
   · have bound := equilibrium 0 replacement
     rw [MatrixGame.mixedProfile_update_zero, MatrixGame.expectedUtility_zero_mixedProfile,
       MatrixGame.expectedUtility_zero_mixedProfile] at bound
@@ -92,10 +92,10 @@ variable [∀ who, Fintype (F.sig.Strategy who)]
 
 /-- Finite row/column carriers are inherited from the original form. -/
 local instance finiteGameMatrixFintype (who : Fin 2) :
-    Fintype ((MatrixGame.form (F.sig.Strategy 0) (F.sig.Strategy 1)).sig.Strategy who) := by
-  fin_cases who
-  · exact inferInstanceAs (Fintype (F.sig.Strategy 0))
-  · exact inferInstanceAs (Fintype (F.sig.Strategy 1))
+    Fintype ((MatrixGame.form (F.sig.Strategy 0) (F.sig.Strategy 1)).sig.Strategy who) :=
+  Fin.cases (inferInstanceAs (Fintype (F.sig.Strategy 0)))
+    (fun tail : Fin 1 => Fin.cases (inferInstanceAs (Fintype (F.sig.Strategy 1)))
+      (fun empty : Fin 0 => empty.elim0) tail) who
 
 /-- Explicit game-dependent coefficient for the two players' total error. -/
 def finiteGameSolutionCoefficient (bound : ℝ) : ℝ :=
@@ -140,8 +140,12 @@ theorem finiteGameMixedSolution_isNash (utility : F.sig.Outcome → Fin 2 → �
     (finiteGameRegretAverage_bound game initial 1 bound nonneg boundOne n)
   have total : finiteGameRegretBound game 0 bound n + finiteGameRegretBound game 1 bound n =
       finiteGameSolutionError F bound n := by
-    dsimp [finiteGameRegretBound, finiteGameSolutionError, finiteGameSolutionCoefficient,
-      game, MatrixGame.utilityGame, MatrixGame.form, MatrixGame.Action]
+    have cardZero : Fintype.card (game.form.sig.Strategy 0) =
+        Fintype.card (F.sig.Strategy 0) := Fintype.card_congr (Equiv.refl _)
+    have cardOne : Fintype.card (game.form.sig.Strategy 1) =
+        Fintype.card (F.sig.Strategy 1) := Fintype.card_congr (Equiv.refl _)
+    simp only [finiteGameRegretBound, finiteGameSolutionError, finiteGameSolutionCoefficient,
+      cardZero, cardOne]
     ring
   rw [total] at result
   exact finiteGameMatrix_nash_transfer F utility zeroSum _ _ _ result

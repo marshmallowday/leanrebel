@@ -126,3 +126,9 @@ import GameTheory.Analysis.ReBeL.CFRDNoisyDriver
 import GameTheory.Analysis.ReBeL.PBSApproximateOptimality
 import GameTheory.Analysis.ReBeL.CFRDApproximateLeaf
 import GameTheory.Analysis.ReBeL.Examples.CFRDApproximateLeaf
+import GameTheory.Analysis.ReBeL.FinitePlanLearning
+import GameTheory.Analysis.ReBeL.FinitePlanNash
+import GameTheory.Analysis.ReBeL.FinitePlanBudget
+import GameTheory.Analysis.ReBeL.PBSFinitePlanSolver
+import GameTheory.Math.Probability.FinDistMassFloor
+import GameTheory.Analysis.ReBeL.Examples.PBSFinitePlanSolver

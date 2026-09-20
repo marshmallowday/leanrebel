@@ -26,6 +26,12 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.PBSApproximateOptimality",
     "GameTheory.Analysis.ReBeL.CFRDApproximateLeaf",
     "GameTheory.Analysis.ReBeL.Examples.CFRDApproximateLeaf",
+    "GameTheory.Analysis.ReBeL.FinitePlanLearning",
+    "GameTheory.Analysis.ReBeL.FinitePlanNash",
+    "GameTheory.Analysis.ReBeL.FinitePlanBudget",
+    "GameTheory.Analysis.ReBeL.PBSFinitePlanSolver",
+    "GameTheory.Math.Probability.FinDistMassFloor",
+    "GameTheory.Analysis.ReBeL.Examples.PBSFinitePlanSolver",
 )
 AUDITOR = r'''
 open Lean Elab Command in
