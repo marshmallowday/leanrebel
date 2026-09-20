@@ -155,6 +155,7 @@ theorem publicSplice_constructed_reference_query :
           cfrFallback 0 2).condOnFibre
           (fun h => ((model fullPrior).infoOf 0 h.trace, cfrDCutLive 1 h))
           ((model fullPrior).infoOf 0 zeroControlHistory.trace, true) := by
+  classical
   apply cfrDReferenceTable_query (reducedModel fullPrior)
   rw [FinDist.support_map]
   refine ⟨zeroControlHistory, zeroControl_reference_supported, ?_⟩
