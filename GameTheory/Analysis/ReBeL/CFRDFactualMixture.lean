@@ -173,8 +173,7 @@ theorem cfrDFactualChildProfile_referenceSlice
           fallback cut remaining type =
         cfrDReferenceKernel M trunk fallback cut remaining type := by
     intro type
-    unfold cfrDReferenceKernel
-    rw [cfrDFactualChildProfile_referenceLaw]
+    simp only [cfrDReferenceKernel, cfrDFactualChildProfile_referenceLaw]
   have kernelFunction := funext kernels
   simp only [cfrDReferenceSlice, kernelFunction]
 
