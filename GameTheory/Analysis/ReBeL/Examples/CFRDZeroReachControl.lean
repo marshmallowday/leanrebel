@@ -226,6 +226,7 @@ theorem zeroControl_factual_info_absent :
   intro sampled
   rw [FinDist.support_map] at sampled
   obtain ⟨history, reached, same⟩ := sampled
+  dsimp only at same
   have nonzero := cfrD_run_support_ownReach (model fullPrior) (carriedBitProfile false)
     2 history reached 0
   apply nonzero
