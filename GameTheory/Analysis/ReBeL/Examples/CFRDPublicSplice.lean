@@ -158,8 +158,9 @@ theorem publicSplice_constructed_reference_query :
   apply cfrDReferenceTable_query (reducedModel fullPrior)
   rw [FinDist.support_map]
   refine ⟨zeroControlHistory, zeroControl_reference_supported, ?_⟩
-  apply Prod.ext rfl
-  rw [cfrDCutLive, decide_eq_true_eq]
-  exact ⟨by decide, fun impossible => impossible⟩
+  apply Prod.ext
+  · rfl
+  · rw [cfrDCutLive, decide_eq_true_eq]
+    exact ⟨by decide, fun impossible => impossible⟩
 
 end GameTheory.ReBeL.Examples.HiddenTypes
