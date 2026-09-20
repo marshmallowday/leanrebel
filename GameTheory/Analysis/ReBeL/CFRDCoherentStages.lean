@@ -40,11 +40,7 @@ theorem cfrDCoherentStage_then (hrecall : M.PerfectRecall)
           (Profile.update unknown who (plays next.iteration.1 who)) remaining next.history) =
       M.runBehavioralFrom (Profile.update unknown who (plays state.iteration.1 who))
         (fuel + remaining) state.history := by
-  change ((carriedResolvedStep M (carriedMemoryProfile M plays)
-    (fun memory _ _ => cfrDPolicyDraw M fallback (plays memory.1))
-    unknown who fuel state).map (storeCarriedDraw M)).bind
-      (fun next => M.runBehavioralFrom
-        (Profile.update unknown who (plays next.iteration.1 who)) remaining next.history) = _
+  dsimp only [carriedMemoryStep, cfrDCoherentStage]
   by_cases live : cfrDCutLive fuel state.history = true
   · simp only [carriedResolvedStep, if_pos live,
       FinDist.bind_map, FinDist.bind_bind, storeCarriedDraw, resolvedNextState]
