@@ -107,10 +107,15 @@ theorem publicSplice_unvisited_public :
   | initial => cases same
   | drawn x y => cases same
   | second x y a b =>
-      rw [zeroControl_own_reach] at first second
-      cases a <;> cases b <;>
-        norm_num [GameTheory.ReBeL.Rational.HiddenTypes.own] at first second
-      cases same
+      by_cases ha : a = false
+      · subst a
+        by_cases hb : b = false
+        · subst b
+          cases same
+        · exact second (by simp [zeroControl_own_reach,
+            GameTheory.ReBeL.Rational.HiddenTypes.own, hb])
+      · exact first (by simp [zeroControl_own_reach,
+          GameTheory.ReBeL.Rational.HiddenTypes.own, ha])
   | finished x y a b c d => cases same
 
 /-- Finite legal menus for the unilateral-reference boundary control. -/
