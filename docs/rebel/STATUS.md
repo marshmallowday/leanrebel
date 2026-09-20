@@ -4,7 +4,7 @@
 
 Continue on `rebel/m06-conditional-checkpoint-20260920`; read its remote HEAD.
 Its proof source is `af8b63282a49cdfb68df411e5527b6ba3e288d42` on the preserved
-`rebel/m06-conditional-loss-20260920` branch. This evidence update contains no
+`rebel/m06-conditional-loss-20260920` branch. The evidence updates contain no
 Lean or dependency changes. All work descends from the checked restart
 `b5e15493d6efdc4fa641aeb690e40b24a0764d11`; do not replay older recovery stages.
 Main stays `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`, accepted through M05.
@@ -20,12 +20,19 @@ transitive declaration records were inspected and use only `propext`,
 The target log contains no error or warning records. This supplements, rather
 than replaces, full repository and ReBeL acceptance checks.
 
-Source inventory `35508389752` / `106071929279` also passed. At this recording
-checkpoint, full CI `35508389747` / `106071929220` and full ReBeL
-`35508389751` / `106071965121` still run. Re-read their actual results and
-artifacts before promoting any original obligation. No M06 acceptance or
-main integration is claimed. See M06-conditional-loss-validation.md and
-M06-conditional-loss-axioms.txt for source hashes, run IDs and scoped evidence.
+Full repository CI on the SAME proof source has now PASSED: run `35508389747`,
+job `106071929220`. Build, reuse-signature checks, Phase 1/2/3 architecture and
+reachability audits, full public-library lint and tracked cleanliness all
+succeeded. This updates the earlier in-progress observation in
+M06-conditional-loss-validation.md without changing the proof source or gates.
+Source inventory `35508389752` / `106071929279` also passed.
+
+Full ReBeL `35508389751` / `106071965121` still runs at this update. Re-read its
+actual final result and artifact before promoting any original obligation.
+No M06 acceptance or main integration is claimed. See
+M06-conditional-loss-validation.md and M06-conditional-loss-axioms.txt for
+source hashes, run IDs and scoped evidence. The documentation head has its
+own CI, separate from the recorded proof source's successful jobs.
 
 The exact Actions source snapshot matches all six changed code/registration/
 audit files. All 76 existing Python tests and ledger/inventory structural
