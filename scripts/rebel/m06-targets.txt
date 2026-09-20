@@ -45,3 +45,4 @@ GameTheory.Analysis.ReBeL.CFRDClamp
 GameTheory.Analysis.ReBeL.CFRDExactDriver
 GameTheory.Analysis.ReBeL.CFRDExactSafety
 GameTheory.Analysis.ReBeL.Examples.CFRDExactDriver
+GameTheory.Analysis.ReBeL.CFRDNoisyDriver

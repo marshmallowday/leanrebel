@@ -2,42 +2,52 @@
 
 ## Active restart point
 
-Continue on `rebel/m06-exact-driver-20260920`; read its actual remote HEAD.
-Parent `7166f79de7f14ade853d5d7f96a6e2adf7e07018` is preserved on
-`rebel/m06-exact-leaf-20260920`. All public-splice, reference-table and
-factual-child checkpoints are ancestors; do not replay the older contract head.
+Continue on `rebel/m06-noisy-driver-20260920`; read the actual remote HEAD.
+Parent `3ec0f0b4dc77ef1524bd4165bba22082ab772b22` is preserved on
+`rebel/m06-exact-driver-20260920` so its full checks can finish independently.
+Its declared-target compiler step passed in run 35502961705/job 106057880329;
+the additional exact-child axiom/lint step was still running at this checkpoint.
+No complete workflow success is inferred from the target compiler step.
 Main remains `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`, accepted through M05.
-The preceding STATUS is preserved byte-for-byte in M06-status-before-exact-driver.md.
+All earlier public-splice, reference-table, factual-child and exact-leaf work
+is retained. The source entering this session was 067ca5fe, not the older
+8ab23b4b chat checkpoint. Read the preserved M06 status histories for prior evidence.
 
-## Restart repair and new proof slice
+## New source and validation boundary
 
-The inherited exact-leaf source `067ca5fe` failed target run 35494541092,
-job 106035094438, on a dependent rewrite in CFRDFactualMixture. First repair
-6b7cd969 failed run 35502165000/job 106055742412 because the dependent support
-condition remained. The second repair compares kernel laws separately on
-supported and unsupported fibers, then reconstructs the belief equality.
-Read 7166f79d's own result; neither failed run is validation of this source.
+CFRDFactualMixture's dependent kernel rewrite was repaired at 7166f79d.
+All its declared targets compiled in run 35502452287/job 106056533668, but its
+additional audit generator failed from untyped counters. Both are now typed
+as Nat; no allowed axiom or validation gate changed. The new clamp module's
+reserved binder prefix was renamed prefixLaw after actual compiler feedback.
 
-CFRDClamp proves that restoring the searched trunk preserves full continuation
-and unilateral deviation laws at cut roots, and transports any local loss
-allowance when the unilateral prefix reference is unchanged. Its proof
-excludes early terminal histories from live query roots explicitly.
-CFRDExactDriver uses the already constructed exact factual child equilibrium
-and zero-own-reach response. Its actual coupled CFR-D sequence receives exact
-conditional values and has a derived zero-loss leaf contract at every round.
-No child Nash, query equality or leaf-quality premise is supplied to this driver.
+CFRDClamp transports conditional continuation and unilateral laws through
+restoration of the learned trunk. CFRDExactDriver constructs exact child Nash
+and compatible zero-own-reach responses at each actual parent round, deriving
+accuracy and leaf optimality without caller-supplied continuation certificates.
+CFRDExactSafety derives finite-T full-game Nash and carried execution security.
+Six canonical live/off-path/boundary and negative controls compiled at 3ec0f0b4.
 
-New source is registered in the analytic root and targeted build. Its own
-compiler, normal/slow lint, architecture and transitive axiom checks are pending.
-This is an implementation checkpoint, not M06 acceptance. See M06-exact-driver.md.
+CFRDNoisyDriver now perturbs numerical predictions and proves both contracts
+for the perturbed driver's OWN recurrence. Its security statement has the
+corrected A*error+B/sqrt(T) form. No equality with the unperturbed learning
+trace is assumed. Three further controls use a genuine one-quarter prediction
+bias. The whole new source needs its own compiler, normal/slow lint,
+architecture and transitive axiom validation. Supplemental audit now covers
+ten modules and does not replace full ReBeL validation.
+See M06-exact-driver.md, M06-exact-safety.md and M06-noisy-driver.md.
 
-## Remaining obligations
+## Remaining M06 obligations
 
-Instantiate end-to-end finite-iteration Nash/security and live/zero-reach
-controls for this driver. Then address numerical predictions, finite-T child
-loss and recursively refreshed carried execution. The constructed children
-here are exact noncomputable Nash, not finite-T recursive CFR. Preserve the
-finite-T outer error even at zero oracle error; retain the printed/corrected
-Theorem 3 distinction. Original M06 parent coverage remains pending.
-All accepted M00-M05 evidence, dependency pins and negative tests remain.
-Only propext, Classical.choice and Quot.sound are permitted. No main integration.
+The children are constructed noncomputable exact finite-game Nash profiles.
+They are not finite-T child CFR, and carried continuation retains a selected
+policy rather than repeatedly re-solving at later realized beliefs. Construct
+finite-T conditional child loss and refreshed recursive carried execution,
+then review the source assumptions and acceptance evidence. A network's uniform
+numerical-error bound is not established by adding a bounded-error interface.
+
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
+The printed Theorem 3 is distinct from the corrected bound; zero error never
+silently removes finite-T regret. All M00-M05 evidence, original coverage rows,
+dependency pins and negative tests are retained. Only propext, Classical.choice
+and Quot.sound are allowed. No M06 acceptance or main integration is claimed.

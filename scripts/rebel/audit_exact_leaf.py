@@ -21,6 +21,7 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.CFRDClamp",
     "GameTheory.Analysis.ReBeL.CFRDExactDriver",
     "GameTheory.Analysis.ReBeL.CFRDExactSafety",
+    "GameTheory.Analysis.ReBeL.CFRDNoisyDriver",
     "GameTheory.Analysis.ReBeL.Examples.CFRDExactDriver",
 )
 AUDITOR = r'''

@@ -6,7 +6,7 @@ live exact child solve. The tests call derived contracts, never assume them.
 The negative control rejects whole-profile equality under trunk restoration.
 -/
 
-import GameTheory.Analysis.ReBeL.CFRDExactSafety
+import GameTheory.Analysis.ReBeL.CFRDNoisyDriver
 import GameTheory.Analysis.ReBeL.Examples.CFRDFactualChild
 
 noncomputable section
@@ -100,5 +100,34 @@ theorem exactDriverControl_clamp_not_profile_eq :
   simp only [cfrDDepthProfile, cfrDDepthTrunk, decide_eq_true_eq, if_pos before] at evaluated
   rw [zeroControl_draw_prob, zeroControl_draw_prob] at evaluated
   norm_num at evaluated
+
+/-- A concrete nonzero prediction perturbation at every actual live query. -/
+def exactDriverBiasedOracle : CFRDValueOracle (model fullPrior) :=
+  cfrDConstructedNoisyOracle (reducedModel fullPrior) cfrFallback cfrPayoff 2 1
+    (fun _ _ _ _ => (1 / 4 : ℝ))
+
+/-- The one-quarter numerical bound is proved for the perturbed recurrence itself. -/
+theorem exactDriverBiased_accurate :
+    CFRDDepthAccurate (model fullPrior) (fullObservationClock (reducedModel fullPrior))
+      cfrFallback cfrPayoff 2 1 exactDriverBiasedOracle (1 / 4) := by
+  apply cfrDConstructedNoisyOracle_accurate
+  intro n trunk who info
+  norm_num
+
+/-- Bounded prediction error is not an additional child optimality assumption. -/
+theorem exactDriverBiased_leafOptimal :
+    CFRDDepthLeafOptimal (model fullPrior) (fullObservationClock (reducedModel fullPrior))
+      cfrFallback cfrPayoff 2 1 exactDriverBiasedOracle 0 :=
+  cfrDConstructedNoisyOracle_leafOptimal (reducedModel fullPrior) cfrFallback cfrPayoff 2 1 _
+
+/-- The biased response genuinely differs from the exact response at the same
+query. This is not an asserted equality of the two coupled learning traces. -/
+theorem exactDriverBiased_prediction_difference (n : Nat)
+    (trunk : Profile (model fullPrior).behavioralSignature) (who : Player)
+    (info : (model fullPrior).InfoState who) :
+    (exactDriverBiasedOracle n trunk).prediction who info -
+      (exactDriverControlOracle n trunk).prediction who info = 1 / 4 := by
+  simp only [exactDriverBiasedOracle, cfrDConstructedNoisyOracle,
+    exactDriverControlOracle, add_sub_cancel_left]
 
 end GameTheory.ReBeL.Examples.HiddenTypes
