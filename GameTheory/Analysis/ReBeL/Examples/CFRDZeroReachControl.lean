@@ -10,6 +10,7 @@ completion. All controls use the canonical two-stage hidden-type protocol.
 import GameTheory.Analysis.ReBeL.CFRDZeroReachCompletion
 import GameTheory.Analysis.ReBeL.Examples.CFRDChildControl
 import GameTheory.Analysis.ReBeL.CFRDCompletedLeaf
+import GameTheory.Analysis.ReBeL.CFRDCompletedContract
 
 noncomputable section
 
@@ -174,4 +175,94 @@ theorem zeroControl_joint_conditional_law_changes :
   rw [zeroControl_joint_completion_value, zeroControl_before_value] at values
   norm_num at values
 
+section CompletedQueries
+
+/-- Finite legal menus for the canonical reference-query controls. -/
+local instance zeroQueryChoiceFintype (who : Player) (info : (model fullPrior).InfoState who) :
+    Fintype ((model fullPrior).Choice who info) := by
+  classical
+  infer_instance
+
+/-- The entire actual query packet is preserved at the genuinely live cut. -/
+theorem zeroControl_query_packet :
+    cfrDCurrentPBS (model fullPrior) cfrFallback zeroControlCompleted 2 =
+      cfrDCurrentPBS (model fullPrior) cfrFallback (carriedBitProfile false) 2 :=
+  cfrDCompleteZeroReach_currentPBS (model fullPrior) (perfectRecall fullPrior)
+    (carriedBitProfile false) (carriedBitProfile true) cfrFallback 2
+
+/-- This factual-zero legal history really occurs in the focal reference law.
+The witness is derived from chance positivity and the actual own-reach factors. -/
+theorem zeroControl_reference_supported :
+    zeroControlHistory ∈
+      (unilateralReferenceLaw (model fullPrior) (carriedBitProfile false) cfrFallback 0 2).support := by
+  have focal := ownReach_eq_of_policy_eq (model fullPrior)
+    (Profile.update (carriedBitProfile false) 0
+      (uniformLegalPolicy (model fullPrior) 0 (cfrFallback 0)))
+    (uniformLegalProfile (model fullPrior) cfrFallback) 0
+    (Profile.update_same _ _ _) zeroControlHistory.trace
+  have other := ownReach_eq_of_policy_eq (model fullPrior)
+    (Profile.update (carriedBitProfile false) 0
+      (uniformLegalPolicy (model fullPrior) 0 (cfrFallback 0)))
+    (carriedBitProfile false) 1 (Profile.update_of_ne _ _ (by decide)) zeroControlHistory.trace
+  apply FinDist.prob_pos_iff.mp
+  rw [unilateralReferenceLaw, run_probability_factorization (model fullPrior),
+    Fin.prod_univ_two, focal, other]
+  have mask : outcomeChanceWeight 2 zeroControlHistory = chanceReach zeroControlHistory.trace := by
+    unfold outcomeChanceWeight
+    exact if_pos ⟨Nat.le_refl 2, Or.inl rfl⟩
+  rw [mask]
+  apply mul_pos (chanceReach_pos _)
+  apply mul_pos (uniformOwnReach_positive (model fullPrior) cfrFallback 0 _)
+  rw [zeroControlHistory, zeroControl_own_reach]
+  norm_num [GameTheory.ReBeL.Rational.HiddenTypes.own]
+
+/-- The same private information fiber is absent from factual play: replacing
+reference support by factual support would miss this genuine query. -/
+theorem zeroControl_factual_info_absent :
+    (model fullPrior).infoOf 0 zeroControlHistory.trace ∉
+      (((model fullPrior).runBehavioral (carriedBitProfile false) 2).map
+        (fun h => (model fullPrior).infoOf 0 h.trace)).support := by
+  intro sampled
+  rw [FinDist.support_map] at sampled
+  obtain ⟨history, reached, same⟩ := sampled
+  have nonzero := cfrD_run_support_ownReach (model fullPrior) (carriedBitProfile false)
+    2 history reached 0
+  apply nonzero
+  rw [← informationOwnReach_eq_player (model fullPrior) (perfectRecall fullPrior)
+    (carriedBitProfile false) 0 history, same]
+  exact zeroControl_information_zero
+
+/-- Every complete deviation keeps its conditional payoff at this real
+factual-zero query. The played continuation can nevertheless change by two. -/
+theorem zeroControl_reference_deviation_value
+    (target : (model fullPrior).BehavioralPolicy 0) :
+    conditionalOracleValue
+        (unilateralReferenceLaw (model fullPrior) zeroControlCompleted cfrFallback 0 2)
+        (fun h => (model fullPrior).infoOf 0 h.trace)
+        (fun h => ((model fullPrior).runBehavioralFrom
+          (Profile.update zeroControlCompleted 0 target) 1 h).expect (cfrPayoff 0))
+        ((model fullPrior).infoOf 0 zeroControlHistory.trace) =
+      conditionalOracleValue
+        (unilateralReferenceLaw (model fullPrior) (carriedBitProfile false) cfrFallback 0 2)
+        (fun h => (model fullPrior).infoOf 0 h.trace)
+        (fun h => ((model fullPrior).runBehavioralFrom
+          (Profile.update (carriedBitProfile false) 0 target) 1 h).expect (cfrPayoff 0))
+        ((model fullPrior).infoOf 0 zeroControlHistory.trace) := by
+  apply cfrDCompleteZeroReach_referenceDeviationValue (model fullPrior) (perfectRecall fullPrior)
+  rw [FinDist.support_map]
+  exact ⟨zeroControlHistory, zeroControl_reference_supported, rfl⟩
+
+/-- Uniformizing only the focal player cannot revive a history excluded by
+the opponent. Such a history cannot justify a sampled-reference contract. -/
+theorem zeroControl_opponent_not_reference :
+    zeroControlOpponentHistory ∉
+      (unilateralReferenceLaw (model fullPrior) (carriedBitProfile false) cfrFallback 0 2).support := by
+  intro reached
+  have positive := cfrDReference_support_opponents (model fullPrior) (carriedBitProfile false)
+    cfrFallback 0 2 zeroControlOpponentHistory reached 1 (by decide)
+  apply positive
+  rw [zeroControlOpponentHistory, zeroControl_own_reach]
+  norm_num [GameTheory.ReBeL.Rational.HiddenTypes.own]
+
+end CompletedQueries
 end GameTheory.ReBeL.Examples.HiddenTypes
