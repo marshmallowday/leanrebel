@@ -1,0 +1,65 @@
+Selected normalized axiom records for the four new bounded-refresh modules.
+Exact proof source: ae60d4105b67c478c23d594bca4cd7587c140ecb.
+Run 35535271115 / job 106143057959; artifact 10612846238.
+This excerpt contains 49 of the full supplemental audit's 292 declaration records.
+It includes generated equations and private helper declarations, not only named theorems.
+The complete raw log SHA256 is 1848e52b1b0b0806b8ff12541d5eae7abf5631abf28ae459d79d432345c92a81.
+This normalized excerpt does not claim that raw-log hash.
+Allowed axioms: propext, Classical.choice, Quot.sound.
+
+## GameTheory.Analysis.ReBeL.CFRDRefreshMix (12 declarations)
+GameTheory.ReBeL.carriedMemoryStep_selected_expect: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.mixedCarriedStage: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.storeCarriedDraw.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.carriedResolvedStep.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.mixedCarriedResolver_zero: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.mixedCarriedStage_loss_le: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.mixedCarriedStage.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.mixedCarriedResolver.congr_simp: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.carriedMemoryStep.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.mixedCarriedResolver.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.mixedCarriedResolver: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.mixedCarriedResolver_one: [propext, Classical.choice, Quot.sound]
+
+## GameTheory.Analysis.ReBeL.CFRDFiniteRefresh (22 declarations)
+_private.GameTheory.Analysis.ReBeL.CFRDFiniteRefresh.0.GameTheory.ReBeL.finiteRefreshStages.match_1.eq_1: []
+GameTheory.ReBeL.finiteRefreshStages._sunfold: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshStages_stepBounds: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshCandidate_none: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshCandidate_isNash: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshCandidate_some: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshStages.match_1: []
+_private.GameTheory.Analysis.ReBeL.CFRDFiniteRefresh.0.GameTheory.ReBeL.finiteRefreshStages.match_1.eq_2: []
+GameTheory.ReBeL.finiteRefreshCandidate: [propext, Classical.choice, Quot.sound]
+_private.GameTheory.Analysis.ReBeL.CFRDFiniteRefresh.0.GameTheory.ReBeL.finiteRefreshStages.match_1.splitter: []
+GameTheory.ReBeL.finiteRefreshStages.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshStages_fuel: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshStages.eq_def: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshStages._f: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshStages._unsafe_rec: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshStages_allowance: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshCandidate.match_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshStages.eq_2: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshStages.congr_simp: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.mixedCarriedStage.congr_simp: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefresh_inherits_bound: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.finiteRefreshStages: [propext, Classical.choice, Quot.sound]
+
+## GameTheory.Analysis.ReBeL.CFRDFiniteRefreshSafety (1 declarations)
+GameTheory.ReBeL.cfrDConstructedFiniteOracle_refreshed_security: [propext, Classical.choice, Quot.sound]
+
+## GameTheory.Analysis.ReBeL.Examples.CFRDFiniteRefresh (14 declarations)
+GameTheory.ReBeL.Examples.HiddenTypes.refreshControlState: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.finiteRefresh_two_stage_bounds: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.finiteRefresh_two_stage_fuel: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.refreshControlPlays: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.refreshControlState.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.refreshHistoryFintype: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.refreshControl_not_lossless: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.refreshControlPlays.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.refreshControl_loss: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.refreshControl_zero_fuel: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.finiteRefresh_missing_retains: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.liveResolvePlays.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.refreshChoiceFintype: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.finiteRefresh_live_candidate: [propext, Classical.choice, Quot.sound]
