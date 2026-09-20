@@ -156,7 +156,10 @@ theorem cfrDFiniteChildProfile_isNash
   have equilibrium := pbsFiniteBudgetProfile_isNash (fullInformation M)
     (fullSignals_perfectRecall M.toInfoSignals) (fullObservationClock M) fallback
     (cfrDFactualChildBelief M trunk cut remaining obs possible) remaining utility zeroSum bound
-    nonneg bounded _ (mul_pos (FinDist.positiveMassFloor_pos _) positive)
+    nonneg bounded
+    ((cfrDFactualChildBelief M trunk cut remaining obs possible).law.positiveMassFloor * loss)
+    (mul_pos (FinDist.positiveMassFloor_pos
+      (cfrDFactualChildBelief M trunk cut remaining obs possible).law) positive)
   have table : cfrDFiniteChildTable M trunk fallback cut remaining utility bound loss obs =
       pbsConditionalBudgetProfile (fullInformation M) (fullObservationClock M) fallback
         (cfrDFactualChildBelief M trunk cut remaining obs possible) remaining
