@@ -90,3 +90,87 @@ theorem completeZeroReach_infoValue (hrecall : M.PerfectRecall)
         completed type second
 
 end GameTheory.ReBeL.TypeBeliefSlice
+
+namespace GameTheory.ReBeL
+
+open GameTheory.Protocol GameTheory.Protocol.InformationModel
+open GameTheory.Math.Probability
+
+universe uι us ua up uq uk ut uv
+variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
+variable (M : InformationModel.{uι, us, ua, up, uq, uk} E)
+variable [Fintype ι] [DecidableEq ι] [Fintype E.History]
+variable [∀ i, Fintype (E.Action i)] [∀ i info, Fintype (M.Choice i info)]
+variable {observations : List M.PublicSignal} {T : ι → Type ut} {Tag : Type uv}
+
+/-- An actual sampled reference query supplies all own-reach hypotheses of
+joint completed leaf optimality. The remaining hypotheses identify the typed
+kernel, its factual support, and the canonical PBS Nash game; none supplies a
+payoff inequality or an assumed optimal completion policy. -/
+theorem cfrDJointTypeCompletion_referenceQuery_optimal (hrecall : M.PerfectRecall)
+    (slices : ∀ who, TypeBeliefSlice M observations who (T who))
+    (fallback : Profile M.strategicSignature) (fuel : Nat)
+    (utility : E.History → ι → ℝ) (base : Profile M.behavioralSignature)
+    (who : ι) (own : FinDist (T who))
+    (equilibrium : IsNash (behavioralBeliefForm M ((slices who).mixture own) fuel)
+      (euPreference utility) base) (type : T who)
+    (cut : Nat) (observe : E.History → Tag) (readInfo : Tag → M.InfoState who)
+    (information : ∀ history, M.infoOf who history.trace = readInfo (observe history))
+    (tag : Tag)
+    (sampled : tag ∈ ((unilateralReferenceLaw M base fallback who cut).map observe).support)
+    (kernel : ((slices who).kernel type).law =
+      (unilateralReferenceLaw M base fallback who cut).condOnFibre observe tag)
+    (factual : type ∈ own.support ↔ tag ∈ ((M.runBehavioral base cut).map observe).support)
+    (target : M.BehavioralPolicy who) :
+    (slices who).conditionalPayoff (cfrDJointTypeCompletion M slices fallback fuel utility base)
+        fuel (fun history => utility history who) target type ≤
+      (PublicBelief.continuationLaw M (cfrDJointTypeCompletion M slices fallback fuel utility base)
+        fuel ((slices who).kernel type)).expect (fun history => utility history who) := by
+  apply cfrDJointTypeCompletion_optimal M hrecall slices fallback fuel utility base who own
+    equilibrium type
+  · intro history reached other different
+    exact cfrDReference_conditional_opponents M base fallback who cut observe tag sampled
+      history (by simpa only [kernel] using reached) other different
+  · intro onPath history reached
+    exact (cfrDReference_factual_support_iff M hrecall base fallback who cut observe readInfo
+      information tag sampled history (by simpa only [kernel] using reached)).mp
+      (factual.mp onPath)
+  · intro offPath history reached
+    exact cfrDReference_factual_absent_own_zero M hrecall base fallback who cut observe readInfo
+      information tag sampled (fun present => offPath (factual.mpr present)) history
+      (by simpa only [kernel] using reached)
+
+/-- The same constructed completion satisfies the numerical conditional-oracle
+inequality at the actual reference query, against every behavioral deviation.
+This is a sampled-query result; arbitrary off-support fallback queries are not
+silently upgraded to Bayesian or counterfactual guarantees. -/
+theorem cfrDJointTypeCompletion_referenceOracle_optimal (hrecall : M.PerfectRecall)
+    (slices : ∀ who, TypeBeliefSlice M observations who (T who))
+    (fallback : Profile M.strategicSignature) (fuel : Nat)
+    (utility : E.History → ι → ℝ) (base : Profile M.behavioralSignature)
+    (who : ι) (own : FinDist (T who))
+    (equilibrium : IsNash (behavioralBeliefForm M ((slices who).mixture own) fuel)
+      (euPreference utility) base) (type : T who)
+    (cut : Nat) (observe : E.History → Tag) (readInfo : Tag → M.InfoState who)
+    (information : ∀ history, M.infoOf who history.trace = readInfo (observe history))
+    (tag : Tag)
+    (sampled : tag ∈ ((unilateralReferenceLaw M base fallback who cut).map observe).support)
+    (kernel : ((slices who).kernel type).law =
+      (unilateralReferenceLaw M base fallback who cut).condOnFibre observe tag)
+    (factual : type ∈ own.support ↔ tag ∈ ((M.runBehavioral base cut).map observe).support)
+    (target : M.BehavioralPolicy who) :
+    conditionalOracle (unilateralReferenceLaw M base fallback who cut) observe
+        (fun history => (M.runBehavioralFrom
+          (Profile.update (cfrDJointTypeCompletion M slices fallback fuel utility base) who target)
+          fuel history).expect (fun outcome => utility outcome who)) tag ≤
+      conditionalOracle (unilateralReferenceLaw M base fallback who cut) observe
+        (fun history => (M.runBehavioralFrom
+          (cfrDJointTypeCompletion M slices fallback fuel utility base) fuel history).expect
+          (fun outcome => utility outcome who)) tag := by
+  have optimal := cfrDJointTypeCompletion_referenceQuery_optimal M hrecall slices fallback
+    fuel utility base who own equilibrium type cut observe readInfo information tag sampled
+    kernel factual target
+  simpa only [TypeBeliefSlice.conditionalPayoff, PublicBelief.continuationLaw,
+    FinDist.expect_bind, conditionalOracle_eq, kernel] using optimal
+
+end GameTheory.ReBeL
