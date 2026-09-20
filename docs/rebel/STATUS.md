@@ -3,10 +3,10 @@
 ## Active M06 restart point
 
 Resume on `rebel/m06-contract-checkpoint-20260920`, which contains the complete
-proof source `482ebe19486c92035f395fee92acf2bd49ab183c` and this evidence update.
+proof source `482ebe19486c92035f395fee92acf2bd49ab183c` and evidence updates.
 Read its actual remote HEAD before editing. The source branch
 `rebel/m06-joint-completion-20260920` was deliberately left at that source so
-its running full validations are not cancelled by this documentation commit.
+its running full validations are not cancelled by documentation commits.
 Do not resume from the older `rebel/m06`, recovery, or resume branch.
 Main remains `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`, accepted through M05.
 
@@ -18,14 +18,20 @@ without changing source, dependencies, or verification settings.
 See [M06-query-contract-validation.md](M06-query-contract-validation.md) and
 [M06-query-contract-compiler.txt](M06-query-contract-compiler.txt).
 
-At this evidence checkpoint, exact-source ReBeL compiler/lint/axiom run
-`35482474752`, job `106002668307`, and full CI run `35482474749`, job
-`106002665821`, are still running. Re-read them before promoting any obligation.
-ReBeL's width, static architecture, ledger/inventory/fixture, and rational Lean
-runtime/independent-response steps already succeeded. These intermediate step
-successes are not final workflow success or a completed transitive axiom audit.
-The new documentation head has its own checks; do not confuse those with the
-recorded proof source's runs. No M06 acceptance or integration is claimed.
+Full repository CI on the same exact source has now PASSED: run `35482474749`,
+job `106002665821`. All applicable build, reuse-signature, Phase 1/2/3
+architecture/reachability, full public-library lint, and tracked-cleanliness
+steps succeeded. This updates the earlier in-progress observation recorded in
+M06-query-contract-validation.md; it does not change any source or audit gate.
+
+Exact-source ReBeL compiler/lint/axiom run `35482474752`, job `106002668307`,
+is still running at this update. Re-read it and inspect the transitive axiom
+output before promoting any obligation. Its width, static architecture,
+ledger/inventory/fixture, and rational Lean runtime/independent-response steps
+already succeeded. These intermediate steps are not a completed ReBeL workflow
+or a completed transitive axiom audit. The documentation head has its own
+checks; do not confuse those with the recorded proof source's runs.
+No M06 acceptance or integration is claimed.
 
 ## New saved proof and controls
 
