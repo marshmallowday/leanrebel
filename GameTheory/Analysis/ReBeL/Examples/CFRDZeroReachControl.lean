@@ -194,7 +194,8 @@ theorem zeroControl_query_packet :
 The witness is derived from chance positivity and the actual own-reach factors. -/
 theorem zeroControl_reference_supported :
     zeroControlHistory ∈
-      (unilateralReferenceLaw (model fullPrior) (carriedBitProfile false) cfrFallback 0 2).support := by
+      (unilateralReferenceLaw (model fullPrior) (carriedBitProfile false)
+        cfrFallback 0 2).support := by
   have focal := ownReach_eq_of_policy_eq (model fullPrior)
     (Profile.update (carriedBitProfile false) 0
       (uniformLegalPolicy (model fullPrior) 0 (cfrFallback 0)))
@@ -256,7 +257,8 @@ theorem zeroControl_reference_deviation_value
 the opponent. Such a history cannot justify a sampled-reference contract. -/
 theorem zeroControl_opponent_not_reference :
     zeroControlOpponentHistory ∉
-      (unilateralReferenceLaw (model fullPrior) (carriedBitProfile false) cfrFallback 0 2).support := by
+      (unilateralReferenceLaw (model fullPrior) (carriedBitProfile false)
+        cfrFallback 0 2).support := by
   intro reached
   have positive := cfrDReference_support_opponents (model fullPrior) (carriedBitProfile false)
     cfrFallback 0 2 zeroControlOpponentHistory reached 1 (by decide)
