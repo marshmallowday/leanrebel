@@ -66,3 +66,4 @@ GameTheory.Analysis.ReBeL.Examples.CFRDFiniteRefresh
 GameTheory.Analysis.ReBeL.CFRDResolveEnvelope
 GameTheory.Analysis.ReBeL.CFRDEnvelopeSafety
 GameTheory.Analysis.ReBeL.Examples.CFRDEnvelope
+GameTheory.Analysis.ReBeL.CFRDCoherentDraw
