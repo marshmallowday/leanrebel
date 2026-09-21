@@ -165,3 +165,5 @@ import GameTheory.Analysis.ReBeL.CFRDInformationDriver
 import GameTheory.Analysis.ReBeL.Examples.CFRDInformationChild
 import GameTheory.Analysis.ReBeL.PBSInformationSampling
 import GameTheory.Analysis.ReBeL.PBSInformationCarried
+import GameTheory.Analysis.ReBeL.PBSInformationSecurity
+import GameTheory.Analysis.ReBeL.Examples.PBSInformationSampling

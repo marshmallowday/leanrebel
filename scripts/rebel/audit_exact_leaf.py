@@ -65,6 +65,8 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.Examples.CFRDInformationChild",
     "GameTheory.Analysis.ReBeL.PBSInformationSampling",
     "GameTheory.Analysis.ReBeL.PBSInformationCarried",
+    "GameTheory.Analysis.ReBeL.PBSInformationSecurity",
+    "GameTheory.Analysis.ReBeL.Examples.PBSInformationSampling",
 )
 AUDITOR = r'''
 open Lean Elab Command in

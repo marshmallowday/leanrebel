@@ -146,7 +146,7 @@ def pbsInformationCarriedStages
   | elapsed, amount :: rest, state =>
       (pbsInformationCarriedAdvance M belief fallback payoff fuel t unknown who
         elapsed amount state).bind
-        (pbsInformationCarriedStages M belief fallback payoff fuel t unknown who
+        (pbsInformationCarriedStages belief fallback payoff fuel t unknown who
           (elapsed + amount) rest)
 
 /-- Any finite segmentation equals a single run, including the carried model
