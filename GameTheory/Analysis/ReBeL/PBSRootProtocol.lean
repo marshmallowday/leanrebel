@@ -21,6 +21,7 @@ variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 
 /-- Restart execution at a finite law of legal histories, preserving all
 realized transition evidence. `none` is the unique administrative root. -/
+@[reducible]
 def pbsRootProtocol (roots : FinDist E.History) : ExecutionProtocol ι where
   State := Option E.History
   Action := E.Action
@@ -58,7 +59,7 @@ theorem pbsRootProtocol_chanceLaw (roots : FinDist E.History) :
 theorem pbsRootProtocol_step_support (roots : FinDist E.History) (history : E.History)
     (draw : {joint // E.Legal history.state joint}) (next : Option E.History) :
     next ∈ ((pbsRootProtocol roots).step (some history) draw).support ↔
-      ∃ target (realized : target ∈ (E.step history.state draw).support),
+      ∃ (target : E.State) (realized : target ∈ (E.step history.state draw).support),
         next = some (history.extend draw.2 realized) := by
   simp only [pbsRootProtocol, FinDist.support_bindOnSupport, Set.mem_iUnion,
     FinDist.mem_support_pure]
@@ -70,7 +71,9 @@ theorem pbsRootProtocol_step_none_support (roots : FinDist E.History)
     (next : Option E.History) :
     next ∈ ((pbsRootProtocol roots).step none draw).support ↔
       ∃ history ∈ roots.support, some history = next := by
-  simp only [pbsRootProtocol, FinDist.support_map, Set.mem_image]
+  change next ∈ (roots.map some).support ↔ _
+  rw [FinDist.support_map]
+  rfl
 
 /-- The longest legal original history; no unique-predecessor assumption. -/
 def pbsRootMaxDepth [Fintype E.History] : Nat :=
@@ -79,7 +82,7 @@ def pbsRootMaxDepth [Fintype E.History] : Nat :=
 /-- Finite enumeration bounds every original legal history, not just roots. -/
 theorem pbsRoot_length_le [Fintype E.History] (history : E.History) :
     history.trace.length ≤ pbsRootMaxDepth (E := E) := by
-  exact Finset.le_sup (Finset.mem_univ history)
+  exact Finset.le_sup (f := fun h : E.History => h.trace.length) (Finset.mem_univ history)
 
 /-- One additional rank unit accounts for the initial joint-belief draw. -/
 def pbsRootRank [Fintype E.History] : Option E.History → Nat
@@ -108,7 +111,8 @@ theorem pbsRootRank_decreases [Fintype E.History] (roots : FinDist E.History)
 /-- The canonical bounded-horizon predicate is derived, not supplied. -/
 theorem pbsRootProtocol_bounded [Fintype E.History] (roots : FinDist E.History) :
     (pbsRootProtocol roots).BoundedHorizon (pbsRootMaxDepth (E := E) + 1) :=
-  boundedHorizon_of_rank pbsRootRank (pbsRootRank_decreases roots)
+  boundedHorizon_of_rank (E := pbsRootProtocol roots)
+    (pbsRootRank (E := E)) (pbsRootRank_decreases roots)
 
 /-- An explicit enumeration of every legal rooted history. Full original
 histories, not just finite states, are the required finiteness input. -/
