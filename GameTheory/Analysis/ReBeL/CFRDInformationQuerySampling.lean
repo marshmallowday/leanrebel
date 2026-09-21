@@ -111,8 +111,9 @@ theorem cfrDInformationFactualQuerySample_completed
     (FinDist.support_condOn _ _
       (cfrDInformationQuery_possible M trunk cut remaining who info factual) supported).2
   have inChild : history ∈ ((fullInformation M).runBehavioral
-      (cfrDInformationChildProfile M trunk fallback cut remaining utility bound loss) cut).support :=
-    by simpa only [cfrDInformationChildProfile_prefixLaw] using inTrunk
+      (cfrDInformationChildProfile M trunk fallback cut remaining utility bound loss)
+      cut).support := by
+    simpa only [cfrDInformationChildProfile_prefixLaw] using inTrunk
   exact (completed_query_positive M
     (cfrDInformationChildProfile M trunk fallback cut remaining utility bound loss)
     (cfrDInformationQueryResponse M trunk fallback cut remaining utility bound loss)
@@ -136,8 +137,9 @@ def cfrDInformationQuerySample
     (fallback : Profile M.strategicSignature) (cut remaining : Nat)
     (utility : E.History → Fin 2 → ℝ) (bound loss : ℝ)
     (who : Fin 2) (info : (fullInformation M).InfoState who)
-    (unknown : Profile (fullInformation M).behavioralSignature) (steps : Nat) : FinDist E.History :=
-  if factual : CFRDInformationQueryFactual M trunk cut remaining who info then
+    (unknown : Profile (fullInformation M).behavioralSignature) (steps : Nat) : FinDist E.History := by
+  classical
+  exact if factual : CFRDInformationQueryFactual M trunk cut remaining who info then
     cfrDInformationFactualQuerySample M trunk fallback cut remaining utility bound loss
       who info factual unknown steps
   else

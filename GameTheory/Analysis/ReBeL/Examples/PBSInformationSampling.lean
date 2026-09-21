@@ -3,10 +3,10 @@
 
 These use the canonical live hidden-type posterior and the information-set
 recurrence. Unknown opponents, a randomized opponent, zero execution fuel,
-posterior-dependent counts and the parent's public splice remain explicit.
+posterior-dependent counts and both parent-query branches remain explicit.
 -/
 
-import GameTheory.Analysis.ReBeL.CFRDInformationSampling
+import GameTheory.Analysis.ReBeL.CFRDInformationQuerySampling
 import GameTheory.Analysis.ReBeL.Examples.CFRDInformationChild
 
 noncomputable section
@@ -20,6 +20,12 @@ open GameTheory.ReBeL.Rational.HiddenTypes.Canonical
 /-- The canonical hidden-type protocol has explicitly enumerated legal histories. -/
 local instance samplingControlHistoryFintype : Fintype (protocol fullPrior).History :=
   historyFintype fullPrior
+
+/-- Canonical reference queries include all finite legal local menus. -/
+local instance samplingControlChoiceFintype (who : Player)
+    (info : (model fullPrior).InfoState who) : Fintype ((model fullPrior).Choice who info) := by
+  classical
+  infer_instance
 
 /-- The actual two-iteration law is uniform, not a last-iterate selection. -/
 theorem informationSamplingControl_uniform_two :
@@ -188,5 +194,84 @@ theorem informationSamplingControl_factual_query_zero_fuel
   have stopped (profile : Profile (model fullPrior).behavioralSignature) :
       (model fullPrior).runBehavioralFrom profile 0 = FinDist.pure := rfl
   rw [stopped, FinDist.bind_pure]
+
+/-- Reference support at the zero-own-reach root is independent of which legal
+fallback supplies the inactive menus. Here it is derived for the actual backend. -/
+theorem informationSamplingControl_zero_reference :
+    zeroControlHistory ∈ (unilateralReferenceLaw (model fullPrior) (carriedBitProfile false)
+      informationControlFullFallback 0 2).support := by
+  have focal := ownReach_eq_of_policy_eq (model fullPrior)
+    (Profile.update (carriedBitProfile false) 0
+      (uniformLegalPolicy (model fullPrior) 0 (informationControlFullFallback 0)))
+    (uniformLegalProfile (model fullPrior) informationControlFullFallback) 0
+    (Profile.update_same _ _ _) zeroControlHistory.trace
+  have other := ownReach_eq_of_policy_eq (model fullPrior)
+    (Profile.update (carriedBitProfile false) 0
+      (uniformLegalPolicy (model fullPrior) 0 (informationControlFullFallback 0)))
+    (carriedBitProfile false) 1 (Profile.update_of_ne _ _ (by decide)) zeroControlHistory.trace
+  apply FinDist.prob_pos_iff.mp
+  rw [unilateralReferenceLaw, run_probability_factorization (model fullPrior),
+    Fin.prod_univ_two, focal, other]
+  have mask : outcomeChanceWeight 2 zeroControlHistory = chanceReach zeroControlHistory.trace := by
+    unfold outcomeChanceWeight
+    exact if_pos ⟨Nat.le_refl 2, Or.inl rfl⟩
+  rw [mask]
+  apply mul_pos (chanceReach_pos _)
+  apply mul_pos (uniformOwnReach_positive (model fullPrior) informationControlFullFallback 0 _)
+  rw [zeroControlHistory, zeroControl_own_reach]
+  norm_num [GameTheory.ReBeL.Rational.HiddenTypes.own]
+
+/-- A zero-factual-mass private/live query really occurs in the reference law. -/
+theorem informationSamplingControl_zero_query_sampled :
+    CFRDInformationQuerySampled (reducedModel fullPrior) (carriedBitProfile false)
+      pbsRootControlFallback 2 1 0 ((model fullPrior).infoOf 0 zeroControlHistory.trace) := by
+  rw [CFRDInformationQuerySampled, FinDist.support_map]
+  refine ⟨zeroControlHistory, informationSamplingControl_zero_reference, Prod.ext rfl ?_⟩
+  simp only [cfrDCutLive, decide_eq_true_eq]
+  exact ⟨by decide, by decide⟩
+
+/-- Replacing reference support by factual support would discard this real query. -/
+theorem informationSamplingControl_zero_query_not_factual :
+    ¬ CFRDInformationQueryFactual (reducedModel fullPrior) (carriedBitProfile false)
+      2 1 0 ((model fullPrior).infoOf 0 zeroControlHistory.trace) := by
+  intro factual
+  rw [CFRDInformationQueryFactual, FinDist.support_map] at factual
+  obtain ⟨history, reached, same⟩ := factual
+  apply zeroControl_factual_info_absent
+  rw [FinDist.support_map]
+  exact ⟨history, reached, congrArg Prod.fst same⟩
+
+/-- At that off-path query the implementation selects the actual computed
+response, rather than attempting to cancel a root with model probability zero. -/
+theorem informationSamplingControl_zero_query_branch
+    (unknown : Profile (model fullPrior).behavioralSignature) :
+    cfrDInformationQuerySample (reducedModel fullPrior) (carriedBitProfile false)
+        pbsRootControlFallback 2 1 (fun h player => cfrPayoff player h) 2 (1 / 4)
+        0 ((model fullPrior).infoOf 0 zeroControlHistory.trace) unknown 1 =
+      (cfrDInformationQueryLaw (reducedModel fullPrior) (carriedBitProfile false)
+        pbsRootControlFallback 2 1 0 ((model fullPrior).infoOf 0 zeroControlHistory.trace)).bind
+          ((model fullPrior).runBehavioralFrom
+            (Profile.update unknown 0 (cfrDInformationQueryResponse (reducedModel fullPrior)
+              (carriedBitProfile false) pbsRootControlFallback 2 1
+              (fun h player => cfrPayoff player h) 2 (1 / 4) 0)) 1) := by
+  simp only [cfrDInformationQuerySample, dif_neg informationSamplingControl_zero_query_not_factual]
+
+/-- The off-path branch has the same complete law as the completed parent,
+with an arbitrary fixed unknown opponent and positive continuation fuel. -/
+theorem informationSamplingControl_zero_query_law
+    (unknown : Profile (model fullPrior).behavioralSignature) :
+    cfrDInformationQuerySample (reducedModel fullPrior) (carriedBitProfile false)
+        pbsRootControlFallback 2 1 (fun h player => cfrPayoff player h) 2 (1 / 4)
+        0 ((model fullPrior).infoOf 0 zeroControlHistory.trace) unknown 1 =
+      (cfrDInformationQueryLaw (reducedModel fullPrior) (carriedBitProfile false)
+        pbsRootControlFallback 2 1 0 ((model fullPrior).infoOf 0 zeroControlHistory.trace)).bind
+          ((model fullPrior).runBehavioralFrom
+            (Profile.update unknown 0 (cfrDInformationContinuation (reducedModel fullPrior)
+              (carriedBitProfile false) pbsRootControlFallback 2 1
+              (fun h player => cfrPayoff player h) 2 (1 / 4) 0)) 1) :=
+  cfrDInformationQuerySample_law (reducedModel fullPrior) (carriedBitProfile false)
+    pbsRootControlFallback 2 1 (fun h player => cfrPayoff player h) 2 (1 / 4)
+    0 ((model fullPrior).infoOf 0 zeroControlHistory.trace)
+    informationSamplingControl_zero_query_sampled unknown 1
 
 end GameTheory.ReBeL.Examples.HiddenTypes
