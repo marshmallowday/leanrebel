@@ -32,13 +32,16 @@ Lean files have no line-width violations. Every inherited import, target and
 all 3,054 expanded coverage rows remain. Dependencies, workflows, allowed
 axioms and architecture gates are unchanged; new modules were added to checks.
 
-Full repository CI `35550519628` / `106184318263` and full ReBeL
-`35550519618` / `106184325607` are still running at this evidence checkpoint.
-The latter's width, static architecture, ledger/inventory/adversarial fixtures
-and independent rational Lean runtime checks have passed. This intermediate
-state and the supplemental success are not full-workflow success. Re-read
-those exact-source results before integration. The evidence head has separate
-checks. M06 itself is not accepted as complete.
+A later read confirmed full repository CI `35550519628` / `106184318263`
+completed SUCCESS, including the full build, public-library lint, all three
+architecture phases, compiler-resolved reuse checks and tracked-file cleanliness.
+This supersedes the still-running note recorded in the initial validation file.
+Full ReBeL `35550519618` / `106184325607` is still running. Its width, static
+architecture, ledger/inventory/adversarial fixtures and independent rational
+Lean runtime checks have passed. This intermediate state and supplemental
+success are not success of that full ReBeL workflow. Re-read its exact-source
+result before integration. The evidence head has separate checks. M06 itself
+is not accepted as complete.
 
 The inherited 93b60fbd source has passed full repository CI `35545208101` /
 `106169800893` and full ReBeL `35545208160` / `106169767571`; actual completed
