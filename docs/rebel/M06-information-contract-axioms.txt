@@ -1,0 +1,61 @@
+Normalized excerpt: all 44 declaration records owned by the five new modules.
+Proof source: 6416eebd9a67645fe94100db744cd4d049d17684.
+Exact target run 35560410070 / job 106212097997, completed successfully.
+The full supplemental audit contains 568 records in 50 modules.
+This excerpt is not the complete raw log and does not claim its hash.
+Allowed axioms: propext, Classical.choice, Quot.sound.
+Counts include definitions, generated equations and private helper declarations.
+
+## GameTheory.Analysis.ReBeL.PBSInformationBudget (12 declarations)
+GameTheory.ReBeL.instNeZeroPbsInformationBudgetRounds: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.pbsInformationBudgetProfile: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.pbsInformationBudgetRounds: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.pbsInformationBudgetRounds_error: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.pbsInformationConditionalProfile: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.pbsInformationCFRBound_factor: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.pbsInformationBudgetProfile_isNash: [propext, Classical.choice, Quot.sound]
+_private.GameTheory.Analysis.ReBeL.PBSInformationBudget.0.GameTheory.ReBeL.pbsBudget_sum_mul: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.pbsInformationConditionalProfile_isNash: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.pbsInformationBudgetRounds.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.pbsInformationBudgetProfile.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.pbsInformationConditionalProfile.eq_1: [propext, Classical.choice, Quot.sound]
+
+## GameTheory.Analysis.ReBeL.CFRDInformationChild (9 declarations)
+GameTheory.ReBeL.cfrDInformationChildProfile: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDInformationChildTable: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDInformationChildProfile_before: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDInformationChildProfile_prefixLaw: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDInformationChildProfile_isNash: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDInformationChildProfile_beliefLaw: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDInformationChildProfile_of_reaches: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDInformationFallback.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDInformationChildProfile_deviationLaw: [propext, Classical.choice, Quot.sound]
+
+## GameTheory.Analysis.ReBeL.CFRDInformationContinuation (5 declarations)
+GameTheory.ReBeL.cfrDInformationContinuation: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDInformationChildProfile_referenceBudget: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDInformationContinuation_leafOptimal: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDInformationContinuation_referenceLaw: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDInformationChildProfile_referenceLaw: [propext, Classical.choice, Quot.sound]
+
+## GameTheory.Analysis.ReBeL.CFRDInformationDriver (5 declarations)
+GameTheory.ReBeL.cfrDConstructedInformationOracle.eq_1: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDConstructedInformationOracle_accurate: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDConstructedInformationOracle_isNash: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDConstructedInformationOracle_leafOptimal: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.cfrDConstructedInformationOracle_carried_security: [propext, Classical.choice, Quot.sound]
+
+## GameTheory.Analysis.ReBeL.Examples.CFRDInformationChild (13 declarations)
+GameTheory.ReBeL.Examples.HiddenTypes.informationControlFullFallback.eq_1: [propext, Classical.choice, Quot.sound]
+_private.GameTheory.Analysis.ReBeL.Examples.CFRDInformationChild.0.GameTheory.ReBeL.Examples.HiddenTypes.informationChildHistoryFintype: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.informationChildControl_rounds_positive: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.informationChildControl_live_budget: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.informationChildControl_live_table: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.informationChildControl_leafOptimal: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.informationChildControl_prefix: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.informationChildControl_driver_leafOptimal: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.informationChildControl_biased_accuracy: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.informationChildControl_driver_isNash: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.informationChildControl_unvisited: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.informationChildControl_randomized_deviation: [propext, Classical.choice, Quot.sound]
+GameTheory.ReBeL.Examples.HiddenTypes.informationChildControl_zero_remaining: [propext, Classical.choice, Quot.sound]
