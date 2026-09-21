@@ -1,6 +1,9 @@
 # M06 PBS-rooted information-set CFR coverage journal
 
-Construction checkpoint; exact-source whole-slice validation is still required.
+Validated dependency slice at d693b30eddbf5a2d523c92d2308f51879f4c28d4.
+Target run 35550519612/job 106184279972 passed all compilation, 41 module lints
+and 468 complete allowed transitive-axiom checks. Full repository checks remain
+separate; this is not acceptance of an original M06 parent or the framework.
 Read STATUS and the actual active branch HEAD rather than an earlier run's SHA.
 This journal refines dependency scope without changing content-hashed original
 coverage rows or promoting their status.
@@ -53,5 +56,8 @@ control. Existing counterexamples are not removed or weakened.
 All six modules are registered in the analysis umbrella, M06 target inventory
 and supplemental normal/slow Batteries lint and transitive-axiom consumers.
 The only allowed axioms remain propext, Classical.choice and Quot.sound.
-Successful target-SHA compilation and inspected axiom/lint evidence are required
-before accepting this dependency slice. All four original parents stay pending.
+The exact-source evidence is in M06-pbs-root-validation.md. All four original
+parents stay pending. The reverse decoder must use PublicBelief.supported and
+the common public cut depth; do not assume arbitrary mixed-depth roots have an
+information-equivalent original continuation. Baseline and every unilateral
+law/expectation must be preserved before transferring the native Nash bound.
