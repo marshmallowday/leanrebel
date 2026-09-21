@@ -31,10 +31,6 @@ private theorem pbsSamplingPayoff_expect (roots : FinDist E.History) (cut : Nat)
         (pbsRootPayoff roots payoff who) =
       (roots.bind ((fullInformation M).runBehavioralFrom
         (pbsRootDecodeProfile M roots cut profile) fuel)).expect (payoff who) := by
-  have payoffEq (history : (pbsRootProtocol roots).History) :
-      pbsRootPayoff roots payoff who history = history.state.elim 0 (payoff who) := by
-    cases state : history.state <;> simp only [pbsRootPayoff, state, Option.elim]
-  simp_rw [payoffEq]
   exact pbsRootDecodeProfile_expect M roots cut rootDepth profile fuel (payoff who)
 
 variable {observations : List M.PublicSignal}
@@ -154,9 +150,10 @@ theorem pbsInformationCFR_security
     fuel t (pbsRootBehavioralFullProfile M belief.law reference)
     (pbsRootLiftProfile_isNash M belief payoff fuel reference equilibrium)
     (pbsRootBehavioralFullProfile M belief.law unknown) who
-  simpa only [pbsSamplingPayoff_expect M belief.law (observations.length - 1)
+  simp only [pbsSamplingPayoff_expect M belief.law (observations.length - 1)
     (pbsRoot_publicBelief_depth M belief), pbsRootDecodeProfile_update,
-    pbsRootDecodeProfile_lift] using security
+    pbsRootDecodeProfile_lift] at security
+  simpa only [pbsInformationCFR, pbsRootDecodeProfile] using security
 
 /-- Retained private iteration play inherits the same allowance for every
 finite partition covering the training horizon, with no segment-count penalty. -/
