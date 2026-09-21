@@ -43,12 +43,15 @@ section Native
 
 variable (roots : FinDist E.History)
 
+/-- Enumerate rooted histories through the established strict-rank construction. -/
 local instance samplingHistoryFintype : Fintype (pbsRootProtocol roots).History :=
   pbsRootHistoryFintype roots
 
+/-- Classical equality for the abstract rooted information-set recurrence. -/
 local instance samplingInfoDecidableEq (who : Fin 2) :
     DecidableEq ((pbsRootFullInformation M roots).InfoState who) := Classical.decEq _
 
+/-- Rooted local choices inherit finiteness from the original action options. -/
 local instance samplingChoiceFintype (who : Fin 2)
     (info : (pbsRootFullInformation M roots).InfoState who) :
     Fintype ((pbsRootFullInformation M roots).Choice who info) := by
@@ -199,7 +202,7 @@ theorem pbsInformationCFRIndependentSample_law
           (average 1)) steps) = _
       rw [Profile.update_comm _ (by decide : (0 : Fin 2) ≠ 1), Profile.update_eq_self]
     _ = _ := by
-      simpa only [Profile.update_eq_self] using
+      simpa only [average, Profile.update_eq_self] using
         pbsInformationCFR_sampling_law M belief fallback payoff fuel t average 0 steps
 
 /-- Independent retained iteration draws preserve every original-history
