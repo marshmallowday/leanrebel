@@ -85,3 +85,4 @@ GameTheory.Analysis.ReBeL.PBSInformationBudget
 GameTheory.Analysis.ReBeL.CFRDInformationChild
 GameTheory.Analysis.ReBeL.CFRDInformationContinuation
 GameTheory.Analysis.ReBeL.CFRDInformationDriver
+GameTheory.Analysis.ReBeL.Examples.CFRDInformationChild
