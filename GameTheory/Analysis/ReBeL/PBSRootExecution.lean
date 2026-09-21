@@ -69,7 +69,6 @@ theorem pbsRoot_runFrom_some (roots : FinDist E.History) (chooser : E.Randomized
             apply FinDist.bindOnSupport_congr
             intro target realized
             rw [FinDist.pure_bind]
-            rfl
 
 /-- One extra fuel unit performs the actual joint-belief draw. The equality
 holds for every original history-dependent chooser, including deviations. -/

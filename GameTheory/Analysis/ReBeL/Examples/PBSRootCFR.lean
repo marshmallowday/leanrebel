@@ -8,6 +8,7 @@ nontrivial root correlations, terminal roots and the extra administrative fuel.
 
 import GameTheory.Analysis.ReBeL.PBSRootCFR
 import GameTheory.Analysis.ReBeL.PBSRootExecution
+import GameTheory.Analysis.ReBeL.PBSRootBehavioral
 import GameTheory.Analysis.ReBeL.Examples.PBSFinitePlanSolver
 
 noncomputable section
@@ -37,6 +38,20 @@ theorem pbsRoot_live_cfr (t : Nat) [NeZero t] :
   pbsRootCFR_isNash (reducedModel fullPrior) finiteBudgetControlBelief.law
     pbsRootControlFallback cfrPayoff (cumulative_zeroSum fullPrior)
     (fun _ => 2) (fun _ => by norm_num) cfrPayoff_abs_le_two 1 t
+
+/-- A genuinely randomized original deviation at a live factual child has
+exactly the same law under the rooted full-AOH behavioral runner. -/
+theorem pbsRoot_live_randomized_deviation :
+    ((pbsRootFullInformation (reducedModel fullPrior) finiteBudgetControlBelief.law).runBehavioral
+      (Profile.update
+        (pbsRootBehavioralFullProfile (reducedModel fullPrior) finiteBudgetControlBelief.law
+          carriedBitOpponent) 0
+        (pbsRootBehavioralFullPolicy (reducedModel fullPrior) finiteBudgetControlBelief.law
+          0 freshBitPolicy)) 2).map History.state =
+      (finiteBudgetControlBelief.law.bind ((model fullPrior).runBehavioralFrom
+        (Profile.update carriedBitOpponent 0 freshBitPolicy) 1)).map some :=
+  pbsRoot_behavioralFull_unilateral_law (reducedModel fullPrior) finiteBudgetControlBelief.law
+    carriedBitOpponent 0 freshBitPolicy 1
 
 /-- Two supported hidden roots differ only in player one's private bit. -/
 def pbsRootHiddenRoots : FinDist (protocol fullPrior).History :=

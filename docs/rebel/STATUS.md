@@ -1,87 +1,64 @@
 # ReBeL status — M06 in progress; M05 accepted
 
-## Active restart checkpoint
+## Active PBS-rooted CFR restart checkpoint
 
-Continue on `rebel/m06-coherent-checkpoint-20260921`; read its actual remote HEAD.
-The complete proof source is `93b60fbdc3fe6539a7688124baa9be80b86602c1`, retained
-on `rebel/m06-coherent-recursion-20260921`. This checkpoint changes evidence
-and STATUS only, leaving the proof source's full verification undisturbed.
-The actual inherited base was ff7f61510c38a5681c06a7431a7811e3f6fbcbf7;
-older failed repairs are already inherited or superseded. Do not replay them.
-All seven implementation/restart/repair commits are descendants, without
-force updates or history rewriting. Main remains
+Continue on `rebel/m06-pbs-cfr-20260921`; read its actual remote HEAD and checks.
+The coherent execution base is 8c065784a76ad1de8fc6542dad336f4edfe9f66f;
+its proof source is 93b60fbdc3fe6539a7688124baa9be80b86602c1. Main remains
 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098, accepted through M05.
-M06-status-before-coherent-child.md preserves the inherited STATUS byte-for-byte.
+All prior work, original statements, counterexamples and dependency pins are
+inherited. M06-status-before-pbs-root.md preserves the preceding STATUS blob.
+No force update, history rewrite or main integration has occurred.
 
-## Inspected exact-source validation
+The inherited exact source has passed full repository CI 35545208101,
+job 106169800893, and full ReBeL 35545208160, job 106169767571. This was
+re-read from the actual completed jobs, superseding the older pending note.
+That success is not a claim that the newly authored source is validated.
 
-At 93b60fbd, target run `35545208144`, job `106169798608`, PASSED every step:
-73 declared targets, 3,399 Lake build jobs, all 35 supplemental module lints,
-and 356 complete unique transitive-axiom records. Every axiom list was checked
-against only propext, Classical.choice and Quot.sound. No Lean error or warning
-record occurs. The five new modules own 32 audited records, 14 general theorems
-and eight example theorems. M06-coherent-child-validation.md records exact
-source/archive/log hashes and failures; M06-coherent-child-axioms.txt is an
-explicitly labelled normalized excerpt containing all 32 new-module records.
+## Current construction and compiler evidence
 
-The exact source snapshot matches the five new Lean files and the three
-registration/auditor files. All 76 existing Python tests pass with warnings
-as errors, as do ledger/inventory structure and width checks (511 Lean files).
-All original imports/targets and 3,054 coverage rows remain. Dependencies,
-workflows, allowed axioms and architecture gates are byte-unchanged.
+PBSRootProtocol, PBSRootInformation and PBSRootCFR successfully compiled at
+source d760647c29b069944c3f3335d085ccc6b6e0f2af in target run 35548477927,
+job 106178679267. That whole target run FAILED on one redundant final proof
+command in PBSRootExecution; the command is removed in this checkpoint.
+Its diagnostic artifact is 10617756242, SHA256
+b1374f3e7ea73a61ca78ad49d4d18d03369f1d33e7484a525f1c558848f72dea.
+Earlier failures concerned local-menu reduction, theorem elaboration and two
+architecture requirements, not a change to a theorem's conclusion or hypotheses.
 
-Full repository CI `35545208101` / `106169800893` and full ReBeL
-`35545208160` / `106169767571` remain running at this recording checkpoint.
-The latter's width, static architecture, ledger/inventory/fixtures and rational
-Lean runtime checks have passed. These intermediate steps and supplemental
-success are not full-workflow success. Re-read exact-source final results.
-The evidence head has separate checks. No M06 acceptance or main integration.
+This checkpoint also adds PBSRootBehavioral and a concrete live randomized
+deviation control. The six modules are included in the opt-in umbrella,
+79 M06 targets and the 41-module supplemental lint/transitive-axiom auditor.
+The exact new HEAD still requires its own compiler and full audit results;
+look up its check runs first after any interruption. A Python/static check
+or a successful dependency module is not acceptance of the whole slice.
 
-The inherited ff7f6151 full CI and full ReBeL validation passed, with 180 modules
-and 3,625 inspected allowed-axiom records. The single-cut intermediate e965412c
-also passed its separate target/supplemental run (33 modules, 346 records),
-but had an umbrella import typo not exercised by that target. It is fixed in
-the final source. The stage proof also required definitional reduction and
-removal of a forbidden transport tactic; no statement or gate was weakened.
+The protocol samples the entire joint legal-history law in one real chance
+step and then retains original transitions and histories. Finite histories
+and bounded horizon are derived from a strict history-length rank. Policies
+receive only their own original full AOH and public observations. The solver
+is actual fixed-positive-T information-set regret matching with own-reach
+averaging and a native rooted-game approximate Nash theorem. No child Nash,
+regret, perfect-recall or independent-root-factorization certificate is supplied.
 
-## Constructed coherent execution refinement
+The execution bridge preserves complete projected canonical runner laws,
+including terminal roots and zero continuation fuel. Behavioral lifting is
+coordinatewise and preserves every original full-AOH unilateral deviation.
+This is the original-to-root direction, not decoding arbitrary solver output.
+The new coverage journal is M06-pbs-root-coverage.md.
 
-CFRDCoherentDraw actually samples legal deterministic finite plans from the
-same computed behavioral profile. Each unilateral history law equals its source
-at EVERY legal root against any unknown behavioral opponent, including off-model
-roots. The resolver preserves stopping and derives the opponent-reference
-envelope from the same parent's child contract.
-CFRDFiniteCoherent instantiates the actual perturbed outer CFR-D recurrence
-and its constructed finite posterior-budgeted children, without a supplied
-child Nash, mass floor, probability budget or continuation-quality certificate.
+## Remaining original M06 obligations
 
-CFRDCoherentStages retains the original private parent index, all subsequent
-draws and the canonical model-belief state. It redraws from that same family
-at each active stage. For any finite schedule covering the remaining fuel,
-the whole execution law equals the parent's continuation. Its finite-solver
-security bound is A*predictionError+C/sqrt(T)+2*childLoss, with no switching-rate
-or stage-count penalty. This is an aggregate law, not individual pure-plan
-safety or no loss relative to every previously sampled pure plan.
+Construct the reverse information-local policy correspondence from the new
+rooted CFR output to the original PBS continuation game. Then connect its
+counterfactual/type-conditioned value and iteration families to the actual
+parent recurrence and independently re-solved recursive execution. A native
+rooted-game Nash theorem alone is not this parent/child or test-time theorem.
+The existing finite-plan backend and coherent redraw guarantees remain intact;
+no new result silently identifies their complete-plan or sampling variants
+with the paper's fixed-T information-set and delayed-iteration variants.
 
-Eight controls include a genuinely randomized source unequal to every sampled
-pure profile, a live off-model history, zero fuel, actual biased finite-child
-law/envelope/security, and two live strategic rounds separated by zero fuel.
-The general multi-stage theorem covers arbitrary private memory and absent
-model beliefs. The model law is never equated to the unknown opponent's true law.
-
-## Remaining original M06 construction and coverage
-
-This is a refinement of one FIXED computed family, not independent solving of
-a different game at a later PBS. It does not identify finite predrawing with
-uniform child-CFR-iteration sampling. The original recursive information-set
-CFR policy/value family and its correspondence to the parent continuation
-still need construction. Existing delayed-child-sampling APIs remain relevant;
-independent Nash reselection and per-draw safety are not valid shortcuts.
-The underlying finite child remains an adaptive real-arithmetic complete-plan
-reference, not the paper's fixed-T information-set variant or executable refinement.
-
-M06-coherent-child.md records this scope and coverage journal. Original
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 parents remain pending.
-Preserve prediction error, positive child loss, outer finite-T error and the
-separate bounded-refresh variant. Keep printed/corrected Theorem 3 distinct
-and retain all existing counterexamples. No complete-framework acceptance.
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending in
+the unchanged content-hashed original coverage ledger. Preserve positive
+prediction/child error, finite-T residuals, off-model/zero-reach cases and the
+printed-versus-corrected Theorem 3 distinction. M06 is not accepted as complete.

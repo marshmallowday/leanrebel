@@ -76,3 +76,4 @@ GameTheory.Analysis.ReBeL.PBSRootInformation
 GameTheory.Analysis.ReBeL.PBSRootCFR
 GameTheory.Analysis.ReBeL.PBSRootExecution
 GameTheory.Analysis.ReBeL.Examples.PBSRootCFR
+GameTheory.Analysis.ReBeL.PBSRootBehavioral
