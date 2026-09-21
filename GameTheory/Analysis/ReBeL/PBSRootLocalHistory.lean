@@ -116,13 +116,14 @@ theorem pbsRootLocalHistory_trace (roots : FinDist E.History) (cut : Nat)
           refine ⟨by omega, ?_⟩
           rw [AOH.rootedAt_eq_snapshot_of_length_le cut _ (by
             rw [length_infoOf, depth])]
-          change AOH.step
+          have stepEquation : AOH.step
             ((fullInformation (pbsRootInformation (fullInformation M) roots)).infoOf who prior)
             (joint who) (some ((fullInformation M).infoOf who original.trace))
             (some (publicTrace (fullInformation M).toInfoSignals original.trace)) =
-              AOH.rootedSnapshot ((fullInformation M).infoOf who original.trace)
-          rw [ih, idle, publicRoot_trace_eq M original.trace]
-          simp only [AOH.rootedSnapshot, publicHistory_infoOf]
+              AOH.rootedSnapshot ((fullInformation M).infoOf who original.trace) := by
+            rw [ih, idle, publicRoot_trace_eq M original.trace]
+            simp only [AOH.rootedSnapshot, publicHistory_infoOf]
+          exact stepEquation
       | some original =>
           obtain ⟨next, hnext, rfl⟩ :=
             (pbsRootProtocol_step_support roots original ⟨joint, legal⟩ target).mp realized
@@ -134,13 +135,6 @@ theorem pbsRootLocalHistory_trace (roots : FinDist E.History) (cut : Nat)
             (by simpa only [length_infoOf] using afterCut) (joint who)
             (M.privateSignal who ⟨_, joint, legal, next, hnext⟩)
             (M.publicSignal ⟨_, joint, legal, next, hnext⟩)
-          change AOH.step
-            ((fullInformation (pbsRootInformation (fullInformation M) roots)).infoOf who prior)
-            (joint who) (some ((fullInformation M).infoOf who
-              (original.extend legal hnext).trace))
-            (some (publicTrace (fullInformation M).toInfoSignals
-              (original.extend legal hnext).trace)) =
-                ((fullInformation M).infoOf who (original.extend legal hnext).trace).rootedAt cut
           have currentRead :
               ((fullInformation M).infoOf who (original.extend legal hnext).trace).rootedAt cut =
                 AOH.step (((fullInformation M).infoOf who original.trace).rootedAt cut)
@@ -148,8 +142,16 @@ theorem pbsRootLocalHistory_trace (roots : FinDist E.History) (cut : Nat)
                     (original.extend legal hnext).trace))
                   (some (((fullInformation M).infoOf who
                     (original.extend legal hnext).trace).publicHistory)) := stepRead
-          rw [currentRead, priorInfo,
-            publicRoot_trace_eq M (original.extend legal hnext).trace,
-            publicHistory_infoOf M.toInfoSignals who (original.extend legal hnext).trace]
+          have stepEquation : AOH.step
+            ((fullInformation (pbsRootInformation (fullInformation M) roots)).infoOf who prior)
+            (joint who) (some ((fullInformation M).infoOf who
+              (original.extend legal hnext).trace))
+            (some (publicTrace (fullInformation M).toInfoSignals
+              (original.extend legal hnext).trace)) =
+              ((fullInformation M).infoOf who (original.extend legal hnext).trace).rootedAt cut := by
+            rw [currentRead, priorInfo,
+              publicRoot_trace_eq M (original.extend legal hnext).trace,
+              publicHistory_infoOf M.toInfoSignals who (original.extend legal hnext).trace]
+          exact stepEquation
 
 end GameTheory.ReBeL

@@ -22,6 +22,16 @@ variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 variable (M : InformationModel.{uι, us, ua, up, uq, uk} E)
 variable (roots : FinDist E.History) (cut : Nat)
 
+/-- Erase the dependent choice carrier before using the local readout equality. -/
+theorem pbsRootBehavioralFullPolicy_rootedAt_actions (who : ι)
+    (policy : (fullInformation M).BehavioralPolicy who)
+    (info : (fullInformation M).InfoState who) :
+    (pbsRootBehavioralFullPolicy M roots who policy (info.rootedAt cut)).map Subtype.val =
+      (policy info).map Subtype.val := by
+  exact congrArg (fun snapshot =>
+    (pbsRootBehavioralPolicy (fullInformation M) roots who policy snapshot).map
+      (fun choice => choice.val)) (pbsRootLocalHistory_read M roots who cut info)
+
 /-- Decode any new rooted policy through its information-local reconstruction.
 The dependent menu proof changes no action or probability. -/
 def pbsRootDecodePolicy (who : ι)
@@ -29,10 +39,9 @@ def pbsRootDecodePolicy (who : ι)
       (pbsRootInformation (fullInformation M) roots)).BehavioralPolicy who) :
     (fullInformation M).BehavioralPolicy who := fun info =>
   (policy (info.rootedAt cut)).map fun choice => ⟨choice.val, by
-    have legal := choice.property
-    change choice.val ∈ (pbsRootInformation (fullInformation M) roots).menu who
+    have legal : choice.val ∈ (pbsRootInformation (fullInformation M) roots).menu who
       (reduceAOH (pbsRootInformation (fullInformation M) roots).toInfoSignals who
-        (info.rootedAt cut)) at legal
+        (info.rootedAt cut)) := choice.property
     rw [pbsRootLocalHistory_read] at legal
     exact legal⟩
 
@@ -53,9 +62,7 @@ theorem pbsRootDecodePolicy_lift (who : ι) (policy : (fullInformation M).Behavi
   funext info
   apply FinDist.map_injective Subtype.val_injective
   rw [pbsRootDecodePolicy_actions]
-  unfold pbsRootBehavioralFullPolicy
-  rw [pbsRootLocalHistory_read]
-  rfl
+  exact pbsRootBehavioralFullPolicy_rootedAt_actions M roots cut who policy info
 
 /-- The reverse map remains coordinatewise; other players' policies are not inputs. -/
 def pbsRootDecodeProfile
@@ -87,9 +94,9 @@ theorem pbsRootDecodePolicy_agrees
   | some original =>
       apply FinDist.map_injective Subtype.val_injective
       rw [(pbsRootLocalHistory_trace M roots cut rootDepth who trace).2]
-      unfold pbsRootBehavioralFullPolicy
-      rw [pbsRootLocalHistory_read]
-      exact pbsRootDecodePolicy_actions M roots cut who policy _
+      exact (pbsRootBehavioralFullPolicy_rootedAt_actions M roots cut who
+        (pbsRootDecodePolicy M roots cut who policy) _).trans
+        (pbsRootDecodePolicy_actions M roots cut who policy _)
 
 section Execution
 
@@ -133,7 +140,7 @@ theorem pbsRootDecodeProfile_expect
   have equal := congrArg (fun law : FinDist (Option E.History) =>
     law.expect (fun state => state.elim 0 value))
       (pbsRootDecodeProfile_law M roots cut rootDepth profile fuel)
-  simpa only [FinDist.expect_map] using equal
+  simpa only [FinDist.expect_map, Option.elim] using equal
 
 end Execution
 
