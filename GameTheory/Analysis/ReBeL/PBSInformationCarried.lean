@@ -47,10 +47,10 @@ theorem pbsInformationCarriedState_public
     (fuel t elapsed : Nat) (iteration : Fin t) (first second : E.History)
     (same : publicTrace (fullInformation M).toInfoSignals first.trace =
       publicTrace (fullInformation M).toInfoSignals second.trace) :
-    ((pbsInformationCarriedState M belief fallback payoff fuel t elapsed iteration first).belief.map
-      fun b => b.law) =
-    ((pbsInformationCarriedState M belief fallback payoff fuel t elapsed iteration second).belief.map
-      fun b => b.law) := by
+    ((pbsInformationCarriedState M belief fallback payoff fuel t elapsed iteration
+      first).belief.map fun b => b.law) =
+    ((pbsInformationCarriedState M belief fallback payoff fuel t elapsed iteration
+      second).belief.map fun b => b.law) := by
   dsimp only [pbsInformationCarriedState]
   exact congrArg (fun obs => (PublicBelief.condition?
     (belief.law.bind ((fullInformation M).runBehavioralFrom
