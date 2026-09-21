@@ -1,0 +1,109 @@
+name: M06 sampling validation
+
+on:
+  push:
+    branches: ['rebel/m06-sampling-validation-20260921']
+    paths:
+      - 'GameTheory/**'
+      - 'scripts/rebel/**'
+      - '.github/workflows/m06-sampling-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  sampling:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Build exact sampling dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "SOURCE=$GITHUB_SHA"
+          lake env lean --version
+          python3 - <<'PY'
+          from pathlib import Path
+          import os, re
+          pending = ['GameTheory.Analysis.ReBeL.CFRDInformationSampling',
+                     'GameTheory.Analysis.ReBeL.Examples.PBSInformationSampling']
+          sources = [Path('.'), *Path('.lake/packages').iterdir()]
+          seen, roots = set(), set()
+          while pending:
+              name = pending.pop()
+              if name in seen:
+                  continue
+              seen.add(name)
+              if name.startswith('Mathlib.'):
+                  roots.add(name)
+                  continue
+              relative = Path(name.replace('.', '/') + '.lean')
+              path = next((p / relative for p in sources if (p / relative).is_file()), None)
+              if path is not None:
+                  for line in path.read_text().splitlines():
+                      match = re.match(r'^(?:(?:public|private) )?import (.+)$', line)
+                      if match:
+                          pending.extend(match[1].split('--')[0].split())
+          if not roots:
+              raise SystemExit('Missing dependency closure')
+          (Path(os.environ['RUNNER_TEMP']) / 'sampling-roots.txt').write_text(' '.join(sorted(roots)))
+          PY
+          lake exe cache get $(cat "$RUNNER_TEMP/sampling-roots.txt") > "$RUNNER_TEMP/sampling-cache.log" 2>&1
+          if ! lake build GameTheory.Analysis.ReBeL.CFRDInformationSampling GameTheory.Analysis.ReBeL.Examples.PBSInformationSampling > "$RUNNER_TEMP/sampling-build.log" 2>&1; then
+            tail -n 160 "$RUNNER_TEMP/sampling-build.log"
+            exit 1
+          fi
+          tail -n 12 "$RUNNER_TEMP/sampling-build.log"
+      - name: Inspect signatures and enforce sampling linters
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .lake/rebel
+          cat > .lake/rebel/SamplingSignatures.lean <<'LEAN'
+          import GameTheory.Analysis.ReBeL.PBSInformationSampling
+          #check @GameTheory.ReBeL.pbsRootCFRIterate
+          #check @GameTheory.ReBeL.pbsRootCFR_uniform_law
+          #check @GameTheory.ReBeL.pbsInformationCFR_sampling_law
+          #check @GameTheory.ReBeL.pbsInformationCFR_delayed_sampling
+          #check @GameTheory.ReBeL.pbsInformationCFR_sampling_value
+          LEAN
+          lake env lean -DwarningAsError=true .lake/rebel/SamplingSignatures.lean
+          failed=0
+          for module in GameTheory.Analysis.ReBeL.PBSInformationSampling GameTheory.Analysis.ReBeL.CFRDInformationSampling GameTheory.Analysis.ReBeL.Examples.PBSInformationSampling; do
+            echo "LINT $module"
+            log="$RUNNER_TEMP/sampling-lint-${module##*.}.log"
+            if ! lake exe batteries/runLinter --no-build --trace "$module" > "$log" 2>&1; then
+              failed=1
+              cat "$log"
+            else
+              tail -n 4 "$log"
+            fi
+          done
+          exit "$failed"
+      - name: Run complete supplemental axiom and lint audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! python3 scripts/rebel/audit_exact_leaf.py > "$RUNNER_TEMP/sampling-audit.log" 2>&1; then
+            tail -n 120 "$RUNNER_TEMP/sampling-audit.log"
+            exit 1
+          fi
+          tail -n 12 "$RUNNER_TEMP/sampling-audit.log"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: sampling-validation-${{ github.sha }}
+          path: ${{ runner.temp }}/sampling-*.log
+          retention-days: 7
+          if-no-files-found: warn
