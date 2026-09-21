@@ -1,44 +1,40 @@
 # ReBeL status — M06 in progress; M05 accepted
 
-## Active parent-query sampling work
+## Active completed-query sampling candidate
 
-Continue on `rebel/m06-query-laws-20260921`. This source descends from the
-saved lint repair `2f4037460bf95104c723f6cdba87ddc2ad9a8227` on
-`rebel/m06-query-sampling-20260921`. The latter branch is retained as a stable
-validation checkpoint so later source edits do not cancel its own CI.
-Read actual remote HEAD and exact-source CI before making more changes.
-Main remains accepted M05 at `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`.
+Resume from actual remote HEAD of `rebel/m06-completed-query-sampling-20260921`.
+Its source descends from `a1aac9c6890ed712987dccbcc83bcf6910a404d7` on
+`rebel/m06-query-laws-20260921`; the factual branch is retained independently
+for exact-source validation. Main remains accepted M05 at
+`6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`, without a main merge or history rewrite.
 
-The repaired parent passed targeted M06 compilation in run `35578223051`,
-job `106264814990`. Its full CI `35578223118` and ReBeL validation `35578223045`
-were still running when the query bridge was prepared; inspect them before
-claiming full validation. The original integration failure and focused naming
-repair are recorded in `M06-query-sampling-restart.md`.
+The saved restart repair `2f4037460bf95104c723f6cdba87ddc2ad9a8227` passed
+full CI `35578223118` and targeted M06 `35578223051`. Its separate ReBeL audit
+`35578223045` was still running at the last inspection. Parent results never
+validate later source. The factual candidates' observed strict lint failures
+and repairs are preserved in `M06-query-sampling-checks.md` and
+`M06-completed-query-sampling.md`.
 
-## New compiler candidate
+## New source to validate
 
-`CFRDInformationSampling` now connects the parent's actual factual private/live
-reference conditional to the same retained child-iteration family. Public child
-existence and support domination are derived, rather than assumed. The family
-retains the existing public-posterior-dependent count and its complete law agrees
-with the original public-cut-spliced child against arbitrary fixed opponents.
-See `M06-query-sampling-bridge.md` for declarations and scope. This candidate needs
-its own build, lint, architecture checks, axiom audit and concrete controls.
+`CFRDInformationQuerySampling` joins actual retained child draws on factual
+private/live queries to computed response completion on genuine zero-factual-mass
+reference queries. Root own-reach facts are derived, not supplied as a kernel
+certificate. The law equals the actual completed information-set continuation
+against arbitrary fixed opponents, and its same sampled value consumes the
+derived positive-loss leaf contract. This source needs its own compiler, lint,
+architecture and axiom evidence and explicit off-path controls.
 
-Earlier supported-root reweighting, independent one-PBS draws and their negative
-controls remain intact. No theorem, dependency or validation gate was weakened.
+Existing supported-root, independent-index, zero-fuel, private-query and negative
+controls remain. No linter, axiom allowlist or original theorem was weakened.
 
 ## Remaining original M06 obligations
 
-Connect the zero-factual-mass branch to the existing zero-own-reach response,
-then connect the resulting sampled query consumer to `CFRDLeafOptimal` and the
-actual noisy parent. Finally prove independently re-solved recursive carried-PBS
-play against a fixed unknown opponent. The model PBS is not identified with the
-opponent's actual posterior. Do not infer outside-model-support sampling laws.
-
-Keep positive prediction and child errors, outer finite T, posterior-dependent
-child budgets, and printed/corrected Theorem 3 distinct. No per-iterate Nash,
-per-action-redraw equivalence, numerical refinement or full-framework acceptance
-follows. `SEARCH-FRONTIER`, `SEARCH-CFRD`, `SEARCH-ERROR`, and `SAFE-THEOREM3`
-remain pending in the unchanged hashed coverage. Historical restart evidence is
-preserved in `M06-sampling-validation-restart.md` and earlier commits.
+Finish exact-source validation and connect the sampled query values to the
+actual noisy parent. Then establish independently re-solved recursive carried-PBS
+play versus a fixed unknown opponent. One-PBS and one-query identities are not
+recursive safety. No actual/model posterior identity or individual-iterate
+optimality is asserted. Preserve posterior-dependent child budgets, positive
+child/prediction losses, outer finite T and printed/corrected Theorem 3 distinctions.
+`SEARCH-FRONTIER`, `SEARCH-CFRD`, `SEARCH-ERROR`, `SAFE-THEOREM3` remain pending in
+unchanged hashed coverage. No numerical-refinement or complete-framework claim.

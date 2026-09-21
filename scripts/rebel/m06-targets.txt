@@ -91,3 +91,4 @@ GameTheory.Analysis.ReBeL.CFRDInformationSampling
 GameTheory.Analysis.ReBeL.Examples.PBSInformationSampling
 GameTheory.Analysis.ReBeL.PBSSupportedSampling
 GameTheory.Analysis.ReBeL.Examples.PBSSupportedSampling
+GameTheory.Analysis.ReBeL.CFRDInformationQuerySampling

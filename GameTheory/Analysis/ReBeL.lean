@@ -168,3 +168,4 @@ import GameTheory.Analysis.ReBeL.CFRDInformationSampling
 import GameTheory.Analysis.ReBeL.Examples.PBSInformationSampling
 import GameTheory.Analysis.ReBeL.PBSSupportedSampling
 import GameTheory.Analysis.ReBeL.Examples.PBSSupportedSampling
+import GameTheory.Analysis.ReBeL.CFRDInformationQuerySampling
