@@ -154,3 +154,4 @@ import GameTheory.Analysis.ReBeL.PBSRootCFR
 import GameTheory.Analysis.ReBeL.PBSRootExecution
 import GameTheory.Analysis.ReBeL.Examples.PBSRootCFR
 import GameTheory.Analysis.ReBeL.PBSRootBehavioral
+import GameTheory.Analysis.ReBeL.PBSRootLocalHistory
