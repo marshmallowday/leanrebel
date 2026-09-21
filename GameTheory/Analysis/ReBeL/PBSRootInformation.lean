@@ -55,8 +55,13 @@ def pbsRootInformation (roots : FinDist E.History) :
     cases state with
     | none => cases choice <;> simp [LegalOption, pbsRootProtocol]
     | some history =>
-        cases choice <;>
-          simpa only [LegalOption, pbsRootProtocol] using M.menu_adequate who history.trace _
+        cases choice with
+        | none =>
+            simpa only [Option.map_some, LegalOption, pbsRootProtocol] using
+              M.menu_adequate who history.trace (none : Option (E.Action who))
+        | some action =>
+            simpa only [Option.map_some, LegalOption, pbsRootProtocol] using
+              M.menu_adequate who history.trace (some action)
 
 /-- No policy needs a world-state argument to continue from its original view. -/
 def pbsRootPolicy (roots : FinDist E.History) (who : ι) (policy : M.Policy who) :

@@ -43,12 +43,14 @@ theorem pbsRoot_runFrom_some (roots : FinDist E.History) (chooser : E.Randomized
   | zero => simp only [runRandomizedFor_zero, FinDist.map_pure]
   | succ fuel ih =>
       by_cases hterminal : E.terminal original.state
-      · rw [runRandomizedFor_of_terminal _ _ hterminal,
-          runRandomizedFor_of_terminal _ _ hterminal]
+      · rw [runRandomizedFor_of_terminal (E := pbsRootProtocol roots)
+            (pbsRootChooser roots chooser) (fuel + 1) (h := ⟨some original, trace⟩) hterminal,
+          runRandomizedFor_of_terminal chooser (fuel + 1) hterminal]
         simp only [FinDist.map_pure]
-      · rw [runRandomizedFor_succ_of_not_terminal _ _ hterminal,
-          runRandomizedFor_succ_of_not_terminal _ _ hterminal]
-        simp only [FinDist.map_bind, FinDist.map_bindOnSupport]
+      · rw [runRandomizedFor_succ_of_not_terminal (E := pbsRootProtocol roots)
+            (pbsRootChooser roots chooser) fuel (h := ⟨some original, trace⟩) hterminal,
+          runRandomizedFor_succ_of_not_terminal chooser fuel hterminal]
+        simp only [pbsRootChooser, pbsRootActionLaw, FinDist.map_bind, FinDist.map_bindOnSupport]
         apply FinDist.bind_congr
         intro draw _
         let tail : Option E.History → FinDist (Option E.History) := fun next =>
@@ -95,14 +97,15 @@ theorem pbsRoot_run_initial (roots : FinDist E.History) (chooser : E.RandomizedC
       exact pbsRoot_runFrom_some roots chooser fuel original _
     _ = _ := by
       rw [FinDist.bind_map, FinDist.map_bind]
-      rfl
 
 /-- Zero continuation fuel still samples the joint roots once, but executes
 no original action or transition. It is distinct from zero administrative fuel. -/
 theorem pbsRoot_run_one (roots : FinDist E.History) (chooser : E.RandomizedChooser) :
     ((pbsRootProtocol roots).runRandomizedFor (pbsRootChooser roots chooser) 1
       (pbsRootProtocol roots).initHistory).map History.state = roots.map some := by
-  simpa only [runRandomizedFor_zero, FinDist.bind_pure] using
-    pbsRoot_run_initial roots chooser 0
+  have kernel : E.runRandomizedFor chooser 0 = (fun history => FinDist.pure history) := by
+    funext history
+    rfl
+  simpa only [kernel, FinDist.bind_pure] using pbsRoot_run_initial roots chooser 0
 
 end GameTheory.ReBeL
