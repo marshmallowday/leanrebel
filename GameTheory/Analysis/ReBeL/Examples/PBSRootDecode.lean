@@ -97,7 +97,10 @@ theorem pbsDecode_zero_continuation
       profile 1).map History.state = finiteBudgetControlBelief.law.map some := by
   have law := pbsRootDecodeProfile_law (reducedModel fullPrior) finiteBudgetControlBelief.law _
     (pbsRoot_publicBelief_depth (reducedModel fullPrior) finiteBudgetControlBelief) profile 0
-  simpa only [Nat.zero_add, runBehavioralFrom, runRandomizedFor_zero, FinDist.bind_pure] using law
+  have stopped (strategy : Profile (model fullPrior).behavioralSignature) :
+      (model fullPrior).runBehavioralFrom strategy 0 = FinDist.pure := rfl
+  rw [stopped, FinDist.bind_pure] at law
+  exact law
 
 /-- Every newly decoded rooted policy stops at a terminal original root. -/
 theorem pbsDecode_terminal_stops
