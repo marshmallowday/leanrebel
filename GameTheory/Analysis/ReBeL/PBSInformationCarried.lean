@@ -124,7 +124,8 @@ theorem pbsInformationCarriedPrefix_advance
     (elapsed amount : Nat) :
     (pbsInformationCarriedPrefix M belief fallback payoff fuel t unknown who elapsed).bind
       (pbsInformationCarriedAdvance M belief fallback payoff fuel t unknown who elapsed amount) =
-      pbsInformationCarriedPrefix M belief fallback payoff fuel t unknown who (elapsed + amount) := by
+      pbsInformationCarriedPrefix M belief fallback payoff fuel t unknown who
+        (elapsed + amount) := by
   simp only [pbsInformationCarriedPrefix, pbsInformationCarriedAdvance,
     FinDist.map_eq_bind, FinDist.bind_bind, FinDist.pure_bind, pbsInformationCarriedState]
   apply FinDist.bind_congr
