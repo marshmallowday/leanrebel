@@ -157,4 +157,61 @@ theorem pbsInformationCFR_sampling_value
     (pbsInformationCFR_sampling_law M belief fallback payoff fuel t unknown who steps)
   simpa only [FinDist.expect_bind] using equal
 
+/-- Each player draws its own private iteration independently and retains it
+throughout play. The indices are not shared and are not redrawn at every move. -/
+def pbsInformationCFRIndependentSample
+    (belief : PublicBelief (fullInformation M).toInfoSignals observations)
+    (fallback : (who : Fin 2) → M.Policy who) (payoff : Fin 2 → E.History → ℝ)
+    (fuel t : Nat) [NeZero t] (steps : Nat) : FinDist E.History :=
+  let average := pbsInformationCFR M belief fallback payoff fuel t
+  (cfrIterationLaw t).bind fun first => (cfrIterationLaw t).bind fun second =>
+    belief.law.bind ((fullInformation M).runBehavioralFrom
+      (Profile.update
+        (Profile.update average 0
+          (pbsInformationCFRIterate M belief fallback payoff fuel first.val 0)) 1
+        (pbsInformationCFRIterate M belief fallback payoff fuel second.val 1)) steps)
+
+/-- Two independent retained draws realize the averaged behavioral self-play
+law. This does not assert equality for a single shared iteration index. -/
+theorem pbsInformationCFRIndependentSample_law
+    (belief : PublicBelief (fullInformation M).toInfoSignals observations)
+    (fallback : (who : Fin 2) → M.Policy who) (payoff : Fin 2 → E.History → ℝ)
+    (fuel t : Nat) [NeZero t] (steps : Nat) :
+    pbsInformationCFRIndependentSample M belief fallback payoff fuel t steps =
+      belief.law.bind ((fullInformation M).runBehavioralFrom
+        (pbsInformationCFR M belief fallback payoff fuel t) steps) := by
+  let average := pbsInformationCFR M belief fallback payoff fuel t
+  change (cfrIterationLaw t).bind (fun first => (cfrIterationLaw t).bind (fun second =>
+    belief.law.bind ((fullInformation M).runBehavioralFrom
+      (Profile.update (Profile.update average 0
+        (pbsInformationCFRIterate M belief fallback payoff fuel first.val 0)) 1
+        (pbsInformationCFRIterate M belief fallback payoff fuel second.val 1)) steps))) = _
+  calc
+    _ = (cfrIterationLaw t).bind (fun first => belief.law.bind
+        ((fullInformation M).runBehavioralFrom (Profile.update average 0
+          (pbsInformationCFRIterate M belief fallback payoff fuel first.val 0)) steps)) := by
+      apply FinDist.bind_congr
+      intro first _
+      rw [pbsInformationCFR_sampling_law]
+      change belief.law.bind ((fullInformation M).runBehavioralFrom
+        (Profile.update (Profile.update average 0
+          (pbsInformationCFRIterate M belief fallback payoff fuel first.val 0)) 1
+          (average 1)) steps) = _
+      rw [Profile.update_comm _ (by decide : (0 : Fin 2) ≠ 1), Profile.update_eq_self]
+    _ = _ := by
+      simpa only [Profile.update_eq_self] using
+        pbsInformationCFR_sampling_law M belief fallback payoff fuel t average 0 steps
+
+/-- Independent retained iteration draws preserve every original-history
+observable, not merely the training payoff. -/
+theorem pbsInformationCFRIndependentSample_value
+    (belief : PublicBelief (fullInformation M).toInfoSignals observations)
+    (fallback : (who : Fin 2) → M.Policy who) (payoff : Fin 2 → E.History → ℝ)
+    (fuel t : Nat) [NeZero t] (steps : Nat) (value : E.History → ℝ) :
+    (pbsInformationCFRIndependentSample M belief fallback payoff fuel t steps).expect value =
+      (belief.law.bind ((fullInformation M).runBehavioralFrom
+        (pbsInformationCFR M belief fallback payoff fuel t) steps)).expect value :=
+  congrArg (fun law : FinDist E.History => law.expect value)
+    (pbsInformationCFRIndependentSample_law M belief fallback payoff fuel t steps)
+
 end GameTheory.ReBeL
