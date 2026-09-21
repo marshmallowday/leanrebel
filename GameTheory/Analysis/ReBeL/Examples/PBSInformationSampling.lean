@@ -96,4 +96,51 @@ theorem informationSamplingControl_value
   pbsInformationCFR_sampling_value (reducedModel fullPrior) finiteBudgetControlBelief
     pbsRootControlFallback cfrPayoff 1 2 unknown who 1 (cfrPayoff who)
 
+/-- Two independent actual child draws reproduce the live averaged self-play law. -/
+theorem informationSamplingControl_independent_live :
+    pbsInformationCFRIndependentSample (reducedModel fullPrior) finiteBudgetControlBelief
+        pbsRootControlFallback cfrPayoff 1 2 1 =
+      finiteBudgetControlBelief.law.bind ((model fullPrior).runBehavioralFrom
+        (pbsInformationCFR (reducedModel fullPrior) finiteBudgetControlBelief
+          pbsRootControlFallback cfrPayoff 1 2) 1) :=
+  pbsInformationCFRIndependentSample_law (reducedModel fullPrior) finiteBudgetControlBelief
+    pbsRootControlFallback cfrPayoff 1 2 1
+
+/-- Independent retained indices do not advance a zero-fuel continuation. -/
+theorem informationSamplingControl_independent_zero_fuel :
+    pbsInformationCFRIndependentSample (reducedModel fullPrior) finiteBudgetControlBelief
+      pbsRootControlFallback cfrPayoff 1 2 0 = finiteBudgetControlBelief.law := by
+  rw [pbsInformationCFRIndependentSample_law]
+  have stopped (profile : Profile (model fullPrior).behavioralSignature) :
+      (model fullPrior).runBehavioralFrom profile 0 = FinDist.pure := rfl
+  rw [stopped, FinDist.bind_pure]
+
+/-- Independent uniform indices can disagree; a shared index cannot. This
+rejects replacing the independent sampler by a diagonal joint draw. -/
+theorem informationSamplingControl_independent_not_diagonal :
+    ((cfrIterationLaw 2).bind (fun first =>
+      (cfrIterationLaw 2).map (fun second => (first, second)))) ≠
+        (cfrIterationLaw 2).map (fun round => (round, round)) := by
+  have firstSupported : (0 : Fin 2) ∈ (cfrIterationLaw 2).support := by
+    by_contra absent
+    have zero : (cfrIterationLaw 2).prob 0 = 0 := FinDist.prob_eq_zero_iff.mpr absent
+    rw [informationSamplingControl_uniform_two.1] at zero
+    norm_num at zero
+  have secondSupported : (1 : Fin 2) ∈ (cfrIterationLaw 2).support := by
+    by_contra absent
+    have zero : (cfrIterationLaw 2).prob 1 = 0 := FinDist.prob_eq_zero_iff.mpr absent
+    rw [informationSamplingControl_uniform_two.2] at zero
+    norm_num at zero
+  intro equal
+  have pairSupported : ((0 : Fin 2), (1 : Fin 2)) ∈
+      ((cfrIterationLaw 2).bind (fun first =>
+        (cfrIterationLaw 2).map (fun second => (first, second)))).support := by
+    simp only [FinDist.support_bind, Set.mem_iUnion, FinDist.support_map, Set.mem_image]
+    exact ⟨0, firstSupported, 1, secondSupported, rfl⟩
+  rw [equal, FinDist.support_map] at pairSupported
+  obtain ⟨round, _, coordinates⟩ := pairSupported
+  have impossible : (0 : Fin 2) = 1 :=
+    (congrArg Prod.fst coordinates).symm.trans (congrArg Prod.snd coordinates)
+  exact (by decide : (0 : Fin 2) ≠ 1) impossible
+
 end GameTheory.ReBeL.Examples.HiddenTypes
