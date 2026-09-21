@@ -116,7 +116,7 @@ variable {observations : List M.PublicSignal}
 
 /-- A private draw of the computed child's actual iteration, starting from an
 arbitrary legal original history. The model belief still determines the solver. -/
-def pbsInformationCFR_sampleFrom
+def pbsInformationCFRSampleFrom
     (belief : PublicBelief (fullInformation M).toInfoSignals observations)
     (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
     (fuel t : Nat) [NeZero t]
@@ -135,7 +135,7 @@ theorem pbsInformationCFR_sampling_from_support
     (fuel t : Nat) [NeZero t]
     (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
     (steps : Nat) (history : E.History) (supported : history ∈ belief.law.support) :
-    pbsInformationCFR_sampleFrom M belief fallback payoff fuel t unknown who steps history =
+    pbsInformationCFRSampleFrom M belief fallback payoff fuel t unknown who steps history =
       (fullInformation M).runBehavioralFrom
         (Profile.update unknown who (pbsInformationCFR M belief fallback payoff fuel t who))
         steps history := by
@@ -143,7 +143,7 @@ theorem pbsInformationCFR_sampling_from_support
     (fun result => pbsSamplingPrefix (observations.length - 1) result.trace)
     ?_ ?_ ?_ history supported
   · intro first atRoot last inLaw
-    rw [pbsInformationCFR_sampleFrom, FinDist.support_bind] at inLaw
+    rw [pbsInformationCFRSampleFrom, FinDist.support_bind] at inLaw
     simp only [Set.mem_iUnion] at inLaw
     obtain ⟨n, _, realized⟩ := inLaw
     exact pbsSamplingPrefix_behavioral (fullInformation M) _ _ steps first last
@@ -162,7 +162,7 @@ theorem pbsInformationCFR_sampling_reweighted
     (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
     (steps : Nat) (actual : FinDist E.History)
     (dominated : ∀ history ∈ actual.support, history ∈ belief.law.support) :
-    actual.bind (pbsInformationCFR_sampleFrom M belief fallback payoff fuel t unknown who steps) =
+    actual.bind (pbsInformationCFRSampleFrom M belief fallback payoff fuel t unknown who steps) =
       actual.bind ((fullInformation M).runBehavioralFrom
         (Profile.update unknown who (pbsInformationCFR M belief fallback payoff fuel t who))
         steps) := by
@@ -182,7 +182,7 @@ theorem pbsInformationCFR_sampling_reweighted_value
     (dominated : ∀ history ∈ actual.support, history ∈ belief.law.support)
     (value : E.History → ℝ) :
     (actual.bind
-      (pbsInformationCFR_sampleFrom M belief fallback payoff fuel t unknown who steps)).expect
+      (pbsInformationCFRSampleFrom M belief fallback payoff fuel t unknown who steps)).expect
         value =
       (actual.bind ((fullInformation M).runBehavioralFrom
         (Profile.update unknown who (pbsInformationCFR M belief fallback payoff fuel t who))

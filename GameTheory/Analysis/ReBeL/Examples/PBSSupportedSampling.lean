@@ -26,7 +26,7 @@ theorem supportedSamplingControl_single_root
     (unknown : Profile (model fullPrior).behavioralSignature) (who : Player)
     (history : (protocol fullPrior).History)
     (supported : history ∈ finiteBudgetControlBelief.law.support) :
-    pbsInformationCFR_sampleFrom (reducedModel fullPrior) finiteBudgetControlBelief
+    pbsInformationCFRSampleFrom (reducedModel fullPrior) finiteBudgetControlBelief
         pbsRootControlFallback cfrPayoff 1 2 unknown who 1 history =
       (model fullPrior).runBehavioralFrom
         (Profile.update unknown who (pbsInformationCFR (reducedModel fullPrior)
@@ -41,7 +41,7 @@ theorem supportedSamplingControl_pure_reweight
     (history : (protocol fullPrior).History)
     (supported : history ∈ finiteBudgetControlBelief.law.support) :
     (FinDist.pure history).bind
-        (pbsInformationCFR_sampleFrom (reducedModel fullPrior) finiteBudgetControlBelief
+        (pbsInformationCFRSampleFrom (reducedModel fullPrior) finiteBudgetControlBelief
           pbsRootControlFallback cfrPayoff 1 2 unknown who 1) =
       (model fullPrior).runBehavioralFrom
         (Profile.update unknown who (pbsInformationCFR (reducedModel fullPrior)
@@ -54,9 +54,9 @@ fact is weaker than a positive-fuel guarantee outside that support. -/
 theorem supportedSamplingControl_zero_fuel
     (unknown : Profile (model fullPrior).behavioralSignature) (who : Player)
     (history : (protocol fullPrior).History) :
-    pbsInformationCFR_sampleFrom (reducedModel fullPrior) finiteBudgetControlBelief
+    pbsInformationCFRSampleFrom (reducedModel fullPrior) finiteBudgetControlBelief
       pbsRootControlFallback cfrPayoff 1 2 unknown who 0 history = FinDist.pure history := by
-  unfold pbsInformationCFR_sampleFrom
+  unfold pbsInformationCFRSampleFrom
   have stopped (n : Fin 2) : (model fullPrior).runBehavioralFrom
       (Profile.update unknown who (pbsInformationCFRIterate (reducedModel fullPrior)
         finiteBudgetControlBelief pbsRootControlFallback cfrPayoff 1 n.val who))
@@ -69,7 +69,7 @@ theorem supportedSamplingControl_reweighted_value
     (unknown : Profile (model fullPrior).behavioralSignature) (who : Player)
     (actual : FinDist (protocol fullPrior).History)
     (dominated : ∀ h ∈ actual.support, h ∈ finiteBudgetControlBelief.law.support) :
-    (actual.bind (pbsInformationCFR_sampleFrom (reducedModel fullPrior)
+    (actual.bind (pbsInformationCFRSampleFrom (reducedModel fullPrior)
       finiteBudgetControlBelief pbsRootControlFallback cfrPayoff 1 2 unknown who 1)).expect
         (cfrPayoff who) =
       (actual.bind ((model fullPrior).runBehavioralFrom
