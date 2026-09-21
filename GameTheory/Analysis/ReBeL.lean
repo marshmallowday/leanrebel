@@ -159,3 +159,6 @@ import GameTheory.Analysis.ReBeL.PBSRootDecode
 import GameTheory.Analysis.ReBeL.PBSInformationCFR
 import GameTheory.Analysis.ReBeL.Examples.PBSRootDecode
 import GameTheory.Analysis.ReBeL.PBSInformationBudget
+import GameTheory.Analysis.ReBeL.CFRDInformationChild
+import GameTheory.Analysis.ReBeL.CFRDInformationContinuation
+import GameTheory.Analysis.ReBeL.CFRDInformationDriver

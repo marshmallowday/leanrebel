@@ -82,3 +82,6 @@ GameTheory.Analysis.ReBeL.PBSRootDecode
 GameTheory.Analysis.ReBeL.PBSInformationCFR
 GameTheory.Analysis.ReBeL.Examples.PBSRootDecode
 GameTheory.Analysis.ReBeL.PBSInformationBudget
+GameTheory.Analysis.ReBeL.CFRDInformationChild
+GameTheory.Analysis.ReBeL.CFRDInformationContinuation
+GameTheory.Analysis.ReBeL.CFRDInformationDriver
