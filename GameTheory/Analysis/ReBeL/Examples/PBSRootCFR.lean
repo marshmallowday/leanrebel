@@ -18,6 +18,7 @@ namespace GameTheory.ReBeL.Examples.HiddenTypes
 open GameTheory.Protocol ExecutionProtocol InformationModel
 open GameTheory.Math.Probability
 
+/-- Use the concrete game's existing exhaustive legal-history enumeration. -/
 local instance rootControlHistoryFintype : Fintype (protocol fullPrior).History :=
   historyFintype fullPrior
 

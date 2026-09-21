@@ -65,12 +65,15 @@ theorem pbsRootPayoff_abs_le (roots : FinDist E.History) (payoff : Fin 2 → E.H
 variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
 variable (roots : FinDist E.History)
 
+/-- Enumerate rooted histories using the proved strict rank. -/
 local instance pbsCFRHistoryFintype : Fintype (pbsRootProtocol roots).History :=
   pbsRootHistoryFintype roots
 
+/-- Classical equality is used only by the abstract real-valued CFR reference. -/
 local instance pbsCFRInfoDecidableEq (who : Fin 2) :
     DecidableEq ((pbsRootFullInformation M roots).InfoState who) := Classical.decEq _
 
+/-- Each local menu is a subtype of the original finite action options. -/
 local instance pbsCFRChoiceFintype (who : Fin 2)
     (info : (pbsRootFullInformation M roots).InfoState who) :
     Fintype ((pbsRootFullInformation M roots).Choice who info) := by
