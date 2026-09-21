@@ -56,7 +56,7 @@ jobs:
           PY
           lake exe cache get $(cat "$RUNNER_TEMP/m06-roots.txt")
           lake build $(cat scripts/rebel/m06-targets.txt)
-      - name: Package compiler and dependencies without Git history or credentials
+      - name: Package and split credential-free offline compiler aid
         if: always()
         shell: bash
         run: |
@@ -73,10 +73,12 @@ jobs:
               raise SystemExit('Unexpected toolchain')
           metadata = {'source': os.environ['GITHUB_SHA'], 'version': version,
                       'manifest_sha256': hashlib.sha256(Path('lake-manifest.json').read_bytes()).hexdigest(),
-                      'note': 'Offline compiler aid only; does not replace any acceptance gate.'}
-          (output / 'workbench.json').write_text(json.dumps(metadata, indent=2) + '\n')
+                      'note': 'Offline compiler aid only; not acceptance, native linking, or local Git.'}
           def scrub(info):
-              if '.git' in Path(info.name).parts:
+              path = Path(info.name)
+              if '.git' in path.parts or path.suffix in {'.a', '.o', '.c', '.cpp'}:
+                  return None
+              if str(path).startswith(('toolchain/include', 'toolchain/src', 'project/.lake/build/ir')):
                   return None
               if info.issym() or info.islnk():
                   target = Path(info.linkname)
@@ -84,24 +86,101 @@ jobs:
                       return None
               return info
           archive = output / 'workbench.tar.gz'
-          with tarfile.open(archive, 'w:gz', compresslevel=1) as tar:
+          with tarfile.open(archive, 'w:gz', compresslevel=6) as tar:
               tar.add(toolchain, arcname='toolchain', filter=scrub)
               tar.add('.lake', arcname='project/.lake', filter=scrub)
               tar.add('GameTheory', arcname='project/GameTheory', filter=scrub)
               for name in ['lean-toolchain', 'lakefile.lean', 'lake-manifest.json', 'LICENSE', 'NOTICE']:
                   if Path(name).exists():
                       tar.add(name, arcname='project/' + name, filter=scrub)
-          digest = hashlib.sha256(archive.read_bytes()).hexdigest()
-          (output / 'workbench.sha256').write_text(digest + '  workbench.tar.gz\n')
+          digest = hashlib.sha256()
+          parts = []
+          with archive.open('rb') as source:
+              for index in range(8):
+                  block = source.read(384 * 1024 * 1024)
+                  if not block:
+                      break
+                  name = f'part-{index:03d}'
+                  part = output / name
+                  part.mkdir()
+                  (part / name).write_bytes(block)
+                  digest.update(block)
+                  parts.append({'name': name, 'bytes': len(block),
+                                'sha256': hashlib.sha256(block).hexdigest()})
+              if source.read(1):
+                  raise SystemExit('Archive exceeded eight chunks')
+          metadata.update({'archive_sha256': digest.hexdigest(), 'parts': parts})
+          (output / 'workbench.json').write_text(json.dumps(metadata, indent=2) + '\n')
           print(json.dumps(metadata))
-          print('ARCHIVE_BYTES=' + str(archive.stat().st_size))
-          print('ARCHIVE_SHA256=' + digest)
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: m06-offline-workbench-${{ github.sha }}
-          path: ${{ runner.temp }}/m06-workbench/
+          name: m06-workbench-manifest-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-workbench/workbench.json
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: m06-workbench-part-000-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-workbench/part-000/
           compression-level: 0
           retention-days: 1
           if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: m06-workbench-part-001-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-workbench/part-001/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: m06-workbench-part-002-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-workbench/part-002/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: m06-workbench-part-003-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-workbench/part-003/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: m06-workbench-part-004-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-workbench/part-004/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: m06-workbench-part-005-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-workbench/part-005/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: m06-workbench-part-006-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-workbench/part-006/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: m06-workbench-part-007-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-workbench/part-007/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: warn
