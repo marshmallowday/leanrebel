@@ -1,0 +1,107 @@
+name: M06 offline proof workbench
+
+on:
+  push:
+    branches: ['diagnostics/m06-offline-workbench-20260921']
+    paths: ['.github/workflows/m06-offline-workbench.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Build the pinned M06 import closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake env lean --version
+          python3 - <<'PY'
+          from pathlib import Path
+          import os, re
+          pending = Path('scripts/rebel/m06-targets.txt').read_text().split()
+          sources = [Path('.'), *Path('.lake/packages').iterdir()]
+          seen, roots = set(), set()
+          while pending:
+              name = pending.pop()
+              if name in seen:
+                  continue
+              seen.add(name)
+              if name.startswith('Mathlib.'):
+                  roots.add(name)
+                  continue
+              relative = Path(name.replace('.', '/') + '.lean')
+              path = next((p / relative for p in sources if (p / relative).is_file()), None)
+              if path is not None:
+                  for line in path.read_text().splitlines():
+                      match = re.match(r'^(?:(?:public|private) )?import (.+)$', line)
+                      if match:
+                          pending.extend(match.group(1).split('--')[0].split())
+          if not roots:
+              raise SystemExit('Missing dependency closure')
+          (Path(os.environ['RUNNER_TEMP']) / 'm06-roots.txt').write_text(' '.join(sorted(roots)))
+          PY
+          lake exe cache get $(cat "$RUNNER_TEMP/m06-roots.txt")
+          lake build $(cat scripts/rebel/m06-targets.txt)
+      - name: Package compiler and dependencies without Git history or credentials
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, os, subprocess, tarfile
+          output = Path(os.environ['RUNNER_TEMP']) / 'm06-workbench'
+          output.mkdir()
+          lean = Path(subprocess.check_output(['elan', 'which', 'lean'], text=True).strip()).resolve()
+          toolchain = lean.parent.parent
+          version = subprocess.check_output([str(lean), '--version'], text=True).strip()
+          if '4.33.1' not in version:
+              raise SystemExit('Unexpected toolchain')
+          metadata = {'source': os.environ['GITHUB_SHA'], 'version': version,
+                      'manifest_sha256': hashlib.sha256(Path('lake-manifest.json').read_bytes()).hexdigest(),
+                      'note': 'Offline compiler aid only; does not replace any acceptance gate.'}
+          (output / 'workbench.json').write_text(json.dumps(metadata, indent=2) + '\n')
+          def scrub(info):
+              if '.git' in Path(info.name).parts:
+                  return None
+              if info.issym() or info.islnk():
+                  target = Path(info.linkname)
+                  if target.is_absolute() or '..' in target.parts:
+                      return None
+              return info
+          archive = output / 'workbench.tar.gz'
+          with tarfile.open(archive, 'w:gz', compresslevel=1) as tar:
+              tar.add(toolchain, arcname='toolchain', filter=scrub)
+              tar.add('.lake', arcname='project/.lake', filter=scrub)
+              tar.add('GameTheory', arcname='project/GameTheory', filter=scrub)
+              for name in ['lean-toolchain', 'lakefile.lean', 'lake-manifest.json', 'LICENSE', 'NOTICE']:
+                  if Path(name).exists():
+                      tar.add(name, arcname='project/' + name, filter=scrub)
+          digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+          (output / 'workbench.sha256').write_text(digest + '  workbench.tar.gz\n')
+          print(json.dumps(metadata))
+          print('ARCHIVE_BYTES=' + str(archive.stat().st_size))
+          print('ARCHIVE_SHA256=' + digest)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: m06-offline-workbench-${{ github.sha }}
+          path: ${{ runner.temp }}/m06-workbench/
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
