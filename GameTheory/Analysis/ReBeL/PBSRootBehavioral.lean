@@ -36,8 +36,7 @@ theorem pbsRoot_behavioralJoint_some (profile : Profile M.behavioralSignature)
     (nonterminal : ¬ E.terminal original.state) :
     (pbsRootInformation M roots).behavioralJoint (pbsRootBehavioralProfile M roots profile)
       trace nonterminal = M.behavioralJoint profile original.trace nonterminal := by
-  simp only [behavioralJoint, pbsRootBehavioralProfile, pbsRootSignals_infoOf,
-    Option.map_some, pbsRootBehavioralPolicy] <;> rfl
+  cases trace <;> rfl
 
 /-- The canonical behavioral chooser is exactly the previously refined chooser. -/
 theorem pbsRoot_behavioralChooser (profile : Profile M.behavioralSignature) :
@@ -80,8 +79,8 @@ theorem pbsRoot_behavioralFullChooser
       (pbsRootInformation (fullInformation M) roots).randomizedChooser
         (pbsRootBehavioralProfile (fullInformation M) roots profile) := by
   funext history nonterminal
-  simp only [randomizedChooser, behavioralJoint, pbsRootBehavioralFullProfile,
-    pbsRootBehavioralFullPolicy, reduceAOH_infoOf, pbsRootBehavioralProfile] <;> rfl
+  rcases history with ⟨state, trace⟩
+  cases trace <;> rfl
 
 /-- All original full-AOH behavioral laws, not a restricted plan family, embed
 in the full interface used by the information-set CFR construction. -/
@@ -96,6 +95,7 @@ theorem pbsRoot_behavioralFull_law
 
 variable [DecidableEq ι]
 
+omit [Fintype ι] in
 /-- Canonical unilateral replacement changes exactly the corresponding local
 rooted policy; it does not resample or modify the other player's strategy. -/
 theorem pbsRootBehavioralFullProfile_update
