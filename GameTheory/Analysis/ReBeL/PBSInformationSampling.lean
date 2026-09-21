@@ -117,7 +117,7 @@ theorem pbsInformationCFR_sampling_law
   simp_rw [pbsRootDecodeOwn_law M belief.law (observations.length - 1)
     (pbsRoot_publicBelief_depth M belief)] at equal
   rw [← FinDist.map_bind] at equal
-  apply FinDist.map_injective Option.some_injective
+  apply FinDist.map_injective (Option.some_injective E.History)
   exact equal.symm
 
 /-- The child iteration index can be drawn after the independent joint-root
