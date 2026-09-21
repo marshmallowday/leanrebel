@@ -10,6 +10,9 @@ this is not an identification with an unknown opponent's actual posterior.
 
 import GameTheory.Analysis.ReBeL.PBSInformationCFR
 
+-- Materialize generated proof witnesses before attaching their documentation.
+set_option Elab.async false
+
 noncomputable section
 
 namespace GameTheory.ReBeL
@@ -55,9 +58,9 @@ local instance samplingChoiceFintype (who : Fin 2)
   classical
   infer_instance
 
-/-- Internal instantiation of the native recurrence. Compiler-generated
-finite-carrier witnesses are implementation details, still covered by axiom audit. -/
-private def pbsRootCFRIterationImpl (fallback : (who : Fin 2) → M.Policy who)
+/-- One genuine information-set regret-matching iterate. No fresh equilibrium
+or deterministic complete-plan learner is substituted for the recurrence. -/
+def pbsRootCFRIterate (fallback : (who : Fin 2) → M.Policy who)
     (payoff : Fin 2 → E.History → ℝ) (fuel round : Nat) :
     Profile (pbsRootFullInformation M roots).behavioralSignature :=
   cfrPlay (pbsRootFullInformation M roots)
@@ -66,18 +69,11 @@ private def pbsRootCFRIterationImpl (fallback : (who : Fin 2) → M.Policy who)
 
 /-- First generated proof witness used in the native CFR instantiation.
 The public semantic guarantee is `pbsRootCFR_uniform_law`, not this witness. -/
-add_decl_doc pbsRootCFRIterationImpl._proof_1
+add_decl_doc GameTheory.ReBeL.pbsRootCFRIterate._proof_1
 
 /-- Second generated proof witness used in the native CFR instantiation.
 It is an implementation obligation, not an assumed child equilibrium certificate. -/
-add_decl_doc pbsRootCFRIterationImpl._proof_2
-
-/-- One genuine information-set regret-matching iterate. No fresh equilibrium
-or deterministic complete-plan learner is substituted for the recurrence. -/
-def pbsRootCFRIterate (fallback : (who : Fin 2) → M.Policy who)
-    (payoff : Fin 2 → E.History → ℝ) (fuel round : Nat) :
-    Profile (pbsRootFullInformation M roots).behavioralSignature :=
-  pbsRootCFRIterationImpl M roots fallback payoff fuel round
+add_decl_doc GameTheory.ReBeL.pbsRootCFRIterate._proof_2
 
 /-- A private uniform draw realizes the child's actual own-reach average.
 The execution fuel need not equal the horizon used to train the recurrence. -/

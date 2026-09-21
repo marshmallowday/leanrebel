@@ -10,6 +10,9 @@ Reweighting supported roots need not preserve the model probabilities.
 
 import GameTheory.Analysis.ReBeL.PBSInformationSampling
 
+-- Materialize generated proof witnesses before attaching their documentation.
+set_option Elab.async false
+
 noncomputable section
 
 namespace GameTheory.ReBeL
@@ -79,11 +82,11 @@ def pbsSamplingPrefix (cut : Nat) : {state : E.State} → E.Trace state → E.Hi
 
 /-- First generated proof witness used by the cut-prefix readout.
 The semantic guarantees are the two prefix preservation theorems below. -/
-add_decl_doc pbsSamplingPrefix._proof_1
+add_decl_doc GameTheory.ReBeL.pbsSamplingPrefix._proof_1
 
 /-- Second generated proof witness used by the cut-prefix readout.
 This readout separates proof fibers and is never an input to a deployed policy. -/
-add_decl_doc pbsSamplingPrefix._proof_2
+add_decl_doc GameTheory.ReBeL.pbsSamplingPrefix._proof_2
 
 /-- Reading exactly the depth of a legal trace recovers the same history. -/
 theorem pbsSamplingPrefix_self {state : E.State} (trace : E.Trace state) :
