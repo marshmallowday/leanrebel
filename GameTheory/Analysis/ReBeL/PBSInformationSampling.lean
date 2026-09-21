@@ -184,11 +184,7 @@ theorem pbsInformationCFRIndependentSample_law
       belief.law.bind ((fullInformation M).runBehavioralFrom
         (pbsInformationCFR M belief fallback payoff fuel t) steps) := by
   let average := pbsInformationCFR M belief fallback payoff fuel t
-  change (cfrIterationLaw t).bind (fun first => (cfrIterationLaw t).bind (fun second =>
-    belief.law.bind ((fullInformation M).runBehavioralFrom
-      (Profile.update (Profile.update average 0
-        (pbsInformationCFRIterate M belief fallback payoff fuel first.val 0)) 1
-        (pbsInformationCFRIterate M belief fallback payoff fuel second.val 1)) steps))) = _
+  dsimp only [pbsInformationCFRIndependentSample]
   calc
     _ = (cfrIterationLaw t).bind (fun first => belief.law.bind
         ((fullInformation M).runBehavioralFrom (Profile.update average 0
@@ -196,11 +192,14 @@ theorem pbsInformationCFRIndependentSample_law
       apply FinDist.bind_congr
       intro first _
       rw [pbsInformationCFR_sampling_law]
-      change belief.law.bind ((fullInformation M).runBehavioralFrom
-        (Profile.update (Profile.update average 0
-          (pbsInformationCFRIterate M belief fallback payoff fuel first.val 0)) 1
-          (average 1)) steps) = _
-      rw [Profile.update_comm _ (by decide : (0 : Fin 2) ≠ 1), Profile.update_eq_self]
+      have profileEq :
+          Profile.update (Profile.update average 0
+            (pbsInformationCFRIterate M belief fallback payoff fuel first.val 0)) 1
+            (average 1) = Profile.update average 0
+              (pbsInformationCFRIterate M belief fallback payoff fuel first.val 0) := by
+        rw [Profile.update_comm _ (by decide : (0 : Fin 2) ≠ 1), Profile.update_eq_self]
+      exact congrArg (fun profile => belief.law.bind
+        ((fullInformation M).runBehavioralFrom profile steps)) profileEq
     _ = _ := by
       simpa only [average, Profile.update_eq_self] using
         pbsInformationCFR_sampling_law M belief fallback payoff fuel t average 0 steps
