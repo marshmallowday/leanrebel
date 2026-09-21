@@ -217,6 +217,7 @@ theorem cfrDInformationQuery_possible
   simpa only [publicHistory_infoOf] using
     congrArg AOH.publicHistory (congrArg Prod.fst same)
 
+omit [Fintype E.History] [∀ who, Fintype (E.Action who)] in
 /-- The actual reference query is supported by its factual child posterior.
 This derives the domination needed for sampled-root reweighting. It does not
 apply to a type with zero factual mass or to an arbitrary fallback conditional. -/
