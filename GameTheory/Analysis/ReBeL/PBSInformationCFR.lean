@@ -45,7 +45,8 @@ theorem pbsRootDecodeProfile_isNash
       (Profile.update profile who (pbsRootBehavioralFullPolicy M belief.law who replacement))
       (fuel + 1)).expect (fun history => history.state.elim 0 (payoff who)) ≤
     ((pbsRootFullInformation M belief.law).runBehavioral profile (fuel + 1)).expect
-      (fun history => history.state.elim 0 (payoff who)) + error := bound
+      (fun history => history.state.elim 0 (payoff who)) + error := by
+    simpa only [toBehavioralGameForm_play, expectedUtility, pbsRootPayoff, Option.elim] using bound
   rw [pbsRootDecodeProfile_unilateral_expect M belief.law (observations.length - 1)
       (pbsRoot_publicBelief_depth M belief),
     pbsRootDecodeProfile_expect M belief.law (observations.length - 1)
