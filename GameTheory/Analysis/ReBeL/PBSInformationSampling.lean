@@ -58,14 +58,21 @@ local instance samplingChoiceFintype (who : Fin 2)
   classical
   infer_instance
 
-/-- One genuine information-set regret-matching iterate. No fresh equilibrium
-or deterministic complete-plan learner is substituted for the recurrence. -/
-def pbsRootCFRIterate (fallback : (who : Fin 2) → M.Policy who)
+/-- Internal instantiation of the native recurrence. Compiler-generated
+finite-carrier witnesses are implementation details, still covered by axiom audit. -/
+private def pbsRootCFRIterationImpl (fallback : (who : Fin 2) → M.Policy who)
     (payoff : Fin 2 → E.History → ℝ) (fuel round : Nat) :
     Profile (pbsRootFullInformation M roots).behavioralSignature :=
   cfrPlay (pbsRootFullInformation M roots)
     (fullObservationClock (pbsRootInformation (fullInformation M) roots))
     (pbsRootFallback M roots fallback) (pbsRootPayoff roots payoff) (fuel + 1) round
+
+/-- One genuine information-set regret-matching iterate. No fresh equilibrium
+or deterministic complete-plan learner is substituted for the recurrence. -/
+def pbsRootCFRIterate (fallback : (who : Fin 2) → M.Policy who)
+    (payoff : Fin 2 → E.History → ℝ) (fuel round : Nat) :
+    Profile (pbsRootFullInformation M roots).behavioralSignature :=
+  pbsRootCFRIterationImpl M roots fallback payoff fuel round
 
 /-- A private uniform draw realizes the child's actual own-reach average.
 The execution fuel need not equal the horizon used to train the recurrence. -/

@@ -1,27 +1,35 @@
-# M06 sampling validation restart
+# M06 independent sampling validation restart
 
-This work continues from the exact remote source
-c60f3b20d333557adb39509399b92029e64f005e on
-rebel/m06-information-sampling-20260921.
-The validation work branch is rebel/m06-sampling-validation-20260921.
-The inherited source and its history are retained; no force update or main
-integration is performed.
+The validation work started from c60f3b20d333557adb39509399b92029e64f005e
+on rebel/m06-information-sampling-20260921. Changes were saved on
+rebel/m06-sampling-validation-20260921 without local Git or force updates.
+Main remains outside this integration.
 
-Target workflow 35563998496, job 106222156622, compiled its declared targets
-but failed its supplemental validation. Compilation alone is not acceptance.
-The job log contains unused-argument and unused-Fintype diagnostics in the
-sampling proof slice. Resolve these at the declaration/proof boundary without
-turning off linters, changing allowed axioms, or replacing the actual CFR
-iteration family by an unrelated sampler. Re-read exact-source diagnostics
-and authoritative source before applying each repair.
+The independent-sampling implementation and controls were checkpointed in
+05d9ca6e and 047f5ee0, with documentation and proof repairs in f7f325f3,
+52572a50 and 77cc57d3. The 52572a50 sampling build and normal module linters
+passed. Its full ReBeL static audit rejected two uses of the change tactic;
+77cc57d3 expresses the same proof with explicit profile equalities instead.
 
-The desired guarantee remains equality of complete continuation laws for one
-retained, private, uniform index drawn from the actual child CFR iterations,
-against independently selected behavioral opponents. Preserve the supplied
-joint PBS, finite-T errors, zero-reach cases, and the distinction between
-aggregate sampling safety and safety of an individual sampled iterate.
-Do not identify independent per-player sampling with a shared diagonal draw.
+## Corrected diagnostic provenance
 
-Original M06 acceptance remains pending. A successful one-PBS correspondence
-is not yet a proof of independently re-solved recursive play. Coverage and
-STATUS must distinguish this validation checkpoint from accepted completion.
+The initial restart note incorrectly attributed the inherited validation
+failure to unused arguments. Fresh run 35569311710/job 106237384642, source
+cbd937ac5a5c3af913081ca99befe9ad0b94426e, proved the actual issue was docBlame
+on four named local instances. Those documentation omissions are repaired.
+No type-class hypothesis, linter or allowed-axiom list was removed.
+
+## Preserving the independently advanced supported-root branch
+
+While preparing the evidence checkpoint, the existing branch
+rebel/m06-sampling-checkpoint-20260921 was found at
+28f789980d055943cffc171a3be2559744d2e3e4. It contains supported-root sampling
+source 72a837daf5f5e295b38e3da67765b3f7f4278425, derived from the same c60f3b20
+base. The merge retains all of that branch's proofs, controls, registrations,
+and documentation, plus the independent-sampling additions. Its native
+recurrence implementation split and the documented local instances coexist.
+The extra supported-control instance also receives its missing docstring.
+
+This integration is a compiler candidate until its own exact-source checks
+complete. Neither parent's evidence is silently reused as validation of the
+merged tree. All content-hashed M06 parent obligations remain pending.
