@@ -148,7 +148,8 @@ theorem pbsRootLocalHistory_trace (roots : FinDist E.History) (cut : Nat)
               (original.extend legal hnext).trace))
             (some (publicTrace (fullInformation M).toInfoSignals
               (original.extend legal hnext).trace)) =
-              ((fullInformation M).infoOf who (original.extend legal hnext).trace).rootedAt cut := by
+              ((fullInformation M).infoOf who
+                (original.extend legal hnext).trace).rootedAt cut := by
             rw [currentRead, priorInfo,
               publicRoot_trace_eq M (original.extend legal hnext).trace,
               publicHistory_infoOf M.toInfoSignals who (original.extend legal hnext).trace]
