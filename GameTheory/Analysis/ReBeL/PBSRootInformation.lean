@@ -22,6 +22,7 @@ variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 variable (M : InformationModel.{uι, us, ua, up, uq, uk} E)
 
 /-- Original local snapshots; the hidden root is absent from every signal type. -/
+@[reducible]
 def pbsRootSignals (roots : FinDist E.History) : InfoSignals (pbsRootProtocol roots) where
   PublicSignal := Option (List M.PublicSignal)
   PrivateSignal who := Option (M.InfoState who)
@@ -41,6 +42,7 @@ theorem pbsRootSignals_infoOf (roots : FinDist E.History) (who : ι)
   cases trace <;> rfl
 
 /-- Reuse the original information-local menus without receiving a hidden state. -/
+@[reducible]
 def pbsRootInformation (roots : FinDist E.History) :
     InformationModel (pbsRootProtocol roots) where
   toInfoSignals := pbsRootSignals M roots
@@ -52,7 +54,9 @@ def pbsRootInformation (roots : FinDist E.History) :
     rw [pbsRootSignals_infoOf]
     cases state with
     | none => cases choice <;> simp [LegalOption, pbsRootProtocol]
-    | some history => exact M.menu_adequate who history.trace choice
+    | some history =>
+        cases choice <;>
+          simpa only [LegalOption, pbsRootProtocol] using M.menu_adequate who history.trace _
 
 /-- No policy needs a world-state argument to continue from its original view. -/
 def pbsRootPolicy (roots : FinDist E.History) (who : ι) (policy : M.Policy who) :

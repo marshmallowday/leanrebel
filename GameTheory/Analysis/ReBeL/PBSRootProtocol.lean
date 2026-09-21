@@ -71,9 +71,21 @@ theorem pbsRootProtocol_step_none_support (roots : FinDist E.History)
     (next : Option E.History) :
     next ∈ ((pbsRootProtocol roots).step none draw).support ↔
       ∃ history ∈ roots.support, some history = next := by
-  change next ∈ (roots.map some).support ↔ _
-  rw [FinDist.support_map]
+  simp only [pbsRootProtocol, FinDist.support_map]
   rfl
+
+/-- The actual one-step history of a supported root draw. The support proof
+belongs to the analyst's execution data, never to a player's policy. -/
+def pbsRootDrawHistory (roots : FinDist E.History) (history : E.History)
+    (supported : history ∈ roots.support) : (pbsRootProtocol roots).History :=
+  (pbsRootProtocol roots).initHistory.extend
+    ((pbsRootProtocol roots).noop_isLegal not_false (fun _ => not_false))
+    (target := some history)
+    (by
+      have member : some history ∈ (roots.map some).support := by
+        rw [FinDist.support_map]
+        exact ⟨history, supported, rfl⟩
+      exact member)
 
 /-- The longest legal original history; no unique-predecessor assumption. -/
 def pbsRootMaxDepth [Fintype E.History] : Nat :=
