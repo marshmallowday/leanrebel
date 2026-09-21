@@ -30,25 +30,32 @@ def pbsRootBehavioralProfile (profile : Profile M.behavioralSignature) :
 
 variable [Fintype ι]
 
-/-- At a retained original history the entire legal joint-action law agrees. -/
-theorem pbsRoot_behavioralJoint_some (profile : Profile M.behavioralSignature)
-    (original : E.History) (trace : (pbsRootProtocol roots).Trace (some original))
-    (nonterminal : ¬ E.terminal original.state) :
-    (pbsRootInformation M roots).behavioralJoint (pbsRootBehavioralProfile M roots profile)
-      trace nonterminal = M.behavioralJoint profile original.trace nonterminal := by
-  cases trace <;> rfl
-
 /-- The canonical behavioral chooser is exactly the previously refined chooser. -/
 theorem pbsRoot_behavioralChooser (profile : Profile M.behavioralSignature) :
     (pbsRootInformation M roots).randomizedChooser (pbsRootBehavioralProfile M roots profile) =
       pbsRootChooser roots (M.randomizedChooser profile) := by
   funext history nonterminal
   rcases history with ⟨state, trace⟩
-  cases state with
-  | none =>
+  cases trace with
+  | start =>
       exact (pbsRootInformation M roots).behavioralJoint_eq_pure_of_no_active
-        (pbsRootBehavioralProfile M roots profile) trace nonterminal (fun _ => not_false)
-  | some original => exact pbsRoot_behavioralJoint_some M roots profile original trace nonterminal
+        (pbsRootBehavioralProfile M roots profile) .start nonterminal (fun _ => not_false)
+  | @extend source target prior joint legal realized =>
+      cases target with
+      | none =>
+          exact (pbsRootInformation M roots).behavioralJoint_eq_pure_of_no_active
+            (pbsRootBehavioralProfile M roots profile)
+            (.extend prior joint legal realized) nonterminal (fun _ => not_false)
+      | some original => rfl
+
+/-- At a retained original history the entire legal joint-action law agrees. -/
+theorem pbsRoot_behavioralJoint_some (profile : Profile M.behavioralSignature)
+    (original : E.History) (trace : (pbsRootProtocol roots).Trace (some original))
+    (nonterminal : ¬ E.terminal original.state) :
+    (pbsRootInformation M roots).behavioralJoint (pbsRootBehavioralProfile M roots profile)
+      trace nonterminal = M.behavioralJoint profile original.trace nonterminal :=
+  congrFun (congrFun (pbsRoot_behavioralChooser M roots profile) ⟨some original, trace⟩)
+    nonterminal
 
 /-- Every original behavioral profile has exactly the original continuation law
 under actual local execution in the newly rooted game. -/
