@@ -41,12 +41,15 @@ theorem pbsRootDecodeProfile_isNash
   intro who replacement
   have bound := equilibrium who (pbsRootBehavioralFullPolicy M belief.law who replacement)
   rw [euPreferenceWithin_apply] at bound ⊢
+  have payoffEq (history : (pbsRootProtocol belief.law).History) :
+      pbsRootPayoff belief.law payoff who history = history.state.elim 0 (payoff who) := by
+    cases state : history.state <;> simp only [pbsRootPayoff, state, Option.elim]
   have originalBound : ((pbsRootFullInformation M belief.law).runBehavioral
       (Profile.update profile who (pbsRootBehavioralFullPolicy M belief.law who replacement))
       (fuel + 1)).expect (fun history => history.state.elim 0 (payoff who)) ≤
     ((pbsRootFullInformation M belief.law).runBehavioral profile (fuel + 1)).expect
       (fun history => history.state.elim 0 (payoff who)) + error := by
-    simpa only [toBehavioralGameForm_play, expectedUtility, pbsRootPayoff, Option.elim] using bound
+    simpa only [toBehavioralGameForm_play, expectedUtility, payoffEq] using bound
   rw [pbsRootDecodeProfile_unilateral_expect M belief.law (observations.length - 1)
       (pbsRoot_publicBelief_depth M belief),
     pbsRootDecodeProfile_expect M belief.law (observations.length - 1)
