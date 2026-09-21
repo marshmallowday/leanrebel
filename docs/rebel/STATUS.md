@@ -29,13 +29,17 @@ not interchangeable. No Lean error/warning occurs; Actions separately reports
 Node deprecation warnings. See M06-information-contract-validation.md and
 the explicitly normalized 44-record M06-information-contract-axioms.txt.
 
-Source inventory 35560410181/job 106212098735 passed. Full repository CI
-35560410121/job 106212150505 and full ReBeL 35560410133/job 106212156566 were
-still running at initial evidence recording. The full build, reuse checks and
-architecture phases 1/2 passed. ReBeL width, static architecture, ledger,
-inventory/adversarial fixtures and existing rational execution passed.
-Those intermediate steps are not final full-workflow success. Re-read exact-
-source final results before integration; the evidence head has separate runs.
+Source inventory 35560410181/job 106212098735 passed. A later read confirmed
+full repository CI 35560410121/job 106212150505 completed SUCCESS, including
+full build, compiler-resolved reuse checks, all three architecture phases,
+complete public-library lint and tracked-file cleanliness. This supersedes
+the initial pending full-CI entry in M06-information-contract-validation.md.
+
+Full ReBeL 35560410133/job 106212156566 remains running at this update. Its
+width, static architecture, ledger/inventory/adversarial fixtures and existing
+rational execution passed. Those intermediate steps and supplemental success
+are not final full-ReBeL success. Re-read that exact-source final result before
+integration; the documentation head has separate runs. M06 is not accepted.
 
 The complete target job log was read through the GitHub plugin. Final archive
 digests are labelled server-reported; no final local compile, Python suite or
