@@ -1,48 +1,72 @@
 # ReBeL status — M06 in progress; M05 accepted
 
-## Active sampled-continuation construction checkpoint
+## Active sampled-continuation repair checkpoint
 
-Continue on rebel/m06-sampling-resume-20260921; read its remote HEAD and CI.
-This branch starts at c4fee1dbb01520be898fce5a888c6edcf6a43228, preserving the
-latest actual information-set child sampling candidate rather than replaying
-old decoder or line-width repairs. The inherited verified-contract checkpoint
-is af6f600727b0c50906155c54f23a26e7529426fd and its proof source is
-6416eebd9a67645fe94100db744cd4d049d17684. See the preserved prior STATUS in
-M06-status-before-sampled-continuation.md for its evidence and scope.
-Main remains 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098; no integration or force update.
+Continue on rebel/m06-sampling-repair-20260921; read its actual remote HEAD
+and exact-source checks. It descends from the saved sampling construction on
+rebel/m06-sampling-resume-20260921 at c1ec4bd3553ccfdfe5240d7a7cac74d3a6aee94f.
+The common inherited sampling base is c4fee1dbb01520be898fce5a888c6edcf6a43228.
+The earlier verified information-child checkpoint is
+af6f600727b0c50906155c54f23a26e7529426fd; its proof source is
+6416eebd9a67645fe94100db744cd4d049d17684. All inherited work is retained.
+Main is unchanged at 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
+No force update, history rewrite or main integration. The inherited STATUS is
+preserved in M06-status-before-sampled-continuation.md.
 
-## Saved stages and validation boundary
+## Actual inspected validation and repairs
 
-The inherited c4fee1db target run 35563438176/job 106220531451 failed at
-PBSInformationSampling.lean:120 because Option.some_injective needs an explicit
-type argument. Commit 9d356e4f0b3dba418da0f65595a8bb19341ec555 supplies E.History
-without changing the theorem. Commit ade8175f24b5705de3072ae1f30556a4eaf42654
-adds the carried-state construction. The following registration checkpoint
-adds both modules to the umbrella and supplemental lint/axiom consumers and
-adds the carried module to the existing target list. No prior target is removed.
-The new source is a compiler candidate until its exact-SHA checks pass.
+Inherited full ReBeL run 35560410133/job 106212156566 completed SUCCESS,
+including compilation, lint, axiom checks, rational runtime and cleanliness.
+This supersedes the earlier pending note, not the M06 completion boundary.
+
+Sampling repair 9d356e4f supplies E.History to Option.some_injective.
+The actual sampling module subsequently compiled in the target runs below.
+Carried-state source ade8175f and registrations d0f9d4d1 were saved separately.
+The latter's target 35564572772/job 106223782772 rejected a redundant captured
+M argument in the recursive self-call. It was removed at c1ec4bd3.
+At c1ec4bd3, target 35565245659/job 106225646390 compiled Sampling and Carried,
+but rejected the new Security helper and an implicit averaged-profile alias.
+At cc4f7883, target 35565849005/job 106227436316 again compiled Sampling and
+Carried and rejected only the helper's missing FUNCTION-level payoff equality.
+The decoded-average alias mismatch was repaired there.
+
+The strict line-width gate reported zero violations at cc4f7883. Full ReBeL
+35565849018/job 106227387552 then rejected four authored change tactics under
+the unchanged Analysis transport budget. The present repair proves the payoff
+function equality explicitly and replaces those tactics with typed intermediate
+proofs or ordinary definition reduction. It does not alter any proof statement,
+allowed axiom, dependency, workflow or architecture threshold.
+The present Security and example sources remain candidates until checked.
 
 ## Constructed dependency slice
 
-PBSInformationSampling uses the actual decoded CFR iteration family and the
-same uniform private iteration law as its own-reach average. It quantifies over
-arbitrary fixed behavioral opponents while retaining the supplied joint root PBS.
-PBSInformationCarried reuses PrivateIterationState to retain the selected child
-iteration and actual history across a finite list of segments, refreshing an
-optional model posterior from that selected full profile at each elapsed time.
-The candidate segment-composition theorem preserves the entire joint state.
-Its projected history law is the actual averaged child's continuation law.
-Zero-length segments and impossible model observations are not discarded.
+PBSInformationSampling samples the actual decoded completed CFR iterates using
+the same private uniform law as the computed own-reach average.
+PBSInformationCarried retains that iteration and the actual legal history
+across every finite segment, while refreshing the optional MODEL posterior.
+Its complete-state segment identity and projected-history identity have compiled.
+The supplied joint PBS remains distinct from an unknown opponent's factual law.
 
-## Remaining obligations
+PBSInformationSecurity derives one-sided security directly from the actual
+CFR regret bounds, rather than doubling a generic Nash error. An original-PBS
+reference equilibrium only anchors the comparison value. A computed finite
+iteration budget realizes any positive requested loss. Examples exercise the
+actual family against a randomized opponent, two live rounds, zero segments,
+terminal roots, an off-model referee history and hidden-information boundaries.
+The old bit-plan reset counterexample is explicitly a different negative family.
 
-Inspect the exact-source compiler, normal/slow lint and transitive-axiom output;
-add nontrivial live and boundary controls before accepting this slice.
-Then connect the sampled child execution to the parent's counterfactual/value
-family and independent recursive re-solving. Segmenting one fixed child is NOT
-independent re-solving at a new PBS, and the supplied/model PBS is NOT the
-unknown opponent's true posterior. No individual sampled-iterate safety is claimed.
-Preserve all existing counterexamples, positive prediction/child errors, outer
-finite-T residuals and the distinction between printed and corrected Theorem 3.
-Original SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-No M06 or complete-framework acceptance is claimed.
+## Remaining original obligations
+
+Inspect all 92 declared targets and 54 supplemental normal/slow lint and
+transitive-axiom consumers before accepting this slice. Recheck full repository
+and full ReBeL workflows independently at the final exact source SHA.
+The coverage journal is M06-sampled-continuation-coverage.md.
+
+Segmenting one fixed child is NOT independent re-solving at a later PBS.
+The remaining recursive parent/child value-family and re-solving correspondence
+must be proved for the paper's actual execution, including counterfactual and
+zero-factual-mass queries. The model PBS is not the opponent's true posterior.
+Preserve positive prediction/child errors, outer finite-T residuals and the
+printed-versus-corrected Theorem 3 distinction. Original SEARCH-FRONTIER,
+SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending in the unchanged
+content-hashed coverage ledger. No M06 or whole-framework acceptance.

@@ -31,6 +31,11 @@ private theorem pbsSamplingPayoff_expect (roots : FinDist E.History) (cut : Nat)
         (pbsRootPayoff roots payoff who) =
       (roots.bind ((fullInformation M).runBehavioralFrom
         (pbsRootDecodeProfile M roots cut profile) fuel)).expect (payoff who) := by
+  have payoffEq : pbsRootPayoff roots payoff who =
+      (fun history : (pbsRootProtocol roots).History => history.state.elim 0 (payoff who)) := by
+    funext history
+    cases state : history.state <;> simp only [pbsRootPayoff, state, Option.elim]
+  rw [payoffEq]
   exact pbsRootDecodeProfile_expect M roots cut rootDepth profile fuel (payoff who)
 
 variable {observations : List M.PublicSignal}
@@ -50,21 +55,24 @@ theorem pbsRootLiftProfile_isNash
   intro who replacement
   have bound := equilibrium who
     (pbsRootDecodePolicy M belief.law (observations.length - 1) who replacement)
-  change (belief.law.bind ((fullInformation M).runBehavioralFrom
-      (Profile.update reference who
-        (pbsRootDecodePolicy M belief.law (observations.length - 1) who replacement))
-      fuel)).expect (payoff who) ≤
-    (belief.law.bind ((fullInformation M).runBehavioralFrom reference fuel)).expect
-      (payoff who) at bound
-  change ((pbsRootFullInformation M belief.law).runBehavioral
-      (Profile.update (pbsRootBehavioralFullProfile M belief.law reference) who replacement)
-      (fuel + 1)).expect (pbsRootPayoff belief.law payoff who) ≤
-    ((pbsRootFullInformation M belief.law).runBehavioral
-      (pbsRootBehavioralFullProfile M belief.law reference) (fuel + 1)).expect
-      (pbsRootPayoff belief.law payoff who)
-  simpa only [pbsSamplingPayoff_expect M belief.law (observations.length - 1)
-    (pbsRoot_publicBelief_depth M belief), pbsRootDecodeProfile_update,
-    pbsRootDecodeProfile_lift] using bound
+  have originalBound :
+      (belief.law.bind ((fullInformation M).runBehavioralFrom
+        (Profile.update reference who
+          (pbsRootDecodePolicy M belief.law (observations.length - 1) who replacement))
+        fuel)).expect (payoff who) ≤
+      (belief.law.bind ((fullInformation M).runBehavioralFrom reference fuel)).expect
+        (payoff who) := bound
+  have nativeBound :
+      ((pbsRootFullInformation M belief.law).runBehavioral
+        (Profile.update (pbsRootBehavioralFullProfile M belief.law reference) who replacement)
+        (fuel + 1)).expect (pbsRootPayoff belief.law payoff who) ≤
+      ((pbsRootFullInformation M belief.law).runBehavioral
+        (pbsRootBehavioralFullProfile M belief.law reference) (fuel + 1)).expect
+        (pbsRootPayoff belief.law payoff who) := by
+    simpa only [pbsSamplingPayoff_expect M belief.law (observations.length - 1)
+      (pbsRoot_publicBelief_depth M belief), pbsRootDecodeProfile_update,
+      pbsRootDecodeProfile_lift] using originalBound
+  exact nativeBound
 
 variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
 

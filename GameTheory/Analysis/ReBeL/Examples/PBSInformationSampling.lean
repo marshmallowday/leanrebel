@@ -98,7 +98,7 @@ theorem samplingControl_terminal (t : Nat) [NeZero t] (segments : List Nat) :
       pbsRootControlFallback cfrPayoff 3 t carriedBitOpponent 0 segments =
         FinDist.pure (offPathFinish false) := by
   rw [pbsInformationCarriedRun_eq_average]
-  change (FinDist.pure (offPathFinish false)).bind _ = _
+  dsimp only [samplingTerminalBelief]
   rw [FinDist.pure_bind]
   exact runBehavioralFrom_of_terminal (model fullPrior) _ _
     (h := offPathFinish false) (by trivial)
@@ -117,7 +117,7 @@ theorem samplingControl_off_model_absent (iteration : Fin 3) :
     FinDist.mem_support_pure.mp supported
   rw [initial] at same
   have lengths := congrArg List.length same
-  change (1 : Nat) = 4 at lengths
+  have incompatible : (1 : Nat) = 4 := lengths
   omega
 
 /-- Even an actual newly learned iterate cannot inspect the opponent's hidden bit. -/
