@@ -148,3 +148,6 @@ import GameTheory.Analysis.ReBeL.CFRDFiniteCoherent
 import GameTheory.Analysis.ReBeL.Examples.CFRDCoherentDraw
 import GameTheory.Analysis.ReBeL.CFRDCoherentStages
 import GameTheory.Analysis.ReBeL.Examples.CFRDCoherentStages
+import GameTheory.Analysis.ReBeL.PBSRootProtocol
+import GameTheory.Analysis.ReBeL.PBSRootInformation
+import GameTheory.Analysis.ReBeL.PBSRootCFR

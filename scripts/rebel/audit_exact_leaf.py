@@ -48,6 +48,9 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.Examples.CFRDCoherentDraw",
     "GameTheory.Analysis.ReBeL.CFRDCoherentStages",
     "GameTheory.Analysis.ReBeL.Examples.CFRDCoherentStages",
+    "GameTheory.Analysis.ReBeL.PBSRootProtocol",
+    "GameTheory.Analysis.ReBeL.PBSRootInformation",
+    "GameTheory.Analysis.ReBeL.PBSRootCFR",
 )
 AUDITOR = r'''
 open Lean Elab Command in
