@@ -57,7 +57,7 @@ theorem rootedAt_step (cut : Nat) (prior : AOH Action Private Public)
     (AOH.step prior action privateObservation publicObservation).rootedAt cut =
       .step (prior.rootedAt cut) action
         (some (.step prior action privateObservation publicObservation))
-        (some (.step prior action privateObservation publicObservation).publicHistory) := by
+        (some (AOH.step prior action privateObservation publicObservation).publicHistory) := by
   simp only [rootedAt, if_neg (Nat.not_lt.mpr afterCut)]
 
 end AOH
@@ -121,8 +121,8 @@ theorem pbsRootLocalHistory_trace (roots : FinDist E.History) (cut : Nat)
             (joint who) (some ((fullInformation M).infoOf who original.trace))
             (some (publicTrace (fullInformation M).toInfoSignals original.trace)) =
               AOH.rootedSnapshot ((fullInformation M).infoOf who original.trace)
-          rw [ih, idle]
-          simp only [AOH.rootedSnapshot, publicHistory_infoOf, publicRoot_trace_eq]
+          rw [ih, idle, publicRoot_trace_eq M original.trace]
+          simp only [AOH.rootedSnapshot, publicHistory_infoOf]
       | some original =>
           obtain ⟨next, hnext, rfl⟩ :=
             (pbsRootProtocol_step_support roots original ⟨joint, legal⟩ target).mp realized
@@ -141,8 +141,15 @@ theorem pbsRootLocalHistory_trace (roots : FinDist E.History) (cut : Nat)
             (some (publicTrace (fullInformation M).toInfoSignals
               (original.extend legal hnext).trace)) =
                 ((fullInformation M).infoOf who (original.extend legal hnext).trace).rootedAt cut
-          rw [stepRead, priorInfo]
-          rw [publicRoot_trace_eq,
-            ← publicHistory_infoOf M.toInfoSignals who (original.extend legal hnext).trace]
+          have currentRead :
+              ((fullInformation M).infoOf who (original.extend legal hnext).trace).rootedAt cut =
+                AOH.step (((fullInformation M).infoOf who original.trace).rootedAt cut)
+                  (joint who) (some ((fullInformation M).infoOf who
+                    (original.extend legal hnext).trace))
+                  (some (((fullInformation M).infoOf who
+                    (original.extend legal hnext).trace).publicHistory)) := stepRead
+          rw [currentRead, priorInfo,
+            publicRoot_trace_eq M (original.extend legal hnext).trace,
+            publicHistory_infoOf M.toInfoSignals who (original.extend legal hnext).trace]
 
 end GameTheory.ReBeL
