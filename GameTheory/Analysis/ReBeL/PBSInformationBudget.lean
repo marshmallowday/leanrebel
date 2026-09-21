@@ -106,8 +106,8 @@ theorem pbsInformationBudgetProfile_isNash
   intro who replacement
   have gain := equilibrium who replacement
   rw [euPreferenceWithin_apply] at gain ⊢
-  exact gain.trans (add_le_add_left
-    (pbsInformationBudgetRounds_error M belief.law (fun _ => bound) fuel error positive) _)
+  exact gain.trans (add_le_add (le_refl _)
+    (pbsInformationBudgetRounds_error M belief.law (fun _ => bound) fuel error positive))
 
 /-- One joint-posterior budget controls every supported private-type probability. -/
 def pbsInformationConditionalProfile
