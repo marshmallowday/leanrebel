@@ -77,6 +77,14 @@ def pbsSamplingPrefix (cut : Nat) : {state : E.State} → E.Trace state → E.Hi
       if prior.length < cut then ⟨_, .extend prior joint legal realized⟩
       else pbsSamplingPrefix cut prior
 
+/-- First generated proof witness used by the cut-prefix readout.
+The semantic guarantees are the two prefix preservation theorems below. -/
+add_decl_doc pbsSamplingPrefix._proof_1
+
+/-- Second generated proof witness used by the cut-prefix readout.
+This readout separates proof fibers and is never an input to a deployed policy. -/
+add_decl_doc pbsSamplingPrefix._proof_2
+
 /-- Reading exactly the depth of a legal trace recovers the same history. -/
 theorem pbsSamplingPrefix_self {state : E.State} (trace : E.Trace state) :
     pbsSamplingPrefix trace.length trace = (⟨state, trace⟩ : E.History) := by

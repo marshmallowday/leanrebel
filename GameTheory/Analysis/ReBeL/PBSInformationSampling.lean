@@ -64,6 +64,14 @@ private def pbsRootCFRIterationImpl (fallback : (who : Fin 2) → M.Policy who)
     (fullObservationClock (pbsRootInformation (fullInformation M) roots))
     (pbsRootFallback M roots fallback) (pbsRootPayoff roots payoff) (fuel + 1) round
 
+/-- First generated proof witness used in the native CFR instantiation.
+The public semantic guarantee is `pbsRootCFR_uniform_law`, not this witness. -/
+add_decl_doc pbsRootCFRIterationImpl._proof_1
+
+/-- Second generated proof witness used in the native CFR instantiation.
+It is an implementation obligation, not an assumed child equilibrium certificate. -/
+add_decl_doc pbsRootCFRIterationImpl._proof_2
+
 /-- One genuine information-set regret-matching iterate. No fresh equilibrium
 or deterministic complete-plan learner is substituted for the recurrence. -/
 def pbsRootCFRIterate (fallback : (who : Fin 2) → M.Policy who)
