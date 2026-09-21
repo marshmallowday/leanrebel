@@ -197,6 +197,8 @@ def cfrDInformationQueryLaw (trunk : Profile (fullInformation M).behavioralSigna
     (cfrDInformationFallback M fallback) who cut).condOnFibre
       (fun h => ((fullInformation M).infoOf who h.trace, cfrDCutLive remaining h)) (info, true)
 
+omit [Fintype E.History] [∀ who, Fintype (E.Action who)]
+  [∀ who info, Fintype ((fullInformation M).Choice who info)] in
 /-- A factual private/live query supplies its public posterior witness.
 No independent support premise or hidden-history policy input is required. -/
 theorem cfrDInformationQuery_possible
@@ -224,7 +226,8 @@ theorem cfrDInformationQuery_support
     (who : Fin 2) (info : (fullInformation M).InfoState who)
     (factual : CFRDInformationQueryFactual M trunk cut remaining who info)
     (history : E.History)
-    (reached : history ∈ (cfrDInformationQueryLaw M trunk fallback cut remaining who info).support) :
+    (reached : history ∈
+      (cfrDInformationQueryLaw M trunk fallback cut remaining who info).support) :
     history ∈ (cfrDFactualChildBelief M trunk cut remaining info.publicHistory
       (cfrDInformationQuery_possible M trunk cut remaining who info factual)).law.support := by
   classical

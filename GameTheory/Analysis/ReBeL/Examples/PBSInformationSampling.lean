@@ -144,4 +144,49 @@ theorem informationSamplingControl_independent_not_diagonal :
     (congrArg Prod.fst coordinates).symm.trans (congrArg Prod.snd coordinates)
   exact (by decide : (0 : Fin 2) ≠ 1) impossible
 
+/-- The positive private/live branch is inhabited for each actual player. -/
+theorem informationSamplingControl_factual_query_exists (who : Player) :
+    ∃ info : (model fullPrior).InfoState who,
+      CFRDInformationQueryFactual (reducedModel fullPrior)
+        (carriedBitProfile false) 2 1 who info := by
+  obtain ⟨history, event, reached⟩ := factualChild_possible
+  refine ⟨(model fullPrior).infoOf who history.trace, ?_⟩
+  rw [CFRDInformationQueryFactual, FinDist.support_map]
+  exact ⟨history, reached, Prod.ext rfl event.2⟩
+
+/-- A genuine parent's private query evaluates actual retained child iterates
+against an arbitrary fixed unknown opponent with a positive finite loss budget. -/
+theorem informationSamplingControl_factual_query
+    (unknown : Profile (model fullPrior).behavioralSignature) (who : Player)
+    (info : (model fullPrior).InfoState who)
+    (factual : CFRDInformationQueryFactual (reducedModel fullPrior)
+      (carriedBitProfile false) 2 1 who info) :
+    cfrDInformationFactualQuerySample (reducedModel fullPrior) (carriedBitProfile false)
+        pbsRootControlFallback 2 1 (fun h player => cfrPayoff player h) 2 (1 / 4)
+        who info factual unknown 1 =
+      (cfrDInformationQueryLaw (reducedModel fullPrior) (carriedBitProfile false)
+        pbsRootControlFallback 2 1 who info).bind ((model fullPrior).runBehavioralFrom
+          (Profile.update unknown who (cfrDInformationChildProfile (reducedModel fullPrior)
+            (carriedBitProfile false) pbsRootControlFallback 2 1
+            (fun h player => cfrPayoff player h) 2 (1 / 4) who)) 1) :=
+  cfrDInformationFactualQuerySample_law (reducedModel fullPrior) (carriedBitProfile false)
+    pbsRootControlFallback 2 1 (fun h player => cfrPayoff player h) 2 (1 / 4)
+    who info factual unknown 1
+
+/-- Private conditioning retains its complete correlated root law at zero fuel. -/
+theorem informationSamplingControl_factual_query_zero_fuel
+    (unknown : Profile (model fullPrior).behavioralSignature) (who : Player)
+    (info : (model fullPrior).InfoState who)
+    (factual : CFRDInformationQueryFactual (reducedModel fullPrior)
+      (carriedBitProfile false) 2 1 who info) :
+    cfrDInformationFactualQuerySample (reducedModel fullPrior) (carriedBitProfile false)
+        pbsRootControlFallback 2 1 (fun h player => cfrPayoff player h) 2 (1 / 4)
+        who info factual unknown 0 =
+      cfrDInformationQueryLaw (reducedModel fullPrior) (carriedBitProfile false)
+        pbsRootControlFallback 2 1 who info := by
+  rw [cfrDInformationFactualQuerySample_law]
+  have stopped (profile : Profile (model fullPrior).behavioralSignature) :
+      (model fullPrior).runBehavioralFrom profile 0 = FinDist.pure := rfl
+  rw [stopped, FinDist.bind_pure]
+
 end GameTheory.ReBeL.Examples.HiddenTypes
