@@ -40,8 +40,8 @@ theorem pbsRoot_behavioralChooser (profile : Profile M.behavioralSignature) :
   | start =>
       exact (pbsRootInformation M roots).behavioralJoint_eq_pure_of_no_active
         (pbsRootBehavioralProfile M roots profile) .start nonterminal (fun _ => not_false)
-  | @extend source target prior joint legal realized =>
-      cases target with
+  | @extend source _ prior joint legal realized =>
+      cases state with
       | none =>
           exact (pbsRootInformation M roots).behavioralJoint_eq_pure_of_no_active
             (pbsRootBehavioralProfile M roots profile)
