@@ -1,0 +1,84 @@
+name: M06 sampling witness inspection
+
+on:
+  push:
+    branches: ['diagnostics/m06-sampling-proofs-20260921']
+    paths: ['.github/workflows/m06-sampling-proofs.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Inspect exact auxiliary declarations
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake env lean --version
+          python3 - <<'PY'
+          from pathlib import Path
+          import os, re
+          pending = ['GameTheory.Analysis.ReBeL.PBSSupportedSampling']
+          sources = [Path('.'), *Path('.lake/packages').iterdir()]
+          seen, roots = set(), set()
+          while pending:
+              name = pending.pop()
+              if name in seen:
+                  continue
+              seen.add(name)
+              if name.startswith('Mathlib.'):
+                  roots.add(name)
+                  continue
+              relative = Path(name.replace('.', '/') + '.lean')
+              path = next((p / relative for p in sources if (p / relative).is_file()), None)
+              if path is not None:
+                  for line in path.read_text().splitlines():
+                      match = re.match(r'^(?:(?:public|private) )?import (.+)$', line)
+                      if match:
+                          pending.extend(match.group(1).split('--')[0].split())
+          if not roots:
+              raise SystemExit('Missing dependency closure')
+          (Path(os.environ['RUNNER_TEMP']) / 'roots.txt').write_text(' '.join(sorted(roots)))
+          PY
+          lake exe cache get $(cat "$RUNNER_TEMP/roots.txt")
+          lake build GameTheory.Analysis.ReBeL.PBSSupportedSampling
+          mkdir -p .lake/rebel
+          cat > .lake/rebel/SamplingWitnesses.lean <<'LEAN'
+          import Lean
+          import GameTheory.Analysis.ReBeL.PBSSupportedSampling
+          open Lean Elab Command in
+          run_cmd do
+            let env ← getEnv
+            for (name, info) in env.constants.toList do
+              let text := name.toString
+              if (text.startsWith "GameTheory.ReBeL.pbsRootCFRIterationImpl" ||
+                  text.startsWith "GameTheory.ReBeL.pbsSamplingPrefix" ||
+                  text.startsWith "_private.GameTheory.Analysis.ReBeL.PBSInformationSampling") then
+                logInfo m!"WITNESS_RAW {repr name}"
+                logInfo m!"WITNESS_TYPE {info.type}"
+                logInfo m!"WITNESS_FLAGS private={isPrivateName name}"
+          #check GameTheory.ReBeL.pbsRootCFRIterationImpl._proof_1
+          #check GameTheory.ReBeL.pbsSamplingPrefix._proof_1
+          LEAN
+          lake env lean .lake/rebel/SamplingWitnesses.lean 2>&1 | tee "$RUNNER_TEMP/sampling-witnesses.log"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: sampling-witnesses-${{ github.sha }}
+          path: ${{ runner.temp }}/sampling-witnesses.log
+          retention-days: 7
+          if-no-files-found: warn
