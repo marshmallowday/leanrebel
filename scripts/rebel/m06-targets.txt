@@ -81,3 +81,4 @@ GameTheory.Analysis.ReBeL.PBSRootLocalHistory
 GameTheory.Analysis.ReBeL.PBSRootDecode
 GameTheory.Analysis.ReBeL.PBSInformationCFR
 GameTheory.Analysis.ReBeL.Examples.PBSRootDecode
+GameTheory.Analysis.ReBeL.PBSInformationBudget

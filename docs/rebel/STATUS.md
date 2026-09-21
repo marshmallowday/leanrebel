@@ -1,56 +1,37 @@
 # ReBeL status — M06 in progress; M05 accepted
 
-## Active reverse-policy implementation checkpoint
+## Active information-set contract work
 
-Continue on `rebel/m06-pbs-information-20260921`; read its actual remote HEAD
-and exact-source CI before editing. It descends from the preserved local-history
-source 7ec45dc45813436fd816149d48bd9f3892cb2be7 on
-`rebel/m06-pbs-decode-20260921`, and from the actual inherited checkpoint
-b0564668080232e68de97809f7432fface017a14. The old STATUS is preserved exactly in
-M06-status-before-pbs-decode.md. Main remains
-6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098, accepted through M05.
-No force update, history rewrite or main integration was performed.
+Continue on rebel/m06-information-contract-20260921; read its actual remote
+HEAD and CI. The exact inherited source is 30f7dfd33c05a78a70e1a29cb2734cde1af90a02,
+not the old b0564668 chat checkpoint. All existing reverse-decoder and
+original-PBS information-set CFR work is inherited. The previous STATUS is
+preserved byte-for-byte in M06-status-before-information-contract.md.
+Main remains 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. No force updates or integration.
 
-## Verified inherited base and current checks
+5303cde4 records the restart. 6ee6ae40 repairs the sole inherited 101-column
+line without changing its proposition or proof. Its target run 35558360214 /
+106206318768 reports completed/success. The complete target log and full
+repository/ReBeL results still need inspection before claiming full acceptance.
+No validation gate, dependency pin or original coverage obligation is removed.
 
-The old d693b30e full ReBeL run 35550519618/job 106184325607 is now SUCCESS,
-superseding the inherited pending note. The b0564668 checkpoint also passed
-full ReBeL run 35551458297/job 106186892774. The source snapshot was obtained
-through the plugin as artifact 10618482509; see M06-pbs-decode-restart.md.
+## Newly registered compiler candidate
 
-Local-history source 7ec45dc4 passed the target compilation step in
-35554030162/job 106194041761. Its supplemental checks were still running at
-this checkpoint. e92c740e's rejected constructor/reduction proofs are repaired
-there; do not replay them. The present downstream source adds three modules
-and all their registrations. Its new compile/lint/axiom results are NOT yet
-accepted. Read the actual new runs, repair proof errors without weakening
-statements or gates, and retain the exact source for final evidence.
+PBSInformationBudget factors the actual information-set CFR residual into
+its fixed finite-schedule coefficient and sqrt(T)/T, then derives a strictly
+positive finite count from any positive requested budget. It runs the existing
+information-set recurrence and decodes its output into the original PBS game.
+The conditional profile uses the actual joint law's derived positive mass floor.
+No normal-form learner, supplied Nash certificate, mass-floor hypothesis or
+regret-quality certificate is used. This candidate is registered in the public
+analysis umbrella, targeted build and supplemental lint/transitive-axiom audit.
+It is not accepted until those exact-source checks pass.
 
-## Current dependency slice
-
-PBSRootLocalHistory reconstructs a rooted local AOH from an original player's
-own AOH and a public cut depth, deriving that depth from PublicBelief support.
-PBSRootDecode implements the information-local reverse map for arbitrary new
-rooted behavioral output. It includes exact original round trips and baseline
-and unilateral law/expectation correspondences, with no hidden-world input.
-PBSInformationCFR transfers the native rooted approximate Nash bound to the
-original PBS continuation game and instantiates the actual fixed-T
-information-set CFR output. Conditional gains keep the own-type mass explicit.
-Examples/PBSRootDecode covers eight positive and boundary controls.
-These downstream declarations are compiler candidates until checked.
-
-## Remaining original M06 scope
-
-After verification, connect the new information-set child backend to the
-parent's counterfactual/type-conditioned values and iteration family, and
-prove its correspondence with the paper's independently re-solved recursive
-play. A native or transferred one-PBS Nash theorem alone is not this safety
-result. The supplied model belief is not the unknown opponent's true law.
-The abstract real-valued solver is not an executable numerical refinement.
-
-M06-pbs-decode-construction.md records source locators, exact dependencies,
-common-cut and zero-mass boundaries, and coverage implications. Original
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-Keep all prior imports, targets, dependency pins, counterexamples, positive
-prediction/child errors, finite-T residuals and printed/corrected Theorem 3.
-No M06 or complete-framework acceptance is claimed.
+Next connect the computed conditional profile to factual child splicing,
+zero-own-reach completion and the existing parent counterfactual contract.
+Then connect the parent's iteration family to independently re-solved recursive
+play. A one-PBS Nash theorem or fixed-family coherent redraw is not that proof.
+Keep on-model and unknown-opponent root laws distinct, positive child loss
+separate from prediction and outer finite-T errors, and printed/corrected
+Theorem 3 and all counterexamples intact. Original SEARCH-FRONTIER, SEARCH-CFRD,
+SEARCH-ERROR and SAFE-THEOREM3 remain pending. No M06 completion claim.
