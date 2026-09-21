@@ -17,6 +17,7 @@ open GameTheory.Protocol ExecutionProtocol InformationModel
 open GameTheory.Math.Probability
 open GameTheory.ReBeL.Rational.HiddenTypes.Canonical
 
+/-- The canonical hidden-type protocol has explicitly enumerated legal histories. -/
 local instance samplingControlHistoryFintype : Fintype (protocol fullPrior).History :=
   historyFintype fullPrior
 
