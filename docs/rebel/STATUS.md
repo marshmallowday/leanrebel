@@ -3,44 +3,52 @@
 ## Resume point
 
 Use the actual remote HEAD of `rebel/m06-carried-iterations-20260923`.
-This implementation checkpoint starts from b17501a84ec76c6cd996864144f4a616ac251a00
-on the preserved rebel/m06-recursive-envelope-20260923 branch. Main is not changed.
-Check this HEAD's M06 targeted proof feedback, ReBeL checks and full CI.
-No compilation success is asserted at creation of this checkpoint.
+The current checkpoint repairs initial source64bc087f4b559ba25979ea43e394d47dc58d3074
+and adds native carried-PBS examples. Check its exact-HEAD targeted CI and full
+gates before integration. Main remains6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 
-## Current slice
+## Current native carried-PBS slice
 
-FinDistEventError proves an explicit exceptional-event bound for finite kernels.
-PBSCarriedSampling constructs a resolver from the incoming carried joint PBS,
-drawing the actual native information-set CFR iteration with t > 0. It plugs
-into the existing CarriedResolveStage/executeCarriedResolves runner. Missing
-beliefs retain the previous policy; stopped stages retain the existing no-query
-rule. The full next-state equation keeps the sampled child paired with the
-posterior propagated through that child, not an averaged posterior.
+PBSCarriedSampling consumes the incoming joint model belief as a new root game,
+draws an actual information-set CFR iterate, and retains its private profile
+paired with the posterior propagated through that same iterate. It installs
+into the existing CarriedResolveStage/executeCarriedResolves finite runner.
+Missing beliefs retain the previous profile; stopped stages make no query.
 
-A one-step actual-law comparison against the SAME child's own-reach average
-charges 2 * payoffBound * probability(live state with unsupported actual root).
-This has no caller-supplied support domination, posterior equality, or local
-safety premise. It is a sampling defect estimate, NOT a global recursive
-security theorem or proof that the exceptional mass vanishes. Tests and
-source-SHA acceptance are the next checkpoint.
+FinDistEventError and pbsCarriedCFRResolver_actual_error derive a single-step
+comparison to the same child's own-reach average, charging exactly
+2 * payoffBound * actualProbability(live state with unsupported actual root).
+No support domination or posterior equality is assumed. No claim is made that
+this mass vanishes, or that equal history marginals permit substituting the
+complete private-profile/posterior state in later recursive stages.
 
-## Preserved accepted evidence
+Exact declaration scope, source mapping and controls: M06-carried-iterations.md.
+All three new modules are in the analytic root, M06 targets and all-declaration
+normal/slow-lint axiom auditor. Original source coverage rows remain pending.
 
-Do not redo the fresh-child proof slice at dd66907138cf052a52435d8c31dcb3ecaea5703e.
-Its target run 35828662651/job 107075968088 passed target builds, normal/slow
-lint and all-declaration axiom checks. See M06-fresh-envelope-validation.md.
-The three earlier modules, original source obligations and dependency pins
-remain unchanged. The predecessor's full gate status must be read remotely;
-old in-progress/cancelled runs are not asserted successful.
+## Feedback to preserve
 
-## Remaining source obligations
+64bc087f target35831741238/job107085699414 compiled the finite-law error module
+and inherited targets; PBSCarriedSampling failed only on two unused simp
+arguments at lines138 and145. Both are removed without disabling lint; the
+required stored-equality support step remains. The examples are new in this
+checkpoint and require its own compiler/axiom/lint acceptance.
+Source inventory35831741268 succeeded on64bc087f.
 
-Connect the genuine carried-PBS recursive execution to the parent value oracle
-and derive the source-dependent value-drift and exceptional-mass bounds.
-History marginal equality does not justify replacing the retained sampled
-profile and its posterior in later steps. The generic CarriedResolveStepBounds
-is not a discharged theorem. Preserve finite outer T, nonzero prediction and
-child errors, off-model unknown-opponent histories and the printed/corrected
-Theorem 3 distinction. SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3
-remain pending; no complete-M06 or numeric-refinement claim.
+## Fully checked predecessor
+
+b17501a84ec76c6cd996864144f4a616ac251a00 on the preserved
+rebel/m06-recursive-envelope-20260923 passed full CI35829793150/job107079581547
+and ReBeL35829793185/job107079633154. Its fresh-child source slice dd669071
+passed target35828662651/job107075968088. Do not redo those completed repairs.
+See M06-fresh-envelope-validation.md for the previous exact-source evidence.
+
+## Remaining original source obligations
+
+Connect genuine carried-PBS recursive execution to the parent value oracle,
+and derive source-dependent value-drift and exceptional-mass bounds. The
+current native child uses full-root CFR at its prescribed finite horizon,
+not yet a recursively depth-limited child oracle. CarriedResolveStepBounds is
+not a discharged safety result. Preserve finite outer T and nonzero numerical
+and child errors. SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3
+remain pending. No full M06, unrestricted Theorem3 or numeric-refinement claim.

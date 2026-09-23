@@ -135,14 +135,14 @@ theorem pbsCarriedCFRResolver_tail_eq_average (fallback : Profile M.strategicSig
   by_cases live : cfrDCutLive steps state.history = true
   · rw [if_pos live, if_pos live]
     cases stored : state.belief with
-    | none => simp only [pbsCarriedCFRResolver, pbsCarriedCFRAverageResolver, stored]
+    | none => simp only [pbsCarriedCFRResolver, pbsCarriedCFRAverageResolver]
     | some belief =>
         have supported : state.history ∈ belief.law.support := by
           by_contra absent
           apply outside
           refine ⟨live, ?_⟩
           simpa only [stored] using absent
-        simp only [pbsCarriedCFRResolver, pbsCarriedCFRAverageResolver, stored,
+        simp only [pbsCarriedCFRResolver, pbsCarriedCFRAverageResolver,
           FinDist.bind_map, FinDist.pure_bind]
         exact pbsInformationCFR_sampling_from_support M belief fallback payoff
           trainingFuel t unknown who steps state.history supported
