@@ -8,20 +8,26 @@ on `e630e689df13eddedafbe3c88c2bf12561b8d1a6`. Main remains accepted M05 at
 The predecessor's source inventory passed; its full ReBeL audit was still
 running at the restart read. Do not infer a full integration pass from that.
 
-## New implementation checkpoint — not yet compiler accepted
+## Current source candidate and observed diagnostics
 
-`CFRDInformationResolve` constructs actual fresh information-set child draws
-from the stored joint PBS and its posterior-dependent conditional budget.
-The canonical carried referee retains each new private profile and propagates
-the stored belief, rather than resetting to the initial game's model law.
-A finite stage schedule uses the full remaining horizon for each child solve.
+`eb59ccf754862f1e584deeee4eb3a44df39cce60` reached the new resolver in targeted
+run `35822279205`, job `107056486306`. A missing direct import for the existing
+stopped-run lemma and the resolver's unreduced `none` match caused the failure.
+This successor repairs those proof scripts without weakening their statements.
 
-When the model belief is `none`, the resolver retains the incumbent complete
-policy. A candidate full-state one-step identity records this branch without
-assuming actual/model posterior equality or caller-supplied support domination.
-Next: compile this exact source, prove the whole-schedule missing-PBS identity,
-add live/zero-fuel/private-memory controls and explicit transitive axiom/lint
-consumers, then inspect the exact-source CI before acceptance.
+`CFRDInformationResolveRecursion` now adds the whole-schedule missing-model
+law, zero additional replacement loss, localization of remaining loss to
+available-PBS states, and a derived positive-loss model-root child gain bound.
+The actual noisy sampled-value parent is connected to the fresh finite
+carried-PBS schedule by `cfrDInformationRecursivePlay`.
+
+Eight proposed controls in `Examples/CFRDInformationResolve` cover a live
+positive-tolerance child draw, a genuinely impossible model observation,
+nonempty private memory, zero and positive execution intervals, and a
+nonconstant payoff difference from wrongly resetting to the initial policy.
+All three modules are in the existing Search/Analysis build closure and are
+explicitly included in `audit_exact_leaf.py`. Exact-source compiler, normal/
+slow lint and transitive-axiom acceptance must still be checked for this HEAD.
 
 ## Preserved sampled-value parent
 
@@ -34,11 +40,12 @@ positive child loss. Details remain in `M06-sampled-values.md` and
 ## Still open
 
 Fresh solving on supported carried PBSs still needs its derived recursive
-opponent-value envelope. The generic `CarriedResolveStepBounds` premise and
-one-query sampling identities are not that derivation. Missing-PBS fallback
-alone is not recursive safety on supported branches. Preserve the original
-versus corrected Theorem 3 distinction and all positive loss terms.
+opponent-value envelope, including actual histories outside model support.
+The generic `CarriedResolveStepBounds` premise and one-query sampling
+identities are not that derivation. Missing-PBS fallback alone is not recursive
+safety on supported branches or individual-iterate security. Preserve the
+original versus corrected Theorem 3 distinction and all positive loss terms.
 
 `SEARCH-FRONTIER`, `SEARCH-CFRD`, `SEARCH-ERROR`, `SAFE-THEOREM3` remain pending
-in unchanged hashed source coverage. No completed-M06, original-algorithm
-refinement or numerical-execution claim is made by this checkpoint.
+in unchanged hashed source coverage. `M06-carried-resolve.md` records this
+supplemental slice and its precise remaining semantic boundary.

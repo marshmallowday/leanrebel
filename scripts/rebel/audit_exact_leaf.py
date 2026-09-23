@@ -71,6 +71,9 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.CFRDInformationQuerySampling",
     "GameTheory.Analysis.ReBeL.CFRDInformationSampledDriver",
     "GameTheory.Analysis.ReBeL.Examples.CFRDInformationSampledDriver",
+    "GameTheory.Analysis.ReBeL.CFRDInformationResolve",
+    "GameTheory.Analysis.ReBeL.CFRDInformationResolveRecursion",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDInformationResolve",
 )
 AUDITOR = r'''
 open Lean Elab Command in

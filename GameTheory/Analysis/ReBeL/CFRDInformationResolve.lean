@@ -10,6 +10,7 @@ This construction alone does not prove recursive safety on supported branches.
 
 import GameTheory.Analysis.ReBeL.CFRDInformationSampling
 import GameTheory.Analysis.ReBeL.CFRDRecursivePlay
+import GameTheory.Analysis.ReBeL.CFRDChildResolve
 
 noncomputable section
 
@@ -154,9 +155,17 @@ theorem cfrDInformationResolveStage_none
         stepFuel state.history).map (cfrDInformationMissingNext M initial state) := by
   by_cases live : cfrDCutLive stepFuel state.history = true
   · simp only [carriedMemoryStep, cfrDInformationResolveStage, carriedResolvedStep,
-      if_pos live, missing, cfrDInformationResolver_none, FinDist.pure_bind,
-      FinDist.map_comp, resolvedNextState, storeCarriedDraw, carriedBeliefUpdate_none,
+      if_pos live, missing, cfrDInformationResolver, FinDist.pure_bind, FinDist.map_comp]
+    apply congrArg (fun transform =>
+      ((fullInformation M).runBehavioralFrom
+        (Profile.update unknown who
+          (carriedMemoryProfile (fullInformation M) initial state.iteration who))
+        stepFuel state.history).map transform)
+    funext history
+    dsimp only [Function.comp_apply, storeCarriedDraw, resolvedNextState,
       cfrDInformationMissingNext]
+    rw [missing]
+    rfl
   · rw [cfrD_run_stopped (fullInformation M) _ stepFuel state.history live]
     simp only [carriedMemoryStep, cfrDInformationResolveStage, carriedResolvedStep,
       if_neg live, FinDist.map_pure, storeCarriedDraw, cfrDInformationMissingNext, missing]
