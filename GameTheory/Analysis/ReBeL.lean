@@ -180,3 +180,5 @@ import GameTheory.Analysis.ReBeL.Examples.PBSCarriedSampling
 import GameTheory.Math.Probability.FinDistSequentialError
 import GameTheory.Analysis.ReBeL.PBSCarriedRecursion
 import GameTheory.Analysis.ReBeL.Examples.PBSCarriedRecursion
+import GameTheory.Analysis.ReBeL.PBSRootDepthCFR
+import GameTheory.Analysis.ReBeL.PBSInformationDepthCFR

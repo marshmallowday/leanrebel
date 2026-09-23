@@ -80,6 +80,8 @@ MODULES = (
     "GameTheory.Math.Probability.FinDistSequentialError",
     "GameTheory.Analysis.ReBeL.PBSCarriedRecursion",
     "GameTheory.Analysis.ReBeL.Examples.PBSCarriedRecursion",
+    "GameTheory.Analysis.ReBeL.PBSRootDepthCFR",
+    "GameTheory.Analysis.ReBeL.PBSInformationDepthCFR",
 )
 AUDITOR = r'''
 open Lean Elab Command in
