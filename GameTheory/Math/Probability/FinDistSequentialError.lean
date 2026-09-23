@@ -32,10 +32,10 @@ def sequenceEventMass (step : I → A → FinDist A) (event : I → Set A) :
 
 /-- Splitting a schedule keeps the complete intermediate state distribution. -/
 theorem bindSequence_append (step : I → A → FinDist A)
-    (prefix suffix : List I) (state : A) :
-    bindSequence step (prefix ++ suffix) state =
-      (bindSequence step prefix state).bind (bindSequence step suffix) := by
-  induction prefix generalizing state with
+    (before after : List I) (state : A) :
+    bindSequence step (before ++ after) state =
+      (bindSequence step before state).bind (bindSequence step after) := by
+  induction before generalizing state with
   | nil => simp only [List.nil_append, bindSequence, FinDist.pure_bind]
   | cons stage stages ih =>
       simp only [List.cons_append, bindSequence, ih, FinDist.bind_bind]
@@ -64,8 +64,8 @@ theorem abs_expect_bindSequence_sub_le_of_eq_off_event
         (fun state _ outside => congrArg (fun distribution => distribution.bind finish)
           (equal stage state outside))
       have tailBound := ih (law.bind (first stage))
-      simp only [bindSequence, sequenceEventMass, FinDist.expect_bind, finish] at
-        headBound tailBound ⊢
+      simp only [FinDist.expect_bind, finish] at headBound tailBound
+      simp only [bindSequence, sequenceEventMass, FinDist.expect_bind]
       calc
         _ ≤ |law.expect (fun state => (first stage state).expect (fun next =>
                 (bindSequence first stages next).expect (fun last =>

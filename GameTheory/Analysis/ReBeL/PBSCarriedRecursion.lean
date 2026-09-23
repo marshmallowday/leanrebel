@@ -197,12 +197,12 @@ theorem pbsCarriedCFRNativeStates_append
     (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
     (initial : K → Profile (fullInformation M).behavioralSignature)
     (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
-    (prefix suffix : List PBSCarriedCFRParameters)
+    (before after : List PBSCarriedCFRParameters)
     (states : FinDist (PrivateIterationState (fullInformation M)
       (CarriedResolveMemory (fullInformation M) K))) :
-    pbsCarriedCFRNativeStates M fallback payoff initial unknown who (prefix ++ suffix) states =
-      pbsCarriedCFRNativeStates M fallback payoff initial unknown who suffix
-        (pbsCarriedCFRNativeStates M fallback payoff initial unknown who prefix states) := by
+    pbsCarriedCFRNativeStates M fallback payoff initial unknown who (before ++ after) states =
+      pbsCarriedCFRNativeStates M fallback payoff initial unknown who after
+        (pbsCarriedCFRNativeStates M fallback payoff initial unknown who before states) := by
   simp only [pbsCarriedCFRNativeStates, FinDist.bindSequence_append, FinDist.bind_bind]
 
 end GameTheory.ReBeL
