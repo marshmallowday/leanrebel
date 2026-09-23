@@ -114,6 +114,33 @@ private theorem pbsSamplingPrefix_behavioral
 variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
 variable {observations : List M.PublicSignal}
 
+/-- Any realized mixture of legal profiles agrees pointwise on the model's
+supported roots when its complete model-root law agrees with a single profile.
+The proof uses retained history prefixes, not equality of actual/model weights.
+Concrete solvers must prove the model-law premise from their own recurrence. -/
+theorem pbsPublicBelief_sampling_from_support {K : Type*}
+    (belief : PublicBelief (fullInformation M).toInfoSignals observations)
+    (law : FinDist K) (profiles : K → Profile (fullInformation M).behavioralSignature)
+    (average : Profile (fullInformation M).behavioralSignature) (steps : Nat)
+    (equal : belief.law.bind (fun history => law.bind (fun k =>
+        (fullInformation M).runBehavioralFrom (profiles k) steps history)) =
+      belief.law.bind ((fullInformation M).runBehavioralFrom average steps))
+    (history : E.History) (supported : history ∈ belief.law.support) :
+    law.bind (fun k => (fullInformation M).runBehavioralFrom (profiles k) steps history) =
+      (fullInformation M).runBehavioralFrom average steps history := by
+  refine sampled_bind_injective_at_root belief.law _ _
+    (fun result => pbsSamplingPrefix (observations.length - 1) result.trace)
+    ?_ ?_ equal history supported
+  · intro first atRoot last inLaw
+    rw [FinDist.support_bind] at inLaw
+    simp only [Set.mem_iUnion] at inLaw
+    obtain ⟨k, _, realized⟩ := inLaw
+    exact pbsSamplingPrefix_behavioral (fullInformation M) _ _ steps first last
+      (pbsRoot_publicBelief_depth M belief first atRoot) realized
+  · intro first atRoot last realized
+    exact pbsSamplingPrefix_behavioral (fullInformation M) _ _ steps first last
+      (pbsRoot_publicBelief_depth M belief first atRoot) realized
+
 /-- A private draw of the computed child's actual iteration, starting from an
 arbitrary legal original history. The model belief still determines the solver. -/
 def pbsInformationCFRSampleFrom
@@ -139,19 +166,12 @@ theorem pbsInformationCFR_sampling_from_support
       (fullInformation M).runBehavioralFrom
         (Profile.update unknown who (pbsInformationCFR M belief fallback payoff fuel t who))
         steps history := by
-  refine sampled_bind_injective_at_root belief.law _ _
-    (fun result => pbsSamplingPrefix (observations.length - 1) result.trace)
-    ?_ ?_ ?_ history supported
-  · intro first atRoot last inLaw
-    rw [pbsInformationCFRSampleFrom, FinDist.support_bind] at inLaw
-    simp only [Set.mem_iUnion] at inLaw
-    obtain ⟨n, _, realized⟩ := inLaw
-    exact pbsSamplingPrefix_behavioral (fullInformation M) _ _ steps first last
-      (pbsRoot_publicBelief_depth M belief first atRoot) realized
-  · intro first atRoot last realized
-    exact pbsSamplingPrefix_behavioral (fullInformation M) _ _ steps first last
-      (pbsRoot_publicBelief_depth M belief first atRoot) realized
-  · exact pbsInformationCFR_delayed_sampling M belief fallback payoff fuel t unknown who steps
+  exact pbsPublicBelief_sampling_from_support M belief (cfrIterationLaw t)
+    (fun n => Profile.update unknown who
+      (pbsInformationCFRIterate M belief fallback payoff fuel n.val who))
+    (Profile.update unknown who (pbsInformationCFR M belief fallback payoff fuel t who)) steps
+    (pbsInformationCFR_delayed_sampling M belief fallback payoff fuel t unknown who steps)
+    history supported
 
 /-- Any reweighting or conditioning within the model support preserves the
 same sampled law. Actual root probabilities need not equal model probabilities. -/
