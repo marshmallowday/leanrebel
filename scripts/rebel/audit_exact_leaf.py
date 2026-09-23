@@ -82,6 +82,8 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.Examples.PBSCarriedRecursion",
     "GameTheory.Analysis.ReBeL.PBSRootDepthCFR",
     "GameTheory.Analysis.ReBeL.PBSInformationDepthCFR",
+    "GameTheory.Analysis.ReBeL.PBSCarriedDepth",
+    "GameTheory.Analysis.ReBeL.Examples.PBSCarriedDepth",
 )
 AUDITOR = r'''
 open Lean Elab Command in

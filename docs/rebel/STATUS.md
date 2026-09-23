@@ -9,16 +9,20 @@ This branch extends80acca7ed5a45463504947bf483b3f5d4f61b8e0 from the preserved
 
 ## Current implementation
 
-PBSRootDepthCFR runs the actual constructed sampled-value, noisy depth-limited
-CFR-D recurrence at the canonical joint-PBS chance root. It accounts for the
-administrative transition separately. PBSInformationDepthCFR transfers its
-all-deviation Nash bound and actual-iteration sampling law to original local
-strategies. Numerical error, positive leaf loss and finite outer iterations
-remain separate. M06-rooted-depth.md records source correspondence and limits.
+PBSRootDepthCFR runs the actual constructed sampled-value noisy depth-limited
+CFR-D recurrence at the canonical joint-PBS chance root, accounting separately
+for the administrative transition. PBSInformationDepthCFR transfers its
+all-deviation Nash bound and actual-iteration law to original local strategies.
+PBSCarriedDepth consumes each incoming model PBS and exposes the same actual
+iteration family to the existing canonical carried resolver. The full-state
+law retains the sampled profile paired with its own propagated model PBS.
+No actual hidden history or unknown opponent is an argument to the solver.
 
-The new source requires its own compiler, lint and axiom evidence. Concrete
-nonzero-error controls and the carried-execution adapter are the next slice.
-All new modules are included in the analytic root, target list and auditor.
+Examples/PBSCarriedDepth starts before both strategic rounds and retains
+prediction bias1/8, positive child tolerance1/4 and finite parent counts.
+M06-rooted-depth.md records the concrete controls and source boundary. All four
+new modules are in the analytic root, target list and supplemental auditor.
+Their exact-source compiler/lint/axiom acceptance is still pending.
 
 ## Pre-existing finite-schedule source
 
@@ -28,9 +32,10 @@ full-state executeCarriedResolves connection or hostile forward-event tests.
 3d1025ba06305ba5630913c299bd890f49a945ec fixed the 102-character line.
 Its target35884139530/job107259831644 compiled FinDistSequentialError but
 failed PBSCarriedRecursion on a proof-local letI style warning.
-80acca7ed5a45463504947bf483b3f5d4f61b8e0 changes only that proof-local letI to
-let. Statements, instances in definitions and all audit gates are preserved.
-Check its own exact-SHA CI; prior compiler success is not inherited.
+80acca7ed5a45463504947bf483b3f5d4f61b8e0 changes only that proof-local letI to let.
+Target35885378257/job107264073356 has passed the complete M06 target build.
+The supplemental audit was still running at this checkpoint; check exact-SHA
+completion before accepting the whole gate. No statement or gate was weakened.
 
 ## Confirmed older source, do not redo
 

@@ -182,3 +182,5 @@ import GameTheory.Analysis.ReBeL.PBSCarriedRecursion
 import GameTheory.Analysis.ReBeL.Examples.PBSCarriedRecursion
 import GameTheory.Analysis.ReBeL.PBSRootDepthCFR
 import GameTheory.Analysis.ReBeL.PBSInformationDepthCFR
+import GameTheory.Analysis.ReBeL.PBSCarriedDepth
+import GameTheory.Analysis.ReBeL.Examples.PBSCarriedDepth
