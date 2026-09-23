@@ -87,4 +87,30 @@ theorem sampledParentControl_zero_remaining
     cases impossible
   exact if_neg absent
 
+/-- The actual sampled-value state retains nonzero numerical prediction error. -/
+theorem sampledParentControl_biased_accuracy :
+    CFRDDepthAccurate (model fullPrior) decisionClock informationControlFullFallback
+      cfrPayoff 2 1
+      (cfrDConstructedSampledInformationOracle (reducedModel fullPrior) pbsRootControlFallback
+        cfrPayoff 2 1 2 (1 / 4) (fun _ _ _ _ => 1 / 8)) (1 / 8) := by
+  rw [cfrDConstructedSampledInformationOracle_eq]
+  exact informationChildControl_biased_accuracy
+
+/-- Both players' complete deviations are covered with positive child loss,
+nonzero prediction error and the unchanged finite outer-iteration allowance. -/
+theorem sampledParentControl_biased_isNash (t : Nat) [NeZero t] :
+    IsNash ((model fullPrior).toBehavioralGameForm 3)
+      (euPreferenceWithin
+        (cfrDDepthMeanBudget (model fullPrior) decisionClock informationControlFullFallback
+            2 1 2 (1 / 8) (1 / 4) 0 t +
+          cfrDDepthMeanBudget (model fullPrior) decisionClock informationControlFullFallback
+            2 1 2 (1 / 8) (1 / 4) 1 t)
+        (fun h who => cfrPayoff who h))
+      (cfrDDepthAveragedProfile (model fullPrior) decisionClock informationControlFullFallback
+        cfrPayoff 2 1
+        (cfrDConstructedSampledInformationOracle (reducedModel fullPrior) pbsRootControlFallback
+          cfrPayoff 2 1 2 (1 / 4) (fun _ _ _ _ => 1 / 8)) t) := by
+  rw [cfrDConstructedSampledInformationOracle_eq]
+  exact informationChildControl_driver_isNash t
+
 end GameTheory.ReBeL.Examples.HiddenTypes

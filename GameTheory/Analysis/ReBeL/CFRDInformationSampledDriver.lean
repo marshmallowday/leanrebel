@@ -71,7 +71,6 @@ variable {E : ExecutionProtocol.{0, us, ua} (Fin 2)}
 variable (M : InformationModel.{0, us, ua, up, uq, uk} E)
 variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
 variable [∀ who info, Fintype ((fullInformation M).Choice who info)]
-variable [∀ who, DecidableEq ((fullInformation M).InfoState who)]
 
 /-- The completed child sampler computes the same live prediction consumed by
 the noisy parent. This is an expectation identity, not per-iterate optimality. -/
@@ -100,7 +99,7 @@ theorem cfrDInformationQuerySample_prediction
 
 /-- A total parent response whose supported predictions are computed from the
 completed child sampling law. Only unsupported entries use the old convention.
-No child loss, root regret, posterior identity or safety certificate is input. -/
+No continuation-quality, root-regret or safety certificate is supplied. -/
 def cfrDConstructedSampledInformationOracle (fallback : Profile M.strategicSignature)
     (payoff : Fin 2 → E.History → ℝ) (cut remaining : Nat) (bound loss : ℝ)
     (noise : CFRDPredictionNoise M) : CFRDValueOracle (fullInformation M) := by
@@ -160,6 +159,8 @@ theorem cfrDConstructedSampledInformationOracle_eq
   exact congrArg (fun vector => (⟨response.continuation, vector⟩ :
     CFRDValueResponse (fullInformation M))) predictions
 
+variable [∀ who, DecidableEq ((fullInformation M).InfoState who)]
+
 /-- The actual recursively updated regret state agrees at EVERY finite round,
 with positive or zero perturbations kept in both constructions. -/
 theorem cfrDConstructedSampledInformationOracle_state_eq
@@ -180,6 +181,41 @@ theorem cfrDConstructedSampledInformationOracle_state_eq
           (cfrDConstructedInformationOracle M fallback payoff cut remaining
             bound loss noise)) n := by
   rw [cfrDConstructedSampledInformationOracle_eq]
+
+/-- The same sampled-value parent has the corrected finite-time carried-play
+bound. Prediction error, positive child tolerance and finite outer iterations
+remain separate. The unknown opponent is fixed outside the private seed.
+This preserves the chosen continuation; independently re-solving later PBSs
+is a further obligation, not an implicit premise of this result. -/
+theorem cfrDConstructedSampledInformationOracle_carried_security
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (zeroSum : IsZeroSum (fun h who => payoff who h)) (cut remaining : Nat)
+    (bound error loss : ℝ) (hb : 0 ≤ bound) (he : 0 ≤ error) (hl : 0 < loss)
+    (bounded : ∀ who h, |payoff who h| ≤ bound) (noise : CFRDPredictionNoise M)
+    (noiseBound : ∀ n trunk who info, |noise n trunk who info| ≤ error)
+    (reference : Profile (fullInformation M).behavioralSignature)
+    (equilibrium : IsNash ((fullInformation M).toBehavioralGameForm (cut + remaining))
+      (euPreference (fun h who => payoff who h)) reference)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (t : Nat) [NeZero t] :
+    ((fullInformation M).runBehavioral reference (cut + remaining)).expect (payoff who) -
+      ((cfrDDepthErrorConstant (fullInformation M) (fullObservationClock M)
+            (cfrDInformationFallback M fallback) cut remaining 0 +
+          cfrDDepthErrorConstant (fullInformation M) (fullObservationClock M)
+            (cfrDInformationFallback M fallback) cut remaining 1) * error +
+        (cfrDDepthFiniteConstant (fullInformation M) (fullObservationClock M)
+            (cfrDInformationFallback M fallback) cut remaining bound 0 +
+          cfrDDepthFiniteConstant (fullInformation M) (fullObservationClock M)
+            (cfrDInformationFallback M fallback) cut remaining bound 1) / Real.sqrt t +
+        2 * loss) ≤
+      (privateCarriedContinue (fullInformation M) (cfrIterationLaw t)
+        (fun n : Fin t => cfrDDepthPlay (fullInformation M) (fullObservationClock M)
+          (cfrDInformationFallback M fallback) payoff cut remaining
+          (cfrDConstructedSampledInformationOracle M fallback payoff cut remaining
+            bound loss noise) n.val) unknown who cut remaining).expect (payoff who) := by
+  rw [cfrDConstructedSampledInformationOracle_eq]
+  exact cfrDConstructedInformationOracle_carried_security M fallback payoff zeroSum cut remaining
+    bound error loss hb he hl bounded noise noiseBound reference equilibrium unknown who t
 
 end Parent
 end GameTheory.ReBeL
