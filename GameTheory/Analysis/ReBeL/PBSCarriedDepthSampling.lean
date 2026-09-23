@@ -6,10 +6,12 @@ compared with their own-reach average at each supported original history.
 The full-state comparator retains the native conditional private profile and
 its own propagated model PBS. It is analysis-only, not a public resolver that
 resets the PBS to an average. Unsupported actual histories are charged explicitly.
+A complete finite schedule uses the existing retained-memory execution runner.
 -/
 
 import GameTheory.Analysis.ReBeL.PBSCarriedDepth
 import GameTheory.Analysis.ReBeL.PBSCarriedSampling
+import GameTheory.Math.Probability.FinDistSequentialError
 
 noncomputable section
 
@@ -22,6 +24,29 @@ universe us ua up uq uk
 variable {E : ExecutionProtocol.{0, us, ua} (Fin 2)}
 variable (M : InformationModel.{0, us, ua, up, uq, uk} E)
 variable {K : Type*}
+
+/-- A stage's own numerical search configuration, kept separate from execution
+fuel. Its perturbation can depend on the supplied model law but receives neither
+the actual hidden history nor the unknown opponent. Sampling identities do not
+assert equilibrium quality for arbitrary numerical tolerances. -/
+structure PBSCarriedDepthParameters where
+  /-- Original transitions searched before the local cut. -/
+  cut : Nat
+  /-- Original continuation transitions in the constructed child. -/
+  remaining : Nat
+  /-- Actual transitions before the next carried solve. -/
+  fuel : Nat
+  /-- Finite number of outer noisy CFR-D iterations. -/
+  iterations : Nat
+  /-- The private uniform draw has a nonempty carrier. -/
+  iterations_ne_zero : iterations ≠ 0
+  /-- Payoff-bound parameter supplied to the child backend. -/
+  bound : ℝ
+  /-- Child tolerance, not silently identified with the prediction error. -/
+  loss : ℝ
+  /-- This stage's public-model-indexed prediction perturbation. -/
+  noise : PBSCarriedDepthNoise M
+
 variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
 variable {observations : List M.PublicSignal}
 
@@ -214,5 +239,196 @@ theorem pbsCarriedDepthHistoryFirstStep_future_error {Outcome : Type*}
     exact congrArg (fun law => law.bind future)
       (pbsCarriedDepthResolver_step_eq_historyFirst M fallback payoff cut remaining bound loss
         noise t plays unknown who steps state outside)
+
+/-- Install one configuration in the canonical retained-memory runner. The
+training horizon and the execution fuel remain distinct even at zero fuel. -/
+def pbsCarriedDepthConfiguredStage (fallback : Profile M.strategicSignature)
+    (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (parameters : PBSCarriedDepthParameters M) : CarriedResolveStage (fullInformation M) K :=
+  letI : NeZero parameters.iterations := ⟨parameters.iterations_ne_zero⟩
+  pbsCarriedDepthStage M fallback payoff parameters.cut parameters.remaining parameters.fuel
+    parameters.bound parameters.loss parameters.noise parameters.iterations initial
+
+/-- Store the comparison's native conditional draw in the same newest-first
+memory. No retained draw or its associated posterior is discarded. -/
+def pbsCarriedDepthHistoryFirstMemoryStep (fallback : Profile M.strategicSignature)
+    (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (parameters : PBSCarriedDepthParameters M)
+    (state : PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K)) :
+    FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K)) :=
+  letI : NeZero parameters.iterations := ⟨parameters.iterations_ne_zero⟩
+  (pbsCarriedDepthHistoryFirstStep M fallback payoff parameters.cut parameters.remaining
+    parameters.bound parameters.loss parameters.noise parameters.iterations
+    (carriedMemoryProfile (fullInformation M) initial) unknown who parameters.fuel state).map
+      (storeCarriedDraw (fullInformation M))
+
+/-- Outside the existing sampling exception, equality includes every previous
+private draw and the newly propagated model PBS, not merely the public history. -/
+theorem pbsCarriedDepthConfiguredStep_eq_historyFirst
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (parameters : PBSCarriedDepthParameters M)
+    (state : PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K))
+    (outside : ¬ pbsCarriedCFRException M parameters.fuel state) :
+    carriedMemoryStep (fullInformation M) initial unknown who
+        (pbsCarriedDepthConfiguredStage M fallback payoff initial parameters) state =
+      pbsCarriedDepthHistoryFirstMemoryStep M fallback payoff initial unknown who
+        parameters state := by
+  let : NeZero parameters.iterations := ⟨parameters.iterations_ne_zero⟩
+  exact congrArg (fun distribution => distribution.map (storeCarriedDraw (fullInformation M)))
+    (pbsCarriedDepthResolver_step_eq_historyFirst M fallback payoff parameters.cut
+      parameters.remaining parameters.bound parameters.loss parameters.noise parameters.iterations
+      (carriedMemoryProfile (fullInformation M) initial) unknown who parameters.fuel state outside)
+
+/-- Full native state law through all configured noisy depth-limited solves.
+Each next solver consumes the incoming carried belief produced by its predecessor. -/
+def pbsCarriedDepthNativeStates (fallback : Profile M.strategicSignature)
+    (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (schedule : List (PBSCarriedDepthParameters M))
+    (states : FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K))) :
+    FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K)) :=
+  states.bind (FinDist.bindSequence (fun parameters =>
+    carriedMemoryStep (fullInformation M) initial unknown who
+      (pbsCarriedDepthConfiguredStage M fallback payoff initial parameters)) schedule)
+
+/-- Analysis-only history-first comparison at every scheduled solve. The
+conditional profile/PBS coupling is retained throughout the complete schedule. -/
+def pbsCarriedDepthHistoryFirstStates (fallback : Profile M.strategicSignature)
+    (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (schedule : List (PBSCarriedDepthParameters M))
+    (states : FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K))) :
+    FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K)) :=
+  states.bind (FinDist.bindSequence
+    (pbsCarriedDepthHistoryFirstMemoryStep M fallback payoff initial unknown who) schedule)
+
+/-- Sum of sampling-exception probabilities under the actual successive native
+state laws. No root-support domination, model/actual equality or smallness
+certificate is supplied; the realized unknown opponent remains inside these laws. -/
+def pbsCarriedDepthSequenceExceptionMass (fallback : Profile M.strategicSignature)
+    (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (schedule : List (PBSCarriedDepthParameters M))
+    (states : FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K))) : ℝ :=
+  FinDist.sequenceEventMass (fun parameters =>
+    carriedMemoryStep (fullInformation M) initial unknown who
+      (pbsCarriedDepthConfiguredStage M fallback payoff initial parameters))
+    (fun parameters => {state | pbsCarriedCFRException M parameters.fuel state}) schedule states
+
+/-- Bounded observations after any further kernel have at most the sum of
+native sampling charges. Finite counts and all per-stage perturbations survive;
+this is not an assumption that each iterate is an equilibrium or a safety bound. -/
+theorem pbsCarriedDepthSequence_future_error {Outcome : Type*}
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (schedule : List (PBSCarriedDepthParameters M))
+    (states : FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K)))
+    (future : PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K) → FinDist Outcome)
+    (value : Outcome → ℝ) (observableBound : ℝ)
+    (bounded : ∀ outcome, |value outcome| ≤ observableBound) :
+    |((pbsCarriedDepthNativeStates M fallback payoff initial unknown who schedule states).bind
+        future).expect value -
+      ((pbsCarriedDepthHistoryFirstStates M fallback payoff initial unknown who schedule states).bind
+        future).expect value| ≤
+      2 * observableBound * pbsCarriedDepthSequenceExceptionMass M fallback payoff initial
+        unknown who schedule states := by
+  apply FinDist.abs_expect_bindSequence_sub_le_of_eq_off_event
+  · intro parameters state outside
+    exact pbsCarriedDepthConfiguredStep_eq_historyFirst M fallback payoff initial unknown who
+      parameters state outside
+  · exact bounded
+
+/-- The native composition is the existing recursive runner before its final
+chosen continuation, not an execution of an independently averaged policy. -/
+theorem pbsCarriedDepthSequence_execute
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (finalFuel : Nat)
+    (schedule : List (PBSCarriedDepthParameters M))
+    (state : PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K)) :
+    executeCarriedResolves (fullInformation M) initial unknown who finalFuel
+        (schedule.map (pbsCarriedDepthConfiguredStage M fallback payoff initial)) state =
+      (FinDist.bindSequence (fun parameters =>
+        carriedMemoryStep (fullInformation M) initial unknown who
+          (pbsCarriedDepthConfiguredStage M fallback payoff initial parameters)) schedule state).bind
+        (carriedSelectedTail (fullInformation M) initial unknown who finalFuel) := by
+  induction schedule generalizing state with
+  | nil =>
+      simp only [List.map_nil, executeCarriedResolves, FinDist.bindSequence, FinDist.pure_bind]
+  | cons parameters schedule ih =>
+      simp only [List.map_cons, executeCarriedResolves, FinDist.bindSequence, FinDist.bind_bind]
+      apply FinDist.bind_congr
+      intro next _
+      exact ih next
+
+/-- The actual finite recursive execution admits history-first comparison at
+every solve. The forward exceptional mass is explicitly retained, not assumed
+small or replaced with the mass under a separately averaged execution. -/
+theorem pbsCarriedDepthSequence_execute_error
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (finalFuel : Nat)
+    (schedule : List (PBSCarriedDepthParameters M))
+    (states : FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K)))
+    (value : E.History → ℝ) (observableBound : ℝ)
+    (bounded : ∀ history, |value history| ≤ observableBound) :
+    |(states.bind (executeCarriedResolves (fullInformation M) initial unknown who finalFuel
+        (schedule.map (pbsCarriedDepthConfiguredStage M fallback payoff initial)))).expect value -
+      ((pbsCarriedDepthHistoryFirstStates M fallback payoff initial unknown who schedule states).bind
+        (carriedSelectedTail (fullInformation M) initial unknown who finalFuel)).expect value| ≤
+      2 * observableBound * pbsCarriedDepthSequenceExceptionMass M fallback payoff initial
+        unknown who schedule states := by
+  have same :
+      states.bind (executeCarriedResolves (fullInformation M) initial unknown who finalFuel
+          (schedule.map (pbsCarriedDepthConfiguredStage M fallback payoff initial))) =
+        (pbsCarriedDepthNativeStates M fallback payoff initial unknown who schedule states).bind
+          (carriedSelectedTail (fullInformation M) initial unknown who finalFuel) := by
+    simp only [pbsCarriedDepthNativeStates, FinDist.bind_bind]
+    apply FinDist.bind_congr
+    intro state _
+    exact pbsCarriedDepthSequence_execute M fallback payoff initial unknown who
+      finalFuel schedule state
+  rw [same]
+  exact pbsCarriedDepthSequence_future_error M fallback payoff initial unknown who
+    schedule states (carriedSelectedTail (fullInformation M) initial unknown who finalFuel)
+    value observableBound bounded
+
+/-- Resuming after a prefix uses the full native checkpoint distribution with
+all earlier private choices and their carried PBS, without replaying the prefix. -/
+theorem pbsCarriedDepthNativeStates_append
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (before after : List (PBSCarriedDepthParameters M))
+    (states : FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K))) :
+    pbsCarriedDepthNativeStates M fallback payoff initial unknown who (before ++ after) states =
+      pbsCarriedDepthNativeStates M fallback payoff initial unknown who after
+        (pbsCarriedDepthNativeStates M fallback payoff initial unknown who before states) := by
+  simp only [pbsCarriedDepthNativeStates, FinDist.bind_bind]
+  apply FinDist.bind_congr
+  intro state _
+  exact FinDist.bindSequence_append _ before after state
 
 end GameTheory.ReBeL
