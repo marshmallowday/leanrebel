@@ -111,7 +111,7 @@ private theorem pbsSamplingPrefix_behavioral
   have same := pbsSamplingPrefix_reaches reaches cut (by omega)
   exact same.trans (by rw [← atCut]; exact pbsSamplingPrefix_self first.trace)
 
-variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
+variable [Fintype E.History]
 variable {observations : List M.PublicSignal}
 
 /-- Any realized mixture of legal profiles agrees pointwise on the model's
@@ -140,6 +140,8 @@ theorem pbsPublicBelief_sampling_from_support {K : Type*}
   · intro first atRoot last realized
     exact pbsSamplingPrefix_behavioral (fullInformation M) _ _ steps first last
       (pbsRoot_publicBelief_depth M belief first atRoot) realized
+
+variable [∀ who, Fintype (E.Action who)]
 
 /-- A private draw of the computed child's actual iteration, starting from an
 arbitrary legal original history. The model belief still determines the solver. -/
