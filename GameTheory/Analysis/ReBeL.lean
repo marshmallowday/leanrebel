@@ -169,3 +169,5 @@ import GameTheory.Analysis.ReBeL.Examples.PBSInformationSampling
 import GameTheory.Analysis.ReBeL.PBSSupportedSampling
 import GameTheory.Analysis.ReBeL.Examples.PBSSupportedSampling
 import GameTheory.Analysis.ReBeL.CFRDInformationQuerySampling
+import GameTheory.Analysis.ReBeL.CFRDInformationSampledDriver
+import GameTheory.Analysis.ReBeL.Examples.CFRDInformationSampledDriver
