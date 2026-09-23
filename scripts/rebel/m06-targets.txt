@@ -100,3 +100,6 @@ GameTheory.Analysis.ReBeL.Examples.CFRDFreshResolve
 GameTheory.Math.Probability.FinDistEventError
 GameTheory.Analysis.ReBeL.PBSCarriedSampling
 GameTheory.Analysis.ReBeL.Examples.PBSCarriedSampling
+GameTheory.Math.Probability.FinDistSequentialError
+GameTheory.Analysis.ReBeL.PBSCarriedRecursion
+GameTheory.Analysis.ReBeL.Examples.PBSCarriedRecursion

@@ -177,3 +177,6 @@ import GameTheory.Analysis.ReBeL.Examples.CFRDFreshResolve
 import GameTheory.Math.Probability.FinDistEventError
 import GameTheory.Analysis.ReBeL.PBSCarriedSampling
 import GameTheory.Analysis.ReBeL.Examples.PBSCarriedSampling
+import GameTheory.Math.Probability.FinDistSequentialError
+import GameTheory.Analysis.ReBeL.PBSCarriedRecursion
+import GameTheory.Analysis.ReBeL.Examples.PBSCarriedRecursion
