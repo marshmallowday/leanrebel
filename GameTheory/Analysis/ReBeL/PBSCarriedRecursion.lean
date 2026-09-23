@@ -75,7 +75,7 @@ theorem pbsCarriedCFRConfiguredStep_eq_historyFirst
         (pbsCarriedCFRConfiguredStage M fallback payoff initial parameters) state =
       pbsCarriedCFRHistoryFirstMemoryStep M fallback payoff initial unknown who
         parameters state := by
-  letI : NeZero parameters.iterations := ⟨parameters.iterations_ne_zero⟩
+  let : NeZero parameters.iterations := ⟨parameters.iterations_ne_zero⟩
   exact congrArg (fun distribution => distribution.map (storeCarriedDraw (fullInformation M)))
     (pbsCarriedCFRResolver_step_eq_historyFirst M fallback payoff parameters.trainingFuel
       parameters.iterations (carriedMemoryProfile (fullInformation M) initial)
