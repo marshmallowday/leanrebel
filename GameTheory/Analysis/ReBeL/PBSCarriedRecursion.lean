@@ -197,7 +197,8 @@ theorem pbsCarriedCFRSequence_execute_error
     simp only [pbsCarriedCFRNativeStates, FinDist.bind_bind]
     apply FinDist.bind_congr
     intro state _
-    exact pbsCarriedCFRSequence_execute M fallback payoff initial unknown who finalFuel schedule state
+    exact pbsCarriedCFRSequence_execute M fallback payoff initial unknown who
+      finalFuel schedule state
   rw [same]
   exact pbsCarriedCFRSequence_future_error M fallback payoff initial unknown who
     schedule states (carriedSelectedTail (fullInformation M) initial unknown who finalFuel)
