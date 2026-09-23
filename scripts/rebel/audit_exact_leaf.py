@@ -74,6 +74,8 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.CFRDFreshValueDrift",
     "GameTheory.Analysis.ReBeL.CFRDFreshResolve",
     "GameTheory.Analysis.ReBeL.Examples.CFRDFreshResolve",
+    "GameTheory.Math.Probability.FinDistEventError",
+    "GameTheory.Analysis.ReBeL.PBSCarriedSampling",
 )
 AUDITOR = r'''
 open Lean Elab Command in

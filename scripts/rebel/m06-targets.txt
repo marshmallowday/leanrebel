@@ -71,6 +71,7 @@ GameTheory.Analysis.ReBeL.CFRDFiniteCoherent
 GameTheory.Analysis.ReBeL.Examples.CFRDCoherentDraw
 GameTheory.Analysis.ReBeL.CFRDCoherentStages
 GameTheory.Analysis.ReBeL.Examples.CFRDCoherentStages
+GameTheory.Analysis.ReBeL.CFRDPublicSplice
 GameTheory.Analysis.ReBeL.PBSRootProtocol
 GameTheory.Analysis.ReBeL.PBSRootInformation
 GameTheory.Analysis.ReBeL.PBSRootCFR
@@ -97,3 +98,5 @@ GameTheory.Analysis.ReBeL.Examples.CFRDInformationSampledDriver
 GameTheory.Analysis.ReBeL.CFRDFreshValueDrift
 GameTheory.Analysis.ReBeL.CFRDFreshResolve
 GameTheory.Analysis.ReBeL.Examples.CFRDFreshResolve
+GameTheory.Math.Probability.FinDistEventError
+GameTheory.Analysis.ReBeL.PBSCarriedSampling
