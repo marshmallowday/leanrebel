@@ -118,8 +118,9 @@ theorem cfrDInformationResolveLoss_supported_part
   apply FinDist.expect_congr
   intro state _
   cases present : state.belief with
-  | none => exact cfrDInformationResolveLoss_none M initial fallback payoff
-      bound loss finalFuel schedule unknown who value state present
+  | none =>
+      exact cfrDInformationResolveLoss_none M initial fallback payoff
+        bound loss finalFuel schedule unknown who value state present
   | some belief => rfl
 
 /-- The new draw has a derived positive-loss deviation bound on its own joint
@@ -146,7 +147,15 @@ theorem cfrDInformationResolveDraw_gain_le {observations : List M.PublicSignal}
   have equilibrium := pbsInformationConditionalProfile_isNash M belief fallback fuel
     (fun h player => payoff player h) zeroSum bound loss nonneg positive bounded
   rw [isNash_iff] at equilibrium
-  exact sub_le_iff_le_add.mpr (equilibrium who target)
+  have comparison :
+      (belief.law.bind ((fullInformation M).runBehavioralFrom
+        (Profile.update (pbsInformationConditionalProfile M belief fallback fuel
+          (fun h player => payoff player h) bound loss) who target) fuel)).expect (payoff who) ≤
+      (belief.law.bind ((fullInformation M).runBehavioralFrom
+        (pbsInformationConditionalProfile M belief fallback fuel
+          (fun h player => payoff player h) bound loss) fuel)).expect (payoff who) +
+        belief.law.positiveMassFloor * loss := equilibrium who target
+  linarith
 
 variable [∀ who info, Fintype ((fullInformation M).Choice who info)]
 variable [∀ who, DecidableEq ((fullInformation M).InfoState who)]
