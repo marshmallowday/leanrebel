@@ -7,16 +7,23 @@ It descends from `0b50d5b29414de55ea2be8791242f95f289f3a45` on
 `rebel/m06-completed-query-sampling-20260921`. Main remains accepted M05 at
 `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`; no main merge or history rewrite.
 
-## Restart evidence and first repair checkpoint
+## Restart evidence and repair checkpoints
 
-The predecessor's full CI `35582570746`, job `106278645955`, failed in
-`CFRDInformationQuerySampling`: the singleton selection left an `if True`
-goal at line 42, and the conditional leaf-gain function was still partially
-applied at line 250. This checkpoint repairs only those proof scripts: use
-ordinary simplification for singleton selection and explicitly unfold the
-leaf-gain function before applying expectation subtraction. No theorem,
+The original predecessor's full CI `35582570746`, job `106278645955`, failed
+in `CFRDInformationQuerySampling`: a singleton-selection simplification and
+a partially applied conditional leaf-gain function. Commit
+`e966701836d809cc1b197bce95f874d3a4e01771` repaired those scripts. Its targeted
+run `35814111823`, job `107031840693`, explicitly compiled the complete query
+sampling module successfully, then exposed an existing control failure:
+`Examples/PBSInformationSampling.lean:231` lacked a decidability instance for
+the reducible nonterminal predicate. The control now reduces it to `False`
+before using `decide`; the test statement and off-path witness are unchanged.
+
+That commit's dedicated audit run `35814111846`, job `107031841089`, stopped
+at the preexisting 103-character signature in the same query sampling module.
+The signature is now wrapped without changing the declaration. No theorem,
 assumption, test, linter, dependency pin or axiom allowlist is weakened.
-This checkpoint needs its own target-SHA compiler/lint/axiom evidence.
+This newest checkpoint still needs its own target-SHA build/lint/axiom evidence.
 
 ## Existing construction preserved
 

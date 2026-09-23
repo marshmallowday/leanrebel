@@ -228,7 +228,9 @@ theorem informationSamplingControl_zero_query_sampled :
   rw [CFRDInformationQuerySampled, FinDist.support_map]
   refine ⟨zeroControlHistory, informationSamplingControl_zero_reference, Prod.ext rfl ?_⟩
   simp only [cfrDCutLive, decide_eq_true_eq]
-  exact ⟨by decide, by decide⟩
+  refine ⟨by decide, ?_⟩
+  change ¬ False
+  decide
 
 /-- Replacing reference support by factual support would discard this real query. -/
 theorem informationSamplingControl_zero_query_not_factual :

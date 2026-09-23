@@ -137,7 +137,8 @@ def cfrDInformationQuerySample
     (fallback : Profile M.strategicSignature) (cut remaining : Nat)
     (utility : E.History → Fin 2 → ℝ) (bound loss : ℝ)
     (who : Fin 2) (info : (fullInformation M).InfoState who)
-    (unknown : Profile (fullInformation M).behavioralSignature) (steps : Nat) : FinDist E.History := by
+    (unknown : Profile (fullInformation M).behavioralSignature) (steps : Nat) :
+    FinDist E.History := by
   classical
   exact if factual : CFRDInformationQueryFactual M trunk cut remaining who info then
     cfrDInformationFactualQuerySample M trunk fallback cut remaining utility bound loss
