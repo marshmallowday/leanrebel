@@ -31,6 +31,7 @@ def carriedSamplingControlState : PrivateIterationState (model fullPrior) Unit w
 /-- Another strategic decision remains after the observed prefix. -/
 theorem carriedSamplingControl_live :
     cfrDCutLive 1 carriedSamplingControlState.history = true := by
+  classical
   rw [cfrDCutLive, decide_eq_true_eq]
   exact ⟨by decide, fun impossible => impossible⟩
 
@@ -101,7 +102,8 @@ theorem carriedSamplingControl_zero_fuel
         (pbsCarriedCFRResolver (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 1 2
           (fun _ : Unit => carriedBitProfile false)) unknown who 0 carriedSamplingControlState =
       FinDist.pure factualChildHistory := by
-  simp only [carriedResolvedTail, cfrDCutLive_zero, Bool.false_eq_true, if_false]
+  simp only [carriedResolvedTail, cfrDCutLive_zero, Bool.false_eq_true, if_false,
+    carriedSamplingControlState]
 
 /-- Arbitrary actual incoming state laws are admitted, including model-unsupported
 histories. The payoff bound two yields the explicit four-times-event-mass error. -/

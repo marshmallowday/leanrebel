@@ -3,9 +3,10 @@
 ## Resume point
 
 Use the actual remote HEAD of `rebel/m06-carried-iterations-20260923`.
-The current checkpoint repairs initial source64bc087f4b559ba25979ea43e394d47dc58d3074
-and adds native carried-PBS examples. Check its exact-HEAD targeted CI and full
-gates before integration. Main remains6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
+This checkpoint repairs the two example elaboration errors on source
+71dc6950ee683eea4361189cccbba30367436d52 without changing the sampler or bound.
+Check this exact HEAD's targeted CI and full gates before integration.
+Main remains 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 
 ## Current native carried-PBS slice
 
@@ -16,7 +17,7 @@ into the existing CarriedResolveStage/executeCarriedResolves finite runner.
 Missing beliefs retain the previous profile; stopped stages make no query.
 
 FinDistEventError and pbsCarriedCFRResolver_actual_error derive a single-step
-comparison to the same child's own-reach average, charging exactly
+comparison to the same child's own-reach average, charging
 2 * payoffBound * actualProbability(live state with unsupported actual root).
 No support domination or posterior equality is assumed. No claim is made that
 this mass vanishes, or that equal history marginals permit substituting the
@@ -28,12 +29,19 @@ normal/slow-lint axiom auditor. Original source coverage rows remain pending.
 
 ## Feedback to preserve
 
-64bc087f target35831741238/job107085699414 compiled the finite-law error module
+64bc087f target 35831741238/job107085699414 compiled the finite-law error module
 and inherited targets; PBSCarriedSampling failed only on two unused simp
-arguments at lines138 and145. Both are removed without disabling lint; the
-required stored-equality support step remains. The examples are new in this
-checkpoint and require its own compiler/axiom/lint acceptance.
-Source inventory35831741268 succeeded on64bc087f.
+arguments at lines138 and145. They were removed without disabling lint in
+71dc6950. Source inventory35831741268 succeeded on64bc087f.
+
+71dc6950 target35833033295/job107089843494 compiled BOTH FinDistEventError and
+PBSCarriedSampling. Its new examples failed at line34 on a local Decidable
+instance and line103 on the unexpanded state-history field. The current patch
+adds proof-local classical and unfolds the named example state in the stopping
+proof. It changes no theorem statement, linter, model definition or dependency.
+Source inventory35833033335/job107089843259 succeeded on71dc6950.
+ReBeL35833033360/job107090241715 passed static architecture and runtime controls;
+its later compiler/audit step was not complete at recording.
 
 ## Fully checked predecessor
 
