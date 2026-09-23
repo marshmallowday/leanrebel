@@ -3,11 +3,33 @@
 ## Resume point
 
 Use the actual remote HEAD of `rebel/m06-recursive-envelope-20260923`.
-This branch follows the fully checked predecessor
-`e630e689df13eddedafbe3c88c2bf12561b8d1a6` on the preserved sampled-values branch.
-No accepted predecessor proof needs to be redone. Main remains unchanged.
+This documentation-only checkpoint directly follows the tested source commit
+`dd66907138cf052a52435d8c31dcb3ecaea5703e`. Lean modules, target lists, audit
+scripts, dependency pins and original source-coverage rows are unchanged.
+Inspect the current HEAD's CI before integration; do not redo the passed
+fresh-child slice. Main remains `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`.
 
-## Current implementation
+## Confirmed source validation
+
+For dd66907138cf052a52435d8c31dcb3ecaea5703e:
+
+- M06 targeted run 35828662651, job 107075968088: SUCCESS. Declared target
+  build: 3425 jobs. Supplemental build: 3417 jobs. All 61 named modules
+  passed normal/slow lint; 731 declaration-level transitive axiom sets were
+  checked against propext, Classical.choice and Quot.sound. The three new
+  modules account for 43 declarations (14 + 9 + 20).
+- The plugin-downloaded artifact 10735963541 was inspected, including every
+  logged axiom set and each new module's lint pass. Exact hashes and extracted
+  summary are in M06-fresh-envelope-validation.md and M06-fresh-envelope-compiler.txt.
+- Source inventory 35828662685, job 107075968266: SUCCESS.
+- ReBeL 35828662704, job 107075968786: widths, static architecture,
+  ledger/inventory, adversarial controls and rational runtime passed; its
+  repository-wide compiler/lint/axiom step was still running at last check.
+- Full CI 35828662759, job 107075968744: still running at last check.
+  A documentation push may supersede these two in-progress runs. Do not count
+  a cancelled or unfinished run as success; inspect this HEAD's own runs.
+
+## Completed fresh-child slice
 
 CFRDFreshValueDrift computes the positive maximum of new-minus-old conditional
 MODEL values on live opponent-reference queries. CFRDFreshResolve constructs
@@ -17,34 +39,23 @@ NEW averaged policy at every legal history, without model-support assumptions.
 
 cfrDFreshInformationResolver_envelope discharges reference-prefix preservation
 and child optimality internally. cfrDFreshInformation_security connects this
-constructed envelope to the actual noisy sampled-value parent. The allowance
+constructed envelope to the actual noisy sampled-value parent. Its allowance
 retains prediction error, finite outer T, old and new child loss, and computed
 drift. No caller supplies final safety, root regret, an envelope or child Nash.
+The eight compiled controls and the exact semantic boundary are recorded in
+M06-fresh-envelope.md. The original milestone rows remain pending.
 
-Eight theorem-level controls include a live none-posterior interface record,
-a factually absent reference query, constructed envelope, equal-policy and
-zero-fuel drift, no-query stopping, distinct positive old/new losses with
-nonzero prediction bias, and a finite-law mean-versus-uniform negative guard.
+## Earlier checkpoints — do not repeat completed repairs
 
-## Verification at checkpoint creation
+b037b0c700b4eb549c4f8a7e78281a82fc1f238f failed targeted run 35826357295/job
+107068841120 at one finite-maximum type-inference expression. ReBeL run
+35826357312/job 107069006262 also rejected one authored change tactic.
+Both were repaired in dd669071 without weakening any audit or hiding a module.
 
-All three new modules compiled with the pinned Lean 4.33.1 direct compiler,
-using only previously plugin-downloaded offline artifacts. Changed project
-dependencies were rebuilt from e630 source; dependency manifest matches the
-workbench. A direct transitive axiom audit passed for 43 declarations, with
-only propext, Classical.choice and Quot.sound. This offline feedback does NOT
-replace the exact-commit Actions gates. Inspect this HEAD's own targeted,
-ReBeL, inventory and full-CI runs before integration acceptance.
-
-Initial checkpoint b037b0c700b4eb549c4f8a7e78281a82fc1f238f failed targeted run
-35826357295/job 107068841120 at a Finset maximum type-inference expression.
-It also failed static architecture in ReBeL 35826357312/job 107069006262
-because the new proof used one forbidden change tactic. Both proof expressions
-are repaired; no lint rule, architecture expectation or trust gate was weakened.
-
-The predecessor e630 has successful full CI 35820699262/job 107051920490,
-ReBeL 35820699300/job 107051833911 and inventory 35820699260/job 107051708579.
-Earlier sampled-parent validation remains in M06-sampled-values-validation.md.
+The fully checked predecessor e630e689df13eddedafbe3c88c2bf12561b8d1a6 remains
+on rebel/m06-sampled-values-20260923. Its successful runs are full CI
+35820699262/job 107051920490, ReBeL 35820699300/job 107051833911, and inventory
+35820699260/job 107051708579. Its earlier evidence is preserved separately.
 
 ## Remaining source obligations
 
@@ -56,4 +67,4 @@ posterior as the next root game. Prove the appropriate source-dependent drift
 bound and connect later genuine carried-PBS solves without assuming the desired
 CarriedResolveStepBounds or posterior equality. Preserve finite-T and nonzero
 errors. SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 stay pending.
-See M06-fresh-envelope.md for declarations, coverage mapping and semantic review.
+No complete-M06, unrestricted Theorem 3, or executable numeric-refinement claim.

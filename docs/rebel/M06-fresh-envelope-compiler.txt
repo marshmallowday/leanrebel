@@ -1,0 +1,17 @@
+Source dd66907138cf052a52435d8c31dcb3ecaea5703e
+Run 35828662651 / job 107075968088
+Artifact 10735963541
+Archive sha256 0a2f6aaf1394abc96704d117bd2067260bd645fa888d222822b43039cf64e667
+Decoded log sha256 65c8e0a8ea930509d9b3722b19fcc0e228f3162d66b1cca1a433f42c0f6d0989
+
+Extracted validation summary (not a replacement for the full log):
+Build completed successfully (3425 jobs).
+Build completed successfully (3417 jobs).
+EXACT_LEAF_MODULE_AXIOM_PASS GameTheory.Analysis.ReBeL.CFRDFreshValueDrift: declarations=14
+EXACT_LEAF_MODULE_AXIOM_PASS GameTheory.Analysis.ReBeL.CFRDFreshResolve: declarations=9
+EXACT_LEAF_MODULE_AXIOM_PASS GameTheory.Analysis.ReBeL.Examples.CFRDFreshResolve: declarations=20
+EXACT_LEAF_AXIOM_AUDIT_PASS declarations=731
+EXACT_LEAF_LINT_PASS GameTheory.Analysis.ReBeL.CFRDFreshValueDrift
+EXACT_LEAF_LINT_PASS GameTheory.Analysis.ReBeL.CFRDFreshResolve
+EXACT_LEAF_LINT_PASS GameTheory.Analysis.ReBeL.Examples.CFRDFreshResolve
+EXACT_LEAF_VALIDATION_PASS modules=61
