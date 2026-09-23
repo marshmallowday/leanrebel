@@ -156,7 +156,10 @@ theorem cfrDFreshValueDrift_le_uniform (plays next : K → Profile M.behavioralS
     cfrDFreshValueDrift M (plays n) (next n) fallback who payoff cut remaining ≤
       cfrDFreshUniformDrift M plays next fallback who payoff cut remaining := by
   unfold cfrDFreshUniformDrift
-  exact (Finset.le_sup' _ (Finset.mem_univ n)).trans (le_max_right _ _)
+  apply le_trans _ (le_max_right _ _)
+  exact Finset.le_sup'
+    (fun k : K => cfrDFreshValueDrift M (plays k) (next k) fallback who payoff cut remaining)
+    (Finset.mem_univ n)
 
 /-- An entrywise numerical comparison may discharge the extra drift term.
 The comparison is kept separate from the freshly solved child's regret bound. -/
@@ -191,8 +194,7 @@ theorem cfrDFreshCoherentResolver_envelope (hrecall : M.PerfectRecall)
             (M.runBehavioralFrom (plays n) remaining history).expect payoff) := by
     unfold privateResolvedEnvelopeGap
     rw [cfrDCoherentResolver_tail M hrecall]
-    change (M.runBehavioralFrom (Profile.update unknown who (next n who)) remaining
-      history).expect payoff - (M.runBehavioralFrom (plays n) remaining history).expect payoff = _
+    dsimp only [privateIterationState]
     rw [privateOpponent_profile M (next n) unknown who opponent different]
     unfold cfrDLeafGain
     ring

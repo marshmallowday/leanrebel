@@ -172,3 +172,5 @@ import GameTheory.Analysis.ReBeL.CFRDInformationQuerySampling
 import GameTheory.Analysis.ReBeL.CFRDInformationSampledDriver
 import GameTheory.Analysis.ReBeL.Examples.CFRDInformationSampledDriver
 import GameTheory.Analysis.ReBeL.CFRDFreshValueDrift
+import GameTheory.Analysis.ReBeL.CFRDFreshResolve
+import GameTheory.Analysis.ReBeL.Examples.CFRDFreshResolve
