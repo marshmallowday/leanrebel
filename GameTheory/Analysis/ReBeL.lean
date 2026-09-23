@@ -171,3 +171,7 @@ import GameTheory.Analysis.ReBeL.Examples.PBSSupportedSampling
 import GameTheory.Analysis.ReBeL.CFRDInformationQuerySampling
 import GameTheory.Analysis.ReBeL.CFRDInformationSampledDriver
 import GameTheory.Analysis.ReBeL.Examples.CFRDInformationSampledDriver
+import GameTheory.Analysis.ReBeL.CFRDInformationResolve
+import GameTheory.Analysis.ReBeL.CFRDInformationResolveRecursion
+import GameTheory.Analysis.ReBeL.Examples.CFRDInformationResolve
+import GameTheory.Analysis.ReBeL.Examples.CFRDInformationMissingModel
