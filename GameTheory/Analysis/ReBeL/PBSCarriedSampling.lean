@@ -4,7 +4,8 @@
 A live resolver consumes the stored joint PBS as the NEW root game. Its
 private draw is from that root's actual information-set CFR iterations, not
 from pure plans of an old averaged profile. The selected profile and its
-own model posterior remain paired in the canonical next-state law.
+own model posterior remain paired in the canonical next-state law. A virtual
+history-first disintegration preserves this pairing for arbitrary later kernels.
 -/
 
 import GameTheory.Analysis.ReBeL.PBSSupportedSampling
@@ -169,6 +170,78 @@ theorem pbsCarriedCFRResolver_actual_error (fallback : Profile M.strategicSignat
   · intro state _ outside
     exact pbsCarriedCFRResolver_tail_eq_average M fallback payoff trainingFuel t plays
       unknown who steps state outside
+
+/-- A virtual history-first disintegration, NOT an alternative public resolver.
+The average supplies only the history marginal; the conditional law retains
+native private profiles paired with their original model posterior. It may
+use the unknown opponent in this analysis-only joint law. It never equates an
+actual conditional law with the stored model belief. -/
+def pbsCarriedCFRHistoryFirstStep (fallback : Profile M.strategicSignature)
+    (payoff : Fin 2 → E.History → ℝ) (trainingFuel t : Nat) [NeZero t]
+    (plays : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (steps : Nat)
+    (state : PrivateIterationState (fullInformation M) K) :
+    FinDist (PrivateIterationState (fullInformation M)
+      (K × Profile (fullInformation M).behavioralSignature)) :=
+  let native := carriedResolvedStep (fullInformation M) plays
+    (pbsCarriedCFRResolver M fallback payoff trainingFuel t plays) unknown who steps state
+  (carriedResolvedTail (fullInformation M)
+    (pbsCarriedCFRAverageResolver M fallback payoff trainingFuel t plays)
+    unknown who steps state).bind fun history =>
+      native.condOnFibre (fun next => next.history) history
+
+/-- Outside the explicit event, retaining the native conditional private-state
+law upgrades history-marginal equality to equality of the ENTIRE next-state law.
+Replacing that conditional by an independently averaged PBS would be invalid. -/
+theorem pbsCarriedCFRResolver_step_eq_historyFirst (fallback : Profile M.strategicSignature)
+    (payoff : Fin 2 → E.History → ℝ) (trainingFuel t : Nat) [NeZero t]
+    (plays : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (steps : Nat)
+    (state : PrivateIterationState (fullInformation M) K)
+    (outside : ¬ pbsCarriedCFRException M steps state) :
+    carriedResolvedStep (fullInformation M) plays
+        (pbsCarriedCFRResolver M fallback payoff trainingFuel t plays) unknown who steps state =
+      pbsCarriedCFRHistoryFirstStep M fallback payoff trainingFuel t plays
+        unknown who steps state := by
+  let native := carriedResolvedStep (fullInformation M) plays
+    (pbsCarriedCFRResolver M fallback payoff trainingFuel t plays) unknown who steps state
+  have marginal : native.map (fun next => next.history) =
+      carriedResolvedTail (fullInformation M)
+        (pbsCarriedCFRAverageResolver M fallback payoff trainingFuel t plays)
+        unknown who steps state :=
+    (carriedResolvedStep_history (fullInformation M) plays
+      (pbsCarriedCFRResolver M fallback payoff trainingFuel t plays) unknown who steps state).trans
+        (pbsCarriedCFRResolver_tail_eq_average M fallback payoff trainingFuel t plays
+          unknown who steps state outside)
+  have disintegration := FinDist.eq_bind_condOnFibre native (fun next => next.history)
+  rw [marginal] at disintegration
+  exact disintegration
+
+/-- The virtual full-state comparison remains valid after ANY subsequent finite
+kernel, even one reading the retained private profile and model posterior.
+It is not a comparison with a recursion that discards those correlations. -/
+theorem pbsCarriedCFRHistoryFirstStep_future_error {Outcome : Type*}
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (trainingFuel t : Nat) [NeZero t]
+    (plays : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (steps : Nat)
+    (states : FinDist (PrivateIterationState (fullInformation M) K))
+    (future : PrivateIterationState (fullInformation M)
+      (K × Profile (fullInformation M).behavioralSignature) → FinDist Outcome)
+    (value : Outcome → ℝ) (bound : ℝ) (bounded : ∀ outcome, |value outcome| ≤ bound) :
+    |((states.bind (carriedResolvedStep (fullInformation M) plays
+        (pbsCarriedCFRResolver M fallback payoff trainingFuel t plays)
+        unknown who steps)).bind future).expect value -
+      ((states.bind (pbsCarriedCFRHistoryFirstStep M fallback payoff trainingFuel t plays
+        unknown who steps)).bind future).expect value| ≤
+      2 * bound * states.probOf {state | pbsCarriedCFRException M steps state} := by
+  rw [FinDist.bind_bind, FinDist.bind_bind]
+  apply FinDist.abs_expect_bind_sub_le_of_eq_off_event
+  · exact bounded
+  · intro state _ outside
+    exact congrArg (fun law => law.bind future)
+      (pbsCarriedCFRResolver_step_eq_historyFirst M fallback payoff trainingFuel t plays
+        unknown who steps state outside)
 
 /-- Install the native carried-belief resolver in the EXISTING finite recursive
 runner. Every stage consumes its incoming posterior; none resets the game.

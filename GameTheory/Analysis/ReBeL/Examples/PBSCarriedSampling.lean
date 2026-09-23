@@ -123,6 +123,41 @@ theorem carriedSamplingControl_actual_error
     unknown who 1 states (cfrPayoff who) 2 (cfrPayoff_abs_le_two who)
   simpa only [show (2 : ℝ) * 2 = 4 from by norm_num] using error
 
+/-- At the genuine supported root, the full private-state distribution is
+recovered by the native conditional law after sampling the average history. -/
+theorem carriedSamplingControl_joint_disintegration
+    (unknown : Profile (model fullPrior).behavioralSignature) (who : Player) :
+    carriedResolvedStep (model fullPrior) (fun _ : Unit => carriedBitProfile false)
+        (pbsCarriedCFRResolver (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 1 2
+          (fun _ : Unit => carriedBitProfile false)) unknown who 1 carriedSamplingControlState =
+      pbsCarriedCFRHistoryFirstStep (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
+        1 2 (fun _ : Unit => carriedBitProfile false) unknown who 1 carriedSamplingControlState :=
+  pbsCarriedCFRResolver_step_eq_historyFirst (reducedModel fullPrior) pbsRootControlFallback
+    cfrPayoff 1 2 (fun _ : Unit => carriedBitProfile false) unknown who 1
+    carriedSamplingControlState carriedSamplingControl_not_exception
+
+/-- The same explicit event allowance survives any following finite execution,
+even one which inspects the retained private profile and its model posterior. -/
+theorem carriedSamplingControl_future_error
+    (unknown : Profile (model fullPrior).behavioralSignature) (who : Player)
+    (states : FinDist (PrivateIterationState (model fullPrior) Unit))
+    (future : PrivateIterationState (model fullPrior)
+      (Unit × Profile (model fullPrior).behavioralSignature) →
+        FinDist ((protocol fullPrior).History)) :
+    |((states.bind (carriedResolvedStep (model fullPrior)
+        (fun _ : Unit => carriedBitProfile false)
+        (pbsCarriedCFRResolver (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 1 2
+          (fun _ : Unit => carriedBitProfile false)) unknown who 1)).bind future).expect
+          (cfrPayoff who) -
+      ((states.bind (pbsCarriedCFRHistoryFirstStep (reducedModel fullPrior)
+        pbsRootControlFallback cfrPayoff 1 2 (fun _ : Unit => carriedBitProfile false)
+        unknown who 1)).bind future).expect (cfrPayoff who)| ≤
+      4 * states.probOf {state | pbsCarriedCFRException (reducedModel fullPrior) 1 state} := by
+  have error := pbsCarriedCFRHistoryFirstStep_future_error (reducedModel fullPrior)
+    pbsRootControlFallback cfrPayoff 1 2 (fun _ : Unit => carriedBitProfile false)
+    unknown who 1 states future (cfrPayoff who) 2 (cfrPayoff_abs_le_two who)
+  simpa only [show (2 : ℝ) * 2 = 4 from by norm_num] using error
+
 /-- Two successive native stages can use different finite counts without
 changing the existing runner or discarding its retained private profile list. -/
 def carriedSamplingControlStages : List (CarriedResolveStage (model fullPrior) Unit) :=
