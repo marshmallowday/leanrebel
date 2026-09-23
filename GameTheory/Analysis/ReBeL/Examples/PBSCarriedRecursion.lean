@@ -123,8 +123,9 @@ theorem recursiveSampling_two_stage_future_error
       ((pbsCarriedCFRHistoryFirstStates (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
         (fun _ : Unit => carriedBitProfile false) unknown who recursiveSamplingParameters
         states).bind future).expect (cfrPayoff who)| ≤
-      4 * pbsCarriedCFRSequenceExceptionMass (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
-        (fun _ : Unit => carriedBitProfile false) unknown who recursiveSamplingParameters states := by
+      4 * pbsCarriedCFRSequenceExceptionMass (reducedModel fullPrior)
+        pbsRootControlFallback cfrPayoff (fun _ : Unit => carriedBitProfile false)
+        unknown who recursiveSamplingParameters states := by
   have result := pbsCarriedCFRSequence_future_error (reducedModel fullPrior) pbsRootControlFallback
     cfrPayoff (fun _ : Unit => carriedBitProfile false) unknown who recursiveSamplingParameters
     states future (cfrPayoff who) 2 (cfrPayoff_abs_le_two who)
@@ -140,11 +141,13 @@ theorem recursiveSampling_existing_runner_error
         (fun _ : Unit => carriedBitProfile false) unknown who finalFuel
         carriedSamplingControlStages)).expect (cfrPayoff who) -
       ((pbsCarriedCFRHistoryFirstStates (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
-        (fun _ : Unit => carriedBitProfile false) unknown who recursiveSamplingParameters states).bind
+        (fun _ : Unit => carriedBitProfile false) unknown who
+        recursiveSamplingParameters states).bind
         (carriedSelectedTail (model fullPrior) (fun _ : Unit => carriedBitProfile false)
           unknown who finalFuel)).expect (cfrPayoff who)| ≤
-      4 * pbsCarriedCFRSequenceExceptionMass (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
-        (fun _ : Unit => carriedBitProfile false) unknown who recursiveSamplingParameters states := by
+      4 * pbsCarriedCFRSequenceExceptionMass (reducedModel fullPrior)
+        pbsRootControlFallback cfrPayoff (fun _ : Unit => carriedBitProfile false)
+        unknown who recursiveSamplingParameters states := by
   have result := pbsCarriedCFRSequence_execute_error (reducedModel fullPrior) pbsRootControlFallback
     cfrPayoff (fun _ : Unit => carriedBitProfile false) unknown who finalFuel
     recursiveSamplingParameters states (cfrPayoff who) 2 (cfrPayoff_abs_le_two who)

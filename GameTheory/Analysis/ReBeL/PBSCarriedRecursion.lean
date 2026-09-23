@@ -73,7 +73,8 @@ theorem pbsCarriedCFRConfiguredStep_eq_historyFirst
     (outside : ¬ pbsCarriedCFRException M parameters.fuel state) :
     carriedMemoryStep (fullInformation M) initial unknown who
         (pbsCarriedCFRConfiguredStage M fallback payoff initial parameters) state =
-      pbsCarriedCFRHistoryFirstMemoryStep M fallback payoff initial unknown who parameters state := by
+      pbsCarriedCFRHistoryFirstMemoryStep M fallback payoff initial unknown who
+        parameters state := by
   letI : NeZero parameters.iterations := ⟨parameters.iterations_ne_zero⟩
   exact congrArg (fun distribution => distribution.map (storeCarriedDraw (fullInformation M)))
     (pbsCarriedCFRResolver_step_eq_historyFirst M fallback payoff parameters.trainingFuel
@@ -167,7 +168,10 @@ theorem pbsCarriedCFRSequence_execute
   | nil =>
       simp only [List.map_nil, executeCarriedResolves, FinDist.bindSequence, FinDist.pure_bind]
   | cons parameters schedule ih =>
-      simp only [List.map_cons, executeCarriedResolves, FinDist.bindSequence, ih, FinDist.bind_bind]
+      simp only [List.map_cons, executeCarriedResolves, FinDist.bindSequence, FinDist.bind_bind]
+      apply FinDist.bind_congr
+      intro next _
+      exact ih next
 
 /-- The actual finite recursive execution is compared with history-first
 sampling at every solve. The residual event mass is not dropped or assumed small. -/
@@ -185,11 +189,19 @@ theorem pbsCarriedCFRSequence_execute_error
         (carriedSelectedTail (fullInformation M) initial unknown who finalFuel)).expect value| ≤
       2 * bound * pbsCarriedCFRSequenceExceptionMass M fallback payoff initial unknown who
         schedule states := by
-  have result := pbsCarriedCFRSequence_future_error M fallback payoff initial unknown who
+  have same :
+      states.bind (executeCarriedResolves (fullInformation M) initial unknown who finalFuel
+          (schedule.map (pbsCarriedCFRConfiguredStage M fallback payoff initial))) =
+        (pbsCarriedCFRNativeStates M fallback payoff initial unknown who schedule states).bind
+          (carriedSelectedTail (fullInformation M) initial unknown who finalFuel) := by
+    simp only [pbsCarriedCFRNativeStates, FinDist.bind_bind]
+    apply FinDist.bind_congr
+    intro state _
+    exact pbsCarriedCFRSequence_execute M fallback payoff initial unknown who finalFuel schedule state
+  rw [same]
+  exact pbsCarriedCFRSequence_future_error M fallback payoff initial unknown who
     schedule states (carriedSelectedTail (fullInformation M) initial unknown who finalFuel)
     value bound bounded
-  simpa only [pbsCarriedCFRSequence_execute, pbsCarriedCFRNativeStates, FinDist.bind_bind]
-    using result
 
 /-- A resumed suffix receives exactly the full native checkpoint distribution,
 including the carried PBS and all earlier private choices. -/
@@ -203,6 +215,9 @@ theorem pbsCarriedCFRNativeStates_append
     pbsCarriedCFRNativeStates M fallback payoff initial unknown who (before ++ after) states =
       pbsCarriedCFRNativeStates M fallback payoff initial unknown who after
         (pbsCarriedCFRNativeStates M fallback payoff initial unknown who before states) := by
-  simp only [pbsCarriedCFRNativeStates, FinDist.bindSequence_append, FinDist.bind_bind]
+  simp only [pbsCarriedCFRNativeStates, FinDist.bind_bind]
+  apply FinDist.bind_congr
+  intro state _
+  exact FinDist.bindSequence_append _ before after state
 
 end GameTheory.ReBeL

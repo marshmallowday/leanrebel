@@ -38,7 +38,10 @@ theorem bindSequence_append (step : I → A → FinDist A)
   induction before generalizing state with
   | nil => simp only [List.nil_append, bindSequence, FinDist.pure_bind]
   | cons stage stages ih =>
-      simp only [List.cons_append, bindSequence, ih, FinDist.bind_bind]
+      simp only [List.cons_append, bindSequence, FinDist.bind_bind]
+      apply FinDist.bind_congr
+      intro next _
+      exact ih next
 
 /-- The sequence error uses only equality of the kernels off the stated events.
 No per-stage payoff-loss or final safety premise is assumed. The final kernel
