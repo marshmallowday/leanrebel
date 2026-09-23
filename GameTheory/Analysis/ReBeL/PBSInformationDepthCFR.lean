@@ -61,7 +61,8 @@ theorem pbsInformationDepthCFR_isNash
       (pbsInformationDepthCFR M belief fallback payoff cut remaining bound loss noise t) := by
   apply pbsRootDecodeProfile_isNash
   have horizon : cut + 1 + remaining = cut + remaining + 1 := by omega
-  simpa only [horizon] using pbsRootDepthAverage_isNash M belief.law fallback payoff zeroSum
+  rw [← horizon]
+  exact pbsRootDepthAverage_isNash M belief.law fallback payoff zeroSum
     cut remaining bound error loss hb he hl bounded noise noiseBound t
 
 /-- Uniform private sampling of actual decoded depth-limited iterates has
