@@ -94,3 +94,4 @@ GameTheory.Analysis.ReBeL.Examples.PBSSupportedSampling
 GameTheory.Analysis.ReBeL.CFRDInformationQuerySampling
 GameTheory.Analysis.ReBeL.CFRDInformationSampledDriver
 GameTheory.Analysis.ReBeL.Examples.CFRDInformationSampledDriver
+GameTheory.Analysis.ReBeL.CFRDFreshValueDrift
