@@ -40,7 +40,7 @@ private theorem completed_query_positive
     funext player
     by_cases same : player = who
     · subst player
-      simp only [Finset.mem_singleton, if_pos rfl, Profile.update_same]
+      simp
     · simp only [Finset.mem_singleton, if_neg same, Profile.update_of_ne _ _ same]
   have result := cfrDCompleteZeroReach_selected_continuation (fullInformation M)
     (fullSignals_perfectRecall M.toInfoSignals) base completion unknown {who} fuel history
@@ -245,9 +245,11 @@ theorem cfrDInformationQuerySample_gain_le
       CFRDInformationQuerySampled] using sampled
   have optimal := cfrDInformationContinuation_leafOptimal M trunk fallback cut remaining
     utility zeroSum bound loss nonneg positive bounded who target info sampledCompleted
+  unfold conditionalOracleValue cfrDLeafGain at optimal
+  rw [FinDist.expect_sub] at optimal
   rw [cfrDInformationQuerySample_law M trunk fallback cut remaining utility bound loss
     who info sampled, Profile.update_eq_self]
-  simpa only [conditionalOracleValue, cfrDLeafGain, FinDist.expect_sub, FinDist.expect_bind,
-    cfrDInformationContinuation_referenceLaw, cfrDInformationQueryLaw] using optimal
+  simpa only [FinDist.expect_bind, cfrDInformationContinuation_referenceLaw,
+    cfrDInformationQueryLaw] using optimal
 
 end GameTheory.ReBeL
