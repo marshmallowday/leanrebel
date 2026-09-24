@@ -2,45 +2,54 @@
 
 ## Resume point
 
-Resume from remote HEAD of rebel/m06-weighted-transport-20260924.
-First inspect the exact-SHA CI for this branch before changing code. The new
-CFRDWeightedTransport and Examples.CFRDWeightedTransport are compiler/lint/axiom
-PENDING at this checkpoint. They derive actual-prefix-weighted query envelopes
-and connect them to the noisy parent root bound. See M06-weighted-transport.md
-and M06-weighted-transport-validation.md. All writes use the GitHub plugin;
-main is not a write target. No prior module, control or audit is removed.
+Resume from the remote HEAD of rebel/m06-weighted-transport-reviewed-20260924.
+The proof source fd3770c4c4123cefec9cc5456f99b18f5b52c697 is preserved on
+rebel/m06-weighted-transport-20260924; this recording checkpoint changes only
+three documentation files. Main is not a write target. Do not redo the compiled
+weighted proof or the already verified reference-reweight/transport predecessor.
 
-## Recovered and verified predecessor
+First inspect these exact-source runs before implementation:
 
-Do not reapply the old unapplied reference-reweight ZIP. Remote inspection found
-44a98bb4395db046e1ed602d8dc8fcb8f80df00d and its reference-transport successor
-already committed. Source d7ab37e1e36b0c89dde76dd03bce5505e99163b0, preserved on
-rebel/m06-reference-transport-20260924, has successful M06target35972597733/
-job107545544376, fullCI35972597726/job107545723011, independentReBeL35972597771/
-job107545726694, inventory35972597738 and source snapshot. The source archive
-was fetched through the plugin and its SHA256 checked. See the recovery record.
+- M06target35984130871/job107582693551: all128 targets compiled successfully
+  at 2026-09-24T10:00:40Z; supplemental lint/transitive axioms still IN PROGRESS.
+- FullCI35984130854/job107582847450: IN PROGRESS.
+- IndependentReBeL35984130849/job107582791762: IN PROGRESS.
+- Inventory35984130885/job107582693947 and exact source snapshot
+  35984130849/job107582792124: SUCCESS.
 
-Fresh-chain source46126f37/review66a8b9ec also has independent ReBeL
-35964794487/job107520978527 SUCCESS including final cleanliness. Its prior
-pending note is superseded. Target35964794524 and full35964794518 passed.
-Preserve composition639e3962, recursiona4246792/reviewa5e0700f,
-finite budget704e96ff, nestedf9d4def1, repair751ad17a and all M05 acceptance.
-Their original branches and validation records remain intact.
+Compilation alone is not full supplemental acceptance. See
+M06-weighted-transport-validation.md and M06-weighted-transport-compiler-loop.md
+for exact evidence, initial failure, repairs and the preserved immutable source.
 
-## Current boundary and next work
+## Current dependency-closed slice
 
-The new cost is integrated under actual privateCarriedPrefix, not a model law
-and not a product of private-seed/history marginals. Stopped queries cost zero;
-live queries retain childLoss + positiveValueChange + 2*B*conditionalTransport.
-Perfect recall derives unknown-opponent reweighting. New local solver quality
-is still explicit at the generic boundary; the two-solve control derives it.
-All 126 prior M06 targets and 88 supplemental audit modules are preserved and
-two appended to each. Local ledger/inventory checks do not certify Lean proofs.
+CFRDWeightedTransport integrates live child loss, positive model-value change
+and conditional transport under the ACTUAL privateCarriedPrefix joint law.
+Perfect recall supplies the unknown-opponent change of measure. It never equates
+a model PBS with an actual posterior or independently resamples seed/history.
+A general comparison proves this weighted allowance cannot exceed the old
+uniform one. The constructed noisy-parent/fresh-child root theorem derives
+ordinary oracle accuracy and local child quality internally; the Nash comparison
+only names the original value, not a solver input. All finite-T and prediction
+error terms remain. The canonical control has bias1/8 and fresh losses1/4 then1/8.
 
-Remaining: control the actual weighted drift/transport and first-exit rates,
-connect the complete independently re-solving carried-PBS process, and derive
-CarriedResolveStepBounds or an appropriately weighted recursive safety theorem.
-Do not confuse coherent-plan and native-iteration sampling, model and actual
-posteriors, or real specifications and executable numerical refinements.
-Keep finite T, positive prediction error and printed/corrected Theorem 3 separate.
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
+The new modules preserve all126 prior targets and88 supplemental modules,
+appending two to each. Old proof bodies, workflows, pins, warning policy and
+axiom whitelist are unchanged. See M06-weighted-transport.md for semantics.
+
+## Accepted predecessors and remaining original work
+
+Recovered reference-transport source d7ab37e1e36b0c89dde76dd03bce5505e99163b0
+has ALL target, full CI, independent ReBeL and inventory/snapshot gates SUCCESS.
+The prior fresh-chain source46126f37 independent run35964794487 also succeeded.
+Do not reapply the stale unapplied reweight ZIP. Preserve44a98bb4,66a8b9ec,
+composition639e3962,recursiona4246792/reviewa5e0700f,budget704e96ff,
+nestedf9d4def1,repair751ad17a and every accepted M05 result and source record.
+
+Remaining: useful source-level weighted drift/transport and first-exit rates,
+independent re-solving at later carried PBSs and CarriedResolveStepBounds.
+The new consumer is coherent final-average plan sampling, not the separate
+native-iteration sampler. A weighted expectation alone is not a vanishing rate.
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 stay pending;
+coverage.json statuses are not promoted. Preserve the printed/corrected
+Theorem3 distinction and the proof/executable-numerical boundary.
