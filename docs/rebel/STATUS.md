@@ -1,39 +1,51 @@
-# ReBeL status — M06 policy-stability slice in progress; M05 accepted
+# ReBeL status — M06 carried policy stability in progress; M05 accepted
 
-Resume from the remote HEAD of `rebel/m06-policy-stability-20260924`.
-This checkpoint extends reviewed source66a8b9ecd01a5dbbf120ce1b56479ccec6c1dad7.
-Main and all earlier proof/review branches remain untouched.
+Resume from remote HEAD of `rebel/m06-carried-policy-20260924`.
+Main and earlier proof/review branches remain untouched. All remote access and
+checkpoints use the GitHub plugin; no local Git operation is used.
 
-## Current checkpoint
+## Current compiler candidate
 
-FinDistMassDistance defines finite-support probability L1 distance and proves
-its bounded-observable estimate and independent-product one-coordinate estimate.
-Examples.MassDistance supplies positive sharpness, changed-support/identical-
-observation and infinite-carrier controls. Both modules are appended to the
-analytic root, all M06 targets and the full supplemental lint/axiom list.
-No existing entry, gate, pin, heartbeat limit or axiom policy was removed.
+PolicyStability derives one-player finite-horizon payoff stability from the
+largest legal-history action-law L1 distance, retaining the fixed unknown
+opponent and canonical chance/simultaneous moves. Full-profile stability uses
+the sum of both own-policy distances. No model/actual posterior equality is used.
 
-This is a compiler candidate, not accepted Lean evidence. Inspect the exact-SHA
-M06 target job and its complete supplemental lint/transitive-axiom result before
-accepting it. Subsequent work connects the marginal estimate to canonical
-behavioral execution, computed fresh drift and actual carried-PBS re-solving.
-See M06-policy-stability.md for the intended scope and acceptance boundary.
+CFRDPolicyStability measures the actual private resolver's expected own-policy
+radius, with zero charge on stopped stages. It derives local replacement loss,
+accumulates primitive charges along actual forward memory/history/PBS laws,
+and transfers an initial security bound through the complete recursive runner.
+CarriedResolvePolicyRates.stepBounds derives the former StepBounds predicate
+from primitive action-displacement rates and an explicit total horizon.
 
-## Accepted predecessor and preserved records
+This checkpoint is NOT yet compiler/semantic accepted. Both modules are appended
+to the analytic root, target list (128) and supplemental all-declaration audit
+(90); all old entries and gate behavior are preserved. Next: inspect exact-SHA
+M06 compilation; repair any errors; specialize the charge to actual native
+carried-PBS depth-solver draws and add nontrivial game-level controls and the
+actual noisy-parent security consumer. Do not equate an independent solver's
+scalar Nash tolerance with a bound on policy radius.
 
-The complete previous STATUS is preserved without edits in
-M06-status-before-policy-stability.md. Code46126f37 passed all124 M06 targets,
-86 supplemental modules/1291 declarations, and fullCI35964794518. Its independent
-ReBeL35964794487/job107520978527 was still IN PROGRESS on this task's last read;
-its final all-ReBeL result must be checked separately. Do not redo the accepted
-fixed-cut fresh chain, original-history realization or noisy-parent security.
-The exact source archive was downloaded using the GitHub plugin and its digest
-matched5403d3ced7f5acb86fa58edb13e80aac448b0137f70c281b4878a897612d6da6.
-Local inspection/editing is not a Git operation or compiler acceptance.
+## Foundation checkpoint
 
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-The new direction is a rate from primitive action probabilities, NOT an assertion
-that scalar Nash error controls policy distance. No equality of modeled and
-actual unknown-opponent posteriors, support domination or supplied final loss
-bound may be silently assumed. Keep numerical/network refinement separate and
-preserve the printed/corrected Theorem3 distinction and all accepted M05 work.
+ff51904991ee6fe9bc52feeaf79a8faae16c7c38 is preserved on
+`rebel/m06-policy-stability-20260924`. Its M06run35967682504/job107529881979
+completed SUCCESS: all126 declared targets compiled and the supplemental
+lint/transitive-axiom step completed SUCCESS. The artifact log and independent
+full/ReBeL final runs still need exact-source review. FinDistMassDistance and
+Examples.MassDistance are unchanged by this successor.
+
+## Earlier accepted evidence and original boundary
+
+M06-status-before-policy-stability.md preserves the exact previous STATUS.
+Code46126f37 passed124 targets,86 supplemental modules/1291 declarations and
+fullCI35964794518. Independently check ReBeL35964794487/job107520978527 before
+counting its whole-workflow completion; it was still running on the last read.
+No accepted fresh-chain proof, M05 evidence or printed/corrected Theorem3 audit
+is replaced. Source archive digest and initial continuation remain recorded
+in M06-policy-stability.md and M06-fresh-chain-validation.md.
+
+The four original M06 parent rows remain pending. Primitive policy-rate
+hypotheses are not a proof that the paper's independently recomputed iterates
+satisfy a useful vanishing rate. Conditional claims and actual numerical/network
+refinement remain distinct. See M06-policy-stability-coverage.md for this slice.

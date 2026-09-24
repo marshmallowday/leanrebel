@@ -201,3 +201,5 @@ import GameTheory.Analysis.ReBeL.CFRDFreshChain
 import GameTheory.Analysis.ReBeL.Examples.CFRDFreshChain
 import GameTheory.Math.Probability.FinDistMassDistance
 import GameTheory.Analysis.ReBeL.Examples.MassDistance
+import GameTheory.Analysis.ReBeL.PolicyStability
+import GameTheory.Analysis.ReBeL.CFRDPolicyStability
