@@ -199,3 +199,5 @@ import GameTheory.Analysis.ReBeL.PBSRecursiveDepth
 import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveDepth
 import GameTheory.Analysis.ReBeL.CFRDFreshChain
 import GameTheory.Analysis.ReBeL.Examples.CFRDFreshChain
+import GameTheory.Analysis.ReBeL.CFRDReferenceReweight
+import GameTheory.Analysis.ReBeL.Examples.CFRDReferenceReweight
