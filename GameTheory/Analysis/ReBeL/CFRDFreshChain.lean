@@ -50,17 +50,10 @@ theorem cfrDFreshUniformDrift_le_sum
   induction stages with
   | zero => simp only [cfrDFreshUniformDrift_self, Finset.range_zero, Finset.sum_empty, le_refl]
   | succ stages ih =>
-      calc
-        _ ≤ cfrDFreshUniformDrift M (plays 0) (plays stages) fallback who payoff cut remaining +
-            cfrDFreshUniformDrift M (plays stages) (plays (stages + 1)) fallback who payoff
-              cut remaining :=
-          cfrDFreshUniformDrift_le_add_of_referenceLaw M _ _ _ fallback who payoff cut remaining
-            (referenceLaw stages)
-        _ ≤ (∑ n ∈ Finset.range stages,
-              cfrDFreshUniformDrift M (plays n) (plays (n + 1)) fallback who payoff cut remaining) +
-            cfrDFreshUniformDrift M (plays stages) (plays (stages + 1)) fallback who payoff
-              cut remaining := add_le_add_right ih _
-        _ = _ := (Finset.sum_range_succ _ _).symm
+      rw [Finset.sum_range_succ]
+      exact (cfrDFreshUniformDrift_le_add_of_referenceLaw M (plays 0) (plays stages)
+        (plays (stages + 1)) fallback who payoff cut remaining (referenceLaw stages)).trans
+        (add_le_add ih (le_refl _))
 
 end Drift
 
@@ -80,7 +73,7 @@ def cfrDFreshInformationChain (fallback : Profile M.strategicSignature)
     Nat → Profile (fullInformation M).behavioralSignature
   | 0 => base
   | n + 1 => cfrDInformationContinuation M
-      (cfrDFreshInformationChain M fallback payoff cut remaining bound loss base n)
+      (cfrDFreshInformationChain fallback payoff cut remaining bound loss base n)
       fallback cut remaining (fun h who => payoff who h) bound (loss n)
 
 /-- An empty sequence neither solves a child nor changes the legal profile. -/
@@ -200,7 +193,91 @@ theorem cfrDFreshChainResolver_envelope (fallback : Profile M.strategicSignature
   have drift := cfrDFreshInformationChain_drift_le_sum M fallback payoff cut remaining bound loss
     plays opponent (stages + 1)
   intro k info sampled
-  exact (envelope k info sampled).trans (add_le_add_left drift (loss stages))
+  exact (envelope k info sampled).trans (add_le_add (le_refl (loss stages)) drift)
 
 end Construction
+
+section Security
+
+universe us ua up uq uk
+variable {E : ExecutionProtocol.{0, us, ua} (Fin 2)}
+variable (M : InformationModel.{0, us, ua, up, uq, uk} E)
+variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
+variable [∀ who info, Fintype ((fullInformation M).Choice who info)]
+variable [∀ who, DecidableEq ((fullInformation M).InfoState who)]
+
+/-- The actual noisy sampled-value parent followed by several genuinely fresh
+child computations has a root security bound. Every measured inter-solve drift,
+finite outer iteration term and nonzero prediction allowance remains explicit.
+This is a fixed-cut theorem, not independent later carried-PBS re-solving. -/
+theorem cfrDFreshChain_security (fallback : Profile M.strategicSignature)
+    (payoff : Fin 2 → E.History → ℝ) (zeroSum : IsZeroSum (fun h who => payoff who h))
+    (cut remaining : Nat) (bound error oldLoss : ℝ) (loss : Nat → ℝ) (stages : Nat)
+    (hb : 0 ≤ bound) (he : 0 ≤ error) (ho : 0 < oldLoss) (hn : 0 < loss stages)
+    (bounded : ∀ who h, |payoff who h| ≤ bound) (noise : CFRDPredictionNoise M)
+    (noiseBound : ∀ n trunk who info, |noise n trunk who info| ≤ error)
+    (reference : Profile (fullInformation M).behavioralSignature)
+    (equilibrium : IsNash ((fullInformation M).toBehavioralGameForm (cut + remaining))
+      (euPreference (fun h who => payoff who h)) reference)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who opponent : Fin 2)
+    (different : opponent ≠ who) (t : Nat) [NeZero t] :
+    let plays := fun n : Fin t => cfrDDepthPlay (fullInformation M) (fullObservationClock M)
+      (cfrDInformationFallback M fallback) payoff cut remaining
+      (cfrDConstructedSampledInformationOracle M fallback payoff cut remaining bound oldLoss noise)
+      n.val
+    ((fullInformation M).runBehavioral reference (cut + remaining)).expect (payoff who) -
+      ((cfrDDepthErrorConstant (fullInformation M) (fullObservationClock M)
+            (cfrDInformationFallback M fallback) cut remaining who +
+          cfrDDepthErrorConstant (fullInformation M) (fullObservationClock M)
+            (cfrDInformationFallback M fallback) cut remaining opponent) * error +
+        (cfrDDepthFiniteConstant (fullInformation M) (fullObservationClock M)
+            (cfrDInformationFallback M fallback) cut remaining bound who +
+          cfrDDepthFiniteConstant (fullInformation M) (fullObservationClock M)
+            (cfrDInformationFallback M fallback) cut remaining bound opponent) / Real.sqrt t +
+        oldLoss + loss stages + ∑ n ∈ Finset.range (stages + 1),
+          cfrDFreshUniformDrift (fullInformation M)
+            (fun k => cfrDFreshInformationChain M fallback payoff cut remaining bound loss
+              (plays k) n)
+            (fun k => cfrDFreshInformationChain M fallback payoff cut remaining bound loss
+              (plays k) (n + 1)) (cfrDInformationFallback M fallback) opponent (payoff opponent)
+                cut remaining) ≤
+      (privateCarriedResolve (fullInformation M) (cfrIterationLaw t) plays
+        (cfrDFreshChainResolver M fallback payoff cut remaining bound loss plays (stages + 1))
+        unknown who cut remaining).expect (payoff who) := by
+  dsimp only
+  let oracle := cfrDConstructedSampledInformationOracle M fallback payoff cut remaining
+    bound oldLoss noise
+  let plays := fun n : Fin t => cfrDDepthPlay (fullInformation M) (fullObservationClock M)
+    (cfrDInformationFallback M fallback) payoff cut remaining oracle n.val
+  let drift := ∑ n ∈ Finset.range (stages + 1), cfrDFreshUniformDrift (fullInformation M)
+    (fun k => cfrDFreshInformationChain M fallback payoff cut remaining bound loss (plays k) n)
+    (fun k => cfrDFreshInformationChain M fallback payoff cut remaining bound loss
+      (plays k) (n + 1)) (cfrDInformationFallback M fallback) opponent (payoff opponent)
+        cut remaining
+  have driftNonneg : 0 ≤ drift := Finset.sum_nonneg fun _ _ =>
+    cfrDFreshUniformDrift_nonneg (fullInformation M) _ _ (cfrDInformationFallback M fallback)
+      opponent (payoff opponent) cut remaining
+  have accurate : CFRDDepthAccurate (fullInformation M) (fullObservationClock M)
+      (cfrDInformationFallback M fallback) payoff cut remaining oracle error := by
+    dsimp only [oracle]
+    rw [cfrDConstructedSampledInformationOracle_eq]
+    exact cfrDConstructedInformationOracle_accurate M fallback payoff cut remaining
+      bound oldLoss noise error noiseBound
+  have optimal : CFRDDepthLeafOptimal (fullInformation M) (fullObservationClock M)
+      (cfrDInformationFallback M fallback) payoff cut remaining oracle oldLoss := by
+    dsimp only [oracle]
+    rw [cfrDConstructedSampledInformationOracle_eq]
+    exact cfrDConstructedInformationOracle_leafOptimal M fallback payoff zeroSum cut remaining
+      bound oldLoss hb ho bounded noise
+  have envelope := cfrDFreshChainResolver_envelope M fallback payoff zeroSum cut remaining
+    bound loss hb bounded plays unknown who opponent different stages hn
+  have security := cfrDDepth_resolve_envelope_security (fullInformation M)
+    (fullObservationClock M) (fullSignals_perfectRecall M.toInfoSignals)
+    (cfrDInformationFallback M fallback) payoff zeroSum cut remaining oracle bound error oldLoss
+    (loss stages + drift) hb he ho.le (add_nonneg hn.le driftNonneg) bounded accurate optimal
+    reference equilibrium unknown who opponent different t
+    (cfrDFreshChainResolver M fallback payoff cut remaining bound loss plays (stages + 1)) envelope
+  simpa only [plays, oracle, drift, add_assoc] using security
+
+end Security
 end GameTheory.ReBeL
