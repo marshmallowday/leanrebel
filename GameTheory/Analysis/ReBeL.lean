@@ -190,3 +190,6 @@ import GameTheory.Analysis.ReBeL.PBSCarriedDepthFirstHit
 import GameTheory.Analysis.ReBeL.Examples.PBSCarriedDepthSampling
 import GameTheory.Analysis.ReBeL.PBSInformationDepthBudget
 import GameTheory.Analysis.ReBeL.Examples.PBSInformationDepthBudget
+import GameTheory.Analysis.ReBeL.CFRDDepthChild
+import GameTheory.Analysis.ReBeL.CFRDNestedDepthDriver
+import GameTheory.Analysis.ReBeL.Examples.CFRDNestedDepth

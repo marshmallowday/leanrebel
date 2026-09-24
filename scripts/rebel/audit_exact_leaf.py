@@ -90,6 +90,9 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.Examples.PBSCarriedDepthSampling",
     "GameTheory.Analysis.ReBeL.PBSInformationDepthBudget",
     "GameTheory.Analysis.ReBeL.Examples.PBSInformationDepthBudget",
+    "GameTheory.Analysis.ReBeL.CFRDDepthChild",
+    "GameTheory.Analysis.ReBeL.CFRDNestedDepthDriver",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDNestedDepth",
 )
 AUDITOR = r'''
 open Lean Elab Command in
