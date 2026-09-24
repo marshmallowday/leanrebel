@@ -26,8 +26,8 @@ local instance depthSamplingHistoryFintype : Fintype (protocol fullPrior).Histor
 /-- A concrete root history is supported by the four-outcome joint model PBS. -/
 theorem depthSampling_supported :
     depthControlState.history ∈ depthControlBelief.law.support := by
-  change fullDraw (false, false) ∈ ((cfrIterationLaw 4).map
-    (fun n => fullDraw (decide (n.val % 2 = 1), decide (n.val / 2 = 1)))).support
+  classical
+  unfold depthControlBelief
   rw [FinDist.support_map]
   refine ⟨(0 : Fin 4), ?_, rfl⟩
   rw [← FinDist.prob_pos_iff]
