@@ -20,7 +20,7 @@ open GameTheory.Math.Probability
 universe us ua up uq uk
 variable {E : ExecutionProtocol.{0, us, ua} (Fin 2)}
 variable (M : InformationModel.{0, us, ua, up, uq, uk} E)
-variable [∀ who info, Fintype (M.Choice who info)] [Fintype E.History]
+variable [Fintype E.History]
 variable {K : Type*}
 
 /-- L1 variation of the actual continuation outcome laws, not of Nash scalars. -/
@@ -40,6 +40,8 @@ theorem cfrDFreshOutcomeVariation_self (base : Profile M.behavioralSignature)
     (remaining : Nat) (history : E.History) :
     cfrDFreshOutcomeVariation M base base remaining history = 0 :=
   FinDist.atomVariation_self _
+
+variable [∀ who info, Fintype (M.Choice who info)]
 
 /-- Source outcome variation bounds the positive OLD-query value change.
 This holds for the total conditional too, but only supported queries are used
@@ -64,8 +66,8 @@ theorem cfrDFreshValueChange_le_source (base next : Profile M.behavioralSignatur
       (M.runBehavioralFrom base remaining h).expect payoff)).trans
         (FinDist.abs_expect_sub_le_atomVariation (M.runBehavioralFrom next remaining h)
           (M.runBehavioralFrom base remaining h) payoff bound bounded))
-  simpa only [cfrDFreshValueChange, conditionalOracleValue, cfrDFreshOutcomeVariation,
-    FinDist.expect_smul, law] using averaged
+  unfold cfrDFreshValueChange conditionalOracleValue cfrDFreshOutcomeVariation
+  simpa only [FinDist.expect_smul, law] using averaged
 
 /-- Computed source cost for one private parent iteration. The reference-atom
 term retains both the actual opponent density and the live gate. New-only atoms
