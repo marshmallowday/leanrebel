@@ -203,3 +203,4 @@ import GameTheory.Analysis.ReBeL.CFRDReferenceReweight
 import GameTheory.Analysis.ReBeL.Examples.CFRDReferenceReweight
 import GameTheory.Analysis.ReBeL.CFRDWeightedTransport
 import GameTheory.Analysis.ReBeL.Examples.CFRDWeightedTransport
+import GameTheory.Math.Probability.FinDistTransportRate
