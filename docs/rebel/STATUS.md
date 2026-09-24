@@ -2,15 +2,42 @@
 
 ## Resume point
 
-Read the actual remote HEAD of `rebel/m06-recursive-solver-20260924` and its
-exact-source CI. This branch descends from the preserved finite-history repair
-751ad17af36d6ff4f3deea2c1ee513f10dc754d9 on
-`rebel/m06-structural-recursion-20260924`. Its original source was
-6f4cca8321d5d0d1daf143e8805321dd2ff1dcd9. Preserved nested source:
+Resume from the remote HEAD of `rebel/m06-recursive-reviewed-20260924`.
+This review checkpoint changes DOCUMENTATION ONLY relative to proof source
+`a42467929bbedb0f26bd100e5915d5743ec9025d`, preserved at
+`rebel/m06-recursive-solver-20260924`. The separate branch prevents this
+recording commit from cancelling that exact source's independent ReBeL run.
+Read its latest CI before any next proof edit. Do not redo accepted recursion.
+
+The proof branch descends from repair751ad17af36d6ff4f3deea2c1ee513f10dc754d9
+on `rebel/m06-structural-recursion-20260924`; original source was
+6f4cca8321d5d0d1daf143e8805321dd2ff1dcd9. Preserved nested source is
 f9d4def18411b43fc14c508b079fadb0378bd178 on `rebel/m06-nested-depth-20260924`.
 Main remains6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098 and is not a write target.
-All remote access and commits use the GitHub plugin and existing fork CI.
+All repository access and commits use the GitHub plugin and existing fork CI.
 Unverified edits and skipped/cancelled audits are never accepted evidence.
+
+## Exact-source validation at a4246792
+
+M06 target35954274909/job107489146383 SUCCEEDED. All declared targets,
+including all three new proof/control modules, compiled. The complete job log
+was inspected: EXACT_LEAF_AXIOM_AUDIT_PASS declarations=961 and
+EXACT_LEAF_VALIDATION_PASS modules=92. Every registered module passed normal
+Batteries lint and slow defLemma lint. The transitive axiom audit includes public,
+private and generated declarations, with the unchanged three-axiom whitelist.
+
+Full35954275026/job107489156548 SUCCEEDED: complete library build, inventory and
+compiler-resolved reuse signatures, architecture Phases1/2/3 and reachability
+probes, public-library lint, and tracked-file cleanliness. Inventory35954274949/
+job107489146497 and exact-source snapshot35954274920/job107489146729 SUCCEEDED.
+
+Independent ReBeL35954274920/job107489146886 was still IN PROGRESS at this
+recording checkpoint. Its line-width gate, static architecture, ledger/inventory,
+adversarial fixtures and rational runtime with independently checked pure
+responses had succeeded; the all-ReBeL compile/lint/axiom step was still running.
+Do not turn this pending whole-workflow result into a success claim. The original
+proof branch is left untouched so this run can finish without cancellation.
+The target and full-CI successes above are independently completed evidence.
 
 ## Accepted predecessors — do not redo
 
@@ -21,67 +48,61 @@ inventory35941683774. Support recovery01245b31 is separately accepted.
 Finite-budget704e96ff6ed5b73b279191ea2d01629cc331e8d8 passed target35946360278/
 job107465069923 including supplemental lint/axioms, full35946360214/
 job107465224924 and inventory35946360322. Independent ReBeL35946360239/
-job107465227645 is NOW CONFIRMED SUCCESS, including the entire ReBeL proof
-surface and rational runtime/independent response, architecture and clean checks.
+job107465227645 is confirmed SUCCESS, including the entire ReBeL proof surface,
+rational runtime and independent responses, architecture and cleanliness.
 
-Nestedf9d4def1 passed target35947018152/job107467137173, including all target
-compilation and normal/slow lint plus public/private transitive axiom audit:
-EXACT_LEAF_VALIDATION_PASS modules=88. Full35947018228/job107467419037 and
-inventory35947018259/job107467137512 succeeded. Independent ReBeL35947018175/
-job107467137458 is NOW CONFIRMED SUCCESS. See M06-nested-depth-validation.md.
+Nestedf9d4def1 passed target35947018152/job107467137173 with normal/slow lint and
+public/private transitive axiom audit: modules=88. Full35947018228/job107467419037
+and inventory35947018259/job107467137512 succeeded. Independent ReBeL35947018175/
+job107467137458 is confirmed SUCCESS. See M06-nested-depth-validation.md.
 
-Repair751ad17a moved the existing Fintype E.History instance to the first
-referenceBudget theorem requiring it. No theorem body or bound changed.
-Target35951624022/job107481206024 SUCCEEDED with all named builds and full
-supplemental normal/slow lint/public-private axiom audit: modules=89.
-Full35951624454/job107481206699 and inventory35951624043/job107481205391
-SUCCEEDED. Independent ReBeL35951624061/job107481299594 was still pending
-at its previous inspection. See M06-structural-recovery.md.
+Repair751ad17a moved the existing finite-history instance before its first use in
+referenceBudget. No theorem body or bound changed. Target35951624022/
+job107481206024 passed all named builds and supplemental normal/slow lint with
+public/private axiom audit: modules=89. Full35951624454/job107481206699 and
+inventory35951624043/job107481205391 succeeded. Independent ReBeL35951624061/
+job107481299594 is NOW CONFIRMED SUCCESS, including all-module compile/lint/axioms,
+rational runtime with independent responses, and tracked-file cleanliness.
 
-## Structural recursion and exact private sampling
+## Newly derived recursive solver and actual private sampling
 
-Parenta01832184554acc81da55d991f118654ef5c5442 compiled all targets at
-35952219144/job107483131698; its supplemental audit was not accepted before
-the successor push. Recursivef375294f failed due to implicit protocol insertion
-and proof-local instance style; the explicit-protocol successor repairs these.
+PBSComposedDepth connects the actual noisy parent to finite round allocation,
+chance-root translation and original-PBS all-deviation Nash. PBSRecursiveDepth
+recurses on strict tails of finite lists of original cut lengths. Each current
+parent obtains factual JOINT child PBSs, allocates positive mass-scaled targets,
+and computes a nonempty finite iteration count. The zero-transition base uses
+the legal fallback, not a hidden full-root CFR. Child accuracy is proved by list
+induction, never supplied as a Nash/recursive-accuracy certificate in solver data.
+The remaining numerical-noise premise is explicit; a concrete allowance-sized
+nonzero family is proved bounded and positive at every positive allocation.
 
-At97fcab0bf7740de4a6ca72013d34ab266d2511d3, target35953636852/
-job107487235722 compiled PBSComposedDepth and PBSRecursiveDepth completely,
-including structural induction, positive numerical error, exact private-round
-sampling and canonical carried-PBS resolver/stage identities. All older targets
-also compiled. Only Examples.PBSRecursiveDepth failed: a finite-choice instance
-was missing locally, and simplifier transparency obstructed direct concrete
-Nash applications. ReBeL35953636757/job107487342381 separately stopped on
-eight over-100-column lines. The current successor fixes these without changing
-statements or weakening any gate. Its own CI still requires inspection.
-See M06-recursive-validation.md for precise sources, failures and evidence.
+The actual parent iterations, with those same recursive children, supply private
+uniform sampling. Their complete original-history law agrees with the own-reach
+average against every fixed unknown opponent; individual iterations need not be
+Nash. The canonical carried resolver pairs the selected profile with the model
+posterior it actually propagates. Missing beliefs and zero execution fuel preserve
+the original fallback/stopping semantics. Training cuts and execution fuel are
+separate. All controls and declarations are in the three registered modules.
 
-The solver recurses on strict tails of a finite list of original cut lengths.
-Every parent obtains actual factual child PBSs, assigns positive mass-scaled
-child targets and computes nonempty finite round budgets. The zero-transition
-base is the legal fallback, not a hidden full-root solver. Child accuracy is
-derived by induction, never stored as an equilibrium/accuracy certificate in
-solver input. Numerical approximation retains an explicit bounded-noise premise;
-a concrete allowance-sized nonzero family is proved to satisfy it.
+See M06-recursive-solver.md for the mathematical review and explicit error/T
+allocation; M06-recursive-validation.md records the exact compiler loop and
+acceptance boundary. M06-recursive-sampling.md retains the historical sampler
+checkpoint. No audit entry, test, dependency/toolchain pin, warning gate,
+heartbeat limit or axiom whitelist was weakened.
 
-Private sampling uses actual parent iterations with that same recursive child,
-not synthetic Nash draws. The complete original history law matches the own-reach
-average against every fixed unknown opponent. The canonical resolver retains
-the selected profile with the posterior it actually propagates. Missing model
-beliefs and zero execution fuel retain the original fallback/stopping behavior.
-All declarations and controls are in three registered modules; expected full
-supplemental count=92. No audit entry, test, pin, heartbeat or linter was removed.
-See M06-recursive-solver.md and M06-recursive-sampling.md.
+## Remaining original M06 obligations
 
-## Remaining original obligations
+First inspect the preserved independent ReBeL run; do not redo the successful
+M06 target and full-CI checks. Then derive source-level fresh-model-value drift,
+useful first-exit/support-defect rates and CarriedResolveStepBounds for the actual
+repeated solve process. The recursive local Nash theorem does not compare old
+and new conditional value vectors, and private carried continuation is not
+arbitrary independent re-solving. No identity between model and actual posterior,
+learned-network accuracy or executable numerical-refinement theorem is claimed.
+Increasing T does not eliminate an unallocated fixed prediction error.
 
-Finish exact-source validation. Separately derive source-level fresh-model-value
-drift, useful first-exit/support-defect rates and CarriedResolveStepBounds for
-the actual repeated solve process. Private carried continuation is not arbitrary
-independent re-solving. No identity between model and actual posterior, learned
-network accuracy or executable numerical-refinement theorem is claimed.
-Increasing finite T does not eliminate an unallocated fixed prediction error.
-Preserve every hidden-type, positive-error, randomized-deviation, zero-width,
-empty-schedule, no-belief, zero-fuel and zero-own-reach control.
-Preserve the printed/corrected Theorem3 distinction and accepted M05 evidence.
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
+Preserve all positive-error, hidden-type, randomized-deviation, empty-schedule,
+zero-width-cut, no-belief, zero-fuel and zero-own-reach controls. Preserve the
+printed/corrected Theorem3 distinction and all accepted M05 evidence.
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending;
+coverage.json and the original roadmap are not promoted by this checkpoint.
