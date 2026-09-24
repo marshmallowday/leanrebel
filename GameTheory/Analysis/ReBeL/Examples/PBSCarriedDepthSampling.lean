@@ -178,6 +178,47 @@ theorem depthSampling_existing_runner_first_hit
     (cfrPayoff_abs_le_two who)
   simpa only [depthSampling_existing_schedule, show (2 : ℝ) * 2 = 4 from by norm_num] using result
 
+/-- The existing two-stage runner also admits the computed first-exit charge;
+the final retained-policy kernel and all private memory are preserved. -/
+theorem depthSampling_existing_runner_first_exit
+    (unknown : Profile (model fullPrior).behavioralSignature) (who : Player) (finalFuel : Nat)
+    (states : FinDist (PrivateIterationState (model fullPrior)
+      (CarriedResolveMemory (model fullPrior) Unit))) :
+    |(states.bind (executeCarriedResolves (model fullPrior)
+        (fun _ : Unit => carriedBitProfile false) unknown who finalFuel depthControlStages)).expect
+        (cfrPayoff who) -
+      ((pbsCarriedDepthHistoryFirstStates (reducedModel fullPrior) pbsRootControlFallback
+        cfrPayoff (fun _ : Unit => carriedBitProfile false) unknown who
+        [depthSamplingFirst, depthSamplingLast] states).bind
+        (carriedSelectedTail (model fullPrior) (fun _ : Unit => carriedBitProfile false)
+          unknown who finalFuel)).expect (cfrPayoff who)| ≤
+      pbsCarriedDepthFirstExitCharge (reducedModel fullPrior) pbsRootControlFallback
+        cfrPayoff (fun _ : Unit => carriedBitProfile false) unknown who
+        [depthSamplingFirst, depthSamplingLast] states
+        (carriedSelectedTail (model fullPrior) (fun _ : Unit => carriedBitProfile false)
+          unknown who finalFuel) (cfrPayoff who) := by
+  have same :
+      states.bind (executeCarriedResolves (model fullPrior)
+          (fun _ : Unit => carriedBitProfile false) unknown who finalFuel depthControlStages) =
+        (pbsCarriedDepthNativeStates (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
+          (fun _ : Unit => carriedBitProfile false) unknown who
+          [depthSamplingFirst, depthSamplingLast] states).bind
+          (carriedSelectedTail (model fullPrior) (fun _ : Unit => carriedBitProfile false)
+            unknown who finalFuel) := by
+    rw [← depthSampling_existing_schedule]
+    simp only [pbsCarriedDepthNativeStates, FinDist.bind_bind]
+    apply FinDist.bind_congr
+    intro state _
+    exact pbsCarriedDepthSequence_execute (reducedModel fullPrior) pbsRootControlFallback
+      cfrPayoff (fun _ : Unit => carriedBitProfile false) unknown who finalFuel
+      [depthSamplingFirst, depthSamplingLast] state
+  rw [same]
+  exact pbsCarriedDepthFirstExit_future_error (reducedModel fullPrior) pbsRootControlFallback
+    cfrPayoff (fun _ : Unit => carriedBitProfile false) unknown who
+    [depthSamplingFirst, depthSamplingLast] states
+    (carriedSelectedTail (model fullPrior) (fun _ : Unit => carriedBitProfile false)
+      unknown who finalFuel) (cfrPayoff who)
+
 end GameTheory.ReBeL.Examples.HiddenTypes
 
 namespace GameTheory.ReBeL.Examples.SequentialSampling
@@ -219,5 +260,71 @@ theorem empty_events_have_no_hit :
       (fun _ => ∅) [(), (), ()] (FinDist.pure false) = 0 := by
   norm_num [FinDist.sequenceFirstHitProbability, FinDist.sequenceFirstHit,
     FinDist.prob_bind, FinDist.prob_pure_eq_ite]
+
+/-- The witness excludes the safe prefix but includes the unexecuted exceptional stage. -/
+theorem late_exception_first_exit :
+    FinDist.sequenceFirstExit nativeKernel lateEvent [false, true] false =
+      FinDist.pure (some ([true], true)) := by
+  norm_num [FinDist.sequenceFirstExit, nativeKernel, lateEvent]
+
+/-- Even different complete executions have the same first-exit witnesses. -/
+theorem first_exit_kernel_invariance (stages : List Bool) (state : Bool) :
+    FinDist.sequenceFirstExit nativeKernel lateEvent stages state =
+      FinDist.sequenceFirstExit comparisonKernel lateEvent stages state :=
+  FinDist.sequenceFirstExit_eq_of_eq_off_event nativeKernel comparisonKernel lateEvent
+    kernels_agree_outside stages state
+
+/-- Repeated event labels retain the first occurrence, not the last or an empty suffix. -/
+theorem first_exit_keeps_first_suffix :
+    FinDist.sequenceFirstExit (fun (_ : Unit) state => FinDist.pure state)
+      (fun _ => Set.univ) [(), (), ()] false =
+      FinDist.pure (some ([(), (), ()], false)) := by
+  simp [FinDist.sequenceFirstExit]
+
+/-- No-exception completion has no invented stopping history or suffix. -/
+theorem first_exit_absent :
+    FinDist.sequenceFirstExit (fun (_ : Unit) state => FinDist.pure state)
+      (fun _ => ∅) [(), (), ()] false = FinDist.pure none := by
+  simp [FinDist.sequenceFirstExit]
+
+/-- The signed witness value keeps the orientation of the full native-minus-comparison gap. -/
+theorem late_exception_first_exit_value :
+    FinDist.sequenceFirstExitValue nativeKernel comparisonKernel
+      (fun state => FinDist.pure state) bitValue (some ([true], true)) = -2 := by
+  norm_num [FinDist.sequenceFirstExitValue, FinDist.bindSequence,
+    nativeKernel, comparisonKernel, bitValue]
+
+/-- A future erasing the difference gives zero refined charge despite hit probability one. -/
+theorem first_exit_harmless_future :
+    (FinDist.sequenceFirstExit nativeKernel lateEvent [false, true] false).expect
+        (fun witness => |FinDist.sequenceFirstExitValue nativeKernel comparisonKernel
+          (fun _ => FinDist.pure true) bitValue witness|) = 0 ∧
+      FinDist.sequenceFirstHitProbability nativeKernel lateEvent [false, true]
+        (FinDist.pure false) = 1 := by
+  constructor
+  · rw [late_exception_first_exit]
+    norm_num [FinDist.sequenceFirstExitValue, bitValue]
+  · exact late_exception_first_hit
+
+/-- A nondegenerate actual law catches accidental normalization to zero or one. -/
+def fractionalExitRoot : FinDist Bool :=
+  FinDist.mix (1 / 4) (by norm_num) (by norm_num) (FinDist.pure true) (FinDist.pure false)
+
+/-- First-exit probability remains fractional, including the no-hit branch. -/
+theorem fractional_first_exit_probability :
+    FinDist.sequenceFirstHitProbability nativeKernel lateEvent [true] fractionalExitRoot =
+      1 / 4 := by
+  norm_num [FinDist.sequenceFirstHitProbability, fractionalExitRoot, FinDist.prob_bind,
+    FinDist.expect_mix, FinDist.sequenceFirstHit, nativeKernel, lateEvent,
+    FinDist.prob_pure_eq_ite]
+
+/-- The computed charge is sharp at a genuinely fractional stopping probability. -/
+theorem fractional_first_exit_charge :
+    (fractionalExitRoot.bind (FinDist.sequenceFirstExit nativeKernel lateEvent [true])).expect
+        (fun witness => |FinDist.sequenceFirstExitValue nativeKernel comparisonKernel
+          (fun state => FinDist.pure state) bitValue witness|) = 1 / 2 := by
+  norm_num [fractionalExitRoot, FinDist.expect_bind, FinDist.expect_mix,
+    FinDist.sequenceFirstExit, FinDist.sequenceFirstExitValue, FinDist.bindSequence,
+    nativeKernel, comparisonKernel, lateEvent, bitValue]
 
 end GameTheory.ReBeL.Examples.SequentialSampling
