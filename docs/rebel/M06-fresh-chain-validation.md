@@ -1,78 +1,105 @@
-# M06 fresh chain — exact-source validation and compiler loop
+# M06 finite fresh chain — exact-source validation and compiler loop
 
-Active branch: `rebel/m06-fresh-chain-20260924`. Read its current remote HEAD
-and exact-source CI before resuming. All remote operations use the GitHub
-plugin; main, dependency pins, workflow gates and existing controls are unchanged.
+Proof source: `46126f37dbaa83a2f064f511e9617843d0ce308a`, preserved on
+`rebel/m06-fresh-chain-20260924`.
+Documentation/restart branch: `rebel/m06-fresh-chain-reviewed-20260924`.
+This recording checkpoint changes FOUR DOCUMENTATION FILES ONLY. The proof
+branch remains untouched so its independent ReBeL run is not cancelled by notes.
+All remote access and checkpoints use the GitHub plugin. Main is not a write target.
 
-## Accepted common-reference composition
+## Accepted target-SHA build, lint and transitive axiom audit
 
-Source639e3962a2db297fb3f767459d7269769a7ea0d5 is preserved on
-`rebel/m06-fresh-drift-20260924`. M06 run35962837942/job107514893323 completed
-SUCCESS including every declared M06 target and the supplemental auditor.
-Artifact10793590654 (m06-targeted-639e3962a2db297fb3f767459d7269769a7ea0d5)
-was downloaded through the plugin and its entire log inspected. It identifies
-the exact SHA and pinned Lean4.33.1 and records:
+M06 run35964794524/job107520892185: SUCCESS, completed
+2026-09-24T06:42:27Z. All124 declared M06 targets compiled, including both new
+CFRDFreshChain modules, their root-security consumer and every hostile control.
+The completed supplemental proof-slice gate also succeeded; no skipped gate is
+counted. Artifact10793738643 was downloaded through the GitHub plugin:
 
-    EXACT_LEAF_MODULE_AXIOM_PASS ...CFRDFreshValueDrift: declarations=17
-    EXACT_LEAF_AXIOM_AUDIT_PASS declarations=1251
-    EXACT_LEAF_VALIDATION_PASS modules=84
+    m06-targeted-46126f37dbaa83a2f064f511e9617843d0ce308a
+    sha256:429bb5b75a1a0992b23950703517f7a6edf6f1484edfbdffcdee42eeea2ef5f5
 
-The 84-module audit checks public/private/generated declarations transitively,
-with only propext, Classical.choice and Quot.sound allowed. The unchanged
-Batteries runner passed each named module. Do not repeat the earlier prose's
-92-module or separate-defLemma-run claims: those were not the actual source
-list or invocation. The two new chain modules raise the source list to86 and
-M06 target list from122 to124, preserving all prior entries.
+The archive digest matches the API. Its complete7954-line m06-targeted.log was
+inspected, identifying this exact SHA and Lean4.33.1, compiler commit
+819816b2e0a3bf405af45ae5c7af2491d8f5bee6. The log records:
 
-## Initial finite chain344e429d
+    EXACT_LEAF_MODULE_AXIOM_PASS ...CFRDFreshChain: declarations=17
+    EXACT_LEAF_MODULE_AXIOM_PASS ...Examples.CFRDFreshChain: declarations=23
+    EXACT_LEAF_AXIOM_AUDIT_PASS declarations=1291
+    EXACT_LEAF_VALIDATION_PASS modules=86
 
-Exact source344e429d8242c1eee79ad11908931a8e22217ffe FAILED M06
-run35963799184/job107517833654. Its full decoded job log was inspected.
-All old modules compiled. The chain failed at the following concrete points:
+All86 registered modules have their lint-pass and module-axiom-pass markers.
+The transitive auditor covers public, private and generated declarations.
+Only propext, Classical.choice and Quot.sound are allowed. In particular the
+root security theorem, positive biased-parent control and changed-reference
+negative control have explicit successful audit entries. No source error or
+warning appears in this log. The pinned Batteries runner already selects slow
+checks via getChecks(slow := true); no separate defLemma invocation is claimed.
 
-- Inside the recursive definition, fixed section parameters are already in
-  scope. Passing M again shifted fallback into the wrong argument position.
-  The recursive call must omit that automatically generalized section parameter;
-  external applications continue to pass M normally.
-- The selected sided-addition helpers generated the opposite operand ordering.
-  One induced expensive definitional equality, reaching the unchanged200000
-  heartbeat limit. Explicit two-sided add_le_add with a reflexive operand avoids
-  both ambiguity and unnecessary unfolding.
-- The reference and child-optimality mismatches were downstream of the malformed
-  recursive definition, not missing strategic assumptions.
+## Whole-library CI and independent ReBeL status
 
-The current successor repairs these sites without changing any existing theorem
-statement, dropping a test or increasing the heartbeat bound. The skipped
-supplemental audit at344 is NOT accepted evidence. Run/job IDs here are those
-returned by the actual commit check-runs endpoint; do not reuse an unverified ID.
+Full CI35964794518/job107520892015: SUCCESS, completed
+2026-09-24T06:46:33Z. This includes the whole public-library build, exact-source
+and toolchain identification, inventory/compiler-resolved reuse signatures,
+architecture Phases1/2/3 and reachability probes, library lint and tracked-file
+cleanliness. Only the Windows-specific toolchain exposure was skipped on Ubuntu;
+the actual build, audit, lint and cleanliness gates succeeded.
+Inventory35964794526/job107520892133 and exact-source snapshot
+35964794487/job107520978204 also succeeded at this exact source.
 
-## Root-security consumer in the successor
+Independent ReBeL35964794487/job107520978527 was IN PROGRESS at recording.
+Its line-width, static architecture, ledger/inventory/adversarial fixtures and
+rational runtime with independently checked pure responses had passed.
+Its all-ReBeL compile/lint/transitive-axiom step, started2026-09-24T06:33:01Z,
+and final tracked-file cleanliness still need the final result. This pending
+workflow is distinct from the completed target audit and full CI above.
+Inspect that preserved exact-source run before starting the next implementation.
 
-cfrDFreshChain_security connects the finite chain to the actual noisy
-sampled-value CFR-D parent. Its opponent envelope is derived from the actual
-last child, with no caller-supplied child quality or common-reference certificate.
-It retains the full bound
+## Accepted common-reference composition predecessor
+
+Source639e3962a2db297fb3f767459d7269769a7ea0d5 remains preserved on
+`rebel/m06-fresh-drift-20260924`. Its target35962837942/job107514893323,
+full35962837872/job107515074899 and independent ReBeL35962837863/
+job107514896065 all succeeded. See M06-drift-composition-validation.md for
+artifact evidence, the three accepted composition lemmas and corrected counts.
+The actual source audit list was84, not the earlier prose's92. This successor
+preserves all84 and adds exactly two; the M06 list preserves122 and adds two.
+No target, whitelist, workflow, pin, warning gate or heartbeat limit was weakened.
+
+## Initial chain344e429d and repaired compiler failure
+
+Source344e429d8242c1eee79ad11908931a8e22217ffe FAILED M06
+run35963799184/job107517833654. The full decoded job log was inspected.
+All older modules compiled. The following concrete errors were repaired:
+
+- Inside the recursive definition the fixed section model parameter was already
+  bound. Passing M again shifted fallback into the wrong argument position.
+  Recursive self-calls now use the already bound model; external calls pass M.
+- Sided-addition helpers selected an unintended operand ordering. One generated
+  expensive definitional equality and reached the unchanged200000-heartbeat
+  limit. Explicit add_le_add with a reflexive operand resolves the ambiguity.
+- Reference preservation and local-optimality mismatches were downstream of the
+  malformed recurrence, not missing strategic assumptions.
+
+The repair did not weaken any existing conclusion or remove a control. Its
+new noisy-parent root-security consumer and concrete positive-bias control
+are in the same two registered modules and passed at46126f37. The skipped
+supplemental audit at344 is not accepted evidence.
+
+## Semantic review and remaining original obligations
+
+See M06-fresh-chain.md for exact declarations, assumptions and the source map.
+The chain computes actual fresh children at one fixed cut/reference prefix,
+then privately draws a legal plan of the final computed average. The original
+history law and noisy-parent root security are derived with the entire bound:
 
     C_error * predictionError + C_time / sqrt(T)
       + oldChildLoss + finalChildLoss + sum(interSolveDrift).
 
-The comparison equilibrium only names the root game's value; neither the
-algorithm nor the child construction consumes that witness. Outer T is positive
-and finite. The new concrete hidden-type root control uses nonzero bias1/8,
-old child loss1/4 and two genuine refreshes with losses1/4 then1/8. Its unknown
-opponent is arbitrary behavioral, and both drift terms remain present.
-
-The successor still needs its OWN exact-source compiler, lint, public/private
-axiom, full CI and independent ReBeL results. A source commit is not validation.
-No locally executed Lean build is claimed; local checks are static only.
-
-## Original obligations stay pending
-
-This chain re-solves at one fixed original cut/reference prefix. The final draw
-is the existing private legal-plan realization of the computed average, not an
-invented native CFR-round draw. It does not establish independent re-solving at
-later propagated PBSs or equality of model and actual unknown-opponent beliefs.
-Measured drift sums are not useful vanishing drift rates. Source-level drift,
-support/first-exit bounds and CarriedResolveStepBounds remain to be derived.
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 stay pending.
-Keep all accepted M05 and printed/corrected Theorem3 distinctions.
+Measured drift sums are not useful vanishing error rates. This is not native
+per-iteration sampling or independent solving at later propagated PBSs. No
+equality of modeled and actual unknown-opponent posteriors is assumed.
+Useful source-level drift/support/first-exit rates and CarriedResolveStepBounds
+remain open implementation/proof obligations. SEARCH-FRONTIER, SEARCH-CFRD,
+SEARCH-ERROR and SAFE-THEOREM3 stay pending. Preserve accepted M05 evidence
+and the printed/corrected Theorem3 distinction. No local Git operation was used;
+Lean acceptance is from the exact-source fork CI, not static local checks.
