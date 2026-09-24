@@ -18,6 +18,8 @@ namespace GameTheory.ReBeL
 open GameTheory.Protocol InformationModel
 open GameTheory.Math.Probability
 
+section Weighted
+
 universe us ua up uq uk
 variable {E : ExecutionProtocol.{0, us, ua} (Fin 2)}
 variable (M : InformationModel.{0, us, ua, up, uq, uk} E)
@@ -80,8 +82,9 @@ theorem privateResolvedEnvelopeGap_prefix_le_weighted (hrecall : M.PerfectRecall
       rw [FinDist.expect_map]
       apply FinDist.expect_mono
       intro h reached
-      exact envelope n (observe h) (FinDist.support_map.mpr
-        ⟨h, informationReweight_support reference actual observe weight density reached, rfl⟩)
+      apply envelope n (observe h)
+      rw [FinDist.support_map]
+      exact ⟨h, informationReweight_support reference actual observe weight density reached, rfl⟩
 
 /-- The original coherent carried execution consumes the averaged envelope,
 not the maximum over all queries. The actual seed/history coupling is preserved. -/
@@ -118,6 +121,77 @@ theorem privateCarriedResolve_weighted_envelope_le_prefix (clock : ObservationCl
   rw [← FinDist.expect_sub]
   exact privateResolvedEnvelopeGap_prefix_le_weighted M hrecall plays resolver fallback
     unknown who opponent different cut remaining payoff charge envelope n
+
+/-- Root security uses the ACTUAL weighted envelope together with focal full
+regret and opponent prefix regret. A seed-revealed opponent is not introduced. -/
+theorem privateCarriedResolve_security_of_weighted_envelope (clock : ObservationClock M)
+    (hrecall : M.PerfectRecall) (seed : FinDist K)
+    (plays : K → Profile M.behavioralSignature) (resolver : CarriedPublicResolver M K)
+    (fallback : Profile M.strategicSignature) (unknown : Profile M.behavioralSignature)
+    (who opponent : Fin 2) (different : opponent ≠ who) (cut remaining : Nat)
+    (payoff : Fin 2 → E.History → ℝ)
+    (zeroSum : IsZeroSum (fun h player => payoff player h))
+    (reference : Profile M.behavioralSignature)
+    (equilibrium : IsNash (M.toBehavioralGameForm (cut + remaining))
+      (euPreference (fun h player => payoff player h)) reference)
+    (ownLoss trunkLoss : ℝ) (charge : K → M.InfoState opponent × Bool → ℝ)
+    (focalRegret : seed.expect (fun n =>
+      (M.runBehavioral (Profile.update (plays n) who (reference who))
+        (cut + remaining)).expect (payoff who) -
+      (M.runBehavioral (plays n) (cut + remaining)).expect (payoff who)) ≤ ownLoss)
+    (trunkRegret : seed.expect (fun n =>
+      (M.runBehavioral (Profile.update (plays n) opponent
+        (cfrDPrefixPolicy M clock (plays n) opponent (unknown opponent) cut))
+        (cut + remaining)).expect (payoff opponent) -
+      (M.runBehavioral (plays n) (cut + remaining)).expect (payoff opponent)) ≤ trunkLoss)
+    (envelope : ∀ n tag, tag ∈ ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
+      (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))).support →
+      conditionalOracleValue (unilateralReferenceLaw M (plays n) fallback opponent cut)
+        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))
+        (privateResolvedEnvelopeGap M plays resolver unknown who cut remaining (payoff opponent) n)
+        tag ≤ charge n tag) :
+    (M.runBehavioral reference (cut + remaining)).expect (payoff who) -
+        (ownLoss + trunkLoss +
+          cfrDWeightedEnvelopeLoss M seed plays unknown who opponent cut remaining charge) ≤
+      (privateCarriedResolve M seed plays resolver unknown who cut remaining).expect
+        (payoff who) := by
+  have opposite (law : FinDist E.History) :
+      law.expect (payoff opponent) = -law.expect (payoff who) := by
+    rcases (by decide : ∀ p : Fin 2, p = 0 ∨ p = 1) who with rfl | rfl
+    · have other : opponent = 1 := by omega
+      subst opponent
+      exact zeroSum.expectedUtility_one law
+    · have other : opponent = 0 := by omega
+      subst opponent
+      have negation : law.expect (payoff 1) = -law.expect (payoff 0) :=
+        zeroSum.expectedUtility_one law
+      linarith
+  have referenceLower :
+      (M.runBehavioral reference (cut + remaining)).expect (payoff who) ≤
+        seed.expect (fun n => (M.runBehavioral
+          (Profile.update (plays n) who (reference who)) (cut + remaining)).expect
+            (payoff who)) := by
+    rw [← FinDist.expect_const seed
+      ((M.runBehavioral reference (cut + remaining)).expect (payoff who))]
+    apply FinDist.expect_mono
+    intro n _
+    have secured :
+        (M.runBehavioral (Profile.update reference opponent (plays n opponent))
+          (cut + remaining)).expect (payoff opponent) ≤
+        (M.runBehavioral reference (cut + remaining)).expect (payoff opponent) :=
+      (isNash_iff (F := M.toBehavioralGameForm (cut + remaining))
+        (weaklyPrefers := euPreference (fun h p => payoff p h)) reference).mp
+          equilibrium opponent (plays n opponent)
+    rw [opposite, opposite,
+      ← privateOpponent_profile M reference (plays n) who opponent different] at secured
+    linarith
+  have resolved := privateCarriedResolve_weighted_envelope_le_prefix M clock hrecall seed plays
+    resolver fallback unknown who opponent different cut remaining (payoff opponent) charge envelope
+  rw [FinDist.expect_sub] at focalRegret trunkRegret
+  have negate (f : K → ℝ) : seed.expect (fun n => -f n) = -seed.expect f := by
+    simpa only [neg_one_mul] using FinDist.expect_smul (-1) seed f
+  simp_rw [opposite, negate] at trunkRegret resolved
+  linarith
 
 variable [Fintype E.History]
 
@@ -206,81 +280,73 @@ theorem cfrDFreshCoherentResolver_query_bound (hrecall : M.PerfectRecall)
       opponent payoff cut remaining info)
     unfold cfrDFreshTransportCharge
     dsimp only
-    unfold conditionalOracleValue
+    rw [if_pos rfl]
+    unfold cfrDFreshValueChange conditionalOracleValue
     rw [funext gap, FinDist.expect_add]
     unfold cfrDFreshValueChange conditionalOracleValue at drift
     linarith
 
-/-- Root security uses the ACTUAL weighted envelope together with focal full
-regret and opponent prefix regret. A seed-revealed opponent is not introduced. -/
-theorem privateCarriedResolve_security_of_weighted_envelope (clock : ObservationClock M)
-    (hrecall : M.PerfectRecall) (seed : FinDist K)
-    (plays : K → Profile M.behavioralSignature) (resolver : CarriedPublicResolver M K)
+section Comparison
+
+variable [Fintype K] [Nonempty K]
+
+/-- On every supported OLD query the computed local charge is no larger than
+its previously accepted uniform counterpart. Stopped queries remain zero. -/
+theorem cfrDFreshTransportCharge_le_uniform (plays next : K → Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (opponent : Fin 2) (payoff : E.History → ℝ)
+    (cut remaining : Nat) (bound loss : ℝ) (hb : 0 ≤ bound) (hl : 0 ≤ loss)
+    (n : K) (tag : M.InfoState opponent × Bool)
+    (sampled : tag ∈ ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
+      (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))).support) :
+    cfrDFreshTransportCharge M plays next fallback opponent payoff
+        cut remaining bound loss n tag ≤
+      loss + cfrDFreshUniformDrift M plays next fallback opponent payoff cut remaining +
+        2 * bound * cfrDReferenceTransportDefect M plays next fallback opponent cut remaining := by
+  have hd := cfrDFreshUniformDrift_nonneg M plays next fallback opponent payoff cut remaining
+  have ht := mul_nonneg (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) hb)
+    (cfrDReferenceTransportDefect_nonneg M plays next fallback opponent cut remaining)
+  rcases tag with ⟨info, flag⟩
+  cases flag
+  · exact add_nonneg (add_nonneg hl hd) ht
+  · have drift := max_le hd ((cfrDFreshValueChange_le_drift M (plays n) (next n) fallback
+      opponent payoff cut remaining info sampled).trans
+        (cfrDFreshValueDrift_le_uniform M plays next fallback opponent payoff cut remaining n))
+    have transport := mul_le_mul_of_nonneg_left
+      (conditionalTransportDefect_le_reference M plays next fallback opponent cut remaining
+        n info sampled) (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) hb)
+    exact add_le_add (add_le_add (le_refl loss) drift) transport
+
+/-- Weighting by the true seed/history law cannot worsen the old uniform
+allowance. Perfect recall supplies OLD support even when the unknown opponent
+changes the observed query probabilities. No minimum probability is assumed. -/
+theorem cfrDWeightedTransportLoss_le_uniform (hrecall : M.PerfectRecall)
+    (seed : FinDist K) (plays next : K → Profile M.behavioralSignature)
     (fallback : Profile M.strategicSignature) (unknown : Profile M.behavioralSignature)
-    (who opponent : Fin 2) (different : opponent ≠ who) (cut remaining : Nat)
-    (payoff : Fin 2 → E.History → ℝ)
-    (zeroSum : IsZeroSum (fun h player => payoff player h))
-    (reference : Profile M.behavioralSignature)
-    (equilibrium : IsNash (M.toBehavioralGameForm (cut + remaining))
-      (euPreference (fun h player => payoff player h)) reference)
-    (ownLoss trunkLoss : ℝ) (charge : K → M.InfoState opponent × Bool → ℝ)
-    (focalRegret : seed.expect (fun n =>
-      (M.runBehavioral (Profile.update (plays n) who (reference who))
-        (cut + remaining)).expect (payoff who) -
-      (M.runBehavioral (plays n) (cut + remaining)).expect (payoff who)) ≤ ownLoss)
-    (trunkRegret : seed.expect (fun n =>
-      (M.runBehavioral (Profile.update (plays n) opponent
-        (cfrDPrefixPolicy M clock (plays n) opponent (unknown opponent) cut))
-        (cut + remaining)).expect (payoff opponent) -
-      (M.runBehavioral (plays n) (cut + remaining)).expect (payoff opponent)) ≤ trunkLoss)
-    (envelope : ∀ n tag, tag ∈ ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
-      (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))).support →
-      conditionalOracleValue (unilateralReferenceLaw M (plays n) fallback opponent cut)
-        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))
-        (privateResolvedEnvelopeGap M plays resolver unknown who cut remaining (payoff opponent) n)
-        tag ≤ charge n tag) :
-    (M.runBehavioral reference (cut + remaining)).expect (payoff who) -
-        (ownLoss + trunkLoss +
-          cfrDWeightedEnvelopeLoss M seed plays unknown who opponent cut remaining charge) ≤
-      (privateCarriedResolve M seed plays resolver unknown who cut remaining).expect
-        (payoff who) := by
-  have opposite (law : FinDist E.History) :
-      law.expect (payoff opponent) = -law.expect (payoff who) := by
-    rcases (by decide : ∀ p : Fin 2, p = 0 ∨ p = 1) who with rfl | rfl
-    · have other : opponent = 1 := by omega
-      subst opponent
-      exact zeroSum.expectedUtility_one law
-    · have other : opponent = 0 := by omega
-      subst opponent
-      have negation : law.expect (payoff 1) = -law.expect (payoff 0) :=
-        zeroSum.expectedUtility_one law
-      linarith
-  have referenceLower :
-      (M.runBehavioral reference (cut + remaining)).expect (payoff who) ≤
-        seed.expect (fun n => (M.runBehavioral
-          (Profile.update (plays n) who (reference who)) (cut + remaining)).expect
-            (payoff who)) := by
-    rw [← FinDist.expect_const seed
-      ((M.runBehavioral reference (cut + remaining)).expect (payoff who))]
-    apply FinDist.expect_mono
-    intro n _
-    have secured :
-        (M.runBehavioral (Profile.update reference opponent (plays n opponent))
-          (cut + remaining)).expect (payoff opponent) ≤
-        (M.runBehavioral reference (cut + remaining)).expect (payoff opponent) :=
-      (isNash_iff (F := M.toBehavioralGameForm (cut + remaining))
-        (weaklyPrefers := euPreference (fun h p => payoff p h)) reference).mp
-          equilibrium opponent (plays n opponent)
-    rw [opposite, opposite,
-      ← privateOpponent_profile M reference (plays n) who opponent different] at secured
-    linarith
-  have resolved := privateCarriedResolve_weighted_envelope_le_prefix M clock hrecall seed plays
-    resolver fallback unknown who opponent different cut remaining (payoff opponent) charge envelope
-  rw [FinDist.expect_sub] at focalRegret trunkRegret
-  have negate (f : K → ℝ) : seed.expect (fun n => -f n) = -seed.expect f := by
-    simpa only [neg_one_mul] using FinDist.expect_smul (-1) seed f
-  simp_rw [opposite, negate] at trunkRegret resolved
-  linarith
+    (who opponent : Fin 2) (different : opponent ≠ who) (payoff : E.History → ℝ)
+    (cut remaining : Nat) (bound loss : ℝ) (hb : 0 ≤ bound) (hl : 0 ≤ loss) :
+    cfrDWeightedEnvelopeLoss M seed plays unknown who opponent cut remaining
+        (cfrDFreshTransportCharge M plays next fallback opponent payoff cut remaining bound loss) ≤
+      loss + cfrDFreshUniformDrift M plays next fallback opponent payoff cut remaining +
+        2 * bound * cfrDReferenceTransportDefect M plays next fallback opponent cut remaining := by
+  unfold cfrDWeightedEnvelopeLoss privateCarriedPrefix
+  rw [FinDist.expect_bind]
+  apply FinDist.expect_le_of_forall
+  intro n _
+  rw [FinDist.expect_map]
+  apply FinDist.expect_le_of_forall
+  intro h reached
+  apply cfrDFreshTransportCharge_le_uniform M plays next fallback opponent payoff
+    cut remaining bound loss hb hl n
+  rw [privateOpponent_profile M (plays n) unknown who opponent different] at reached
+  rw [FinDist.support_map]
+  exact ⟨h, informationReweight_support (unilateralReferenceLaw M (plays n) fallback opponent cut)
+      (M.runBehavioral (Profile.update (plays n) opponent (unknown opponent)) cut)
+      (fun history => (M.infoOf opponent history.trace, cfrDCutLive remaining history))
+      (fun tag => unilateralDensity M (plays n) fallback opponent (unknown opponent) tag.1)
+      (unilateralReference_density M hrecall (plays n) fallback opponent (unknown opponent) cut)
+      reached, rfl⟩
+
+end Comparison
 
 variable [∀ who, DecidableEq (M.InfoState who)]
 
@@ -340,4 +406,80 @@ theorem cfrDDepth_fresh_weighted_security (clock : ObservationClock M)
   rw [add_mul, add_div]
   linarith
 
+end Weighted
+
+section Constructed
+
+universe us ua up uq uk
+variable {E : ExecutionProtocol.{0, us, ua} (Fin 2)}
+variable (M : InformationModel.{0, us, ua, up, uq, uk} E)
+variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
+variable [∀ who info, Fintype ((fullInformation M).Choice who info)]
+variable [∀ who, DecidableEq ((fullInformation M).InfoState who)]
+
+/-- Both the noisy parent and the repeated fresh children are actually
+constructed. Their oracle accuracy and local child quality are derived here,
+not supplied as solver certificates. The actual weighted error is retained. -/
+theorem cfrDFreshChain_weighted_security (fallback : Profile M.strategicSignature)
+    (payoff : Fin 2 → E.History → ℝ) (zeroSum : IsZeroSum (fun h who => payoff who h))
+    (cut remaining : Nat) (bound error oldLoss : ℝ) (loss : Nat → ℝ) (stages : Nat)
+    (hb : 0 ≤ bound) (he : 0 ≤ error) (ho : 0 < oldLoss) (hn : 0 < loss stages)
+    (bounded : ∀ who h, |payoff who h| ≤ bound) (noise : CFRDPredictionNoise M)
+    (noiseBound : ∀ n trunk who info, |noise n trunk who info| ≤ error)
+    (reference : Profile (fullInformation M).behavioralSignature)
+    (equilibrium : IsNash ((fullInformation M).toBehavioralGameForm (cut + remaining))
+      (euPreference (fun h who => payoff who h)) reference)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who opponent : Fin 2)
+    (different : opponent ≠ who) (t : Nat) [NeZero t] :
+    let plays := fun n : Fin t => cfrDDepthPlay (fullInformation M) (fullObservationClock M)
+      (cfrDInformationFallback M fallback) payoff cut remaining
+      (cfrDConstructedSampledInformationOracle M fallback payoff cut remaining bound oldLoss noise)
+      n.val
+    let next := fun n : Fin t => cfrDFreshInformationChain M fallback payoff cut remaining
+      bound loss (plays n) (stages + 1)
+    ((fullInformation M).runBehavioral reference (cut + remaining)).expect (payoff who) -
+      ((cfrDDepthErrorConstant (fullInformation M) (fullObservationClock M)
+            (cfrDInformationFallback M fallback) cut remaining who +
+          cfrDDepthErrorConstant (fullInformation M) (fullObservationClock M)
+            (cfrDInformationFallback M fallback) cut remaining opponent) * error +
+        (cfrDDepthFiniteConstant (fullInformation M) (fullObservationClock M)
+            (cfrDInformationFallback M fallback) cut remaining bound who +
+          cfrDDepthFiniteConstant (fullInformation M) (fullObservationClock M)
+            (cfrDInformationFallback M fallback) cut remaining bound opponent) / Real.sqrt t +
+        oldLoss + cfrDWeightedEnvelopeLoss (fullInformation M) (cfrIterationLaw t) plays
+          unknown who opponent cut remaining (cfrDFreshTransportCharge (fullInformation M)
+            plays next (cfrDInformationFallback M fallback) opponent (payoff opponent)
+            cut remaining bound (loss stages))) ≤
+      (privateCarriedResolve (fullInformation M) (cfrIterationLaw t) plays
+        (cfrDFreshChainResolver M fallback payoff cut remaining bound loss plays (stages + 1))
+        unknown who cut remaining).expect (payoff who) := by
+  dsimp only
+  let oracle := cfrDConstructedSampledInformationOracle M fallback payoff cut remaining
+    bound oldLoss noise
+  let plays := fun n : Fin t => cfrDDepthPlay (fullInformation M) (fullObservationClock M)
+    (cfrDInformationFallback M fallback) payoff cut remaining oracle n.val
+  let next := fun n : Fin t => cfrDFreshInformationChain M fallback payoff cut remaining
+    bound loss (plays n) (stages + 1)
+  have accurate : CFRDDepthAccurate (fullInformation M) (fullObservationClock M)
+      (cfrDInformationFallback M fallback) payoff cut remaining oracle error := by
+    dsimp only [oracle]
+    rw [cfrDConstructedSampledInformationOracle_eq]
+    exact cfrDConstructedInformationOracle_accurate M fallback payoff cut remaining
+      bound oldLoss noise error noiseBound
+  have optimal : CFRDDepthLeafOptimal (fullInformation M) (fullObservationClock M)
+      (cfrDInformationFallback M fallback) payoff cut remaining oracle oldLoss := by
+    dsimp only [oracle]
+    rw [cfrDConstructedSampledInformationOracle_eq]
+    exact cfrDConstructedInformationOracle_leafOptimal M fallback payoff zeroSum cut remaining
+      bound oldLoss hb ho bounded noise
+  have nextOptimal : ∀ n, CFRDLeafOptimal (fullInformation M) (next n)
+      (cfrDInformationFallback M fallback) opponent (payoff opponent) cut remaining
+      (loss stages) := fun n => cfrDFreshInformationChain_leafOptimal M fallback payoff
+        zeroSum cut remaining bound loss hb bounded (plays n) opponent stages hn
+  exact cfrDDepth_fresh_weighted_security (fullInformation M) (fullObservationClock M)
+    (fullSignals_perfectRecall M.toInfoSignals) (cfrDInformationFallback M fallback)
+    payoff zeroSum cut remaining oracle bound error oldLoss (loss stages) hb he ho.le hn.le
+    bounded accurate optimal reference equilibrium unknown who opponent different t next nextOptimal
+
+end Constructed
 end GameTheory.ReBeL

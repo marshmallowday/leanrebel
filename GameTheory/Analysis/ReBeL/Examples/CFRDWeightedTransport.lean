@@ -112,4 +112,48 @@ theorem freshChainControl_weighted_zero_fuel
   simp only [cfrDWeightedEnvelopeLoss, cfrDCutLive_zero, cfrDFreshTransportCharge,
     Bool.false_eq_true, if_false, FinDist.expect_const]
 
+/-- Equality is confined to the existing real-valued parent learner. -/
+local instance weightedControlInfoDecidable (who : Player) :
+    DecidableEq ((model fullPrior).InfoState who) := Classical.decEq _
+
+/-- The explicit numerical parent bias is 1/8 and old-child loss is 1/4.
+The new twice-recomputed child is charged under the actual unknown-opponent
+prefix, not a maximum or an independently resampled private seed. -/
+def freshChainControlWeightedBudget
+    (unknown : Profile (model fullPrior).behavioralSignature) (t : Nat) [NeZero t] : ℝ :=
+  (cfrDDepthErrorConstant (model fullPrior) decisionClock informationControlFullFallback 2 1 0 +
+      cfrDDepthErrorConstant (model fullPrior) decisionClock informationControlFullFallback 2 1 1) *
+      (1 / 8) +
+    (cfrDDepthFiniteConstant (model fullPrior) decisionClock informationControlFullFallback
+        2 1 2 0 +
+      cfrDDepthFiniteConstant (model fullPrior) decisionClock informationControlFullFallback
+        2 1 2 1) / Real.sqrt t + 1 / 4 +
+    cfrDWeightedEnvelopeLoss (model fullPrior) (cfrIterationLaw t) (freshControlParentPlays t)
+      unknown 0 1 2 1 (cfrDFreshTransportCharge (model fullPrior) (freshControlParentPlays t)
+        (fun n => cfrDFreshInformationChain (reducedModel fullPrior) pbsRootControlFallback
+          cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t n) 2)
+        informationControlFullFallback 1 (cfrPayoff 1) 2 1 2 (freshChainControlLoss 1))
+
+/-- The root consumer derives both actual solver contracts and keeps every
+positive-error and finite-time term. Only the comparison equilibrium names the
+original game value; no accuracy, envelope or security certificate is input. -/
+theorem freshChainControl_biased_weighted_security
+    (reference : Profile (model fullPrior).behavioralSignature)
+    (equilibrium : IsNash ((model fullPrior).toBehavioralGameForm 3)
+      (euPreference (fun h who => cfrPayoff who h)) reference)
+    (unknown : Profile (model fullPrior).behavioralSignature) (t : Nat) [NeZero t] :
+    ((model fullPrior).runBehavioral reference 3).expect (cfrPayoff 0) -
+        freshChainControlWeightedBudget unknown t ≤
+      (privateCarriedResolve (model fullPrior) (cfrIterationLaw t) (freshControlParentPlays t)
+        (cfrDFreshChainResolver (reducedModel fullPrior) pbsRootControlFallback
+          cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t) 2)
+        unknown 0 2 1).expect (cfrPayoff 0) := by
+  apply cfrDFreshChain_weighted_security (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
+    (cumulative_zeroSum fullPrior) 2 1 2 (1 / 8) (1 / 4) freshChainControlLoss 1
+    (by norm_num) (by norm_num) (by norm_num) (freshChainControlLoss_pos 1)
+    (fun player h => cfrPayoff_abs_le_two player h) (fun _ _ _ _ => 1 / 8) _
+    reference equilibrium unknown 0 1 (by decide) t
+  intro n trunk player info
+  norm_num
+
 end GameTheory.ReBeL.Examples.HiddenTypes
