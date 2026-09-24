@@ -65,7 +65,7 @@ theorem pbsDepthAllocation_feasible (coefficient tolerance : ℝ)
   have cancelled : (|coefficient| + 1) * pbsDepthAllocationError coefficient tolerance =
       tolerance / 4 := by
     unfold pbsDepthAllocationError
-    field_simp [denominator] <;> ring
+    field_simp [denominator]
   rw [cancelled] at multiplied
   linarith
 
@@ -125,7 +125,8 @@ theorem pbsRootDepthBudget_le_factors (fallback : Profile M.strategicSignature)
     (fullObservationClock (pbsRootInformation (fullInformation M) roots))
     (pbsRootFallback M roots fallback) (cut + 1) remaining bound error loss he 1 t
   unfold pbsRootDepthBudget pbsRootDepthErrorFactor pbsRootDepthFiniteFactor
-  linarith
+  simp only [add_mul, add_div]
+  linarith only [first, second]
 
 /-- Compute finite parent rounds from the budget remaining AFTER numerical and
 child errors. The total definition makes no accuracy claim for an infeasible target. -/
@@ -156,7 +157,8 @@ theorem pbsRootDepthBudgetRounds_error (fallback : Profile M.strategicSignature)
     (sub_pos.mpr feasible)
   have total := pbsRootDepthBudget_le_factors M roots fallback cut remaining bound error loss he
     (pbsRootDepthBudgetRounds M roots fallback cut remaining bound error loss tolerance)
-  linarith
+  unfold pbsRootDepthBudgetRounds at total ⊢
+  linarith only [total, finite]
 
 variable {observations : List M.PublicSignal}
 
