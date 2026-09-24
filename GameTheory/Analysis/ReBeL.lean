@@ -201,3 +201,5 @@ import GameTheory.Analysis.ReBeL.CFRDFreshChain
 import GameTheory.Analysis.ReBeL.Examples.CFRDFreshChain
 import GameTheory.Analysis.ReBeL.CFRDReferenceReweight
 import GameTheory.Analysis.ReBeL.Examples.CFRDReferenceReweight
+import GameTheory.Analysis.ReBeL.CFRDWeightedTransport
+import GameTheory.Analysis.ReBeL.Examples.CFRDWeightedTransport

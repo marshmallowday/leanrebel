@@ -101,6 +101,8 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.Examples.CFRDFreshChain",
     "GameTheory.Analysis.ReBeL.CFRDReferenceReweight",
     "GameTheory.Analysis.ReBeL.Examples.CFRDReferenceReweight",
+    "GameTheory.Analysis.ReBeL.CFRDWeightedTransport",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDWeightedTransport",
 )
 AUDITOR = r'''
 open Lean Elab Command in
