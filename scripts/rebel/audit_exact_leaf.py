@@ -85,6 +85,9 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.PBSCarriedDepth",
     "GameTheory.Analysis.ReBeL.Examples.PBSCarriedDepth",
     "GameTheory.Analysis.ReBeL.PBSCarriedDepthSampling",
+    "GameTheory.Math.Probability.FinDistFirstHit",
+    "GameTheory.Analysis.ReBeL.PBSCarriedDepthFirstHit",
+    "GameTheory.Analysis.ReBeL.Examples.PBSCarriedDepthSampling",
 )
 AUDITOR = r'''
 open Lean Elab Command in
