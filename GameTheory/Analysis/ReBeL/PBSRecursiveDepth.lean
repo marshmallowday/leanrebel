@@ -152,7 +152,8 @@ def pbsRecursiveDepthDraw
     (belief : PublicBelief (fullInformation M).toInfoSignals obs) (tolerance : ℝ) :
     FinDist (Profile (fullInformation M).behavioralSignature) := by
   cases cuts with
-  | nil => exact FinDist.pure (pbsRecursiveDepth noise [] E M fallback payoff bound belief tolerance)
+  | nil =>
+      exact FinDist.pure (pbsRecursiveDepth noise [] E M fallback payoff bound belief tolerance)
   | cons cut tail =>
       letI : Fintype (pbsRootProtocol belief.law).History := pbsRootHistoryFintype belief.law
       let error := pbsDepthAllocationError
@@ -174,7 +175,8 @@ theorem pbsRecursiveDepthDraw_law
         (Profile.update unknown who (chosen who)) steps)) =
       belief.law.bind ((fullInformation M).runBehavioralFrom
         (Profile.update unknown who
-          (pbsRecursiveDepth noise cuts E M fallback payoff bound belief tolerance who)) steps) := by
+          (pbsRecursiveDepth noise cuts E M fallback payoff bound belief tolerance who))
+        steps) := by
   cases cuts with
   | nil => simp only [pbsRecursiveDepthDraw, FinDist.pure_bind]
   | cons cut tail =>
@@ -192,10 +194,11 @@ theorem pbsRecursiveDepthDraw_value
         (Profile.update unknown who (chosen who)) steps)).expect value) =
       (belief.law.bind ((fullInformation M).runBehavioralFrom
         (Profile.update unknown who
-          (pbsRecursiveDepth noise cuts E M fallback payoff bound belief tolerance who)) steps)).expect
-        value := by
+          (pbsRecursiveDepth noise cuts E M fallback payoff bound belief tolerance who))
+        steps)).expect value := by
   have equal := congrArg (fun law : FinDist E.History => law.expect value)
-    (pbsRecursiveDepthDraw_law noise cuts M fallback payoff bound belief tolerance unknown who steps)
+    (pbsRecursiveDepthDraw_law noise cuts M fallback payoff bound belief tolerance
+      unknown who steps)
   simpa only [FinDist.expect_bind] using equal
 
 variable {K : Type*}

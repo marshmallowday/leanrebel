@@ -244,8 +244,8 @@ theorem pbsComposedDepthAverage_uniform_law (fallback : Profile M.strategicSigna
       (steps + 1) =
       (cfrIterationLaw t).bind (fun n => (pbsRootFullInformation M roots).runBehavioral
         (Profile.update unknown who
-          (pbsComposedDepthIterate M roots fallback payoff cut remaining loss solve noise n.val who))
-        (steps + 1)) := by
+          (pbsComposedDepthIterate M roots fallback payoff cut remaining loss solve noise
+            n.val who)) (steps + 1)) := by
   exact run_unilateral_average (pbsRootFullInformation M roots)
     (fullSignals_perfectRecall (pbsRootInformation (fullInformation M) roots).toInfoSignals)
     (fun _ => cfrIterationLaw t)
@@ -284,8 +284,8 @@ theorem pbsComposedDepthDraw_law
   have equal := congrArg
     (fun law : FinDist (pbsRootProtocol belief.law).History => law.map History.state)
     (pbsComposedDepthAverage_uniform_law M belief.law fallback payoff cut remaining loss solve
-      noise (pbsRootDepthBudgetRounds M belief.law fallback cut remaining bound error loss tolerance)
-      (pbsRootBehavioralFullProfile M belief.law unknown) who steps)
+      noise (pbsRootDepthBudgetRounds M belief.law fallback cut remaining bound error loss
+        tolerance) (pbsRootBehavioralFullProfile M belief.law unknown) who steps)
   rw [FinDist.map_bind] at equal
   simp_rw [pbsRootDecodeOwn_law M belief.law (observations.length - 1)
     (pbsRoot_publicBelief_depth M belief)] at equal

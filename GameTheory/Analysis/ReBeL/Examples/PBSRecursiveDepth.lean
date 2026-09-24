@@ -22,6 +22,12 @@ open GameTheory.ReBeL.Rational.HiddenTypes.Canonical
 local instance recursiveHistoryFintype : Fintype (protocol fullPrior).History :=
   historyFintype fullPrior
 
+/-- Every active or inactive local menu has its original finite action carrier. -/
+local instance recursiveChoiceFintype (who : Player)
+    (info : (model fullPrior).InfoState who) : Fintype ((model fullPrior).Choice who info) := by
+  classical
+  infer_instance
+
 /-- The joint initial PBS precedes chance and the two real decision stages. -/
 def recursiveInitialBelief : PublicBelief (model fullPrior).toInfoSignals
     (publicTrace (model fullPrior).toInfoSignals (protocol fullPrior).initHistory.trace) where
@@ -39,12 +45,11 @@ randomized behavioral replacements, with no child-optimality input. -/
 theorem recursiveInitial_isNash (tolerance : ℝ) (positive : 0 < tolerance) :
     IsNash (behavioralBeliefForm (model fullPrior) recursiveInitialBelief 3)
       (euPreferenceWithin tolerance (fun h who => cfrPayoff who h))
-      (recursiveInitialProfile tolerance) := by
-  simpa only [List.sum_cons, List.sum_nil, recursiveInitialProfile] using
-    pbsRecursiveDepth_isNash pbsRecursiveAllocatedNoise pbsRecursiveAllocatedNoise_bounded
-      [1, 1, 1] (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
-      (cumulative_zeroSum fullPrior) 2 (by norm_num) cfrPayoff_abs_le_two
-      recursiveInitialBelief tolerance positive
+      (recursiveInitialProfile tolerance) :=
+  pbsRecursiveDepth_isNash pbsRecursiveAllocatedNoise pbsRecursiveAllocatedNoise_bounded
+    [1, 1, 1] (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
+    (cumulative_zeroSum fullPrior) 2 (by norm_num) cfrPayoff_abs_le_two
+    recursiveInitialBelief tolerance positive
 
 /-- A fresh randomized deviation is covered in the original history game. -/
 theorem recursiveInitial_randomized_gain (tolerance : ℝ) (positive : 0 < tolerance) :
@@ -76,12 +81,12 @@ theorem recursiveInitial_zero_cut (tolerance : ℝ) (positive : 0 < tolerance) :
     IsNash (behavioralBeliefForm (model fullPrior) recursiveInitialBelief 3)
       (euPreferenceWithin tolerance (fun h who => cfrPayoff who h))
       (pbsRecursiveDepth pbsRecursiveAllocatedNoise [0, 1, 1, 1] (protocol fullPrior)
-        (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2 recursiveInitialBelief tolerance) := by
-  simpa only [List.sum_cons, List.sum_nil] using
-    pbsRecursiveDepth_isNash pbsRecursiveAllocatedNoise pbsRecursiveAllocatedNoise_bounded
-      [0, 1, 1, 1] (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
-      (cumulative_zeroSum fullPrior) 2 (by norm_num) cfrPayoff_abs_le_two
-      recursiveInitialBelief tolerance positive
+        (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2
+        recursiveInitialBelief tolerance) :=
+  pbsRecursiveDepth_isNash pbsRecursiveAllocatedNoise pbsRecursiveAllocatedNoise_bounded
+    [0, 1, 1, 1] (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
+    (cumulative_zeroSum fullPrior) 2 (by norm_num) cfrPayoff_abs_le_two
+    recursiveInitialBelief tolerance positive
 
 /-- The concrete parent's perturbation really uses a positive allowance. -/
 theorem recursiveInitial_noise_positive (tolerance : ℝ) (positive : 0 < tolerance)
@@ -105,11 +110,10 @@ theorem recursiveChild_leafOptimal (loss : ℝ) (positive : 0 < loss) (who : Pla
   apply cfrDComposedChildContinuation_leafOptimal (reducedModel fullPrior)
     (carriedBitProfile false) pbsRootControlFallback 2 1 loss positive
   intro obs belief tolerance targetPositive
-  simpa only [List.sum_cons, List.sum_nil] using
-    pbsRecursiveDepth_isNash pbsRecursiveAllocatedNoise pbsRecursiveAllocatedNoise_bounded
-      [1] (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
-      (cumulative_zeroSum fullPrior) 2 (by norm_num) cfrPayoff_abs_le_two
-      belief tolerance targetPositive
+  exact pbsRecursiveDepth_isNash pbsRecursiveAllocatedNoise pbsRecursiveAllocatedNoise_bounded
+    [1] (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
+    (cumulative_zeroSum fullPrior) 2 (by norm_num) cfrPayoff_abs_le_two
+    belief tolerance targetPositive
 
 /-- A sampled actual parent with recursive children realizes the full original
 history law against any fixed unknown opponent, not just a payoff scalar. -/
@@ -135,7 +139,8 @@ theorem recursiveInitial_missing_belief (tolerance : ℝ)
 theorem recursiveInitial_zero_execution (tolerance : ℝ)
     (initial : Unit → Profile (model fullPrior).behavioralSignature)
     (unknown : Profile (model fullPrior).behavioralSignature) (who : Player)
-    (state : PrivateIterationState (model fullPrior) (CarriedResolveMemory (model fullPrior) Unit)) :
+    (state : PrivateIterationState (model fullPrior)
+      (CarriedResolveMemory (model fullPrior) Unit)) :
     (carriedMemoryStep (model fullPrior) initial unknown who
       (pbsRecursiveDepthStage pbsRecursiveAllocatedNoise [1, 1, 1] (reducedModel fullPrior)
         pbsRootControlFallback cfrPayoff 2 tolerance 0 initial) state).map
