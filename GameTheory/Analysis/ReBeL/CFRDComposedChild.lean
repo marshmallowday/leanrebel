@@ -184,6 +184,8 @@ theorem cfrDComposedChildProfile_referenceLaw
   cfrDDepthProfile_referenceLaw (fullInformation M) (fullObservationClock M)
     trunk _ (cfrDInformationFallback M fallback) who cut
 
+variable [Fintype E.History]
+
 /-- The factual joint-law floor controls every supported private-type loss. -/
 theorem cfrDComposedChildProfile_referenceBudget
     (trunk : Profile (fullInformation M).behavioralSignature)
@@ -245,7 +247,7 @@ theorem cfrDComposedChildProfile_referenceBudget
   exact cfrDComposedChildProfile_isNash M trunk fallback cut remaining loss positive
     solve utility smaller obs original
 
-variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
+variable [∀ who, Fintype (E.Action who)]
 
 /-- Counterfactual completion retains factual children and fills zero-own-reach types. -/
 def cfrDComposedChildContinuation (trunk : Profile (fullInformation M).behavioralSignature)
