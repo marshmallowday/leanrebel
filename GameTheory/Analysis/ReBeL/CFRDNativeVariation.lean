@@ -9,6 +9,8 @@ No pointwise replacement certificate or model/actual posterior equality is input
 -/
 
 import GameTheory.Analysis.ReBeL.CFRDRefreshMix
+import GameTheory.Analysis.ReBeL.CFRDFreshValueDrift
+import GameTheory.Analysis.ReBeL.PBSRecursiveDepth
 import GameTheory.Math.Probability.FinDistTotalVariation
 import Mathlib.Data.Finset.Lattice.Fold
 
@@ -159,8 +161,8 @@ theorem carriedResolveStepBounds_from_variation
     (bounded : ∀ h, |value h| ≤ bound) (stages : List (CarriedResolveStage M K))
     (states : FinDist (PrivateIterationState M (CarriedResolveMemory M K))) :
     CarriedResolveStepBounds M initial unknown who finalFuel value
-      (fun _ => 2 * bound * carriedResolveMaxVariation M initial unknown who finalFuel stages states)
-      stages states := by
+      (fun _ => 2 * bound *
+        carriedResolveMaxVariation M initial unknown who finalFuel stages states) stages states := by
   induction stages generalizing states with
   | nil => trivial
   | cons stage stages ih =>
@@ -199,9 +201,11 @@ theorem carriedResolveVariationBudget_bounds (initial : K → Profile M.behavior
     (stages : List (CarriedResolveStage M K))
     (states : FinDist (PrivateIterationState M (CarriedResolveMemory M K))) :
     0 ≤ carriedResolveVariationBudget M initial unknown who finalFuel stages states ∧
-      carriedResolveVariationBudget M initial unknown who finalFuel stages states ≤ stages.length := by
+      carriedResolveVariationBudget M initial unknown who finalFuel stages states ≤
+        stages.length := by
   induction stages generalizing states with
-  | nil => simp only [carriedResolveVariationBudget, List.length_nil, Nat.cast_zero, le_refl, and_self]
+  | nil =>
+      simp only [carriedResolveVariationBudget, List.length_nil, Nat.cast_zero, le_refl, and_self]
   | cons stage stages ih =>
       have lower := FinDist.expect_mono (μ := states) (fun state _ =>
         (carriedStepVariation_bounds M initial unknown who stage
@@ -265,5 +269,192 @@ theorem privateRecursiveResolve_inherits_variation (seed : FinDist K)
   rw [oldValue] at transferred
   unfold privateRecursiveResolve
   linarith
+
+section FreshModel
+
+variable [∀ who info, Fintype (M.Choice who info)]
+
+/-- Old and fresh model continuations start on the SAME old reference fiber.
+The returned coefficient contains no payoff and no final safety conclusion. -/
+def cfrDFreshQueryVariation (base next : Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (who : Fin 2)
+    (cut remaining : Nat) (info : M.InfoState who) : ℝ :=
+  let query := (unilateralReferenceLaw M base fallback who cut).condOnFibre
+    (fun h => (M.infoOf who h.trace, cfrDCutLive remaining h)) (info, true)
+  FinDist.totalVariation (query.bind (M.runBehavioralFrom next remaining))
+    (query.bind (M.runBehavioralFrom base remaining))
+
+/-- The source's signed fresh-model value change has a derived two-sided bound. -/
+theorem cfrDFreshValueChange_abs_le_variation
+    (base next : Profile M.behavioralSignature) (fallback : Profile M.strategicSignature)
+    (who : Fin 2) (payoff : E.History → ℝ) (cut remaining : Nat) (info : M.InfoState who)
+    (bound : ℝ) (bounded : ∀ h, |payoff h| ≤ bound) :
+    |cfrDFreshValueChange M base next fallback who payoff cut remaining info| ≤
+      2 * bound * cfrDFreshQueryVariation M base next fallback who cut remaining info := by
+  unfold cfrDFreshValueChange conditionalOracleValue cfrDFreshQueryVariation
+  rw [FinDist.expect_sub, ← FinDist.expect_bind, ← FinDist.expect_bind]
+  exact FinDist.abs_expect_sub_le_totalVariation _ _ payoff bound bounded
+
+/-- Keeping the model continuation gives zero conditional law variation. -/
+theorem cfrDFreshQueryVariation_self (base : Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (who : Fin 2)
+    (cut remaining : Nat) (info : M.InfoState who) :
+    cfrDFreshQueryVariation M base base fallback who cut remaining info = 0 :=
+  FinDist.totalVariation_self _
+
+variable [Fintype E.History]
+
+/-- Only supported LIVE old-reference queries enter this finite maximum.
+A zero-mass query's total conditional is not treated as a queried posterior. -/
+def cfrDFreshVariationMax (base next : Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (who : Fin 2) (cut remaining : Nat) : ℝ := by
+  classical
+  exact max 0 ((Finset.univ : Finset E.History).sup'
+    ⟨E.initHistory, Finset.mem_univ _⟩ fun h =>
+      if (M.infoOf who h.trace, true) ∈ ((unilateralReferenceLaw M base fallback who cut).map
+          (fun leaf => (M.infoOf who leaf.trace, cfrDCutLive remaining leaf))).support then
+        cfrDFreshQueryVariation M base next fallback who cut remaining (M.infoOf who h.trace)
+      else 0)
+
+/-- The maximum is nonnegative, including when there are no live queries. -/
+theorem cfrDFreshVariationMax_nonneg (base next : Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (who : Fin 2) (cut remaining : Nat) :
+    0 ≤ cfrDFreshVariationMax M base next fallback who cut remaining := le_max_left _ _
+
+/-- Every supported information query has a representative in the maximum. -/
+theorem cfrDFreshQueryVariation_le_max (base next : Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (who : Fin 2) (cut remaining : Nat)
+    (info : M.InfoState who)
+    (sampled : (info, true) ∈ ((unilateralReferenceLaw M base fallback who cut).map
+      (fun h => (M.infoOf who h.trace, cfrDCutLive remaining h))).support) :
+    cfrDFreshQueryVariation M base next fallback who cut remaining info ≤
+      cfrDFreshVariationMax M base next fallback who cut remaining := by
+  classical
+  have witness := sampled
+  rw [FinDist.support_map] at witness
+  obtain ⟨history, _, same⟩ := witness
+  have observed : M.infoOf who history.trace = info := congrArg Prod.fst same
+  unfold cfrDFreshVariationMax
+  apply le_trans _ (le_max_right _ _)
+  have member := Finset.le_sup'
+    (s := (Finset.univ : Finset E.History))
+    (fun h => if (M.infoOf who h.trace, true) ∈
+        ((unilateralReferenceLaw M base fallback who cut).map
+          (fun leaf => (M.infoOf who leaf.trace, cfrDCutLive remaining leaf))).support then
+      cfrDFreshQueryVariation M base next fallback who cut remaining (M.infoOf who h.trace)
+      else 0) (Finset.mem_univ history)
+  simpa only [observed, if_pos sampled] using member
+
+/-- The existing fresh-value drift is now bounded by a probability-only
+coefficient on its exact old reference queries, without assuming value drift. -/
+theorem cfrDFreshValueDrift_le_variation (base next : Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (who : Fin 2) (payoff : E.History → ℝ)
+    (cut remaining : Nat) (bound : ℝ) (nonneg : 0 ≤ bound)
+    (bounded : ∀ h, |payoff h| ≤ bound) :
+    cfrDFreshValueDrift M base next fallback who payoff cut remaining ≤
+      2 * bound * cfrDFreshVariationMax M base next fallback who cut remaining := by
+  apply cfrDFreshValueDrift_le M base next fallback who payoff cut remaining
+  · exact mul_nonneg (mul_nonneg (by norm_num) nonneg)
+      (cfrDFreshVariationMax_nonneg M base next fallback who cut remaining)
+  · intro info sampled
+    exact ((le_abs_self _).trans
+      (cfrDFreshValueChange_abs_le_variation M base next fallback who payoff cut remaining
+        info bound bounded)).trans
+      (mul_le_mul_of_nonneg_left
+        (cfrDFreshQueryVariation_le_max M base next fallback who cut remaining info sampled)
+        (mul_nonneg (by norm_num) nonneg))
+
+end FreshModel
+
+end GameTheory.ReBeL
+
+namespace GameTheory.ReBeL
+
+open GameTheory.Protocol InformationModel
+open GameTheory.Math.Probability
+
+universe u
+variable {E : ExecutionProtocol.{0, u, u} (Fin 2)}
+variable (M : InformationModel.{0, u, u, u, u, u} E)
+variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
+variable {K : Type*}
+
+/-- Numerical inputs for one actual recursive PBS solve and execution stage.
+No Nash, value, local-loss, or whole-chain certificate is stored here. -/
+structure PBSRecursiveResolveParameters where
+  /-- Original transition counts at the successive training cuts. -/
+  cuts : List Nat
+  /-- Requested solver accuracy; strategic guarantees separately require positivity. -/
+  tolerance : ℝ
+  /-- Actual execution transitions before the next fresh public solve. -/
+  fuel : Nat
+
+/-- Every entry installs the already-constructed recursive solver unchanged. -/
+def pbsRecursiveVariationStages (noise : PBSRecursiveDepthNoise.{u})
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ) (bound : ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (parameters : List PBSRecursiveResolveParameters) :
+    List (CarriedResolveStage (fullInformation M) K) :=
+  parameters.map fun p =>
+    pbsRecursiveDepthStage noise p.cuts M fallback payoff bound p.tolerance p.fuel initial
+
+/-- Missing model beliefs retain the incumbent and therefore have zero law
+variation even at arbitrary off-model histories and positive execution fuel. -/
+theorem pbsRecursiveDepthStage_none_variation (noise : PBSRecursiveDepthNoise.{u})
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ) (bound : ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (p : PBSRecursiveResolveParameters) (remaining : Nat)
+    (state : PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K)) (missing : state.belief = none) :
+    carriedStepVariation (fullInformation M) initial unknown who
+      (pbsRecursiveDepthStage noise p.cuts M fallback payoff bound p.tolerance p.fuel initial)
+      remaining state = 0 := by
+  apply carriedStepVariation_retained
+  simp only [pbsRecursiveDepthStage, missing, pbsRecursiveDepthResolver]
+
+/-- The actual fresh recursive solver discharges the existing step-bound
+interface from its native law coefficient, rather than receiving that interface. -/
+theorem pbsRecursiveResolve_stepBounds (noise : PBSRecursiveDepthNoise.{u})
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ) (bound : ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (finalFuel : Nat)
+    (parameters : List PBSRecursiveResolveParameters)
+    (states : FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K)))
+    (value : E.History → ℝ) (observableBound : ℝ) (nonneg : 0 ≤ observableBound)
+    (bounded : ∀ h, |value h| ≤ observableBound) :
+    let stages := pbsRecursiveVariationStages M noise fallback payoff bound initial parameters
+    CarriedResolveStepBounds (fullInformation M) initial unknown who finalFuel value
+      (fun _ => 2 * observableBound * carriedResolveMaxVariation (fullInformation M)
+        initial unknown who finalFuel stages states) stages states := by
+  dsimp only
+  exact carriedResolveStepBounds_from_variation (fullInformation M) initial unknown who
+    finalFuel value observableBound nonneg bounded _ states
+
+/-- Complete native re-solving by the actual structurally recursive PBS solver
+inherits a prior bound with the sharper sum of expected native variations. The
+coefficient is not identified with a numerical/Nash tolerance or assumed small. -/
+theorem pbsRecursiveResolve_inherits_variation (noise : PBSRecursiveDepthNoise.{u})
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ) (bound : ℝ)
+    (seed : FinDist K) (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (cut finalFuel : Nat) (parameters : List PBSRecursiveResolveParameters)
+    (value : E.History → ℝ) (observableBound lower : ℝ)
+    (bounded : ∀ h, |value h| ≤ observableBound)
+    (prior : lower ≤ (privateCarriedContinue (fullInformation M) seed initial unknown who cut
+      (carriedResolveFuel (fullInformation M) finalFuel
+        (pbsRecursiveVariationStages M noise fallback payoff bound initial parameters))).expect
+          value) :
+    let stages := pbsRecursiveVariationStages M noise fallback payoff bound initial parameters
+    lower - 2 * observableBound * carriedResolveVariationBudget (fullInformation M)
+        initial unknown who finalFuel stages
+        ((privateCarriedPrefix (fullInformation M) seed initial unknown who cut).map
+          (enterCarriedMemory (fullInformation M))) ≤
+      (privateRecursiveResolve (fullInformation M) seed initial unknown who cut finalFuel
+        stages).expect value := by
+  dsimp only
+  exact privateRecursiveResolve_inherits_variation (fullInformation M) seed initial unknown
+    who cut finalFuel _ value observableBound lower bounded prior
 
 end GameTheory.ReBeL

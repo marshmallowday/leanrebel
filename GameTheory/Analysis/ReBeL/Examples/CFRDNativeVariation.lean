@@ -10,6 +10,7 @@ variation: the existing exploitation counterexample forces a positive charge.
 import GameTheory.Analysis.ReBeL.CFRDNativeVariation
 import GameTheory.Analysis.ReBeL.Examples.CFRDResolveControl
 import GameTheory.Analysis.ReBeL.Examples.CFRDEquilibriumReplacement
+import GameTheory.Analysis.ReBeL.Examples.CFRDFreshResolve
 
 noncomputable section
 
@@ -55,6 +56,16 @@ theorem half_support_defect :
 open GameTheory.ReBeL.Examples.HiddenTypes
 open GameTheory.ReBeL.Rational.HiddenTypes.Canonical
 
+/-- Enumerate every legal history, not just one model's factual support. -/
+local instance variationHistoryFintype : Fintype (protocol fullPrior).History :=
+  historyFintype fullPrior
+
+/-- Include inactive singleton menus and all legal zero-own-reach choices. -/
+local instance variationChoiceFintype (who : Player)
+    (info : (model fullPrior).InfoState who) : Fintype ((model fullPrior).Choice who info) := by
+  classical
+  infer_instance
+
 /-- A genuine public live-cut solve, installed in the canonical memory runner. -/
 def liveVariationStage : CarriedResolveStage (model fullPrior) Nat where
   fuel := 1
@@ -83,6 +94,53 @@ theorem live_solver_zero_variation (n : Nat)
         1 (decode (.second x y a b))) = 0
     rw [liveResolve_second_run n unknown who x y a b, FinDist.totalVariation_self]
   · rfl
+
+/-- The factually absent private-type query is still in the old reference
+maximum for the ACTUAL freshly recomputed finite information-set child. -/
+theorem fresh_zero_own_reach_variation_counted :
+    cfrDFreshQueryVariation (model fullPrior) (carriedBitProfile false)
+        (cfrDInformationContinuation (reducedModel fullPrior) (carriedBitProfile false)
+          pbsRootControlFallback 2 1 (fun h player => cfrPayoff player h) 2 (1 / 8))
+        informationControlFullFallback 0 2 1
+        ((model fullPrior).infoOf 0 zeroControlHistory.trace) ≤
+      cfrDFreshVariationMax (model fullPrior) (carriedBitProfile false)
+        (cfrDInformationContinuation (reducedModel fullPrior) (carriedBitProfile false)
+          pbsRootControlFallback 2 1 (fun h player => cfrPayoff player h) 2 (1 / 8))
+        informationControlFullFallback 0 2 1 :=
+  cfrDFreshQueryVariation_le_max (model fullPrior) _ _ informationControlFullFallback
+    0 2 1 _ informationSamplingControl_zero_query_sampled
+
+/-- The positive-budget newly computed child has a derived value-drift allowance,
+not a caller-supplied comparison certificate or an equation of model posteriors. -/
+theorem fresh_computed_child_drift_bounded :
+    cfrDFreshValueDrift (model fullPrior) (carriedBitProfile false)
+        (cfrDInformationContinuation (reducedModel fullPrior) (carriedBitProfile false)
+          pbsRootControlFallback 2 1 (fun h player => cfrPayoff player h) 2 (1 / 8))
+        informationControlFullFallback 0 (cfrPayoff 0) 2 1 ≤
+      4 * cfrDFreshVariationMax (model fullPrior) (carriedBitProfile false)
+        (cfrDInformationContinuation (reducedModel fullPrior) (carriedBitProfile false)
+          pbsRootControlFallback 2 1 (fun h player => cfrPayoff player h) 2 (1 / 8))
+        informationControlFullFallback 0 2 1 := by
+  have estimate := cfrDFreshValueDrift_le_variation (model fullPrior) (carriedBitProfile false)
+    (cfrDInformationContinuation (reducedModel fullPrior) (carriedBitProfile false)
+      pbsRootControlFallback 2 1 (fun h player => cfrPayoff player h) 2 (1 / 8))
+    informationControlFullFallback 0 (cfrPayoff 0) 2 1 2 (by norm_num) (cfrPayoff_abs_le_two 0)
+  norm_num only [show (2 : ℝ) * 2 = 4 by norm_num] at estimate
+  exact estimate
+
+/-- The noisy structural solver with a positive target keeps its no-belief
+fallback at a genuine live legal history. Its probability-change allowance is zero. -/
+theorem recursive_no_belief_zero_variation
+    (unknown : Profile (model fullPrior).behavioralSignature) (who : Player) :
+    carriedStepVariation (model fullPrior) (fun _ : Unit => carriedBitProfile false)
+      unknown who
+      (pbsRecursiveDepthStage pbsRecursiveAllocatedNoise [1, 1, 1]
+        (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2 (1 / 8) 1
+        (fun _ : Unit => carriedBitProfile false)) 1
+      { iteration := ((), []), history := zeroControlHistory, belief := none } = 0 := by
+  exact pbsRecursiveDepthStage_none_variation (reducedModel fullPrior) pbsRecursiveAllocatedNoise
+    pbsRootControlFallback cfrPayoff 2 (fun _ : Unit => carriedBitProfile false) unknown who
+    ⟨[1, 1, 1], 1 / 8, 1⟩ 1 _ rfl
 
 open GameTheory.ReBeL.Examples.EquilibriumValue
 open GameTheory.ReBeL.Examples.EquilibriumReplacement

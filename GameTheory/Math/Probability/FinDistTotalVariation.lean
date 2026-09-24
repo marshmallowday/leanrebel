@@ -229,7 +229,7 @@ theorem probOf_outside_support_le_totalVariation (actual model : FinDist A) :
       _ = model.expect (fun _ => 0) := by
         apply expect_congr
         intro x reached
-        exact if_neg (by simpa only [Set.mem_setOf_eq, not_not] using reached)
+        exact if_neg (by simpa only [Set.mem_ofPred_eq, not_not] using reached)
       _ = 0 := expect_const _ _
   have estimate := abs_probOf_sub_le_totalVariation actual model {x | x ∉ model.support}
   rw [modelZero, sub_zero] at estimate
