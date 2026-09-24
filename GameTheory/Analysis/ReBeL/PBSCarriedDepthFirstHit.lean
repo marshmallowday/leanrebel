@@ -1,0 +1,125 @@
+/-
+# First unsupported-history hit in noisy carried-depth execution
+
+Every step is the constructed depth-limited solver at its incoming model PBS.
+The analysis charges only the first live unsupported history. It keeps the
+native private profile/PBS coupling and uses no model/actual posterior equality.
+A smaller sampling allowance alone is not a recursive security theorem.
+-/
+
+import GameTheory.Analysis.ReBeL.PBSCarriedDepthSampling
+import GameTheory.Math.Probability.FinDistFirstHit
+
+noncomputable section
+
+namespace GameTheory.ReBeL
+
+open GameTheory.Protocol ExecutionProtocol InformationModel
+open GameTheory.Math.Probability
+
+universe us ua up uq uk
+variable {E : ExecutionProtocol.{0, us, ua} (Fin 2)}
+variable (M : InformationModel.{0, us, ua, up, uq, uk} E)
+variable {K : Type*}
+variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
+
+/-- Probability that the actual native schedule ever presents a live history
+outside an existing carried model's support. Missing beliefs and stopped stages
+are not exceptions. All native choices before the first hit are preserved. -/
+def pbsCarriedDepthFirstHitProbability (fallback : Profile M.strategicSignature)
+    (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (schedule : List (PBSCarriedDepthParameters M))
+    (states : FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K))) : ℝ :=
+  FinDist.sequenceFirstHitProbability (fun parameters =>
+    carriedMemoryStep (fullInformation M) initial unknown who
+      (pbsCarriedDepthConfiguredStage M fallback payoff initial parameters))
+    (fun parameters => {state | pbsCarriedCFRException M parameters.fuel state}) schedule states
+
+/-- The defect is a derived probability in the unit interval, not an arbitrary allowance. -/
+theorem pbsCarriedDepthFirstHitProbability_bounds
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (schedule : List (PBSCarriedDepthParameters M))
+    (states : FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K))) :
+    0 ≤ pbsCarriedDepthFirstHitProbability M fallback payoff initial unknown who schedule states ∧
+      pbsCarriedDepthFirstHitProbability M fallback payoff initial unknown who schedule states ≤ 1 :=
+  ⟨FinDist.sequenceFirstHitProbability_nonneg _ _ _ _,
+    FinDist.sequenceFirstHitProbability_le_one _ _ _ _⟩
+
+/-- This probability never exceeds the existing sum of native exceptional visits. -/
+theorem pbsCarriedDepthFirstHitProbability_le_visits
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (schedule : List (PBSCarriedDepthParameters M))
+    (states : FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K))) :
+    pbsCarriedDepthFirstHitProbability M fallback payoff initial unknown who schedule states ≤
+      min 1 (pbsCarriedDepthSequenceExceptionMass M fallback payoff initial unknown who
+        schedule states) :=
+  FinDist.sequenceFirstHitProbability_le_min _ _ _ _
+
+/-- Arbitrary future kernels may read the complete native private state. Error
+is charged once at the first unsupported history, rather than at every later visit. -/
+theorem pbsCarriedDepthFirstHit_future_error {Outcome : Type*}
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (schedule : List (PBSCarriedDepthParameters M))
+    (states : FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K)))
+    (future : PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K) → FinDist Outcome)
+    (value : Outcome → ℝ) (observableBound : ℝ)
+    (bounded : ∀ outcome, |value outcome| ≤ observableBound) :
+    |((pbsCarriedDepthNativeStates M fallback payoff initial unknown who schedule states).bind
+        future).expect value -
+      ((pbsCarriedDepthHistoryFirstStates M fallback payoff initial unknown who
+        schedule states).bind future).expect value| ≤
+      2 * observableBound * pbsCarriedDepthFirstHitProbability M fallback payoff initial
+        unknown who schedule states := by
+  apply FinDist.abs_expect_bindSequence_sub_le_firstHit
+  · intro parameters state outside
+    exact pbsCarriedDepthConfiguredStep_eq_historyFirst M fallback payoff initial unknown who
+      parameters state outside
+  · exact bounded
+
+/-- The same first-hit charge applies to the existing finite recursive runner
+and its final retained-policy continuation. No alternative execution is substituted. -/
+theorem pbsCarriedDepthFirstHit_execute_error
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (finalFuel : Nat)
+    (schedule : List (PBSCarriedDepthParameters M))
+    (states : FinDist (PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K)))
+    (value : E.History → ℝ) (observableBound : ℝ)
+    (bounded : ∀ history, |value history| ≤ observableBound) :
+    |(states.bind (executeCarriedResolves (fullInformation M) initial unknown who finalFuel
+        (schedule.map (pbsCarriedDepthConfiguredStage M fallback payoff initial)))).expect value -
+      ((pbsCarriedDepthHistoryFirstStates M fallback payoff initial unknown who
+        schedule states).bind
+        (carriedSelectedTail (fullInformation M) initial unknown who finalFuel)).expect value| ≤
+      2 * observableBound * pbsCarriedDepthFirstHitProbability M fallback payoff initial
+        unknown who schedule states := by
+  have same :
+      states.bind (executeCarriedResolves (fullInformation M) initial unknown who finalFuel
+          (schedule.map (pbsCarriedDepthConfiguredStage M fallback payoff initial))) =
+        (pbsCarriedDepthNativeStates M fallback payoff initial unknown who schedule states).bind
+          (carriedSelectedTail (fullInformation M) initial unknown who finalFuel) := by
+    simp only [pbsCarriedDepthNativeStates, FinDist.bind_bind]
+    apply FinDist.bind_congr
+    intro state _
+    exact pbsCarriedDepthSequence_execute M fallback payoff initial unknown who
+      finalFuel schedule state
+  rw [same]
+  exact pbsCarriedDepthFirstHit_future_error M fallback payoff initial unknown who
+    schedule states (carriedSelectedTail (fullInformation M) initial unknown who finalFuel)
+    value observableBound bounded
+
+end GameTheory.ReBeL
