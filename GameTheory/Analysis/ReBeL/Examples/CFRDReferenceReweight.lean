@@ -130,7 +130,7 @@ theorem hidden_flip_transport_two :
     FinDist.conditionalTransportDefect (FinDist.pure false) (FinDist.pure true)
       (fun _ => ()) () = 2 := by
   simp only [FinDist.conditionalTransportDefect, FinDist.map_pure, FinDist.mem_support_pure,
-    if_pos rfl, pure_transport_fibre]
+    pure_transport_fibre]
   norm_num [show (Finset.univ : Finset Bool) = {false, true} from by decide,
     FinDist.prob_pure_eq_ite]
 
