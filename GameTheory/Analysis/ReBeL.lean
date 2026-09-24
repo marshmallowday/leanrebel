@@ -197,3 +197,5 @@ import GameTheory.Analysis.ReBeL.CFRDComposedChild
 import GameTheory.Analysis.ReBeL.PBSComposedDepth
 import GameTheory.Analysis.ReBeL.PBSRecursiveDepth
 import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveDepth
+import GameTheory.Analysis.ReBeL.CFRDFreshChain
+import GameTheory.Analysis.ReBeL.Examples.CFRDFreshChain
