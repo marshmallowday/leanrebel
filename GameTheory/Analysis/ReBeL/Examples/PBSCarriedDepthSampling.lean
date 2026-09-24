@@ -26,8 +26,7 @@ local instance depthSamplingHistoryFintype : Fintype (protocol fullPrior).Histor
 /-- A concrete root history is supported by the four-outcome joint model PBS. -/
 theorem depthSampling_supported :
     depthControlState.history ∈ depthControlBelief.law.support := by
-  change fullDraw (false, false) ∈ ((cfrIterationLaw 4).map
-    (fun n => fullDraw (decide (n.val % 2 = 1), decide (n.val / 2 = 1)))).support
+  dsimp only [depthControlState, depthControlBelief]
   rw [FinDist.support_map]
   refine ⟨(0 : Fin 4), ?_, rfl⟩
   rw [← FinDist.prob_pos_iff]
@@ -133,6 +132,51 @@ theorem depthSampling_positive_parameters :
     (0 : ℝ) < 1 / 8 ∧ 0 < depthSamplingFirst.loss ∧
       depthSamplingFirst.iterations = 2 ∧ depthSamplingLast.iterations = 3 := by
   norm_num [depthSamplingFirst, depthSamplingLast]
+
+/-- A legitimate public model can omit an actual hidden type with the same public trace. -/
+def depthSamplingThinBelief : PublicBelief (model fullPrior).toInfoSignals
+    (publicTrace (model fullPrior).toInfoSignals (fullDraw (true, false)).trace) where
+  law := FinDist.pure (fullDraw (false, false))
+  supported := by
+    intro history reached
+    have same : history = fullDraw (false, false) := by simpa using reached
+    subst history
+    rfl
+
+/-- This actual root is legal and public-compatible but absent from the stored model. -/
+def depthSamplingOutsideState : PrivateIterationState (model fullPrior) Unit where
+  iteration := ()
+  history := fullDraw (true, false)
+  belief := some depthSamplingThinBelief
+
+/-- The support exception is inhabited in the actual game, not only in Boolean toys. -/
+theorem depthSampling_unsupported_is_exception :
+    pbsCarriedCFRException (reducedModel fullPrior) 1 depthSamplingOutsideState := by
+  refine ⟨?_, ?_⟩
+  · classical
+    rw [cfrDCutLive_eq_true]
+    exact ⟨by decide, fun impossible => impossible⟩
+  · intro reached
+    have same : fullDraw (true, false) = fullDraw (false, false) := by
+      simpa only [depthSamplingOutsideState, depthSamplingThinBelief,
+        FinDist.support_pure, Set.mem_singleton_iff] using reached
+    have sameState := congrArg
+      (fun history : (protocol fullPrior).History => history.state) same
+    cases sameState
+
+/-- An actual unsupported input is charged once even when two solves are scheduled. -/
+theorem depthSampling_unsupported_first_hit
+    (unknown : Profile (model fullPrior).behavioralSignature) (who : Player) :
+    pbsCarriedDepthFirstHitProbability (reducedModel fullPrior) pbsRootControlFallback
+      cfrPayoff (fun _ : Unit => carriedBitProfile false) unknown who
+      [depthSamplingFirst, depthSamplingLast]
+      (FinDist.pure (enterCarriedMemory (model fullPrior) depthSamplingOutsideState)) = 1 := by
+  classical
+  have hit : pbsCarriedCFRException (reducedModel fullPrior) depthSamplingFirst.fuel
+      (enterCarriedMemory (model fullPrior) depthSamplingOutsideState) :=
+    depthSampling_unsupported_is_exception
+  unfold pbsCarriedDepthFirstHitProbability FinDist.sequenceFirstHitProbability
+  rw [FinDist.pure_bind, FinDist.sequenceFirstHit, if_pos hit, FinDist.prob_pure_self]
 
 /-- The sharp sampling charge composes with any future reading the retained state. -/
 theorem depthSampling_two_stage_first_hit
