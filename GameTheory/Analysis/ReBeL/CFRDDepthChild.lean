@@ -48,7 +48,8 @@ def pbsDepthChildHalfNoise (fallback : Profile M.strategicSignature)
 theorem pbsDepthChildHalfNoise_pos (fallback : Profile M.strategicSignature)
     (childCut childRemaining : Nat) (loss : ℝ) (positive : 0 < loss) :
     ∀ roots n trunk who info,
-      0 < pbsDepthChildHalfNoise M fallback childCut childRemaining loss roots n trunk who info := by
+      0 < pbsDepthChildHalfNoise M fallback childCut childRemaining loss
+        roots n trunk who info := by
   intro roots n trunk who info
   have allowance := pbsDepthAllocationError_pos
     (pbsRootDepthErrorFactor M roots fallback childCut childRemaining)
@@ -150,8 +151,8 @@ theorem cfrDDepthChildProfile_beliefLaw
       (cfrDDepthChildProfile M trunk fallback cut childCut childRemaining utility bound loss noise)
       fuel belief =
     PublicBelief.continuationLaw (fullInformation M)
-      (cfrDDepthChildTable M trunk fallback cut childCut childRemaining utility bound loss noise obs)
-      fuel belief := by
+      (cfrDDepthChildTable M trunk fallback cut childCut childRemaining
+        utility bound loss noise obs) fuel belief := by
   apply FinDist.bind_congr
   intro first supported
   have rootPublic := belief.supported first supported
@@ -204,8 +205,8 @@ theorem cfrDDepthChildProfile_isNash
       (cfrDFactualChildBelief M trunk cut (childCut + childRemaining) obs possible)
       (childCut + childRemaining))
       (euPreferenceWithin
-        ((cfrDFactualChildBelief M trunk cut (childCut + childRemaining) obs possible).law.
-          positiveMassFloor * loss) utility)
+        ((cfrDFactualChildBelief M trunk cut
+          (childCut + childRemaining) obs possible).law.positiveMassFloor * loss) utility)
       (cfrDDepthChildProfile M trunk fallback cut childCut childRemaining
         utility bound loss noise) := by
   let belief := cfrDFactualChildBelief M trunk cut (childCut + childRemaining) obs possible
@@ -255,7 +256,8 @@ theorem cfrDDepthChildProfile_referenceBudget
     (sampled : (type.val, true) ∈ (((fullInformation M).runBehavioral
       (cfrDDepthChildProfile M trunk fallback cut childCut childRemaining utility bound loss noise)
       cut).map (fun h =>
-        ((fullInformation M).infoOf who h.trace, cfrDCutLive (childCut + childRemaining) h))).support) :
+        ((fullInformation M).infoOf who h.trace,
+          cfrDCutLive (childCut + childRemaining) h))).support) :
     ∃ (own : FinDist (PublicRootType M obs who)) (error : ℝ),
       IsNash (behavioralBeliefForm (fullInformation M)
         ((cfrDReferenceSlice M

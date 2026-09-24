@@ -2,8 +2,10 @@
 # Constructed nested-child and parent controls
 
 The canonical hidden-type game has a live factual child after its first action.
-The parent and child each search an actual decision. The child's final suffix
-is terminal in this finite control; the general theorem allows a nonempty suffix.
+The first control searches an actual parent decision and an actual child decision,
+with a terminal child suffix. The second places the parent cut after chance and
+retains one real child decision plus one real continuation decision. Together
+these test both cut configurations without inventing a third decision in this game.
 Nonzero outer bias, strictly positive child bias, finite outer counts, impossible
 queries, randomized deviations and zero-own-reach completion remain explicit.
 -/
@@ -151,6 +153,54 @@ theorem nestedChild_driver_isNash (t : Nat) [NeZero t] :
     2 (1 / 8) (1 / 4) (by norm_num) (by norm_num) (by norm_num)
     (fun player h => cfrPayoff_abs_le_two player h)
   · exact nestedChildNoise_bounded (1 / 4) (by norm_num)
+  · intro n trunk who info
+    norm_num
+
+/-- A second predictor belongs to the genuinely nonempty child suffix configuration. -/
+def nestedSuffixNoise (loss : ℝ) : PBSDepthNoiseFamily (reducedModel fullPrior) :=
+  pbsDepthChildHalfNoise (reducedModel fullPrior) pbsRootControlFallback 1 1 loss
+
+/-- Its nonzero prediction perturbation is preserved at every modeled root. -/
+theorem nestedSuffixNoise_positive (loss : ℝ) (positive : 0 < loss) :
+    ∀ roots n trunk who info, 0 < nestedSuffixNoise loss roots n trunk who info :=
+  pbsDepthChildHalfNoise_pos (reducedModel fullPrior) pbsRootControlFallback 1 1 loss positive
+
+/-- With the parent cut after chance, the child and its suffix each retain one
+real decision. This complements, rather than replaces, the earlier parent-decision control. -/
+theorem nestedSuffix_leafOptimal (loss : ℝ) (positive : 0 < loss) (who : Player) :
+    CFRDLeafOptimal (model fullPrior)
+      (cfrDDepthChildContinuation (reducedModel fullPrior) (carriedBitProfile false)
+        pbsRootControlFallback 1 1 1 (fun h player => cfrPayoff player h) 2 loss
+        (nestedSuffixNoise loss))
+      informationControlFullFallback who (cfrPayoff who) 1 2 loss :=
+  cfrDDepthChildContinuation_leafOptimal (reducedModel fullPrior) (carriedBitProfile false)
+    pbsRootControlFallback 1 1 1 (fun h player => cfrPayoff player h)
+    (cumulative_zeroSum fullPrior) 2 loss (by norm_num) positive
+    (fun h player => cfrPayoff_abs_le_two player h) (nestedSuffixNoise loss)
+    (pbsDepthChildHalfNoise_bounded (reducedModel fullPrior)
+      pbsRootControlFallback 1 1 loss positive) who
+
+/-- Nonempty child continuation, distinct positive errors and finite parent rounds
+also satisfy all full-game behavioral deviations through the actual coupled oracle. -/
+theorem nestedSuffix_driver_isNash (t : Nat) [NeZero t] :
+    IsNash ((model fullPrior).toBehavioralGameForm 3)
+      (euPreferenceWithin
+        (cfrDDepthMeanBudget (model fullPrior) decisionClock informationControlFullFallback
+            1 2 2 (1 / 8) (1 / 4) 0 t +
+          cfrDDepthMeanBudget (model fullPrior) decisionClock informationControlFullFallback
+            1 2 2 (1 / 8) (1 / 4) 1 t)
+        (fun h who => cfrPayoff who h))
+      (cfrDDepthAveragedProfile (model fullPrior) decisionClock informationControlFullFallback
+        cfrPayoff 1 2
+        (cfrDNestedDepthOracle (reducedModel fullPrior) pbsRootControlFallback
+          cfrPayoff 1 1 1 2 (1 / 4) (nestedSuffixNoise (1 / 4))
+          (fun _ _ _ _ => 1 / 8)) t) := by
+  apply cfrDNestedDepthOracle_isNash (reducedModel fullPrior)
+    pbsRootControlFallback cfrPayoff (cumulative_zeroSum fullPrior) 1 1 1
+    2 (1 / 8) (1 / 4) (by norm_num) (by norm_num) (by norm_num)
+    (fun player h => cfrPayoff_abs_le_two player h)
+  · exact pbsDepthChildHalfNoise_bounded (reducedModel fullPrior)
+      pbsRootControlFallback 1 1 (1 / 4) (by norm_num)
   · intro n trunk who info
     norm_num
 
