@@ -12,6 +12,7 @@ This is a classical real-valued specification, not a numerical refinement claim.
 -/
 
 import GameTheory.Analysis.ReBeL.PBSComposedDepth
+import GameTheory.Analysis.ReBeL.CFRDRecursivePlay
 
 noncomputable section
 
@@ -23,9 +24,9 @@ open GameTheory.Math.Probability
 universe u
 
 /-- A prediction family reads only the modeled query and its allocated error.
-The same family can be applied to each newly constructed rooted protocol. -/
+The protocol is explicit so the same family can be used at every rooted level. -/
 abbrev PBSRecursiveDepthNoise :=
-  {E : ExecutionProtocol.{0, u, u} (Fin 2)} →
+  (E : ExecutionProtocol.{0, u, u} (Fin 2)) →
   (M : InformationModel.{0, u, u, u, u, u} E) →
   (roots : FinDist E.History) → ℝ → PBSRootDepthNoise M roots
 
@@ -34,12 +35,12 @@ Nash theorem. It is not a claim that an arbitrary learned network satisfies it. 
 def PBSRecursiveDepthNoiseBound (noise : PBSRecursiveDepthNoise.{u}) : Prop :=
   ∀ {E : ExecutionProtocol.{0, u, u} (Fin 2)}
     (M : InformationModel.{0, u, u, u, u, u} E) (roots : FinDist E.History)
-    error, 0 ≤ error → ∀ n trunk who info, |noise M roots error n trunk who info| ≤ error
+    error, 0 ≤ error → ∀ n trunk who info, |noise E M roots error n trunk who info| ≤ error
 
 /-- Computational data only: neither a Nash witness nor a correctness proof
-is an argument of a recursive solver. -/
+is an argument of a recursive solver. The changing protocol is explicit. -/
 abbrev PBSRecursiveDepthFamily :=
-  {E : ExecutionProtocol.{0, u, u} (Fin 2)} →
+  (E : ExecutionProtocol.{0, u, u} (Fin 2)) →
   (M : InformationModel.{0, u, u, u, u, u} E) →
   [Fintype E.History] → [∀ who, Fintype (E.Action who)] →
   Profile M.strategicSignature → (Fin 2 → E.History → ℝ) → ℝ → PBSChildSolve M
@@ -58,9 +59,10 @@ def pbsRecursiveDepth (noise : PBSRecursiveDepthNoise.{u}) :
         (pbsRootDepthErrorFactor M belief.law fallback cut tail.sum) tolerance
       exact pbsComposedDepthProfile M belief fallback payoff cut tail.sum bound error
         (tolerance / 8) tolerance
-        (pbsRecursiveDepth noise tail (pbsRootInformation (fullInformation M) belief.law)
+        (pbsRecursiveDepth noise tail (pbsRootProtocol belief.law)
+          (pbsRootInformation (fullInformation M) belief.law)
           (pbsRootDepthFallback M belief.law fallback) (pbsRootPayoff belief.law payoff) bound)
-        (noise M belief.law error)
+        (noise E M belief.law error)
 
 /-- The empty schedule is exactly the legal fallback, including off-path menus. -/
 theorem pbsRecursiveDepth_nil (noise : PBSRecursiveDepthNoise.{u})
@@ -70,7 +72,7 @@ theorem pbsRecursiveDepth_nil (noise : PBSRecursiveDepthNoise.{u})
     (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
     (bound : ℝ) {obs : List M.PublicSignal}
     (belief : PublicBelief (fullInformation M).toInfoSignals obs) (tolerance : ℝ) :
-    pbsRecursiveDepth noise [] M fallback payoff bound belief tolerance =
+    pbsRecursiveDepth noise [] E M fallback payoff bound belief tolerance =
       (fun who => (cfrDInformationFallback M fallback who).toBehavioral) := rfl
 
 /-- List induction discharges every smaller-solver accuracy premise. The final
@@ -88,7 +90,7 @@ theorem pbsRecursiveDepth_isNash (noise : PBSRecursiveDepthNoise.{u})
         0 < tolerance →
         IsNash (behavioralBeliefForm (fullInformation M) belief cuts.sum)
           (euPreferenceWithin tolerance (fun h who => payoff who h))
-          (pbsRecursiveDepth noise cuts M fallback payoff bound belief tolerance) := by
+          (pbsRecursiveDepth noise cuts E M fallback payoff bound belief tolerance) := by
   induction cuts with
   | nil =>
       intro E M _ _ fallback payoff _zeroSum bound _hb _bounded obs belief tolerance positive
@@ -99,7 +101,7 @@ theorem pbsRecursiveDepth_isNash (noise : PBSRecursiveDepthNoise.{u})
       exact le_add_of_nonneg_right positive.le
   | cons cut tail ih =>
       intro E M _ _ fallback payoff zeroSum bound hb bounded obs belief tolerance positive
-      letI : Fintype (pbsRootProtocol belief.law).History := pbsRootHistoryFintype belief.law
+      let _ : Fintype (pbsRootProtocol belief.law).History := pbsRootHistoryFintype belief.law
       simp only [List.sum_cons, pbsRecursiveDepth]
       apply pbsComposedDepthProfile_isNash M belief fallback payoff zeroSum cut tail.sum
         bound _ _ tolerance hb
@@ -133,6 +135,127 @@ theorem pbsRecursiveAllocatedNoise_positive
     {E : ExecutionProtocol.{0, u, u} (Fin 2)}
     (M : InformationModel.{0, u, u, u, u, u} E) (roots : FinDist E.History)
     (error : ℝ) (positive : 0 < error) (n : Nat) (trunk) (who : Fin 2) (info) :
-    0 < pbsRecursiveAllocatedNoise M roots error n trunk who info := positive
+    0 < pbsRecursiveAllocatedNoise E M roots error n trunk who info := positive
+
+section Sampling
+
+variable (noise : PBSRecursiveDepthNoise.{u}) (cuts : List Nat)
+variable {E : ExecutionProtocol.{0, u, u} (Fin 2)}
+variable (M : InformationModel.{0, u, u, u, u, u} E)
+variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
+variable (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+variable (bound : ℝ) {obs : List M.PublicSignal}
+
+/-- Draw an actual finite parent iterate whose children are the recursive tail.
+The empty schedule is a pure fallback, not a uniform draw from an empty range. -/
+def pbsRecursiveDepthDraw
+    (belief : PublicBelief (fullInformation M).toInfoSignals obs) (tolerance : ℝ) :
+    FinDist (Profile (fullInformation M).behavioralSignature) := by
+  cases cuts with
+  | nil => exact FinDist.pure (pbsRecursiveDepth noise [] E M fallback payoff bound belief tolerance)
+  | cons cut tail =>
+      letI : Fintype (pbsRootProtocol belief.law).History := pbsRootHistoryFintype belief.law
+      let error := pbsDepthAllocationError
+        (pbsRootDepthErrorFactor M belief.law fallback cut tail.sum) tolerance
+      exact pbsComposedDepthDraw M belief fallback payoff cut tail.sum bound error
+        (tolerance / 8) tolerance
+        (pbsRecursiveDepth noise tail (pbsRootProtocol belief.law)
+          (pbsRootInformation (fullInformation M) belief.law)
+          (pbsRootDepthFallback M belief.law fallback) (pbsRootPayoff belief.law payoff) bound)
+        (noise E M belief.law error)
+
+/-- All original history observables agree with the recursively computed
+average against every fixed unknown opponent. No per-draw Nash premise is used. -/
+theorem pbsRecursiveDepthDraw_law
+    (belief : PublicBelief (fullInformation M).toInfoSignals obs) (tolerance : ℝ)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (steps : Nat) :
+    (pbsRecursiveDepthDraw noise cuts M fallback payoff bound belief tolerance).bind
+      (fun chosen => belief.law.bind ((fullInformation M).runBehavioralFrom
+        (Profile.update unknown who (chosen who)) steps)) =
+      belief.law.bind ((fullInformation M).runBehavioralFrom
+        (Profile.update unknown who
+          (pbsRecursiveDepth noise cuts E M fallback payoff bound belief tolerance who)) steps) := by
+  cases cuts with
+  | nil => simp only [pbsRecursiveDepthDraw, FinDist.pure_bind]
+  | cons cut tail =>
+      let _ : Fintype (pbsRootProtocol belief.law).History := pbsRootHistoryFintype belief.law
+      exact pbsComposedDepthDraw_law M belief fallback payoff cut tail.sum bound _ _ tolerance
+        _ _ unknown who steps
+
+/-- The exact same private parent family supplies value expectations. -/
+theorem pbsRecursiveDepthDraw_value
+    (belief : PublicBelief (fullInformation M).toInfoSignals obs) (tolerance : ℝ)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (steps : Nat)
+    (value : E.History → ℝ) :
+    (pbsRecursiveDepthDraw noise cuts M fallback payoff bound belief tolerance).expect
+      (fun chosen => (belief.law.bind ((fullInformation M).runBehavioralFrom
+        (Profile.update unknown who (chosen who)) steps)).expect value) =
+      (belief.law.bind ((fullInformation M).runBehavioralFrom
+        (Profile.update unknown who
+          (pbsRecursiveDepth noise cuts E M fallback payoff bound belief tolerance who)) steps)).expect
+        value := by
+  have equal := congrArg (fun law : FinDist E.History => law.expect value)
+    (pbsRecursiveDepthDraw_law noise cuts M fallback payoff bound belief tolerance unknown who steps)
+  simpa only [FinDist.expect_bind] using equal
+
+variable {K : Type*}
+
+/-- A canonical resolver reads the incoming model PBS, never the actual hidden
+history or unknown-opponent policy. It retains the old strategy when no PBS exists. -/
+def pbsRecursiveDepthResolver (tolerance : ℝ)
+    (plays : K → Profile (fullInformation M).behavioralSignature) :
+    CarriedPublicResolver (fullInformation M) K := fun memory _ belief =>
+  match belief with
+  | none => FinDist.pure (plays memory)
+  | some prior => pbsRecursiveDepthDraw noise cuts M fallback payoff bound prior tolerance
+
+/-- Missing beliefs do not fabricate a new solver root. -/
+theorem pbsRecursiveDepthResolver_none (tolerance : ℝ)
+    (plays : K → Profile (fullInformation M).behavioralSignature)
+    (memory : K) (observations : List M.PublicSignal) :
+    pbsRecursiveDepthResolver noise cuts M fallback payoff bound tolerance plays memory
+      observations none = FinDist.pure (plays memory) := rfl
+
+/-- The selected profile remains paired with the posterior it actually produces.
+This identity is valid even at actual histories outside the modeled support. -/
+theorem pbsRecursiveDepthResolver_step_some (tolerance : ℝ)
+    (plays : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (steps : Nat)
+    (state : PrivateIterationState (fullInformation M) K)
+    (belief : PublicBelief (fullInformation M).toInfoSignals
+      (publicTrace (fullInformation M).toInfoSignals state.history.trace))
+    (stored : state.belief = some belief) (live : cfrDCutLive steps state.history = true) :
+    carriedResolvedStep (fullInformation M) plays
+      (pbsRecursiveDepthResolver noise cuts M fallback payoff bound tolerance plays)
+      unknown who steps state =
+      (pbsRecursiveDepthDraw noise cuts M fallback payoff bound belief tolerance).bind
+        (fun chosen => ((fullInformation M).runBehavioralFrom
+          (Profile.update unknown who (chosen who)) steps state.history).map
+            (resolvedNextState (fullInformation M) state chosen steps)) := by
+  simp only [carriedResolvedStep, if_pos live, stored, pbsRecursiveDepthResolver]
+
+/-- Install the actual recursive solver in the existing finite memory runner;
+execution fuel is separate from the training cut schedule. -/
+def pbsRecursiveDepthStage (tolerance : ℝ) (steps : Nat)
+    (initial : K → Profile (fullInformation M).behavioralSignature) :
+    CarriedResolveStage (fullInformation M) K where
+  fuel := steps
+  resolver := pbsRecursiveDepthResolver noise cuts M fallback payoff bound tolerance
+    (carriedMemoryProfile (fullInformation M) initial)
+
+/-- No fresh solve or draw is performed at zero execution fuel. -/
+theorem pbsRecursiveDepthStage_zero_history (tolerance : ℝ)
+    (initial : K → Profile (fullInformation M).behavioralSignature)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2)
+    (state : PrivateIterationState (fullInformation M)
+      (CarriedResolveMemory (fullInformation M) K)) :
+    (carriedMemoryStep (fullInformation M) initial unknown who
+      (pbsRecursiveDepthStage noise cuts M fallback payoff bound tolerance 0 initial) state).map
+        (fun next => next.history) = FinDist.pure state.history := by
+  rw [carriedMemoryStep_history]
+  simp only [pbsRecursiveDepthStage, carriedResolvedTail, cfrDCutLive_zero,
+    Bool.false_eq_true, if_false]
+
+end Sampling
 
 end GameTheory.ReBeL

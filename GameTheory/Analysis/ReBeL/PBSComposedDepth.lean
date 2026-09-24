@@ -217,6 +217,82 @@ theorem pbsComposedDepthProfile_isNash
     (pbsRootDepthBudgetRounds_error M belief.law fallback cut remaining bound error loss
       tolerance he feasible))
 
+/-- A real parent iteration includes the smaller computation of that same round. -/
+def pbsComposedDepthIterate (fallback : Profile M.strategicSignature)
+    (payoff : Fin 2 → E.History → ℝ) (cut remaining : Nat) (loss : ℝ)
+    (solve : PBSChildSolve (pbsRootInformation (fullInformation M) roots))
+    (noise : PBSRootDepthNoise M roots) (round : Nat) :
+    Profile (pbsRootFullInformation M roots).behavioralSignature :=
+  cfrDDepthPlay (pbsRootFullInformation M roots)
+    (fullObservationClock (pbsRootInformation (fullInformation M) roots))
+    (pbsRootFallback M roots fallback) (pbsRootPayoff roots payoff) (cut + 1) remaining
+    (cfrDComposedOracle (pbsRootInformation (fullInformation M) roots)
+      (pbsRootDepthFallback M roots fallback) (pbsRootPayoff roots payoff)
+      (cut + 1) remaining loss solve noise) round
+
+/-- Independent own-reach averaging equals a single retained private round
+against every fixed opponent. Individual parent rounds need not be Nash. -/
+theorem pbsComposedDepthAverage_uniform_law (fallback : Profile M.strategicSignature)
+    (payoff : Fin 2 → E.History → ℝ) (cut remaining : Nat) (loss : ℝ)
+    (solve : PBSChildSolve (pbsRootInformation (fullInformation M) roots))
+    (noise : PBSRootDepthNoise M roots) (t : Nat) [NeZero t]
+    (unknown : Profile (pbsRootFullInformation M roots).behavioralSignature)
+    (who : Fin 2) (steps : Nat) :
+    (pbsRootFullInformation M roots).runBehavioral
+      (Profile.update unknown who
+        (pbsComposedDepthAverage M roots fallback payoff cut remaining loss solve noise t who))
+      (steps + 1) =
+      (cfrIterationLaw t).bind (fun n => (pbsRootFullInformation M roots).runBehavioral
+        (Profile.update unknown who
+          (pbsComposedDepthIterate M roots fallback payoff cut remaining loss solve noise n.val who))
+        (steps + 1)) := by
+  exact run_unilateral_average (pbsRootFullInformation M roots)
+    (fullSignals_perfectRecall (pbsRootInformation (fullInformation M) roots).toInfoSignals)
+    (fun _ => cfrIterationLaw t)
+    (fun n : Fin t => pbsComposedDepthIterate M roots fallback payoff cut remaining loss
+      solve noise n.val) (pbsRootFallback M roots fallback) unknown who (steps + 1)
+
+/-- Sample one actual decoded parent from its allocated nonempty finite budget. -/
+def pbsComposedDepthDraw
+    (belief : PublicBelief (fullInformation M).toInfoSignals observations)
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (cut remaining : Nat) (bound error loss tolerance : ℝ)
+    (solve : PBSChildSolve (pbsRootInformation (fullInformation M) belief.law))
+    (noise : PBSRootDepthNoise M belief.law) :
+    FinDist (Profile (fullInformation M).behavioralSignature) :=
+  (cfrIterationLaw
+    (pbsRootDepthBudgetRounds M belief.law fallback cut remaining bound error loss tolerance)).map
+    (fun n => pbsRootDecodeProfile M belief.law (observations.length - 1)
+      (pbsComposedDepthIterate M belief.law fallback payoff cut remaining loss solve noise n.val))
+
+/-- The actual sampled solver and its decoded average have the same complete
+original history law, without accuracy, Nash or reach-support assumptions. -/
+theorem pbsComposedDepthDraw_law
+    (belief : PublicBelief (fullInformation M).toInfoSignals observations)
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (cut remaining : Nat) (bound error loss tolerance : ℝ)
+    (solve : PBSChildSolve (pbsRootInformation (fullInformation M) belief.law))
+    (noise : PBSRootDepthNoise M belief.law)
+    (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (steps : Nat) :
+    (pbsComposedDepthDraw M belief fallback payoff cut remaining bound error loss tolerance
+      solve noise).bind (fun chosen => belief.law.bind
+        ((fullInformation M).runBehavioralFrom (Profile.update unknown who (chosen who)) steps)) =
+      belief.law.bind ((fullInformation M).runBehavioralFrom
+        (Profile.update unknown who (pbsComposedDepthProfile M belief fallback payoff cut remaining
+          bound error loss tolerance solve noise who)) steps) := by
+  rw [pbsComposedDepthDraw, FinDist.bind_map]
+  have equal := congrArg
+    (fun law : FinDist (pbsRootProtocol belief.law).History => law.map History.state)
+    (pbsComposedDepthAverage_uniform_law M belief.law fallback payoff cut remaining loss solve
+      noise (pbsRootDepthBudgetRounds M belief.law fallback cut remaining bound error loss tolerance)
+      (pbsRootBehavioralFullProfile M belief.law unknown) who steps)
+  rw [FinDist.map_bind] at equal
+  simp_rw [pbsRootDecodeOwn_law M belief.law (observations.length - 1)
+    (pbsRoot_publicBelief_depth M belief)] at equal
+  rw [← FinDist.map_bind] at equal
+  apply FinDist.map_injective (Option.some_injective E.History)
+  exact equal.symm
+
 end Rooted
 
 end GameTheory.ReBeL
