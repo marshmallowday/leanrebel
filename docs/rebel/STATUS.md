@@ -2,57 +2,78 @@
 
 ## Resume point
 
-Use the actual remote HEAD of `rebel/m06-nested-depth-20260924`.
-It preserves first-exit source487aaedd, review0309f7c0, budget integration
-e9d651b2, budget repair704e96ff and the initial nested checkpoint22b15778.
-The separate budget-integration branch is retained without cancelling its CI.
-Main remains6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098; do not write main.
-Inspect exact-source compiler/audit results; never infer pending success.
+Use the actual remote HEAD of `rebel/m06-nested-depth-review-20260924` for the
+latest review checkpoint. Its Lean source and validation configuration are
+identical to f9d4def18411b43fc14c508b079fadb0378bd178 on the preserved source
+branch `rebel/m06-nested-depth-20260924`. This review changes documentation only,
+so recording completed work does not cancel the source branch's running checks.
+The separate budget-integration branch remains at704e96ff. Main remains
+6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098 and is not a write target.
+Inspect exact-SHA runs before resuming; never promote a pending result to success.
 
-## Accepted predecessor and finite-budget recovery
+## Completed predecessor validation
 
 First-exit source487aaedd passed M06 target35941683756/job107450728931,
 ReBeL35941683758/job107450798403, full CI35941683736/job107450816152 and
-inventory35941683774. This supersedes earlier pending review snapshots.
-Support recovery01245b31 remains accepted separately. Do not repeat either.
+inventory35941683774. The earlier support recovery01245b31 is separately accepted.
+Do not redo their support repairs, first-exit construction or probability controls.
 
-The previously unwired finite depth-budget modules from divergent2c9bfd52 were
-integrated at e9d651b2 without restoring that branch's stale first-hit code.
-Its failed target35945479753/job107462340355 led to the proof-only repair
-704e96ff. On that repair, target35946360278/job107465069923 passed the declared
-target compiler step; its supplemental audit was still running at inspection.
+Finite-budget source704e96ff6ed5b73b279191ea2d01629cc331e8d8 now has completed
+M06 target35946360278/job107465069923 successfully, INCLUDING its supplemental
+lint/transitive-axiom step. Full CI35946360214/job107465224924 also succeeded,
+including all architecture phases, full-library lint and tracked-file cleanliness.
+Inventory35946360322/job107465069843 succeeded. The independent ReBeL
+35946360239/job107465227645 was still in its complete proof audit at inspection.
+This supersedes older snapshots that marked the budget supplemental audit pending.
 The fixed budget source is preserved on rebel/m06-depth-budget-integration-20260924.
 
-## Current nested source: repair and nonempty suffix controls
+## New nested source: declared-target compilation passed
 
-Initial22b15778 failed target35946558196/job107465692425 on split field notation
-in CFRDDepthChild and ReBeL35946558227/job107465692283 on three long lines.
-The current descendant rejoins that field notation and wraps those lines without
-changing child semantics or proofs. The driver remains unchanged. The examples
-also add the1+1+1 split with a real child decision and a real continuation
-decision after the parent's chance cut. The earlier2+1+0 parent-decision control,
-all impossible/zero-fuel cases, randomized deviation and positive errors remain.
-This repaired candidate is UNACCEPTED until its exact compiler/audits succeed.
-See M06-nested-depth-validation.md for exact diagnostics and evidence boundaries.
+Exact proof source: f9d4def18411b43fc14c508b079fadb0378bd178.
+M06 run35947018152/job107467137173 has completed declared-target compilation
+successfully, including CFRDDepthChild, CFRDNestedDepthDriver and their controls.
+Its supplemental lint/transitive-axiom validation was still in progress at the
+latest inspection. Compilation success alone is not final audit acceptance.
 
-## Mathematical construction
+ReBeL35947018175/job107467137458 passed width, static architecture, ledger/
+inventory/adversarial fixtures and executed rational solver checks; its complete
+compiler/lint/transitive-axiom step remained in progress. Source snapshot
+job107467137602 and inventory35947018259/job107467137512 succeeded.
+Full CI35947018228/job107467419037 was still in progress. Inspect final outcomes
+for these exact runs, not the failing22b15778 or passing704e96ff predecessor.
+See M06-nested-depth-validation.md for the diagnostics and acceptance boundary.
 
-CFRDDepthChild runs the allocated depth solver at every current factual joint
-PBS, proves baseline and unilateral full-law preservation under public splicing,
-and derives the all-query counterfactual child contract after zero-own-reach
-completion. CFRDNestedDepthDriver uses this in the actual noisy parent update,
-deriving finite-T all-deviation Nash and private carried security. Numerical
-parent/child perturbations are separate; no child optimality certificate is input.
-All new modules are in the analytic root, M06 targets and supplemental lint/
-transitive-axiom audit. Every prior validation entry is retained.
+## Implemented mathematical slice
+
+The existing previously unwired finite-budget modules were recovered from
+2c9bfd52, integrated at e9d651b2 and repaired at704e96ff without altering their
+accuracy contract. They compute a positive finite count AFTER subtracting fixed
+numerical and child error; the positive joint-law mass floor supplies conditional
+accuracy. Fixed nonzero prediction error cannot be eliminated by raising T.
+
+CFRDDepthChild now installs this actual depth solver at every current factual
+joint PBS, preserves complete baseline and unilateral laws under public splicing,
+and derives the all-query child contract through zero-own-reach completion.
+CFRDNestedDepthDriver puts this child in each actual noisy parent update and
+derives finite-T full-game Nash and private carried security. Outer and inner
+prediction errors remain distinct. A bounded strictly positive child predictor
+is constructed; no child equilibrium or local-optimality certificate is input.
+
+Controls retain outer bias1/8, positive requested child loss1/4, randomized
+replacement, impossible/zero-fuel fallbacks and nonzero finite parent T. The
+2+1+0 split contains real parent and child decisions; the1+1+1 split has a chance
+parent cut followed by real child and suffix decisions. Neither invents a third
+decision in this protocol. All new modules and every old entry remain in the
+analytic root, M06 target list and supplemental lint/transitive-axiom audit.
 
 ## Remaining original obligations
 
-Generalize the single nesting step to arbitrary-depth structural recursion;
-the deepest backend still uses full-root CFR. Derive source-level model-value
-drift and useful first-exit/support-defect estimates; discharge
-CarriedResolveStepBounds. Private carried execution is not independent repeated
-re-solving. No model/actual posterior identity, learned-network accuracy or
-executable numeric refinement is claimed. Retain finite T, positive errors,
-zero-reach completion and printed/corrected Theorem3 distinction. SEARCH-FRONTIER,
-SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending; M05 is unchanged.
+This constructs one additional nesting step, not arbitrary-depth structural
+recursion. The deepest backend still uses full-root CFR. Derive source-level
+model-value drift and useful first-exit/support-defect estimates and discharge
+CarriedResolveStepBounds. A private carried continuation is not independent
+repeated re-solving. No model/actual posterior identity, learned-network accuracy
+or executable numeric-refinement theorem is claimed. Retain finite T, positive
+errors, zero-reach completion and the printed/corrected Theorem3 distinction.
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending;
+source qualifications, ledgers and M05 acceptance are unchanged.

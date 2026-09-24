@@ -2,78 +2,79 @@
 
 ## Source sequence and validation boundary
 
-Working branch: rebel/m06-nested-depth-20260924.
-Parent:704e96ff6ed5b73b279191ea2d01629cc331e8d8 on the separate preserved
-rebel/m06-depth-budget-integration-20260924 branch. This retains the accepted
-first-exit source487aaedd and its review0309f7c0. Main is never a write target.
+Proof source: f9d4def18411b43fc14c508b079fadb0378bd178, preserved on
+rebel/m06-nested-depth-20260924. Read STATUS.md on
+rebel/m06-nested-depth-review-20260924 for the latest documentation checkpoint.
+The review changes documentation only and does not cancel source validation.
+Main is never a write target. M06-nested-depth-validation.md separates the
+successful declared-target compilation from still-pending independent audits.
 
-The inherited budget code was first integrated at e9d651b2. Its exact M06 run
-35945479753/job107462340355 failed at three proof-normalization points:
-PBSInformationDepthBudget.lean:68 had a redundant ring after field_simp;
-line128 needed add_mul/add_div before combining player bounds; line159 needed
-the computed round definition unfolded before the inverse-sqrt comparison.
-The repaired704e96ff changes only those proof steps, not theorem statements,
-solver definitions, prediction values, target tolerances, tests or validation
-settings. Inspect its own CI; the failed predecessor is not acceptance evidence.
+The source preserves accepted first-exit487aaedd and review0309f7c0. It integrates
+the previously unwired finite-budget modules from divergent2c9bfd52 at e9d651b2,
+repairs their proof normalization at704e96ff, adds the constructed nested child
+at22b15778 and repairs field notation/width while extending controls atf9d4def1.
+Budget704e96ff has passed its targeted compiler and supplemental validation;
+its own independent checks and all new-source checks are identified separately.
 
-The nested source in this checkpoint is a NEW candidate. Every added module is
-in the analytic root, M06 target list and supplemental normal/slow lint plus
-all-declaration transitive-axiom audit. The existing repository-wide checks
-remain unchanged. No pending compiler or audit result is reported as success.
+Every added module is in the analytic root, M06 targets and supplemental normal/
+slow lint plus public/private transitive-axiom audit. Existing repository-wide
+checks remain unchanged. Pending checks are not reported as success.
 
 ## Constructed computation
 
 CFRDDepthChild replaces the old factual child's full-root solver with
-pbsInformationConditionalDepthProfile. For each current parent trunk it derives
-the actual joint public posterior, its positive mass floor, positive numerical
-and child allocations and a nonempty finite count. The root-dependent predictor
-cannot inspect the unknown execution opponent or actual hidden input history.
-Its only external accuracy premise is an explicit numerical prediction bound.
-A half-allowance predictor supplies a concrete strictly positive bounded example.
+pbsInformationConditionalDepthProfile. Each current parent trunk supplies the
+actual joint public posterior, its proved positive mass floor, positive numerical
+and child allocations and a nonempty finite count. The numerical predictor may
+inspect the modeled root and rooted query, but not the actual hidden input
+history or unknown execution opponent. Its only external accuracy premise is
+an explicit numerical prediction bound. The half-allowance predictor is a
+constructed strictly positive example satisfying that bound at every root.
 
-The new child is spliced by each player's remembered public cut prefix. Before
-that cut it retains the incumbent trunk. At every legal descendant it retains
-the selected local child, including paths of zero current probability. The
-proof preserves complete correlated history laws for both baseline play and
-every unilateral behavioral deviation, then transfers the derived child Nash
-budget. This is not merely equality of a played payoff or public marginal.
+The child is spliced by the player's remembered public cut prefix. Before the
+cut it retains the incumbent trunk. At every legal descendant it retains the
+selected local child, including paths of zero current probability. Complete
+correlated history laws are preserved for baseline play AND every unilateral
+behavioral deviation. These identities transfer the constructed child Nash
+budget; equality of a played payoff or public marginal would not suffice.
 
 The actual posterior reconstructs the existing unilateral reference slice.
-Its mass floor bounds every supported private-type probability. The existing
+Its mass floor bounds every supported private-type probability. Existing
 counterfactual public-response completion handles omitted zero-own-reach types.
 Consequently cfrDDepthChildContinuation_leafOptimal derives CFRDLeafOptimal for
-ALL live reference queries. No child equilibrium or local optimality certificate
+ALL live reference queries. No child equilibrium or local-optimality certificate
 is supplied. Completion also preserves the incumbent reference cut law.
 
-CFRDNestedDepthDriver feeds this completed child into cfrDExactValueOracle at
-EVERY actual parent iteration, then applies the independent outer numerical
-perturbation. Its accuracy and all-query child-loss conditions are derived for
-that very perturbed parent recurrence. cfrDNestedDepthOracle_isNash transfers
-the existing finite-T full-game all-deviation guarantee to the constructed
-nested oracle. cfrDNestedDepthOracle_carried_security retains the explicit
-A*outerError+B/sqrt(T)+2*childLoss bound for a private carried iteration against
-an unknown seed-blind opponent. An exact reference equilibrium only names the
-comparison game value; it is not a child-solver premise.
+CFRDNestedDepthDriver feeds the completed child into cfrDExactValueOracle at
+EVERY actual parent iteration, then applies the separate outer perturbation.
+Accuracy and all-query child loss are derived for that same noisy recurrence.
+cfrDNestedDepthOracle_isNash transfers the existing finite-T full-game guarantee
+to this constructed nested oracle, against all behavioral deviations.
+cfrDNestedDepthOracle_carried_security retains the corrected additive allowance
+A*outerError+B/sqrt(T)+2*childLoss for a private carried iteration against an
+unknown seed-blind opponent. The exact reference equilibrium only names the
+comparison game value; it is not a certificate supplied to the child solver.
 
 ## Controls and limits
 
-The canonical hidden-type controls cover a live actual depth-child call,
-unchanged complete cut law, a randomized unilateral replacement, impossible
-public observations, exhausted fuel and zero-own-reach completion. They retain
-outer prediction bias1/8, positive requested child loss1/4, a strictly positive
-root-dependent child predictor and arbitrary nonzero finite outer T.
-The finite game has one real parent decision and one real child decision;
-the child's final suffix in this control is terminal. The general theorem
-allows a nonempty suffix. Do not describe this control as three live decisions.
-The previously integrated budget tests also retain their live1+1 depth solve.
+Canonical hidden-type controls include the live computed depth-child call,
+unchanged full cut law, randomized unilateral replacement, impossible public
+observations, exhausted fuel and zero-own-reach completion. They retain outer
+bias1/8, requested child loss1/4, a strictly positive root-dependent child
+predictor and arbitrary nonzero finite outer T. The2+1+0 control has real parent
+and child decisions with terminal final suffix. The1+1+1 control has a parent
+chance cut followed by real child and continuation decisions. Both instantiate
+the actual coupled parent oracle and derived all-query child contract. Neither
+invented a third decision in the two-decision protocol. Existing live1+1 budget
+controls are preserved, as are all earlier first-exit and carried-sampling tests.
 
 This installs ONE additional nesting step, not arbitrary-depth structural
-recursion. The deepest backend still uses full-root CFR. The carried execution
-is not independent repeated re-solving; CarriedResolveStepBounds and the
-source-specific model-value drift and first-exit/support-defect estimates
-remain unresolved. Numerical noise accuracy is not a learned-network guarantee.
-No executable real-arithmetic refinement, no model/actual posterior identity,
-and no unrestricted M06 or SAFE-THEOREM3 completion is claimed. All original
-M06 coverage rows remain pending and the printed/corrected source distinction
-is unchanged. The next step is exact-source validation, then structural
-recursion and the remaining source-level recursive-security obligations.
+recursion. The deepest backend still uses full-root CFR. Private carried
+execution is not independent repeated re-solving; CarriedResolveStepBounds,
+source-specific model-value drift and useful first-exit/support-defect estimates
+remain unresolved. Numerical prediction accuracy is not a learned-network
+guarantee. No executable real-arithmetic refinement, model/actual posterior
+identity, unrestricted M06 or SAFE-THEOREM3 completion is claimed. Original
+coverage rows remain pending and the printed/corrected source distinction is
+unchanged. Continue from the actual source and final audit results, then address
+structural recursion and the remaining recursive-security obligations.

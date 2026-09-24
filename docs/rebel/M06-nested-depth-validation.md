@@ -1,56 +1,96 @@
 # M06 nested-depth exact-source validation
 
-## Preserved budget repair
+## Current source and review checkpoint
+
+Proof/configuration source: f9d4def18411b43fc14c508b079fadb0378bd178.
+Tree:50eb13caab8a41f70b48ede4cea8d46e454d565e.
+Preserved source branch: rebel/m06-nested-depth-20260924.
+Documentation-only review: rebel/m06-nested-depth-review-20260924.
+The review descends directly from the proof source and changes no Lean file,
+validation script, workflow, dependency, test, tolerance or computational limit.
+All remote operations and Git writes use the GitHub plugin, never local Git.
+
+## New nested source: target compiler passed; audits still pending
+
+At exact sourcef9d4def1, M06 run35947018152/job107467137173 completed the
+'Compile the declared M06 targets' step successfully. Its target list includes
+CFRDDepthChild, CFRDNestedDepthDriver and Examples.CFRDNestedDepth, in addition
+to all previous modules. The supplemental validation step was still in progress
+at inspection. Do not equate this compiler pass with a completed lint/axiom audit.
+
+ReBeL run35947018175/job107467137458 passed line width, static architecture,
+ledger/inventory/adversarial fixtures and the executed rational solver checks.
+Its complete compiler/lint/transitive-axiom audit step remained in progress.
+Source snapshot job107467137602 succeeded. Full repository CI run35947018228,
+job107467419037 remained in progress. Inventory run35947018259,
+job107467137512 succeeded. Independent full checks are still required.
+
+The initial attempts to obtain the running target's job log returned Azure
+BlobNotFound. These transient unavailable logs are neither a proof failure
+nor success. The compiler success above is from the completed step summary,
+not inferred from an unavailable log. Fetch the completed log when published.
+
+## Preserved budget repair: target and full CI succeeded
 
 Source704e96ff6ed5b73b279191ea2d01629cc331e8d8 is retained on the separate
 rebel/m06-depth-budget-integration-20260924 branch. M06 run35946360278,
-job107465069923 has completed its declared-target compiler step successfully.
-At inspection its supplemental lint/transitive-axiom step was still in progress;
-that pending state is not an audit success. Its repository-wide checks remain
-separate. This compiler success repairs the earlier e9d651b2 failure without
-changing any accuracy premise, numerical value or recurrence.
+job107465069923 completed successfully INCLUDING the supplemental exact-source
+lint/transitive-axiom validation. Full repository CI35946360214/job107465224924
+also succeeded, completing Phase1/2/3 architecture checks, public-library lint
+and tracked-file cleanliness. Inventory35946360322/job107465069843 succeeded.
+The independent ReBeL35946360239/job107465227645 remained in its full proof
+audit at inspection. These results supersede its earlier pending target snapshot.
+They validate the repaired budget slice, not the subsequent nested source.
 
-## Initial nested candidate: rejected
+The earlier e9d651b2 target35945479753/job107462340355 failed on a redundant
+ring tactic, undistributed sum-of-player algebra and a folded-round expression.
+Repair704e96ff changes those proof steps only. All inherited definitions,
+accuracy hypotheses and tests remain unchanged. The original divergent budget
+branch at2c9bfd52 is preserved; only its two new modules, not stale first-hit
+files or obsolete status, were incorporated into the accepted first-exit lineage.
 
-Source22b15778ec0a8d6a50874176a4bd285665c46257 added the constructed nested
-child/parent modules and their full build/audit coverage.
-M06 run35946558196/job107465692425 failed compilation at
-CFRDDepthChild.lean:207:90 because field notation was split immediately after
-`.law.`. The later line247 diagnostic that a declaration uses sorry is the
-compiler's recovery from that parse error, not a source-written proof placeholder.
-The file contains no sorry/admit. The downstream driver/examples were not
-accepted. Budget and inherited first-exit modules compiled successfully.
+## Initial nested candidate: rejected, superseded by current compiler result
 
-ReBeL run35946558227/job107465692283 rejected three lines of width101,101,104
-before compilation. It did not run its full proof audit. Full CI35946558231
-had no inspected final result. These failures must never be reported as passes.
+Source22b15778ec0a8d6a50874176a4bd285665c46257 added the nested child/parent
+modules and their full build/audit coverage. M06 run35946558196/job107465692425
+failed at CFRDDepthChild.lean:207:90 because field notation was split directly
+after `.law.`. The later line247 'declaration uses sorry' diagnostic was compiler
+recovery from the parse failure, not a source-written placeholder. No sorry/admit
+was present. Its downstream driver/examples were not accepted.
 
-## Repair and additional continuation control
+ReBeL35946558227/job107465692283 rejected three lines of width101,101,104
+before compilation. It did not run its full proof audit. These failures are not
+passes. Currentf9d4def1 rejoins `.law.positiveMassFloor` and wraps those lines;
+child definitions, theorem statements and proof steps are otherwise unchanged.
+The driver is unchanged. The repaired source's declared-target compiler has
+now passed, while its independent audit results still require final inspection.
 
-The current descendant keeps `.law.positiveMassFloor` together and wraps exactly
-the three offending lines. All child definitions, theorem statements and proof
-steps are otherwise retained. The driver is unchanged. No limit, linter,
-validation step, premise, test or source dependency is removed or weakened.
-This descendant needs its own exact-SHA compiler/lint/axiom results.
+## Positive-error controls and nonempty child continuation
 
-The example module additionally instantiates parentCut1/childCut1/remaining1.
-The parent cut is after chance; the child and its continuation each contain
-one real decision. Its child perturbation is the positive half-allocation for
-that1+1 root, and the outer bias1/8 and requested child loss1/4 are unchanged.
-Both all-query completed child optimality and finite-T full-game all-deviation
-Nash are checked for this split. The earlier2+1+0 split is retained: it has
-one real parent and one real child decision, with terminal final suffix.
-Neither test claims three real decisions in this two-decision protocol.
+The current examples retain every prior control and add parentCut1/childCut1/
+remaining1. The parent cut is after chance; the child and its continuation each
+contain a real decision. Its child perturbation is a positive half-allocation
+for that1+1 root, while outer bias1/8 and requested child loss1/4 are retained.
+Both all-query completed child optimality and finite-T all-deviation Nash are
+instantiated. The earlier2+1+0 split retains a real parent and real child decision
+with a terminal final suffix. Neither claims three decisions in this protocol.
 
-## Acceptance and scope
+Both split controls, live-table identity, complete prefix law, randomized
+unilateral law, impossible observation, zero remaining fuel and positive child
+prediction controls are compiled in the new target. The companion finite-budget
+controls still test the actual four-point joint law, feasible/infeasible target
+guards, positive fixed numerical/child errors and nonempty finite counts.
 
-Inspect the actual HEAD of rebel/m06-nested-depth-20260924 and its exact runs.
-Both root imports and the M06 target/exact-audit consumer lists retain every
-prior entry plus all three nested modules. The audit enumerates owned private
-and public declarations transitively and retains the original axiom whitelist.
-The independent repository-wide checks are still required.
+## Trust and scope
 
-The candidate constructs one more nesting step; it does not yet establish
-arbitrary-depth recursion, independent repeated re-solving safety, useful
-source-level model-value/first-exit budgets, or CarriedResolveStepBounds.
-All original coverage rows remain pending. See M06-nested-depth.md and STATUS.md.
+The analytic root, M06 target list and audit_exact_leaf.py retain every old entry
+and add all new modules. The audit includes every owned public/private declaration
+and the unchanged propext/Classical.choice/Quot.sound whitelist. No gate, linter,
+heartbeat, dependency pin, approximation bound or test is weakened or removed.
+
+The construction adds one nested depth-child solve, not arbitrary-depth recursive
+solving or independent repeated re-solving safety. Source-specific model-value
+drift, first-exit/support-defect rates and CarriedResolveStepBounds remain open
+obligations in this repository. Neither the noisy predictor family nor the
+noncomputable real-valued allocator is a learned-network or executable refinement
+guarantee. All original coverage rows remain pending; see M06-nested-depth.md.
