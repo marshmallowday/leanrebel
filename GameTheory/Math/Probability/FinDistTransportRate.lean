@@ -81,6 +81,7 @@ private theorem observation_prob_sum [DecidableEq β]
   intro x _
   by_cases same : observe x = tag <;> simp [same]
 
+omit [Fintype α] in
 /-- Multiplying by observation mass removes normalization, even for an absent
 OLD query: its zero multiplier does not turn its fallback into a posterior. -/
 theorem observation_prob_mul_conditional_prob [DecidableEq β] (law : FinDist α)
