@@ -40,6 +40,23 @@ theorem cfrDFreshValueChange_self (base : Profile M.behavioralSignature)
   unfold cfrDFreshValueChange conditionalOracleValue
   simp only [sub_self, FinDist.expect_const]
 
+/-- Signed changes telescope on the SAME old reference law. Changing the
+reference prefix is not covered by this identity. -/
+theorem cfrDFreshValueChange_add_of_referenceLaw
+    (base middle next : Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (who : Fin 2) (payoff : E.History → ℝ)
+    (cut remaining : Nat) (info : M.InfoState who)
+    (referenceLaw : unilateralReferenceLaw M middle fallback who cut =
+      unilateralReferenceLaw M base fallback who cut) :
+    cfrDFreshValueChange M base next fallback who payoff cut remaining info =
+      cfrDFreshValueChange M base middle fallback who payoff cut remaining info +
+        cfrDFreshValueChange M middle next fallback who payoff cut remaining info := by
+  unfold cfrDFreshValueChange conditionalOracleValue
+  rw [referenceLaw, ← FinDist.expect_add]
+  apply FinDist.expect_congr
+  intro history _
+  ring
+
 variable [Fintype E.History]
 
 /-- A finite maximum over supported live information queries, never over a
@@ -133,6 +150,32 @@ theorem cfrDFreshValueDrift_zero_remaining (base next : Profile M.behavioralSign
     cases impossible
   · exact cfrDFreshValueDrift_nonneg M base next fallback who payoff cut 0
 
+/-- Successive fresh continuations have a subadditive positive drift when
+both comparisons use the same supported reference queries. This does not assert
+that either individual drift is small or follows from scalar Nash accuracy. -/
+theorem cfrDFreshValueDrift_le_add_of_referenceLaw
+    (base middle next : Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (who : Fin 2) (payoff : E.History → ℝ)
+    (cut remaining : Nat)
+    (referenceLaw : unilateralReferenceLaw M middle fallback who cut =
+      unilateralReferenceLaw M base fallback who cut) :
+    cfrDFreshValueDrift M base next fallback who payoff cut remaining ≤
+      cfrDFreshValueDrift M base middle fallback who payoff cut remaining +
+        cfrDFreshValueDrift M middle next fallback who payoff cut remaining := by
+  apply cfrDFreshValueDrift_le M base next fallback who payoff cut remaining
+  · exact add_nonneg
+      (cfrDFreshValueDrift_nonneg M base middle fallback who payoff cut remaining)
+      (cfrDFreshValueDrift_nonneg M middle next fallback who payoff cut remaining)
+  · intro info sampled
+    have sampledMiddle := sampled
+    rw [← referenceLaw] at sampledMiddle
+    rw [cfrDFreshValueChange_add_of_referenceLaw M base middle next fallback who
+      payoff cut remaining info referenceLaw]
+    exact add_le_add
+      (cfrDFreshValueChange_le_drift M base middle fallback who payoff cut remaining info sampled)
+      (cfrDFreshValueChange_le_drift M middle next fallback who payoff cut remaining info
+        sampledMiddle)
+
 variable {K : Type*} [Fintype K] [Nonempty K]
 
 /-- A uniform maximum over the actual finite parent family, not over a separate
@@ -171,6 +214,29 @@ theorem cfrDFreshUniformDrift_le (plays next : K → Profile M.behavioralSignatu
     cfrDFreshUniformDrift M plays next fallback who payoff cut remaining ≤ error := by
   unfold cfrDFreshUniformDrift
   exact max_le nonneg (Finset.sup'_le _ _ (fun n _ => bounded n))
+
+/-- The actual finite parent family inherits drift subadditivity. Each
+round must preserve its own reference law; no equality with the unknown
+opponent's posterior, no shared seed, and no fresh-solve error rate is assumed. -/
+theorem cfrDFreshUniformDrift_le_add_of_referenceLaw
+    (plays middle next : K → Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (who : Fin 2) (payoff : E.History → ℝ)
+    (cut remaining : Nat)
+    (referenceLaw : ∀ n, unilateralReferenceLaw M (middle n) fallback who cut =
+      unilateralReferenceLaw M (plays n) fallback who cut) :
+    cfrDFreshUniformDrift M plays next fallback who payoff cut remaining ≤
+      cfrDFreshUniformDrift M plays middle fallback who payoff cut remaining +
+        cfrDFreshUniformDrift M middle next fallback who payoff cut remaining := by
+  apply cfrDFreshUniformDrift_le M plays next fallback who payoff cut remaining
+  · exact add_nonneg
+      (cfrDFreshUniformDrift_nonneg M plays middle fallback who payoff cut remaining)
+      (cfrDFreshUniformDrift_nonneg M middle next fallback who payoff cut remaining)
+  · intro n
+    exact (cfrDFreshValueDrift_le_add_of_referenceLaw M (plays n) (middle n) (next n)
+      fallback who payoff cut remaining (referenceLaw n)).trans
+      (add_le_add
+        (cfrDFreshValueDrift_le_uniform M plays middle fallback who payoff cut remaining n)
+        (cfrDFreshValueDrift_le_uniform M middle next fallback who payoff cut remaining n))
 
 /-- A DIFFERENT continuation family yields a derived model envelope. Its local
 optimality and unchanged reference prefix are the only strategic premises;
