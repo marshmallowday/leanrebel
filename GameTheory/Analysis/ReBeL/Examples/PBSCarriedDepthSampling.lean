@@ -175,7 +175,7 @@ theorem depthSampling_unsupported_first_hit
       (enterCarriedMemory (model fullPrior) depthSamplingOutsideState) :=
     depthSampling_unsupported_is_exception
   unfold pbsCarriedDepthFirstHitProbability FinDist.sequenceFirstHitProbability
-  simp only [FinDist.pure_bind, FinDist.sequenceFirstHit, Set.mem_setOf_eq,
+  simp only [FinDist.pure_bind, FinDist.sequenceFirstHit, Set.mem_ofPred_eq,
     if_pos hit, FinDist.prob_pure_self]
 
 /-- The sharp sampling charge composes with any future reading the retained state. -/
