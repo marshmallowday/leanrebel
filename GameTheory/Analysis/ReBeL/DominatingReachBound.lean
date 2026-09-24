@@ -18,7 +18,7 @@ universe uι us ua up uq uk
 variable {ι : Type uι} {E : ExecutionProtocol.{uι, us, ua} ι}
 variable (M : InformationModel.{uι, us, ua, up, uq, uk} E)
 variable [∀ who info, Fintype (M.Choice who info)]
-variable [Fintype ι] [DecidableEq ι] [Fintype E.History]
+variable [Fintype E.History]
 
 /-- A finite game-dependent density cap. This uses uniform legal own reach,
 not a minimum probability of the current model or of its public queries. -/
@@ -33,6 +33,8 @@ theorem unilateralDensityCap_nonneg (fallback : (who : ι) → M.Policy who) (wh
   apply Finset.sum_nonneg
   intro history _
   exact inv_nonneg.mpr (uniformInformationReach_positive M fallback who _ ⟨history, rfl⟩).le
+
+variable [DecidableEq ι]
 
 /-- Every unilateral behavioral policy obeys one structural cap, including
 histories with zero current-model probability. No recall premise is needed to

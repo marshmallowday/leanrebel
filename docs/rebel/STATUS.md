@@ -8,22 +8,30 @@ rebel/m06-source-rates-repair-20260924. The repair branch and failed predecessor
 bd5cdaa304cb0791379c94fd0454ed28eabb683d on rebel/m06-transport-rates-20260924
 are preserved; main is not a write target.
 
-The repair passed M06 target36003811993/job107646728317:131 targets, all
-supplemental normal/slow lint and transitive axiom checks over93 modules.
+The source-rate repair passed M06 target36003811993/job107646728317:131 targets,
+1474 transitively audited declarations, and normal/slow lint over93 modules.
 Inventory36003811987 and source snapshot107646727703 passed. FullCI36003811808/
-job107646730056 and independent ReBeL36003811764/job107646727800 were still being
-checked at this checkpoint. Do not infer their final success from the target.
-The original source failure and exact repair are in M06-source-rates-compiler-loop.md.
+job107646730056 is SUCCESS, including all architecture and whole-library gates.
+Independent ReBeL36003811764/job107646727800 is still being checked; do not infer
+its final success from the target. The original source failure and exact repair
+are in M06-source-rates-compiler-loop.md.
 
 The new extension adds a structural game-dependent density cap, an explicit
-opponent-uniform source-law rate and an actual two-fresh-solve consumer. See
-M06-uniform-source-rates.md for declarations, assumptions, control and scope.
-All three new modules are appended to the analytic root, target and axiom/lint
-consumers;134 targets and96 supplemental audit modules preserve all prior entries.
-The extension is UNVERIFIED until its own exact-source compiler, normal/slow
-lint, transitive axiom and whole-library gates are inspected. Do not accept from
-source existence or Python tests. No inherited theorem, target, workflow, pin,
-warning policy or whitelist is weakened. coverage.json statuses stay pending.
+opponent-uniform source-law rate and an actual two-fresh-solve consumer. Initial
+source2264eefd5c25f99b606e9c83ca94e5f536a3d8d9 failed M06target36005895147/
+job107653834466 on unused section typeclass assumptions in DominatingReachBound.
+The current checkpoint removes the unused Fintype-player premise and scopes
+DecidableEq only to the theorem requiring it; no linter is disabled and proof
+bodies/conclusions are unchanged. See M06-uniform-source-rates.md for exact
+failure evidence, source locators, assumptions and scope. All three new modules
+remain in the analytic root, target and axiom/lint consumers:134 targets and96
+supplemental modules preserve every prior entry.
+
+This extension remains UNVERIFIED until the repaired source's compiler,
+normal/slow lint, transitive axiom and whole-library gates are inspected.
+Do not accept from source existence or Python tests. No inherited theorem,
+target, workflow, dependency pin, warning policy or whitelist is weakened.
+coverage.json parent statuses stay pending.
 
 ## Predecessor independent gate resolved
 

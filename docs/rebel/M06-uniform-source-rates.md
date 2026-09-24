@@ -8,12 +8,15 @@ rebel/m06-uniform-source-rates-20260924. The repair branch, failed predecessor,
 all accepted slices and main are preserved. No main integration is requested.
 All remote reads, writes and Git operations use the ChatGPT GitHub plugin.
 
-The repair has passed M06 target run36003811993/job107646728317, including
-131 targets and supplemental normal/slow lint and transitive axiom audit over
-93 modules. Inventory36003811987 also passed. At this implementation checkpoint,
-fullCI36003811808/job107646730056 and independent ReBeL36003811764/job107646727800
-are still being checked. Exact-source snapshot107646727703 passed.
-These are evidence for the repair, not acceptance of this new extension.
+The repair passed M06 target run36003811993/job107646728317, including
+131 targets and supplemental normal/slow lint and transitive axiom audit:
+EXACT_LEAF_AXIOM_AUDIT_PASS declarations=1474;
+EXACT_LEAF_VALIDATION_PASS modules=93. Inventory36003811987 also passed.
+Full CI36003811808/job107646730056 is now SUCCESS, including whole-library
+build/lint, architecture Phases1/2/3 and tracked-file cleanliness.
+Independent ReBeL36003811764/job107646727800 is still being checked; its
+exact-source snapshot107646727703 passed. These are evidence for the repair,
+not acceptance of this new extension.
 
 ## New mathematical slice — pending compiler acceptance
 
@@ -52,8 +55,9 @@ order; new totals are134 and96. No warning gate, workflow, architecture check,
 dependency pin or axiom whitelist is weakened. The only allowed axioms remain
 propext, Classical.choice and Quot.sound.
 
-Source locator: SEARCH-ERROR and SAFE-THEOREM3, main section5.1/Theorem3 and
-supplementG pp.21-22; this is a qualified source-law bridge, not a proof of the
+Source locator: SAFE-THEOREM3, main section6/p8 Theorem3 and supplementG
+pp.21-22; SEARCH-ERROR additionally tracks appendicesG/I and cited CFR-D and
+DeepStack results. This is a qualified source-law bridge, not a proof of the
 unmodified paper theorem. Neither independent Nash quality nor scalar oracle
 accuracy is asserted to imply a small outcome radius. Deriving shrinking radii
 for the intended algorithm, useful native first-exit rates, independent solves
@@ -61,10 +65,32 @@ at later carried PBSs and CarriedResolveStepBounds remain open. The printed and
 corrected finite-T Theorem3 forms remain distinct, with finite parent error
 retained even at zero prediction error. M06 parent coverage statuses stay pending.
 
+## Initial compiler failure and scope repair
+
+Initial extension source2264eefd5c25f99b606e9c83ca94e5f536a3d8d9 failed M06
+run36005895147/job107653834466 on2026-09-24T13:34:09Z. The exact target artifact
+is10810825855, SHA256
+36a1c95c76208401bd30a49e63e004559a24c0736d318a69e72f5fa15689221e.
+The compiler reports only unusedSectionVars in DominatingReachBound:
+[Fintype player] and [DecidableEq player] at unilateralDensityCap_nonneg,
+and [Fintype player] at unilateralDensity_le_cap. Proof bodies elaborated,
+but the warning-as-error gate correctly failed; downstream new modules and
+supplemental lint/axioms were not accepted.
+
+The repair removes the unused finite-player instance and scopes DecidableEq
+only before the ratio theorem that needs it. It does not disable a linter or
+alter a proof body, mathematical conclusion, target, import, gate or whitelist.
+The tighter hypotheses strengthen the API instead of suppressing the warning.
+The initial failure remains in branch ancestry. Inventory36005895166 passed.
+FullCI36005895266 and independent ReBeL36005895063 belong to the failed initial
+source, not to the repair; inspect exact repair-SHA results before acceptance.
+
 ## Validation to record
 
-Read exact implementation-SHA target, full CI, independent ReBeL and inventory
-results. On any failure inspect compiler/normal-slow-lint/transitive-axiom logs
-and repair without dropping declarations or targets. Record run/job IDs and
-artifact hashes before marking this slice accepted. No new theorem in this file
-is claimed compiler-verified at this checkpoint.
+Read exact repair-SHA target, full CI, independent ReBeL and inventory results.
+On any failure inspect compiler/normal-slow-lint/transitive-axiom logs and repair
+without dropping declarations or targets. Record run/job IDs and artifact
+hashes before marking this slice accepted. No new theorem in this document is
+claimed compiler-verified at this checkpoint. Local checks of the exact initial
+source passed76 Python tests and the coverage/inventory structure checks; those
+are not substitutes for Lean compiler and axiom acceptance.
