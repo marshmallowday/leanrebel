@@ -252,7 +252,7 @@ its ACTUAL density. Dropping that density is not valid for arbitrary opponents. 
 theorem expect_transport_le_of_density (old fresh actual : FinDist α)
     (observe : α → β) (density gate : β → ℝ)
     (densityNonneg : ∀ tag, 0 ≤ density tag) (gateNonneg : ∀ tag, 0 ≤ gate tag)
-    (change : ∀ x, actual.prob x = old.prob x * density (observe x)) :
+    (hdensity : ∀ x, actual.prob x = old.prob x * density (observe x)) :
     actual.expect (fun x => gate (observe x) *
       conditionalTransportDefect old fresh observe (observe x)) ≤
       2 * ∑ x, (density (observe x) * gate (observe x)) *
@@ -263,7 +263,7 @@ theorem expect_transport_le_of_density (old fresh actual : FinDist α)
       rw [expect_map, expect_eq_sum, expect_eq_sum]
       apply Finset.sum_congr rfl
       intro x _
-      rw [change]
+      rw [hdensity]
       ring
     _ ≤ _ := expect_weighted_transport_le old fresh observe (fun tag => density tag * gate tag)
       (fun tag => mul_nonneg (densityNonneg tag) (gateNonneg tag))
