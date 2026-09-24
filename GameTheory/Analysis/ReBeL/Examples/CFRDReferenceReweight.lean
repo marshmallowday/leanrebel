@@ -106,6 +106,64 @@ theorem hidden_change_has_no_information_density :
     have absent := density (false, false)
     norm_num [FinDist.prob_pure_eq_ite] at absent
 
+
+/-- Equal queried conditionals give exactly zero cost even when public masses differ. -/
+theorem reweighted_transport_zero (tag : Bool) :
+    FinDist.conditionalTransportDefect oldReference newReference Prod.fst tag = 0 := by
+  apply FinDist.conditionalTransportDefect_eq_zero
+  · intro sampled
+    rw [FinDist.support_map] at sampled ⊢
+    obtain ⟨leaf, reached, same⟩ := sampled
+    exact ⟨leaf, informationReweight_support newReference oldReference Prod.fst
+      publicDensity oldReference_density reached, same⟩
+  · intro sampled
+    exact informationReweight_conditional newReference oldReference Prod.fst
+      publicDensity oldReference_density tag sampled
+
+private theorem pure_transport_fibre (bit : Bool) :
+    (FinDist.pure bit).condOnFibre (fun _ => ()) () = FinDist.pure bit := by
+  simpa only [FinDist.map_pure, FinDist.pure_bind] using
+    (FinDist.eq_bind_condOnFibre (FinDist.pure bit) (fun _ => ())).symm
+
+/-- The same observation may conceal a maximal, nonzero conditional transport cost. -/
+theorem hidden_flip_transport_two :
+    FinDist.conditionalTransportDefect (FinDist.pure false) (FinDist.pure true)
+      (fun _ => ()) () = 2 := by
+  simp only [FinDist.conditionalTransportDefect, FinDist.map_pure, FinDist.mem_support_pure,
+    if_pos rfl, pure_transport_fibre]
+  norm_num [show (Finset.univ : Finset Bool) = {false, true} from by decide,
+    FinDist.prob_pure_eq_ite]
+
+/-- An OLD-only query is charged directly, without evaluating a NEW fallback. -/
+theorem disappearing_query_transport_one :
+    FinDist.conditionalTransportDefect (FinDist.pure true) (FinDist.pure false) id true = 1 := by
+  simp [FinDist.conditionalTransportDefect, FinDist.map_pure, FinDist.mem_support_pure]
+
+/-- A query not sampled under OLD is excluded, not interpreted as a posterior. -/
+theorem absent_old_query_transport_zero :
+    FinDist.conditionalTransportDefect (FinDist.pure false) (FinDist.pure true) id true = 0 := by
+  simp [FinDist.conditionalTransportDefect, FinDist.map_pure, FinDist.mem_support_pure]
+
+/-- NEW quality alone fails to bound OLD value when hidden conditionals change. -/
+theorem hidden_flip_invalid_zero_transport :
+    conditionalOracleValue (FinDist.pure true) (fun _ => ())
+        (fun bit => if bit then (-1 : ℝ) else 1) () ≤ 0 ∧
+      ¬ conditionalOracleValue (FinDist.pure false) (fun _ => ())
+        (fun bit => if bit then (-1 : ℝ) else 1) () ≤ 0 := by
+  norm_num [conditionalOracleValue, pure_transport_fibre, FinDist.expect_pure]
+
+/-- A bounded arbitrary observable transfers with the computed nonzero charge. -/
+theorem hidden_flip_bounded_transfer (value : Bool → ℝ) (bound loss : ℝ)
+    (nonneg : 0 ≤ loss) (bounded : ∀ bit, |value bit| ≤ bound)
+    (quality : value true ≤ loss) : value false ≤ loss + bound * 2 := by
+  have transfer := FinDist.condOnFibre_expect_le_add_transport
+    (FinDist.pure false) (FinDist.pure true) (fun _ => ()) ()
+    (by simp only [FinDist.map_pure, FinDist.mem_support_pure]) value bound loss
+    nonneg bounded (by
+      intro _
+      simpa only [pure_transport_fibre, FinDist.expect_pure] using quality)
+  simpa only [pure_transport_fibre, FinDist.expect_pure, hidden_flip_transport_two] using transfer
+
 end GameTheory.ReBeL.Examples.ReferenceReweight
 
 namespace GameTheory.ReBeL.Examples.HiddenTypes
@@ -145,5 +203,41 @@ theorem freshChainControl_reweighted_drift (who : Player) :
     cfrDFreshInformationChain_referenceLaw (reducedModel fullPrior) pbsRootControlFallback
       cfrPayoff 2 1 2 freshChainControlLoss (freshControlModels ()) who 1
   rw [same, mul_one]
+
+
+/-- The actual two-solve chain has zero reference transport, proved from its
+computed reference preservation. Its continuation-value drift still remains. -/
+theorem freshChainControl_transport_zero (who : Player) :
+    cfrDReferenceTransportDefect (model fullPrior) freshControlModels
+      (freshChainControlProfiles 2) informationControlFullFallback who 2 1 = 0 := by
+  apply cfrDReferenceTransportDefect_eq_zero_of_informationReweight (model fullPrior)
+    freshControlModels (freshChainControlProfiles 2) informationControlFullFallback who 2 1
+    (fun _ _ => 1)
+  intro k history
+  cases k
+  have same := freshChainControl_reference who
+  rw [same, mul_one]
+  rfl
+
+/-- The general transport-aware envelope consumes derived local quality from
+the actual child solver, and applies against an arbitrary unknown opponent. -/
+theorem freshChainControl_transport_envelope
+    (unknown : Profile (model fullPrior).behavioralSignature) :
+    CFRDResolverEnvelope (model fullPrior) freshControlModels freshChainControlResolver
+      informationControlFullFallback unknown 0 1 2 1 (cfrPayoff 1)
+      (freshChainControlLoss 1 +
+        cfrDFreshUniformDrift (model fullPrior) freshControlModels (freshChainControlProfiles 2)
+          informationControlFullFallback 1 (cfrPayoff 1) 2 1 +
+        2 * 2 * cfrDReferenceTransportDefect (model fullPrior) freshControlModels
+          (freshChainControlProfiles 2) informationControlFullFallback 1 2 1) := by
+  apply cfrDFreshCoherentResolver_envelope_with_transport (model fullPrior)
+    (perfectRecall fullPrior)
+    freshControlModels (freshChainControlProfiles 2) informationControlFullFallback
+    unknown 0 1 (by decide) 2 1 (cfrPayoff 1) 2 (freshChainControlLoss 1)
+    (by norm_num) (le_of_lt (freshChainControlLoss_pos 1))
+    (fun h => cfrPayoff_abs_le_two 1 h)
+  intro k
+  cases k
+  exact freshChainControl_leafOptimal 1
 
 end GameTheory.ReBeL.Examples.HiddenTypes

@@ -2,48 +2,45 @@
 
 ## Resume point
 
-Resume from remote HEAD of rebel/m06-reference-reweight-20260924.
-Recovery parent: 8783159df16bbbb505ee0e810d142d2793fba593, based on
-66a8b9ecd01a5dbbf120ce1b56479ccec6c1dad7. All remote access and commits
-use the GitHub plugin. Main is not a write target.
+Resume from remote HEAD of rebel/m06-reference-transport-20260924.
+This adds bounded conditional transport and disappearing-query costs to the
+recovered reference-reweight slice. All writes use the GitHub plugin, and main
+is not a write target. Its new compiler/lint/axiom acceptance is PENDING.
+See M06-reference-transport.md for exact assumptions, definitions and controls.
 
-This checkpoint recovers the previously unapplied CFRDReferenceReweight and
-Examples.CFRDReferenceReweight modules. Their exact-SHA compiler, lint and
-transitive axiom checks are PENDING, not accepted from source inspection.
-All 124 prior M06 targets and 86 prior supplemental modules remain, with two
-added to each list. See M06-reference-reweight.md for assumptions and controls,
-and M06-reference-reweight-validation.md for checkpoint evidence.
+Predecessor 44a98bb4395db046e1ed602d8dc8fcb8f80df00d is retained on
+rebel/m06-reference-reweight-20260924. At this checkpoint its M06 run
+35970620266/job107539230730 compiled all targets successfully; supplemental
+lint/axiom checks were still running. Independent ReBeL run35970620213/
+job107539323485 is separate. Do not promote a whole run from one completed step.
+All 126 M06 targets and 88 supplemental modules remain registered unchanged.
 
-## Accepted predecessors: do not redo
+## Accepted predecessors
 
-Fresh-chain proof source 46126f37dbaa83a2f064f511e9617843d0ce308a is preserved
-on rebel/m06-fresh-chain-20260924, with reviewed documentation at 66a8b9ec.
-Independent ReBeL run 35964794487/job 107520978527 now SUCCEEDED, including
-all-ReBeL compile/lint/transitive axioms, rational runtime, independent pure
-responses and tracked-file cleanliness. The older pending note is superseded.
-M06 run 35964794524/job 107520892185 and full CI run 35964794518/job
-107520892015 also succeeded. Exact-source audit: 86 modules, 1291 declarations.
-See M06-fresh-chain-validation.md and M06-fresh-chain.md for the theorem scope,
-compiler repairs and positive/hostile controls. The chain repeats actual child
-solves at one fixed cut, deriving reference preservation, final local quality,
-measured drift accumulation and noisy-parent root security.
+Fresh-chain source46126f37 on rebel/m06-fresh-chain-20260924 and its review
+66a8b9ec remain preserved. Independent run35964794487/job107520978527 is now
+SUCCESS, including full ReBeL compile/lint/transitive axioms, rational runtime,
+independent pure responses and tracked-file cleanliness. The old pending note
+is superseded. Target35964794524 and full CI35964794518 also succeeded.
+See M06-fresh-chain-validation.md and M06-fresh-chain.md.
 
-Composition 639e3962, structural recursion a4246792 and review a5e0700f remain
-accepted and preserved on their original branches. Their records are in
-M06-drift-composition-validation.md and M06-recursive-validation.md.
-Finite budget 704e96ff, nested f9d4def1 and repair 751ad17a are not repeated;
-see M06-depth-budget-integration.md, M06-nested-depth-validation.md and
-M06-structural-recovery.md. Preserve all accepted M05 results.
+Do not redo composition639e3962, recursiona4246792/reviewa5e0700f,
+finite budget704e96ff, nestedf9d4def1 or repair751ad17a. Their original branches
+and validation records remain intact. Preserve every accepted M05 result.
 
-## Remaining original obligations
+## Current semantic boundary
 
-Information-local OLD-from-NEW density is structural, not implied by scalar
-Nash accuracy or arbitrary later PBS changes. Derive useful posterior
-transport/support/first-exit and fresh-model-value drift bounds, then
-CarriedResolveStepBounds for the actual repeated independent solves.
-A measured drift sum is not a vanishing-rate theorem; unchanged conditionals
-do not imply unchanged continuation values. Do not equate modeled PBS with
-actual unknown-opponent posterior, erase finite-T or positive prediction
-error, or infer learned-network accuracy. Preserve native private-iteration
-sampling versus coherent-plan distinctions and the printed/corrected Theorem 3.
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
+The new envelope is childLoss + measuredValueDrift + 2*payoffBound*transport.
+Transport uses actual conditional atom differences on jointly supported OLD
+queries and an explicit cost when NEW loses an OLD query, never a fabricated
+NEW posterior. Its [0,2] bound is not a source-level vanishing rate.
+Information-local reweighting gives zero transport, not zero value drift.
+The concrete two-solve chain derives local quality from the actual solver.
+
+Remaining: useful state-law-weighted transport/support/first-exit and value-drift
+rates, plus CarriedResolveStepBounds for actual repeated independent later PBS
+solves. Do not conflate the coherent-plan draw with native iteration sampling,
+model PBS with actual unknown-opponent posterior, or finite real specifications
+with numerical refinement. Keep positive prediction error, finite T and the
+printed/corrected Theorem3 distinction. SEARCH-FRONTIER, SEARCH-CFRD,
+SEARCH-ERROR and SAFE-THEOREM3 remain pending; coverage statuses are not promoted.

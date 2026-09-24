@@ -1,9 +1,10 @@
 /-
-# Conditioning respects event equality on the supported domain
+# Supported conditioning: exact recoding and bounded transport
 
 Two events may differ outside the actual law without changing a conditional.
 The same fact applies to lossless encodings of observed fibers. No PMF
-representation, finiteness of the carrier, or positive lower bound is used.
+representation or positive lower bound is used. The transport section uses a
+finite carrier to measure changed conditionals and explicitly charge lost support.
 -/
 
 import GameTheory.Math.Probability.FinDist
@@ -55,5 +56,111 @@ theorem condOnFibre_eq_of_support_iff (law : FinDist α) (first : α → β) (se
       rintro ⟨x, equal, reached⟩
       exact possible ⟨x, (same x reached).mpr equal, reached⟩
     simp only [condOnFibre, dif_neg possible, dif_neg absent]
+
+
+section Transport
+
+variable [Fintype α]
+
+/-- Query-local transport cost. An absent OLD query costs zero because it is
+not used; an OLD-only query costs one rather than consulting a NEW fallback.
+On jointly supported queries this is the L1 distance of the actual conditionals. -/
+def conditionalTransportDefect (old fresh : FinDist α) (observe : α → β) (tag : β) : ℝ := by
+  classical
+  exact if tag ∈ (old.map observe).support then
+    if tag ∈ (fresh.map observe).support then
+      ∑ x, |(old.condOnFibre observe tag).prob x - (fresh.condOnFibre observe tag).prob x|
+    else 1
+  else 0
+
+/-- Transport costs are nonnegative, including disappearing and absent queries. -/
+theorem conditionalTransportDefect_nonneg (old fresh : FinDist α)
+    (observe : α → β) (tag : β) : 0 ≤ conditionalTransportDefect old fresh observe tag := by
+  classical
+  unfold conditionalTransportDefect
+  split_ifs
+  · exact Finset.sum_nonneg (fun _ _ => abs_nonneg _)
+  · norm_num
+  · exact le_refl _
+
+/-- The cost is at most two, without a uniform positive atom-mass premise. -/
+theorem conditionalTransportDefect_le_two (old fresh : FinDist α)
+    (observe : α → β) (tag : β) : conditionalTransportDefect old fresh observe tag ≤ 2 := by
+  classical
+  unfold conditionalTransportDefect
+  split_ifs
+  · calc
+      _ ≤ ∑ x, ((old.condOnFibre observe tag).prob x +
+          (fresh.condOnFibre observe tag).prob x) := by
+        apply Finset.sum_le_sum
+        intro x _
+        have first := prob_nonneg (old.condOnFibre observe tag) x
+        have second := prob_nonneg (fresh.condOnFibre observe tag) x
+        exact abs_le.mpr ⟨by linarith, by linarith⟩
+      _ = 2 := by rw [Finset.sum_add_distrib, sum_prob, sum_prob]; norm_num
+  · norm_num
+  · norm_num
+
+/-- Equal supported conditionals cost zero; unsupported OLD queries remain unused. -/
+theorem conditionalTransportDefect_eq_zero (old fresh : FinDist α)
+    (observe : α → β) (tag : β)
+    (covered : tag ∈ (old.map observe).support → tag ∈ (fresh.map observe).support)
+    (same : tag ∈ (old.map observe).support →
+      old.condOnFibre observe tag = fresh.condOnFibre observe tag) :
+    conditionalTransportDefect old fresh observe tag = 0 := by
+  classical
+  by_cases sampled : tag ∈ (old.map observe).support
+  · simp only [conditionalTransportDefect, if_pos sampled, if_pos (covered sampled),
+      same sampled, sub_self, abs_zero, Finset.sum_const_zero]
+  · simp only [conditionalTransportDefect, if_neg sampled]
+
+/-- Transfer a supported NEW query's upper bound to the OLD conditional.
+If the NEW query has disappeared, use the bounded observable directly and
+charge the explicit support defect. No fictitious NEW posterior is consulted. -/
+theorem condOnFibre_expect_le_add_transport (old fresh : FinDist α)
+    (observe : α → β) (tag : β) (sampled : tag ∈ (old.map observe).support)
+    (value : α → ℝ) (bound loss : ℝ) (nonneg : 0 ≤ loss)
+    (bounded : ∀ x, |value x| ≤ bound)
+    (quality : tag ∈ (fresh.map observe).support →
+      (fresh.condOnFibre observe tag).expect value ≤ loss) :
+    (old.condOnFibre observe tag).expect value ≤
+      loss + bound * conditionalTransportDefect old fresh observe tag := by
+  classical
+  by_cases present : tag ∈ (fresh.map observe).support
+  · rw [conditionalTransportDefect, if_pos sampled, if_pos present]
+    have distance :
+        |(old.condOnFibre observe tag).expect value -
+          (fresh.condOnFibre observe tag).expect value| ≤
+        bound * ∑ x, |(old.condOnFibre observe tag).prob x -
+          (fresh.condOnFibre observe tag).prob x| := by
+      calc
+        _ = |∑ x, ((old.condOnFibre observe tag).prob x -
+            (fresh.condOnFibre observe tag).prob x) * value x| := by
+          rw [expect_eq_sum, expect_eq_sum, ← Finset.sum_sub_distrib]
+          congr 1
+          apply Finset.sum_congr rfl
+          intro x _
+          ring
+        _ ≤ ∑ x, |((old.condOnFibre observe tag).prob x -
+            (fresh.condOnFibre observe tag).prob x) * value x| :=
+          Finset.abs_sum_le_sum_abs _ _
+        _ ≤ ∑ x, bound * |(old.condOnFibre observe tag).prob x -
+            (fresh.condOnFibre observe tag).prob x| := by
+          apply Finset.sum_le_sum
+          intro x _
+          rw [abs_mul]
+          simpa only [mul_comm] using mul_le_mul_of_nonneg_left (bounded x)
+            (abs_nonneg ((old.condOnFibre observe tag).prob x -
+              (fresh.condOnFibre observe tag).prob x))
+        _ = _ := (Finset.mul_sum _ _ _).symm
+    have upper := (abs_le.mp distance).2
+    have localQuality := quality present
+    linarith
+  · rw [conditionalTransportDefect, if_pos sampled, if_neg present, mul_one]
+    have upper := expect_le_of_forall (old.condOnFibre observe tag) value bound
+      (fun x _ => (abs_le.mp (bounded x)).2)
+    linarith
+
+end Transport
 
 end GameTheory.Math.Probability.FinDist
