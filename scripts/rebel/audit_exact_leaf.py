@@ -99,6 +99,8 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.Examples.PBSRecursiveDepth",
     "GameTheory.Analysis.ReBeL.CFRDFreshChain",
     "GameTheory.Analysis.ReBeL.Examples.CFRDFreshChain",
+    "GameTheory.Math.Probability.FinDistMassDistance",
+    "GameTheory.Analysis.ReBeL.Examples.MassDistance",
 )
 AUDITOR = r'''
 open Lean Elab Command in

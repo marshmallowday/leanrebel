@@ -122,3 +122,5 @@ GameTheory.Analysis.ReBeL.PBSRecursiveDepth
 GameTheory.Analysis.ReBeL.Examples.PBSRecursiveDepth
 GameTheory.Analysis.ReBeL.CFRDFreshChain
 GameTheory.Analysis.ReBeL.Examples.CFRDFreshChain
+GameTheory.Math.Probability.FinDistMassDistance
+GameTheory.Analysis.ReBeL.Examples.MassDistance
