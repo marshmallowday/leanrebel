@@ -283,7 +283,7 @@ theorem firstExitValue_expect_abs_le_firstHit
           (FinDist.abs_expect_le_of_abs_bound
             ((bindSequence second suffix state).bind future) payoff
             (fun outcome _ => bounded outcome))
-        simp only [sequenceFirstExitValue, FinDist.prob_pure_self, mul_one]
+        simp only [sequenceFirstExitValue, Option.isSome, FinDist.prob_pure_self, mul_one]
         exact abs_le.mpr ⟨by linarith, by linarith⟩
   calc
     _ ≤ (law.bind (sequenceFirstExit first event stages)).expect
