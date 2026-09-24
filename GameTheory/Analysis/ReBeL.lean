@@ -197,3 +197,6 @@ import GameTheory.Analysis.ReBeL.CFRDComposedChild
 import GameTheory.Analysis.ReBeL.PBSComposedDepth
 import GameTheory.Analysis.ReBeL.PBSRecursiveDepth
 import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveDepth
+import GameTheory.Math.Probability.FinDistTotalVariation
+import GameTheory.Analysis.ReBeL.CFRDNativeVariation
+import GameTheory.Analysis.ReBeL.Examples.CFRDNativeVariation
