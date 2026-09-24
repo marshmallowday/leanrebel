@@ -195,3 +195,5 @@ import GameTheory.Analysis.ReBeL.CFRDNestedDepthDriver
 import GameTheory.Analysis.ReBeL.Examples.CFRDNestedDepth
 import GameTheory.Analysis.ReBeL.CFRDComposedChild
 import GameTheory.Analysis.ReBeL.PBSComposedDepth
+import GameTheory.Analysis.ReBeL.PBSRecursiveDepth
+import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveDepth
