@@ -347,8 +347,8 @@ theorem pbsCarriedDepthSequence_future_error {Outcome : Type*}
     (bounded : ∀ outcome, |value outcome| ≤ observableBound) :
     |((pbsCarriedDepthNativeStates M fallback payoff initial unknown who schedule states).bind
         future).expect value -
-      ((pbsCarriedDepthHistoryFirstStates M fallback payoff initial unknown who schedule states).bind
-        future).expect value| ≤
+      ((pbsCarriedDepthHistoryFirstStates M fallback payoff initial unknown who
+        schedule states).bind future).expect value| ≤
       2 * observableBound * pbsCarriedDepthSequenceExceptionMass M fallback payoff initial
         unknown who schedule states := by
   apply FinDist.abs_expect_bindSequence_sub_le_of_eq_off_event
@@ -370,7 +370,8 @@ theorem pbsCarriedDepthSequence_execute
         (schedule.map (pbsCarriedDepthConfiguredStage M fallback payoff initial)) state =
       (FinDist.bindSequence (fun parameters =>
         carriedMemoryStep (fullInformation M) initial unknown who
-          (pbsCarriedDepthConfiguredStage M fallback payoff initial parameters)) schedule state).bind
+          (pbsCarriedDepthConfiguredStage M fallback payoff initial parameters))
+        schedule state).bind
         (carriedSelectedTail (fullInformation M) initial unknown who finalFuel) := by
   induction schedule generalizing state with
   | nil =>
@@ -395,7 +396,8 @@ theorem pbsCarriedDepthSequence_execute_error
     (bounded : ∀ history, |value history| ≤ observableBound) :
     |(states.bind (executeCarriedResolves (fullInformation M) initial unknown who finalFuel
         (schedule.map (pbsCarriedDepthConfiguredStage M fallback payoff initial)))).expect value -
-      ((pbsCarriedDepthHistoryFirstStates M fallback payoff initial unknown who schedule states).bind
+      ((pbsCarriedDepthHistoryFirstStates M fallback payoff initial unknown who
+        schedule states).bind
         (carriedSelectedTail (fullInformation M) initial unknown who finalFuel)).expect value| ≤
       2 * observableBound * pbsCarriedDepthSequenceExceptionMass M fallback payoff initial
         unknown who schedule states := by
