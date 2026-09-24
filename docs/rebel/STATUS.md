@@ -2,28 +2,28 @@
 
 ## Current resume point
 
-Resume from the remote HEAD of rebel/m06-source-rates-repair-20260924.
-This continuation starts at bd5cdaa304cb0791379c94fd0454ed28eabb683d on
-rebel/m06-transport-rates-20260924, without moving that predecessor ref or main.
-The predecessor independent ReBeL run35994227078/job107615561858 FAILED in
-Examples.CFRDSourceRates. FinDistTransportRate and CFRDSourceRates compiled,
-but the complete compiler/lint/axiom gate did not pass. Full CI35994227103 also
-failed; the independent source snapshot job107615562354 passed.
+Resume from the remote HEAD of rebel/m06-uniform-source-rates-20260924.
+This extension follows repair8a82e7fdee7cd7fc23c1b40609ab7c869750939e on
+rebel/m06-source-rates-repair-20260924. The repair branch and failed predecessor
+bd5cdaa304cb0791379c94fd0454ed28eabb683d on rebel/m06-transport-rates-20260924
+are preserved; main is not a write target.
 
-The repair preserves every theorem statement and adversarial control. It uses
-the public prob_pure_eq_ite lemma for off-diagonal probabilities, rewrites the
-weighted integrand before unfolding its law, keeps OLD reach explicit when NEW
-loses a query, and fixes addition monotonicity in the actual game consumer.
-No target, import, audit, workflow, dependency pin or whitelist is removed or
-weakened. This checkpoint is NOT accepted until its exact-source target, full CI,
-independent ReBeL compiler/lint/transitive-axiom and inventory results are read.
-See M06-source-rates-compiler-loop.md for the failure and next checks.
-The older 129-target/91-audit count preceded the later source-game and example
-modules; use the actual target/audit lists, not that stale planning count.
+The repair passed M06 target36003811993/job107646728317:131 targets, all
+supplemental normal/slow lint and transitive axiom checks over93 modules.
+Inventory36003811987 and source snapshot107646727703 passed. FullCI36003811808/
+job107646730056 and independent ReBeL36003811764/job107646727800 were still being
+checked at this checkpoint. Do not infer their final success from the target.
+The original source failure and exact repair are in M06-source-rates-compiler-loop.md.
 
-Continue the source-law rate and fresh-continuation obligations described in
-M06-transport-rates.md. coverage.json statuses are unchanged. Main is not a
-write target and M06 as a whole remains in progress.
+The new extension adds a structural game-dependent density cap, an explicit
+opponent-uniform source-law rate and an actual two-fresh-solve consumer. See
+M06-uniform-source-rates.md for declarations, assumptions, control and scope.
+All three new modules are appended to the analytic root, target and axiom/lint
+consumers;134 targets and96 supplemental audit modules preserve all prior entries.
+The extension is UNVERIFIED until its own exact-source compiler, normal/slow
+lint, transitive axiom and whole-library gates are inspected. Do not accept from
+source existence or Python tests. No inherited theorem, target, workflow, pin,
+warning policy or whitelist is weakened. coverage.json statuses stay pending.
 
 ## Predecessor independent gate resolved
 
@@ -69,11 +69,11 @@ The prior fresh-chain source46126f37 independent run35964794487 also succeeded.
 Preserve44a98bb4,66a8b9ec,composition639e3962,recursiona4246792/reviewa5e0700f,
 budget704e96ff,nestedf9d4def1,repair751ad17a and all accepted M05 records.
 
-Remaining: source-level weighted drift/transport and native first-exit rates,
-independent re-solving at later carried PBSs and CarriedResolveStepBounds.
-The new work must connect actual source-law discrepancies, not assume a desired
-root safety inequality. Coherent final-average sampling is still different from
-the native-iteration sampler. SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and
-SAFE-THEOREM3 remain pending; coverage.json statuses are not promoted.
+Remaining: shrinking source outcome/reference radii for the intended algorithm,
+useful native first-exit rates, independent re-solving at later carried PBSs and
+CarriedResolveStepBounds. The new work must connect actual source-law discrepancies,
+not assume a desired root safety inequality. Coherent final-average sampling is
+still different from the native-iteration sampler. SEARCH-FRONTIER, SEARCH-CFRD,
+SEARCH-ERROR and SAFE-THEOREM3 remain pending; coverage statuses are not promoted.
 Preserve the printed/corrected Theorem3 distinction and the proof/executable-
 numerical boundary. Do not reapply stale reweight ZIPs or redo accepted slices.

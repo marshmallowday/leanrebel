@@ -206,3 +206,6 @@ import GameTheory.Analysis.ReBeL.Examples.CFRDWeightedTransport
 import GameTheory.Math.Probability.FinDistTransportRate
 import GameTheory.Analysis.ReBeL.CFRDSourceRates
 import GameTheory.Analysis.ReBeL.Examples.CFRDSourceRates
+import GameTheory.Analysis.ReBeL.DominatingReachBound
+import GameTheory.Analysis.ReBeL.CFRDUniformSourceRates
+import GameTheory.Analysis.ReBeL.Examples.CFRDUniformSourceRates
