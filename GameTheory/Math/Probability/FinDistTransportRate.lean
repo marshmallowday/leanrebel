@@ -72,7 +72,8 @@ theorem fiberAtomVariation_nonneg (old fresh : FinDist α) (observe : α → β)
   · exact abs_nonneg _
   · exact le_refl _
 
-private theorem observation_prob_sum (law : FinDist α) (observe : α → β) (tag : β) :
+private theorem observation_prob_sum [DecidableEq β]
+    (law : FinDist α) (observe : α → β) (tag : β) :
     (law.map observe).prob tag = ∑ x, if observe x = tag then law.prob x else 0 := by
   classical
   rw [prob_map_eq_probOf_preimage_singleton, ← expect_indicator_eq_probOf, expect_eq_sum]
@@ -82,7 +83,7 @@ private theorem observation_prob_sum (law : FinDist α) (observe : α → β) (t
 
 /-- Multiplying by observation mass removes normalization, even for an absent
 OLD query: its zero multiplier does not turn its fallback into a posterior. -/
-theorem observation_prob_mul_conditional_prob (law : FinDist α)
+theorem observation_prob_mul_conditional_prob [DecidableEq β] (law : FinDist α)
     (observe : α → β) (tag : β) (x : α) :
     (law.map observe).prob tag * (law.condOnFibre observe tag).prob x =
       if observe x = tag then law.prob x else 0 := by
@@ -116,7 +117,8 @@ theorem abs_observation_prob_sub_le_fiberAtomVariation (old fresh : FinDist α)
   calc
     _ ≤ ∑ x, |(if observe x = tag then old.prob x else 0) -
         (if observe x = tag then fresh.prob x else 0)| := Finset.abs_sum_le_sum_abs _ _
-    _ = _ := by
+    _ = fiberAtomVariation old fresh observe tag := by
+      unfold fiberAtomVariation
       apply Finset.sum_congr rfl
       intro x _
       by_cases same : observe x = tag <;> simp [same]
@@ -147,12 +149,15 @@ theorem observation_prob_mul_transport_le (old fresh : FinDist α)
                   (fresh.map observe).prob tag * (fresh.condOnFibre observe tag).prob x| +
                 |((fresh.map observe).prob tag - (old.map observe).prob tag) *
                   (fresh.condOnFibre observe tag).prob x| := by
-              have split := abs_add_le
-                ((old.map observe).prob tag * (old.condOnFibre observe tag).prob x -
-                  (fresh.map observe).prob tag * (fresh.condOnFibre observe tag).prob x)
-                (((fresh.map observe).prob tag - (old.map observe).prob tag) *
-                  (fresh.condOnFibre observe tag).prob x)
-              convert split using 1 <;> ring
+              have identity :
+                  (old.map observe).prob tag * (old.condOnFibre observe tag).prob x -
+                    (old.map observe).prob tag * (fresh.condOnFibre observe tag).prob x =
+                  ((old.map observe).prob tag * (old.condOnFibre observe tag).prob x -
+                    (fresh.map observe).prob tag * (fresh.condOnFibre observe tag).prob x) +
+                  ((fresh.map observe).prob tag - (old.map observe).prob tag) *
+                    (fresh.condOnFibre observe tag).prob x := by ring
+              rw [identity]
+              exact abs_add_le _ _
             _ = _ := by
               rw [observation_prob_mul_conditional_prob, observation_prob_mul_conditional_prob,
                 abs_mul, abs_of_nonneg (prob_nonneg _ _),
@@ -189,11 +194,12 @@ theorem fiberAtomVariation_le_of_atomRate (old fresh : FinDist α)
     fiberAtomVariation old fresh observe tag ≤ rate * (old.map observe).prob tag := by
   classical
   rw [observation_prob_sum, Finset.mul_sum]
+  unfold fiberAtomVariation
   apply Finset.sum_le_sum
   intro x _
   by_cases same : observe x = tag
   · simpa only [same, if_true] using small x
-  · simp only [same, if_false, mul_zero, le_refl]
+  · simp [same]
 
 /-- An atomwise source rate yields a query bound independent of query reach. -/
 theorem conditionalTransportDefect_le_of_atomRate (old fresh : FinDist α)
