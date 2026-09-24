@@ -93,6 +93,7 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.CFRDDepthChild",
     "GameTheory.Analysis.ReBeL.CFRDNestedDepthDriver",
     "GameTheory.Analysis.ReBeL.Examples.CFRDNestedDepth",
+    "GameTheory.Analysis.ReBeL.CFRDComposedChild",
 )
 AUDITOR = r'''
 open Lean Elab Command in
