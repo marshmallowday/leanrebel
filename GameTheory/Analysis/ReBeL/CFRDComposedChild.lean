@@ -34,8 +34,6 @@ def PBSChildSolveAccurate (solve : PBSChildSolve M)
       IsNash (behavioralBeliefForm (fullInformation M) belief remaining)
         (euPreferenceWithin tolerance utility) (solve belief tolerance)
 
-variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
-
 /-- The actual parent trunk determines both the child root and its mass-scaled target. -/
 def cfrDComposedChildTable (trunk : Profile (fullInformation M).behavioralSignature)
     (fallback : Profile M.strategicSignature) (cut remaining : Nat) (loss : ℝ)
@@ -246,6 +244,8 @@ theorem cfrDComposedChildProfile_referenceBudget
   rw [mixture, beliefEq]
   exact cfrDComposedChildProfile_isNash M trunk fallback cut remaining loss positive
     solve utility smaller obs original
+
+variable [Fintype E.History] [∀ who, Fintype (E.Action who)]
 
 /-- Counterfactual completion retains factual children and fills zero-own-reach types. -/
 def cfrDComposedChildContinuation (trunk : Profile (fullInformation M).behavioralSignature)
