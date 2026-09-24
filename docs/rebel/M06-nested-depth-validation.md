@@ -6,29 +6,60 @@ Proof/configuration source: f9d4def18411b43fc14c508b079fadb0378bd178.
 Tree:50eb13caab8a41f70b48ede4cea8d46e454d565e.
 Preserved source branch: rebel/m06-nested-depth-20260924.
 Documentation-only review: rebel/m06-nested-depth-review-20260924.
-The review descends directly from the proof source and changes no Lean file,
-validation script, workflow, dependency, test, tolerance or computational limit.
-All remote operations and Git writes use the GitHub plugin, never local Git.
+The review descends from the proof source through documentation-only commits.
+It changes no Lean file, validation script, workflow, dependency, test, tolerance
+or computational limit. All remote operations and Git writes use the GitHub
+plugin, never local Git. The source branch is unchanged to preserve running CI.
 
-## New nested source: target compiler passed; audits still pending
+## New nested source: compiler and supplemental validation SUCCESS
 
-At exact sourcef9d4def1, M06 run35947018152/job107467137173 completed the
-'Compile the declared M06 targets' step successfully. Its target list includes
-CFRDDepthChild, CFRDNestedDepthDriver and Examples.CFRDNestedDepth, in addition
-to all previous modules. The supplemental validation step was still in progress
-at inspection. Do not equate this compiler pass with a completed lint/axiom audit.
+At exact sourcef9d4def18411b43fc14c508b079fadb0378bd178, M06 run35947018152,
+job107467137173 is COMPLETED SUCCESS. Both 'Compile the declared M06 targets'
+and 'Supplemental compiler, lint and transitive-axiom validation' completed
+successfully, followed by diagnostics and artifact publication.
+
+The completed job's full decoded log was inspected with truncated=false.
+It identifies the exact source SHA and Lean4.33.1 and reports successful builds
+for the inherited finite-budget modules and all three new modules:
+
+- GameTheory.Analysis.ReBeL.CFRDDepthChild;
+- GameTheory.Analysis.ReBeL.CFRDNestedDepthDriver;
+- GameTheory.Analysis.ReBeL.Examples.CFRDNestedDepth.
+
+The unchanged supplemental command python3 scripts/rebel/audit_exact_leaf.py
+then audited every owned public/private declaration transitively, retaining only
+propext, Classical.choice and Quot.sound. The log reports26 owned declarations
+for CFRDDepthChild,5 for CFRDNestedDepthDriver and21 for Examples.CFRDNestedDepth,
+and EXACT_LEAF_AXIOM_AUDIT_PASS. Every normal/slow Batteries lint invocation
+passed, including all three new modules. The final marker is
+EXACT_LEAF_VALIDATION_PASS modules=88.
+
+This completed result supersedes the compiler-only/pending-supplemental snapshot
+at568cb8fd and the earlier failed22b15778 candidate. It validates the nested
+child construction, coupled parent guarantees and concrete controls through the
+existing targeted compiler and supplemental audits. It does NOT assert that
+the independent repository-wide checks passed or that M06 is complete.
+
+Initial attempts to obtain the running job's log returned Azure BlobNotFound.
+Those transient unavailable logs were neither proof failures nor acceptance
+evidence. The subsequently published complete log, not the unavailable endpoint,
+is the evidence for the successful compiler and supplemental validation above.
+
+## Independent new-source repository-wide checks: still pending
 
 ReBeL run35947018175/job107467137458 passed line width, static architecture,
 ledger/inventory/adversarial fixtures and the executed rational solver checks.
-Its complete compiler/lint/transitive-axiom audit step remained in progress.
-Source snapshot job107467137602 succeeded. Full repository CI run35947018228,
-job107467419037 remained in progress. Inventory run35947018259,
-job107467137512 succeeded. Independent full checks are still required.
+Its complete compiler/lint/transitive-axiom audit step remained in progress at
+the latest inspection; cleanliness and publication had no final results.
+Source snapshot job107467137602 succeeded.
 
-The initial attempts to obtain the running target's job log returned Azure
-BlobNotFound. These transient unavailable logs are neither a proof failure
-nor success. The compiler success above is from the completed step summary,
-not inferred from an unavailable log. Fetch the completed log when published.
+Full repository CI run35947018228/job107467419037 remained in progress.
+Inventory/reuse and Phase1 architecture passed; Phase2 architecture/reachability
+was running. Phase3, full-library lint and cleanliness had no final results.
+Inventory run35947018259/job107467137512 succeeded.
+
+Inspect final outcomes for these exact f9d4def1 runs before full acceptance.
+Do not substitute predecessor successes or documentation-descendant runs.
 
 ## Preserved budget repair: target and full CI succeeded
 
@@ -49,7 +80,7 @@ accuracy hypotheses and tests remain unchanged. The original divergent budget
 branch at2c9bfd52 is preserved; only its two new modules, not stale first-hit
 files or obsolete status, were incorporated into the accepted first-exit lineage.
 
-## Initial nested candidate: rejected, superseded by current compiler result
+## Initial nested candidate: rejected, superseded by repaired-source validation
 
 Source22b15778ec0a8d6a50874176a4bd285665c46257 added the nested child/parent
 modules and their full build/audit coverage. M06 run35946558196/job107465692425
@@ -62,8 +93,8 @@ ReBeL35946558227/job107465692283 rejected three lines of width101,101,104
 before compilation. It did not run its full proof audit. These failures are not
 passes. Currentf9d4def1 rejoins `.law.positiveMassFloor` and wraps those lines;
 child definitions, theorem statements and proof steps are otherwise unchanged.
-The driver is unchanged. The repaired source's declared-target compiler has
-now passed, while its independent audit results still require final inspection.
+The driver is unchanged. The repaired source now passes its declared-target
+compiler and supplemental audits; independent repository-wide checks are separate.
 
 ## Positive-error controls and nonempty child continuation
 
@@ -77,9 +108,10 @@ with a terminal final suffix. Neither claims three decisions in this protocol.
 
 Both split controls, live-table identity, complete prefix law, randomized
 unilateral law, impossible observation, zero remaining fuel and positive child
-prediction controls are compiled in the new target. The companion finite-budget
-controls still test the actual four-point joint law, feasible/infeasible target
-guards, positive fixed numerical/child errors and nonempty finite counts.
+prediction controls passed the targeted compiler and supplemental audits.
+The companion finite-budget controls still test the actual four-point joint law,
+feasible/infeasible target guards, positive fixed numerical/child errors and
+nonempty finite counts.
 
 ## Trust and scope
 

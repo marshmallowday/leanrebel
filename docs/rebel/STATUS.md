@@ -5,8 +5,8 @@
 Use the actual remote HEAD of `rebel/m06-nested-depth-review-20260924` for the
 latest review checkpoint. Its Lean source and validation configuration are
 identical to f9d4def18411b43fc14c508b079fadb0378bd178 on the preserved source
-branch `rebel/m06-nested-depth-20260924`. This review changes documentation only,
-so recording completed work does not cancel the source branch's running checks.
+branch `rebel/m06-nested-depth-20260924`. The review descendants change only
+documentation, so recording completed work does not cancel the source checks.
 The separate budget-integration branch remains at704e96ff. Main remains
 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098 and is not a write target.
 Inspect exact-SHA runs before resuming; never promote a pending result to success.
@@ -18,41 +18,50 @@ ReBeL35941683758/job107450798403, full CI35941683736/job107450816152 and
 inventory35941683774. The earlier support recovery01245b31 is separately accepted.
 Do not redo their support repairs, first-exit construction or probability controls.
 
-Finite-budget source704e96ff6ed5b73b279191ea2d01629cc331e8d8 now has completed
-M06 target35946360278/job107465069923 successfully, INCLUDING its supplemental
+Finite-budget source704e96ff6ed5b73b279191ea2d01629cc331e8d8 completed M06
+run35946360278/job107465069923 successfully, INCLUDING its supplemental
 lint/transitive-axiom step. Full CI35946360214/job107465224924 also succeeded,
 including all architecture phases, full-library lint and tracked-file cleanliness.
 Inventory35946360322/job107465069843 succeeded. The independent ReBeL
-35946360239/job107465227645 was still in its complete proof audit at inspection.
+35946360239/job107465227645 remained in its complete proof audit at inspection.
 This supersedes older snapshots that marked the budget supplemental audit pending.
 The fixed budget source is preserved on rebel/m06-depth-budget-integration-20260924.
 
-## New nested source: declared-target compilation passed
+## New nested source: target compilation AND supplemental audits succeeded
 
 Exact proof source: f9d4def18411b43fc14c508b079fadb0378bd178.
-M06 run35947018152/job107467137173 has completed declared-target compilation
-successfully, including CFRDDepthChild, CFRDNestedDepthDriver and their controls.
-Its supplemental lint/transitive-axiom validation was still in progress at the
-latest inspection. Compilation success alone is not final audit acceptance.
+M06 run35947018152/job107467137173 is COMPLETED SUCCESS. It passed both the
+declared-target compiler and the unchanged supplemental validation. The completed
+job's full decoded log was inspected with truncated=false; it identifies this
+exact SHA and Lean4.33.1. It reports the successful builds of CFRDDepthChild,
+CFRDNestedDepthDriver and Examples.CFRDNestedDepth, plus the inherited targets.
+
+The same log reports EXACT_LEAF_AXIOM_AUDIT_PASS and successful normal/slow lint
+for every module, ending with EXACT_LEAF_VALIDATION_PASS modules=88. The owned
+declaration audit includes26 declarations in CFRDDepthChild,5 in the driver,
+and21 in the examples, including generated/private declarations. This supersedes
+the compiler-only/pending-supplemental snapshot at568cb8fd. It is not evidence
+of completion of the independent repository-wide checks or M06 itself.
 
 ReBeL35947018175/job107467137458 passed width, static architecture, ledger/
 inventory/adversarial fixtures and executed rational solver checks; its complete
 compiler/lint/transitive-axiom step remained in progress. Source snapshot
 job107467137602 and inventory35947018259/job107467137512 succeeded.
-Full CI35947018228/job107467419037 was still in progress. Inspect final outcomes
-for these exact runs, not the failing22b15778 or passing704e96ff predecessor.
-See M06-nested-depth-validation.md for the diagnostics and acceptance boundary.
+Full CI35947018228/job107467419037 remained in progress: inventory/reuse and
+Phase1 passed, Phase2 was running, and later gates had no final result.
+Inspect these exact runs, not failing22b15778 or passing704e96ff predecessor runs.
+See M06-nested-depth-validation.md for complete diagnostics and evidence boundaries.
 
 ## Implemented mathematical slice
 
-The existing previously unwired finite-budget modules were recovered from
-2c9bfd52, integrated at e9d651b2 and repaired at704e96ff without altering their
-accuracy contract. They compute a positive finite count AFTER subtracting fixed
-numerical and child error; the positive joint-law mass floor supplies conditional
-accuracy. Fixed nonzero prediction error cannot be eliminated by raising T.
+The previously unwired finite-budget modules were recovered from2c9bfd52,
+integrated at e9d651b2 and repaired at704e96ff without altering their accuracy
+contract. They compute a positive finite count AFTER subtracting fixed numerical
+and child error; the actual joint-law mass floor supplies conditional accuracy.
+Fixed nonzero prediction error cannot be eliminated by raising T.
 
-CFRDDepthChild now installs this actual depth solver at every current factual
-joint PBS, preserves complete baseline and unilateral laws under public splicing,
+CFRDDepthChild installs this actual depth solver at every current factual joint
+PBS, preserves complete baseline and unilateral laws under public splicing,
 and derives the all-query child contract through zero-own-reach completion.
 CFRDNestedDepthDriver puts this child in each actual noisy parent update and
 derives finite-T full-game Nash and private carried security. Outer and inner
