@@ -2,16 +2,28 @@
 
 ## Current resume point
 
-Resume from the remote HEAD of rebel/m06-transport-rates-20260924.
-The source-atom transport draft was checkpointed at
-cc4bf7aecb83f75929f568bf0dd4950578d4cafa after restart checkpoint53e99a3b.
-Its FinDistTransportRate module is now appended to the analytic root, M06 target
-list and supplemental transitive audit. All128 inherited targets and90 inherited
-audit modules are preserved. Current counts are129 targets and91 audit modules.
-At this checkpoint the new proof has NOT yet passed exact-source compiler/lint/
-axiom validation. Inspect CI for the remote HEAD; do not accept merely from source
-existence. Continue with game consumers and adversarial controls described in
-M06-transport-rates.md. Main is not a write target.
+Resume from the remote HEAD of rebel/m06-source-rates-repair-20260924.
+This continuation starts at bd5cdaa304cb0791379c94fd0454ed28eabb683d on
+rebel/m06-transport-rates-20260924, without moving that predecessor ref or main.
+The predecessor independent ReBeL run35994227078/job107615561858 FAILED in
+Examples.CFRDSourceRates. FinDistTransportRate and CFRDSourceRates compiled,
+but the complete compiler/lint/axiom gate did not pass. Full CI35994227103 also
+failed; the independent source snapshot job107615562354 passed.
+
+The repair preserves every theorem statement and adversarial control. It uses
+the public prob_pure_eq_ite lemma for off-diagonal probabilities, rewrites the
+weighted integrand before unfolding its law, keeps OLD reach explicit when NEW
+loses a query, and fixes addition monotonicity in the actual game consumer.
+No target, import, audit, workflow, dependency pin or whitelist is removed or
+weakened. This checkpoint is NOT accepted until its exact-source target, full CI,
+independent ReBeL compiler/lint/transitive-axiom and inventory results are read.
+See M06-source-rates-compiler-loop.md for the failure and next checks.
+The older 129-target/91-audit count preceded the later source-game and example
+modules; use the actual target/audit lists, not that stale planning count.
+
+Continue the source-law rate and fresh-continuation obligations described in
+M06-transport-rates.md. coverage.json statuses are unchanged. Main is not a
+write target and M06 as a whole remains in progress.
 
 ## Predecessor independent gate resolved
 
