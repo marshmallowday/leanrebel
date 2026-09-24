@@ -6,6 +6,7 @@ on:
     paths:
       - 'GameTheory/ReBeL/**'
       - 'GameTheory/Analysis/ReBeL/**'
+      - 'GameTheory/Math/Probability/**'
       - 'scripts/rebel/m06-targets.txt'
       - 'scripts/rebel/audit_exact_leaf.py'
       - '.github/workflows/rebel-m06-dev.yml'

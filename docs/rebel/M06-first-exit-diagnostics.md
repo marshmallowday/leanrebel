@@ -11,14 +11,23 @@ missing Option.isSome reduction. The first-exit distribution, projection,
 witness-law invariance and signed-error identity had no reported errors.
 Dependent PBS/example modules could not yet be accepted.
 
-The repair adds Option.isSome to the explicit simp set. It changes no theorem
-statement, event, kernel, test, validation option, heartbeat or dependency pin.
-This checkpoint needs its own exact-source compiler/lint/axiom results.
+Commit9537c4f34df2b015f1b6fe8b23c82ca81da0262d adds Option.isSome to the explicit
+simp set. It changes no theorem statement, event, kernel, test, validation option,
+heartbeat or dependency pin. Its proof source still needs successful validation.
 
-Earlier status snapshots listed different pending job identifiers. For this
-failure the authoritative completed-job response and downloaded log identify
-job107448326120, source9165ff11, run35940857858. Never use a pending snapshot
-or a different source's passing result as acceptance for this candidate.
+## Targeted workflow trigger
+
+The Math-only repair did not start the M06 targeted job: its paths covered
+GameTheory/ReBeL/** and GameTheory/Analysis/ReBeL/** but omitted the canonical
+probability dependencies. The next checkpoint adds GameTheory/Math/Probability/**.
+It retains every previous trigger, job, read-only permission, pinned action,
+compiler/lint/axiom command, timeout and diagnostics-publication step.
+Full ReBeL checks have no such path filter and remain independent.
+
+Earlier status snapshots listed different pending job identifiers. For the
+9165ff11 failure, the authoritative completed-job response and downloaded log
+identify job107448326120, source9165ff11, run35940857858. Never use a pending
+snapshot or a different source's passing result as acceptance for this candidate.
 
 The source-specific recursive-security obligations remain pending; refer to
 M06-first-exit.md and STATUS.md. The refined charge is a real-valued analysis
