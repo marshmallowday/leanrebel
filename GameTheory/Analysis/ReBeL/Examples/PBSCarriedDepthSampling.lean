@@ -154,12 +154,11 @@ theorem depthSampling_unsupported_is_exception :
     pbsCarriedCFRException (reducedModel fullPrior) 1 depthSamplingOutsideState := by
   refine ⟨?_, ?_⟩
   · classical
-    rw [cfrDCutLive_eq_true]
+    rw [cfrDCutLive, decide_eq_true_eq]
     exact ⟨by decide, fun impossible => impossible⟩
   · intro reached
     have same : fullDraw (true, false) = fullDraw (false, false) := by
-      simpa only [depthSamplingOutsideState, depthSamplingThinBelief,
-        FinDist.support_pure, Set.mem_singleton_iff] using reached
+      simpa [depthSamplingOutsideState, depthSamplingThinBelief] using reached
     have sameState := congrArg
       (fun history : (protocol fullPrior).History => history.state) same
     cases sameState
@@ -176,7 +175,8 @@ theorem depthSampling_unsupported_first_hit
       (enterCarriedMemory (model fullPrior) depthSamplingOutsideState) :=
     depthSampling_unsupported_is_exception
   unfold pbsCarriedDepthFirstHitProbability FinDist.sequenceFirstHitProbability
-  rw [FinDist.pure_bind, FinDist.sequenceFirstHit, if_pos hit, FinDist.prob_pure_self]
+  simp only [FinDist.pure_bind, FinDist.sequenceFirstHit, Set.mem_setOf_eq,
+    if_pos hit, FinDist.prob_pure_self]
 
 /-- The sharp sampling charge composes with any future reading the retained state. -/
 theorem depthSampling_two_stage_first_hit
