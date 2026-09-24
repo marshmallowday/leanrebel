@@ -188,3 +188,5 @@ import GameTheory.Analysis.ReBeL.PBSCarriedDepthSampling
 import GameTheory.Math.Probability.FinDistFirstHit
 import GameTheory.Analysis.ReBeL.PBSCarriedDepthFirstHit
 import GameTheory.Analysis.ReBeL.Examples.PBSCarriedDepthSampling
+import GameTheory.Analysis.ReBeL.PBSInformationDepthBudget
+import GameTheory.Analysis.ReBeL.Examples.PBSInformationDepthBudget
