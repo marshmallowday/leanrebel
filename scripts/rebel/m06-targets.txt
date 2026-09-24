@@ -117,3 +117,4 @@ GameTheory.Analysis.ReBeL.CFRDDepthChild
 GameTheory.Analysis.ReBeL.CFRDNestedDepthDriver
 GameTheory.Analysis.ReBeL.Examples.CFRDNestedDepth
 GameTheory.Analysis.ReBeL.CFRDComposedChild
+GameTheory.Analysis.ReBeL.PBSComposedDepth
