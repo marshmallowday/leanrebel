@@ -47,7 +47,8 @@ theorem pbsCarriedDepthFirstHitProbability_bounds
     (states : FinDist (PrivateIterationState (fullInformation M)
       (CarriedResolveMemory (fullInformation M) K))) :
     0 ≤ pbsCarriedDepthFirstHitProbability M fallback payoff initial unknown who schedule states ∧
-      pbsCarriedDepthFirstHitProbability M fallback payoff initial unknown who schedule states ≤ 1 :=
+      pbsCarriedDepthFirstHitProbability M fallback payoff initial unknown who
+        schedule states ≤ 1 :=
   ⟨FinDist.sequenceFirstHitProbability_nonneg _ _ _ _,
     FinDist.sequenceFirstHitProbability_le_one _ _ _ _⟩
 

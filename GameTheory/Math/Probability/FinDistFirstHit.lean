@@ -109,7 +109,8 @@ theorem abs_expect_bindSequence_sub_le_firstHit
 The right-hand side is the existing forward-event sum, not a model-law estimate. -/
 theorem sequenceFirstHitProbability_le_eventMass (step : I → A → FinDist A)
     (event : I → Set A) (stages : List I) (law : FinDist A) :
-    sequenceFirstHitProbability step event stages law ≤ sequenceEventMass step event stages law := by
+    sequenceFirstHitProbability step event stages law ≤
+      sequenceEventMass step event stages law := by
   classical
   induction stages generalizing law with
   | nil =>
@@ -139,8 +140,8 @@ theorem sequenceFirstHitProbability_le_eventMass (step : I → A → FinDist A)
           rw [FinDist.expect_add, FinDist.expect_indicator_eq_probOf]
           simp only [sequenceFirstHitProbability, FinDist.prob_bind, FinDist.expect_bind]
         _ ≤ law.probOf (event stage) +
-            sequenceEventMass step event stages (law.bind (step stage)) :=
-          add_le_add_left (ih (law.bind (step stage))) _
+            sequenceEventMass step event stages (law.bind (step stage)) := by
+          linarith [ih (law.bind (step stage))]
         _ = _ := rfl
 
 /-- The sharper allowance is bounded by both one and the previous forward sum. -/
