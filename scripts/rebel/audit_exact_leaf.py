@@ -109,6 +109,8 @@ MODULES = (
     "GameTheory.Math.Probability.FinDistValueCoupling",
     "GameTheory.Analysis.ReBeL.CFRDValueCoupling",
     "GameTheory.Analysis.ReBeL.Examples.CFRDValueCoupling",
+    "GameTheory.Analysis.ReBeL.PBSValueStability",
+    "GameTheory.Analysis.ReBeL.Examples.PBSValueStability",
 )
 AUDITOR = r'''
 open Lean Elab Command in

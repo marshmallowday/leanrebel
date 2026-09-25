@@ -1,0 +1,14 @@
+{
+  "milestone": "M06",
+  "complete": false,
+  "source": "project",
+  "locator": "docs/rebel/M06-scalar-stability-validation.md",
+  "base_checkpoint": "2e1de273b9164743decdd8a283b3249f34bf5600",
+  "status": "in_progress",
+  "parents_unchanged": ["SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"],
+  "modules": ["GameTheory.Analysis.ReBeL.PBSValueStability", "GameTheory.Analysis.ReBeL.Examples.PBSValueStability"],
+  "declarations": ["GameTheory.ReBeL.approxNash_value_sub_le", "GameTheory.ReBeL.approxNash_value_abs_sub_le", "GameTheory.ReBeL.pbsInformationCFR_value_abs_sub_le", "GameTheory.ReBeL.pbsInformationBudgetProfile_value_abs_sub_le", "GameTheory.ReBeL.pbsInformationAllocatedDepthProfile_value_abs_sub_le", "GameTheory.ReBeL.Examples.ValueStability.every_coupling_cost_half", "GameTheory.ReBeL.Examples.HiddenTypes.pbsValueStability_two_budget_solves"],
+  "scope": "Two actual finite solver outputs at the SAME joint PBS; scalar expected utility only.",
+  "lean_validation": "pending exact-SHA CI",
+  "remaining": "Supported conditional value-vector/native rates and carried-PBS safety are not supplied by a scalar root estimate."
+}
