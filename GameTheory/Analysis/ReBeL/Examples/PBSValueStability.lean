@@ -165,4 +165,25 @@ theorem pbsValueStability_two_budget_solves :
   norm_num at bound ⊢
   exact bound
 
+/-- The same hidden-type game validates the explicit tail threshold for any
+two sufficiently late averaged outputs, not just two selected budget calls. -/
+theorem pbsValueStability_late_output_control (firstTime secondTime : Nat)
+    [NeZero firstTime] [NeZero secondTime]
+    (firstLarge : pbsInformationBudgetRounds (reducedModel fullPrior)
+      finiteBudgetControlBelief.law (fun _ => 2) 1 ((1 / 8 : ℝ) / 2) ≤ firstTime)
+    (secondLarge : pbsInformationBudgetRounds (reducedModel fullPrior)
+      finiteBudgetControlBelief.law (fun _ => 2) 1 ((1 / 8 : ℝ) / 2) ≤ secondTime) :
+    |(PublicBelief.continuationLaw (model fullPrior)
+        (pbsInformationCFR (reducedModel fullPrior) finiteBudgetControlBelief
+          pbsRootControlFallback cfrPayoff 1 firstTime) 1 finiteBudgetControlBelief).expect
+          (cfrPayoff 0) -
+      (PublicBelief.continuationLaw (model fullPrior)
+        (pbsInformationCFR (reducedModel fullPrior) finiteBudgetControlBelief
+          pbsRootControlFallback cfrPayoff 1 secondTime) 1 finiteBudgetControlBelief).expect
+          (cfrPayoff 0)| ≤ 1 / 8 :=
+  pbsInformationCFR_late_value_abs_sub_le (reducedModel fullPrior) finiteBudgetControlBelief
+    pbsRootControlFallback pbsRootControlFallback cfrPayoff (cumulative_zeroSum fullPrior)
+    (fun _ => 2) (fun _ => by norm_num) cfrPayoff_abs_le_two
+    1 firstTime secondTime (1 / 8) (by norm_num) firstLarge secondLarge
+
 end GameTheory.ReBeL.Examples.HiddenTypes
