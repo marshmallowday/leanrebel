@@ -1,0 +1,31 @@
+{
+  "kind": "project_candidate_checkpoint",
+  "milestone": "M06",
+  "milestone_complete": false,
+  "source": "project",
+  "source_locator": "docs/rebel/ROADMAP.md M06; docs/rebel/M06-native-conditional-gap.md product-law limitation",
+  "branch": "rebel/m06-joint-query-20260925",
+  "parent_checkpoint": "49b31047d55fb947953e95c160c571a3489dd067",
+  "status": "pending",
+  "semantic_review": "docs/rebel/M06-joint-query.md",
+  "module": "GameTheory/Analysis/ReBeL/PBSJointNativeGap.lean",
+  "declarations": [
+    "GameTheory.ReBeL.pbsInformationCFR_joint_native_mean_abs_le",
+    "GameTheory.ReBeL.pbsInformationCFR_seed_query_mean_abs_le",
+    "GameTheory.ReBeL.pbsInformationBudget_joint_native_mean_abs_le"
+  ],
+  "controls_module": "GameTheory/Analysis/ReBeL/Examples/PBSJointNativeGap.lean",
+  "original_obligations_unchanged": {
+    "SEARCH-FRONTIER": "pending",
+    "SEARCH-CFRD": "pending",
+    "SEARCH-ERROR": "pending",
+    "SAFE-THEOREM3": "pending"
+  },
+  "required_validation": [
+    "actual target-SHA Lean build",
+    "individual configured normal and slow lint",
+    "complete transitive declaration axiom sets",
+    "independent all-ReBeL and full-repository CI"
+  ],
+  "unproved_bridge": "Derive the actual seed-correlated carried query law, its support/first-exit control and quantitative joint density cap; independently changing opponents/PBS and recursive re-solving remain open."
+}

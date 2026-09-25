@@ -113,6 +113,10 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.Examples.PBSValueStability",
     "GameTheory.Analysis.ReBeL.PBSConditionalValueStability",
     "GameTheory.Analysis.ReBeL.Examples.PBSConditionalValueStability",
+    "GameTheory.Analysis.ReBeL.PBSNativeConditionalGap",
+    "GameTheory.Analysis.ReBeL.Examples.PBSNativeConditionalGap",
+    "GameTheory.Analysis.ReBeL.PBSJointNativeGap",
+    "GameTheory.Analysis.ReBeL.Examples.PBSJointNativeGap",
 )
 AUDITOR = r'''
 open Lean Elab Command in

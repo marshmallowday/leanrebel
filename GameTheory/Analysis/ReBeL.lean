@@ -215,3 +215,5 @@ import GameTheory.Analysis.ReBeL.PBSConditionalValueStability
 import GameTheory.Analysis.ReBeL.Examples.PBSConditionalValueStability
 import GameTheory.Analysis.ReBeL.PBSNativeConditionalGap
 import GameTheory.Analysis.ReBeL.Examples.PBSNativeConditionalGap
+import GameTheory.Analysis.ReBeL.PBSJointNativeGap
+import GameTheory.Analysis.ReBeL.Examples.PBSJointNativeGap
