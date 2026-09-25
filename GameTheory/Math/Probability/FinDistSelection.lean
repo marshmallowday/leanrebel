@@ -91,7 +91,7 @@ theorem tagged_condOn_density (prior : FinDist A) (kernel : A → FinDist B)
       x ∈ (prior.bind (fun a => (kernel a).map (fun b => (a, b)))).support) :
     let actual :=
       (((prior.bind (fun a => (kernel a).map (fun b => (a, b)))).condOn event possible).map
-        Prod.fst
+        Prod.fst)
     (∀ a, actual.prob a = prior.prob a * (actual.prob a / prior.prob a)) ∧
       (∀ a ∈ prior.support, actual.prob a / prior.prob a ≤
         1 / (prior.bind (fun a => (kernel a).map (fun b => (a, b)))).probOf event) := by
