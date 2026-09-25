@@ -44,8 +44,7 @@ theorem pbsInformationCFR_conditional_sampling_value
   apply FinDist.expect_congr
   intro history reached
   have inRoot : history ∈ (slice.mixture own).law.support := by
-    change history ∈ (own.bind (fun kind => (slice.kernel kind).law)).support
-    rw [FinDist.support_bind]
+    rw [TypeBeliefSlice.mixture, FinDist.support_bind]
     exact Set.mem_iUnion₂.mpr ⟨type, supported, reached⟩
   have same := congrArg (fun law : FinDist E.History => law.expect value)
     (pbsInformationCFR_sampling_from_support M (slice.mixture own) fallback payoff fuel t

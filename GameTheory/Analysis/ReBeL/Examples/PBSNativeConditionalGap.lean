@@ -80,8 +80,10 @@ theorem nativeConditionalGap_changed_opponent_control :
       |TypeGame.infoValue driftPayoff (FinDist.pure (n.val == 0)) 0 - 1 / 2|) = 1 / 2 := by
   refine ⟨fun _ => drift_isNash _ _, ?_, ?_⟩
   · norm_num [FinDist.expect_eq_sum, Fin.sum_univ_two, cfrIterationLaw,
-      FinDist.prob_ofWeights, TypeGame.infoValue, driftPayoff, FinDist.expect_pure]
+      FinDist.prob_ofWeights, TypeGame.infoValue, driftPayoff, FinDist.expect_pure,
+      FinDist.prob_pure_eq_ite]
   · norm_num [FinDist.expect_eq_sum, Fin.sum_univ_two, cfrIterationLaw,
-      FinDist.prob_ofWeights, TypeGame.infoValue, driftPayoff, FinDist.expect_pure]
+      FinDist.prob_ofWeights, TypeGame.infoValue, driftPayoff, FinDist.expect_pure,
+      FinDist.prob_pure_eq_ite]
 
 end GameTheory.ReBeL.Examples.ConditionalValueStability

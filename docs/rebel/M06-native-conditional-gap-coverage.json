@@ -32,6 +32,6 @@
     ]
   },
   "scope": "Actual private uniform own-iteration mean absolute conditional gap against fixed computed average opponents, at one fixed canonical joint-belief slice.",
-  "lean_validation": "pending exact-source GitHub Actions",
+  "lean_validation": "Initial 0bfa source compiled general module, failed two example simplifications and the static transport gate. Repair requires own exact-source GitHub Actions; see M06-native-gap-repair.md.",
   "remaining": "Changing-opponent/changing-PBS rates, native carried support/first-exit and query-density control, independent recursive test-time safety, CarriedResolveStepBounds."
 }
