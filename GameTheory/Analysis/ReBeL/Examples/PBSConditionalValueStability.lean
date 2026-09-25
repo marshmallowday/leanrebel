@@ -103,7 +103,7 @@ theorem pbsConditionalValueStability_live_budget
     |slice.infoValue
         (fun who => liftPolicy (reducedModel fullPrior) who (pbsRootControlFallback who)) 1
         (cfrPayoff 0) output type -
-      slice.conditionalPayoffoff output 1 (cfrPayoff 0) (output 0) type| ≤
+      slice.conditionalPayoff output 1 (cfrPayoff 0) (output 0) type| ≤
       (1 / 8) / own.prob type :=
   pbsInformationBudgetProfile_infoGap_abs_le (reducedModel fullPrior)
     (fullAOHBeliefSlice (reducedModel fullPrior) finiteBudgetControlBelief 0)
