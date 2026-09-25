@@ -34,8 +34,11 @@ theorem driftMatrix_zero (plan : Fin 2 → Unit) (opponent : Bool) :
 /-- The root equality covers arbitrary independent mixed deviations. -/
 theorem drift_expected_zero (row : FinDist (Fin 2 → Unit)) (column : FinDist Bool) :
     expectedPayoff driftMatrix row column = 0 := by
-  rw [expectedPayoff_eq_expect_rows]
-  simp_rw [expectedPayoff_pure_row, driftMatrix_zero, FinDist.expect_const]
+  have zero : driftMatrix = fun _ _ => (0 : ℝ) := by
+    funext plan opponent
+    exact driftMatrix_zero plan opponent
+  rw [expectedPayoff_eq_expect_rows, zero]
+  simp only [expectedPayoff_pure_row, FinDist.expect_const]
 
 /-- Every mixed profile is genuinely exact Nash in the canonical zero-sum game. -/
 theorem drift_isNash (row : FinDist (Fin 2 → Unit)) (column : FinDist Bool) :
@@ -100,7 +103,7 @@ theorem pbsConditionalValueStability_live_budget
     |slice.infoValue
         (fun who => liftPolicy (reducedModel fullPrior) who (pbsRootControlFallback who)) 1
         (cfrPayoff 0) output type -
-      slice.conditionalPayoff output 1 (cfrPayoff 0) (output 0) type| ≤
+      slice.conditionalPayoffoff output 1 (cfrPayoff 0) (output 0) type| ≤
       (1 / 8) / own.prob type :=
   pbsInformationBudgetProfile_infoGap_abs_le (reducedModel fullPrior)
     (fullAOHBeliefSlice (reducedModel fullPrior) finiteBudgetControlBelief 0)
