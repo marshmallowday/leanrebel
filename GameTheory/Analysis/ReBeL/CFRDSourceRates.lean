@@ -307,4 +307,110 @@ theorem cfrDWeightedTransportLoss_le_fiberRates (hrecall : M.PerfectRecall)
     (M.infoOf opponent h.trace, cfrDCutLive remaining h) sampled (outcomeSmall n)
     (fiberSmall n _ sampled)
 
+/-- A common information-local value target controls the one-sided change.
+Each continuation is calibrated under its OWN reference law. Equality of those
+source laws is explicit; neither equality of outcome laws nor closeness of Nash
+scalars is used. The execution theorem below requires calibration only on
+OLD-supported live queries. -/
+theorem cfrDFreshValueChange_le_calibration
+    (base next : Profile M.behavioralSignature) (fallback : Profile M.strategicSignature)
+    (opponent : Fin 2) (payoff : E.History → ℝ) (cut remaining : Nat)
+    (info : M.InfoState opponent) (target oldError newError : ℝ)
+    (sameReference : unilateralReferenceLaw M next fallback opponent cut =
+      unilateralReferenceLaw M base fallback opponent cut)
+    (oldCalibration : |conditionalOracleValue
+      (unilateralReferenceLaw M base fallback opponent cut)
+      (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))
+      (fun h => (M.runBehavioralFrom base remaining h).expect payoff) (info, true) -
+      target| ≤ oldError)
+    (newCalibration : |conditionalOracleValue
+      (unilateralReferenceLaw M next fallback opponent cut)
+      (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))
+      (fun h => (M.runBehavioralFrom next remaining h).expect payoff) (info, true) -
+      target| ≤ newError) :
+    max 0 (cfrDFreshValueChange M base next fallback opponent payoff cut remaining info) ≤
+      oldError + newError := by
+  have oldNonneg : 0 ≤ oldError := (abs_nonneg _).trans oldCalibration
+  have newNonneg : 0 ≤ newError := (abs_nonneg _).trans newCalibration
+  unfold cfrDFreshValueChange conditionalOracleValue
+  rw [FinDist.expect_sub]
+  unfold conditionalOracleValue at oldCalibration newCalibration
+  rw [sameReference] at newCalibration
+  apply max_le (add_nonneg oldNonneg newNonneg)
+  have lower := (abs_le.mp oldCalibration).1
+  have upper := (abs_le.mp newCalibration).2
+  linarith only [lower, upper]
+
+/-- Supported value calibration, rather than full outcome-law convergence,
+bounds the actual joint private seed/history charge. Perfect recall transfers
+actual support to the unilateral reference. The unknown opponent remains
+arbitrary, and no assumption is made at an absent or stopped query. In a real
+fresh chain, sameReference is discharged by its prefix-preservation theorem;
+the two calibration inequalities remain separate source obligations. -/
+theorem cfrDWeightedTransportLoss_le_calibration (hrecall : M.PerfectRecall)
+    (seed : FinDist K) (plays next : K → Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (unknown : Profile M.behavioralSignature)
+    (who opponent : Fin 2) (different : opponent ≠ who) (payoff : E.History → ℝ)
+    (cut remaining : Nat) (bound loss oldError newError : ℝ)
+    (hl : 0 ≤ loss) (ho : 0 ≤ oldError) (hn : 0 ≤ newError)
+    (target : K → M.InfoState opponent → ℝ)
+    (sameReference : ∀ n, unilateralReferenceLaw M (next n) fallback opponent cut =
+      unilateralReferenceLaw M (plays n) fallback opponent cut)
+    (oldCalibration : ∀ n info, (info, true) ∈
+      ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
+        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))).support →
+      |conditionalOracleValue (unilateralReferenceLaw M (plays n) fallback opponent cut)
+        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))
+        (fun h => (M.runBehavioralFrom (plays n) remaining h).expect payoff) (info, true) -
+        target n info| ≤ oldError)
+    (newCalibration : ∀ n info, (info, true) ∈
+      ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
+        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))).support →
+      |conditionalOracleValue (unilateralReferenceLaw M (next n) fallback opponent cut)
+        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))
+        (fun h => (M.runBehavioralFrom (next n) remaining h).expect payoff) (info, true) -
+        target n info| ≤ newError) :
+    cfrDWeightedEnvelopeLoss M seed plays unknown who opponent cut remaining
+        (cfrDFreshTransportCharge M plays next fallback opponent payoff cut remaining bound loss) ≤
+      loss + oldError + newError := by
+  classical
+  have query (n : K) (tag : M.InfoState opponent × Bool)
+      (sampled : tag ∈ ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
+        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))).support) :
+      cfrDFreshTransportCharge M plays next fallback opponent payoff
+        cut remaining bound loss n tag ≤ loss + oldError + newError := by
+    rcases tag with ⟨info, flag⟩
+    cases flag
+    · exact add_nonneg (add_nonneg hl ho) hn
+    · have drift := cfrDFreshValueChange_le_calibration M (plays n) (next n) fallback
+        opponent payoff cut remaining info (target n info) oldError newError
+        (sameReference n) (oldCalibration n info sampled) (newCalibration n info sampled)
+      have transport : FinDist.conditionalTransportDefect
+          (unilateralReferenceLaw M (plays n) fallback opponent cut)
+          (unilateralReferenceLaw M (next n) fallback opponent cut)
+          (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h)) (info, true) = 0 := by
+        rw [sameReference n]
+        simp [FinDist.conditionalTransportDefect]
+      unfold cfrDFreshTransportCharge
+      dsimp only
+      rw [if_pos rfl, transport]
+      simpa only [mul_zero, add_zero, add_assoc] using add_le_add_left drift loss
+  unfold cfrDWeightedEnvelopeLoss privateCarriedPrefix
+  rw [FinDist.expect_bind]
+  apply FinDist.expect_le_of_forall
+  intro n _
+  rw [FinDist.expect_map]
+  apply FinDist.expect_le_of_forall
+  intro h reached
+  apply query n
+  rw [privateOpponent_profile M (plays n) unknown who opponent different] at reached
+  rw [FinDist.support_map]
+  exact ⟨h, informationReweight_support
+      (unilateralReferenceLaw M (plays n) fallback opponent cut)
+      (M.runBehavioral (Profile.update (plays n) opponent (unknown opponent)) cut)
+      (fun history => (M.infoOf opponent history.trace, cfrDCutLive remaining history))
+      (fun tag => unilateralDensity M (plays n) fallback opponent (unknown opponent) tag.1)
+      (unilateralReference_density M hrecall (plays n) fallback opponent (unknown opponent) cut)
+      reached, rfl⟩
+
 end GameTheory.ReBeL
