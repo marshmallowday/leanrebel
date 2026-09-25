@@ -274,7 +274,7 @@ theorem freshChainControl_source_zero_fuel
 
 /-- The actual two-solve construction discharges its reference rate with zero.
 This is equality of unilateral source laws, not model/actual posterior equality. -/
-theorem freshChainControl_parent_fiber_zero (t : Nat) [NeZero t] (n : Fin t)
+theorem freshChainControl_parent_fiber_zero (t : Nat) (n : Fin t)
     (tag : (model fullPrior).InfoState 1 × Bool) :
     FinDist.fiberAtomVariation
       (unilateralReferenceLaw (model fullPrior) (freshControlParentPlays t n)
