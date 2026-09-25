@@ -3,7 +3,31 @@
   "scope": "one-sided actual-continuation payoff coupling; conditional source bridge",
   "base_commit": "c984277c2238e4dd1249ff3ace6fc5444175858a",
   "branch": "rebel/m06-value-stability-20260925",
-  "validation": "pending exact-SHA compilation, lint and transitive axiom review",
+  "validation": {
+    "source_compilation": "pass",
+    "target_run": 36103763186,
+    "target_job": 107971683742,
+    "supplemental_audit": "pass: 1527 declarations",
+    "supplemental_lint": "pass: 96 modules",
+    "inventory_run": 36103763176,
+    "inventory_result": "success",
+    "independent_run": 36103763078,
+    "independent_result": "in_progress",
+    "full_ci_run": 36103763182,
+    "full_ci_result": "success",
+    "source_artifact": 10849759412,
+    "source_artifact_sha256": "7414d668e008adf136c3e0c12c70334b5b59691079560e22cd136780ae79b0c9",
+    "target_result": "success",
+    "target_artifact": 10851055531,
+    "target_artifact_sha256": "7aabb2cc78b9d223d955436d75db1fe2cdd54e6764dba6167fe47b1f5e83ea4d",
+    "target_log_sha256": "25e35940c344bf8faa6e6dc9bb73accb91696d9e6e14d500cc93fd01537ce11e",
+    "new_module_audited_declarations": 36,
+    "axiom_extract": "docs/rebel/M06-value-coupling-axioms.json",
+    "independent_job": 107971751432,
+    "full_ci_job": 107971742837,
+    "full_ci_artifact": 10851056189,
+    "full_ci_artifact_sha256": "5bb448cc49b933cb9225fe6c9cb12b566572d7da7169307107caf00872ed553a"
+  },
   "parent_statuses": {
     "SEARCH-FRONTIER": "pending",
     "SEARCH-CFRD": "pending",
@@ -41,5 +65,38 @@
     "Native first-exit and late-training rates",
     "Full M06 semantic and exact-SHA acceptance"
   ],
-  "complete": false
+  "complete": false,
+  "source_commit": "4f73dcefb0d9f0e0b24b5a390a754e6debbdd0e5",
+  "source_tree": "6138146dce7e2c24165b1157f92b4ccaf623e573",
+  "source_context": [
+    {
+      "id": "SEARCH-FRONTIER",
+      "source": "main",
+      "locator": "sections 3 and 5.1",
+      "scope": "Auxiliary conditional bound; parent obligation remains pending"
+    },
+    {
+      "id": "SEARCH-CFRD",
+      "source": "main",
+      "locator": "section 5.1",
+      "scope": "Auxiliary conditional bound; parent obligation remains pending"
+    },
+    {
+      "id": "SEARCH-ERROR",
+      "source": "supp",
+      "locator": "appendices G and I; cited CFR-D/DeepStack results",
+      "scope": "Auxiliary conditional bound; parent obligation remains pending"
+    },
+    {
+      "id": "SAFE-THEOREM3",
+      "source": "main",
+      "locator": "section 6 theorem 3; supplement G restatement",
+      "scope": "Auxiliary conditional bound; parent obligation remains pending"
+    }
+  ],
+  "semantic_review": "docs/rebel/M06-value-coupling-review.md",
+  "validation_history": "docs/rebel/M06-value-coupling-validation.md",
+  "canonical_ledger_note": "This scoped companion is not consumed as an automatic parent-status promotion by coverage_updates.py; canonical M06 obligations remain unchanged.",
+  "checkpoint_branch": "rebel/m06-value-checkpoint-20260925",
+  "slice_status": "validated conditional source bridge; not M06 acceptance"
 }

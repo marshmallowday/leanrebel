@@ -1,0 +1,74 @@
+{
+  "source_commit": "4f73dcefb0d9f0e0b24b5a390a754e6debbdd0e5",
+  "source_tree": "6138146dce7e2c24165b1157f92b4ccaf623e573",
+  "run": 36103763186,
+  "job": 107971683742,
+  "artifact": 10851055531,
+  "artifact_sha256": "7aabb2cc78b9d223d955436d75db1fe2cdd54e6764dba6167fe47b1f5e83ea4d",
+  "log_sha256": "25e35940c344bf8faa6e6dc9bb73accb91696d9e6e14d500cc93fd01537ce11e",
+  "all_audited_declarations": 1527,
+  "all_linted_modules": 96,
+  "allowed_axioms": ["Classical.choice", "Quot.sound", "propext"],
+  "modules": [
+    {
+      "module": "GameTheory.Math.Probability.FinDistValueCoupling",
+      "declaration_count": 6,
+      "lint": "pass",
+      "transitive_axioms": "pass",
+      "declarations": {
+        "GameTheory.Math.Probability.FinDist.directedValueCost.eq_1": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.Math.Probability.FinDist.directedValueCost": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.Math.Probability.FinDist.directedValueCost_eq_zero_of_support": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.Math.Probability.FinDist.directedValueCost_nonneg": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.Math.Probability.FinDist.directedValueCost_le_of_support": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.Math.Probability.FinDist.expect_sub_le_directedValueCost": ["propext", "Classical.choice", "Quot.sound"]
+      }
+    },
+    {
+      "module": "GameTheory.Analysis.ReBeL.CFRDValueCoupling",
+      "declaration_count": 3,
+      "lint": "pass",
+      "transitive_axioms": "pass",
+      "declarations": {
+        "GameTheory.ReBeL.cfrDWeightedTransportLoss_le_valueCoupling": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.cfrDFreshValueChange_le_couplingRate": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.cfrDFreshTransportCharge_le_valueCoupling": ["propext", "Classical.choice", "Quot.sound"]
+      }
+    },
+    {
+      "module": "GameTheory.Analysis.ReBeL.Examples.CFRDValueCoupling",
+      "declaration_count": 27,
+      "lint": "pass",
+      "transitive_axioms": "pass",
+      "declarations": {
+        "GameTheory.ReBeL.Examples.ValueCoupling.reverse_cost_not_valid": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.HiddenTypes.freshChainControlValueBudget": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.HiddenTypes.couplingControlHistoryFintype": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.old_mass": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.value": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.value.eq_1": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.payoff_nonconstant": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.old.eq_1": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.payoff_change_nonpositive": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.joint._proof_3": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.fresh.eq_1": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.HiddenTypes.couplingControlChoiceFintype": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.directed_cost_zero": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.wrong_marginal_rejected": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.outcome_variation_two": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.old": ["propext", "Classical.choice", "Quot.sound"],
+        "_private.GameTheory.Analysis.ReBeL.Examples.CFRDValueCoupling.0.GameTheory.ReBeL.Examples.ValueCoupling.fourAtoms": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.HiddenTypes.freshChainControl_weightedBudget_le_valueCoupling": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.fresh_mass": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.HiddenTypes.freshChainControlLoss.eq_1": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.joint.eq_1": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.HiddenTypes.couplingControlInfoDecidable": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.fresh": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.joint._proof_1": ["propext"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.joint._proof_2": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.HiddenTypes.freshChainControl_biased_valueCoupling_security": ["propext", "Classical.choice", "Quot.sound"],
+        "GameTheory.ReBeL.Examples.ValueCoupling.joint": ["propext", "Classical.choice", "Quot.sound"]
+      }
+    }
+  ]
+}
