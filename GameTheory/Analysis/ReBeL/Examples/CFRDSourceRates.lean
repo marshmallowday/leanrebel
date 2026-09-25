@@ -32,13 +32,15 @@ def newJoint : FinDist (Bool × Bool) :=
 theorem oldJoint_mass (tag : Bool) :
     (oldJoint.map Prod.fst).prob tag = if tag then 1 / 100 else 99 / 100 := by
   rw [FinDist.map_eq_bind, FinDist.prob_bind]
-  cases tag <;> norm_num [oldJoint, FinDist.expect_mix, FinDist.expect_pure]
+  cases tag <;> norm_num [oldJoint, FinDist.expect_mix, FinDist.expect_pure,
+    FinDist.prob_pure_eq_ite]
 
 /-- NEW observations have the same marginal, despite their different conditional. -/
 theorem newJoint_mass (tag : Bool) :
     (newJoint.map Prod.fst).prob tag = if tag then 1 / 100 else 99 / 100 := by
   rw [FinDist.map_eq_bind, FinDist.prob_bind]
-  cases tag <;> norm_num [newJoint, FinDist.expect_mix, FinDist.expect_pure]
+  cases tag <;> norm_num [newJoint, FinDist.expect_mix, FinDist.expect_pure,
+    FinDist.prob_pure_eq_ite]
 
 /-- Both OLD queries are genuinely supported. -/
 theorem oldJoint_reached (tag : Bool) : tag ∈ (oldJoint.map Prod.fst).support := by
@@ -59,7 +61,7 @@ theorem oldJoint_conditional (tag : Bool) :
     oldJoint Prod.fst tag (query, hidden)
   rw [oldJoint_mass] at factor
   cases tag <;> cases query <;> cases hidden <;>
-    norm_num [oldJoint] at factor ⊢ <;> linarith
+    norm_num [oldJoint, FinDist.prob_pure_eq_ite] at factor ⊢ <;> linarith
 
 /-- The new hidden atom is seen by the actual NEW conditional. -/
 theorem newJoint_conditional (tag : Bool) :
@@ -70,7 +72,7 @@ theorem newJoint_conditional (tag : Bool) :
     newJoint Prod.fst tag (query, hidden)
   rw [newJoint_mass] at factor
   cases tag <;> cases query <;> cases hidden <;>
-    norm_num [newJoint] at factor ⊢ <;> linarith
+    norm_num [newJoint, FinDist.prob_pure_eq_ite] at factor ⊢ <;> linarith
 
 /-- The rare conditional changes maximally, while the common one is unchanged. -/
 theorem joint_defect (tag : Bool) :
@@ -79,18 +81,20 @@ theorem joint_defect (tag : Bool) :
   classical
   rw [FinDist.conditionalTransportDefect, if_pos (oldJoint_reached tag),
     if_pos (newJoint_reached tag), oldJoint_conditional, newJoint_conditional]
-  cases tag <;> norm_num [fourAtoms]
+  cases tag <;> norm_num [fourAtoms, FinDist.prob_pure_eq_ite]
 
 /-- Before conditioning the entire reference law changes by only one fiftieth. -/
 theorem joint_variation : FinDist.atomVariation oldJoint newJoint = 1 / 50 := by
-  norm_num [FinDist.atomVariation, fourAtoms, oldJoint, newJoint]
+  norm_num [FinDist.atomVariation, fourAtoms, oldJoint, newJoint,
+    FinDist.prob_pure_eq_ite]
 
 /-- OLD observation weighting cancels the rare conditional normalization. -/
 theorem old_weighted_defect :
     (oldJoint.map Prod.fst).expect
       (FinDist.conditionalTransportDefect oldJoint newJoint Prod.fst) = 1 / 50 := by
-  norm_num [FinDist.expect_map, oldJoint, FinDist.expect_mix, FinDist.expect_pure,
-    joint_defect]
+  rw [FinDist.expect_map]
+  simp_rw [joint_defect]
+  norm_num [oldJoint, FinDist.expect_mix, FinDist.expect_pure]
 
 /-- An opponent may concentrate entirely on the rare supported OLD query. -/
 def concentrated : FinDist (Bool × Bool) := FinDist.pure (true, false)
@@ -102,7 +106,8 @@ def concentrationDensity (tag : Bool) : ℝ := if tag then 100 else 0
 theorem concentrated_density (atom : Bool × Bool) :
     concentrated.prob atom = oldJoint.prob atom * concentrationDensity atom.1 := by
   rcases atom with ⟨query, hidden⟩
-  cases query <;> cases hidden <;> norm_num [concentrated, oldJoint, concentrationDensity]
+  cases query <;> cases hidden <;> norm_num [concentrated, oldJoint, concentrationDensity,
+    FinDist.prob_pure_eq_ite]
 
 /-- The actual charge is two, not the OLD-model mean of one fiftieth. -/
 theorem concentrated_defect :
@@ -121,7 +126,8 @@ theorem density_cannot_be_dropped :
 /-- The correct source term accounts for both changed atoms with their density. -/
 theorem density_weighted_variation :
     (∑ atom, concentrationDensity atom.1 * |oldJoint.prob atom - newJoint.prob atom|) = 2 := by
-  norm_num [fourAtoms, concentrationDensity, oldJoint, newJoint]
+  norm_num [fourAtoms, concentrationDensity, oldJoint, newJoint,
+    FinDist.prob_pure_eq_ite]
 
 /-- The proved bound remains valid for the concentrated actual law. -/
 theorem concentrated_source_bound :
@@ -138,7 +144,8 @@ theorem disappearing_query :
     FinDist.conditionalTransportDefect oldJoint (FinDist.pure (false, false))
       Prod.fst true = 1 := by
   classical
-  simp [FinDist.conditionalTransportDefect, oldJoint_reached]
+  rw [FinDist.conditionalTransportDefect, if_pos (oldJoint_reached true)]
+  simp
 
 /-- An absent OLD query carries no charge, irrespective of NEW support. -/
 theorem absent_old_query :
@@ -191,7 +198,7 @@ theorem freshChainControl_weightedBudget_le_source
     (unknown : Profile (model fullPrior).behavioralSignature) (t : Nat) [NeZero t] :
     freshChainControlWeightedBudget unknown t ≤ freshChainControlSourceBudget unknown t := by
   unfold freshChainControlWeightedBudget freshChainControlSourceBudget
-  apply add_le_add_left
+  apply add_le_add (le_refl _)
   exact cfrDWeightedTransportLoss_le_source (model fullPrior) (perfectRecall fullPrior)
     (cfrIterationLaw t) (freshControlParentPlays t)
     (fun n => cfrDFreshInformationChain (reducedModel fullPrior) pbsRootControlFallback
