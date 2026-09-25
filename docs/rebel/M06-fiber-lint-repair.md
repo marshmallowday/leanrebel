@@ -4,14 +4,19 @@
 
 Parent documentation checkpoint: e27fee69332f1b55a08f99e68defdd7b5823074e.
 Original Lean source: 4b4395714c62ac8fca0974f1254b7f86c832cd38.
+Repair commit: c984277c2238e4dd1249ff3ace6fc5444175858a.
 Work branch: rebel/m06-fiber-lint-repair-20260925.
 
 The previous targeted run36084113146/job107912150501 failed AFTER all131 M06
 targets compiled. The supplemental unusedArguments linter found one unused
 argument, `[NeZero t]`, in
 GameTheory.ReBeL.Examples.HiddenTypes.freshChainControl_parent_fiber_zero.
-The transitive axiom audit was not reached. This is a lint failure, not a
-remaining Lean proof goal. Preserve the original failure and do not suppress it.
+
+Correction after reading the full log and exact audit script: the transitive
+axiom audit DID run before lint and passed1491 declarations. The original
+version of this note incorrectly said it had not been reached. The exact log
+marker is `EXACT_LEAF_AXIOM_AUDIT_PASS declarations=1491`. The later lint failure
+remains a failure of that source checkpoint, not a pass of the complete gate.
 
 The diagnostic artifact10842823775 was downloaded through the GitHub plugin.
 Its recorded ZIP SHA256 is
@@ -26,21 +31,20 @@ It identifies the exact4b439571 source. Artifact inspection is not compilation.
 Remove only `[NeZero t]` from freshChainControl_parent_fiber_zero.
 The finite index n:Fin t already supplies the indexing needed by this theorem;
 the proof body does not require an additional typeclass hypothesis.
-The new blob is b452aa3707f7ed9b85a5b18b7319473c06e55663, checked against the
-one-line edit of the downloaded exact source. All theorem bodies, tests,
-other signatures and consumer statements are unchanged. No nolint attribute,
-custom axiom, placeholder or weakened workflow is introduced.
+The new blob is b452aa3707f7ed9b85a5b18b7319473c06e55663. All theorem bodies,
+other signatures and consumers were unchanged in the repair. No nolint
+attribute, custom axiom, placeholder or weakened workflow was introduced.
 
 ## Validation and coverage
 
-The repair is a source checkpoint, not an acceptance claim. Inspect its own
-M06 targeted, full CI, independent ReBeL and inventory/snapshot runs. Record
-the exact source SHA and actual lint/transitive-axiom output before acceptance.
-The existing target list and supplemental audit list are unchanged.
+Repair c984277 passed M06 run36093962253/job107942125914 including declared-target
+compilation and the constructed exact-child validation step. Full CI
+run36093962268/job107942126260 also passed. Inventory job107942125975 and source
+snapshot job107942125862 passed. Independent ReBeL job107942125979 was still
+running at the last check; inspect it rather than inferring its result.
 
-Owning coverage rows SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and
-SAFE-THEOREM3 remain pending; this repair changes no mathematical coverage.
-The preceding STATUS is retained in STATUS-before-fiber-lint-repair.md.
-Continue the source-level rate and later carried-PBS obligations described in
-M06-fiber-rates-validation.md; do not promote a conditional rate to a theorem
-about the native solver or conflate model beliefs with actual posteriors.
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending;
+the lint repair itself changes no mathematical coverage. The preceding STATUS
+is retained in STATUS-before-fiber-lint-repair.md. The next supported-value
+calibration slice is described in M06-value-calibration.md; it must be validated
+at its own exact source SHA and must not be mistaken for completed native rates.

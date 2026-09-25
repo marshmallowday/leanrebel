@@ -194,6 +194,18 @@ theorem soft_no_atom_rate (rate : ℝ) :
   rw [soft_new_atom.1, soft_new_atom.2] at impossible
   norm_num at impossible
 
+/-- A nonconstant payoff may tie on two completely different outcomes. -/
+def tiedOutcomePayoff (atom : Bool × Bool) : ℝ := if atom.1 then 1 else -1
+
+/-- Zero value error does not require whole-outcome-law convergence. The L1
+source distance is maximal, while both values equal the same target exactly. -/
+theorem tied_outcomes_calibrate_without_variation :
+    FinDist.atomVariation (FinDist.pure (false, false)) (FinDist.pure (false, true)) = 2 ∧
+    |(FinDist.pure (false, false)).expect tiedOutcomePayoff - (-1)| = 0 ∧
+    |(FinDist.pure (false, true)).expect tiedOutcomePayoff - (-1)| = 0 := by
+  norm_num [FinDist.atomVariation, fourAtoms, FinDist.prob_pure_eq_ite,
+    FinDist.expect_pure, tiedOutcomePayoff]
+
 end GameTheory.ReBeL.Examples.SourceRates
 
 namespace GameTheory.ReBeL.Examples.HiddenTypes
@@ -352,5 +364,132 @@ theorem freshChainControl_biased_rate_security
   have previous := freshChainControl_biased_weighted_security reference equilibrium unknown t
   have comparison := freshChainControl_weightedBudget_le_rate unknown t outcomeRate nonneg small
   linarith only [previous, comparison]
+
+/-- Source calibration of the actual finite parent and its two fresh children.
+Only supported live queries occur in this contract. This is a value-oracle
+premise, not an assumed root-security conclusion or a scalar Nash assertion. -/
+def freshChainControlCalibration (t : Nat)
+    (target : Fin t → (model fullPrior).InfoState 1 → ℝ) (oldError newError : ℝ) : Prop :=
+  ∀ n info, (info, true) ∈
+    ((unilateralReferenceLaw (model fullPrior) (freshControlParentPlays t n)
+      informationControlFullFallback 1 2).map
+      (fun h => ((model fullPrior).infoOf 1 h.trace, cfrDCutLive 1 h))).support →
+    |conditionalOracleValue
+      (unilateralReferenceLaw (model fullPrior) (freshControlParentPlays t n)
+        informationControlFullFallback 1 2)
+      (fun h => ((model fullPrior).infoOf 1 h.trace, cfrDCutLive 1 h))
+      (fun h => ((model fullPrior).runBehavioralFrom (freshControlParentPlays t n) 1 h).expect
+        (cfrPayoff 1)) (info, true) - target n info| ≤ oldError ∧
+    |conditionalOracleValue
+      (unilateralReferenceLaw (model fullPrior)
+        (cfrDFreshInformationChain (reducedModel fullPrior) pbsRootControlFallback
+          cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t n) 2)
+        informationControlFullFallback 1 2)
+      (fun h => ((model fullPrior).infoOf 1 h.trace, cfrDCutLive 1 h))
+      (fun h => ((model fullPrior).runBehavioralFrom
+        (cfrDFreshInformationChain (reducedModel fullPrior) pbsRootControlFallback
+          cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t n) 2) 1 h).expect
+        (cfrPayoff 1)) (info, true) - target n info| ≤ newError
+
+/-- Finite parent time, positive bias and both child losses are retained.
+The additional allowance is in payoff units, not a whole-law distance. -/
+def freshChainControlCalibrationBudget (t : Nat) (oldError newError : ℝ) : ℝ :=
+  (cfrDDepthErrorConstant (model fullPrior) decisionClock informationControlFullFallback 2 1 0 +
+      cfrDDepthErrorConstant (model fullPrior) decisionClock informationControlFullFallback 2 1 1) *
+      (1 / 8) +
+    (cfrDDepthFiniteConstant (model fullPrior) decisionClock informationControlFullFallback
+        2 1 2 0 +
+      cfrDDepthFiniteConstant (model fullPrior) decisionClock informationControlFullFallback
+        2 1 2 1) / Real.sqrt t + 1 / 4 +
+    (freshChainControlLoss 1 + oldError + newError)
+
+/-- The actual implementation discharges equal reference laws. No reference
+rate or actual-posterior equality is supplied by the caller. -/
+theorem freshChainControl_weightedBudget_le_calibration
+    (unknown : Profile (model fullPrior).behavioralSignature) (t : Nat) [NeZero t]
+    (target : Fin t → (model fullPrior).InfoState 1 → ℝ) (oldError newError : ℝ)
+    (ho : 0 ≤ oldError) (hn : 0 ≤ newError)
+    (calibrated : freshChainControlCalibration t target oldError newError) :
+    freshChainControlWeightedBudget unknown t ≤
+      freshChainControlCalibrationBudget t oldError newError := by
+  unfold freshChainControlWeightedBudget freshChainControlCalibrationBudget
+  apply add_le_add (le_refl _)
+  exact cfrDWeightedTransportLoss_le_calibration (model fullPrior) (perfectRecall fullPrior)
+    (cfrIterationLaw t) (freshControlParentPlays t)
+    (fun n => cfrDFreshInformationChain (reducedModel fullPrior) pbsRootControlFallback
+      cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t n) 2)
+    informationControlFullFallback unknown 0 1 (by decide) (cfrPayoff 1) 2 1 2
+    (freshChainControlLoss 1) oldError newError (le_of_lt (freshChainControlLoss_pos 1)) ho hn
+    target (fun n => cfrDFreshInformationChain_referenceLaw (reducedModel fullPrior)
+      pbsRootControlFallback cfrPayoff 2 1 2 freshChainControlLoss
+      (freshControlParentPlays t n) 1 2)
+    (fun n info sampled => (calibrated n info sampled).1)
+    (fun n info sampled => (calibrated n info sampled).2)
+
+/-- The new source contract is consumed by the original finite-time biased
+parent and genuine two-solve private execution, against an arbitrary opponent. -/
+theorem freshChainControl_biased_calibrated_security
+    (reference : Profile (model fullPrior).behavioralSignature)
+    (equilibrium : IsNash ((model fullPrior).toBehavioralGameForm 3)
+      (euPreference (fun h who => cfrPayoff who h)) reference)
+    (unknown : Profile (model fullPrior).behavioralSignature) (t : Nat) [NeZero t]
+    (target : Fin t → (model fullPrior).InfoState 1 → ℝ) (oldError newError : ℝ)
+    (ho : 0 ≤ oldError) (hn : 0 ≤ newError)
+    (calibrated : freshChainControlCalibration t target oldError newError) :
+    ((model fullPrior).runBehavioral reference 3).expect (cfrPayoff 0) -
+        freshChainControlCalibrationBudget t oldError newError ≤
+      (privateCarriedResolve (model fullPrior) (cfrIterationLaw t) (freshControlParentPlays t)
+        (cfrDFreshChainResolver (reducedModel fullPrior) pbsRootControlFallback
+          cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t) 2)
+        unknown 0 2 1).expect (cfrPayoff 0) := by
+  have previous := freshChainControl_biased_weighted_security reference equilibrium unknown t
+  have comparison := freshChainControl_weightedBudget_le_calibration
+    unknown t target oldError newError ho hn calibrated
+  linarith only [previous, comparison]
+
+/-- A directly proved coarse calibration baseline for any continuation.
+This does not assert that the constant two is a vanishing solver rate. -/
+theorem freshChainControl_value_abs_le_two
+    (base play : Profile (model fullPrior).behavioralSignature)
+    (info : (model fullPrior).InfoState 1) :
+    |conditionalOracleValue
+      (unilateralReferenceLaw (model fullPrior) base informationControlFullFallback 1 2)
+      (fun h => ((model fullPrior).infoOf 1 h.trace, cfrDCutLive 1 h))
+      (fun h => ((model fullPrior).runBehavioralFrom play 1 h).expect (cfrPayoff 1))
+      (info, true)| ≤ 2 := by
+  have lower (law : FinDist (protocol fullPrior).History) : -2 ≤ law.expect (cfrPayoff 1) := by
+    have averaged := FinDist.expect_mono (μ := law) (u := fun _ => (-2 : ℝ))
+      (fun h _ => (abs_le.mp (cfrPayoff_abs_le_two 1 h)).1)
+    simpa only [FinDist.expect_const] using averaged
+  apply abs_le.mpr
+  constructor
+  · have averaged := FinDist.expect_mono
+      (μ := (unilateralReferenceLaw (model fullPrior) base informationControlFullFallback 1 2).
+        condOnFibre (fun h => ((model fullPrior).infoOf 1 h.trace, cfrDCutLive 1 h)) (info, true))
+      (u := fun _ => (-2 : ℝ))
+      (fun h _ => lower ((model fullPrior).runBehavioralFrom play 1 h))
+    simpa only [FinDist.expect_const, conditionalOracleValue] using averaged
+  · apply FinDist.expect_le_of_forall
+    intro h _
+    apply FinDist.expect_le_of_forall
+    intro terminal _
+    exact (abs_le.mp (cfrPayoff_abs_le_two 1 terminal)).2
+
+/-- The source contract is inhabited by the actual solver without assuming
+security, drift, or equality of actual and model posteriors. Its coarse errors
+are deliberately nonvanishing; sharper oracle calibration remains explicit. -/
+theorem freshChainControl_coarse_calibrated (t : Nat) :
+    freshChainControlCalibration t (fun _ _ => 0) 2 2 := by
+  intro n info _
+  constructor
+  · simpa only [sub_zero] using
+      freshChainControl_value_abs_le_two (freshControlParentPlays t n)
+        (freshControlParentPlays t n) info
+  · simpa only [sub_zero] using
+      freshChainControl_value_abs_le_two
+        (cfrDFreshInformationChain (reducedModel fullPrior) pbsRootControlFallback
+          cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t n) 2)
+        (cfrDFreshInformationChain (reducedModel fullPrior) pbsRootControlFallback
+          cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t n) 2) info
 
 end GameTheory.ReBeL.Examples.HiddenTypes
