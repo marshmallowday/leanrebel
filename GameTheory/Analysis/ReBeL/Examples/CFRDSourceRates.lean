@@ -154,6 +154,46 @@ theorem absent_old_query :
   classical
   simp [FinDist.conditionalTransportDefect]
 
+/-- A small change inside the rare fiber introduces a genuinely new atom. -/
+def softJoint : FinDist (Bool × Bool) :=
+  FinDist.mix (99 / 100) (by norm_num) (by norm_num) oldJoint newJoint
+
+/-- The fiber-relative source rate is one fiftieth, without a reach denominator. -/
+theorem soft_fiber_rate (tag : Bool) :
+    FinDist.fiberAtomVariation oldJoint softJoint Prod.fst tag ≤
+      (1 / 50) * (oldJoint.map Prod.fst).prob tag := by
+  rw [oldJoint_mass]
+  cases tag <;> norm_num [FinDist.fiberAtomVariation, fourAtoms, softJoint,
+    oldJoint, newJoint, FinDist.prob_pure_eq_ite]
+
+/-- The relative-fiber theorem yields a small supported conditional error. -/
+theorem soft_conditional_bound (tag : Bool) :
+    FinDist.conditionalTransportDefect oldJoint softJoint Prod.fst tag ≤ 1 / 25 := by
+  have bound := FinDist.conditionalTransportDefect_le_of_fiberRate
+    oldJoint softJoint Prod.fst tag (oldJoint_reached tag) (1 / 50) (soft_fiber_rate tag)
+  norm_num at bound ⊢
+  exact bound
+
+/-- Even concentration on the rare query does not amplify the uniform fiber rate. -/
+theorem soft_actual_bound :
+    concentrated.expect (fun atom =>
+      FinDist.conditionalTransportDefect oldJoint softJoint Prod.fst atom.1) ≤ 1 / 25 := by
+  simpa only [concentrated, FinDist.expect_pure] using soft_conditional_bound true
+
+/-- The positive test includes NEW-only atoms, not hidden full support. -/
+theorem soft_new_atom :
+    oldJoint.prob (true, true) = 0 ∧ softJoint.prob (true, true) = 1 / 10000 := by
+  norm_num [softJoint, oldJoint, newJoint, FinDist.prob_pure_eq_ite]
+
+/-- No finite atom-relative rate is available here. The fiber hypothesis is
+strictly weaker, rather than an atomwise absolute-continuity premise in disguise. -/
+theorem soft_no_atom_rate (rate : ℝ) :
+    ¬ ∀ atom, |oldJoint.prob atom - softJoint.prob atom| ≤ rate * oldJoint.prob atom := by
+  intro small
+  have impossible := small (true, true)
+  rw [soft_new_atom.1, soft_new_atom.2] at impossible
+  norm_num at impossible
+
 end GameTheory.ReBeL.Examples.SourceRates
 
 namespace GameTheory.ReBeL.Examples.HiddenTypes
@@ -231,5 +271,79 @@ theorem freshChainControl_source_zero_fuel
       (freshChainControlLoss 1) = 0 := by
   simp [cfrDSourceEnvelopeLoss, cfrDFreshSourceCost, cfrDCutLive_zero,
     FinDist.expect_const]
+
+/-- The actual two-solve construction discharges its reference rate with zero.
+This is equality of unilateral source laws, not model/actual posterior equality. -/
+theorem freshChainControl_parent_fiber_zero (t : Nat) [NeZero t] (n : Fin t)
+    (tag : (model fullPrior).InfoState 1 × Bool) :
+    FinDist.fiberAtomVariation
+      (unilateralReferenceLaw (model fullPrior) (freshControlParentPlays t n)
+        informationControlFullFallback 1 2)
+      (unilateralReferenceLaw (model fullPrior)
+        (cfrDFreshInformationChain (reducedModel fullPrior) pbsRootControlFallback
+          cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t n) 2)
+        informationControlFullFallback 1 2)
+      (fun h => ((model fullPrior).infoOf 1 h.trace, cfrDCutLive 1 h)) tag = 0 := by
+  rw [cfrDFreshInformationChain_referenceLaw (reducedModel fullPrior)
+    pbsRootControlFallback cfrPayoff 2 1 2 freshChainControlLoss
+    (freshControlParentPlays t n) 1 2]
+  simp [FinDist.fiberAtomVariation]
+
+/-- The explicit budget retains finite outer T, positive parent bias and both
+child tolerances. It contains no unknown-opponent density or minimum reach. -/
+def freshChainControlRateBudget (t : Nat) (outcomeRate : ℝ) : ℝ :=
+  (cfrDDepthErrorConstant (model fullPrior) decisionClock informationControlFullFallback 2 1 0 +
+      cfrDDepthErrorConstant (model fullPrior) decisionClock informationControlFullFallback 2 1 1) *
+      (1 / 8) +
+    (cfrDDepthFiniteConstant (model fullPrior) decisionClock informationControlFullFallback
+        2 1 2 0 +
+      cfrDDepthFiniteConstant (model fullPrior) decisionClock informationControlFullFallback
+        2 1 2 1) / Real.sqrt t + 1 / 4 +
+    (freshChainControlLoss 1 + 2 * outcomeRate)
+
+/-- Only continuation outcome variation remains an input source rate. The
+reference-rate premise is discharged by the real two-solve implementation. -/
+theorem freshChainControl_weightedBudget_le_rate
+    (unknown : Profile (model fullPrior).behavioralSignature) (t : Nat) [NeZero t]
+    (outcomeRate : ℝ) (nonneg : 0 ≤ outcomeRate)
+    (small : ∀ n h, cfrDFreshOutcomeVariation (model fullPrior) (freshControlParentPlays t n)
+      (cfrDFreshInformationChain (reducedModel fullPrior) pbsRootControlFallback
+        cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t n) 2) 1 h ≤ outcomeRate) :
+    freshChainControlWeightedBudget unknown t ≤ freshChainControlRateBudget t outcomeRate := by
+  unfold freshChainControlWeightedBudget freshChainControlRateBudget
+  apply add_le_add (le_refl _)
+  have charge := cfrDWeightedTransportLoss_le_fiberRates (model fullPrior)
+    (perfectRecall fullPrior) (cfrIterationLaw t) (freshControlParentPlays t)
+    (fun n => cfrDFreshInformationChain (reducedModel fullPrior) pbsRootControlFallback
+      cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t n) 2)
+    informationControlFullFallback unknown 0 1 (by decide) (cfrPayoff 1) 2 1 2
+    (freshChainControlLoss 1) outcomeRate 0 (by norm_num)
+    (le_of_lt (freshChainControlLoss_pos 1)) nonneg (by norm_num)
+    (fun h => cfrPayoff_abs_le_two 1 h) small (by
+      intro n tag _
+      rw [freshChainControl_parent_fiber_zero]
+      simp)
+  simpa only [mul_zero, add_zero] using charge
+
+/-- Quantitative source rates are consumed by the actual biased finite parent
+and two fresh children. Small continuation variation is NOT inferred from Nash. -/
+theorem freshChainControl_biased_rate_security
+    (reference : Profile (model fullPrior).behavioralSignature)
+    (equilibrium : IsNash ((model fullPrior).toBehavioralGameForm 3)
+      (euPreference (fun h who => cfrPayoff who h)) reference)
+    (unknown : Profile (model fullPrior).behavioralSignature) (t : Nat) [NeZero t]
+    (outcomeRate : ℝ) (nonneg : 0 ≤ outcomeRate)
+    (small : ∀ n h, cfrDFreshOutcomeVariation (model fullPrior) (freshControlParentPlays t n)
+      (cfrDFreshInformationChain (reducedModel fullPrior) pbsRootControlFallback
+        cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t n) 2) 1 h ≤ outcomeRate) :
+    ((model fullPrior).runBehavioral reference 3).expect (cfrPayoff 0) -
+        freshChainControlRateBudget t outcomeRate ≤
+      (privateCarriedResolve (model fullPrior) (cfrIterationLaw t) (freshControlParentPlays t)
+        (cfrDFreshChainResolver (reducedModel fullPrior) pbsRootControlFallback
+          cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t) 2)
+        unknown 0 2 1).expect (cfrPayoff 0) := by
+  have previous := freshChainControl_biased_weighted_security reference equilibrium unknown t
+  have comparison := freshChainControl_weightedBudget_le_rate unknown t outcomeRate nonneg small
+  linarith only [previous, comparison]
 
 end GameTheory.ReBeL.Examples.HiddenTypes

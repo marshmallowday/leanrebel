@@ -2,25 +2,34 @@
 
 ## Current resume point
 
-Resume from the remote HEAD of rebel/m06-transport-rates-20260924.
-The source-atom transport draft was checkpointed at
-cc4bf7aecb83f75929f568bf0dd4950578d4cafa after restart checkpoint53e99a3b.
-Its FinDistTransportRate module is now appended to the analytic root, M06 target
-list and supplemental transitive audit. All128 inherited targets and90 inherited
-audit modules are preserved. Current counts are129 targets and91 audit modules.
-At this checkpoint the new proof has NOT yet passed exact-source compiler/lint/
-axiom validation. Inspect CI for the remote HEAD; do not accept merely from source
-existence. Continue with game consumers and adversarial controls described in
-M06-transport-rates.md. Main is not a write target.
+Resume from the remote HEAD of `rebel/m06-fiber-rates-20260925`.
+Read `M06-fiber-rates.md` and inspect exact-HEAD CI before continuing.
+The source-rate repair checkpoint is
+45a59f97b3e02de43cd367c15e8c7f187654e874 on
+`rebel/m06-source-rates-repair-20260925`, after restart record
+9b20866a2014add2a93ff6dfca150f577543cd94.
+Its M06 target run36082610875/job107907611579 has succeeded, including
+compilation and supplemental lint/transitive-axiom validation. Full CI and
+independent ReBeL evidence must be inspected separately.
+
+The current fiber-rate additions have NOT yet passed exact-source validation.
+They derive the quantitative bound childLoss+B*eta+4*B*rho from continuation
+outcome variation and supported unnormalized fiber differences. The actual
+two-solve consumer derives rho=0 from same-cut source-law preservation; small
+eta remains an explicit source hypothesis. New-only-atom controls distinguish
+fiber rates from atomwise absolute continuity. Both edited modules remain in
+all inherited build/lint/axiom consumers. No gate, pin or whitelist is weakened.
+Main is not a write target. Preserve the original transport-rate branch at
+bd5cdaa304cb0791379c94fd0454ed28eabb683d and its original failure evidence.
 
 ## Predecessor independent gate resolved
 
 The predecessor independent ReBeL run35984130849/job107582791762 was rechecked
-through the GitHub plugin during this continuation and is now SUCCESS. All
-compiler/lint/transitive-axiom, rational solver and tracked-cleanliness steps
-succeeded. This resolves the last outstanding independent gate recorded in the
-weighted-transport review. Its exact-source snapshot job107582792124 also passed.
-The accepted source remains fd3770c4c4123cefec9cc5456f99b18f5b52c697 on
+through the GitHub plugin during the preceding continuation and is SUCCESS.
+All compiler/lint/transitive-axiom, rational solver and tracked-cleanliness
+steps succeeded. Its exact-source snapshot job107582792124 also passed.
+The accepted weighted-transport source remains
+fd3770c4c4123cefec9cc5456f99b18f5b52c697 on
 rebel/m06-weighted-transport-20260924, with documentation review HEAD
 1c509f60f823505a36318e54735f61e00dd49aab on
 rebel/m06-weighted-transport-reviewed-20260924. Neither ref is moved here.
@@ -57,8 +66,8 @@ The prior fresh-chain source46126f37 independent run35964794487 also succeeded.
 Preserve44a98bb4,66a8b9ec,composition639e3962,recursiona4246792/reviewa5e0700f,
 budget704e96ff,nestedf9d4def1,repair751ad17a and all accepted M05 records.
 
-Remaining: source-level weighted drift/transport and native first-exit rates,
-independent re-solving at later carried PBSs and CarriedResolveStepBounds.
+Remaining: vanishing source-level weighted drift/transport and native first-exit
+rates, independent re-solving at later carried PBSs and CarriedResolveStepBounds.
 The new work must connect actual source-law discrepancies, not assume a desired
 root safety inequality. Coherent final-average sampling is still different from
 the native-iteration sampler. SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and

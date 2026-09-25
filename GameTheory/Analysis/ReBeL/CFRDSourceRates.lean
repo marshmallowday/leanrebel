@@ -200,4 +200,111 @@ theorem cfrDWeightedTransportLoss_le_source (hrecall : M.PerfectRecall)
   exact cfrDFreshTransportCharge_prefix_le_source M hrecall plays next fallback unknown
     who opponent different payoff cut remaining bound loss hb bounded n
 
+/-- A quantitative continuation-law rate bounds the positive value change.
+The premise concerns actual outcome atoms at every history, not Nash scalars. -/
+theorem cfrDFreshValueChange_le_outcomeRate (base next : Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (opponent : Fin 2)
+    (payoff : E.History → ℝ) (cut remaining : Nat) (bound outcomeRate : ℝ)
+    (hb : 0 ≤ bound) (bounded : ∀ h, |payoff h| ≤ bound)
+    (small : ∀ h, cfrDFreshOutcomeVariation M base next remaining h ≤ outcomeRate)
+    (info : M.InfoState opponent) :
+    max 0 (cfrDFreshValueChange M base next fallback opponent payoff cut remaining info) ≤
+      bound * outcomeRate := by
+  have averaged : conditionalOracleValue (unilateralReferenceLaw M base fallback opponent cut)
+      (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))
+      (cfrDFreshOutcomeVariation M base next remaining) (info, true) ≤ outcomeRate := by
+    apply FinDist.expect_le_of_forall
+    intro h _
+    exact small h
+  exact (cfrDFreshValueChange_le_source M base next fallback opponent payoff
+    cut remaining bound hb bounded info).trans (mul_le_mul_of_nonneg_left averaged hb)
+
+/-- Supported FIBER-relative source differences yield an explicit charge.
+New-only atoms inside OLD-supported queries are allowed. No minimum reach,
+pointwise atom absolute continuity, or bound on the opponent density is assumed. -/
+theorem cfrDFreshTransportCharge_le_fiberRates
+    (plays next : K → Profile M.behavioralSignature) (fallback : Profile M.strategicSignature)
+    (opponent : Fin 2) (payoff : E.History → ℝ) (cut remaining : Nat)
+    (bound loss outcomeRate referenceRate : ℝ)
+    (hb : 0 ≤ bound) (hl : 0 ≤ loss) (ho : 0 ≤ outcomeRate) (hr : 0 ≤ referenceRate)
+    (bounded : ∀ h, |payoff h| ≤ bound) (n : K) (tag : M.InfoState opponent × Bool)
+    (sampled : tag ∈ ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
+      (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))).support)
+    (outcomeSmall : ∀ h, cfrDFreshOutcomeVariation M (plays n) (next n) remaining h ≤ outcomeRate)
+    (fiberSmall : FinDist.fiberAtomVariation
+      (unilateralReferenceLaw M (plays n) fallback opponent cut)
+      (unilateralReferenceLaw M (next n) fallback opponent cut)
+      (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h)) tag ≤
+        referenceRate * ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
+          (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))).prob tag) :
+    cfrDFreshTransportCharge M plays next fallback opponent payoff
+        cut remaining bound loss n tag ≤
+      loss + bound * outcomeRate + 4 * bound * referenceRate := by
+  rcases tag with ⟨info, flag⟩
+  cases flag
+  · exact add_nonneg (add_nonneg hl (mul_nonneg hb ho))
+      (mul_nonneg (mul_nonneg (by norm_num) hb) hr)
+  · have drift := cfrDFreshValueChange_le_outcomeRate M (plays n) (next n) fallback
+      opponent payoff cut remaining bound outcomeRate hb bounded outcomeSmall info
+    have transport := FinDist.conditionalTransportDefect_le_of_fiberRate
+      (unilateralReferenceLaw M (plays n) fallback opponent cut)
+      (unilateralReferenceLaw M (next n) fallback opponent cut)
+      (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h)) (info, true)
+      sampled referenceRate fiberSmall
+    have scaled := mul_le_mul_of_nonneg_left transport
+      (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) hb)
+    unfold cfrDFreshTransportCharge
+    dsimp only
+    rw [if_pos rfl]
+    nlinarith only [drift, scaled]
+
+/-- Uniform source rates bound the ACTUAL joint private seed/history charge.
+Perfect recall supplies the reference support of every actual query. The rates
+are independent of the unknown opponent, whose density is not dropped from an
+OLD-weighted mean. This does not infer either source premise from child Nash. -/
+theorem cfrDWeightedTransportLoss_le_fiberRates (hrecall : M.PerfectRecall)
+    (seed : FinDist K) (plays next : K → Profile M.behavioralSignature)
+    (fallback : Profile M.strategicSignature) (unknown : Profile M.behavioralSignature)
+    (who opponent : Fin 2) (different : opponent ≠ who) (payoff : E.History → ℝ)
+    (cut remaining : Nat) (bound loss outcomeRate referenceRate : ℝ)
+    (hb : 0 ≤ bound) (hl : 0 ≤ loss) (ho : 0 ≤ outcomeRate) (hr : 0 ≤ referenceRate)
+    (bounded : ∀ h, |payoff h| ≤ bound)
+    (outcomeSmall : ∀ n h,
+      cfrDFreshOutcomeVariation M (plays n) (next n) remaining h ≤ outcomeRate)
+    (fiberSmall : ∀ n tag, tag ∈
+      ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
+        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))).support →
+      FinDist.fiberAtomVariation (unilateralReferenceLaw M (plays n) fallback opponent cut)
+        (unilateralReferenceLaw M (next n) fallback opponent cut)
+        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h)) tag ≤
+      referenceRate * ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
+        (fun h => (M.infoOf opponent h.trace, cfrDCutLive remaining h))).prob tag) :
+    cfrDWeightedEnvelopeLoss M seed plays unknown who opponent cut remaining
+        (cfrDFreshTransportCharge M plays next fallback opponent payoff cut remaining bound loss) ≤
+      loss + bound * outcomeRate + 4 * bound * referenceRate := by
+  unfold cfrDWeightedEnvelopeLoss privateCarriedPrefix
+  rw [FinDist.expect_bind]
+  apply FinDist.expect_le_of_forall
+  intro n _
+  rw [FinDist.expect_map]
+  apply FinDist.expect_le_of_forall
+  intro h reached
+  have sampled : (M.infoOf opponent h.trace, cfrDCutLive remaining h) ∈
+      ((unilateralReferenceLaw M (plays n) fallback opponent cut).map
+        (fun history =>
+          (M.infoOf opponent history.trace, cfrDCutLive remaining history))).support := by
+    rw [privateOpponent_profile M (plays n) unknown who opponent different] at reached
+    rw [FinDist.support_map]
+    exact ⟨h, informationReweight_support
+        (unilateralReferenceLaw M (plays n) fallback opponent cut)
+        (M.runBehavioral (Profile.update (plays n) opponent (unknown opponent)) cut)
+        (fun history => (M.infoOf opponent history.trace, cfrDCutLive remaining history))
+        (fun tag => unilateralDensity M (plays n) fallback opponent (unknown opponent) tag.1)
+        (unilateralReference_density M hrecall (plays n) fallback opponent (unknown opponent) cut)
+        reached, rfl⟩
+  exact cfrDFreshTransportCharge_le_fiberRates M plays next fallback opponent payoff
+    cut remaining bound loss outcomeRate referenceRate hb hl ho hr bounded n
+    (M.infoOf opponent h.trace, cfrDCutLive remaining h) sampled (outcomeSmall n)
+    (fiberSmall n _ sampled)
+
 end GameTheory.ReBeL
