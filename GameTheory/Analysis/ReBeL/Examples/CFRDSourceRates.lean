@@ -69,7 +69,7 @@ theorem newJoint_conditional (tag : Bool) :
   apply FinDist.ext_of_prob
   rintro ⟨query, hidden⟩
   have factor := FinDist.observation_prob_mul_conditional_prob
-    newJoint Prod.fst tag (query, hidden)
+    newJoint Prod.fst Prod.fst tag (query, hidden)
   rw [newJoint_mass] at factor
   cases tag <;> cases query <;> cases hidden <;>
     norm_num [newJoint, FinDist.prob_pure_eq_ite] at factor ⊢ <;> linarith
@@ -284,9 +284,16 @@ theorem freshChainControl_parent_fiber_zero (t : Nat) [NeZero t] (n : Fin t)
           cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t n) 2)
         informationControlFullFallback 1 2)
       (fun h => ((model fullPrior).infoOf 1 h.trace, cfrDCutLive 1 h)) tag = 0 := by
-  rw [cfrDFreshInformationChain_referenceLaw (reducedModel fullPrior)
-    pbsRootControlFallback cfrPayoff 2 1 2 freshChainControlLoss
-    (freshControlParentPlays t n) 1 2]
+  have referenceLaw : unilateralReferenceLaw (model fullPrior)
+      (cfrDFreshInformationChain (reducedModel fullPrior) pbsRootControlFallback
+        cfrPayoff 2 1 2 freshChainControlLoss (freshControlParentPlays t n) 2)
+      informationControlFullFallback 1 2 =
+        unilateralReferenceLaw (model fullPrior) (freshControlParentPlays t n)
+          informationControlFullFallback 1 2 :=
+    cfrDFreshInformationChain_referenceLaw (reducedModel fullPrior)
+      pbsRootControlFallback cfrPayoff 2 1 2 freshChainControlLoss
+      (freshControlParentPlays t n) 1 2
+  rw [referenceLaw]
   simp [FinDist.fiberAtomVariation]
 
 /-- The explicit budget retains finite outer T, positive parent bias and both
