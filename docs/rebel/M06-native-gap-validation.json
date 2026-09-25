@@ -1,0 +1,91 @@
+{
+  "milestone": "M06",
+  "milestone_complete": false,
+  "source_commit": "b11dbaffbc58c53ad048929ccb2a4d418b522d19",
+  "source_branch": "rebel/m06-native-gap-repair-20260925",
+  "checkpoint_branch": "rebel/m06-native-gap-checkpoint-20260925",
+  "initial_source": "0bfa5ce2d1b67f5d14790e82e75e3db986b21fbd",
+  "parent_proof_source": "5cf1369cf1e886650a90a4e027347dacf589d50b",
+  "parent_evidence_checkpoint": "e80f65d731b6beff1caa0f1d67cee9b4e41d87a8",
+  "main_last_read": "6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098",
+  "main_advanced": false,
+  "semantic_review": "docs/rebel/M06-native-conditional-gap.md; docs/rebel/M06-native-gap-validation.md",
+  "scope": "Mean absolute conditional best-response gap for an actual private uniform own-player CFR iteration, with fixed computed average opponents and one fixed canonical joint-belief slice. The type-query law and iteration law form a product, not a later seed-correlated actual posterior.",
+  "modules": [
+    "GameTheory.Analysis.ReBeL.PBSNativeConditionalGap",
+    "GameTheory.Analysis.ReBeL.Examples.PBSNativeConditionalGap"
+  ],
+  "source_blobs": {
+    "GameTheory/Analysis/ReBeL/PBSNativeConditionalGap.lean": "fc68d0da3be282799f7a432a1b6afe307092d64a",
+    "GameTheory/Analysis/ReBeL/Examples/PBSNativeConditionalGap.lean": "90157a953143689d155d9b769431c53c2af409b7"
+  },
+  "source_export": {
+    "run": 36129473569,
+    "job": 108053157969,
+    "artifact": 10861680777,
+    "zip_sha256": "71766a6b72a8415e311ec0680ade99b8f087acfcd235cdbb92643efbbe30c39b",
+    "tar_sha256": "7fbbff05d1e3b5ff19357fb28d124b47e414f91a46b72e3b934ba2e2b2462813",
+    "embedded_source_checked": true,
+    "access": "GitHub plugin artifact export; no local git or direct GitHub network"
+  },
+  "targeted_ci": {
+    "run": 36129473984,
+    "job": 108053158616,
+    "result": "success",
+    "both_new_modules_compiled": true,
+    "artifact": 10860879140,
+    "zip_sha256": "28c372994b05dd9cc6454fa4f7103874944e7bf3ef60c025d25dc3f92b1a885e",
+    "log_sha256": "a94c108760e588bd17f043aea9d6c283845c4dbf471fbe43489c0a8d844a5401",
+    "embedded_source_checked": true,
+    "inherited_exact_leaf_audit_modules": 100,
+    "inherited_exact_leaf_audit_declarations": 1595,
+    "new_modules_in_inherited_exact_leaf_audit": false,
+    "limitation": "The compiler target list includes the additions, but the unchanged 100-module audit does not lint or collect axioms for these two new modules. Its 1595-declaration result must not be attributed to them."
+  },
+  "full_repository_ci": {
+    "run": 36129473637,
+    "job": 108053238399,
+    "result": "success",
+    "artifact": 10861318062,
+    "zip_sha256": "a11a41fe125d27d3ec128eb126d363a20b09bc546e90a81ada30f745f92cc216",
+    "embedded_source_checked": true,
+    "phase_1_2_3_verified": true,
+    "configured_lake_lint": "pass",
+    "reuse_signatures": "pass, 23 compiler-resolved signatures",
+    "tracked_cleanliness": "pass",
+    "log_sha256": {
+      "ci-source.txt": "90a4778c346c467da87c2089ea7584f8fd0845eb02c25f4629b7a2bd6c627cec",
+      "ci-lint.log": "62a2d822ae79ced106661bfd98819a40a91552708cbc086d9374ebe5e75837a9",
+      "ci-phase1.log": "27e3ad05672a11917f23549bdaf591eb06f333115b37b156fbeeb6a258572d7b",
+      "ci-phase2.log": "bd26f72d86e1419a87d29896137dbaaf091fb71b728ffcc2168bbeead440701c",
+      "ci-phase3.log": "1328da901759ab2f0d7bcbc3b07e7edc53f3b762e50c5011f6812ad661fdeb34",
+      "ci-inventory.log": "8e2ef7126029de8530870829372808582c6ada37a1ecd529b7fbbe87463151d8"
+    }
+  },
+  "source_inventory_ci": {"run": 36129473791, "result": "success"},
+  "global_rebel_ci": {
+    "run": 36129473569,
+    "job": 108053157861,
+    "status_at_checkpoint": "in_progress",
+    "pending_step": "Compile and lint every ReBeL module and audit transitive axioms",
+    "preliminary_passes": ["line widths", "static architecture", "ledger and fixtures", "rational runtime"],
+    "new_module_individual_lint_status": "pending output inspection",
+    "new_module_transitive_axiom_status": "pending output inspection",
+    "new_module_axiom_lists": null
+  },
+  "local_static_checks_on_exact_export": {
+    "python_tests": 83,
+    "python_tests_result": "pass",
+    "coverage_and_inventory_structure": "pass",
+    "library_files_width_checked": 578,
+    "width_violations": 0,
+    "global_auditor_discovered_modules": 247,
+    "discovery_is_not_validation": true,
+    "all_inherited_lean_bytes_preserved_from_parent_proof": true,
+    "umbrella_and_target_lists_append_only": true,
+    "auditors_workflows_dependency_pins_and_primary_coverage_unchanged": true,
+    "local_lean_compilation_claimed": false
+  },
+  "original_paper_rows_unchanged": ["SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"],
+  "remaining": "Independently changing-opponent/changing-PBS native and late rates; actual seed-correlated carried support, query-density and first-exit control; independent recursive test-time safety; CarriedResolveStepBounds."
+}

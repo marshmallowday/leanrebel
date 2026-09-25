@@ -4,7 +4,12 @@
   "source": "project",
   "locator": "docs/rebel/M06-native-conditional-gap.md",
   "base_checkpoint": "e80f65d731b6beff1caa0f1d67cee9b4e41d87a8",
+  "proof_source": "b11dbaffbc58c53ad048929ccb2a4d418b522d19",
+  "validation_record": "docs/rebel/M06-native-gap-validation.json",
   "status": "in_progress",
+  "compiler_validation": "pass on proof source",
+  "full_repository_ci": "pass on proof source",
+  "new_module_global_lint_and_axiom_validation": "pending inspection of run 36129473569/job 108053157861",
   "parents_unchanged": [
     "SEARCH-FRONTIER",
     "SEARCH-CFRD",
@@ -31,7 +36,7 @@
       "nativeConditionalGap_changed_opponent_control"
     ]
   },
-  "scope": "Actual private uniform own-iteration mean absolute conditional gap against fixed computed average opponents, at one fixed canonical joint-belief slice.",
-  "lean_validation": "Initial 0bfa source compiled general module, failed two example simplifications and the static transport gate. Repair requires own exact-source GitHub Actions; see M06-native-gap-repair.md.",
-  "remaining": "Changing-opponent/changing-PBS rates, native carried support/first-exit and query-density control, independent recursive test-time safety, CarriedResolveStepBounds."
+  "scope": "Actual private uniform own-iteration mean absolute conditional gap against fixed computed average opponents, at one fixed canonical joint-belief slice. The type-query law is independent of the sampled index in this product expectation.",
+  "lean_validation": "Repair b11dbaff passed all M06 compiler targets (36129473984/job 108053158616) and full CI (36129473637/job 108053238399). Both actual artifact logs and embedded source were inspected. The unchanged 100-module exact-leaf audit excludes the two new modules; its 1595-declaration pass is not their axiom/lint evidence. Their unchanged global ReBeL consumer (36129473569/job 108053157861) was still running at checkpoint. Initial failures remain in M06-native-gap-repair.md. No new-module transitive axiom list or M06 acceptance is claimed.",
+  "remaining": "Changing-opponent/changing-PBS rates, actual seed-correlated carried support/first-exit and joint query-density control, independent recursive test-time safety, CarriedResolveStepBounds."
 }

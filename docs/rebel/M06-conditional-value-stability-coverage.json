@@ -5,12 +5,13 @@
   "locator": "docs/rebel/M06_CONDITIONAL_VALUE_STABILITY.md",
   "query_gap_locator": "docs/rebel/M06-query-gap-review.md",
   "validation_record": "docs/rebel/M06-query-gap-validation.json",
+  "global_validation_record": "docs/rebel/M06-native-gap-parent-validation.json",
   "base_checkpoint": "d2cb889b5538bc9429eb47a7a7e32309d0e31bb7",
   "query_gap_parent": "fa03b39e497e4d9802d978caab052ce2802ccdc1",
   "query_gap_proof_source": "5cf1369cf1e886650a90a4e027347dacf589d50b",
   "status": "in_progress",
   "targeted_validation": "pass",
-  "integration_validation": "pending",
+  "integration_validation": "pass on proof source; not integrated into main",
   "parents_unchanged": [
     "SEARCH-FRONTIER",
     "SEARCH-CFRD",
@@ -50,6 +51,6 @@
     ]
   },
   "scope": "Fixed-slice conditional same-opponent comparison with max root error and support-aware division; actual information-set CFR current-opponent Eq. (1) accuracy; own-law and explicitly density-dominated query-law mean absolute gaps with no minimum type mass.",
-  "lean_validation": "Proof source 5cf1369cf1e886650a90a4e027347dacf589d50b passed targeted run 36125907562/job 108041849267, with 100 module linter passes and 1595 transitive-axiom-audited declarations. Artifact 10860580985 and all nine new theorem axiom lists were inspected. Independent ReBeL run 36125907531 and full CI run 36125907627 remained in progress at the last check; no global integration or M06 acceptance is claimed. This document-only checkpoint does not replace proof-source attribution.",
+  "lean_validation": "Proof source 5cf1369cf1e886650a90a4e027347dacf589d50b passed targeted run 36125907562/job 108041849267. Independent ReBeL run 36125907531/job 108041928085 and full CI 36125907627/job 108041951383 have now completed successfully. Actual global artifact 10860962602 was inspected: 245 module linter passes, 4786 actual transitive axiom sets and all 22 journal anchors checked against propext, Classical.choice, Quot.sound. M06-native-gap-parent-validation.json retains exact identities and hashes. This resolves the earlier pending evidence; no main integration or M06 acceptance is claimed, and parent evidence is not a global audit of the later native-gap additions.",
   "remaining": "Native and late query-density caps, changing-opponent/changing-slice conditional vector rates, first-exit, carried-PBS safety and CarriedResolveStepBounds."
 }
