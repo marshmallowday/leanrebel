@@ -2,25 +2,35 @@
 
 ## Current resume point
 
-Resume from the remote HEAD of `rebel/m06-fiber-rates-20260925`.
-Read `M06-fiber-rates.md` and inspect exact-HEAD CI before continuing.
-The source-rate repair checkpoint is
-45a59f97b3e02de43cd367c15e8c7f187654e874 on
-`rebel/m06-source-rates-repair-20260925`, after restart record
-9b20866a2014add2a93ff6dfca150f577543cd94.
-Its M06 target run36082610875/job107907611579 has succeeded, including
-compilation and supplemental lint/transitive-axiom validation. Full CI and
-independent ReBeL evidence must be inspected separately.
+Resume from `rebel/m06-fiber-checkpoint-20260925` and read
+`M06-fiber-rates-validation.md`. This checkpoint contains documentation only
+above exact Lean source 4b4395714c62ac8fca0974f1254b7f86c832cd38 on
+`rebel/m06-fiber-rates-20260925`. The source branch is left fixed so that its
+independent workflows are not cancelled by a documentation update.
 
-The current fiber-rate additions have NOT yet passed exact-source validation.
-They derive the quantitative bound childLoss+B*eta+4*B*rho from continuation
-outcome variation and supported unnormalized fiber differences. The actual
-two-solve consumer derives rho=0 from same-cut source-law preservation; small
-eta remains an explicit source hypothesis. New-only-atom controls distinguish
-fiber rates from atomwise absolute continuity. Both edited modules remain in
-all inherited build/lint/axiom consumers. No gate, pin or whitelist is weakened.
-Main is not a write target. Preserve the original transport-rate branch at
-bd5cdaa304cb0791379c94fd0454ed28eabb683d and its original failure evidence.
+The new source has compiled all 131 declared M06 targets. Target run36084113146,
+job107912150501, was still running supplemental lint/transitive-axiom validation
+when this record was written. Full CI36084113058/job107912146899 and independent
+ReBeL36084113120/job107912151577 were in progress. Source inventory36084113156
+and exact-source snapshot job107912151368 succeeded. Inspect each exact-SHA
+result and the actual audit output; compilation alone is not full acceptance.
+
+Repaired predecessor 45a59f97b3e02de43cd367c15e8c7f187654e874 remains on
+`rebel/m06-source-rates-repair-20260925` after restart9b20866a2014add2a93ff6dfca150f577543cd94.
+Its target36082610875/job107907611579 and fullCI36082610831/job107907668869 passed.
+The target audit printed1440 declarations/93 modules. Its independent
+ReBeL36082610843/job107907671925 was still in progress; snapshot107907671645 passed.
+Keep the original failure at bd5cdaa304cb0791379c94fd0454ed28eabb683d and the
+candidate failure at f96c6183de2dcc8c0692106c541d433e6cd5bd72. Their proof repairs
+and the intermediate transcription mistake are recorded in the validation file.
+
+The quantitative bridge bounds actual weighted loss by childLoss+B*eta+4*B*rho
+from continuation outcome variation and supported unnormalized fiber differences.
+The actual two-solve consumer derives rho=0 from same-cut source-law preservation;
+small eta remains an explicit source hypothesis. New-only-atom positive/negative
+controls distinguish fiber rates from atomwise absolute continuity. No inherited
+module, test, gate, pin or axiom allowance was removed or weakened. Main is not
+a write target. Coverage statuses have NOT been promoted.
 
 ## Predecessor independent gate resolved
 
