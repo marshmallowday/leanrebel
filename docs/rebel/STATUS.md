@@ -1,51 +1,50 @@
-# ReBeL status — joint-query compiler repair; M06 incomplete
+# ReBeL status — execution-conditioned native query candidate; M06 incomplete
 
 ## Resume exactly here
 
-Work branch: `rebel/m06-joint-query-repair-20260925`; read its latest head.
-Parent: `8179309e5adb72d9fd848b7712d8aac870f73646`.
-Initial source `ada439cebe48ad3c522afd95c61c2efe32412bde` is retained on
-`rebel/m06-joint-query-20260925`. Read M06-joint-query-compiler-repair.md,
-then M06-joint-query-repair.md and M06-joint-query.md. Preserve all checkpoints.
+Work branch: `rebel/m06-conditioned-query-20260925`; read its actual latest head.
+Planning checkpoint: `6089d7916192b72577d5e74cb30f70e2d238d2c0`.
+Proof parent: `3cfc5e0cc27b2574f585a8a8763794ba73d05687` on
+`rebel/m06-joint-query-repair-20260925`. Preserve every prior checkpoint.
 Main remains `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`; M05 is accepted.
-M06 and Theorem 3 are NOT complete.
+M06 and Theorem 3 are NOT complete. Read M06-conditioned-query.md and
+M06-conditioned-query-coverage.json. Prior restart state is preserved in
+M06-status-before-conditioned-query.md.
 
-## Completed diagnosis, current source awaiting validation
+## Completed predecessor target, new proof awaiting compiler feedback
 
-Initial target `36148111692` / `108114248701` compiled PBSJointNativeGap and
-its three new main theorems. The controls failed at an incorrect map_map API
-name and a product-expectation simplification order. Actual log/artifact hashes
-are retained. The current source repairs those two control proofs using the
-canonical map_comp/map_id and an explicit expect_product rewrite, without
-changing statements or weakening any control. Initial lint/axiom collection
-was skipped: do not infer any new-module axiom result from the main compilation.
+Actual parent target 36149297405 / 108118391960 is SUCCESS, including all
+104 supplemental modules' configured normal/slow lint and 1,626 declaration
+axiom checks. Its artifact 10871926060 and actual log hashes are recorded in
+M06-conditioned-query.md. The previously broken joint controls now compile
+and pass their targeted checks. Parent all-ReBeL 36149297460 / 108118775734
+was still auditing after passing static, ledger and rational-runtime steps;
+full CI 36149297382 / 108118771741 must also be read. Neither predecessor
+result is new-source validation. Preserve e651 native global evidence too.
 
-The separate local-hypothesis rename to jointDensity was already confirmed by
-parent 8179309 ReBeL `36148730537` / `108116314777` passing static architecture
-and line widths. Its exact source passed all 87 Python tests, ledger/inventory
-structure and all 580 public-file width checks. Parent targeted `36148749730`
-/ `108116381897` and full CI `36148730659` / `108116316098` are not current-
-source evidence and may be superseded by this push.
+The candidate constructs a canonical retained-seed/type/history execution and
+conditions an actual positive-mass event. Density and support are derived,
+not supplied: Q/P <= 1/eventMass. Native conditional mean error is bounded by
+finiteTBound/eventMass and its mass-weighted form; computed positive budgets
+are connected. Execution history marginal equals the existing averaged legal
+runner. Full joint-history kernels and private retained seeds are preserved.
+The gap's comparison opponent is still the SAME computed average opponent.
 
-Inspect the CURRENT head's M06 targeted, all-ReBeL and full-CI runs next.
-New-source compile, individual normal/slow lint and complete transitive axiom
-sets remain PENDING. No local Lean run is claimed. Preserve the independent
-accepted native predecessor e65152038f6a9068be68aff28ad6845f74097e94 and its
-247-module/4799-declaration global audit in M06-native-gap-global-validation.md;
-do not redo it or misattribute it to the new joint modules.
+A live HiddenTypes solver control, sharp correlated-selection diagnostic and
+impossible-event control are included. All 92 Python tests and structural
+ledger/inventory checks passed locally; these are NOT Lean verification.
+Three new modules are wired to all validation consumers (107 supplemental,
+251 global discovered modules). Exact-head Lean compilation, normal/slow lint,
+complete transitive axiom sets, all-ReBeL and full CI remain PENDING the push.
+Inspect their actual logs and fix errors without weakening any proof or gate.
 
-## Mathematical scope and remaining M06
-
-The fixed-slice, fixed-average-opponent native gap has a bounded JOINT seed/type
-density interface, a tagged seed-dependent kernel bridge and computed positive-
-budget bound. The actual query need not be independent. The exact joint cap
-remains explicit; equal marginals alone are insufficient, as the preserved
-factor-two diagonal control demonstrates. Off-support actual mass is excluded
-by a separate boundary. Finite-law diagnostics are not CFR-generated gap tables.
+## Remaining M06 boundary
 
 SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 stay pending.
-Construct the actual carried seed/history/query law and its density, support
-and first-exit rates; independently changing opponents/PBS native and late
-rates, recursive re-solving safety and CarriedResolveStepBounds remain.
-Keep private retained seeds, compatible off-path kernels and finite-T residuals.
+This fixes a source-law boundary for native fixed-kernel gaps, not arbitrary
+independently refreshed PBS or opponents. Establish actual public-carried-PBS
+identification and quantitative support/first-exit/event rates; independently
+changing-opponent/PBS native and late rates, recursive re-solving safety and
+CarriedResolveStepBounds remain. No positive event-mass floor is assumed.
+Finite-T residuals, compatible off-path kernels and private seeds remain.
 Learner convergence must not replace independent test-time safety.

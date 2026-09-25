@@ -217,3 +217,6 @@ import GameTheory.Analysis.ReBeL.PBSNativeConditionalGap
 import GameTheory.Analysis.ReBeL.Examples.PBSNativeConditionalGap
 import GameTheory.Analysis.ReBeL.PBSJointNativeGap
 import GameTheory.Analysis.ReBeL.Examples.PBSJointNativeGap
+import GameTheory.Math.Probability.FinDistSelection
+import GameTheory.Analysis.ReBeL.PBSConditionedNativeGap
+import GameTheory.Analysis.ReBeL.Examples.PBSConditionedNativeGap
