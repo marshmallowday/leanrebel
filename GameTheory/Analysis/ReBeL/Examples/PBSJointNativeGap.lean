@@ -84,7 +84,8 @@ theorem diagonalQuery_density_le_two (pair : Fin 2 × Fin 2) :
 theorem diagonalQuery_marginals :
     diagonalQuery.map Prod.fst = cfrIterationLaw 2 ∧
       diagonalQuery.map Prod.snd = cfrIterationLaw 2 := by
-  constructor <;> simp [diagonalQuery, FinDist.map_map]
+  constructor <;> unfold diagonalQuery <;> rw [FinDist.map_comp] <;>
+    exact FinDist.map_id _
 
 /-- The factor two is SHARP for this nonnegative joint loss, despite identical
 seed and type marginals. This is a law-level obstruction, not a CFR counterexample. -/
@@ -92,8 +93,9 @@ theorem diagonalQuery_mean_control :
     ((cfrIterationLaw 2).product (cfrIterationLaw 2)).expect diagonalLoss = 1 / 2 ∧
       diagonalQuery.expect diagonalLoss = 1 := by
   constructor
-  · norm_num [FinDist.expect_product, FinDist.expect_eq_sum, Fin.sum_univ_two,
-      cfrIterationLaw, FinDist.prob_ofWeights, diagonalLoss]
+  · rw [FinDist.expect_product]
+    norm_num [FinDist.expect_eq_sum, Fin.sum_univ_two, cfrIterationLaw,
+      FinDist.prob_ofWeights, diagonalLoss]
   · simp [diagonalQuery, diagonalLoss, FinDist.expect_map]
 
 /-- Marginal equality cannot justify dropping the joint density factor. -/
