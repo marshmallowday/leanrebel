@@ -1,0 +1,40 @@
+{
+  "milestone": "M06",
+  "complete": false,
+  "source": "project",
+  "locator": "docs/rebel/M06_CONDITIONAL_VALUE_STABILITY.md",
+  "base_checkpoint": "d2cb889b5538bc9429eb47a7a7e32309d0e31bb7",
+  "status": "in_progress",
+  "parents_unchanged": [
+    "SEARCH-FRONTIER",
+    "SEARCH-CFRD",
+    "SEARCH-ERROR",
+    "SAFE-THEOREM3"
+  ],
+  "modules": [
+    "GameTheory.Analysis.ReBeL.PBSConditionalValueStability",
+    "GameTheory.Analysis.ReBeL.Examples.PBSConditionalValueStability"
+  ],
+  "declarations": {
+    "GameTheory/Analysis/ReBeL/PBSConditionalValueStability.lean": [
+      "conditionalPayoff_eq_of_opponents_eq",
+      "weighted_payoff_sub_le_of_same_opponents",
+      "weighted_payoff_abs_sub_le_of_same_opponents",
+      "payoff_abs_sub_le_of_same_opponents",
+      "infoGap_abs_le_of_approxNash",
+      "pbsInformationBudgetProfile_infoGap_abs_le",
+      "pbsInformationCFR_conditional_abs_sub_le_of_same_opponents"
+    ],
+    "GameTheory/Analysis/ReBeL/Examples/PBSConditionalValueStability.lean": [
+      "driftMatrix_zero",
+      "drift_expected_zero",
+      "drift_isNash",
+      "different_opponents_conditional_counterexample",
+      "rare_type_quarter_control",
+      "pbsConditionalValueStability_live_budget"
+    ]
+  },
+  "scope": "Fixed-slice conditional same-opponent comparison, with max root error and support-aware division; actual information-set CFR current-opponent Eq. (1) accuracy.",
+  "lean_validation": "pending exact-source CI; not replaced by parent evidence",
+  "remaining": "Changing-opponent/changing-slice native and late conditional rates, first-exit, carried-PBS safety and CarriedResolveStepBounds."
+}

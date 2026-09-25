@@ -4,31 +4,73 @@
 
 This work continues `rebel/m06-scalar-checkpoint-20260925` at
 `d2cb889b5538bc9429eb47a7a7e32309d0e31bb7`, not the older M05 default branch.
-GitHub Actions run `36113477739` at that exact SHA completed successfully:
-`build` (`108001998661`), `rebel` (`108001998664`), and
-`whitespace-lint` (`108001998651`). The ReBeL job includes the compile,
-regression, coverage, and required transitive axiom-audit gates.
+GitHub compare confirms that its two commits after validated source
+`5a9fc55e6b944abb16ec7f2e16e80deb0db341f3` change only eight documentation files.
+
+The independent ReBeL run `36113477739` has now completed SUCCESS at SOURCE
+`5a9fc55e6b944abb16ec7f2e16e80deb0db341f3`, on
+`rebel/m06-scalar-tail-repair-20260925`. Its jobs are source snapshot
+`108001998376` and compiler/lint/transitive-axiom checks `108001998664`.
+The latter's architecture, ledger, rational runtime, compile/audit/lint and
+cleanliness steps all succeeded. This resolves the predecessor STATUS's
+pending independent ReBeL check. It is not an exact-SHA test of new code.
+
+Correction to initial checkpoint `c92031f604e6a0d526bcf3e897dd8799371bfa17`:
+that note incorrectly attached this run to d2cb889b and listed unrelated job
+identities. The actual run and jobs were re-read through the GitHub plugin;
+the exact identities immediately above supersede that initial attribution.
 
 ## Dependency-closed slice
 
-The existing same-PBS scalar comparison does not control conditional value
-vectors. The next slice will compare conditional payoffs at one fixed
-`TypeBeliefSlice`, under the explicit condition that the two behavioral
-profiles agree on all opposing coordinates. It will use the existing
-remembered-type best-response attainment and approximate Nash bounds.
+`PBSConditionalValueStability.lean` proves conditional payoff congruence after
+replacing a player's own coordinate when all opposing coordinates agree.
+Approximate Nash and remembered-type best-response attainment then give
 
-The planned interfaces retain the probability-weighted bound at every type,
-and divide only at supported types. An absent type's fixed kernel is NOT a
-zero payoff: zero own probability only masks its contribution to the root
-inequality. Solver-facing specializations must obtain approximate Nash from
-actual information-set CFR output, not a caller-supplied value inequality.
+    p(type) * |u_first(type) - u_second(type)| <= max(error_first, error_second).
 
-## Remaining obligations
+This probability-weighted statement is valid at every type, including absent
+ones. At a supported type, the corresponding absolute difference is at most
+`max(error_first, error_second) / p(type)`. Neither equality of opposing
+policies nor positivity of a queried type is silently inferred.
 
-M06 remains incomplete. This restricted comparison neither proves opposing
-profiles agree for independently recomputed solves nor supplies general
-native/late conditional calibration, value-vector convergence, or the final
-carried-prefix safety/equilibrium theorem. These obligations must not be
-replaced with scalar root-value convergence. This first checkpoint contains
-only scope and verified parent evidence; new Lean declarations have not yet
-been committed or validated.
+A separate theorem bounds the absolute difference between a solve's own
+conditional payoff and its CURRENT opponent's Eq. (1) best-response value.
+The budgeted information-set CFR specialization derives approximate Nash
+from the actual finite solve. A two-output information-set CFR specialization
+likewise derives both Nash premises, but explicitly retains same-opponent
+policy equality as a side condition. These results use the canonical
+`TypeBeliefSlice`, information-local policies, continuation law and Nash.
+
+## Semantic controls
+
+The positive example executes the existing live HiddenTypes child backend
+at root budget 1/8, proving its current-opponent conditional Eq. (1) bound at
+every supported full-AOH type. The existing root-slice factory retains the
+entire compatible information domain and correlated joint belief.
+
+A new canonical finite type-plan zero-sum game has two equally likely types,
+no row decision, and two opposing actions. Every mixed profile is exact Nash
+with root payoff zero, but changing the opposing action shifts a conditional
+Eq. (1) value by one. This is a finite normal-form necessary-hypothesis control,
+not a claimed counterexample to the full ReBeL algorithm. The inherited rare
+and absent-type controls are preserved; the new quarter-mass consumer checks
+that the conditional gain one exceeds its root error 1/4.
+
+## Validation and remaining obligations
+
+Both new modules are imported by the analytic umbrella, appended to the
+existing M06 build targets and explicit exact-leaf audit list, and discovered
+by the unchanged repository-wide ReBeL audit. No inherited target, theorem,
+negative control, dependency pin, or axiom allowance is removed.
+
+At this implementation checkpoint Lean validation is PENDING exact-source
+GitHub Actions. Local source was obtained only from the GitHub plugin's
+source artifact. No local git or direct GitHub network access is used.
+
+M06 remains incomplete: these restricted results do not prove equality or
+stability of opposing profiles across independent solves, changing-slice
+native/late conditional vector rates, native first-exit, independently
+re-solved carried-PBS safety, or `CarriedResolveStepBounds`. Root scalar
+accuracy and current-opponent optimality do not discharge those obligations.
+The original SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3
+source obligations are not marked complete or weakened.

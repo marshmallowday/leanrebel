@@ -211,3 +211,5 @@ import GameTheory.Analysis.ReBeL.CFRDValueCoupling
 import GameTheory.Analysis.ReBeL.Examples.CFRDValueCoupling
 import GameTheory.Analysis.ReBeL.PBSValueStability
 import GameTheory.Analysis.ReBeL.Examples.PBSValueStability
+import GameTheory.Analysis.ReBeL.PBSConditionalValueStability
+import GameTheory.Analysis.ReBeL.Examples.PBSConditionalValueStability
