@@ -25,7 +25,7 @@ theorem directedValueCost_nonneg (joint : FinDist (α × β)) (oldValue : α →
     (newValue : β → ℝ) : 0 ≤ directedValueCost joint oldValue newValue := by
   have lower := expect_mono (μ := joint) (u := fun _ => (0 : ℝ))
     (fun pair _ => le_max_left 0 (newValue pair.2 - oldValue pair.1))
-  simpa only [expect_const] using lower
+  simpa only [directedValueCost, expect_const] using lower
 
 /-- The exact marginal identities, not independent resampling, justify the
 one-sided expectation comparison. Decreases in payoff need no allowance. -/
