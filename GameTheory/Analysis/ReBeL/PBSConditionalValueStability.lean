@@ -7,10 +7,13 @@ The sharp symmetric allowance is the maximum of the two root errors, divided
 by the own-type mass only on support. Off-path kernels are not set to zero.
 The actual information-set solver also bounds its gap to its CURRENT
 opponent's Eq. (1) value, not to an independently recomputed opponent's value.
+Own-law mean absolute gaps need no mass floor; a changed query law instead
+carries an explicit density cap. It does not change the slice or opponents.
 -/
 
 import GameTheory.Analysis.ReBeL.PBSApproximateOptimality
 import GameTheory.Analysis.ReBeL.PBSValueStability
+import GameTheory.ReBeL.OracleReweighting
 
 noncomputable section
 
@@ -136,6 +139,60 @@ theorem infoGap_abs_le_of_approxNash (hrecall : M.PerfectRecall)
   simpa only [mul_comm] using slice.weighted_infoGap_le_of_approxNash hrecall fallback fuel
     utility own profile error equilibrium type
 
+/-- The absolute current-opponent Eq. (1) gap is controlled in the OWN-law
+mean without dividing by any type probability. Absent types remain unobserved. -/
+theorem mean_infoGap_abs_le_of_approxNash (hrecall : M.PerfectRecall)
+    (fallback : Profile M.strategicSignature) (fuel : Nat)
+    (utility : E.History → ι → ℝ) (own : FinDist T)
+    (profile : Profile M.behavioralSignature) (error : ℝ)
+    (equilibrium : IsNash (behavioralBeliefForm M (slice.mixture own) fuel)
+      (euPreferenceWithin error utility) profile) :
+    own.expect (fun type =>
+      |slice.infoValue fallback fuel (fun h => utility h who) profile type -
+        slice.conditionalPayoff profile fuel (fun h => utility h who) (profile who) type|) ≤
+      error := by
+  calc
+    _ = own.expect (fun type =>
+        slice.infoValue fallback fuel (fun h => utility h who) profile type -
+          slice.conditionalPayoff profile fuel (fun h => utility h who) (profile who) type) := by
+      apply FinDist.expect_congr
+      intro type _
+      exact abs_of_nonneg (sub_nonneg.mpr (slice.conditionalPayoff_le_infoValue hrecall
+        fallback fuel (fun h => utility h who) profile type (profile who)))
+    _ ≤ error := slice.mean_infoGap_le_of_approxNash fallback fuel utility own profile
+      error equilibrium
+
+/-- Changing the QUERY LAW, not the slice or opponents, costs its explicit
+density cap times the root error. This is an averaged conditional bound, not a
+uniform oracle guarantee. Exact domination rules out new absent-type queries. -/
+theorem reweighted_mean_infoGap_abs_le_of_approxNash (hrecall : M.PerfectRecall)
+    (fallback : Profile M.strategicSignature) (fuel : Nat)
+    (utility : E.History → ι → ℝ) (own : FinDist T)
+    (profile : Profile M.behavioralSignature) (error : ℝ)
+    (equilibrium : IsNash (behavioralBeliefForm M (slice.mixture own) fuel)
+      (euPreferenceWithin error utility) profile)
+    (query : FinDist T) (ratio : T → ℝ) (factor : ℝ) (nonneg : 0 ≤ factor)
+    (density : ∀ type, query.prob type = own.prob type * ratio type)
+    (bounded : ∀ type ∈ own.support, ratio type ≤ factor) :
+    query.expect (fun type =>
+      |slice.infoValue fallback fuel (fun h => utility h who) profile type -
+        slice.conditionalPayoff profile fuel (fun h => utility h who) (profile who) type|) ≤
+      factor * error := by
+  rw [informationReweight_expect own query (fun type => type) ratio density]
+  calc
+    _ ≤ own.expect (fun type => factor *
+        |slice.infoValue fallback fuel (fun h => utility h who) profile type -
+          slice.conditionalPayoff profile fuel (fun h => utility h who) (profile who) type|) :=
+      FinDist.expect_mono fun type sampled =>
+        mul_le_mul_of_nonneg_right (bounded type sampled) (abs_nonneg _)
+    _ = factor * own.expect (fun type =>
+        |slice.infoValue fallback fuel (fun h => utility h who) profile type -
+          slice.conditionalPayoff profile fuel (fun h => utility h who) (profile who) type|) :=
+      FinDist.expect_smul _ _ _
+    _ ≤ factor * error := mul_le_mul_of_nonneg_left
+      (slice.mean_infoGap_abs_le_of_approxNash hrecall fallback fuel utility own profile
+        error equilibrium) nonneg
+
 end GameTheory.ReBeL.TypeBeliefSlice
 
 namespace GameTheory.ReBeL
@@ -196,5 +253,57 @@ theorem pbsInformationCFR_conditional_abs_sub_le_of_same_opponents
       nonneg bounded fuel firstTime)
     (pbsInformationCFR_isNash M (slice.mixture own) secondFallback payoff zeroSum bound
       nonneg bounded fuel secondTime) type supported
+
+/-- The genuine finite information-set solver controls its current-opponent
+conditional gap under a dominated query law. The Nash error is derived from
+its actual iteration count; the query-density cap is an explicit side condition. -/
+theorem pbsInformationCFR_reweighted_infoGap_abs_le
+    (slice : TypeBeliefSlice (fullInformation M) observations who T) (own : FinDist T)
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (zeroSum : IsZeroSum (fun h player => payoff player h))
+    (bound : Fin 2 → ℝ) (nonneg : ∀ player, 0 ≤ bound player)
+    (bounded : ∀ player h, |payoff player h| ≤ bound player)
+    (fuel time : Nat) [NeZero time]
+    (query : FinDist T) (ratio : T → ℝ) (factor : ℝ) (factorNonneg : 0 ≤ factor)
+    (density : ∀ type, query.prob type = own.prob type * ratio type)
+    (ratioBound : ∀ type ∈ own.support, ratio type ≤ factor) :
+    let output := pbsInformationCFR M (slice.mixture own) fallback payoff fuel time
+    query.expect (fun type =>
+      |slice.infoValue (fun player => liftPolicy M player (fallback player)) fuel
+          (payoff who) output type -
+        slice.conditionalPayoff output fuel (payoff who) (output who) type|) ≤
+      factor * pbsRootCFRBound M (slice.mixture own).law bound fuel time :=
+  slice.reweighted_mean_infoGap_abs_le_of_approxNash
+    (fullSignals_perfectRecall M.toInfoSignals)
+    (fun player => liftPolicy M player (fallback player)) fuel
+    (fun h player => payoff player h) own _ _
+    (pbsInformationCFR_isNash M (slice.mixture own) fallback payoff zeroSum bound
+      nonneg bounded fuel time) query ratio factor factorNonneg density ratioBound
+
+/-- A requested positive root budget gives a query-weighted conditional error
+without using the least type mass. It still concerns THIS output's opponents,
+not those of another solve, and does not assert a density cap for native queries. -/
+theorem pbsInformationBudgetProfile_reweighted_infoGap_abs_le
+    (slice : TypeBeliefSlice (fullInformation M) observations who T) (own : FinDist T)
+    (fallback : Profile M.strategicSignature) (fuel : Nat)
+    (utility : E.History → Fin 2 → ℝ) (zeroSum : IsZeroSum utility)
+    (bound : ℝ) (nonneg : 0 ≤ bound) (bounded : ∀ h player, |utility h player| ≤ bound)
+    (error : ℝ) (positive : 0 < error)
+    (query : FinDist T) (ratio : T → ℝ) (factor : ℝ) (factorNonneg : 0 ≤ factor)
+    (density : ∀ type, query.prob type = own.prob type * ratio type)
+    (ratioBound : ∀ type ∈ own.support, ratio type ≤ factor) :
+    let output := pbsInformationBudgetProfile M (slice.mixture own) fallback fuel
+      utility bound error
+    query.expect (fun type =>
+      |slice.infoValue (fun player => liftPolicy M player (fallback player)) fuel
+          (fun h => utility h who) output type -
+        slice.conditionalPayoff output fuel (fun h => utility h who) (output who) type|) ≤
+      factor * error :=
+  slice.reweighted_mean_infoGap_abs_le_of_approxNash
+    (fullSignals_perfectRecall M.toInfoSignals)
+    (fun player => liftPolicy M player (fallback player)) fuel utility own _ error
+    (pbsInformationBudgetProfile_isNash M (slice.mixture own) fallback fuel utility
+      zeroSum bound nonneg bounded error positive)
+    query ratio factor factorNonneg density ratioBound
 
 end GameTheory.ReBeL

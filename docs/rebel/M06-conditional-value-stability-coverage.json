@@ -2,8 +2,9 @@
   "milestone": "M06",
   "complete": false,
   "source": "project",
-  "locator": "docs/rebel/M06_CONDITIONAL_VALUE_STABILITY.md",
+  "locator": "docs/rebel/M06_CONDITIONAL_VALUE_STABILITY.md; docs/rebel/M06-query-gap-review.md",
   "base_checkpoint": "d2cb889b5538bc9429eb47a7a7e32309d0e31bb7",
+  "query_gap_parent": "fa03b39e497e4d9802d978caab052ce2802ccdc1",
   "status": "in_progress",
   "parents_unchanged": [
     "SEARCH-FRONTIER",
@@ -23,7 +24,11 @@
       "payoff_abs_sub_le_of_same_opponents",
       "infoGap_abs_le_of_approxNash",
       "pbsInformationBudgetProfile_infoGap_abs_le",
-      "pbsInformationCFR_conditional_abs_sub_le_of_same_opponents"
+      "pbsInformationCFR_conditional_abs_sub_le_of_same_opponents",
+      "mean_infoGap_abs_le_of_approxNash",
+      "reweighted_mean_infoGap_abs_le_of_approxNash",
+      "pbsInformationCFR_reweighted_infoGap_abs_le",
+      "pbsInformationBudgetProfile_reweighted_infoGap_abs_le"
     ],
     "GameTheory/Analysis/ReBeL/Examples/PBSConditionalValueStability.lean": [
       "driftMatrix_zero",
@@ -31,10 +36,15 @@
       "drift_isNash",
       "different_opponents_conditional_counterexample",
       "rare_type_quarter_control",
-      "pbsConditionalValueStability_live_budget"
+      "pbsConditionalValueStability_live_budget",
+      "rareQuery_infoValue",
+      "rareQuery_density",
+      "rareQuery_amplification",
+      "absent_query_not_dominated",
+      "pbsConditionalValueStability_live_mean_budget"
     ]
   },
-  "scope": "Fixed-slice conditional same-opponent comparison, with max root error and support-aware division; actual information-set CFR current-opponent Eq. (1) accuracy.",
-  "lean_validation": "Predecessor e58eff73bcff5f8a67ccb1745f49bf9e762ba398 failed targeted run 36122926779/job 108032492682 solely on two unused simp tactics in the example. Both removed on rebel/m06-conditional-gap-20260925; repaired source pending exact-SHA compiler/lint/axiom results.",
-  "remaining": "Changing-opponent/changing-slice native and late conditional rates, first-exit, carried-PBS safety and CarriedResolveStepBounds."
+  "scope": "Fixed-slice conditional same-opponent comparison with max root error and support-aware division; actual information-set CFR current-opponent Eq. (1) accuracy; own-law and explicitly density-dominated query-law mean absolute gaps with no minimum type mass.",
+  "lean_validation": "New query-gap source on rebel/m06-query-gap-20260925 pending its own exact-SHA compiler/lint/axiom results. Parent fa03b39e497e4d9802d978caab052ce2802ccdc1 passed targeted compilation in run 36124896554/job 108038627933; separate parent lint/axiom step still in progress at last inspection. Parent evidence does not certify this source.",
+  "remaining": "Native and late query-density caps, changing-opponent/changing-slice conditional vector rates, first-exit, carried-PBS safety and CarriedResolveStepBounds."
 }

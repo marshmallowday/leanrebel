@@ -5,6 +5,7 @@ A genuine HiddenTypes information-set solve exercises current-opponent Eq. (1)
 accuracy. A canonical finite type-plan zero-sum game shows why two different
 opponents cannot be compared conditionally just from exact root Nash. The
 inherited rare/absent-type controls retain the other necessary hypothesis.
+Query-law controls distinguish mean error from uniform oracle accuracy.
 -/
 
 import GameTheory.Analysis.ReBeL.PBSConditionalValueStability
@@ -77,6 +78,67 @@ theorem rare_type_quarter_control :
   exact ⟨ApproximateLeaf.rare_approxNash (1 / 4) (by norm_num), by
     norm_num [ApproximateLeaf.rarePayoff]⟩
 
+/-- The rare-type control as an actual finite probability law, including its
+normalization proof. It reuses the canonical quarter-error game above. -/
+def rareQueryPrior : FinDist (Fin 2) :=
+  FinDist.ofWeights (ApproximateLeaf.rareWeight (1 / 4))
+    (ApproximateLeaf.rareWeight_simplex (1 / 4) (by norm_num) (by norm_num)).1
+    (ApproximateLeaf.rareWeight_simplex (1 / 4) (by norm_num) (by norm_num)).2
+
+/-- In this control the always-true plan attains each conditional optimum. -/
+theorem rareQuery_infoValue (type : Fin 2) :
+    TypeGame.infoValue ApproximateLeaf.rarePayoff (FinDist.pure ()) type =
+      ApproximateLeaf.rarePayoff type true () := by
+  apply le_antisymm
+  · rw [TypeGame.infoValue, FinDist.expect_pure]
+    by_cases zero : type = 0
+    · simp only [ApproximateLeaf.rarePayoff, if_pos zero, if_true]
+      cases TypeGame.typeResponse ApproximateLeaf.rarePayoff (FinDist.pure ()) type <;> norm_num
+    · simp [ApproximateLeaf.rarePayoff, zero]
+  · simpa only [FinDist.expect_pure] using
+      TypeGame.le_infoValue ApproximateLeaf.rarePayoff (FinDist.pure ()) type true
+
+/-- Concentrating queries on the rare type multiplies its mass by four. -/
+theorem rareQuery_density (type : Fin 2) :
+    (FinDist.pure (0 : Fin 2)).prob type =
+      rareQueryPrior.prob type * (if type = 0 then 4 else 0) := by
+  fin_cases type <;>
+    norm_num [rareQueryPrior, FinDist.prob_pure_eq_ite, FinDist.prob_ofWeights,
+      ApproximateLeaf.rareWeight]
+
+/-- The factor four is necessary for MEAN error: actual root approximate Nash
+has mean conditional error 1/4, but the dominated query law sees error one.
+This is not a counterexample to preservation of a UNIFORM oracle error. -/
+theorem rareQuery_amplification :
+    IsNash (form (Fin 2 → Bool) Unit).mixed
+      (euPreferenceWithin (1 / 4) (utility (ApproximateLeaf.rareMatrix (1 / 4))))
+      (mixedProfile (FinDist.pure (fun _ => false)) (FinDist.pure ())) ∧
+    rareQueryPrior.expect (fun type =>
+      |TypeGame.infoValue ApproximateLeaf.rarePayoff (FinDist.pure ()) type -
+        ApproximateLeaf.rarePayoff type false ()|) = 1 / 4 ∧
+    (FinDist.pure (0 : Fin 2)).expect (fun type =>
+      |TypeGame.infoValue ApproximateLeaf.rarePayoff (FinDist.pure ()) type -
+        ApproximateLeaf.rarePayoff type false ()|) = 4 * (1 / 4) ∧
+    ¬ (FinDist.pure (0 : Fin 2)).expect (fun type =>
+      |TypeGame.infoValue ApproximateLeaf.rarePayoff (FinDist.pure ()) type -
+        ApproximateLeaf.rarePayoff type false ()|) ≤ 1 / 4 := by
+  refine ⟨ApproximateLeaf.rare_approxNash (1 / 4) (by norm_num), ?_, ?_, ?_⟩
+  · norm_num [FinDist.expect_eq_sum, Fin.sum_univ_two, rareQueryPrior,
+      FinDist.prob_ofWeights, rareQuery_infoValue, ApproximateLeaf.rareWeight,
+      ApproximateLeaf.rarePayoff]
+  · norm_num [FinDist.expect_pure, rareQuery_infoValue, ApproximateLeaf.rarePayoff]
+  · norm_num [FinDist.expect_pure, rareQuery_infoValue, ApproximateLeaf.rarePayoff]
+
+/-- A newly queried absent type has no finite density against the old law.
+The query theorem cannot silently certify an off-path conditional value. -/
+theorem absent_query_not_dominated :
+    ¬ ∃ ratio : Fin 2 → ℝ, ∀ type,
+      (FinDist.pure (0 : Fin 2)).prob type =
+        (FinDist.pure (1 : Fin 2)).prob type * ratio type := by
+  rintro ⟨ratio, density⟩
+  have impossible := density 0
+  norm_num [FinDist.prob_pure_eq_ite] at impossible
+
 end GameTheory.ReBeL.Examples.ConditionalValueStability
 
 namespace GameTheory.ReBeL.Examples.HiddenTypes
@@ -111,5 +173,27 @@ theorem pbsConditionalValueStability_live_budget
     pbsRootControlFallback 1 (fun h who => cfrPayoff who h) (cumulative_zeroSum fullPrior)
     2 (by norm_num) (fun h who => cfrPayoff_abs_le_two who h) (1 / 8) (by norm_num)
     type supported
+
+/-- The live information-set solve controls its mean conditional absolute gap
+under its actual own-type law, with density one. No inverse mass floor or
+supported-type premise is needed for this expectation statement. -/
+theorem pbsConditionalValueStability_live_mean_budget :
+    let slice := fullAOHBeliefSlice (reducedModel fullPrior) finiteBudgetControlBelief 0
+    let own := fullAOHOwnLaw (reducedModel fullPrior) finiteBudgetControlBelief 0
+    let output := pbsInformationBudgetProfile (reducedModel fullPrior) (slice.mixture own)
+      pbsRootControlFallback 1 (fun h who => cfrPayoff who h) 2 (1 / 8)
+    own.expect (fun type =>
+      |slice.infoValue
+          (fun who => liftPolicy (reducedModel fullPrior) who (pbsRootControlFallback who)) 1
+          (cfrPayoff 0) output type -
+        slice.conditionalPayoff output 1 (cfrPayoff 0) (output 0) type|) ≤ 1 / 8 := by
+  simpa only [one_mul] using
+    pbsInformationBudgetProfile_reweighted_infoGap_abs_le (reducedModel fullPrior)
+      (fullAOHBeliefSlice (reducedModel fullPrior) finiteBudgetControlBelief 0)
+      (fullAOHOwnLaw (reducedModel fullPrior) finiteBudgetControlBelief 0)
+      pbsRootControlFallback 1 (fun h who => cfrPayoff who h) (cumulative_zeroSum fullPrior)
+      2 (by norm_num) (fun h who => cfrPayoff_abs_le_two who h) (1 / 8) (by norm_num)
+      (fullAOHOwnLaw (reducedModel fullPrior) finiteBudgetControlBelief 0)
+      (fun _ => 1) 1 (by norm_num) (fun _ => (mul_one _).symm) (fun _ _ => le_rfl)
 
 end GameTheory.ReBeL.Examples.HiddenTypes
