@@ -46,12 +46,12 @@ theorem pbsInformationCFR_joint_native_mean_abs_le
   let model := (cfrIterationLaw t).product own
   let gap := fun pair : Fin t × T =>
     |pbsInformationCFRConditionalDrawGap M slice own fallback payoff fuel t pair.2 pair.1|
-  have change : ∀ pair, actual.prob pair = model.prob pair * ratio pair := by
+  have jointDensity : ∀ pair, actual.prob pair = model.prob pair * ratio pair := by
     intro pair
     rw [density, FinDist.prob_product]
   calc
     actual.expect gap = model.expect (fun pair => ratio pair * gap pair) :=
-      informationReweight_expect model actual (fun pair => pair) ratio change gap
+      informationReweight_expect model actual (fun pair => pair) ratio jointDensity gap
     _ ≤ model.expect (fun pair => factor * gap pair) :=
       FinDist.expect_mono (fun pair reached =>
         mul_le_mul_of_nonneg_right (ratioBound pair reached) (abs_nonneg _))

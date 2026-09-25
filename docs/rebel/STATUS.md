@@ -1,57 +1,56 @@
-# ReBeL status — joint-query implementation checkpoint; M06 incomplete
+# ReBeL status — joint-query repair checkpoint; M06 incomplete
 
-## Resume from the latest exact branch head
+## Resume branch and exact source
 
-Work branch: `rebel/m06-joint-query-20260925`.
-Parent evidence commit: `49b31047d55fb947953e95c160c571a3489dd067`.
-Validated predecessor: `e65152038f6a9068be68aff28ad6845f74097e94`.
-Read M06-joint-query.md and M06-joint-query-coverage.json for the new source,
-and M06-native-gap-global-validation.md for the resolved predecessor gate.
-Read the actual branch head and target-SHA GitHub Actions before resuming.
-Main remains `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`, unchanged.
+Work branch: `rebel/m06-joint-query-repair-20260925`.
+Initial joint source: `ada439cebe48ad3c522afd95c61c2efe32412bde`, retained on
+`rebel/m06-joint-query-20260925`. The current repair renames one local density
+hypothesis and adds exact finite-law regression tests; see
+M06-joint-query-repair.md. Read the actual repair branch head and its target-SHA
+CI before proceeding. No history is rewritten or main advanced.
+Main remains `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`.
 M05 is accepted; M06 and Theorem 3 are NOT complete.
 
-## New implementation awaiting its own validation
+## Failure resolved at source; validation still pending
 
-PBSJointNativeGap transfers the actual finite-CFR native mean absolute gap
-to an explicit JOINT retained-seed/type query law with a bounded joint density.
-The ratio can depend on both coordinates. A seed-dependent kernel theorem
-derives the joint identity from the actual tagged bind/map law. The computed
-positive-budget corollary preserves the finite-T residual. Neither a small-gap
-conclusion nor a learner-convergence or input-Nash certificate is assumed.
+Initial ReBeL `36148111604` / `108114530207` failed the static architecture
+step: the local identifier `change` was counted twice by the unchanged lexical
+transport pattern. The repair uses `jointDensity`. No tactic, conclusion,
+expected audit count, dependency or validation policy is weakened. Its actual
+artifact and exact initial snapshot hashes are preserved in the repair record.
+Initial targeted `36148111692` / `108114248701` and full CI `36148111593` /
+`108114532199` were still compiling at this checkpoint. Inspect their eventual
+results separately from the repair source. New-source Lean, individual normal/
+slow lint and transitive axiom results remain PENDING; no local Lean run is claimed.
 
-The live full-AOH HiddenTypes budget control uses the real CFR iteration law.
-The correlated diagonal finite-law control has equal marginals but mean loss
-1 rather than the product's 1/2; its exact density cap two is sharp. The absent-
-type boundary excludes false density for unsupported actual mass. These
-law-level negatives are not asserted to be solver-generated CFR gap tables.
-All previous negative, off-path, seed and finite-T controls are preserved.
+## New mathematical slice
 
-The new pair of modules is appended to the analytic umbrella and M06 targets.
-The exact-leaf auditor additionally includes both predecessor native modules
-and both new modules, preserving all former targets and checks. The global
-ReBeL auditor and full CI are unchanged. New-source compiler, individual
-normal/slow lint and transitive-axiom results are PENDING; inspect exact-SHA
-M06 targeted, ReBeL checks and full CI. No local Lean execution is claimed.
+Read M06-joint-query.md and its candidate coverage JSON. The fixed-slice,
+fixed-average-opponent native mean gap now has an explicit bounded JOINT
+seed/type density interface, a tagged seed-dependent kernel bridge and an
+actual positive-budget corollary. The ratio may depend on both coordinates;
+no product-law assumption about the actual query is hidden in the conclusion.
 
-## Resolved predecessor gate
+The formal controls retain the live full-AOH HiddenTypes CFR budget example,
+sharp correlated equal-marginal loss and absent-type boundary. The four new
+Python tests passed locally, including 19,200 exact rational diagnostics;
+these do not replace Lean proofs. Both new modules and both native predecessor
+modules are added to the targeted auditor; all old targets and global gates remain.
 
-For e65152038f6a9068be68aff28ad6845f74097e94, ReBeL run `36131219015`, proof
-job `108058664709`, completed SUCCESS. The actual log passes 247 modules and
-4799 transitive declaration sets, including the native modules' individual
-normal/slow lint and complete allowed axiom lists. Full CI `36131219021`, job
-`108058665488`, also completed SUCCESS, including build, configured lint,
-all architecture gates, reuse signatures and cleanliness. Artifact IDs/hashes
-are retained in the global-validation document. This resolves only the older
-pending audit observation, not a claim that the new joint modules passed.
+## Validated predecessor, not new-source evidence
 
-## Remaining M06 obligations
+Native checkpoint e65152038f6a9068be68aff28ad6845f74097e94 passed ReBeL
+`36131219015` / `108058664709`: actual 247-module and 4799-declaration audit,
+including the native modules' individual lint and allowed axiom sets.
+Full CI `36131219021` / `108058665488` also passed. Read
+M06-native-gap-global-validation.md; retain all prior repairs and reviews.
 
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 stay pending.
-Opponents, model PBS and compatible conditional-history kernels remain fixed
-in the new result. Constructing the ACTUAL seed-correlated carried query law,
-proving its density and first-exit/support rates, independent changing-opponent
-and changing-PBS native/late rates, recursive re-solving safety and
-CarriedResolveStepBounds remain. Preserve source qualifications and repair
-records. Learner convergence must not replace independent test-time safety,
-and oracle error zero must not remove finite-T error.
+## Remaining M06
+
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
+The actual carried seed-correlated query law, its quantitative joint density
+and support/first-exit control, independently changing opponents/PBS native
+and late rates, recursive re-solving safety and CarriedResolveStepBounds
+are not derived by the new conditional interface. Preserve compatible off-path
+kernels, private retained seeds and finite-T residuals. Learner convergence
+must not substitute for independent test-time safety.
