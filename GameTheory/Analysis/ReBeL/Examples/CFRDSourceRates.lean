@@ -69,7 +69,7 @@ theorem newJoint_conditional (tag : Bool) :
   apply FinDist.ext_of_prob
   rintro ⟨query, hidden⟩
   have factor := FinDist.observation_prob_mul_conditional_prob
-    newJoint Prod.fst Prod.fst tag (query, hidden)
+    newJoint Prod.fst tag (query, hidden)
   rw [newJoint_mass] at factor
   cases tag <;> cases query <;> cases hidden <;>
     norm_num [newJoint, FinDist.prob_pure_eq_ite] at factor ⊢ <;> linarith
