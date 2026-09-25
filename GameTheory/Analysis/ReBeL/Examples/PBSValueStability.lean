@@ -31,7 +31,10 @@ def value (outcome : Fin 3) : ℝ :=
 
 /-- Both actual means are zero; no transport conclusion is inferred from this. -/
 theorem equal_means : oldLaw.expect value = 0 ∧ freshLaw.expect value = 0 := by
-  norm_num [oldLaw, freshLaw, value, FinDist.expect_mix, FinDist.expect_pure]
+  have two_ne_zero : (2 : Fin 3) ≠ 0 := by decide
+  have two_ne_one : (2 : Fin 3) ≠ 1 := by decide
+  norm_num [oldLaw, freshLaw, value, FinDist.expect_mix, FinDist.expect_pure,
+    two_ne_zero, two_ne_one]
 
 /-- Reuse the canonical strategy and game-form interfaces. -/
 abbrev signature : GameSignature (Fin 2) where
@@ -56,16 +59,21 @@ theorem zeroSum : IsZeroSum utility := by
 /-- Every profile has the same zero expected payoff for either player. -/
 theorem profile_value_zero (profile : Profile form.sig) (who : Fin 2) :
     expectedUtility utility who (form.play profile) = 0 := by
+  have two_ne_zero : (2 : Fin 3) ≠ 0 := by decide
+  have two_ne_one : (2 : Fin 3) ≠ 1 := by decide
   fin_cases who <;> cases choice : profile 0 <;>
     norm_num [form, choice, expectedUtility, utility, value, oldLaw, freshLaw,
-      FinDist.expect_mix, FinDist.expect_pure]
+      FinDist.expect_mix, FinDist.expect_pure, two_ne_zero, two_ne_one]
 
 /-- All legal pure deviations, not only a selected response, preserve value. -/
 theorem profile_isNash (profile : Profile form.sig) :
     IsNash form (euPreference utility) profile := by
   rw [isNash_iff]
   intro who alternative
-  simp only [euPreference_apply, profile_value_zero, le_refl]
+  change expectedUtility utility who (form.play (Profile.update profile who alternative)) ≤
+    expectedUtility utility who (form.play profile)
+  exact le_of_eq ((profile_value_zero (Profile.update profile who alternative) who).trans
+    (profile_value_zero profile who).symm)
 
 /-- The same control exercises the new zero-error approximate-value theorem. -/
 theorem value_comparison (first second : Profile form.sig) :
@@ -75,7 +83,11 @@ theorem value_comparison (first second : Profile form.sig) :
       IsNash form (euPreferenceWithin 0 utility) profile := by
     rw [isNash_iff]
     intro who alternative
-    simp only [euPreferenceWithin_apply, profile_value_zero, add_zero, le_refl]
+    change expectedUtility utility who (form.play (Profile.update profile who alternative)) ≤
+      expectedUtility utility who (form.play profile) + 0
+    have equal := (profile_value_zero (Profile.update profile who alternative) who).trans
+      (profile_value_zero profile who).symm
+    exact (le_of_eq equal).trans (by simp)
   simpa only [add_zero] using approxNash_value_abs_sub_le form utility zeroSum
     first second 0 0 (approximate first) (approximate second)
 
@@ -106,10 +118,13 @@ theorem every_coupling_cost_half (joint : FinDist (Fin 3 × Fin 3))
       rw [oldSupport pair reached]
       norm_num [value]
     _ = (joint.map Prod.snd).expect (fun outcome => max 0 (value outcome)) :=
-      (FinDist.expect_map _ _ _).symm
+      (FinDist.expect_map Prod.snd joint (fun outcome : Fin 3 => max 0 (value outcome))).symm
     _ = 1 / 2 := by
       rw [newMarginal]
-      norm_num [freshLaw, value, FinDist.expect_mix, FinDist.expect_pure]
+      have two_ne_zero : (2 : Fin 3) ≠ 0 := by decide
+      have two_ne_one : (2 : Fin 3) ≠ 1 := by decide
+      norm_num [freshLaw, value, FinDist.expect_mix, FinDist.expect_pure,
+        two_ne_zero, two_ne_one]
 
 /-- Equal means, even at exact Nash, do not permit arbitrarily small directed
 coupling costs. This guards the boundary of the SAME-PBS scalar theorem. -/
