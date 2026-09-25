@@ -132,3 +132,4 @@ GameTheory.Analysis.ReBeL.Examples.CFRDSourceRates
 GameTheory.Math.Probability.FinDistValueCoupling
 GameTheory.Analysis.ReBeL.CFRDValueCoupling
 GameTheory.Analysis.ReBeL.Examples.CFRDValueCoupling
+GameTheory.Analysis.ReBeL.CFRDQueryReplay
