@@ -1,0 +1,19 @@
+{
+  "source_sha": "5a9fc55e6b944abb16ec7f2e16e80deb0db341f3",
+  "run_id": 36113477728,
+  "job_id": 108001998743,
+  "result": "success",
+  "artifact_id": 10855041558,
+  "zip_sha256": "4f298f89ecf6b1b4f0990b6936cc830637e72227eabc33d59ec472d47353c51f",
+  "inspection": "Source identity, all three VERIFIED=1 markers, TRANSPORT_ANALYSIS_SOURCE=0, GameTheory.LintAll pass and compiler signature census were inspected in the downloaded bytes.",
+  "files": {
+    "ci-lint.log": {"sha256": "f03b5d5f937a854fd6a3483fbda23e579fd4a4250c03d1a0aa461bb3916b7ac8", "bytes": 1599},
+    "ci-phase1.log": {"sha256": "27e3ad05672a11917f23549bdaf591eb06f333115b37b156fbeeb6a258572d7b", "bytes": 693},
+    "ci-inventory.log": {"sha256": "8e2ef7126029de8530870829372808582c6ada37a1ecd529b7fbbe87463151d8", "bytes": 15116},
+    "ci-phase2.log": {"sha256": "bd26f72d86e1419a87d29896137dbaaf091fb71b728ffcc2168bbeead440701c", "bytes": 5289},
+    "ci-phase3.log": {"sha256": "1328da901759ab2f0d7bcbc3b07e7edc53f3b762e50c5011f6812ad661fdeb34", "bytes": 1399},
+    "ci-source.txt": {"sha256": "2428efebe17b820043d1c48110b6a0a7cfab62c7e5f9f49fd08ed398903ed981", "bytes": 41}
+  },
+  "independent_rebel": {"run_id": 36113477739, "job_id": 108001998664, "last_read": "in_progress"},
+  "milestone_complete": false
+}
