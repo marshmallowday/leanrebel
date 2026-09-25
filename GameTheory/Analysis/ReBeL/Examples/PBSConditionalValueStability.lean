@@ -43,6 +43,7 @@ theorem drift_isNash (row : FinDist (Fin 2 → Unit)) (column : FinDist Bool) :
       (mixedProfile row column) := by
   rw [isNash_iff]
   intro who replacement
+  rw [euPreference_apply]
   rcases (by decide : ∀ player : Fin 2, player = 0 ∨ player = 1) who with rfl | rfl
   · rw [mixedProfile_update_zero, expectedUtility_zero_mixedProfile,
       expectedUtility_zero_mixedProfile, drift_expected_zero, drift_expected_zero] <;> simp
