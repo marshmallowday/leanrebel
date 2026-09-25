@@ -307,6 +307,7 @@ theorem cfrDWeightedTransportLoss_le_fiberRates (hrecall : M.PerfectRecall)
     (M.infoOf opponent h.trace, cfrDCutLive remaining h) sampled (outcomeSmall n)
     (fiberSmall n _ sampled)
 
+omit [Fintype E.History] in
 /-- A common information-local value target controls the one-sided change.
 Each continuation is calibrated under its OWN reference law. Equality of those
 source laws is explicit; neither equality of outcome laws nor closeness of Nash
@@ -394,7 +395,8 @@ theorem cfrDWeightedTransportLoss_le_calibration (hrecall : M.PerfectRecall)
       unfold cfrDFreshTransportCharge
       dsimp only
       rw [if_pos rfl, transport]
-      simpa only [mul_zero, add_zero, add_assoc] using add_le_add_left drift loss
+      simp only [mul_zero, add_zero]
+      linarith only [drift]
   unfold cfrDWeightedEnvelopeLoss privateCarriedPrefix
   rw [FinDist.expect_bind]
   apply FinDist.expect_le_of_forall
