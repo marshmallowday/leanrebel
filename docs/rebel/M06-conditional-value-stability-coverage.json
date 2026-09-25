@@ -2,10 +2,15 @@
   "milestone": "M06",
   "complete": false,
   "source": "project",
-  "locator": "docs/rebel/M06_CONDITIONAL_VALUE_STABILITY.md; docs/rebel/M06-query-gap-review.md",
+  "locator": "docs/rebel/M06_CONDITIONAL_VALUE_STABILITY.md",
+  "query_gap_locator": "docs/rebel/M06-query-gap-review.md",
+  "validation_record": "docs/rebel/M06-query-gap-validation.json",
   "base_checkpoint": "d2cb889b5538bc9429eb47a7a7e32309d0e31bb7",
   "query_gap_parent": "fa03b39e497e4d9802d978caab052ce2802ccdc1",
+  "query_gap_proof_source": "5cf1369cf1e886650a90a4e027347dacf589d50b",
   "status": "in_progress",
+  "targeted_validation": "pass",
+  "integration_validation": "pending",
   "parents_unchanged": [
     "SEARCH-FRONTIER",
     "SEARCH-CFRD",
@@ -45,6 +50,6 @@
     ]
   },
   "scope": "Fixed-slice conditional same-opponent comparison with max root error and support-aware division; actual information-set CFR current-opponent Eq. (1) accuracy; own-law and explicitly density-dominated query-law mean absolute gaps with no minimum type mass.",
-  "lean_validation": "New query-gap source on rebel/m06-query-gap-20260925 pending its own exact-SHA compiler/lint/axiom results. Parent fa03b39e497e4d9802d978caab052ce2802ccdc1 passed targeted compilation in run 36124896554/job 108038627933; separate parent lint/axiom step still in progress at last inspection. Parent evidence does not certify this source.",
+  "lean_validation": "Proof source 5cf1369cf1e886650a90a4e027347dacf589d50b passed targeted run 36125907562/job 108041849267, with 100 module linter passes and 1595 transitive-axiom-audited declarations. Artifact 10860580985 and all nine new theorem axiom lists were inspected. Independent ReBeL run 36125907531 and full CI run 36125907627 remained in progress at the last check; no global integration or M06 acceptance is claimed. This document-only checkpoint does not replace proof-source attribution.",
   "remaining": "Native and late query-density caps, changing-opponent/changing-slice conditional vector rates, first-exit, carried-PBS safety and CarriedResolveStepBounds."
 }

@@ -1,0 +1,105 @@
+{
+  "milestone": "M06",
+  "complete": false,
+  "source": "5cf1369cf1e886650a90a4e027347dacf589d50b",
+  "source_branch": "rebel/m06-query-gap-20260925",
+  "checkpoint_branch": "rebel/m06-query-gap-checkpoint-20260925",
+  "checkpoint_scope": "Documentation only; validation identifies the separate proof source.",
+  "observed_on": "2026-09-25",
+  "parent_source": "fa03b39e497e4d9802d978caab052ce2802ccdc1",
+  "files_sha256": {
+    "GameTheory/Analysis/ReBeL/PBSConditionalValueStability.lean": "03c4525181abf6993fd5b752218aa86f533d049010e4a3d472015e92a897a099",
+    "GameTheory/Analysis/ReBeL/Examples/PBSConditionalValueStability.lean": "7480627be2c62ea19e63fc4a2b3d733fb90f6fd5d7c1e74f3e8aa5e3afa23e07"
+  },
+  "source_artifact": {
+    "id": 10859427902,
+    "zip_sha256": "08a7d0c356fc97eb353295b4b80af93df4021d6c7ed2705e54cd1c5d568f0bd9",
+    "tar_sha256": "4ea00aa90e61efe5e9ec05058feb4c104f956b09adbda035ede42eb34f295fd7",
+    "embedded_commit_checked": true
+  },
+  "local_static_checks": {
+    "python_tests": 83,
+    "python_tests_status": "pass",
+    "ledger_items": 3054,
+    "inventory_items": 3054,
+    "line_width_pass_files": 576,
+    "global_audit_discovered_modules": 245,
+    "explicit_audit_modules": 100,
+    "all_four_consumers_verified": true,
+    "no_local_lean_claim": true
+  },
+  "targeted": {
+    "run": 36125907562,
+    "job": 108041849267,
+    "status": "completed",
+    "conclusion": "success",
+    "compile_step": "success",
+    "audit_step": "success",
+    "artifact": 10860580985,
+    "zip_sha256": "1c5c04f9895b452d42a6d52a2f504c7925f3c846d644a63c1cd5c6ec6d3cbbb5",
+    "log_sha256": "27468553a6962ab627a42888800f2d86eb614482467aedacc6cc3e552ee94f74",
+    "modules": 100,
+    "declarations": 1595,
+    "slice_module_declarations": {
+      "GameTheory.Analysis.ReBeL.PBSConditionalValueStability": 12,
+      "GameTheory.Analysis.ReBeL.Examples.PBSConditionalValueStability": 23
+    },
+    "new_theorem_axioms": {
+      "GameTheory.ReBeL.TypeBeliefSlice.mean_infoGap_abs_le_of_approxNash": ["propext", "Classical.choice", "Quot.sound"],
+      "GameTheory.ReBeL.TypeBeliefSlice.reweighted_mean_infoGap_abs_le_of_approxNash": ["propext", "Classical.choice", "Quot.sound"],
+      "GameTheory.ReBeL.pbsInformationCFR_reweighted_infoGap_abs_le": ["propext", "Classical.choice", "Quot.sound"],
+      "GameTheory.ReBeL.pbsInformationBudgetProfile_reweighted_infoGap_abs_le": ["propext", "Classical.choice", "Quot.sound"],
+      "GameTheory.ReBeL.Examples.ConditionalValueStability.rareQuery_infoValue": ["propext", "Classical.choice", "Quot.sound"],
+      "GameTheory.ReBeL.Examples.ConditionalValueStability.rareQuery_density": ["propext", "Classical.choice", "Quot.sound"],
+      "GameTheory.ReBeL.Examples.ConditionalValueStability.rareQuery_amplification": ["propext", "Classical.choice", "Quot.sound"],
+      "GameTheory.ReBeL.Examples.ConditionalValueStability.absent_query_not_dominated": ["propext", "Classical.choice", "Quot.sound"],
+      "GameTheory.ReBeL.Examples.HiddenTypes.pbsConditionalValueStability_live_mean_budget": ["propext", "Classical.choice", "Quot.sound"]
+    }
+  },
+  "rebel": {
+    "run": 36125907531,
+    "job": 108041928085,
+    "status": "in_progress",
+    "conclusion": null,
+    "passed_steps_observed": ["library line width", "static architecture", "ledger/inventory/adversarial fixtures", "rational Lean runtime"],
+    "pending_gate": "Global ReBeL compiler, lint and transitive axiom validation."
+  },
+  "full_ci": {
+    "run": 36125907627,
+    "job": 108041951383,
+    "status": "in_progress",
+    "conclusion": null,
+    "scope": "Complete public library build/lint and architecture gates; not replaced by targeted validation."
+  },
+  "inventory": {
+    "run": 36125907547,
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "parent_targeted": {
+    "run": 36124896554,
+    "job": 108038627933,
+    "conclusion": "success",
+    "artifact": 10859582792,
+    "zip_sha256": "e51ba5ba6644218826196d8199871fa0d5a65062f25e653e8596ed300a0318bf",
+    "log_sha256": "e8dc7f36cb082f4b90dda32700556da9450dc839d33ebc2cd870d6fe83d9dcba",
+    "modules": 100,
+    "declarations": 1581
+  },
+  "parent_rebel": {
+    "run": 36124896574,
+    "job": 108038645006,
+    "status": "in_progress",
+    "conclusion": null
+  },
+  "preserved_parents": ["SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"],
+  "remaining": [
+    "Native/late query-density caps",
+    "Changing-slice and changed-opponent conditional vector rates",
+    "Native first-exit",
+    "Independent carried-PBS re-solving safety",
+    "CarriedResolveStepBounds"
+  ],
+  "integration_acceptance": "pending",
+  "milestone_acceptance": "incomplete"
+}
