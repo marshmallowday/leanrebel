@@ -1,19 +1,31 @@
 {
   "scope": "M06 same-configuration information-child replay",
-  "source_checkpoint": "fa4d71e14706718ecde9f680b8d87923c821343a",
+  "source_checkpoint": "2973770a358ef63c94ada29a3d52d1f33f16d164",
   "parents": ["SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"],
   "parent_status": "pending",
   "status": "in_progress",
-  "module": "GameTheory/Analysis/ReBeL/CFRDQueryReplay.lean",
+  "modules": [
+    "GameTheory/Analysis/ReBeL/CFRDQueryReplay.lean",
+    "GameTheory/Analysis/ReBeL/CFRDQueryReplaySafety.lean",
+    "GameTheory/Analysis/ReBeL/Examples/CFRDQueryReplay.lean"
+  ],
   "declarations": [
     "GameTheory.ReBeL.cfrDInformationChildTable_eq_of_prefixLaw",
     "GameTheory.ReBeL.cfrDInformationChildProfile_eq_of_before",
     "GameTheory.ReBeL.cfrDInformationContinuation_eq_of_before",
     "GameTheory.ReBeL.cfrDInformationContinuation_clamp",
     "GameTheory.ReBeL.cfrDInformationQuerySample_clamp",
-    "GameTheory.ReBeL.cfrDConstructedSampledInformationOracle_replay"
+    "GameTheory.ReBeL.cfrDConstructedSampledInformationOracle_replay",
+    "GameTheory.ReBeL.cfrDDepthProfile_focal_atCut",
+    "GameTheory.ReBeL.cfrDDepthProfile_valueChange_zero",
+    "GameTheory.ReBeL.cfrDInformationReplay_drift_zero",
+    "GameTheory.ReBeL.cfrDInformationReplay_uniformDrift_zero",
+    "GameTheory.ReBeL.cfrDInformationReplay_resolve_law",
+    "GameTheory.ReBeL.cfrDInformationReplay_security"
   ],
-  "assumptions": "Same cut, full joint prefix law/prefix policies as stated, payoff, fallback, bound and child tolerance; finite original histories/actions. Supported reference queries for sampled-law equality. No small-output-drift or child-Nash premise.",
-  "validation": "Initial source checkpoint; exact-SHA compiler, lint and transitive audit pending. Security consumer and hostile examples are next.",
-  "remaining": "Different solver tolerances/configurations, later carried-PBS re-solving, native first-exit rates, CarriedResolveStepBounds and full M06 acceptance remain open."
+  "assumptions": "Same cut, complete joint prefix law/prefix policies as stated, payoff, fallback, bound and child tolerance; finite original histories/actions. Supported reference queries for sampled-law equality. No small-output-drift or child-Nash premise. Security retains zero-sum/bounded payoff, positive child loss, nonnegative prediction allowance and finite T>0.",
+  "controls": "Biased finite hidden-type parent; both players; arbitrary seed law and unknown opponent; sampled-but-factually-absent query; zero remaining fuel; nondegenerate same-public-marginal/different-conditional negative control.",
+  "validation": "Preliminary core target135 compiled at source297377. New complete slice awaits exact-SHA compiler, lint, transitive audit and full gates. Offline expanded ledger/inventory structure and76 Python tests pass after public umbrella registration.",
+  "semantic_boundary": "Actual-law/security result uses one recomputed child followed by the existing coherent private-plan draw. Native retained-iteration query equality is a separate supported-query theorem; no off-support native-iteration realization is asserted.",
+  "remaining": "Changing settings or child losses, later carried-PBS re-solving, native first-exit rates, CarriedResolveStepBounds and full M06 acceptance remain open."
 }

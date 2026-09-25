@@ -209,3 +209,6 @@ import GameTheory.Analysis.ReBeL.Examples.CFRDSourceRates
 import GameTheory.Math.Probability.FinDistValueCoupling
 import GameTheory.Analysis.ReBeL.CFRDValueCoupling
 import GameTheory.Analysis.ReBeL.Examples.CFRDValueCoupling
+import GameTheory.Analysis.ReBeL.CFRDQueryReplay
+import GameTheory.Analysis.ReBeL.CFRDQueryReplaySafety
+import GameTheory.Analysis.ReBeL.Examples.CFRDQueryReplay
