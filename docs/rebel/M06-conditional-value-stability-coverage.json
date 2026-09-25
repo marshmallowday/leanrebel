@@ -35,6 +35,6 @@
     ]
   },
   "scope": "Fixed-slice conditional same-opponent comparison, with max root error and support-aware division; actual information-set CFR current-opponent Eq. (1) accuracy.",
-  "lean_validation": "pending exact-source CI; not replaced by parent evidence",
+  "lean_validation": "Predecessor e58eff73bcff5f8a67ccb1745f49bf9e762ba398 failed targeted run 36122926779/job 108032492682 solely on two unused simp tactics in the example. Both removed on rebel/m06-conditional-gap-20260925; repaired source pending exact-SHA compiler/lint/axiom results.",
   "remaining": "Changing-opponent/changing-slice native and late conditional rates, first-exit, carried-PBS safety and CarriedResolveStepBounds."
 }
