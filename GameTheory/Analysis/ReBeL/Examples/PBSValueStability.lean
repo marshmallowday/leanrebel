@@ -70,8 +70,6 @@ theorem profile_isNash (profile : Profile form.sig) :
     IsNash form (euPreference utility) profile := by
   rw [isNash_iff]
   intro who alternative
-  change expectedUtility utility who (form.play (Profile.update profile who alternative)) ≤
-    expectedUtility utility who (form.play profile)
   exact le_of_eq ((profile_value_zero (Profile.update profile who alternative) who).trans
     (profile_value_zero profile who).symm)
 
@@ -83,8 +81,6 @@ theorem value_comparison (first second : Profile form.sig) :
       IsNash form (euPreferenceWithin 0 utility) profile := by
     rw [isNash_iff]
     intro who alternative
-    change expectedUtility utility who (form.play (Profile.update profile who alternative)) ≤
-      expectedUtility utility who (form.play profile) + 0
     have equal := (profile_value_zero (Profile.update profile who alternative) who).trans
       (profile_value_zero profile who).symm
     exact (le_of_eq equal).trans (by simp)
