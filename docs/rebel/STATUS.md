@@ -1,86 +1,67 @@
-# ReBeL status — M06 in progress; M05 accepted
+# ReBeL status — M06 native conditional-gap work; M05 accepted
 
-## Resume from this evidence checkpoint
+## Resume from the native conditional-gap branch
 
-Checkpoint branch: `rebel/m06-query-gap-checkpoint-20260925`.
-Proof source: `5cf1369cf1e886650a90a4e027347dacf589d50b`, retained on
-`rebel/m06-query-gap-20260925`. This checkpoint changes documentation only;
-it does not cancel or replace that source branch's independent CI runs.
-Main was re-read at `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098` and is
-unchanged by this work. M06 is NOT complete.
+Work branch: `rebel/m06-native-conditional-gap-20260925`.
+Parent evidence checkpoint: `e80f65d731b6beff1caa0f1d67cee9b4e41d87a8` on
+`rebel/m06-query-gap-checkpoint-20260925`. Parent proof source:
+`5cf1369cf1e886650a90a4e027347dacf589d50b` on `rebel/m06-query-gap-20260925`.
+Read `M06-native-conditional-gap.md` and its companion coverage JSON first.
+All predecessor branches and main are preserved. M06 is NOT complete.
 
-Read `M06-query-gap-validation.md`, its JSON evidence, and
-`M06-query-gap-review.md`. The validation record supersedes the implementation
-checkpoint's then-pending targeted-test observations. Keep exact-source
-validation separate from this document-only commit and from main integration.
+## New dependency-closed slice
 
-## Completed targeted validation of the new proofs
+The actual information-set CFR sampler preserves conditional payoff at each
+supported root type against arbitrary FIXED opponents. Sampling retains the
+same native index throughout continuation; the root-prefix argument supplies
+the supported conditional-kernel identity, not an assumed averaging theorem.
 
-Source 5cf1369c PASSED targeted run `36125907562`, job `108041849267`:
-all declared M06 compilation targets, the complete 100-module exact-leaf
-validation, its configured Batteries linters, and transitive axiom audit of
-1595 declarations. The two conditional-value modules contribute 12 and 23
-audited declarations, including private/generated declarations. The actual
-artifact log was downloaded through the GitHub plugin, its hash and embedded
-source checked, and all nine new theorem axiom lists inspected. Only propext,
-Classical.choice and Quot.sound occur. No gate or allowance was weakened.
+Against the computed AVERAGE opponents, every native own-iterate has a
+nonnegative Eq. (1) best-response gap. Therefore its mean absolute gap equals
+the average policy's gap, and actual CFR supplies the finite-T bound. Own-law
+means require no positive type-mass floor. Changed query laws keep the exact
+density/cap premises visible. The genuine budgeted solve meets a positive
+root-error budget for the mean absolute native gap.
 
-The exact plugin-exported source also passed all 83 Python tests, ledger and
-inventory structure checks, and the 576-file library line-width scan locally.
-Both modules were checked in all four existing consumers: umbrella, M06
-targets, explicit exact-leaf audit, and the global audit's discovery. Local
-static checks are not represented as a local Lean compiler run.
+A live HiddenTypes T=2 conditional identity and budget-1/8 mean-error example
+exercise the real sampler. A canonical exact-Nash opponent-sampling control
+has centered mean zero and mean absolute drift 1/2, so it forbids dropping the
+fixed-opponent condition or silently commuting absolute value and expectation.
+It is a necessary-hypothesis control, not claimed solver-generated iterates.
 
-## Restricted mathematical scope
+## Validation gate
 
-The fixed-slice current-opponent conditional Eq. (1) gap has an absolute
-OWN-law mean bound equal to the root approximate-Nash error. An exactly
-dominated query law with density at most C on own support has mean gap at
-most C times that error, without dividing by a minimum type mass. Actual
-finite-T and budgeted information-set CFR outputs derive their Nash premises.
-The density cap is an explicit side condition, not a derived native-sampler
-rate. The query law changes; the slice and opposing policies do not.
+Both new modules are added to the analytic umbrella and M06 targets. The
+unchanged global ReBeL auditor discovers them for compilation, configured lint
+and transitive axiom collection. The inherited 100-module exact-leaf auditor
+is unchanged: its success alone does not certify these additions. Compilation,
+configured normal/slow lint and transitive axiom results for this source are pending.
+Read exact branch-head Actions before resuming. No target,
+negative example, dependency pin, linter or axiom allowance is weakened.
 
-The live HiddenTypes budget-1/8 solve exercises the actual own law with
-density one. A normalized rare-type prior/query pair in the canonical
-zero-sum game has root error 1/4 but query error one, with exact density (4,0).
-The absent-query control rules out false domination. Earlier changed-opponent,
-rare-type and off-path controls and all semantic definitions are retained.
-
-## Integration gates still pending at this checkpoint
-
-At the last inspection on 2026-09-25, independent ReBeL run `36125907531`,
-proof job `108041928085`, was still in progress in the global compile/lint/
-axiom step. Its architecture, fixtures and rational-runtime steps had passed.
-Full-library CI run `36125907627`, job `108041951383`, was still in progress.
-Source-inventory run `36125907547` completed successfully. Re-check these
-exact-SHA runs before integration; targeted success does not replace them.
-No full-CI or M06 acceptance is claimed for this source or this checkpoint.
-
-## Preserved earlier checkpoints
-
-Repair source `fa03b39e497e4d9802d978caab052ce2802ccdc1` on
-`rebel/m06-conditional-gap-20260925` removed only two redundant simp tactics
-from the exact-Nash control. Its targeted run `36124896554`, job
-`108038627933`, completed SUCCESS: 100 linted modules, 1581 audited
-declarations. Its independent ReBeL run `36124896574`, job `108038645006`,
-was still in progress at the last inspection. The failed predecessor remains
-`e58eff73bcff5f8a67ccb1745f49bf9e762ba398`, run `36122926779`, job
-`108032492682`; its failure was never attributed to the repaired source.
-
-Initial conditional source: `069bb7e91eab35772670fc6e060d90f42e58ac07`.
-Scalar checkpoint: `d2cb889b5538bc9429eb47a7a7e32309d0e31bb7`.
-Scalar proof source: `5a9fc55e6b944abb16ec7f2e16e80deb0db341f3`.
-Preserve `M06_CONDITIONAL_VALUE_STABILITY.md`, the scalar review, evidence,
-full-CI records and associated JSON files, including earlier run-attribution
-corrections. Parent success is not a substitute for new-source validation.
+The parent targeted run `36125907562` / job `108041849267` passed with
+100 linted modules and 1595 audited declarations, as preserved in
+`M06-query-gap-validation.md` and JSON. At this task's initial re-read,
+independent parent ReBeL run `36125907531` / job `108041928085` was still
+running in the global compiler/lint/axiom step. Parent full CI is
+`36125907627` / job `108041951383`. Re-read their final results; neither parent
+success nor unfinished status substitutes for exact-source validation here.
 
 ## Remaining M06 work
 
 SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-Native/late-training conditional vector rates, native query-density/first-exit
-control, later independent carried-PBS re-solving and CarriedResolveStepBounds
-remain. Preserve actual private seed/history laws, off-path cases and model-
-versus-actual beliefs. Keep finite-T residuals when oracle error is zero and
-keep the printed and corrected Theorem 3 readings separate. No learner
-convergence premise may substitute for test-time safety.
+The new rate holds only for the fixed computed average opponent at one fixed
+slice. It does not establish independent changing-opponent/changing-PBS
+native or late rates, native carried first-exit/support control, quantitative
+query-density conditions for those laws, or CarriedResolveStepBounds.
+Independent recursive carried-PBS test-time safety remains. Preserve private
+seed/history laws, off-path completions, actual/model belief distinctions and
+the printed/corrected Theorem 3 readings, including the finite-T residual.
+
+## Earlier evidence preserved
+
+Keep `M06-query-gap-review.md`, `M06-query-gap-validation.md` and JSON,
+`M06_CONDITIONAL_VALUE_STABILITY.md`, conditional coverage, the scalar review,
+full-CI/evidence records, and all earlier run-attribution corrections.
+The last re-read main is `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`.
+This implementation does not advance main or claim milestone acceptance.

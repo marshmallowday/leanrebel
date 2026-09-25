@@ -1,0 +1,37 @@
+{
+  "milestone": "M06",
+  "complete": false,
+  "source": "project",
+  "locator": "docs/rebel/M06-native-conditional-gap.md",
+  "base_checkpoint": "e80f65d731b6beff1caa0f1d67cee9b4e41d87a8",
+  "status": "in_progress",
+  "parents_unchanged": [
+    "SEARCH-FRONTIER",
+    "SEARCH-CFRD",
+    "SEARCH-ERROR",
+    "SAFE-THEOREM3"
+  ],
+  "modules": [
+    "GameTheory.Analysis.ReBeL.PBSNativeConditionalGap",
+    "GameTheory.Analysis.ReBeL.Examples.PBSNativeConditionalGap"
+  ],
+  "declarations": {
+    "GameTheory/Analysis/ReBeL/PBSNativeConditionalGap.lean": [
+      "pbsInformationCFR_conditional_sampling_value",
+      "pbsInformationCFRConditionalDrawGap",
+      "pbsInformationCFRConditionalDrawGap_nonneg",
+      "pbsInformationCFRConditionalDrawGap_mean_abs",
+      "pbsInformationCFR_native_query_mean_abs_le",
+      "pbsInformationCFR_native_mean_abs_le",
+      "pbsInformationBudget_native_mean_abs_le"
+    ],
+    "GameTheory/Analysis/ReBeL/Examples/PBSNativeConditionalGap.lean": [
+      "pbsNativeConditionalGap_live_type",
+      "pbsNativeConditionalGap_live_budget",
+      "nativeConditionalGap_changed_opponent_control"
+    ]
+  },
+  "scope": "Actual private uniform own-iteration mean absolute conditional gap against fixed computed average opponents, at one fixed canonical joint-belief slice.",
+  "lean_validation": "pending exact-source GitHub Actions",
+  "remaining": "Changing-opponent/changing-PBS rates, native carried support/first-exit and query-density control, independent recursive test-time safety, CarriedResolveStepBounds."
+}
