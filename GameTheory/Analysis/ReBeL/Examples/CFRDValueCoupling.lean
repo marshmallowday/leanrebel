@@ -138,7 +138,6 @@ theorem freshChainControl_weightedBudget_le_valueCoupling
     (fun n tag _ => by rw [freshChainControl_parent_fiber_zero]; simp)
   unfold freshChainControlWeightedBudget freshChainControlValueBudget
     freshChainControlRateBudget
-  dsimp only at comparison
   linarith only [comparison]
 
 /-- Actual unknown-opponent security keeps positive parent noise, finite T,
