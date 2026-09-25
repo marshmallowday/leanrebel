@@ -1,0 +1,57 @@
+{
+  "source_sha": "5a9fc55e6b944abb16ec7f2e16e80deb0db341f3",
+  "run_id": 36113477726,
+  "job_id": 108001998137,
+  "artifact_id": 10855021036,
+  "zip_sha256": "05ccd421a2e5384733aab475c842d4caeb3511e49e961081bcc190e275b5fcad",
+  "log_sha256": "1bd210f699a446f06d2d3afeb578104be581a45a2f5e01c9ca72dea5bf93a9b9",
+  "toolchain": "Lean (version 4.33.1, x86_64-unknown-linux-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
+  "all_audited_declarations": 1560,
+  "all_audited_modules": 98,
+  "lint_modules": 98,
+  "allowed_axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "new_modules": {
+    "GameTheory.Analysis.ReBeL.PBSValueStability": [
+      {"name": "GameTheory.ReBeL.approxNash_value_sub_le", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.pbsInformationCFR_late_value_abs_sub_le", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.pbsInformationCFR_value_abs_sub_le", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.pbsInformationBudgetProfile_value_abs_sub_le", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.pbsInformationAllocatedDepthProfile_value_abs_sub_le", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.approxNash_value_abs_sub_le", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.pbsInformationBudgetRounds_error_of_le", "axioms": ["propext", "Classical.choice", "Quot.sound"]}
+    ],
+    "GameTheory.Analysis.ReBeL.Examples.PBSValueStability": [
+      {"name": "GameTheory.ReBeL.Examples.HiddenTypes.pbsValueStability_two_budget_solves", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.utility", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.profile_isNash", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.form", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.utility.eq_1", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.profile_value_zero", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.oldLaw._proof_1", "axioms": ["propext"]},
+      {"name": "GameTheory.ReBeL.Examples.HiddenTypes.pbsValueStability_late_output_control", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.freshLaw._proof_2", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.value", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.value_comparison", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.freshLaw._proof_3", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.freshLaw", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.form._proof_1", "axioms": ["propext"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.valid_coupling_exists", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.oldLaw.eq_1", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.signature", "axioms": []},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.zeroSum", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.value.eq_1", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.no_small_coupling", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.equal_means", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.freshLaw._proof_1", "axioms": ["propext"]},
+      {"name": "GameTheory.ReBeL.Examples.HiddenTypes.valueStabilityHistoryFintype", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.freshLaw.eq_1", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.every_coupling_cost_half", "axioms": ["propext", "Classical.choice", "Quot.sound"]},
+      {"name": "GameTheory.ReBeL.Examples.ValueStability.oldLaw", "axioms": ["propext", "Classical.choice", "Quot.sound"]}
+    ]
+  },
+  "scope": "All new declarations, including generated/private declarations, audited at this exact source. Not full M06 acceptance."
+}

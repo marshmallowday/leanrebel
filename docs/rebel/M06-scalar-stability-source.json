@@ -1,0 +1,43 @@
+{
+  "source_sha": "5a9fc55e6b944abb16ec7f2e16e80deb0db341f3",
+  "artifact_id": 10854072229,
+  "zip_sha256": "0deefbc51a183e064e8352d6ada2391b40365b6aaaaaa57ee0277c6e3b525f18",
+  "tar_sha256": "318629d756d4e461c36af3374d93b0f0f56ff40c8fce40cba664c11955c00af4",
+  "verification": "ZIP digest, embedded source SHA and TAR digest verified offline after GitHub-plugin download. All seven files matched the prepared source exactly. Hashing is not Lean compilation.",
+  "files": {
+    "GameTheory/Analysis/ReBeL/PBSValueStability.lean": {
+      "sha256": "6d4245afc89ca97514bc5ef393ca6b5ff4cdf3c34410afb10e09963f445f7adc",
+      "blob_sha": "ae7aadc4ac82e687b7c95fa205f520294ff827d0"
+    },
+    "GameTheory/Analysis/ReBeL/Examples/PBSValueStability.lean": {
+      "sha256": "0c4a230d914e1625c358bde5c09631c73e047856f047078168ab24b934880033",
+      "blob_sha": "637566705f6e6a31369aba9539721c11c40b441c"
+    },
+    "GameTheory/Analysis/ReBeL.lean": {
+      "sha256": "c97a4e3ae91a9c9fc61b7f18c0ac18be0ab876aad77feb2e33e45483113da30d",
+      "blob_sha": "1254e9bbd8943d26aada3b09610d604f66ef9d4c"
+    },
+    "scripts/rebel/audit_exact_leaf.py": {
+      "sha256": "c980ba5df88a8d8513c03fb25052fab80ac281c0956800d7f4bfc3df789cc75f",
+      "blob_sha": "b637cfe49a0a2056a9ac5dbdbac5587fc71531ab"
+    },
+    "scripts/rebel/m06-targets.txt": {
+      "sha256": "fa8abcbb88ebf593c8cfb876dd204b198c6e76f6039cea944ccade49a82ee9c7",
+      "blob_sha": "c1739341b833f9967762647d2920d2bacf2347ec"
+    },
+    "scripts/rebel/tests/test_value_stability_control.py": {
+      "sha256": "cfc5f031c58683dbc4d7b91601ffe44ba3ded07e86fb8ad897185a80fe5fd008",
+      "blob_sha": "f3ebac9b684b6eca057c4064b2825471ab5ff7c3"
+    },
+    "scripts/rebel/tests/test_scalar_tail_control.py": {
+      "sha256": "926903b0c20a1b7f8a15b49d8ff55026d572b2fda01defb0c82d850661841a55",
+      "blob_sha": "625a870ecb6f394166f0f7e70a2c7d66e761f215"
+    }
+  },
+  "offline_tests": {
+    "command": "python -W error -m unittest discover -s scripts/rebel/tests -v",
+    "result": "83 tests passed on exact exported source",
+    "log_sha256": "dc0b0a2add6f36bbf4ab18978cc7b96e530b57ba692a4c88db520d27eed09817",
+    "note": "Numerical and structural regression evidence, not a kernel proof or runtime refinement."
+  }
+}
