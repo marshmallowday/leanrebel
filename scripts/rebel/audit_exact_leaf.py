@@ -106,6 +106,9 @@ MODULES = (
     "GameTheory.Math.Probability.FinDistTransportRate",
     "GameTheory.Analysis.ReBeL.CFRDSourceRates",
     "GameTheory.Analysis.ReBeL.Examples.CFRDSourceRates",
+    "GameTheory.Math.Probability.FinDistValueCoupling",
+    "GameTheory.Analysis.ReBeL.CFRDValueCoupling",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDValueCoupling",
 )
 AUDITOR = r'''
 open Lean Elab Command in

@@ -1,46 +1,49 @@
 # ReBeL status — M06 in progress; M05 accepted
 
-## Current continuation
+## Current source checkpoint
 
-Resume from `rebel/m06-fiber-lint-repair-20260925` and read
-`M06-fiber-lint-repair.md`. This repair descends from documentation checkpoint
-e27fee69332f1b55a08f99e68defdd7b5823074e and exact source
-4b4395714c62ac8fca0974f1254b7f86c832cd38. The preceding STATUS is preserved
-byte-for-byte in `STATUS-before-fiber-lint-repair.md`.
+Work branch: `rebel/m06-value-stability-20260925`.
+Base: `c984277c2238e4dd1249ff3ace6fc5444175858a`.
+Initial evidence checkpoint: `f71b72cd68b15c2a8b72fdf94aca8502f4fd7fcc`.
+Read `M06-value-stability-progress.md` and `M06-value-coupling-coverage.json`.
+The previous STATUS is preserved exactly in `STATUS-before-value-coupling.md`.
 
-The previous target run36084113146/job107912150501 has now FINISHED with
-FAILURE. Compilation of all131 declared M06 targets succeeded, but supplemental
-lint rejected an unused `[NeZero t]` argument of
-`freshChainControl_parent_fiber_zero` in
-GameTheory/Analysis/ReBeL/Examples/CFRDSourceRates.lean:275.
-The later transitive-axiom step was not reached; do not count this as an audit pass.
+The new source adds a directed payoff-coupling route to actual-law weighted
+fresh re-solving. It derives `childLoss + valueRate + 4*B*referenceRate` from
+actual continuation marginals and a one-sided coupling cost. It does not
+assume convergence of entire outcome laws. A nonconstant-payoff control has
+outcome L1 variation 2 but directed cost 0; direction and incorrect-marginal
+negative controls are retained. The noisy finite-parent/two-fresh-solve
+consumer discharges referenceRate=0 through the existing source-law theorem.
+Its small coupling cost is still an explicit premise, not a Nash consequence.
 
-The only Lean change removes that unnecessary hypothesis. Its proof body and
-all consumers are unchanged. Source blob is
-b452aa3707f7ed9b85a5b18b7319473c06e55663. No module, test, lint, audit, dependency
-pin or exception allowance is removed or weakened. New exact-SHA CI must be
-inspected before accepting the repair.
+All three new modules are included in the M06 target list, supplemental normal/
+slow lint and transitive axiom audit, and the analytic umbrella. No existing
+module or gate is removed. Source compilation and CI inspection are PENDING
+at this checkpoint. No `sorry`, custom axiom, warning suppression, dependency
+change, local git operation or local GitHub request is introduced.
 
-## Next proof obligation
+## Confirmed predecessor evidence
 
-Continue from the established actual-law bound
-childLoss + B * outcomeRate + 4 * B * referenceRate.
-The existing actual two-solve consumer derives referenceRate=0 at the SAME cut.
-A small continuation outcomeRate is still an input, not a consequence of Nash.
-Investigate a proved one-sided continuation-value guarantee rather than
-assuming convergence of whole outcome laws. Preserve the unknown opponent's
-actual seed/history law and supported/off-path cases.
+Full CI36093962268, independent ReBeL36093962238 and inventory36093962214
+succeeded at c984277c. The downloaded exact-source artifact10846741980 has
+ZIP SHA256 d9b2d996fabfd2dd2a644aef1e55313f45c6ad569697c51c299b38157b733894.
+Its source-commit.txt matches c984277c. Independent validation artifact10847312931
+contains REBEL_AXIOM_AUDIT_PASS declarations=4688 and
+REBEL_VALIDATION_PASS modules=239. These are predecessor results, NOT validation
+of this new source.
 
-Independent re-solving at later carried PBSs, native first-exit rates and
-CarriedResolveStepBounds remain open. SEARCH-FRONTIER, SEARCH-CFRD,
-SEARCH-ERROR and SAFE-THEOREM3 coverage statuses stay pending. M06 is not
-accepted and main is unchanged. The printed/corrected Theorem3 distinction
-and real-proof/executable-numerical boundary remain in force.
+## Remaining M06 obligations
 
-## Preserved evidence
+Construct quantitatively small one-sided couplings (or another justified
+value bound) for the native solver/late-training queries. The new conditional
+bridge does not discharge that obligation. Independent later carried-PBS
+re-solving, native first-exit rates and CarriedResolveStepBounds also remain.
+Do not identify model PBSs with actual posteriors or independent marginals with
+the actual private seed/history law. Keep finite T at zero oracle error.
 
-See `M06-fiber-rates-validation.md` and `STATUS-before-fiber-lint-repair.md`
-for predecessor commits, exact workflow IDs, accepted slices and remaining
-source obligations. Do not reapply old snapshots or redo accepted slices.
-All repository reads, writes and commits use the GitHub plugin; downloaded
-artifacts may be inspected and compiled offline without local Git operations.
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 in coverage.json
+remain pending. The companion coverage record tracks this conditional slice
+without promoting those parent obligations. M06 is not complete; main and
+predecessor source branches are not moved. Preserve all earlier failures,
+printed/corrected Theorem3 distinctions and proof/numerical boundaries.

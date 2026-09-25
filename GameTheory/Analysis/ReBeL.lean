@@ -206,3 +206,6 @@ import GameTheory.Analysis.ReBeL.Examples.CFRDWeightedTransport
 import GameTheory.Math.Probability.FinDistTransportRate
 import GameTheory.Analysis.ReBeL.CFRDSourceRates
 import GameTheory.Analysis.ReBeL.Examples.CFRDSourceRates
+import GameTheory.Math.Probability.FinDistValueCoupling
+import GameTheory.Analysis.ReBeL.CFRDValueCoupling
+import GameTheory.Analysis.ReBeL.Examples.CFRDValueCoupling

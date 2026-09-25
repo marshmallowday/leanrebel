@@ -1,0 +1,45 @@
+{
+  "milestone": "M06",
+  "scope": "one-sided actual-continuation payoff coupling; conditional source bridge",
+  "base_commit": "c984277c2238e4dd1249ff3ace6fc5444175858a",
+  "branch": "rebel/m06-value-stability-20260925",
+  "validation": "pending exact-SHA compilation, lint and transitive axiom review",
+  "parent_statuses": {
+    "SEARCH-FRONTIER": "pending",
+    "SEARCH-CFRD": "pending",
+    "SEARCH-ERROR": "pending",
+    "SAFE-THEOREM3": "pending"
+  },
+  "declarations": [
+    "GameTheory.Math.Probability.FinDist.directedValueCost",
+    "GameTheory.Math.Probability.FinDist.expect_sub_le_directedValueCost",
+    "GameTheory.Math.Probability.FinDist.directedValueCost_le_of_support",
+    "GameTheory.Math.Probability.FinDist.directedValueCost_eq_zero_of_support",
+    "GameTheory.ReBeL.cfrDFreshValueChange_le_couplingRate",
+    "GameTheory.ReBeL.cfrDFreshTransportCharge_le_valueCoupling",
+    "GameTheory.ReBeL.cfrDWeightedTransportLoss_le_valueCoupling",
+    "GameTheory.ReBeL.Examples.HiddenTypes.freshChainControl_biased_valueCoupling_security"
+  ],
+  "controls": [
+    "GameTheory.ReBeL.Examples.ValueCoupling.outcome_variation_two",
+    "GameTheory.ReBeL.Examples.ValueCoupling.directed_cost_zero",
+    "GameTheory.ReBeL.Examples.ValueCoupling.payoff_change_nonpositive",
+    "GameTheory.ReBeL.Examples.ValueCoupling.payoff_nonconstant",
+    "GameTheory.ReBeL.Examples.ValueCoupling.reverse_cost_not_valid",
+    "GameTheory.ReBeL.Examples.ValueCoupling.wrong_marginal_rejected"
+  ],
+  "assumptions": [
+    "Exact old and new actual continuation marginals for every proposed coupling",
+    "Quantitative directed opponent-payoff cost bound; not inferred from Nash",
+    "Supported reference fiber rate for the generic theorem",
+    "Perfect recall and original private seed/history execution law",
+    "Nonnegative rates and losses; finite history carrier for reference atom sums"
+  ],
+  "remaining": [
+    "Construct small directed couplings or justified value bounds for native solver queries",
+    "Later carried-PBS independent re-solving and CarriedResolveStepBounds",
+    "Native first-exit and late-training rates",
+    "Full M06 semantic and exact-SHA acceptance"
+  ],
+  "complete": false
+}
