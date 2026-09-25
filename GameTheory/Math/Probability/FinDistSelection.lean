@@ -101,7 +101,11 @@ theorem tagged_condOn_density (prior : FinDist A) (kernel : A → FinDist B)
   · intro a
     by_cases present : a ∈ prior.support
     · field_simp [(prob_pos_iff.mpr present).ne']
-    · have absent := mt (tagged_condOn_support prior kernel event possible) present
+    · have absent : a ∉
+          (((prior.bind (fun tag => (kernel tag).map (fun b => (tag, b)))).condOn
+            event possible).map Prod.fst).support := by
+        intro reached
+        exact present (tagged_condOn_support prior kernel event possible reached)
       rw [prob_eq_zero_iff.mpr absent, prob_eq_zero_iff.mpr present]
       simp only [zero_div, mul_zero]
   · intro a present
