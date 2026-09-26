@@ -71,9 +71,11 @@ theorem pbsInformationCFRTaggedExecution_history
         (Profile.update opponents who
           (pbsInformationCFR M (slice.mixture own) fallback payoff fuel t who))
         steps (slice.mixture own) := by
+  have mapHistory (law : FinDist E.History) : law.map (fun history => history) = law :=
+    FinDist.map_id law
   simpa only [pbsInformationCFRTaggedExecution, pbsInformationCFRExecutionKernel,
     PublicBelief.continuationLaw, TypeBeliefSlice.mixture, FinDist.map_bind,
-    FinDist.map_comp, Function.comp_def, FinDist.map_id, FinDist.product,
+    FinDist.map_comp, Function.comp_def, mapHistory, FinDist.product,
     FinDist.bind_bind, FinDist.bind_map] using
     pbsInformationCFR_sampling_law M (slice.mixture own) fallback payoff fuel t opponents who steps
 
