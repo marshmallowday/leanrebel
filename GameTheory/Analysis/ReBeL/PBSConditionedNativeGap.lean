@@ -272,7 +272,7 @@ theorem pbsInformationCFR_public_posterior_history
   -- The conditioning witness depends on the projected law. Simplification
   -- transports this proof argument along with the law, unlike a plain rewrite.
   -- Normalize the event preimage as well as the dependent history marginal.
-  simpa only [Set.preimage, Set.mem_setOf_eq, pbsInformationCFRTaggedExecution_history]
+  simpa only [Set.preimage, Set.mem_ofPred_eq, pbsInformationCFRTaggedExecution_history]
     using projected
 
 /-- The native finite-T error of the retained query at a possible PUBLIC

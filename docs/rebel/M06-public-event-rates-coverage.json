@@ -29,6 +29,17 @@
     "actual_log_read": true,
     "statement_changed": false
   },
+  "compiler_feedback_repair": {
+    "failed_source": "c87c70d7b1c6dce3d3699d2908eea72811d8e713",
+    "run": 36264721932,
+    "job": 108467092139,
+    "artifact": 10913791465,
+    "actual_log_read": true,
+    "diagnostic": "Deprecated Set.mem_setOf_eq at line 275; use Set.mem_ofPred_eq",
+    "main_source_blob": "c97f2c1ebe3fe079a3603d1d01d5ef864fa31cd5",
+    "statement_changed": false,
+    "warning_suppressed": false
+  },
   "original_obligations_unchanged": {
     "SEARCH-FRONTIER": "pending",
     "SEARCH-CFRD": "pending",
@@ -42,7 +53,13 @@
     "all_rebel": "pending",
     "full_ci": "pending",
     "validation_configuration_changed": false,
-    "local_lean_execution": false
+    "local_lean_execution": false,
+    "local_python_tests": 101,
+    "local_python_status": "success",
+    "local_python_scope": "Prepared follow-up source with one deprecated-name replacement and four added tests; not Lean proof evidence",
+    "local_python_log_sha256": "f2cb850cdf1b517e650c8a870d134c30b0c97a6a86b6ae648aec6a6b5c306130",
+    "new_python_test_file": "scripts/rebel/tests/test_public_native_tail.py",
+    "exhaustive_rational_cases": 15360
   },
   "unproved_bridge": "Native gaps retain original joint type kernels and the same computed average comparison opponent. Unconditional public-and-bad-gap probabilities are not conditional guarantees at new posterior kernels. Fresh carried-PBS identification, quantitative first-exit/support rates, changing-opponent/PBS rates and CarriedResolveStepBounds remain open."
 }
