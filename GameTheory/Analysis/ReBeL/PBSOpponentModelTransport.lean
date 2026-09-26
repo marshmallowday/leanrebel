@@ -105,6 +105,7 @@ theorem carriedOpponentModelCharge_controls_law {past : List M.PublicSignal}
       carriedOpponentModelCharge M belief actual chosen unknown who fuel :=
   runBehavioralFrom_atomVariation_le M _ chosen fuel actual belief.law
 
+omit [Fintype E.History] in
 /-- A model-supported resulting history has a genuine carried posterior that
 contains that history. No fallback is being called a posterior. -/
 theorem carriedBeliefUpdate_contains_of_supported {past : List M.PublicSignal}
