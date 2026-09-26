@@ -33,5 +33,46 @@
     "every declaration's complete transitive axiom set",
     "independent all-ReBeL and full-repository CI"
   ],
-  "unproved_bridge": "No uniform event mass floor, independently changed opponents/PBS conditional-value rates, first-exit quantitative rate, public-carried-PBS identification, CarriedResolveStepBounds or independent recursive re-solving safety is established. Native gaps remain at fixed original kernels and fixed average comparison opponents."
+  "unproved_bridge": "No uniform event mass floor, independently changed opponents/PBS conditional-value rates, first-exit quantitative rate, public-carried-PBS identification, CarriedResolveStepBounds or independent recursive re-solving safety is established. Native gaps remain at fixed original kernels and fixed average comparison opponents.",
+  "compiler_repair": {
+    "date": "2026-09-26",
+    "source_commit": "6d111a4aa3060be10fa7e655d0dbfde13660cc7c",
+    "history_map_fix_commit": "03f5beebc6d75109bf9b0166c083b0c9ed071f84",
+    "semantic_review": "docs/rebel/M06-conditioned-query.md",
+    "repair_review": "docs/rebel/M06-conditioned-query-repair.md",
+    "scope": "Proof-only repair of history marginal and existing finite-law controls. All original statements, assumptions and milestone statuses are preserved.",
+    "targeted_validation": {
+      "status": "success",
+      "run_id": 36210326495,
+      "job_id": 108315289526,
+      "modules": 107,
+      "audited_declarations": 1669,
+      "allowed_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "url": "https://github.com/marshmallowday/leanrebel/actions/runs/36210326495/job/108315289526"
+    },
+    "full_ci": {
+      "status": "success",
+      "run_id": 36210326436,
+      "job_id": 108315428119,
+      "url": "https://github.com/marshmallowday/leanrebel/actions/runs/36210326436/job/108315428119"
+    },
+    "all_rebel": {
+      "status": "success",
+      "run_id": 36210326388,
+      "job_id": 108315430319,
+      "url": "https://github.com/marshmallowday/leanrebel/actions/runs/36210326388/job/108315430319",
+      "modules": 251,
+      "audited_declarations": 4848,
+      "python_tests": 92,
+      "rational_runtime": "success"
+    },
+    "source_inventory": {
+      "status": "success",
+      "run_id": 36210326380
+    }
+  }
 }

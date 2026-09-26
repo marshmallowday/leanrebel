@@ -61,3 +61,68 @@ and fixed average comparison opponents, actual event probability, retained
 private seeds, impossible events excluded. Public-carried-PBS identification,
 first-exit/event rates, changing-opponent/PBS value rates and independent
 recursive re-solving safety remain open project obligations.
+
+## 2026-09-26: history-map and downstream example repairs
+
+The branch head before this repair was
+`73596bd8c96d54ec8fb19528b61a416f89decf4d`. Its targeted run
+[36154403503 / 108135311209](https://github.com/marshmallowday/leanrebel/actions/runs/36154403503/job/108135311209)
+failed at PBSConditionedNativeGap.lean:74. Normalizing the tagged history
+marginal left a FinDist.map of the explicit identity lambda, while the
+sampling-law theorem had no map. The local mapHistory equality specializes
+the existing FinDist.map_id to that lambda so simp can eliminate it.
+The theorem statement and all assumptions are unchanged.
+
+Commit `03f5beebc6d75109bf9b0166c083b0c9ed071f84` compiled the repaired
+main module in [36209528942 / 108312987212](https://github.com/marshmallowday/leanrebel/actions/runs/36209528942/job/108312987212).
+That run then exposed errors in its previously uncompiled example module.
+Commit `259d8194cec5c4118dd9ee0c6ba9f90af01adcf7` makes tagged-atom
+probabilities explicit before simplification, derives event mass through
+expectation congruence, and enumerates the finite product before evaluation.
+Its run [36209932361 / 108314162920](https://github.com/marshmallowday/leanrebel/actions/runs/36209932361/job/108314162920)
+identified remaining event-decidability and redundant-simp issues.
+Commit `6d111a4aa3060be10fa7e655d0dbfde13660cc7c` supplies classical
+event decidability in the example and splits the equality predicate explicitly.
+
+Only proof bodies in the main and example PBSConditionedNativeGap.lean files
+changed. Definitions, theorem statements, assumptions, positive and negative
+controls, imports, dependencies and validation gates are preserved. In
+particular, the actual conditioning event still has positive mass, the sharp
+factor-two example and impossible-event control remain, and no public-carried
+PBS identification or changing-opponent guarantee has been claimed.
+
+### Exact repair-source validation
+
+Source: `6d111a4aa3060be10fa7e655d0dbfde13660cc7c`.
+Lean: 4.33.1 (pinned commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6).
+
+[M06 target 36210326495 / 108315289526](https://github.com/marshmallowday/leanrebel/actions/runs/36210326495/job/108315289526)
+is SUCCESS. Its actual job log was read through the GitHub plugin:
+the main and example modules build, all 107 supplemental modules pass the
+configured normal/slow lint, and the transitive axiom audit passes for 1,669
+declarations. The three conditioned-query modules contribute 12, 13 and 18
+audited declarations respectively. The repaired history theorem has exactly
+[propext, Classical.choice, Quot.sound]. The log ends with
+EXACT_LEAF_VALIDATION_PASS modules=107.
+
+[ReBeL checks 36210326388 / 108315430319](https://github.com/marshmallowday/leanrebel/actions/runs/36210326388/job/108315430319)
+is SUCCESS: REBEL_VALIDATION_PASS modules=251 and
+REBEL_AXIOM_AUDIT_PASS declarations=4848. All 92 Python tests pass with
+warnings treated as errors; the independent rational runtime check reports
+RATIONAL_RUNTIME_PASS. Static architecture and tracked-file cleanliness pass.
+
+[Full CI 36210326436 / 108315428119](https://github.com/marshmallowday/leanrebel/actions/runs/36210326436/job/108315428119)
+is SUCCESS: complete library build/lint, compiler-resolved reuse signatures,
+all Phase 1/2/3 architecture/reachability checks and clean tracked files.
+All three architecture logs report VERIFIED=1. The configured Windows-only
+setup step is skipped on Linux.
+[Source inventory 36210326380](https://github.com/marshmallowday/leanrebel/actions/runs/36210326380)
+also succeeds. Actual full-CI and ReBeL job logs were read through the plugin.
+
+The following documentation-only checkpoint records these exact-source results
+and the user's M07 onward branch policy. It does not change the compiled code,
+its validation configuration, or original coverage acceptance states.
+
+This is evidence for the compiler repair and its existing finite-law scope,
+not acceptance of M06 or paper Theorem 3. The four original M06 obligations
+remain pending.
