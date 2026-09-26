@@ -29,7 +29,10 @@ theorem possible_preimage_iff (law : FinDist A) (project : A → B) (event : Set
   · rintro ⟨b, member, reached⟩
     rw [support_map] at reached
     obtain ⟨a, reached, equal⟩ := reached
-    exact ⟨a, equal.symm ▸ member, reached⟩
+    refine ⟨a, ?_, reached⟩
+    show project a ∈ event
+    rw [equal]
+    exact member
 
 /-- Observing an event of a projection and then forgetting the hidden data
 agrees exactly with conditioning the projected law. The event MUST be a
@@ -49,7 +52,12 @@ theorem map_condOn_preimage (law : FinDist A) (project : A → B) (event : Set B
           law.probOf (project ⁻¹' event) := by
         apply expect_condOn_eq_div_of_eq_zero_off
         intro a _ outside
-        exact if_neg (fun equal => outside (equal ▸ member))
+        apply if_neg
+        intro equal
+        apply outside
+        show project a ∈ event
+        rw [← equal]
+        exact member
       _ = _ := by rw [prob_map]
   · rw [if_neg member]
     calc
@@ -57,7 +65,11 @@ theorem map_condOn_preimage (law : FinDist A) (project : A → B) (event : Set B
         apply expect_congr
         intro a reached
         have inside := (support_condOn law (project ⁻¹' event) possible reached).1
-        exact if_neg (fun equal => member (equal.symm ▸ inside))
+        apply if_neg
+        intro equal
+        apply member
+        rw [equal]
+        exact inside
       _ = 0 := expect_const _ _
 
 /-- Selection can amplify a nonnegative observable by at most the reciprocal

@@ -1,21 +1,32 @@
-# ReBeL status — public-posterior bridge candidate; M06 incomplete
+# ReBeL status — public-posterior repair candidate; M06 incomplete
 
 ## Current work
 
 Work branch: `rebel/m06-conditioned-query-20260925`.
 Starting checkpoint: `543849ea0fc3df25c95629d957561936ee16527a`.
 Public-posterior planning checkpoint: `af2b4da1776e97ee70c437c886fc80f8a633fae8`.
+First public-posterior source: `3affbb7a48646ebaf9427463568e9aadbe51c7e6`.
 Main remains `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`; M05 is accepted.
 M06 and Theorem 3 are NOT complete.
 
-The next source checkpoint extends the existing three conditioned-query modules
-with a positive-support projection/conditioning theorem, actual public-event
-mass and possible-observation identities, canonical joint public-posterior
-identification, and the native finite-T bound with its actual public mass.
-It adds a genuine solver consumer and positive, hidden-selection and impossible
-observation controls. Read M06-public-posterior.md and its candidate coverage.
-97 Python tests and unchanged ledger/inventory checks passed locally; new-source
-Lean compilation, normal/slow lint, transitive axioms and all CI are PENDING.
+The first public-posterior source failed targeted compilation in three new
+FinDistSelection equality-transport terms and failed the unchanged Phase 2
+source-transport gate. Actual target artifact and all-ReBeL job logs were read.
+The repair replaces those proof terms with explicit membership rewriting,
+repairs the same pattern in the negative example and normalizes the output-map
+proof. Statements, controls, bounds and all validation gates remain unchanged.
+Read M06-public-posterior-repair.md for exact failed run/job IDs and log hashes.
+The repair's Lean compilation, normal/slow lint, transitive axioms and all CI
+are PENDING the new source push. All 97 Python tests passed again locally;
+new-source static transport counts are restored to Math=1 and Analysis=0.
+No local Lean or PowerShell execution is claimed.
+
+The slice extends the existing three conditioned-query modules with a
+positive-support projection/conditioning theorem, actual public-event mass and
+possible-observation identities, canonical joint public-posterior identification,
+and the native finite-T bound with its actual public mass. It adds a genuine
+solver consumer and positive, hidden-selection and impossible-observation
+controls. Read M06-public-posterior.md and its pending candidate coverage.
 No validation configuration, dependency pin or original source status changes.
 
 ## Previous validated source (not new-source evidence)
@@ -34,7 +45,7 @@ All four workflows for that exact repair source succeeded:
 - Full CI 36210326436: full build, public lint, reuse and Phase 1/2/3 audits.
 - Source inventory 36210326380.
 
-Actual job logs were read through the GitHub plugin in the repair checkpoint.
+Actual job logs were read through the GitHub plugin in the prior checkpoint.
 The history theorem uses exactly [propext, Classical.choice, Quot.sound].
 See M06-conditioned-query-repair.md and M06-conditioned-query-coverage.json.
 The preceding documentation-only head also has successful repository workflows;

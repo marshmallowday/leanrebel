@@ -172,9 +172,13 @@ open GameTheory.Math.Probability
 /-- The emitted output is nonconstant and uniform after the hidden tags are
 forgotten. This projection is many-to-one on the complete tagged carrier. -/
 theorem selection_history : selectionExecution.map Prod.snd = cfrIterationLaw 2 := by
-  simpa only [selectionExecution, selectionKernel, FinDist.map_pure, FinDist.map_bind,
-    FinDist.pure_bind, ← FinDist.map_eq_bind, FinDist.map_comp, Function.comp_def,
-    selectionPrior] using FinDist.map_snd_product (cfrIterationLaw 2) (cfrIterationLaw 2)
+  calc
+    selectionExecution.map Prod.snd = selectionPrior.map Prod.snd := by
+      rw [selectionExecution, FinDist.map_bind, FinDist.map_eq_bind Prod.snd selectionPrior]
+      apply FinDist.bind_congr
+      intro pair _
+      simp only [selectionKernel, FinDist.map_pure]
+    _ = _ := FinDist.map_snd_product (cfrIterationLaw 2) (cfrIterationLaw 2)
 
 /-- Output zero has genuine mass; the witness uses the actual execution. -/
 theorem selection_output_zero_possible :
@@ -205,10 +209,13 @@ public observation. The preimage hypothesis of the bridge is indispensable. -/
 theorem hidden_selection_not_public :
     ¬ ∃ event : Set Unit, ({0} : Set (Fin 2)) = (fun _ : Fin 2 => ()) ⁻¹' event := by
   rintro ⟨event, same⟩
-  have zero : (0 : Fin 2) ∈ (fun _ : Fin 2 => ()) ⁻¹' event :=
-    same ▸ (Set.mem_singleton (0 : Fin 2))
+  have zero : (0 : Fin 2) ∈ (fun _ : Fin 2 => ()) ⁻¹' event := by
+    rw [← same]
+    exact Set.mem_singleton (0 : Fin 2)
   have one : (1 : Fin 2) ∈ (fun _ : Fin 2 => ()) ⁻¹' event := zero
-  have impossible : (1 : Fin 2) ∈ ({0} : Set (Fin 2)) := same.symm ▸ one
+  have impossible : (1 : Fin 2) ∈ ({0} : Set (Fin 2)) := by
+    rw [same]
+    exact one
   norm_num at impossible
 
 /-- A zero-mass visible output has no supported preimage, even when the
