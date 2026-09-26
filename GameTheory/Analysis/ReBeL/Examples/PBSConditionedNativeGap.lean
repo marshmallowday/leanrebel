@@ -210,8 +210,7 @@ theorem hidden_selection_not_public :
     ¬ ∃ event : Set Unit, ({0} : Set (Fin 2)) = (fun _ : Fin 2 => ()) ⁻¹' event := by
   rintro ⟨event, same⟩
   have zero : (0 : Fin 2) ∈ (fun _ : Fin 2 => ()) ⁻¹' event := by
-    rw [← same]
-    exact Set.mem_singleton (0 : Fin 2)
+    simpa only [← same] using (Set.mem_singleton (0 : Fin 2))
   have one : (1 : Fin 2) ∈ (fun _ : Fin 2 => ()) ⁻¹' event := zero
   have impossible : (1 : Fin 2) ∈ ({0} : Set (Fin 2)) := by
     rw [same]

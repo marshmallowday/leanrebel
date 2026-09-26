@@ -267,7 +267,9 @@ theorem pbsInformationCFR_public_posterior_history
   have projected := FinDist.map_condOn_preimage
     (pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t opponents steps) Prod.snd
     {h | publicTrace (fullInformation M).toInfoSignals h.trace = next} possible
-  simpa only [pbsInformationCFRTaggedExecution_history, PublicBelief.condition] using projected
+  rw [pbsInformationCFRTaggedExecution_history] at projected
+  unfold pbsInformationCFRPublicEvent PublicBelief.condition
+  exact projected
 
 /-- The native finite-T error of the retained query at a possible PUBLIC
 observation has the actual public-mass penalty. Its gap still uses the SAME
