@@ -127,3 +127,98 @@ theorem selection_impossible_event :
   exact Set.notMem_empty point impossible
 
 end GameTheory.ReBeL.Examples.JointNativeGap
+
+namespace GameTheory.ReBeL.Examples.HiddenTypes
+
+open GameTheory.Protocol ExecutionProtocol InformationModel
+open GameTheory.Math.Probability
+
+/-- Retain every legal history, including histories outside current support. -/
+local instance publicPosteriorHistoryFintype : Fintype (protocol fullPrior).History :=
+  historyFintype fullPrior
+
+/-- A positive public observation from a real two-iterate, one-step execution
+has exactly the canonical averaged-execution PBS. No posterior is supplied. -/
+theorem pbsPublicPosterior_live
+    (opponents : Profile (fullInformation (reducedModel fullPrior)).behavioralSignature) :
+    let M := reducedModel fullPrior
+    let slice := fullAOHBeliefSlice M finiteBudgetControlBelief 0
+    let own := fullAOHOwnLaw M finiteBudgetControlBelief 0
+    let execution := pbsInformationCFRTaggedExecution M slice own
+      pbsRootControlFallback cfrPayoff 1 2 opponents 1
+    ∃ next, ∃ possible : ∃ point ∈ pbsInformationCFRPublicEvent M next,
+      point ∈ execution.support,
+      (execution.condOn (pbsInformationCFRPublicEvent M next) possible).map Prod.snd =
+        (PublicBelief.condition (S := (fullInformation M).toInfoSignals)
+          (PublicBelief.continuationLaw (fullInformation M)
+            (Profile.update opponents 0
+              (pbsInformationCFR M (slice.mixture own) pbsRootControlFallback cfrPayoff 1 2 0))
+            1 (slice.mixture own)) next
+          ((pbsInformationCFR_public_possible_iff M slice own pbsRootControlFallback cfrPayoff
+            1 2 opponents 1 next).mp possible)).law := by
+  intro M slice own execution
+  obtain ⟨point, reached⟩ := execution.support_nonempty
+  refine ⟨publicTrace (fullInformation M).toInfoSignals point.2.trace,
+    ⟨point, rfl, reached⟩, ?_⟩
+  exact pbsInformationCFR_public_posterior_history M slice own pbsRootControlFallback
+    cfrPayoff 1 2 opponents 1 _ _
+
+end GameTheory.ReBeL.Examples.HiddenTypes
+
+namespace GameTheory.ReBeL.Examples.JointNativeGap
+
+open GameTheory.Math.Probability
+
+/-- The emitted output is nonconstant and uniform after the hidden tags are
+forgotten. This projection is many-to-one on the complete tagged carrier. -/
+theorem selection_history : selectionExecution.map Prod.snd = cfrIterationLaw 2 := by
+  simpa only [selectionExecution, selectionKernel, FinDist.map_pure, FinDist.map_bind,
+    FinDist.pure_bind, ← FinDist.map_eq_bind, FinDist.map_comp, Function.comp_def,
+    selectionPrior] using FinDist.map_snd_product (cfrIterationLaw 2) (cfrIterationLaw 2)
+
+/-- Output zero has genuine mass; the witness uses the actual execution. -/
+theorem selection_output_zero_possible :
+    ∃ point ∈ Prod.snd ⁻¹' ({0} : Set (Fin 2)), point ∈ selectionExecution.support := by
+  refine ⟨((0, 0), 0), rfl, FinDist.prob_pos_iff.mp ?_⟩
+  rw [selectionExecution, FinDist.prob_bind_map_prod]
+  norm_num [selectionPrior, FinDist.prob_product, selectionKernel,
+    FinDist.prob_pure_eq_ite, cfrIterationLaw, FinDist.prob_ofWeights, Fin.sum_univ_two]
+
+/-- A nontrivial visible event has probability one half, not an assumed floor. -/
+theorem selection_output_zero_mass :
+    selectionExecution.probOf (Prod.snd ⁻¹' ({0} : Set (Fin 2))) = 1 / 2 := by
+  rw [← FinDist.prob_map_eq_probOf_preimage_singleton, selection_history]
+  norm_num [cfrIterationLaw, FinDist.prob_ofWeights, Fin.sum_univ_two]
+
+/-- Projecting the conditioned execution yields the actual observed output,
+while the unconditioned output law was uniform. -/
+theorem selection_output_zero_posterior :
+    (selectionExecution.condOn (Prod.snd ⁻¹' ({0} : Set (Fin 2)))
+      selection_output_zero_possible).map Prod.snd = FinDist.pure 0 := by
+  rw [FinDist.map_condOn_preimage]
+  apply FinDist.eq_pure_of_support_subset_singleton
+  intro output reached
+  exact (FinDist.support_condOn _ _ _ reached).1
+
+/-- Selecting a hidden bit cannot be represented by ANY event of a constant
+public observation. The preimage hypothesis of the bridge is indispensable. -/
+theorem hidden_selection_not_public :
+    ¬ ∃ event : Set Unit, ({0} : Set (Fin 2)) = (fun _ : Fin 2 => ()) ⁻¹' event := by
+  rintro ⟨event, same⟩
+  have zero : (0 : Fin 2) ∈ (fun _ : Fin 2 => ()) ⁻¹' event :=
+    same ▸ (Set.mem_singleton (0 : Fin 2))
+  have one : (1 : Fin 2) ∈ (fun _ : Fin 2 => ()) ⁻¹' event := zero
+  have impossible : (1 : Fin 2) ∈ ({0} : Set (Fin 2)) := same.symm ▸ one
+  norm_num at impossible
+
+/-- A zero-mass visible output has no supported preimage, even when the
+projection's carrier includes that output. -/
+theorem absent_output_has_no_posterior :
+    ¬ ∃ point ∈ Prod.snd ⁻¹' ({1} : Set (Fin 2)),
+      point ∈ (FinDist.pure ((0 : Fin 2), (0 : Fin 2))).support := by
+  rintro ⟨point, member, reached⟩
+  rw [FinDist.mem_support_pure] at reached
+  subst point
+  norm_num at member
+
+end GameTheory.ReBeL.Examples.JointNativeGap

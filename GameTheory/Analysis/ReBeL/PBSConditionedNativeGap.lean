@@ -198,4 +198,104 @@ theorem pbsInformationBudget_conditioned_native_mean_abs_le
         (pbsInformationBudgetRounds_error M (slice.mixture own).law (fun _ => bound)
           fuel error positive) (FinDist.probOf_pos possible).le)
 
+/-- This event reads only the canonical public trace of the resulting history.
+It does not inspect the retained private iteration or root type. -/
+def pbsInformationCFRPublicEvent {t : Nat} (next : List M.PublicSignal) :
+    Set ((Fin t × T) × E.History) :=
+  {point | publicTrace (fullInformation M).toInfoSignals point.2.trace = next}
+
+/-- The public witness on the real tagged execution is equivalent to the
+canonical averaged execution's public-support witness, including impossibility. -/
+theorem pbsInformationCFR_public_possible_iff
+    (slice : TypeBeliefSlice (fullInformation M) observations who T) (own : FinDist T)
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (fuel t : Nat) [NeZero t] (opponents : Profile (fullInformation M).behavioralSignature)
+    (steps : Nat) (next : List M.PublicSignal) :
+    (∃ point ∈ pbsInformationCFRPublicEvent M next,
+      point ∈ (pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t
+        opponents steps).support) ↔
+      PublicBelief.Possible (S := (fullInformation M).toInfoSignals)
+        (PublicBelief.continuationLaw (fullInformation M)
+        (Profile.update opponents who
+          (pbsInformationCFR M (slice.mixture own) fallback payoff fuel t who))
+        steps (slice.mixture own)) next := by
+  have projected := FinDist.possible_preimage_iff
+    (pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t opponents steps) Prod.snd
+    {h | publicTrace (fullInformation M).toInfoSignals h.trace = next}
+  rw [pbsInformationCFRTaggedExecution_history] at projected
+  exact projected
+
+/-- The selection cost is the ACTUAL public observation probability under
+the full joint averaged execution. No minimum public-event mass is assumed. -/
+theorem pbsInformationCFR_public_event_mass
+    (slice : TypeBeliefSlice (fullInformation M) observations who T) (own : FinDist T)
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (fuel t : Nat) [NeZero t] (opponents : Profile (fullInformation M).behavioralSignature)
+    (steps : Nat) (next : List M.PublicSignal) :
+    (pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t opponents steps).probOf
+      (pbsInformationCFRPublicEvent M next) =
+      (PublicBelief.publicLaw (S := (fullInformation M).toInfoSignals)
+        (PublicBelief.continuationLaw (fullInformation M)
+        (Profile.update opponents who
+          (pbsInformationCFR M (slice.mixture own) fallback payoff fuel t who))
+        steps (slice.mixture own))).prob next := by
+  rw [PublicBelief.publicLaw, FinDist.prob_map_eq_probOf_preimage_singleton,
+    ← pbsInformationCFRTaggedExecution_history M slice own fallback payoff fuel t opponents steps,
+    FinDist.probOf_map]
+  rfl
+
+/-- Forgetting hidden tags AFTER observing the public trace gives exactly
+the canonical supported joint-history posterior. Equality of history laws does
+not assert that the retained tags remain independent after conditioning. -/
+theorem pbsInformationCFR_public_posterior_history
+    (slice : TypeBeliefSlice (fullInformation M) observations who T) (own : FinDist T)
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (fuel t : Nat) [NeZero t] (opponents : Profile (fullInformation M).behavioralSignature)
+    (steps : Nat) (next : List M.PublicSignal)
+    (possible : ∃ point ∈ pbsInformationCFRPublicEvent M next,
+      point ∈ (pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t
+        opponents steps).support) :
+    ((pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t opponents steps).condOn
+      (pbsInformationCFRPublicEvent M next) possible).map Prod.snd =
+      (PublicBelief.condition (S := (fullInformation M).toInfoSignals)
+        (PublicBelief.continuationLaw (fullInformation M)
+        (Profile.update opponents who
+          (pbsInformationCFR M (slice.mixture own) fallback payoff fuel t who))
+        steps (slice.mixture own)) next
+        ((pbsInformationCFR_public_possible_iff M slice own fallback payoff fuel t
+          opponents steps next).mp possible)).law := by
+  have projected := FinDist.map_condOn_preimage
+    (pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t opponents steps) Prod.snd
+    {h | publicTrace (fullInformation M).toInfoSignals h.trace = next} possible
+  simpa only [pbsInformationCFRTaggedExecution_history, PublicBelief.condition] using projected
+
+/-- The native finite-T error of the retained query at a possible PUBLIC
+observation has the actual public-mass penalty. Its gap still uses the SAME
+computed average comparison opponent at the ORIGINAL compatible type kernels;
+the theorem does not transfer that gap to the new posterior's kernels. -/
+theorem pbsInformationCFR_public_native_mean_abs_le
+    (slice : TypeBeliefSlice (fullInformation M) observations who T) (own : FinDist T)
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (zeroSum : IsZeroSum (fun h player => payoff player h))
+    (bound : Fin 2 → ℝ) (nonneg : ∀ player, 0 ≤ bound player)
+    (bounded : ∀ player h, |payoff player h| ≤ bound player)
+    (fuel t : Nat) [NeZero t] (opponents : Profile (fullInformation M).behavioralSignature)
+    (steps : Nat) (next : List M.PublicSignal)
+    (possible : ∃ point ∈ pbsInformationCFRPublicEvent M next,
+      point ∈ (pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t
+        opponents steps).support) :
+    (pbsInformationCFRConditionedQuery M slice own fallback payoff fuel t opponents steps
+      (pbsInformationCFRPublicEvent M next) possible).expect (fun pair =>
+        |pbsInformationCFRConditionalDrawGap M slice own fallback payoff fuel t pair.2 pair.1|) ≤
+      pbsRootCFRBound M (slice.mixture own).law bound fuel t /
+        (PublicBelief.publicLaw (S := (fullInformation M).toInfoSignals)
+          (PublicBelief.continuationLaw (fullInformation M)
+        (Profile.update opponents who
+          (pbsInformationCFR M (slice.mixture own) fallback payoff fuel t who))
+        steps (slice.mixture own))).prob next := by
+  rw [← pbsInformationCFR_public_event_mass M slice own fallback payoff fuel t
+    opponents steps next]
+  exact pbsInformationCFR_conditioned_native_mean_abs_le M slice own fallback payoff
+    zeroSum bound nonneg bounded fuel t opponents steps _ possible
+
 end GameTheory.ReBeL

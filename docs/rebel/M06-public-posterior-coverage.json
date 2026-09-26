@@ -1,0 +1,51 @@
+{
+  "kind": "project_candidate_checkpoint",
+  "milestone": "M06",
+  "milestone_complete": false,
+  "source": "project",
+  "source_locator": "docs/rebel/ROADMAP.md M06; M06-conditioned-query.md public-carried-PBS identification boundary",
+  "branch": "rebel/m06-conditioned-query-20260925",
+  "parent_checkpoint": "af2b4da1776e97ee70c437c886fc80f8a633fae8",
+  "status": "pending",
+  "semantic_review": "docs/rebel/M06-public-posterior.md",
+  "modules": [
+    "GameTheory/Math/Probability/FinDistSelection.lean",
+    "GameTheory/Analysis/ReBeL/PBSConditionedNativeGap.lean",
+    "GameTheory/Analysis/ReBeL/Examples/PBSConditionedNativeGap.lean"
+  ],
+  "declarations": [
+    "GameTheory.Math.Probability.FinDist.possible_preimage_iff",
+    "GameTheory.Math.Probability.FinDist.map_condOn_preimage",
+    "GameTheory.ReBeL.pbsInformationCFRPublicEvent",
+    "GameTheory.ReBeL.pbsInformationCFR_public_possible_iff",
+    "GameTheory.ReBeL.pbsInformationCFR_public_event_mass",
+    "GameTheory.ReBeL.pbsInformationCFR_public_posterior_history",
+    "GameTheory.ReBeL.pbsInformationCFR_public_native_mean_abs_le",
+    "GameTheory.ReBeL.Examples.HiddenTypes.pbsPublicPosterior_live",
+    "GameTheory.ReBeL.Examples.JointNativeGap.selection_history",
+    "GameTheory.ReBeL.Examples.JointNativeGap.selection_output_zero_possible",
+    "GameTheory.ReBeL.Examples.JointNativeGap.selection_output_zero_mass",
+    "GameTheory.ReBeL.Examples.JointNativeGap.selection_output_zero_posterior",
+    "GameTheory.ReBeL.Examples.JointNativeGap.hidden_selection_not_public",
+    "GameTheory.ReBeL.Examples.JointNativeGap.absent_output_has_no_posterior"
+  ],
+  "original_obligations_unchanged": {
+    "SEARCH-FRONTIER": "pending",
+    "SEARCH-CFRD": "pending",
+    "SEARCH-ERROR": "pending",
+    "SAFE-THEOREM3": "pending"
+  },
+  "validation": {
+    "local_python_tests": 97,
+    "local_python_status": "success",
+    "local_python_log_sha256": "3ecabde353b91c9c668e1007c845894e84286bdda71aa7f154f3afd5440e3a58",
+    "ledger_and_inventory_items": 3054,
+    "lean_compilation": "pending",
+    "normal_and_slow_lint": "pending",
+    "transitive_axiom_audit": "pending",
+    "all_rebel": "pending",
+    "full_ci": "pending",
+    "validation_configuration_changed": false
+  },
+  "unproved_bridge": "The selected fixed-profile history posterior is not independently re-solved carried-PBS safety. Native gaps retain original type kernels and the computed average comparison opponent. Changed-opponent/PBS rates, quantitative first-exit/support/event rates and CarriedResolveStepBounds remain open."
+}

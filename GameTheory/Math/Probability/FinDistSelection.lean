@@ -16,6 +16,50 @@ namespace GameTheory.Math.Probability.FinDist
 universe u v
 variable {A : Type u} {B : Type v}
 
+/-- A projected event is possible exactly when its preimage meets the actual
+source support. This does not require surjectivity or positive mass everywhere. -/
+theorem possible_preimage_iff (law : FinDist A) (project : A → B) (event : Set B) :
+    (∃ a ∈ project ⁻¹' event, a ∈ law.support) ↔
+      ∃ b ∈ event, b ∈ (law.map project).support := by
+  constructor
+  · rintro ⟨a, member, reached⟩
+    refine ⟨project a, member, ?_⟩
+    rw [support_map]
+    exact ⟨a, reached, rfl⟩
+  · rintro ⟨b, member, reached⟩
+    rw [support_map] at reached
+    obtain ⟨a, reached, equal⟩ := reached
+    exact ⟨a, equal.symm ▸ member, reached⟩
+
+/-- Observing an event of a projection and then forgetting the hidden data
+agrees exactly with conditioning the projected law. The event MUST be a
+preimage: arbitrary hidden-data selection does not satisfy this identity. -/
+theorem map_condOn_preimage (law : FinDist A) (project : A → B) (event : Set B)
+    (possible : ∃ a ∈ project ⁻¹' event, a ∈ law.support) :
+    (law.condOn (project ⁻¹' event) possible).map project =
+      (law.map project).condOn event ((possible_preimage_iff law project event).mp possible) := by
+  classical
+  apply ext_of_prob
+  intro b
+  rw [prob_map, prob_condOn, probOf_map]
+  by_cases member : b ∈ event
+  · rw [if_pos member]
+    calc
+      _ = law.expect (fun a => if b = project a then 1 else 0) /
+          law.probOf (project ⁻¹' event) := by
+        apply expect_condOn_eq_div_of_eq_zero_off
+        intro a _ outside
+        exact if_neg (fun equal => outside (equal ▸ member))
+      _ = _ := by rw [prob_map]
+  · rw [if_neg member]
+    calc
+      _ = (law.condOn (project ⁻¹' event) possible).expect (fun _ => 0) := by
+        apply expect_congr
+        intro a reached
+        have inside := (support_condOn law (project ⁻¹' event) possible reached).1
+        exact if_neg (fun equal => member (equal.symm ▸ inside))
+      _ = 0 := expect_const _ _
+
 /-- Selection can amplify a nonnegative observable by at most the reciprocal
 of the ACTUAL event probability. Nonnegativity is needed only on support. -/
 theorem expect_condOn_le_div_of_nonneg (law : FinDist A) (event : Set A)
