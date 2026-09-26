@@ -1,14 +1,18 @@
 {
-  "kind": "project_dependency_candidate",
+  "kind": "project_dependency",
   "milestone": "M06",
   "milestone_complete": false,
   "status": "pending",
   "source": "project",
   "source_locator": "docs/rebel/ROADMAP.md M06; actual support failure in the carried belief interface",
-  "branch": "rebel/m06-support-rates-20260927",
+  "branch": "rebel/m06-support-rates-checkpoint-20260927",
+  "implementation_branch": "rebel/m06-support-rates-20260927",
+  "implementation_source": "b833d49b430ac44c433658f3cc72fd130ff0a87f",
   "integration_parent": "7326f1e40011b1d4329f09e743491cc7bc7e5746",
   "validation_checkpoint": "3de54cc88fe0ccb87e2aa603c4d833ac5a3d1662",
   "semantic_review": "docs/rebel/M06-support-rates.md",
+  "current_validation_record": "docs/rebel/M06-support-rates-b833-validation.md",
+  "historical_validation_record": "docs/rebel/M06-support-rates-validation.md",
   "source_blobs": {
     "GameTheory/Math/Probability/FinDistKernelVariation.lean": "42c6a646deb428f3a7ec57053281fb3724811c1c",
     "GameTheory/Analysis/ReBeL/PBSOpponentModelTransport.lean": "867d9631a72b271adc3e1ca6775ae285c280acb2",
@@ -48,27 +52,67 @@
       "zip_sha256": "f23a75632bd174f216baea774e67e25cadb611e21b96d9c5dba4029dbc41a2ff",
       "log_sha256": "ae4fae95ce236c20b132dc55b757cd1715e4223ea923116231c39f5d58a78732",
       "diagnosis": "Missing false-negation simplification and set-membership indicator normalization in FinDistKernelVariation; downstream modules and audit stage not reached.",
-      "repair": "Normalize Set.mem_ofPred_eq explicitly, keep expectation indicators on both sides until normalized, and preserve all theorem statements and validation gates."
+      "repair": "Normalize Set.mem_ofPred_eq explicitly, keep expectation indicators on both sides until normalized, and preserve all theorem statements and validation gates.",
+      "repair_source": "b833d49b430ac44c433658f3cc72fd130ff0a87f"
     }
   ],
   "validation": {
-    "new_source_compiler": "pending_after_proof_repair",
-    "new_source_normal_and_slow_lint": "pending",
-    "new_source_transitive_axioms": "pending",
-    "new_source_all_rebel": "pending",
-    "new_source_full_ci": "pending",
+    "source": "b833d49b430ac44c433658f3cc72fd130ff0a87f",
+    "compiler": "inspected_success",
+    "normal_and_slow_lint": "inspected_success",
+    "transitive_axioms": "inspected_success",
+    "target": {
+      "run": 36277876540,
+      "job": 108503997685,
+      "artifact": 10917649066,
+      "zip_sha256": "641ecf4edd5dfd7d500d1bda9f6d87ee3ee2db7f6fa242ef6c953169f5818f30",
+      "log_sha256": "f7a826619086fc1214a2926c9c7cda29605f7ce28b3bb9dd87e50fc6af106b7f",
+      "build_jobs": [3475, 3467],
+      "lint_passes": 110,
+      "complete_axiom_records": 1774,
+      "new_public_declarations_checked": 16,
+      "allowlist": ["propext", "Classical.choice", "Quot.sound"],
+      "final_gate": "EXACT_LEAF_VALIDATION_PASS modules=110",
+      "new_declaration_excerpt": "docs/rebel/M06-support-rates-axioms.log",
+      "excerpt_sha256": "188f6cc81602781922d1e70632d21a8f8354c6f74427c6a91b62f357cf826d09"
+    },
+    "full_ci": {
+      "status": "inspected_success",
+      "run": 36277876544,
+      "job": 108504133348,
+      "artifact": 10918131435,
+      "zip_sha256": "ef4abbb5cff82fa89e3161b41206972b27fb170cf91847718a4cd0265ac629ec"
+    },
+    "source_inventory": {
+      "status": "inspected_success",
+      "run": 36277876557,
+      "job": 108503997761,
+      "python_tests": 112
+    },
+    "all_rebel": {
+      "status": "pending",
+      "run": 36277876590,
+      "job": 108504099546,
+      "last_observed_stage": "Compile and lint every ReBeL module and audit transitive axioms",
+      "next_check": "Fetch final exact-source jobs/artifacts and inspect complete diagnostics; do not substitute the target or full-CI results."
+    },
+    "source_snapshot": {
+      "run": 36277876590,
+      "job": 108504099412,
+      "artifact": 10917737140,
+      "zip_sha256": "3a4bd7474fe4b5f1e6f30374189b13f63a611d310a4baf227da4ada2a4d2b79a",
+      "tar_sha256": "4811209dd154b071b6fc3d45a94183e8f168cd30148cc09d018c774ab8bda02b"
+    },
     "local_python_tests": 112,
     "local_python_status": "success",
-    "local_python_log_sha256": "75e53650f1907528d1da58bb492bc9fa5c280d81631e68f60f5a753f605f8b4f",
-    "f14_source_inventory_run": 36277385509,
-    "f14_source_inventory_job": 108502646851,
-    "f14_source_inventory_actual_log": "inspected_success_112_tests",
+    "local_python_log_sha256": "374348b7705b000b4374eaa1a39bb34c1bf4dc3c81a8df6c2056b26d4c567508",
     "new_exhaustive_rational_cases": 16384,
     "ledger_and_inventory_items": 3054,
     "configured_target_audit_modules": 110,
     "global_rebel_modules": 253,
     "validation_configuration_changed": false,
-    "local_lean_execution": false
+    "local_lean_execution": false,
+    "documentation_checkpoint_head_ci": "not_claimed_complete"
   },
   "unproved_bridge": "The bound is for a fixed-profile finite continuation. Small one-step leakage for independently re-solved schedules, changed-PBS native/late gaps, actual/model conditional-law identification and CarriedResolveStepBounds remain open. Support dominance is an explicit sufficient premise, not an established property of arbitrary opponents."
 }

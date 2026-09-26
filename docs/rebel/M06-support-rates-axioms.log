@@ -1,0 +1,43 @@
+# Actual target output excerpt (not the complete audit)
+# Source: b833d49b430ac44c433658f3cc72fd130ff0a87f
+# Run: 36277876540; job: 108503997685; artifact: 10917649066
+# ZIP SHA256: 641ecf4edd5dfd7d500d1bda9f6d87ee3ee2db7f6fa242ef6c953169f5818f30
+# Log SHA256: f7a826619086fc1214a2926c9c7cda29605f7ce28b3bb9dd87e50fc6af106b7f
+# The following 16 complete records are copied from m06-targeted.log.
+# All 1774 audit records and 110 module lint passes were inspected separately.
+EXACT_LEAF_AXIOMS GameTheory.Math.Probability.FinDist.probOf_unsupported_eq_zero_of_support_subset: [propext,
+ Classical.choice,
+ Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.Math.Probability.FinDist.probOf_le_probOf_unsupported: [propext,
+ Classical.choice,
+ Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.Math.Probability.FinDist.probOf_bind_unsupported_le: [propext,
+ Classical.choice,
+ Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.executionSupportCharge: [propext, Classical.choice, Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.executionSupportCharge_eq_zero_of_step_support_subset: [propext,
+ Classical.choice,
+ Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.runBehavioralFrom_unsupported_le: [propext, Classical.choice, Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.executionSupportCharge_le_kernelCharge: [propext, Classical.choice, Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.carriedOpponentSupportCharge: [propext, Classical.choice, Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.carriedOpponentSupportCharge_le_modelCharge: [propext, Classical.choice, Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.carriedBeliefUpdate_failure_probability_le_supportCharge: [propext,
+ Classical.choice,
+ Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.carriedOpponentSupportCharge_eq_zero_of_support: [propext,
+ Classical.choice,
+ Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.Examples.HiddenTypes.pbsOpponentSupport_live: [propext, Classical.choice, Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.Examples.OpponentModelTransport.fullSupportModel: [propext,
+ Classical.choice,
+ Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.Examples.OpponentModelTransport.reweight_support_loss_zero: [propext,
+ Classical.choice,
+ Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.Examples.OpponentModelTransport.actual_support_leakage: [propext,
+ Classical.choice,
+ Quot.sound]
+EXACT_LEAF_AXIOMS GameTheory.ReBeL.Examples.OpponentModelTransport.model_prefix_undercharges_support: [propext,
+ Classical.choice,
+ Quot.sound]
