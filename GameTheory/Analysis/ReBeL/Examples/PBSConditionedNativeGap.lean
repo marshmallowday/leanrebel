@@ -66,7 +66,8 @@ def selectionEvent : Set ((Fin 2 × Fin 2) × Fin 2) := {point | point.1.1 = poi
 /-- The selection has genuine positive mass, witnessed by a supported outcome. -/
 theorem selection_possible : ∃ point ∈ selectionEvent, point ∈ selectionExecution.support := by
   refine ⟨((0, 0), 0), rfl, FinDist.prob_pos_iff.mp ?_⟩
-  norm_num [selectionExecution, FinDist.prob_bind_map_prod, selectionPrior,
+  rw [selectionExecution, FinDist.prob_bind_map_prod]
+  norm_num [selectionPrior,
     FinDist.prob_product, selectionKernel, FinDist.prob_pure_eq_ite,
     cfrIterationLaw, FinDist.prob_ofWeights, Fin.sum_univ_two]
 
@@ -74,22 +75,31 @@ theorem selection_possible : ∃ point ∈ selectionEvent, point ∈ selectionEx
 theorem selection_probability : selectionExecution.probOf selectionEvent = 1 / 2 := by
   classical
   rw [← FinDist.expect_indicator_eq_probOf]
-  simpa only [selectionExecution, FinDist.expect_bind, FinDist.expect_map,
-    selectionKernel, FinDist.expect_pure, selectionEvent, Set.mem_setOf_eq,
-    selectionPrior, diagonalLoss] using diagonalQuery_mean_control.1
+  calc
+    _ = selectionPrior.expect diagonalLoss := by
+      rw [selectionExecution, FinDist.expect_bind]
+      apply FinDist.expect_congr
+      intro pair _
+      simp [selectionKernel, FinDist.expect_map, selectionEvent, diagonalLoss]
+    _ = _ := diagonalQuery_mean_control.1
 
 /-- Conditioning, not an arbitrarily supplied query, produces the diagonal law. -/
 theorem selection_query :
     (selectionExecution.condOn selectionEvent selection_possible).map Prod.fst =
       diagonalQuery := by
+  have executionProb (pair : Fin 2 × Fin 2) (outcome : Fin 2) :
+      selectionExecution.prob (pair, outcome) =
+        selectionPrior.prob pair * (selectionKernel pair).prob outcome := by
+    rw [selectionExecution, FinDist.prob_bind_map_prod]
   apply FinDist.ext_of_prob
   rintro ⟨n, type⟩
   fin_cases n <;> fin_cases type <;>
-    norm_num [FinDist.prob_map, FinDist.expect_eq_sum, Fin.sum_univ_two,
-      FinDist.prob_condOn, selection_probability, selectionExecution,
-      FinDist.prob_bind_map_prod, selectionPrior, FinDist.prob_product,
+    simp only [FinDist.prob_map, FinDist.expect_eq_sum, Fintype.sum_prod_type,
+      Fin.sum_univ_two, FinDist.prob_condOn, selection_probability] <;>
+    norm_num [executionProb, selectionPrior, FinDist.prob_product,
       selectionKernel, FinDist.prob_pure_eq_ite, selectionEvent,
-      diagonalQuery, cfrIterationLaw, FinDist.prob_ofWeights]
+      diagonalQuery, FinDist.prob_map, FinDist.expect_eq_sum,
+      Fin.sum_univ_two, cfrIterationLaw, FinDist.prob_ofWeights]
 
 /-- The conditional loss is one although the original mean is one half.
 The reciprocal event penalty is sharp, and equal marginals do not remove it. -/
