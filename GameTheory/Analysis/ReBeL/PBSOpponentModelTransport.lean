@@ -8,7 +8,7 @@ visits, not assumed away by child Nash or by public posterior identification.
 -/
 
 import GameTheory.Math.Probability.FinDistKernelVariation
-import GameTheory.Analysis.ReBeL.CFRDResolveBelief
+import GameTheory.Analysis.ReBeL.CFRDRecursivePlay
 
 noncomputable section
 
@@ -277,5 +277,152 @@ theorem carriedOpponentSupportCharge_eq_zero_of_support {past : List M.PublicSig
   rw [carriedOpponentSupportCharge,
     FinDist.probOf_unsupported_eq_zero_of_support_subset actual belief.law incoming,
     executionSupportCharge_eq_zero_of_step_support_subset M _ chosen steps, add_zero]
+
+variable {K : Type*}
+
+/-- The retained model posterior exists and contains the actual hidden history.
+Unlike the sampling exception, this property also detects a missing belief. -/
+def carriedStateSupported (state : PrivateIterationState M K) : Prop :=
+  ∃ belief, state.belief = some belief ∧ state.history ∈ belief.law.support
+
+/-- Support failure allowance for the actual randomized public resolver. Each
+chosen profile stays paired with its own model update; model laws are not pooled.
+Stopped stages retain their incoming defect, and a missing live belief costs one. -/
+def carriedResolvedSupportCharge (resolver : CarriedPublicResolver M K)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2) (fuel : Nat)
+    (state : PrivateIterationState M K) : ℝ := by
+  classical
+  exact if cfrDCutLive fuel state.history = true then
+    match state.belief with
+    | none => 1
+    | some belief =>
+        (resolver state.iteration (publicTrace M.toInfoSignals state.history.trace)
+          (some belief)).expect (fun chosen =>
+            carriedOpponentSupportCharge M belief (FinDist.pure state.history)
+              chosen unknown who fuel)
+  else if carriedStateSupported M state then 0 else 1
+
+omit [Fintype E.History] in
+/-- The full next private state, not merely its history marginal, satisfies the
+computed support bound. No support inclusion, child Nash, or posterior identity
+is supplied. The unknown legal opponent is arbitrary and unchanged by the draw. -/
+theorem carriedResolvedStep_unsupported_le (plays : K → Profile M.behavioralSignature)
+    (resolver : CarriedPublicResolver M K) (unknown : Profile M.behavioralSignature)
+    (who : Fin 2) (fuel : Nat) (state : PrivateIterationState M K) :
+    (carriedResolvedStep M plays resolver unknown who fuel state).probOf
+        {next | ¬ carriedStateSupported M next} ≤
+      carriedResolvedSupportCharge M resolver unknown who fuel state := by
+  classical
+  by_cases live : cfrDCutLive fuel state.history = true
+  · cases stored : state.belief with
+    | none =>
+        rw [carriedResolvedSupportCharge, if_pos live, stored]
+        rw [← FinDist.expect_indicator_eq_probOf]
+        apply FinDist.expect_le_of_forall
+        intro next _
+        split_ifs <;> norm_num
+    | some belief =>
+        rw [carriedResolvedStep, if_pos live, carriedResolvedSupportCharge, if_pos live, stored]
+        rw [← FinDist.expect_indicator_eq_probOf, FinDist.expect_bind]
+        apply FinDist.expect_mono
+        intro chosen _
+        rw [FinDist.expect_map]
+        have estimate := carriedBeliefUpdate_failure_probability_le_supportCharge M
+          belief (FinDist.pure state.history) chosen unknown who fuel
+        rw [FinDist.pure_bind, ← FinDist.expect_indicator_eq_probOf] at estimate
+        simpa only [carriedStateSupported, resolvedNextState, stored, Set.mem_ofPred_eq]
+          using estimate
+  · rw [carriedResolvedStep, if_neg live, carriedResolvedSupportCharge, if_neg live]
+    rw [← FinDist.expect_indicator_eq_probOf, FinDist.expect_pure]
+    change (if ¬ carriedStateSupported M state then (1 : ℝ) else 0) ≤
+      if carriedStateSupported M state then 0 else 1
+    by_cases supported : carriedStateSupported M state <;> simp [supported]
+
+omit [Fintype E.History] in
+/-- At a live supported input, only the kernel leakage remains, averaged under
+the native private resolver draw. Point-mass versus model weight differences
+are not added back as a source-variation cost. -/
+theorem carriedResolvedSupportCharge_of_supported
+    (resolver : CarriedPublicResolver M K) (unknown : Profile M.behavioralSignature)
+    (who : Fin 2) (fuel : Nat) (state : PrivateIterationState M K)
+    (belief : PublicBelief M.toInfoSignals (publicTrace M.toInfoSignals state.history.trace))
+    (live : cfrDCutLive fuel state.history = true) (stored : state.belief = some belief)
+    (supported : state.history ∈ belief.law.support) :
+    carriedResolvedSupportCharge M resolver unknown who fuel state =
+      (resolver state.iteration (publicTrace M.toInfoSignals state.history.trace)
+        (some belief)).expect (fun chosen =>
+          executionSupportCharge M (Profile.update unknown who (chosen who)) chosen fuel
+            (FinDist.pure state.history)) := by
+  have incoming : (FinDist.pure state.history).support ⊆ belief.law.support := by
+    intro history reached
+    have same : history = state.history := FinDist.mem_support_pure.mp reached
+    simpa only [same] using supported
+  have vanished := FinDist.probOf_unsupported_eq_zero_of_support_subset
+    (FinDist.pure state.history) belief.law incoming
+  simp only [carriedResolvedSupportCharge, if_pos live, stored, carriedOpponentSupportCharge,
+    vanished, zero_add]
+
+omit [Fintype E.History] in
+/-- Primitive support dominance is required only for profiles actually sampled
+by this public resolver. It is not asserted for every unknown opponent or inferred
+from finite-iteration equilibrium quality. Stopped supported states also cost zero. -/
+theorem carriedResolvedSupportCharge_eq_zero_of_support
+    (resolver : CarriedPublicResolver M K) (unknown : Profile M.behavioralSignature)
+    (who : Fin 2) (fuel : Nat) (state : PrivateIterationState M K)
+    (belief : PublicBelief M.toInfoSignals (publicTrace M.toInfoSignals state.history.trace))
+    (stored : state.belief = some belief) (supported : state.history ∈ belief.law.support)
+    (steps : ∀ chosen ∈ (resolver state.iteration
+      (publicTrace M.toInfoSignals state.history.trace) (some belief)).support,
+      ∀ h, (M.runBehavioralFrom (Profile.update unknown who (chosen who)) 1 h).support ⊆
+        (M.runBehavioralFrom chosen 1 h).support) :
+    carriedResolvedSupportCharge M resolver unknown who fuel state = 0 := by
+  classical
+  by_cases live : cfrDCutLive fuel state.history = true
+  · rw [carriedResolvedSupportCharge_of_supported M resolver unknown who fuel state
+      belief live stored supported]
+    calc
+      _ = (resolver state.iteration (publicTrace M.toInfoSignals state.history.trace)
+          (some belief)).expect (fun _ => (0 : ℝ)) := by
+        apply FinDist.expect_congr
+        intro chosen sampled
+        exact executionSupportCharge_eq_zero_of_step_support_subset M _ chosen
+          (steps chosen sampled) fuel (FinDist.pure state.history)
+      _ = 0 := FinDist.expect_const _ _
+  · have valid : carriedStateSupported M state := ⟨belief, stored, supported⟩
+    simp only [carriedResolvedSupportCharge, if_neg live, if_pos valid]
+
+omit [Fintype E.History] in
+/-- Flattening the newly chosen profile into retained memory preserves the same
+support event. No posterior or private seed is resampled by this bookkeeping. -/
+theorem carriedMemoryStep_unsupported_le (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2)
+    (stage : CarriedResolveStage M K)
+    (state : PrivateIterationState M (CarriedResolveMemory M K)) :
+    (carriedMemoryStep M initial unknown who stage state).probOf
+        {next | ¬ carriedStateSupported M next} ≤
+      carriedResolvedSupportCharge M stage.resolver unknown who stage.fuel state := by
+  rw [carriedMemoryStep, FinDist.probOf_map]
+  change (carriedResolvedStep M (carriedMemoryProfile M initial) stage.resolver unknown who
+      stage.fuel state).probOf {next | ¬ carriedStateSupported M next} ≤ _
+  exact carriedResolvedStep_unsupported_le M (carriedMemoryProfile M initial)
+    stage.resolver unknown who stage.fuel state
+
+omit [Fintype E.History] in
+/-- An arbitrary incoming full-state law is averaged under its ACTUAL weights.
+In particular, private memory may be correlated with both the hidden history
+and its model PBS; no independent product of these marginals is introduced. -/
+theorem carriedMemoryStep_law_unsupported_le (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2)
+    (stage : CarriedResolveStage M K)
+    (states : FinDist (PrivateIterationState M (CarriedResolveMemory M K))) :
+    (states.bind (carriedMemoryStep M initial unknown who stage)).probOf
+        {next | ¬ carriedStateSupported M next} ≤
+      states.expect (carriedResolvedSupportCharge M stage.resolver unknown who stage.fuel) := by
+  classical
+  rw [← FinDist.expect_indicator_eq_probOf, FinDist.expect_bind]
+  apply FinDist.expect_mono
+  intro state _
+  rw [FinDist.expect_indicator_eq_probOf]
+  exact carriedMemoryStep_unsupported_le M initial unknown who stage state
 
 end GameTheory.ReBeL

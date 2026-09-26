@@ -1,83 +1,56 @@
-# ReBeL status — support rates compiler-validated; M06 incomplete
+# ReBeL status — randomized resolver support candidate; M06 incomplete
 
-## Resume branch and exact implementation
+## Resume branch
 
-Continue `rebel/m06-support-rates-checkpoint-20260927`. This evidence-only
-checkpoint descends from `b833d49b430ac44c433658f3cc72fd130ff0a87f` on
-`rebel/m06-support-rates-20260927`; the three Lean source files, Python tests,
-imports, validation scripts, workflows and dependency pins are unchanged.
-The separate checkpoint branch preserves the still-running b833 global ReBeL
-audit from same-branch concurrency cancellation. It is not a new algorithm
-variant or the start of M07. Check the exact implementation's pending global
-run below before changing its source branch.
+Continue `rebel/m06-resolver-support-20260927`, created from the latest observed
+checkpoint `3d272004909c9e70226aeb430813d3d53f038fdd` on
+`rebel/m06-support-rates-checkpoint-20260927`. Its parent implementation is
+`b833d49b430ac44c433658f3cc72fd130ff0a87f`; the combined integration
+`7326f1e40011b1d4329f09e743491cc7bc7e5746` and both prior integration parents
+are retained. Main stays at accepted M05
+`6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`. No force-push or branch deletion.
 
-The implementation descends from combined integration
-`7326f1e40011b1d4329f09e743491cc7bc7e5746`, retaining both integration parents.
-Feature checkpoint `f14ec3bddd5e61ba3e4eb505cd2c73a37f7f3068` failed its first
-compiler attempt; b833 repaired only proof normalization, not statements or
-hypotheses. That failure remains recorded. Main remains accepted M05 at
-`6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`. M06 and paper Theorem 3 are NOT
-complete. Main is not updated and no branch is force-pushed or deleted.
+The new candidate extends PBSOpponentModelTransport with a support bound for
+the actual randomized public resolver and its retained-memory transition,
+then averages over arbitrary actual full-state laws. It does not replace the
+random draw with a pooled model posterior. Stopped and missing-belief cases
+are explicit. Read M06-resolver-support.md and its subordinate coverage JSON
+for exact declarations, premises, validation state and unclosed obligations.
 
-## Completed dependency slice
+## Validation boundary
 
-The support-specific rate bounds genuine carried posterior containment
-failure by incoming unsupported mass plus one-step kernel support leakage
-averaged along ACTUAL execution. Unlike full source-atom variation, unequal
-positive weights inside model support incur no incoming support cost.
-Finite-horizon propagation, comparison with the old variation charge and zero
-charge under explicit support inclusions are now compiler-validated. The
-consumer uses the actual budget-1/8 information-set CFR child, a supported
-actual history and an arbitrary fixed legal unknown opponent. Canonical
-finite-law controls expose differing positive weights and wrong-prefix
-undercharging. Original source statements and tests are preserved.
+The new declarations are NOT yet compiler-accepted. Check the exact new HEAD's
+M06 targeted proof feedback, ReBeL checks, full CI and inventory. Existing
+normal/slow lint and axiom consumers already cover both edited proof/example
+modules; no gate, dependency pin, original theorem or test is weakened.
 
-## Exact b833 evidence actually inspected
+Baseline b833 evidence remains in M06-support-rates-b833-validation.md,
+M06-support-rates-coverage.json and M06-support-rates-axioms.log. Its earlier
+failed f14 compiler attempt remains recorded, not reclassified as success.
+The inspected prior target had 110 module lint passes and 1,774 complete
+allowlisted axiom records; new declarations must have their own actual output.
+Prior full CI and 112 Python tests do not validate this new implementation.
 
-Read M06-support-rates-b833-validation.md for current evidence and hashes;
-M06-support-rates-validation.md is the earlier checkpoint/failure history.
-M06-support-rates-coverage.json gives exact declarations and source blobs.
-M06-support-rates-axioms.log preserves the 16 new declarations' actual records.
+At this session's first check, b833 global run 36277876590 / diagnostics job
+108504099546 was still in its compiler/lint/axiom step; source snapshot job
+108504099412 had succeeded. The separate new branch preserves this run. Fetch
+its final jobs/artifacts and inspect actual output before claiming global
+success. The old documentation checkpoint also has distinct workflow identities.
 
-Target run 36277876540 / job 108503997685 / artifact 10917649066 succeeded:
-Lean 4.33.1, two successful builds, 110 normal/slow lint passes, all 1,774
-complete transitive-axiom records allowlisted, and final validation pass.
-All 16 new public declarations occur in the actual output. No Lean compiler
-or lint error/warning diagnostic was found. This is b833 evidence, not a
-reused pass from either integration parent.
+## Next steps and remaining M06
 
-Full CI 36277876544 / 108504133348 / artifact 10918131435 succeeded. The
-actual job and artifact logs were inspected: full build, compiler-backed
-inventory, phase 1/2/3 architecture, full lint and tracked-file cleanliness.
-Source inventory 36277876557 / 108503997761 also succeeded; its actual log
-includes all 112 Python tests. Local exact-source Python checks also pass.
-Python arithmetic and inventory structure are not semantic Lean proofs.
+Compile and repair the candidate against pinned Lean 4.33.1, add and inspect
+randomized-pairing and stopped/missing controls, then record exact source SHA,
+run/job IDs, actual lint and axiom evidence. GitHub edits alone are not Lean
+validation. Pending work must be resumed from those checkpoints, not repeated
+from an earlier branch or inferred from old target passes.
 
-## Pending global audit and next step
-
-For implementation b833, global ReBeL run 36277876590 / diagnostics job
-108504099546 is still running its compiler/lint/axiom stage at this checkpoint.
-Its exact-source snapshot job 108504099412 succeeded, but the final global
-diagnostics artifact has not yet been inspected. First fetch this run's jobs
-and artifacts through the GitHub plugin, inspect the actual complete output,
-and retain any failure. Do not label it passed based on target/full-CI success.
-The documentation-only checkpoint HEAD has its own workflow identity; those
-new runs are not represented here as already successful.
-
-The original 110 target modules, 253 globally discovered modules and 3,054
-ledger/inventory items remain unchanged. No local Lean or PowerShell execution,
-warning suppression, audit-count adjustment or skipped CI is claimed.
-
-## Remaining semantic boundary
-
-The proved bound is for a fixed-profile finite continuation, not the complete
-independently re-solved carried schedule. Support dominance is an explicit
-sufficient premise, not a property established for every unknown opponent.
-Small accumulated leakage, changed-PBS native/late rates and
-CarriedResolveStepBounds remain separate obligations. Being in a stored PBS
-support does not identify the actual conditional law with that stored PBS.
-Original compatible joint type kernels, the same computed comparison opponent,
-actual public event-mass denominators and finite-T residuals remain visible.
+Full native schedule first-exit composition, small accumulated support rates,
+changed-PBS native/late value gaps and source-specific CarriedResolveStepBounds
+remain open. A supported stored PBS is not the actual conditional law and is
+not itself a security value bound. Preserve joint-type compatibility, the
+same comparison opponent, actual event denominators and finite-T residuals.
 SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-No learner convergence or dropped residual term bypasses test-time safety.
-M07 onward retains the user's one-integration-branch-per-milestone policy.
+M06 and original paper Theorem 3 are incomplete. No learner convergence premise
+is used to bypass test-time safety. M07 onward retains the one-integration-
+branch-per-milestone policy.

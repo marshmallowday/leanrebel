@@ -1,0 +1,42 @@
+{
+  "kind": "project_dependency_candidate",
+  "milestone": "M06",
+  "milestone_complete": false,
+  "status": "pending",
+  "source": "project",
+  "source_locator": "docs/rebel/ROADMAP.md M06; native randomized resolver support transport",
+  "branch": "rebel/m06-resolver-support-20260927",
+  "parent": "3d272004909c9e70226aeb430813d3d53f038fdd",
+  "baseline_implementation": "b833d49b430ac44c433658f3cc72fd130ff0a87f",
+  "semantic_review": "docs/rebel/M06-resolver-support.md",
+  "module": "GameTheory.Analysis.ReBeL.PBSOpponentModelTransport",
+  "namespace": "GameTheory.ReBeL",
+  "declarations": [
+    "carriedStateSupported",
+    "carriedResolvedSupportCharge",
+    "carriedResolvedStep_unsupported_le",
+    "carriedResolvedSupportCharge_of_supported",
+    "carriedResolvedSupportCharge_eq_zero_of_support",
+    "carriedMemoryStep_unsupported_le",
+    "carriedMemoryStep_law_unsupported_le"
+  ],
+  "validation": {
+    "compiler": "pending",
+    "normal_and_slow_lint": "pending",
+    "transitive_axioms": "pending",
+    "new_adversarial_controls": "pending",
+    "baseline_global_run": 36277876590,
+    "baseline_global_job": 108504099546,
+    "baseline_global_last_observed": "in_progress"
+  },
+  "remaining": [
+    "Native finite-schedule first-exit rate composition",
+    "Small quantitative primitive support leakage for the constructed solver",
+    "Changed-PBS native and late value rates",
+    "Source-specific signed CarriedResolveStepBounds",
+    "SEARCH-FRONTIER",
+    "SEARCH-CFRD",
+    "SEARCH-ERROR",
+    "SAFE-THEOREM3"
+  ]
+}
