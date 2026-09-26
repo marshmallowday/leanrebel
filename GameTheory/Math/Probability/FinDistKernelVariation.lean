@@ -62,7 +62,8 @@ theorem probOf_le_probOf_unsupported (actual model : FinDist A) (event : Set A)
   apply expect_mono
   intro x _
   by_cases selected : x ∈ event
-  · simp only [Set.mem_ofPred_eq, selected, impossible x selected, if_true, le_refl]
+  · simp only [Set.mem_ofPred_eq, selected, impossible x selected, not_false_eq_true, if_true,
+      le_refl]
   · simp only [selected, if_false]
     split <;> norm_num
 
@@ -78,7 +79,7 @@ theorem probOf_bind_unsupported_le (actual model : FinDist A)
   calc
     _ = actual.expect (fun x => (first x).expect
         (fun y => if y ∉ (model.bind second).support then (1 : ℝ) else 0)) := by
-      rw [← expect_indicator_eq_probOf, expect_bind]
+      simp only [← expect_indicator_eq_probOf, expect_bind, Set.mem_ofPred_eq]
     _ ≤ actual.expect (fun x => (if x ∉ model.support then (1 : ℝ) else 0) +
         (first x).probOf {y | y ∉ (second x).support}) := by
       apply expect_mono
@@ -99,8 +100,13 @@ theorem probOf_bind_unsupported_le (actual model : FinDist A)
         · simp only [source, not_false_eq_true, if_true]
           split_ifs <;> norm_num
       have averaged := expect_mono (μ := first x) (fun y _ => pointwise y)
-      simpa only [expect_add, expect_const, expect_indicator_eq_probOf] using averaged
-    _ = _ := by rw [expect_add, expect_indicator_eq_probOf]
+      rw [← expect_indicator_eq_probOf]
+      simpa only [expect_add, expect_const, Set.mem_ofPred_eq] using averaged
+    _ = _ := by
+      rw [expect_add]
+      congr 1
+      simpa only [Set.mem_ofPred_eq] using
+        expect_indicator_eq_probOf actual {x | x ∉ model.support}
 
 variable [Fintype B]
 

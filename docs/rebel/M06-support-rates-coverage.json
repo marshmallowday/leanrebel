@@ -10,7 +10,7 @@
   "validation_checkpoint": "3de54cc88fe0ccb87e2aa603c4d833ac5a3d1662",
   "semantic_review": "docs/rebel/M06-support-rates.md",
   "source_blobs": {
-    "GameTheory/Math/Probability/FinDistKernelVariation.lean": "a0f99776da96dac17153120d248a9a19f0cadcdb",
+    "GameTheory/Math/Probability/FinDistKernelVariation.lean": "42c6a646deb428f3a7ec57053281fb3724811c1c",
     "GameTheory/Analysis/ReBeL/PBSOpponentModelTransport.lean": "867d9631a72b271adc3e1ca6775ae285c280acb2",
     "GameTheory/Analysis/ReBeL/Examples/PBSOpponentModelTransport.lean": "2aa21df3af337bb5f3cc1e85411509f427e33ff3",
     "scripts/rebel/tests/test_opponent_model_transport.py": "a7f0b00f4d557eea1c579f36d3226dadadab7997"
@@ -39,8 +39,20 @@
     "SEARCH-ERROR": "pending",
     "SAFE-THEOREM3": "pending"
   },
+  "failed_attempts": [
+    {
+      "source": "f14ec3bddd5e61ba3e4eb505cd2c73a37f7f3068",
+      "run": 36277385486,
+      "job": 108502646650,
+      "artifact": 10916689581,
+      "zip_sha256": "f23a75632bd174f216baea774e67e25cadb611e21b96d9c5dba4029dbc41a2ff",
+      "log_sha256": "ae4fae95ce236c20b132dc55b757cd1715e4223ea923116231c39f5d58a78732",
+      "diagnosis": "Missing false-negation simplification and set-membership indicator normalization in FinDistKernelVariation; downstream modules and audit stage not reached.",
+      "repair": "Normalize Set.mem_ofPred_eq explicitly, keep expectation indicators on both sides until normalized, and preserve all theorem statements and validation gates."
+    }
+  ],
   "validation": {
-    "new_source_compiler": "pending",
+    "new_source_compiler": "pending_after_proof_repair",
     "new_source_normal_and_slow_lint": "pending",
     "new_source_transitive_axioms": "pending",
     "new_source_all_rebel": "pending",
@@ -48,6 +60,9 @@
     "local_python_tests": 112,
     "local_python_status": "success",
     "local_python_log_sha256": "75e53650f1907528d1da58bb492bc9fa5c280d81631e68f60f5a753f605f8b4f",
+    "f14_source_inventory_run": 36277385509,
+    "f14_source_inventory_job": 108502646851,
+    "f14_source_inventory_actual_log": "inspected_success_112_tests",
     "new_exhaustive_rational_cases": 16384,
     "ledger_and_inventory_items": 3054,
     "configured_target_audit_modules": 110,
