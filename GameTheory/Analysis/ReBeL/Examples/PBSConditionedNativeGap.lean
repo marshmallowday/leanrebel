@@ -80,13 +80,15 @@ theorem selection_probability : selectionExecution.probOf selectionEvent = 1 / 2
       rw [selectionExecution, FinDist.expect_bind]
       apply FinDist.expect_congr
       intro pair _
-      simp [selectionKernel, FinDist.expect_map, selectionEvent, diagonalLoss]
+      by_cases equal : pair.1 = pair.2 <;>
+        simp [selectionKernel, selectionEvent, diagonalLoss, equal]
     _ = _ := diagonalQuery_mean_control.1
 
 /-- Conditioning, not an arbitrarily supplied query, produces the diagonal law. -/
 theorem selection_query :
     (selectionExecution.condOn selectionEvent selection_possible).map Prod.fst =
       diagonalQuery := by
+  classical
   have executionProb (pair : Fin 2 × Fin 2) (outcome : Fin 2) :
       selectionExecution.prob (pair, outcome) =
         selectionPrior.prob pair * (selectionKernel pair).prob outcome := by
