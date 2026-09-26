@@ -8,6 +8,7 @@ and the wrong-prefix-law error; they are not purported CFR regret tables.
 
 import GameTheory.Analysis.ReBeL.PBSOpponentModelTransport
 import GameTheory.Analysis.ReBeL.Examples.PBSConditionedNativeGap
+import GameTheory.Analysis.ReBeL.PBSCarriedDepth
 
 noncomputable section
 
@@ -75,6 +76,46 @@ theorem pbsOpponentSupport_live
   have estimate := carriedBeliefUpdate_failure_probability_le_supportCharge M
     finiteBudgetControlBelief (FinDist.pure history) chosen unknown 0 1
   simpa only [carriedOpponentSupportCharge, vanished, zero_add, FinDist.pure_bind] using estimate
+
+/-- Two actual noisy depth-limited parent iterates are privately sampled at the
+incoming PBS. Their full next-state support failure has the computed resolver
+charge, against an arbitrary fixed unknown opponent and without model pooling. -/
+theorem pbsOpponentSupport_randomized
+    (plays : Unit → Profile (fullInformation (reducedModel fullPrior)).behavioralSignature)
+    (noise : PBSCarriedDepthNoise (reducedModel fullPrior))
+    (unknown : Profile (fullInformation (reducedModel fullPrior)).behavioralSignature)
+    (state : PrivateIterationState (fullInformation (reducedModel fullPrior)) Unit) :
+    let M := fullInformation (reducedModel fullPrior)
+    let resolver := pbsCarriedDepthResolver (reducedModel fullPrior) pbsRootControlFallback
+      cfrPayoff 1 1 2 (1 / 8) noise 2 plays
+    (carriedResolvedStep M plays resolver unknown 0 1 state).probOf
+        {next | ¬ carriedStateSupported M next} ≤
+      carriedResolvedSupportCharge M resolver unknown 0 1 state := by
+  intro M resolver
+  exact carriedResolvedStep_unsupported_le M plays resolver unknown 0 1 state
+
+/-- A stopped missing-belief input stays missing with probability one. Stopping
+suppresses the public query, not the support defect of the already retained state. -/
+theorem pbsOpponentSupport_stopped_missing
+    (plays : Unit → Profile (fullInformation (reducedModel fullPrior)).behavioralSignature)
+    (resolver : CarriedPublicResolver (fullInformation (reducedModel fullPrior)) Unit)
+    (unknown : Profile (fullInformation (reducedModel fullPrior)).behavioralSignature)
+    (fuel : Nat)
+    (state : PrivateIterationState (fullInformation (reducedModel fullPrior)) Unit)
+    (stopped : cfrDCutLive fuel state.history ≠ true) (missing : state.belief = none) :
+    let M := fullInformation (reducedModel fullPrior)
+    (carriedResolvedStep M plays resolver unknown 0 fuel state).probOf
+        {next | ¬ carriedStateSupported M next} = 1 ∧
+      carriedResolvedSupportCharge M resolver unknown 0 fuel state = 1 := by
+  classical
+  intro M
+  constructor
+  · rw [carriedResolvedStep, if_neg stopped, ← FinDist.expect_indicator_eq_probOf,
+      FinDist.expect_pure]
+    simp [carriedStateSupported, missing]
+  · have invalid : ¬ carriedStateSupported M state := by
+      simp [carriedStateSupported, missing]
+    simp only [carriedResolvedSupportCharge, if_neg stopped, if_neg invalid]
 
 end GameTheory.ReBeL.Examples.HiddenTypes
 
@@ -172,5 +213,37 @@ theorem model_prefix_undercharges_support :
       modelPrefix.expect (fun x => (retain x).probOf {y | y ∉ (collapse x).support}) := by
   rw [actual_support_leakage.1, actual_support_leakage.2]
   norm_num
+
+/-- Retaining the private draw exposes quarter-mass model support failure.
+Pooling the selected model laws first incorrectly reports zero failure for the
+same actual history marginal. The event must read the paired selected model. -/
+theorem randomized_model_pooling_undercharges :
+    (actualPrefix.bind (fun chosen => (collapse chosen).map
+      (fun history => (chosen, history)))).probOf
+        {pair | pair.2 ∉ (retain pair.1).support} = 1 / 4 ∧
+      (actualPrefix.bind collapse).probOf
+        {history | history ∉ (actualPrefix.bind retain).support} = 0 := by
+  classical
+  constructor
+  · rw [← FinDist.expect_indicator_eq_probOf, FinDist.expect_bind]
+    norm_num [FinDist.expect_map, actualPrefix, FinDist.expect_mix, FinDist.expect_pure,
+      collapse, retain, FinDist.mem_support_pure]
+  · apply FinDist.probOf_unsupported_eq_zero_of_support_subset
+    intro history _
+    have supported : history ∈ actualPrefix.support := by
+      fin_cases history <;>
+        norm_num [actualPrefix, FinDist.mem_support_mix_iff, FinDist.mem_support_pure]
+    simpa only [retain, FinDist.bind_pure] using supported
+
+/-- In the same nontrivial private mixture, executing each selected model itself
+has zero paired support failure. This positive control does not discard the seed. -/
+theorem randomized_selected_model_supported :
+    (actualPrefix.bind (fun chosen => (retain chosen).map
+      (fun history => (chosen, history)))).probOf
+        {pair | pair.2 ∉ (retain pair.1).support} = 0 := by
+  classical
+  rw [← FinDist.expect_indicator_eq_probOf, FinDist.expect_bind]
+  simp [FinDist.expect_map, retain, FinDist.expect_pure, FinDist.mem_support_pure,
+    FinDist.expect_const]
 
 end GameTheory.ReBeL.Examples.OpponentModelTransport
