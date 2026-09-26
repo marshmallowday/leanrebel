@@ -38,14 +38,112 @@
   "validation": {
     "local_python_tests": 97,
     "local_python_status": "success",
-    "local_python_log_sha256": "3ecabde353b91c9c668e1007c845894e84286bdda71aa7f154f3afd5440e3a58",
+    "local_python_log_sha256": "34ad30e7fe83478047ae2aaf23a5630a1021f415312ef8044d55018d25d4f35d",
     "ledger_and_inventory_items": 3054,
-    "lean_compilation": "pending",
-    "normal_and_slow_lint": "pending",
-    "transitive_axiom_audit": "pending",
-    "all_rebel": "pending",
-    "full_ci": "pending",
-    "validation_configuration_changed": false
+    "lean_compilation": "success",
+    "normal_and_slow_lint": "success",
+    "transitive_axiom_audit": "success",
+    "all_rebel": "success",
+    "full_ci": "success",
+    "validation_configuration_changed": false,
+    "local_python_source_commit": "5df5e6a049c9550bcc944c3ca8599a3b215605e7"
   },
-  "unproved_bridge": "The selected fixed-profile history posterior is not independently re-solved carried-PBS safety. Native gaps retain original type kernels and the computed average comparison opponent. Changed-opponent/PBS rates, quantitative first-exit/support/event rates and CarriedResolveStepBounds remain open."
+  "unproved_bridge": "The selected fixed-profile history posterior is not independently re-solved carried-PBS safety. Native gaps retain original type kernels and the computed average comparison opponent. Changed-opponent/PBS rates, quantitative first-exit/support/event rates and CarriedResolveStepBounds remain open.",
+  "validation_review": "docs/rebel/M06-public-posterior-validation.md",
+  "resume_checkpoint": "6bc06761937a81eb4468fb3f7f5ec89e019b8ca6",
+  "source_commit": "5df5e6a049c9550bcc944c3ca8599a3b215605e7",
+  "compiler_repair": {
+    "source_commit": "5df5e6a049c9550bcc944c3ca8599a3b215605e7",
+    "source_committed_at_utc": "2026-09-26T19:01:39Z",
+    "review": "docs/rebel/M06-public-posterior-validation.md",
+    "scope": "Proof-only repair of the public-posterior history equality. Statements, support premises, controls, original source statuses and validation configuration are unchanged.",
+    "failed_simplification": {
+      "source_commit": "a76f1f32403f3cc1834d8f39d11b9802626ee592",
+      "run_id": 36264124596,
+      "job_id": 108465401160,
+      "artifact_id": 10913219197,
+      "log_sha256": "ca528ff2e10afb5457e7e0cfa6bdeaa9566919bdafc142a8e770d7e00ae67f03",
+      "diagnostic": "After dependent law simplification, the preimage predicate set still differed from the explicit public-event set."
+    },
+    "targeted_validation": {
+      "status": "success",
+      "compilation": "success",
+      "run_id": 36264603809,
+      "job_id": 108466761911,
+      "modules": 107,
+      "audited_declarations": 1684,
+      "artifact_id": 10913471903,
+      "zip_sha256": "a701c345ba53a42da94a59149d8f7f91c7cbb6fecabf8f6580a9c70a70a4aef9",
+      "log_sha256": "f308d2d44e41dc7dfcde9d594c851c07a9ebbd296ba67aba0b7c1602ce6ffeb4",
+      "allowed_axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "affected_module_declarations": {
+        "FinDistSelection": 14,
+        "PBSConditionedNativeGap": 18,
+        "Examples.PBSConditionedNativeGap": 26
+      }
+    },
+    "all_rebel": {
+      "status": "success",
+      "run_id": 36264603792,
+      "job_id": 108467000492,
+      "modules": 251,
+      "audited_declarations": 4861,
+      "artifact_id": 10913847925,
+      "zip_sha256": "429b5f6e5eeac6393bf9f1b0a0d4ca3c07b7eb8153f8a59b3fd205e9f7c289e5",
+      "log_sha256": {
+        "rebel-validation.log": "ea7aa0cc77f015e248f48c57049bf48607bfeae0d889cc6cd57118866cff1b54",
+        "rebel-mathlib-roots.txt": "0e10c0e81b848319efc484f1ac9e6cc65fb5f093f5caa1101b66560d0a927bc4",
+        "rebel-architecture.log": "9e3abd1a1e20a09f93bb14031449e13bf526ff6d9cc28972b061a2a90dd5e06e",
+        "rebel-rational-runtime.json": "0b809122d998d64857851a1dd65b242fb2f8da37f5421eda255376dc8b35df65"
+      },
+      "runtime_scope": "Actual Lean runtime cross-check, not the full semantic refinement.",
+      "runtime_rounds": [
+        0,
+        1,
+        2
+      ],
+      "runtime_histories": 85,
+      "runtime_pure_policies_per_player": 1024,
+      "runtime_reported_nash_conv": [
+        "2",
+        "2",
+        "1"
+      ]
+    },
+    "full_ci": {
+      "status": "success",
+      "run_id": 36264603829,
+      "job_id": 108466874178,
+      "artifact_id": 10914355751,
+      "zip_sha256": "37dc0f1f0cdb1a2664ea866d512798841ab6c372efde6e2cac2bb1821cc7a222",
+      "log_sha256": {
+        "ci-inventory.log": "8e2ef7126029de8530870829372808582c6ada37a1ecd529b7fbbe87463151d8",
+        "ci-lint.log": "76099bf6e165af2188e78c5926be67f04294a8d57463513e41ba5030eb161aa3",
+        "ci-phase1.log": "27e3ad05672a11917f23549bdaf591eb06f333115b37b156fbeeb6a258572d7b",
+        "ci-phase2.log": "bd26f72d86e1419a87d29896137dbaaf091fb71b728ffcc2168bbeead440701c",
+        "ci-phase3.log": "1328da901759ab2f0d7bcbc3b07e7edc53f3b762e50c5011f6812ad661fdeb34",
+        "ci-source.txt": "00d6c52e6d6fba6529996e0c805382f2f2c9ac2ed73871b4e18b39aad899d37e"
+      },
+      "runner": "ubuntu-latest"
+    },
+    "source_inventory": {
+      "status": "success",
+      "run_id": 36264603756,
+      "job_id": 108466761990
+    },
+    "exact_source_artifact": {
+      "artifact_id": 10913740395,
+      "zip_sha256": "4e0f58c8ce01a054755bf20e87894b42518c14b1897b9ed69a84465de94a865a",
+      "tar_sha256": "7879349062ecc473ee5d5d9cf6bc4cb598ad9927233588a8dca4203c5f8d7596"
+    },
+    "source_blobs": {
+      "GameTheory/Math/Probability/FinDistSelection.lean": "97ddb4e2458d44f34be85c0f39b74f55bd148654",
+      "GameTheory/Analysis/ReBeL/PBSConditionedNativeGap.lean": "289a19a9482d1705f74aa6aa8e5b62742c477da0",
+      "GameTheory/Analysis/ReBeL/Examples/PBSConditionedNativeGap.lean": "d268c31e0d4f5a7b2d7bc0a70b701f693bc6bdca"
+    }
+  }
 }
