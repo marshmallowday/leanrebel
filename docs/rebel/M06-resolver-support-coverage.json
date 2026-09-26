@@ -9,6 +9,7 @@
   "parent": "3d272004909c9e70226aeb430813d3d53f038fdd",
   "baseline_implementation": "b833d49b430ac44c433658f3cc72fd130ff0a87f",
   "semantic_review": "docs/rebel/M06-resolver-support.md",
+  "validation_history": "docs/rebel/M06-resolver-support-validation.md",
   "module": "GameTheory.Analysis.ReBeL.PBSOpponentModelTransport",
   "namespace": "GameTheory.ReBeL",
   "declarations": [
@@ -20,14 +21,36 @@
     "carriedMemoryStep_unsupported_le",
     "carriedMemoryStep_law_unsupported_le"
   ],
+  "example_module": "GameTheory.Analysis.ReBeL.Examples.PBSOpponentModelTransport",
+  "example_declarations": [
+    "GameTheory.ReBeL.Examples.HiddenTypes.pbsOpponentSupport_randomized",
+    "GameTheory.ReBeL.Examples.HiddenTypes.pbsOpponentSupport_stopped_missing",
+    "GameTheory.ReBeL.Examples.OpponentModelTransport.randomized_model_pooling_undercharges",
+    "GameTheory.ReBeL.Examples.OpponentModelTransport.randomized_selected_model_supported"
+  ],
   "validation": {
     "compiler": "pending",
     "normal_and_slow_lint": "pending",
     "transitive_axioms": "pending",
-    "new_adversarial_controls": "pending",
+    "new_lean_controls": "pending",
+    "exact_local_python_source": "63aa262540b7dc633ea511c6cc727aaa49bde585",
+    "local_python_tests": 120,
+    "local_python_status": "pass",
+    "new_python_test_count": 8,
+    "new_python_sha256": "3368db020d85fa3802e6c19f81f46b9b35980f8f03af3ca6b2610b3373218260",
+    "candidate_static_failure": {
+      "source": "63aa262540b7dc633ea511c6cc727aaa49bde585",
+      "run": 36280700956,
+      "job": 108511831794,
+      "gate": "TRANSPORT_ANALYSIS_SOURCE: expected 0, got 2",
+      "repair": "Direct predicate normalization and definitional equality; frozen budgets unchanged"
+    },
     "baseline_global_run": 36277876590,
     "baseline_global_job": 108504099546,
-    "baseline_global_last_observed": "in_progress"
+    "baseline_global_status": "success; actual complete artifact inspected",
+    "baseline_axiom_records": 4939,
+    "baseline_lint_modules": 253,
+    "baseline_global_review": "docs/rebel/M06-support-rates-b833-global-validation.md"
   },
   "remaining": [
     "Native finite-schedule first-exit rate composition",

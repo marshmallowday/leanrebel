@@ -334,9 +334,8 @@ theorem carriedResolvedStep_unsupported_le (plays : K → Profile M.behavioralSi
           using estimate
   · rw [carriedResolvedStep, if_neg live, carriedResolvedSupportCharge, if_neg live]
     rw [← FinDist.expect_indicator_eq_probOf, FinDist.expect_pure]
-    change (if ¬ carriedStateSupported M state then (1 : ℝ) else 0) ≤
-      if carriedStateSupported M state then 0 else 1
-    by_cases supported : carriedStateSupported M state <;> simp [supported]
+    simp only [Set.mem_ofPred_eq, carriedStateSupported]
+    split_ifs <;> simp_all
 
 omit [Fintype E.History] in
 /-- At a live supported input, only the kernel leakage remains, averaged under
@@ -402,8 +401,6 @@ theorem carriedMemoryStep_unsupported_le (initial : K → Profile M.behavioralSi
         {next | ¬ carriedStateSupported M next} ≤
       carriedResolvedSupportCharge M stage.resolver unknown who stage.fuel state := by
   rw [carriedMemoryStep, FinDist.probOf_map]
-  change (carriedResolvedStep M (carriedMemoryProfile M initial) stage.resolver unknown who
-      stage.fuel state).probOf {next | ¬ carriedStateSupported M next} ≤ _
   exact carriedResolvedStep_unsupported_le M (carriedMemoryProfile M initial)
     stage.resolver unknown who stage.fuel state
 
