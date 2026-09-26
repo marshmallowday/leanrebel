@@ -1,79 +1,66 @@
-# ReBeL status — opponent/model transport candidate; M06 incomplete
+# ReBeL status — validated opponent transport; M06 integration in progress
 
-## Current work
+## Current checkpoint
 
-Work branch: `rebel/m06-conditioned-query-20260925`.
-Starting checkpoint: `b8be33668cce9b9238692bc86da545a89d2bad5d`.
-Planning checkpoint: `4364543b02494a94e038a40ae8de9c86e51e5a32`.
-Main remains `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`; M05 is accepted.
+Continue `rebel/m06-conditioned-query-20260925`.
+Validated implementation: `334f259f450e6ce1818cb1037214bd849ffc98ed`.
+Main remains accepted M05 at `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`.
 M06 and paper Theorem 3 are NOT complete. M07 is not started.
 
-The new dependency-closed slice computes the discrepancy between actual
-continuation under `Profile.update unknown who (chosen who)` and stored-model
-continuation under `chosen`. It derives finite-kernel contraction/perturbation,
-accumulates one-step source variation along ACTUAL prefix laws, and preserves
-initial actual/PBS mismatch even at zero fuel. It bounds failure of the actual
-carriedBeliefUpdate to contain the resulting history, including both impossible
-public observations and hidden support loss, and bounds mean public conditional
-transport under the actual public law. No model/actual posterior equality is
-assumed. The live consumer uses a computed budget-1/8 CFR child and a point-mass
-actual history; finite-law controls expose lost support and wrong-prefix charges.
+Repository-wide latest push workflows and a fresh branch-ref read identify
+334f259 as the newest implementation, despite the branch's older date suffix.
+The separate public-event-rates branch at
+`1d3011f3e1541268411c403f99fa2e86ce5e33f4` is older and diverged: its merge
+base with 334f259 is `a76f1f32403f3cc1834d8f39d11b9802626ee592`.
+Do not replace the latest source with that older branch.
 
-Read M06-opponent-model-transport.md and M06-opponent-model-transport-coverage.json.
-The three new modules extend the existing umbrella, target list and additional
-axiom/lint module list; no old module is removed and no validation algorithm,
-workflow, architecture expectation or dependency pin changes. The additional
-module list now has 110 entries. Global discovery must also include all three.
+## Inspected validation
 
-New-source Lean compilation, normal/slow lint, transitive axioms, all-ReBeL and
-full CI are PENDING the source push. Local exact-rational and wiring tests all
-passed: 103 Python tests, including 16,384 kernel/horizon comparisons, with
-warnings treated as errors. Coverage/inventory checks preserve 3,054 items and
-all original statuses. No local Lean or PowerShell execution is claimed.
-Next action: inspect the target-SHA compiler and full validation logs; repair
-proofs without weakening statements, examples or gates, then record exact
-source, run IDs and inspected axiom evidence.
+The previously pending opponent/model transport slice is now validated at
+334f259. Its actual source, target and all-ReBeL artifacts were obtained using
+the GitHub plugin, their archive hashes checked, and their logs inspected.
+Target 36271821127 / job 108487104213 passed compilation, normal/slow lint of
+110 modules and 1,733 transitive declaration checks. All-ReBeL
+36271821152 / job 108487174934 passed 253 modules and 4,904 declaration checks.
+All inspected axiom sets are subsets of propext, Classical.choice, Quot.sound;
+all 22 declarations listed in the slice coverage occur in those audits.
+Full CI 36271821124 / job 108487337344 passed build, public lint, compiler reuse
+signatures, Phase 1/2/3 architecture gates and tracked-file cleanliness.
+Inventory 36271821169 succeeded. See M06-opponent-model-transport-validation.md
+and the updated M06-opponent-model-transport-coverage.json for exact artifacts,
+source blobs, assumptions and semantic limitations.
 
-## Previous validated source (not new-source evidence)
+No local Lean or PowerShell execution is claimed. GitHub file writes are not
+compiler evidence; old successful runs will not validate the next source edit.
 
-Public-posterior proof source: `5df5e6a049c9550bcc944c3ca8599a3b215605e7`.
-Its dependent conditioning proof and all positive/negative controls are already
-validated. M06 target 36264603809 / 108466761911 passed compilation, normal/slow
-lint of 107 modules and 1,684 transitive declaration checks. Full CI
-36264603829 / 108466874178 passed full build, public lint, reuse and Phase 1/2/3
-audits. ReBeL checks 36264603792 / 108467000492 passed all 251 modules and
-4,861 declaration axiom checks, fixtures, rational runtime and cleanliness.
-Source inventory 36264603756 succeeded. Actual artifacts and hashes are in
-M06-public-posterior-validation.md and M06-public-posterior-coverage.json.
+## Next dependency-closed task
 
-The documentation-only starting checkpoint b8be336 also has successful CI,
-ReBeL and inventory workflows. These results do not validate the new modules.
-The prior conditioned-query evidence and failed repair history remain in
-M06-conditioned-query-repair.md and M06-public-posterior-repair.md.
+Integrate the unmerged actual conditioned/public native-tail estimates and
+positive/negative controls from 1d3011f onto the validated latest branch.
+Preserve the latest public-posterior dependent proof repair, all three opponent
+transport modules, original tests, workflows, audit consumers and dependency
+pins. Inspect the older branch's target results before acceptance; run exact-SHA
+validation on the combined source. Do not mark integration verified just because
+either parent compiles. Keep the original public-event branch and its history.
 
 ## Remaining M06 boundary
 
 The executed source charge is a derived bound, NOT a proof that independently
-changing opponents make it small. It retains any incoming law mismatch; a
-point-mass actual history must not be silently replaced by the model PBS.
-The public posterior equality still concerns fixed execution profiles. Native
-value gaps still use the original compatible type kernels and the same
-computed average comparison opponent. No changed-PBS gap bound follows just
-from the new source-law estimate or the scalar child Nash property.
+changing opponents make it small. It retains incoming actual/PBS law mismatch,
+including point-mass actual histories and zero continuation fuel. Public
+posterior identification concerns fixed execution profiles. Native value gaps
+still use the original compatible type kernels and the same computed average
+comparison opponent; conditional event rates must retain actual event mass.
 
 SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-Independently re-solved public-carried-PBS identification, quantitative small
-support/first-exit/event rates, independently changing-opponent/PBS native and
-late rates, recursive re-solving safety and CarriedResolveStepBounds remain.
-Do not assume an event-mass floor, expose private seeds, discard finite-T
-residuals or replace test-time safety with learner convergence.
+Independently re-solved carried-PBS identification, quantitative small support/
+first-exit rates, changing-opponent/PBS native and late rates, recursive safety
+and CarriedResolveStepBounds remain. No event-mass floor, private-seed disclosure,
+discarded finite-T residual or learner-convergence premise is authorized.
 
-## User decision for M07 onward
+## Branch policy
 
-Keep one fixed integration branch for each milestone. Continue ordinary
-sequential implementation on that branch; a new chat alone does not justify
-a new branch. Use temporary branches for substantial experiments or parallel
-work and integrate accepted changes back into the milestone branch. Record
-validated checkpoints by exact commit SHA or an intentionally created tag.
-This decision does not authorize beginning M07 before its prerequisites or
-deleting existing M06 branches with unaccounted-for changes.
+From M07 onward keep one integration branch per milestone, as already decided
+by the user. Temporary branches need substantial experiments or parallel work,
+not merely a new chat. This does not authorize starting M07 now or deleting
+unaccounted-for M06 branches. This continuation stays on the latest M06 branch.
