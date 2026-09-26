@@ -52,9 +52,9 @@ theorem runBehavioralFrom_atomVariation_le
       FinDist.atomVariation actual model + executionKernelCharge M first second fuel actual := by
   induction fuel generalizing actual model with
   | zero =>
-      change FinDist.atomVariation (actual.bind FinDist.pure) (model.bind FinDist.pure) ≤
-        FinDist.atomVariation actual model + 0
-      rw [FinDist.bind_pure, FinDist.bind_pure, add_zero]
+      have zeroKernel (profile : Profile M.behavioralSignature) :
+          M.runBehavioralFrom profile 0 = FinDist.pure := rfl
+      simp only [zeroKernel, FinDist.bind_pure, executionKernelCharge, add_zero, le_refl]
   | succ fuel ih =>
       have splitRun (law : FinDist E.History) (profile : Profile M.behavioralSignature) :
           law.bind (M.runBehavioralFrom profile (fuel + 1)) =
@@ -118,8 +118,7 @@ theorem carriedBeliefUpdate_contains_of_supported {past : List M.PublicSignal}
   have possible : PublicBelief.Possible (S := M.toInfoSignals) law
       (publicTrace M.toInfoSignals history.trace) := ⟨history, rfl, reached⟩
   refine ⟨PublicBelief.condition law _ possible, ?_, ?_⟩
-  · change PublicBelief.condition? law _ = _
-    exact dif_pos possible
+  · exact dif_pos possible
   · exact FinDist.mem_support_condOn law _ _ rfl reached
 
 /-- Under actual continuation, failure to obtain a model posterior containing
