@@ -119,7 +119,7 @@ theorem carriedBeliefUpdate_contains_of_supported {past : List M.PublicSignal}
       (publicTrace M.toInfoSignals history.trace) := ⟨history, rfl, reached⟩
   refine ⟨PublicBelief.condition law _ possible, ?_, ?_⟩
   · exact dif_pos possible
-  · exact FinDist.mem_support_condOn law _ _ rfl reached
+  · exact FinDist.mem_support_condOn law _ possible rfl reached
 
 /-- Under actual continuation, failure to obtain a model posterior containing
 the actual history is bounded by the executed source charge. This covers both
