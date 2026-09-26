@@ -1,0 +1,48 @@
+{
+  "kind": "project_candidate_checkpoint",
+  "milestone": "M06",
+  "milestone_complete": false,
+  "source": "project",
+  "source_locator": "docs/rebel/ROADMAP.md M06; quantitative actual execution-event native rates",
+  "branch": "rebel/m06-public-event-rates-20260927",
+  "parent_checkpoint": "65a1612311836767d6a27c1ce47de82e1611cd46",
+  "status": "pending",
+  "semantic_review": "docs/rebel/M06-public-event-rates.md",
+  "validation_record": "docs/rebel/M06-public-event-rates-validation.md",
+  "modules": [
+    "GameTheory/Analysis/ReBeL/PBSConditionedNativeGap.lean",
+    "GameTheory/Analysis/ReBeL/Examples/PBSConditionedNativeGap.lean"
+  ],
+  "declarations": [
+    "GameTheory.ReBeL.pbsInformationCFR_conditioned_native_tail_le",
+    "GameTheory.ReBeL.pbsInformationCFR_native_event_tail_le",
+    "GameTheory.ReBeL.pbsInformationCFR_public_native_tail_le",
+    "GameTheory.ReBeL.Examples.HiddenTypes.pbsPublicNativeTail_live_budget",
+    "GameTheory.ReBeL.Examples.JointNativeGap.selection_tail_sharp",
+    "GameTheory.ReBeL.Examples.JointNativeGap.selection_tail_not_unconditional"
+  ],
+  "inherited_proof_repair": {
+    "declaration": "GameTheory.ReBeL.pbsInformationCFR_public_posterior_history",
+    "failed_source": "a76f1f32403f3cc1834d8f39d11b9802626ee592",
+    "failed_target_run": 36264124596,
+    "failed_target_job": 108465401160,
+    "actual_log_read": true,
+    "statement_changed": false
+  },
+  "original_obligations_unchanged": {
+    "SEARCH-FRONTIER": "pending",
+    "SEARCH-CFRD": "pending",
+    "SEARCH-ERROR": "pending",
+    "SAFE-THEOREM3": "pending"
+  },
+  "validation": {
+    "lean_compilation": "pending",
+    "normal_and_slow_lint": "pending",
+    "transitive_axiom_audit": "pending",
+    "all_rebel": "pending",
+    "full_ci": "pending",
+    "validation_configuration_changed": false,
+    "local_lean_execution": false
+  },
+  "unproved_bridge": "Native gaps retain original joint type kernels and the same computed average comparison opponent. Unconditional public-and-bad-gap probabilities are not conditional guarantees at new posterior kernels. Fresh carried-PBS identification, quantitative first-exit/support rates, changing-opponent/PBS rates and CarriedResolveStepBounds remain open."
+}

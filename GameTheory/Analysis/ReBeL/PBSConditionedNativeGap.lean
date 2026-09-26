@@ -8,6 +8,7 @@ No independent resampling, disclosure of the seed, or positive mass floor is
 assumed. The gap still compares against the SAME computed average opponent.
 -/
 
+import GameTheory.Math.Probability.Bounds
 import GameTheory.Math.Probability.FinDistSelection
 import GameTheory.Analysis.ReBeL.PBSJointNativeGap
 
@@ -270,7 +271,9 @@ theorem pbsInformationCFR_public_posterior_history
   unfold pbsInformationCFRPublicEvent PublicBelief.condition
   -- The conditioning witness depends on the projected law. Simplification
   -- transports this proof argument along with the law, unlike a plain rewrite.
-  simpa only [pbsInformationCFRTaggedExecution_history] using projected
+  -- Normalize the event preimage as well as the dependent history marginal.
+  simpa only [Set.preimage, Set.mem_setOf_eq, pbsInformationCFRTaggedExecution_history]
+    using projected
 
 /-- The native finite-T error of the retained query at a possible PUBLIC
 observation has the actual public-mass penalty. Its gap still uses the SAME
@@ -300,5 +303,93 @@ theorem pbsInformationCFR_public_native_mean_abs_le
     opponents steps next]
   exact pbsInformationCFR_conditioned_native_mean_abs_le M slice own fallback payoff
     zeroSum bound nonneg bounded fuel t opponents steps _ possible
+
+/-- A positive-threshold tail bound for the actual selected query. The
+conditional probability retains its reciprocal ACTUAL event-mass penalty;
+there is no minimum mass premise and no independence after selection. -/
+theorem pbsInformationCFR_conditioned_native_tail_le
+    (slice : TypeBeliefSlice (fullInformation M) observations who T) (own : FinDist T)
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (zeroSum : IsZeroSum (fun h player => payoff player h))
+    (bound : Fin 2 → ℝ) (nonneg : ∀ player, 0 ≤ bound player)
+    (bounded : ∀ player h, |payoff player h| ≤ bound player)
+    (fuel t : Nat) [NeZero t] (opponents : Profile (fullInformation M).behavioralSignature)
+    (steps : Nat) (event : Set ((Fin t × T) × E.History))
+    (possible : ∃ point ∈ event, point ∈
+      (pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t
+        opponents steps).support)
+    (threshold : ℝ) (positive : 0 < threshold) :
+    (pbsInformationCFRConditionedQuery M slice own fallback payoff fuel t
+      opponents steps event possible).probOf {pair | threshold ≤
+        |pbsInformationCFRConditionalDrawGap M slice own fallback payoff fuel t pair.2 pair.1|} ≤
+      pbsRootCFRBound M (slice.mixture own).law bound fuel t /
+        ((pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t
+          opponents steps).probOf event * threshold) := by
+  have tail := FinDist.markov_inequality
+    (pbsInformationCFRConditionedQuery M slice own fallback payoff fuel t
+      opponents steps event possible)
+    (fun pair =>
+      |pbsInformationCFRConditionalDrawGap M slice own fallback payoff fuel t pair.2 pair.1|)
+    positive (fun _ _ => abs_nonneg _)
+  have mean := pbsInformationCFR_conditioned_native_mean_abs_le M slice own fallback payoff
+    zeroSum bound nonneg bounded fuel t opponents steps event possible
+  simpa only [div_div] using tail.trans (div_le_div_of_nonneg_right mean positive.le)
+
+/-- The unconditional probability of an actual execution event AND a bad
+retained native gap has no event-mass denominator. This statement includes
+impossible events without constructing their posterior. The gap still uses
+the original type kernels and the SAME computed average comparison opponent. -/
+theorem pbsInformationCFR_native_event_tail_le
+    (slice : TypeBeliefSlice (fullInformation M) observations who T) (own : FinDist T)
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (zeroSum : IsZeroSum (fun h player => payoff player h))
+    (bound : Fin 2 → ℝ) (nonneg : ∀ player, 0 ≤ bound player)
+    (bounded : ∀ player h, |payoff player h| ≤ bound player)
+    (fuel t : Nat) [NeZero t] (opponents : Profile (fullInformation M).behavioralSignature)
+    (steps : Nat) (event : Set ((Fin t × T) × E.History))
+    (threshold : ℝ) (positive : 0 < threshold) :
+    (pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t
+      opponents steps).probOf (event ∩ {point | threshold ≤
+        |pbsInformationCFRConditionalDrawGap M slice own fallback payoff fuel t
+          point.1.2 point.1.1|}) ≤
+      pbsRootCFRBound M (slice.mixture own).law bound fuel t / threshold := by
+  let execution := pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t
+    opponents steps
+  let gap := fun pair : Fin t × T =>
+    |pbsInformationCFRConditionalDrawGap M slice own fallback payoff fuel t pair.2 pair.1|
+  have mean : execution.expect (fun point => gap point.1) ≤
+      pbsRootCFRBound M (slice.mixture own).law bound fuel t := by
+    calc
+      _ = (execution.map Prod.fst).expect gap := by rw [FinDist.expect_map]
+      _ = ((cfrIterationLaw t).product own).expect gap := by
+        simp only [execution, pbsInformationCFRTaggedExecution_tags]
+      _ = own.expect (fun type => (cfrIterationLaw t).expect (fun n => gap (n, type))) := by
+        rw [FinDist.expect_product, FinDist.expect_comm]
+      _ ≤ _ := pbsInformationCFR_native_mean_abs_le M slice own fallback payoff
+        zeroSum bound nonneg bounded fuel t
+  have tail := FinDist.probOf_le_expect_div execution
+    (event ∩ {point | threshold ≤ gap point.1}) (fun point => gap point.1)
+    positive (fun _ _ => abs_nonneg _) (fun _ _ member => member.2)
+  exact tail.trans (div_le_div_of_nonneg_right mean positive.le)
+
+/-- A PUBLIC observation and a bad retained native gap obey the actual
+unconditional finite-T rate, even for an impossible observation. This is not
+a conditional rate at newly re-solved posterior kernels or a fresh opponent. -/
+theorem pbsInformationCFR_public_native_tail_le
+    (slice : TypeBeliefSlice (fullInformation M) observations who T) (own : FinDist T)
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (zeroSum : IsZeroSum (fun h player => payoff player h))
+    (bound : Fin 2 → ℝ) (nonneg : ∀ player, 0 ≤ bound player)
+    (bounded : ∀ player h, |payoff player h| ≤ bound player)
+    (fuel t : Nat) [NeZero t] (opponents : Profile (fullInformation M).behavioralSignature)
+    (steps : Nat) (next : List M.PublicSignal)
+    (threshold : ℝ) (positive : 0 < threshold) :
+    (pbsInformationCFRTaggedExecution M slice own fallback payoff fuel t
+      opponents steps).probOf (pbsInformationCFRPublicEvent M next ∩
+        {point | threshold ≤ |pbsInformationCFRConditionalDrawGap M slice own fallback payoff
+          fuel t point.1.2 point.1.1|}) ≤
+      pbsRootCFRBound M (slice.mixture own).law bound fuel t / threshold :=
+  pbsInformationCFR_native_event_tail_le M slice own fallback payoff zeroSum bound nonneg bounded
+    fuel t opponents steps (pbsInformationCFRPublicEvent M next) threshold positive
 
 end GameTheory.ReBeL
