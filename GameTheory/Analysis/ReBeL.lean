@@ -220,3 +220,6 @@ import GameTheory.Analysis.ReBeL.Examples.PBSJointNativeGap
 import GameTheory.Math.Probability.FinDistSelection
 import GameTheory.Analysis.ReBeL.PBSConditionedNativeGap
 import GameTheory.Analysis.ReBeL.Examples.PBSConditionedNativeGap
+import GameTheory.Math.Probability.FinDistKernelVariation
+import GameTheory.Analysis.ReBeL.PBSOpponentModelTransport
+import GameTheory.Analysis.ReBeL.Examples.PBSOpponentModelTransport

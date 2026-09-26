@@ -120,6 +120,9 @@ MODULES = (
     "GameTheory.Math.Probability.FinDistSelection",
     "GameTheory.Analysis.ReBeL.PBSConditionedNativeGap",
     "GameTheory.Analysis.ReBeL.Examples.PBSConditionedNativeGap",
+    "GameTheory.Math.Probability.FinDistKernelVariation",
+    "GameTheory.Analysis.ReBeL.PBSOpponentModelTransport",
+    "GameTheory.Analysis.ReBeL.Examples.PBSOpponentModelTransport",
 )
 AUDITOR = r'''
 open Lean Elab Command in
