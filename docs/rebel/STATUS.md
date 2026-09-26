@@ -1,66 +1,70 @@
-# ReBeL status — validated opponent transport; M06 integration in progress
+# ReBeL status — event/transport integration candidate; M06 incomplete
 
-## Current checkpoint
+## Current source and branch
 
 Continue `rebel/m06-conditioned-query-20260925`.
-Validated implementation: `334f259f450e6ce1818cb1037214bd849ffc98ed`.
+Latest implementation parent: `334f259f450e6ce1818cb1037214bd849ffc98ed`.
+Its reviewed validation checkpoint: `e5e3be683142bc0374071b4c078099358167fd0b`.
+This two-parent integration also includes the older parallel event-rate branch
+at `1d3011f3e1541268411c403f99fa2e86ce5e33f4`. The older date suffix of the
+integration branch is not evidence that its source is older. Exact branch
+heads, commit dates, divergence and latest push workflows were checked.
 Main remains accepted M05 at `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`.
 M06 and paper Theorem 3 are NOT complete. M07 is not started.
 
-Repository-wide latest push workflows and a fresh branch-ref read identify
-334f259 as the newest implementation, despite the branch's older date suffix.
-The separate public-event-rates branch at
-`1d3011f3e1541268411c403f99fa2e86ce5e33f4` is older and diverged: its merge
-base with 334f259 is `a76f1f32403f3cc1834d8f39d11b9802626ee592`.
-Do not replace the latest source with that older branch.
+## Current dependency-closed change
 
-## Inspected validation
+The combined source restores the three actual conditioned/public native-tail
+estimates, the real budget-1/8 solver consumer, sharp conditional-selection
+counterexamples and four exact-rational tests from the parallel branch. It
+preserves the latest dependent public-posterior proof and all three executed
+opponent/model transport modules, their tests, imports and audit wiring.
+Original event-branch documents and both parent histories are retained.
+No theorem statement, original source obligation, audit, workflow, architecture
+expectation or dependency pin is weakened or removed.
 
-The previously pending opponent/model transport slice is now validated at
-334f259. Its actual source, target and all-ReBeL artifacts were obtained using
-the GitHub plugin, their archive hashes checked, and their logs inspected.
-Target 36271821127 / job 108487104213 passed compilation, normal/slow lint of
-110 modules and 1,733 transitive declaration checks. All-ReBeL
-36271821152 / job 108487174934 passed 253 modules and 4,904 declaration checks.
-All inspected axiom sets are subsets of propext, Classical.choice, Quot.sound;
-all 22 declarations listed in the slice coverage occur in those audits.
-Full CI 36271821124 / job 108487337344 passed build, public lint, compiler reuse
-signatures, Phase 1/2/3 architecture gates and tracked-file cleanliness.
-Inventory 36271821169 succeeded. See M06-opponent-model-transport-validation.md
-and the updated M06-opponent-model-transport-coverage.json for exact artifacts,
-source blobs, assumptions and semantic limitations.
+Read M06-event-transport-integration.md and its coverage JSON for exact parents,
+blob identities, conflict resolution, semantic review and current evidence.
+Prepared-source Python discovery passed 107 tests and structural checks retain
+3,054 original items. No local Lean or PowerShell execution is claimed.
 
-No local Lean or PowerShell execution is claimed. GitHub file writes are not
-compiler evidence; old successful runs will not validate the next source edit.
+## Validation and next action
 
-## Next dependency-closed task
+COMBINED-SOURCE compiler, normal/slow lint, transitive axioms, all-ReBeL, full CI
+and inventory are PENDING its source push. Read the exact new commit's workflows
+and actual artifacts next; record SHA/run/job IDs and inspect the compiler output.
+Do not use successful parent runs as combined-source acceptance. Keep both changed
+modules and all transport modules in the unchanged 110-module target audit and
+global ReBeL discovery. Repair any failure without weakening statements or gates.
 
-Integrate the unmerged actual conditioned/public native-tail estimates and
-positive/negative controls from 1d3011f onto the validated latest branch.
-Preserve the latest public-posterior dependent proof repair, all three opponent
-transport modules, original tests, workflows, audit consumers and dependency
-pins. Inspect the older branch's target results before acceptance; run exact-SHA
-validation on the combined source. Do not mark integration verified just because
-either parent compiles. Keep the original public-event branch and its history.
+The latest implementation parent 334f259 is fully validated: target
+36271821127 / 108487104213 (110 modules, 1,733 declaration audits), ReBeL
+36271821152 / 108487174934 (253 modules, 4,904 declaration audits), full CI
+36271821124 / 108487337344, inventory 36271821169. Actual archives and all
+allowlisted axiom sets were inspected; see M06-opponent-model-transport-validation.md.
+The second parent 1d3011f also has inspected all-ReBeL source/validation artifacts
+from 36265303510 (251 modules, 4,867 declaration audits including all six tail
+and example declarations). These facts do not yet validate the combined source.
 
-## Remaining M06 boundary
+## Remaining semantic boundary
 
-The executed source charge is a derived bound, NOT a proof that independently
-changing opponents make it small. It retains incoming actual/PBS law mismatch,
-including point-mass actual histories and zero continuation fuel. Public
-posterior identification concerns fixed execution profiles. Native value gaps
-still use the original compatible type kernels and the same computed average
-comparison opponent; conditional event rates must retain actual event mass.
+The native gap uses the original compatible type kernels and SAME computed
+average comparison opponent. Conditional rates retain the actual event-mass
+denominator; an unconditional joint public-and-bad-gap rate is not a conditional
+guarantee at a rare public observation. Actual execution opponents remain fixed
+legal policies and never observe the private seed.
 
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-Independently re-solved carried-PBS identification, quantitative small support/
-first-exit rates, changing-opponent/PBS native and late rates, recursive safety
-and CarriedResolveStepBounds remain. No event-mass floor, private-seed disclosure,
-discarded finite-T residual or learner-convergence premise is authorized.
+The computed opponent/model transport charge retains incoming law mismatch and
+need not be small under independently changing opponents. The integrated results
+do not by themselves yield changed-PBS native or late rates, independent carried-
+PBS identification, small support/first-exit rates, recursive re-solving safety
+or CarriedResolveStepBounds. SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and
+SAFE-THEOREM3 remain pending. Do not introduce event-mass floors, drop finite-T
+residuals or assume learner convergence to bypass test-time safety.
 
 ## Branch policy
 
 From M07 onward keep one integration branch per milestone, as already decided
-by the user. Temporary branches need substantial experiments or parallel work,
-not merely a new chat. This does not authorize starting M07 now or deleting
-unaccounted-for M06 branches. This continuation stays on the latest M06 branch.
+by the user. A new chat alone does not justify a temporary branch. This does
+not authorize starting M07 or deleting unaccounted-for M06 branches. Current
+work continues on the latest M06 branch, without force pushes or main changes.

@@ -163,6 +163,33 @@ theorem pbsPublicPosterior_live
   exact pbsInformationCFR_public_posterior_history M slice own pbsRootControlFallback
     cfrPayoff 1 2 opponents 1 _ _
 
+/-- The genuine budget-1/8 solver makes a public observation AND a native
+error at least 1/4 with probability at most 1/2. This is an unconditional
+joint rate, not a conditional guarantee at a rare or impossible observation. -/
+theorem pbsPublicNativeTail_live_budget
+    (opponents : Profile (fullInformation (reducedModel fullPrior)).behavioralSignature)
+    (next : List (reducedModel fullPrior).PublicSignal) :
+    let M := reducedModel fullPrior
+    let slice := fullAOHBeliefSlice M finiteBudgetControlBelief 0
+    let own := fullAOHOwnLaw M finiteBudgetControlBelief 0
+    let t := pbsInformationBudgetRounds M (slice.mixture own).law (fun _ => 2) 1 (1 / 8)
+    let execution := pbsInformationCFRTaggedExecution M slice own
+      pbsRootControlFallback cfrPayoff 1 t opponents 1
+    execution.probOf (pbsInformationCFRPublicEvent M next ∩
+      {point | (1 / 4 : ℝ) ≤ |pbsInformationCFRConditionalDrawGap M slice own
+        pbsRootControlFallback cfrPayoff 1 t point.1.2 point.1.1|}) ≤ 1 / 2 := by
+  intro M slice own t execution
+  calc
+    _ ≤ pbsRootCFRBound M (slice.mixture own).law (fun _ => 2) 1 t / (1 / 4) :=
+      pbsInformationCFR_public_native_tail_le M slice own pbsRootControlFallback cfrPayoff
+        (cumulative_zeroSum fullPrior) (fun _ => 2) (fun _ => by norm_num)
+        (fun player h => cfrPayoff_abs_le_two player h) 1 t opponents 1 next
+        (1 / 4) (by norm_num)
+    _ ≤ (1 / 8 : ℝ) / (1 / 4) := div_le_div_of_nonneg_right
+      (pbsInformationBudgetRounds_error M (slice.mixture own).law (fun _ => 2)
+        1 (1 / 8) (by norm_num)) (by norm_num)
+    _ = 1 / 2 := by norm_num
+
 end GameTheory.ReBeL.Examples.HiddenTypes
 
 namespace GameTheory.ReBeL.Examples.JointNativeGap
@@ -226,5 +253,32 @@ theorem absent_output_has_no_posterior :
   rw [FinDist.mem_support_pure] at reached
   subst point
   norm_num at member
+
+/-- A selected tail can have probability one while its event-weighted
+probability is only one half. The actual event-mass correction is sharp. -/
+theorem selection_tail_sharp :
+    selectionExecution.probOf selectionEvent *
+      ((selectionExecution.condOn selectionEvent selection_possible).map Prod.fst).probOf
+        {pair | (1 : ℝ) ≤ diagonalLoss pair} = 1 / 2 ∧
+      ((selectionExecution.condOn selectionEvent selection_possible).map Prod.fst).probOf
+        {pair | (1 : ℝ) ≤ diagonalLoss pair} = 1 := by
+  classical
+  have selected :
+      ((selectionExecution.condOn selectionEvent selection_possible).map Prod.fst).probOf
+        {pair | (1 : ℝ) ≤ diagonalLoss pair} = 1 := by
+    rw [selection_query, ← FinDist.expect_indicator_eq_probOf,
+      diagonalQuery, FinDist.expect_map]
+    simp [diagonalLoss]
+  constructor
+  · rw [selection_probability, selected, mul_one]
+  · exact selected
+
+/-- Dropping the event denominator makes a false CONDITIONAL tail claim,
+even though the initial tags were independent and the threshold is positive. -/
+theorem selection_tail_not_unconditional :
+    ¬ ((selectionExecution.condOn selectionEvent selection_possible).map Prod.fst).probOf
+      {pair | (1 : ℝ) ≤ diagonalLoss pair} ≤ selectionPrior.expect diagonalLoss / 1 := by
+  rw [selection_tail_sharp.2, selection_sharp.1]
+  norm_num
 
 end GameTheory.ReBeL.Examples.JointNativeGap

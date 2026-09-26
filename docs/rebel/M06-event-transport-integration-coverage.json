@@ -1,0 +1,53 @@
+{
+  "kind": "project_integration_checkpoint",
+  "milestone": "M06",
+  "milestone_complete": false,
+  "status": "pending",
+  "source": "project",
+  "source_locator": "docs/rebel/ROADMAP.md M06; actual event native-tail and executed opponent/model transport slices",
+  "branch": "rebel/m06-conditioned-query-20260925",
+  "first_parent_checkpoint": "e5e3be683142bc0374071b4c078099358167fd0b",
+  "latest_implementation_parent": "334f259f450e6ce1818cb1037214bd849ffc98ed",
+  "second_parent": "1d3011f3e1541268411c403f99fa2e86ce5e33f4",
+  "semantic_review": "docs/rebel/M06-event-transport-integration.md",
+  "modules": [
+    "GameTheory/Analysis/ReBeL/PBSConditionedNativeGap.lean",
+    "GameTheory/Analysis/ReBeL/Examples/PBSConditionedNativeGap.lean"
+  ],
+  "source_blobs": {
+    "GameTheory/Analysis/ReBeL/PBSConditionedNativeGap.lean": "b51c83ac90ae11ab6e37113465f8367fbcecf667",
+    "GameTheory/Analysis/ReBeL/Examples/PBSConditionedNativeGap.lean": "5d3d3572bc110241c7dfc1513e5fbbb85d99c663",
+    "scripts/rebel/tests/test_public_native_tail.py": "e20c754388564baeeec59c56bcd1cd124a3db652"
+  },
+  "declarations": [
+    "GameTheory.ReBeL.pbsInformationCFR_conditioned_native_tail_le",
+    "GameTheory.ReBeL.pbsInformationCFR_native_event_tail_le",
+    "GameTheory.ReBeL.pbsInformationCFR_public_native_tail_le",
+    "GameTheory.ReBeL.Examples.HiddenTypes.pbsPublicNativeTail_live_budget",
+    "GameTheory.ReBeL.Examples.JointNativeGap.selection_tail_sharp",
+    "GameTheory.ReBeL.Examples.JointNativeGap.selection_tail_not_unconditional"
+  ],
+  "preserved_transport_coverage": "docs/rebel/M06-opponent-model-transport-coverage.json",
+  "preserved_historical_event_coverage": "docs/rebel/M06-public-event-rates-coverage.json",
+  "original_obligations_unchanged": {
+    "SEARCH-FRONTIER": "pending",
+    "SEARCH-CFRD": "pending",
+    "SEARCH-ERROR": "pending",
+    "SAFE-THEOREM3": "pending"
+  },
+  "validation": {
+    "combined_source_lean_compilation": "pending",
+    "combined_source_normal_and_slow_lint": "pending",
+    "combined_source_transitive_axioms": "pending",
+    "combined_source_all_rebel": "pending",
+    "combined_source_full_ci": "pending",
+    "local_python_tests": 107,
+    "local_python_status": "success",
+    "local_python_log_sha256": "be2cac9f96b15efd9f103d2a79b7d75a180c960e9be8edcbb2a2dd3349ae1cd8",
+    "ledger_and_inventory_items": 3054,
+    "configured_target_audit_modules": 110,
+    "validation_configuration_changed": false,
+    "local_lean_execution": false
+  },
+  "unproved_bridge": "Native gaps use original joint type kernels and the same computed comparison opponent. Source transport is not necessarily small. No independent carried-PBS identification, changed-PBS native rate, vanishing first-exit rate, recursive safety or CarriedResolveStepBounds is concluded."
+}
