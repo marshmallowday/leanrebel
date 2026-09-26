@@ -1,70 +1,68 @@
-# ReBeL status — event/transport integration candidate; M06 incomplete
+# ReBeL status — support-rate candidate; M06 incomplete
 
 ## Current source and branch
 
-Continue `rebel/m06-conditioned-query-20260925`.
-Latest implementation parent: `334f259f450e6ce1818cb1037214bd849ffc98ed`.
-Its reviewed validation checkpoint: `e5e3be683142bc0374071b4c078099358167fd0b`.
-This two-parent integration also includes the older parallel event-rate branch
-at `1d3011f3e1541268411c403f99fa2e86ce5e33f4`. The older date suffix of the
-integration branch is not evidence that its source is older. Exact branch
-heads, commit dates, divergence and latest push workflows were checked.
+Continue `rebel/m06-support-rates-20260927`, based on the latest combined
+integration `7326f1e40011b1d4329f09e743491cc7bc7e5746` from
+`rebel/m06-conditioned-query-20260925`. The first continuation checkpoint is
+`3de54cc88fe0ccb87e2aa603c4d833ac5a3d1662`. A separate branch avoids cancelling
+the still-running integration-wide audit through branch-local concurrency.
+Both original integration parents and all earlier implementations are retained.
 Main remains accepted M05 at `6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098`.
 M06 and paper Theorem 3 are NOT complete. M07 is not started.
 
 ## Current dependency-closed change
 
-The combined source restores the three actual conditioned/public native-tail
-estimates, the real budget-1/8 solver consumer, sharp conditional-selection
-counterexamples and four exact-rational tests from the parallel branch. It
-preserves the latest dependent public-posterior proof and all three executed
-opponent/model transport modules, their tests, imports and audit wiring.
-Original event-branch documents and both parent histories are retained.
-No theorem statement, original source obligation, audit, workflow, architecture
-expectation or dependency pin is weakened or removed.
+The new support-only charge derives carried posterior support-failure rates
+from incoming unsupported mass plus actual-visit one-step support leakage.
+Unlike the previous full source-atom variation charge, differing positive
+weights inside the same model support do not cost anything. The candidate
+proves finite-horizon propagation, comparison with the old charge, and zero
+charge under explicit primitive support inclusions. It includes the actual
+budget-1/8 information-set CFR child consumer and hostile finite-law examples.
+No law equality, changed-opponent convergence, support floor, or child Nash
+certificate is used to remove genuine support failures.
 
-Read M06-event-transport-integration.md and its coverage JSON for exact parents,
-blob identities, conflict resolution, semantic review and current evidence.
-Prepared-source Python discovery passed 107 tests and structural checks retain
-3,054 original items. No local Lean or PowerShell execution is claimed.
+Read M06-support-rates.md, M06-support-rates-coverage.json and
+M06-support-rates-validation.md. All previous statements and tests remain.
+The existing 110 target modules and 253 globally discovered modules, imports,
+auditors, workflows, dependency pins and 3,054 source items are unchanged.
+Prepared-source Python discovery passed 112 tests, including five additional
+support controls and 16,384 new exhaustive exact-rational cases. This is not
+Lean proof evidence. No local Lean or PowerShell execution is claimed.
 
 ## Validation and next action
 
-COMBINED-SOURCE compiler, normal/slow lint, transitive axioms, all-ReBeL, full CI
-and inventory are PENDING its source push. Read the exact new commit's workflows
-and actual artifacts next; record SHA/run/job IDs and inspect the compiler output.
-Do not use successful parent runs as combined-source acceptance. Keep both changed
-modules and all transport modules in the unchanged 110-module target audit and
-global ReBeL discovery. Repair any failure without weakening statements or gates.
+NEW-SOURCE compiler, normal/slow lint, transitive axioms, all-ReBeL, full CI and
+inventory are PENDING the source push. Inspect its exact-SHA workflows and
+actual diagnostics next. Repair any failed proof without weakening statements
+or suppressing warnings. Do not substitute source-parent passes for this build.
 
-The latest implementation parent 334f259 is fully validated: target
-36271821127 / 108487104213 (110 modules, 1,733 declaration audits), ReBeL
-36271821152 / 108487174934 (253 modules, 4,904 declaration audits), full CI
-36271821124 / 108487337344, inventory 36271821169. Actual archives and all
-allowlisted axiom sets were inspected; see M06-opponent-model-transport-validation.md.
-The second parent 1d3011f also has inspected all-ReBeL source/validation artifacts
-from 36265303510 (251 modules, 4,867 declaration audits including all six tail
-and example declarations). These facts do not yet validate the combined source.
+The combined parent 7326f1e4 has an inspected target artifact: run 36275563682,
+job 108497496370, artifact 10916654865, 110 lint passes, 1,739 allowlisted axiom
+records, and EXACT_LEAF_VALIDATION_PASS. Its full CI 36275563654 / 108497657992
+reports success but detailed logs have not yet been inspected in this slice.
+Its global ReBeL run 36275563642 / 108497538005 was still running at the first
+checkpoint. Inspect that final artifact and the source inventory as well.
+Hashes and exact parent-source evidence are in M06-support-rates-validation.md.
 
 ## Remaining semantic boundary
 
-The native gap uses the original compatible type kernels and SAME computed
-average comparison opponent. Conditional rates retain the actual event-mass
-denominator; an unconditional joint public-and-bad-gap rate is not a conditional
-guarantee at a rare public observation. Actual execution opponents remain fixed
-legal policies and never observe the private seed.
+This is a fixed-profile finite continuation support bound, not a completed
+first-exit theorem for independently re-solved carried schedules. Support-only
+zero charge requires actual one-step support dominance; it is not automatic
+for arbitrary unknown opponents. Establishing small accumulated leakage for
+the full algorithm remains open. Being inside a PBS support is not equality
+between the stored model PBS and the actual conditional distribution.
 
-The computed opponent/model transport charge retains incoming law mismatch and
-need not be small under independently changing opponents. The integrated results
-do not by themselves yield changed-PBS native or late rates, independent carried-
-PBS identification, small support/first-exit rates, recursive re-solving safety
-or CarriedResolveStepBounds. SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and
-SAFE-THEOREM3 remain pending. Do not introduce event-mass floors, drop finite-T
-residuals or assume learner convergence to bypass test-time safety.
+The preserved native gaps use original compatible joint type kernels and the
+SAME computed average comparison opponent. Public conditional rates retain the
+actual event-mass denominator. Changed-PBS native/late rates, full recursive
+re-solving safety and CarriedResolveStepBounds remain unproved.
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
+No learner convergence or dropped finite-T residual is used to bypass safety.
 
 ## Branch policy
 
-From M07 onward keep one integration branch per milestone, as already decided
-by the user. A new chat alone does not justify a temporary branch. This does
-not authorize starting M07 or deleting unaccounted-for M06 branches. Current
-work continues on the latest M06 branch, without force pushes or main changes.
+M07 onward retains the user's one-integration-branch-per-milestone policy.
+This task does not start M07, delete older M06 branches, force-push, or update main.

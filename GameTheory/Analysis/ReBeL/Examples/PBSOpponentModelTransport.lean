@@ -50,6 +50,32 @@ theorem pbsOpponentModelTransport_matched :
   intro M chosen
   exact carriedOpponentModelCharge_self M finiteBudgetControlBelief chosen 0 1
 
+
+/-- A supported actual history does not pay the discrepancy between its point
+mass and the child's stored PBS. Only actual one-step support leakage remains. -/
+theorem pbsOpponentSupport_live
+    (unknown : Profile (fullInformation (reducedModel fullPrior)).behavioralSignature)
+    (history : (protocol fullPrior).History)
+    (supported : history ∈ finiteBudgetControlBelief.law.support) :
+    let M := fullInformation (reducedModel fullPrior)
+    let chosen := pbsInformationBudgetProfile (reducedModel fullPrior) finiteBudgetControlBelief
+      pbsRootControlFallback 1 (fun h who => cfrPayoff who h) 2 (1 / 8)
+    (M.runBehavioralFrom (Profile.update unknown 0 (chosen 0)) 1 history).probOf
+      {h | ¬ ∃ next, carriedBeliefUpdate M (some finiteBudgetControlBelief) chosen 1
+        (publicTrace M.toInfoSignals h.trace) = some next ∧ h ∈ next.law.support} ≤
+      executionSupportCharge M (Profile.update unknown 0 (chosen 0)) chosen 1
+        (FinDist.pure history) := by
+  intro M chosen
+  have incoming : (FinDist.pure history).support ⊆ finiteBudgetControlBelief.law.support := by
+    intro h reached
+    have same : h = history := FinDist.mem_support_pure.mp reached
+    simpa only [same] using supported
+  have vanished := FinDist.probOf_unsupported_eq_zero_of_support_subset
+    (FinDist.pure history) finiteBudgetControlBelief.law incoming
+  have estimate := carriedBeliefUpdate_failure_probability_le_supportCharge M
+    finiteBudgetControlBelief (FinDist.pure history) chosen unknown 0 1
+  simpa only [carriedOpponentSupportCharge, vanished, zero_add, FinDist.pure_bind] using estimate
+
 end GameTheory.ReBeL.Examples.HiddenTypes
 
 namespace GameTheory.ReBeL.Examples.OpponentModelTransport
@@ -112,5 +138,39 @@ theorem disappearing_model_support_bound :
   have same : x = 0 := selected
   subst x
   exact disappearing_model_support.2
+
+
+/-- The model has both atoms, but its positive weights differ from the actual law. -/
+def fullSupportModel : FinDist (Fin 2) :=
+  FinDist.mix (1 / 2) (by norm_num) (by norm_num) (FinDist.pure 0) (FinDist.pure 1)
+
+/-- Support error vanishes despite a strictly positive source-law discrepancy. -/
+theorem reweight_support_loss_zero :
+    actualPrefix.probOf {x | x ∉ fullSupportModel.support} = 0 ∧
+      FinDist.atomVariation actualPrefix fullSupportModel = 1 / 2 := by
+  constructor
+  · apply FinDist.probOf_unsupported_eq_zero_of_support_subset
+    intro x _
+    fin_cases x <;>
+      norm_num [fullSupportModel, FinDist.mem_support_mix_iff, FinDist.mem_support_pure]
+  · norm_num [FinDist.atomVariation, Fin.sum_univ_two, actualPrefix, fullSupportModel,
+      FinDist.prob_mix, FinDist.prob_pure_eq_ite]
+
+/-- Actual-prefix support leakage is one quarter; using the model prefix erases it. -/
+theorem actual_support_leakage :
+    actualPrefix.expect (fun x => (retain x).probOf {y | y ∉ (collapse x).support}) = 1 / 4 ∧
+      modelPrefix.expect (fun x => (retain x).probOf {y | y ∉ (collapse x).support}) = 0 := by
+  classical
+  constructor <;>
+    norm_num [actualPrefix, modelPrefix, retain, collapse, ← FinDist.expect_indicator_eq_probOf,
+      FinDist.expect_mix, FinDist.expect_pure, FinDist.mem_support_pure]
+
+/-- Replacing actual-visit weights with an unrelated model law is unsound even
+for the smaller support-only charge, not merely for atom variation. -/
+theorem model_prefix_undercharges_support :
+    ¬ actualPrefix.expect (fun x => (retain x).probOf {y | y ∉ (collapse x).support}) ≤
+      modelPrefix.expect (fun x => (retain x).probOf {y | y ∉ (collapse x).support}) := by
+  rw [actual_support_leakage.1, actual_support_leakage.2]
+  norm_num
 
 end GameTheory.ReBeL.Examples.OpponentModelTransport

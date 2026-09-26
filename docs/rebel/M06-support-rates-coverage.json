@@ -1,0 +1,59 @@
+{
+  "kind": "project_dependency_candidate",
+  "milestone": "M06",
+  "milestone_complete": false,
+  "status": "pending",
+  "source": "project",
+  "source_locator": "docs/rebel/ROADMAP.md M06; actual support failure in the carried belief interface",
+  "branch": "rebel/m06-support-rates-20260927",
+  "integration_parent": "7326f1e40011b1d4329f09e743491cc7bc7e5746",
+  "validation_checkpoint": "3de54cc88fe0ccb87e2aa603c4d833ac5a3d1662",
+  "semantic_review": "docs/rebel/M06-support-rates.md",
+  "source_blobs": {
+    "GameTheory/Math/Probability/FinDistKernelVariation.lean": "a0f99776da96dac17153120d248a9a19f0cadcdb",
+    "GameTheory/Analysis/ReBeL/PBSOpponentModelTransport.lean": "867d9631a72b271adc3e1ca6775ae285c280acb2",
+    "GameTheory/Analysis/ReBeL/Examples/PBSOpponentModelTransport.lean": "2aa21df3af337bb5f3cc1e85411509f427e33ff3",
+    "scripts/rebel/tests/test_opponent_model_transport.py": "a7f0b00f4d557eea1c579f36d3226dadadab7997"
+  },
+  "declarations": [
+    "GameTheory.Math.Probability.FinDist.probOf_unsupported_eq_zero_of_support_subset",
+    "GameTheory.Math.Probability.FinDist.probOf_le_probOf_unsupported",
+    "GameTheory.Math.Probability.FinDist.probOf_bind_unsupported_le",
+    "GameTheory.ReBeL.executionSupportCharge",
+    "GameTheory.ReBeL.executionSupportCharge_eq_zero_of_step_support_subset",
+    "GameTheory.ReBeL.runBehavioralFrom_unsupported_le",
+    "GameTheory.ReBeL.executionSupportCharge_le_kernelCharge",
+    "GameTheory.ReBeL.carriedOpponentSupportCharge",
+    "GameTheory.ReBeL.carriedOpponentSupportCharge_le_modelCharge",
+    "GameTheory.ReBeL.carriedBeliefUpdate_failure_probability_le_supportCharge",
+    "GameTheory.ReBeL.carriedOpponentSupportCharge_eq_zero_of_support",
+    "GameTheory.ReBeL.Examples.HiddenTypes.pbsOpponentSupport_live",
+    "GameTheory.ReBeL.Examples.OpponentModelTransport.fullSupportModel",
+    "GameTheory.ReBeL.Examples.OpponentModelTransport.reweight_support_loss_zero",
+    "GameTheory.ReBeL.Examples.OpponentModelTransport.actual_support_leakage",
+    "GameTheory.ReBeL.Examples.OpponentModelTransport.model_prefix_undercharges_support"
+  ],
+  "original_obligations_unchanged": {
+    "SEARCH-FRONTIER": "pending",
+    "SEARCH-CFRD": "pending",
+    "SEARCH-ERROR": "pending",
+    "SAFE-THEOREM3": "pending"
+  },
+  "validation": {
+    "new_source_compiler": "pending",
+    "new_source_normal_and_slow_lint": "pending",
+    "new_source_transitive_axioms": "pending",
+    "new_source_all_rebel": "pending",
+    "new_source_full_ci": "pending",
+    "local_python_tests": 112,
+    "local_python_status": "success",
+    "local_python_log_sha256": "75e53650f1907528d1da58bb492bc9fa5c280d81631e68f60f5a753f605f8b4f",
+    "new_exhaustive_rational_cases": 16384,
+    "ledger_and_inventory_items": 3054,
+    "configured_target_audit_modules": 110,
+    "global_rebel_modules": 253,
+    "validation_configuration_changed": false,
+    "local_lean_execution": false
+  },
+  "unproved_bridge": "The bound is for a fixed-profile finite continuation. Small one-step leakage for independently re-solved schedules, changed-PBS native/late gaps, actual/model conditional-law identification and CarriedResolveStepBounds remain open. Support dominance is an explicit sufficient premise, not an established property of arbitrary opponents."
+}
