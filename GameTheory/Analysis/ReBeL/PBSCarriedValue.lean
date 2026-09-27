@@ -9,6 +9,7 @@ computed costs, not claims that finite-iteration Nash makes policy drift small.
 
 import GameTheory.Analysis.ReBeL.PBSOpponentModelTransport
 import GameTheory.Analysis.ReBeL.PBSCarriedDepthFirstHit
+import GameTheory.Math.Probability.FinDistValueCoupling
 
 noncomputable section
 
@@ -272,6 +273,212 @@ theorem carriedResolveStepBounds_of_executionRate
       · exact ih ((Nat.le_add_left _ _).trans fuelBound) _
 
 
+
+/-- The actual post-replacement outcome law includes the late continuation
+under the SAME stored private draw. It does not run later re-solves early. -/
+def carriedReplacementOutcome
+    (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2)
+    (stage : CarriedResolveStage M K) (remaining : Nat)
+    (state : PrivateIterationState M (CarriedResolveMemory M K)) : FinDist E.History :=
+  (carriedMemoryStep M initial unknown who stage state).bind
+    (carriedSelectedTail M initial unknown who remaining)
+
+/-- Signed local loss computed from the two canonical continuation laws.
+A gain remains negative, so different stages can cancel rather than being
+charged by absolute history-law distance at every replacement. -/
+def carriedReplacementSignedLoss
+    (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2)
+    (stage : CarriedResolveStage M K) (remaining : Nat)
+    (state : PrivateIterationState M (CarriedResolveMemory M K))
+    (payoff : E.History → ℝ) : ℝ :=
+  (carriedSelectedTail M initial unknown who (stage.fuel + remaining) state).expect payoff -
+    (carriedReplacementOutcome M initial unknown who stage remaining state).expect payoff
+
+/-- Kernel discrepancy is one valid bound on the signed local loss, not its
+definition. This preserves the earlier bound as a conservative fallback. -/
+theorem carriedReplacementSignedLoss_le_executionCharge
+    (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2)
+    (stage : CarriedResolveStage M K) (remaining : Nat)
+    (state : PrivateIterationState M (CarriedResolveMemory M K))
+    (payoff : E.History → ℝ) (bound : ℝ) (nonneg : 0 ≤ bound)
+    (bounded : ∀ history, |payoff history| ≤ bound) :
+    carriedReplacementSignedLoss M initial unknown who stage remaining state payoff ≤
+      bound * carriedReplacementExecutionCharge M initial unknown who stage remaining state := by
+  simpa only [carriedReplacementSignedLoss, carriedReplacementOutcome, FinDist.expect_bind] using
+    carriedMemoryStep_selected_loss_le M initial unknown who stage remaining state
+      payoff bound nonneg bounded
+
+/-- An outcome coupling supplies a value-sensitive alternative to history
+variation. The first marginal is the NEW outcome and the second is the OLD
+outcome, hence its directed cost charges old-minus-new payoff only. -/
+theorem carriedReplacementSignedLoss_le_valueCoupling
+    (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2)
+    (stage : CarriedResolveStage M K) (remaining : Nat)
+    (state : PrivateIterationState M (CarriedResolveMemory M K))
+    (payoff : E.History → ℝ) (joint : FinDist (E.History × E.History))
+    (freshMarginal : joint.map Prod.fst =
+      carriedReplacementOutcome M initial unknown who stage remaining state)
+    (oldMarginal : joint.map Prod.snd =
+      carriedSelectedTail M initial unknown who (stage.fuel + remaining) state) :
+    carriedReplacementSignedLoss M initial unknown who stage remaining state payoff ≤
+      FinDist.directedValueCost joint payoff payoff := by
+  exact FinDist.expect_sub_le_directedValueCost _ _ joint payoff payoff
+    freshMarginal oldMarginal
+
+/-- Either independently justified bound may be used, without assuming that
+a small finite-iteration Nash gap implies a small policy/kernel discrepancy. -/
+theorem carriedReplacementSignedLoss_le_min
+    (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2)
+    (stage : CarriedResolveStage M K) (remaining : Nat)
+    (state : PrivateIterationState M (CarriedResolveMemory M K))
+    (payoff : E.History → ℝ) (bound : ℝ) (nonneg : 0 ≤ bound)
+    (bounded : ∀ history, |payoff history| ≤ bound)
+    (joint : FinDist (E.History × E.History))
+    (freshMarginal : joint.map Prod.fst =
+      carriedReplacementOutcome M initial unknown who stage remaining state)
+    (oldMarginal : joint.map Prod.snd =
+      carriedSelectedTail M initial unknown who (stage.fuel + remaining) state) :
+    carriedReplacementSignedLoss M initial unknown who stage remaining state payoff ≤
+      min (bound * carriedReplacementExecutionCharge M initial unknown who stage remaining state)
+        (FinDist.directedValueCost joint payoff payoff) :=
+  le_min (carriedReplacementSignedLoss_le_executionCharge M initial unknown who stage
+    remaining state payoff bound nonneg bounded)
+    (carriedReplacementSignedLoss_le_valueCoupling M initial unknown who stage remaining
+      state payoff joint freshMarginal oldMarginal)
+
+/-- Signed local losses accumulated under actual forward full-state laws.
+This definition evaluates each stage's retained tail, not an independently
+resampled tail, model-state law, or the eventual remaining recursive solver. -/
+def carriedSignedSequenceLoss
+    (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2) (finalFuel : Nat)
+    (payoff : E.History → ℝ) :
+    List (CarriedResolveStage M K) →
+      FinDist (PrivateIterationState M (CarriedResolveMemory M K)) → ℝ
+  | [], _ => 0
+  | stage :: stages, states =>
+      states.expect (fun state => carriedReplacementSignedLoss M initial unknown who stage
+        (carriedResolveFuel M finalFuel stages) state payoff) +
+      carriedSignedSequenceLoss initial unknown who finalFuel payoff stages
+        (states.bind (carriedMemoryStep M initial unknown who stage))
+
+/-- The signed forward sum is EXACTLY the complete native execution loss.
+No local loss certificate, absolute value, or convergence premise is used. -/
+theorem executeCarriedResolves_loss_eq_signed
+    (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2) (finalFuel : Nat)
+    (payoff : E.History → ℝ) (stages : List (CarriedResolveStage M K))
+    (states : FinDist (PrivateIterationState M (CarriedResolveMemory M K))) :
+    states.expect (fun state => (carriedSelectedTail M initial unknown who
+        (carriedResolveFuel M finalFuel stages) state).expect payoff) -
+      (states.bind (executeCarriedResolves M initial unknown who finalFuel stages)).expect
+        payoff = carriedSignedSequenceLoss M initial unknown who finalFuel payoff stages
+          states := by
+  induction stages generalizing states with
+  | nil =>
+      simp only [executeCarriedResolves, carriedResolveFuel, FinDist.expect_bind,
+        carriedSignedSequenceLoss, sub_self]
+  | cons stage stages ih =>
+      have tail := ih (states.bind (carriedMemoryStep M initial unknown who stage))
+      simp only [carriedSignedSequenceLoss, carriedReplacementSignedLoss,
+        carriedReplacementOutcome, FinDist.expect_sub, FinDist.expect_bind,
+        executeCarriedResolves, carriedResolveFuel] at tail ⊢
+      linarith only [tail]
+
+/-- The exact signed accounting is bounded by the previously established
+execution cost; replacing it by that cost can discard cancellation. -/
+theorem carriedSignedSequenceLoss_le_executionCharge
+    (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2) (finalFuel : Nat)
+    (payoff : E.History → ℝ) (bound : ℝ) (nonneg : 0 ≤ bound)
+    (bounded : ∀ history, |payoff history| ≤ bound)
+    (stages : List (CarriedResolveStage M K))
+    (states : FinDist (PrivateIterationState M (CarriedResolveMemory M K))) :
+    carriedSignedSequenceLoss M initial unknown who finalFuel payoff stages states ≤
+      bound * carriedSequenceExecutionCharge M initial unknown who finalFuel stages states := by
+  rw [← executeCarriedResolves_loss_eq_signed]
+  exact executeCarriedResolves_loss_le_executionCharge M initial unknown who finalFuel
+    payoff bound nonneg bounded stages states
+
+/-- Arbitrary outcome-label changes have no signed loss for constant payoff.
+The result holds for the actual complete recursive schedule, including stops. -/
+theorem carriedSignedSequenceLoss_const
+    (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2) (finalFuel : Nat)
+    (value : ℝ) (stages : List (CarriedResolveStage M K))
+    (states : FinDist (PrivateIterationState M (CarriedResolveMemory M K))) :
+    carriedSignedSequenceLoss M initial unknown who finalFuel (fun _ => value)
+      stages states = 0 := by
+  rw [← executeCarriedResolves_loss_eq_signed]
+  simp only [FinDist.expect_const, sub_self]
+
+/-- Coupling support bounds construct the existing signed stage certificate.
+The premises are outcome marginal identities and pairwise payoff bounds,
+not the stage expectation inequality or the final recursive guarantee. -/
+theorem carriedResolveStepBounds_of_valueCoupling
+    (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2) (finalFuel : Nat)
+    (payoff : E.History → ℝ) (allowance : CarriedResolveStage M K → ℝ)
+    (nonneg : ∀ stage, 0 ≤ allowance stage)
+    (joint : CarriedResolveStage M K → Nat →
+      PrivateIterationState M (CarriedResolveMemory M K) → FinDist (E.History × E.History))
+    (freshMarginal : ∀ stage remaining state, (joint stage remaining state).map Prod.fst =
+      carriedReplacementOutcome M initial unknown who stage remaining state)
+    (oldMarginal : ∀ stage remaining state, (joint stage remaining state).map Prod.snd =
+      carriedSelectedTail M initial unknown who (stage.fuel + remaining) state)
+    (bounded : ∀ stage remaining state pair, pair ∈ (joint stage remaining state).support →
+      payoff pair.2 - payoff pair.1 ≤ allowance stage)
+    (stages : List (CarriedResolveStage M K))
+    (states : FinDist (PrivateIterationState M (CarriedResolveMemory M K))) :
+    CarriedResolveStepBounds M initial unknown who finalFuel payoff allowance stages states := by
+  induction stages generalizing states with
+  | nil => trivial
+  | cons stage stages ih =>
+      constructor
+      · intro state _
+        have localBound := carriedReplacementSignedLoss_le_valueCoupling M initial unknown who
+          stage (carriedResolveFuel M finalFuel stages) state payoff
+          (joint stage (carriedResolveFuel M finalFuel stages) state)
+          (freshMarginal _ _ _) (oldMarginal _ _ _)
+        have small := FinDist.directedValueCost_le_of_support
+          (joint stage (carriedResolveFuel M finalFuel stages) state) payoff payoff
+          (allowance stage) (nonneg stage) (bounded _ _ _)
+        simpa only [carriedReplacementSignedLoss, carriedReplacementOutcome,
+          FinDist.expect_bind, carriedResolveFuel] using localBound.trans small
+      · exact ih _
+
+/-- An initial security bound is inherited with the exact signed forward
+loss. This sharper form retains gains as negative costs, but deriving small
+solver-specific bounds on the signed sum is still a separate obligation. -/
+theorem privateRecursiveResolve_inherits_signedLoss
+    (seed : FinDist K) (plays : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2) (cut finalFuel : Nat)
+    (stages : List (CarriedResolveStage M K)) (payoff : E.History → ℝ)
+    (lower : ℝ)
+    (prior : lower ≤ (privateCarriedContinue M seed plays unknown who cut
+      (carriedResolveFuel M finalFuel stages)).expect payoff) :
+    lower - carriedSignedSequenceLoss M plays unknown who finalFuel payoff stages
+        ((privateCarriedPrefix M seed plays unknown who cut).map (enterCarriedMemory M)) ≤
+      (privateRecursiveResolve M seed plays unknown who cut finalFuel stages).expect payoff := by
+  have identity := executeCarriedResolves_loss_eq_signed M plays unknown who finalFuel payoff
+    stages ((privateCarriedPrefix M seed plays unknown who cut).map (enterCarriedMemory M))
+  have oldValue :
+      ((privateCarriedPrefix M seed plays unknown who cut).map (enterCarriedMemory M)).expect
+        (fun state => (carriedSelectedTail M plays unknown who
+          (carriedResolveFuel M finalFuel stages) state).expect payoff) =
+      (privateCarriedContinue M seed plays unknown who cut
+        (carriedResolveFuel M finalFuel stages)).expect payoff := by
+    simp only [FinDist.expect_map, privateCarriedContinue, FinDist.expect_bind,
+      enterCarriedMemory, carriedSelectedTail, carriedMemoryProfile, List.headD_nil]
+  rw [oldValue] at identity
+  unfold privateRecursiveResolve
+  linarith only [prior, identity]
+
 section InitialSecurity
 
 variable [∀ who info, Fintype (M.Choice who info)]
@@ -325,6 +532,51 @@ theorem cfrDDepth_recursive_security_executionCharge (clock : ObservationClock M
   · exact cfrDDepth_carried_security M clock hrecall fallback payoff hzero cut
       (carriedResolveFuel M finalFuel stages) oracle bound error loss hb he hl bounded
       accurate optimal reference equilibrium unknown who t
+
+/-- The original finite-T/oracle/child security bound feeds signed accounting
+without a local replacement certificate. No learner convergence is assumed. -/
+theorem cfrDDepth_recursive_security_signedLoss (clock : ObservationClock M)
+    (hrecall : M.PerfectRecall) (fallback : (who : Fin 2) → M.Policy who)
+    (payoff : Fin 2 → E.History → ℝ)
+    (hzero : IsZeroSum (fun history who => payoff who history))
+    (cut finalFuel : Nat) (oracle : CFRDValueOracle M) (bound error loss : ℝ)
+    (hb : 0 ≤ bound) (he : 0 ≤ error) (hl : 0 ≤ loss)
+    (bounded : ∀ who history, |payoff who history| ≤ bound)
+    (t : Nat) [NeZero t] (stages : List (CarriedResolveStage M (Fin t)))
+    (accurate : CFRDDepthAccurate M clock fallback payoff cut
+      (carriedResolveFuel M finalFuel stages) oracle error)
+    (optimal : CFRDDepthLeafOptimal M clock fallback payoff cut
+      (carriedResolveFuel M finalFuel stages) oracle loss)
+    (reference : Profile M.behavioralSignature)
+    (equilibrium : IsNash (M.toBehavioralGameForm
+      (cut + carriedResolveFuel M finalFuel stages))
+      (euPreference (fun history who => payoff who history)) reference)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2) :
+    (M.runBehavioral reference (cut + carriedResolveFuel M finalFuel stages)).expect
+        (payoff who) -
+      ((cfrDDepthErrorConstant M clock fallback cut (carriedResolveFuel M finalFuel stages) 0 +
+          cfrDDepthErrorConstant M clock fallback cut (carriedResolveFuel M finalFuel stages) 1) *
+          error +
+        (cfrDDepthFiniteConstant M clock fallback cut
+            (carriedResolveFuel M finalFuel stages) bound 0 +
+          cfrDDepthFiniteConstant M clock fallback cut
+            (carriedResolveFuel M finalFuel stages) bound 1) / Real.sqrt t +
+        2 * loss) - carriedSignedSequenceLoss M
+        (fun n : Fin t => cfrDDepthPlay M clock fallback payoff cut
+          (carriedResolveFuel M finalFuel stages) oracle n.val)
+        unknown who finalFuel (payoff who) stages
+        ((privateCarriedPrefix M (cfrIterationLaw t)
+          (fun n : Fin t => cfrDDepthPlay M clock fallback payoff cut
+            (carriedResolveFuel M finalFuel stages) oracle n.val)
+          unknown who cut).map (enterCarriedMemory M)) ≤
+      (privateRecursiveResolve M (cfrIterationLaw t)
+        (fun n : Fin t => cfrDDepthPlay M clock fallback payoff cut
+          (carriedResolveFuel M finalFuel stages) oracle n.val)
+        unknown who cut finalFuel stages).expect (payoff who) := by
+  apply privateRecursiveResolve_inherits_signedLoss
+  exact cfrDDepth_carried_security M clock hrecall fallback payoff hzero cut
+    (carriedResolveFuel M finalFuel stages) oracle bound error loss hb he hl bounded
+    accurate optimal reference equilibrium unknown who t
 
 end InitialSecurity
 

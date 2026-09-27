@@ -45,6 +45,51 @@ theorem conditionalPayoff_abs_sub_le_kernelVariation
   intro history
   exact FinDist.abs_expect_le_of_abs_bound _ _ (fun later _ => bounded later)
 
+
+/-- The value-comparison kernel comes from the supplied joint PBS, rather than
+an independently chosen type slice. Supported types use certified conditioning;
+absent types remain the caller's explicit compatible completion. -/
+theorem conditionalPayoff_ofJointBelief
+    (memory : RootTypeMemory M observations who T)
+    (belief : PublicBelief M.toInfoSignals observations)
+    (offPath : T → PublicBelief M.toInfoSignals observations)
+    (compatible : ∀ type history, history ∈ (offPath type).law.support →
+      memory.typeAt (M.infoOf who history.trace) = type)
+    (type : T)
+    (reached : type ∈ (belief.law.map
+      (fun history => memory.typeAt (M.infoOf who history.trace))).support)
+    (opponents : Profile M.behavioralSignature) (fuel : Nat)
+    (payoff : E.History → ℝ) (replacement : M.BehavioralPolicy who) :
+    (ofJointBelief memory belief offPath compatible).conditionalPayoff
+        opponents fuel payoff replacement type =
+      ((belief.law.condOnFibre
+        (fun history => memory.typeAt (M.infoOf who history.trace)) type).bind
+        (M.runBehavioralFrom (Profile.update opponents who replacement) fuel)).expect payoff := by
+  unfold conditionalPayoff PublicBelief.continuationLaw
+  rw [ofJointBelief_kernel_law memory belief offPath compatible type reached]
+
+/-- Reconstructing the current PBS before evaluating its continuation gives
+the weighted conditional values at precisely that PBS's type kernels. -/
+theorem conditionalPayoff_ofJointBelief_mean
+    (memory : RootTypeMemory M observations who T)
+    (belief : PublicBelief M.toInfoSignals observations)
+    (offPath : T → PublicBelief M.toInfoSignals observations)
+    (compatible : ∀ type history, history ∈ (offPath type).law.support →
+      memory.typeAt (M.infoOf who history.trace) = type)
+    (opponents : Profile M.behavioralSignature) (fuel : Nat)
+    (payoff : E.History → ℝ) (replacement : M.BehavioralPolicy who) :
+    (belief.law.map (fun history => memory.typeAt (M.infoOf who history.trace))).expect
+        (fun type => (ofJointBelief memory belief offPath compatible).conditionalPayoff
+          opponents fuel payoff replacement type) =
+      (PublicBelief.continuationLaw M (Profile.update opponents who replacement)
+        fuel belief).expect payoff := by
+  have decomposed := (ofJointBelief memory belief offPath compatible).mixture_payoff
+    (belief.law.map (fun history => memory.typeAt (M.infoOf who history.trace)))
+    (Profile.update opponents who replacement) fuel payoff
+  unfold PublicBelief.continuationLaw at decomposed
+  rw [ofJointBelief_reconstruct memory belief offPath compatible] at decomposed
+  exact decomposed.symm
+
 variable [∀ player, Fintype (E.Action player)]
 
 /-- Uniform control of all legal responses controls the actual attained

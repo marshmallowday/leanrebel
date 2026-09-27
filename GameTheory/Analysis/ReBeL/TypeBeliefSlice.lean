@@ -171,5 +171,69 @@ theorem ofJointBelief_reconstruct (memory : RootTypeMemory M observations who T)
   rw [conditionedKernel, dif_pos positiveKernel, FinDist.condOnFibre, dif_pos positiveFibre]
   rfl
 
+
+/-- At a supported own type, the completed slice is exactly conditioning of
+the supplied JOINT PBS. The compatible off-path completion cannot affect it. -/
+theorem ofJointBelief_kernel_law
+    (memory : RootTypeMemory M observations who T)
+    (belief : PublicBelief M.toInfoSignals observations)
+    (offPath : T → PublicBelief M.toInfoSignals observations)
+    (compatible : ∀ type history, history ∈ (offPath type).law.support →
+      memory.typeAt (M.infoOf who history.trace) = type)
+    (type : T)
+    (reached : type ∈ (belief.law.map
+      (fun history => memory.typeAt (M.infoOf who history.trace))).support) :
+    ((ofJointBelief memory belief offPath compatible).kernel type).law =
+      belief.law.condOnFibre (fun history => memory.typeAt (M.infoOf who history.trace))
+        type := by
+  classical
+  have positive : ∃ history ∈
+      {h : E.History | memory.typeAt (M.infoOf who h.trace) = type},
+        history ∈ belief.law.support := by
+    rw [FinDist.support_map] at reached
+    obtain ⟨history, supported, same⟩ := reached
+    exact ⟨history, same, supported⟩
+  simp only [ofJointBelief, conditionedKernel, FinDist.condOnFibre, dif_pos positive]
+
+/-- An absent type retains the explicit physical completion. It is never
+declared equal to a posterior at a zero-probability event. -/
+theorem ofJointBelief_kernel_of_absent
+    (memory : RootTypeMemory M observations who T)
+    (belief : PublicBelief M.toInfoSignals observations)
+    (offPath : T → PublicBelief M.toInfoSignals observations)
+    (compatible : ∀ type history, history ∈ (offPath type).law.support →
+      memory.typeAt (M.infoOf who history.trace) = type)
+    (type : T)
+    (absent : type ∉ (belief.law.map
+      (fun history => memory.typeAt (M.infoOf who history.trace))).support) :
+    (ofJointBelief memory belief offPath compatible).kernel type = offPath type := by
+  classical
+  have impossible : ¬ ∃ history ∈
+      {h : E.History | memory.typeAt (M.infoOf who h.trace) = type},
+        history ∈ belief.law.support := by
+    rintro ⟨history, same, supported⟩
+    apply absent
+    rw [FinDist.support_map]
+    exact ⟨history, supported, same⟩
+  simp only [ofJointBelief, conditionedKernel, dif_neg impossible]
+
+/-- Supported values do not depend on the arbitrary off-path completion,
+even when zero-weight types admit many different compatible histories. -/
+theorem ofJointBelief_kernel_law_independent
+    (memory : RootTypeMemory M observations who T)
+    (belief : PublicBelief M.toInfoSignals observations)
+    (first second : T → PublicBelief M.toInfoSignals observations)
+    (firstCompatible : ∀ type history, history ∈ (first type).law.support →
+      memory.typeAt (M.infoOf who history.trace) = type)
+    (secondCompatible : ∀ type history, history ∈ (second type).law.support →
+      memory.typeAt (M.infoOf who history.trace) = type)
+    (type : T)
+    (reached : type ∈ (belief.law.map
+      (fun history => memory.typeAt (M.infoOf who history.trace))).support) :
+    ((ofJointBelief memory belief first firstCompatible).kernel type).law =
+      ((ofJointBelief memory belief second secondCompatible).kernel type).law := by
+  rw [ofJointBelief_kernel_law memory belief first firstCompatible type reached,
+    ofJointBelief_kernel_law memory belief second secondCompatible type reached]
+
 end TypeBeliefSlice
 end GameTheory.ReBeL

@@ -9,6 +9,7 @@ visits, not assumed away by child Nash or by public posterior identification.
 
 import GameTheory.Math.Probability.FinDistKernelVariation
 import GameTheory.Analysis.ReBeL.CFRDRecursivePlay
+import GameTheory.Analysis.ReBeL.TypeBeliefSlice
 
 noncomputable section
 
@@ -560,5 +561,44 @@ theorem carriedOpponentModel_public_transport_le_rate {past : List M.PublicSigna
     unknown who fuel).trans (mul_le_mul_of_nonneg_left
       (carriedOpponentModelCharge_le_rate M belief actual chosen unknown who
         incoming rate initial steps fuel) (by norm_num))
+
+
+omit [Fintype E.History] in
+/-- At the recursive stored MODEL posterior, a supported own-type kernel is
+the public-conditioned continuation conditioned again on that own type.
+The full correlated joint history law is retained at both conditioning steps. -/
+theorem resolvedNextState_typeKernel_law {T : Type*}
+    (state : PrivateIterationState M K)
+    (belief : PublicBelief M.toInfoSignals (publicTrace M.toInfoSignals state.history.trace))
+    (stored : state.belief = some belief)
+    (chosen : Profile M.behavioralSignature) (fuel : Nat) (history : E.History)
+    (positive : publicTrace M.toInfoSignals history.trace ∈
+      (PublicBelief.publicLaw (S := M.toInfoSignals)
+        (PublicBelief.continuationLaw M chosen fuel belief)).support)
+    (who : Fin 2)
+    (memory : RootTypeMemory M (publicTrace M.toInfoSignals history.trace) who T)
+    (offPath : T → PublicBelief M.toInfoSignals (publicTrace M.toInfoSignals history.trace))
+    (compatible : ∀ type h, h ∈ (offPath type).law.support →
+      memory.typeAt (M.infoOf who h.trace) = type)
+    (type : T) :
+    let posterior := PublicBelief.atObservation
+      (PublicBelief.continuationLaw M chosen fuel belief)
+      (publicTrace M.toInfoSignals history.trace) positive
+    (resolvedNextState M state chosen fuel history).belief = some posterior ∧
+      (type ∈ (posterior.law.map
+        (fun h => memory.typeAt (M.infoOf who h.trace))).support →
+        ((TypeBeliefSlice.ofJointBelief memory posterior offPath compatible).kernel type).law =
+          ((PublicBelief.continuationLaw M chosen fuel belief).condOnFibre
+            (fun h => publicTrace M.toInfoSignals h.trace)
+            (publicTrace M.toInfoSignals history.trace)).condOnFibre
+              (fun h => memory.typeAt (M.infoOf who h.trace)) type) := by
+  intro posterior
+  constructor
+  · exact resolvedNextState_belief_eq_atObservation M state belief stored
+      chosen fuel history positive
+  · intro reached
+    rw [TypeBeliefSlice.ofJointBelief_kernel_law memory posterior offPath compatible type reached]
+    dsimp only [posterior]
+    rw [PublicBelief.atObservation_law]
 
 end GameTheory.ReBeL

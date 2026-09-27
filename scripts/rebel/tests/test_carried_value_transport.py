@@ -275,5 +275,102 @@ class CarriedValueTransportTests(unittest.TestCase):
         self.assertNotEqual(correct, pooled)
 
 
+    def test_public_then_type_kernel_preserves_joint_correlation(self):
+        # Three own types; type 2 is unreachable and has explicit completions.
+        prior = {(0, 0): F(2, 5), (0, 1): F(1, 10),
+                 (1, 0): F(1, 10), (1, 1): F(2, 5)}
+        cases = 0
+        for low, high in product((F(1, 4), F(1, 2), F(3, 4)), repeat=2):
+            likelihood = {h: high if h[1] else low for h in prior}
+            public = posterior(prior, likelihood)
+            masses = {t: sum((m for h, m in public.items() if h[0] == t), F(0))
+                      for t in (0, 1)}
+            kernels = {
+                t: {h: m / masses[t] for h, m in public.items() if h[0] == t}
+                for t in masses
+            }
+            self.assertEqual(bind(masses, kernels.__getitem__), public)
+            for t in masses:
+                weights = {h: prior[h] * likelihood[h]
+                           for h in prior if h[0] == t}
+                total = sum(weights.values(), F(0))
+                self.assertEqual(kernels[t], {h: m / total for h, m in weights.items()})
+                self.assertEqual(sum(kernels[t].values(), F(0)), 1)
+            self.assertEqual(masses.get(2, 0), 0)
+            for completion in ({(2, 0): F(1)}, {(2, 1): F(1)}):
+                completed = {**kernels, 2: completion}
+                self.assertEqual(bind(masses, completed.__getitem__), public)
+            # Independent marginals destroy the conditional opposing bit.
+            opponent = sum((m for h, m in public.items() if h[1] == 1), F(0))
+            self.assertNotEqual(kernels[0].get((0, 1), F(0)), opponent)
+            cases += 1
+        self.assertEqual(cases, 9)
+
+    def test_value_coupling_ignores_payoff_preserving_label_change(self):
+        # Disjoint histories, nonconstant payoff on the physical carrier.
+        old = {("old",): F(1)}
+        fresh = {("fresh",): F(1)}
+        values = {("old",): F(1), ("fresh",): F(1), ("bad",): F(-1)}
+        joint = {(("fresh",), ("old",)): F(1)}
+        cost = expect(joint, lambda pair:
+                      max(F(0), values[pair[1]] - values[pair[0]]))
+        signed = expect(old, values.__getitem__) - expect(fresh, values.__getitem__)
+        self.assertEqual(variation(old, fresh), 2)
+        self.assertEqual(cost, 0)
+        self.assertEqual(signed, 0)
+        self.assertLess(cost, variation(old, fresh))
+        self.assertEqual(bind(joint, lambda pair: {pair[0]: F(1)}), fresh)
+        self.assertEqual(bind(joint, lambda pair: {pair[1]: F(1)}), old)
+
+    def test_coupling_marginals_and_orientation_are_essential(self):
+        for fresh_value, old_value in product((F(-1), F(0), F(1)), repeat=2):
+            joint = {(fresh_value, old_value): F(1)}
+            cost = expect(joint, lambda pair: max(F(0), pair[1] - pair[0]))
+            signed = old_value - fresh_value
+            self.assertLessEqual(signed, cost)
+            self.assertLessEqual(signed, min(cost, F(2)))
+        # Reversing the directed cost is invalid for a payoff-losing replacement.
+        self.assertGreater(F(1) - F(-1), max(F(0), F(-1) - F(1)))
+        law = {-1: F(1, 2), 1: F(1, 2)}
+        diagonal = {(-1, -1): F(1, 2), (1, 1): F(1, 2)}
+        independent = {(a, b): p * q for a, p in law.items() for b, q in law.items()}
+        cost = lambda joint: expect(joint, lambda pair: max(F(0), pair[1] - pair[0]))
+        self.assertEqual(cost(diagonal), 0)
+        self.assertEqual(cost(independent), F(1, 2))
+        for joint in (diagonal, independent):
+            for index in (0, 1):
+                self.assertEqual(bind(joint, lambda pair: {pair[index]: F(1)}), law)
+
+    def test_value_cost_composes_under_native_forward_weights(self):
+        states = {((), 0): F(1, 3), ((), 1): F(2, 3)}
+        payoff = lambda history: F(history[-1])
+        before = expect(states, lambda state: selected_value(state, 3, payoff))
+        total_signed, total_cost, total_kernel = F(0), F(0), F(0)
+        for remaining, bit in ((2, 1), (1, 0)):
+            draw = lambda state: {bit: F(1)}
+            def quantities(state):
+                old = run({state[0]: F(1)}, fixed_policy(state[1]), 1 + remaining)
+                next_states = resolve_step(state, 1, draw)
+                fresh = bind(next_states, lambda nxt:
+                             run({nxt[0]: F(1)}, fixed_policy(nxt[1]), remaining))
+                joint = {(new, oldh): p * q
+                         for new, p in fresh.items() for oldh, q in old.items()}
+                signed = expect(old, payoff) - expect(fresh, payoff)
+                cost = expect(joint, lambda pair:
+                              max(F(0), payoff(pair[1]) - payoff(pair[0])))
+                kernel = replacement_charge(state, 1, remaining, draw)
+                self.assertLessEqual(signed, min(cost, kernel))
+                return signed, cost, kernel
+            total_signed += expect(states, lambda state: quantities(state)[0])
+            total_cost += expect(states, lambda state: quantities(state)[1])
+            total_kernel += expect(states, lambda state: quantities(state)[2])
+            states = bind(states, lambda state: resolve_step(state, 1, draw))
+        after = expect(states, lambda state: selected_value(state, 1, payoff))
+        self.assertEqual(before - after, total_signed)
+        self.assertEqual(total_signed, F(2, 3))
+        self.assertEqual(total_cost, F(1))
+        self.assertLess(total_cost, total_kernel)
+
+
 if __name__ == '__main__':
     unittest.main()
