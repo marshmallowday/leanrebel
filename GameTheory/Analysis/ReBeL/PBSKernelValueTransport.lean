@@ -46,6 +46,7 @@ theorem conditionalPayoff_abs_sub_le_kernelVariation
   exact FinDist.abs_expect_le_of_abs_bound _ _ (fun later _ => bounded later)
 
 
+omit [Fintype E.History] in
 /-- The value-comparison kernel comes from the supplied joint PBS, rather than
 an independently chosen type slice. Supported types use certified conditioning;
 absent types remain the caller's explicit compatible completion. -/
@@ -68,6 +69,7 @@ theorem conditionalPayoff_ofJointBelief
   unfold conditionalPayoff PublicBelief.continuationLaw
   rw [ofJointBelief_kernel_law memory belief offPath compatible type reached]
 
+omit [Fintype E.History] in
 /-- Reconstructing the current PBS before evaluating its continuation gives
 the weighted conditional values at precisely that PBS's type kernels. -/
 theorem conditionalPayoff_ofJointBelief_mean

@@ -311,6 +311,7 @@ theorem carriedReplacementSignedLoss_le_executionCharge
     carriedMemoryStep_selected_loss_le M initial unknown who stage remaining state
       payoff bound nonneg bounded
 
+omit [Fintype E.History] in
 /-- An outcome coupling supplies a value-sensitive alternative to history
 variation. The first marginal is the NEW outcome and the second is the OLD
 outcome, hence its directed cost charges old-minus-new payoff only. -/
@@ -367,6 +368,7 @@ def carriedSignedSequenceLoss
       carriedSignedSequenceLoss initial unknown who finalFuel payoff stages
         (states.bind (carriedMemoryStep M initial unknown who stage))
 
+omit [Fintype E.History] in
 /-- The signed forward sum is EXACTLY the complete native execution loss.
 No local loss certificate, absolute value, or convergence premise is used. -/
 theorem executeCarriedResolves_loss_eq_signed
@@ -405,6 +407,7 @@ theorem carriedSignedSequenceLoss_le_executionCharge
   exact executeCarriedResolves_loss_le_executionCharge M initial unknown who finalFuel
     payoff bound nonneg bounded stages states
 
+omit [Fintype E.History] in
 /-- Arbitrary outcome-label changes have no signed loss for constant payoff.
 The result holds for the actual complete recursive schedule, including stops. -/
 theorem carriedSignedSequenceLoss_const
@@ -417,6 +420,7 @@ theorem carriedSignedSequenceLoss_const
   rw [← executeCarriedResolves_loss_eq_signed]
   simp only [FinDist.expect_const, sub_self]
 
+omit [Fintype E.History] in
 /-- Coupling support bounds construct the existing signed stage certificate.
 The premises are outcome marginal identities and pairwise payoff bounds,
 not the stage expectation inequality or the final recursive guarantee. -/
@@ -452,6 +456,7 @@ theorem carriedResolveStepBounds_of_valueCoupling
           FinDist.expect_bind, carriedResolveFuel] using localBound.trans small
       · exact ih _
 
+omit [Fintype E.History] in
 /-- An initial security bound is inherited with the exact signed forward
 loss. This sharper form retains gains as negative costs, but deriving small
 solver-specific bounds on the signed sum is still a separate obligation. -/
