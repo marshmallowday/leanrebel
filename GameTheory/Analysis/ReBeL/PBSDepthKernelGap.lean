@@ -83,9 +83,9 @@ theorem pbsInformationDepthCFR_conditioned_kernelGap_le
         2 * bound * query.expect (fun pair => FinDist.atomVariation (slice.kernel pair.2).law
           ((fresh pair.1).kernel (retag pair)).law) := by
       rw [FinDist.expect_add, FinDist.expect_smul]
-    _ ≤ _ := add_le_add_right
+    _ ≤ _ := add_le_add
       (pbsInformationDepthCFR_conditioned_native_mean_abs_le M slice own fallback payoff zeroSum
         cut remaining bound error loss hb he hl bounded noise noiseBound t opponents steps
-        event possible) _
+        event possible) le_rfl
 
 end GameTheory.ReBeL

@@ -67,6 +67,10 @@ theorem infoValue_abs_sub_le_kernelVariation
     opponents newType left
   have rightBound := old.conditionalPayoff_le_infoValue hrecall fallback fuel payoff
     opponents oldType right
+  change old.conditionalPayoff opponents fuel payoff left oldType =
+    old.infoValue fallback fuel payoff opponents oldType at leftAttains
+  change fresh.conditionalPayoff opponents fuel payoff right newType =
+    fresh.infoValue fallback fuel payoff opponents newType at rightAttains
   rw [leftAttains] at first
   rw [rightAttains] at second
   exact abs_le.mpr ⟨by linarith only [second.1, rightBound],
@@ -112,11 +116,11 @@ theorem conditionalGap_abs_le_old_add_kernelVariation
     fresh.conditionalPayoff opponents fuel payoff replacement newType
   calc
     _ = |(freshGap - oldGap) + oldGap| := by congr 1; dsimp only [freshGap]; ring
-    _ ≤ |freshGap - oldGap| + |oldGap| := abs_add _ _
+    _ ≤ |freshGap - oldGap| + |oldGap| := abs_add_le _ _
     _ ≤ 2 * bound * FinDist.atomVariation (old.kernel oldType).law
         (fresh.kernel newType).law + |oldGap| :=
-      add_le_add_right (old.conditionalGap_abs_sub_le_kernelVariation fresh hrecall
-        fallback fuel payoff opponents replacement oldType newType bound bounded) _
+      add_le_add (old.conditionalGap_abs_sub_le_kernelVariation fresh hrecall
+        fallback fuel payoff opponents replacement oldType newType bound bounded) le_rfl
     _ = _ := add_comm _ _
 
 end GameTheory.ReBeL.TypeBeliefSlice

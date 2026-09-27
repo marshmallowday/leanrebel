@@ -6,14 +6,11 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "6b7865e312af3108568566187468e4df97bbd8eb",
+  "parent": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
-  "history": [
-    "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-6b7865.json"
-  ],
+  "history": "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
   "semantic_review": "docs/rebel/M06-kernel-value-transport.md",
-  "repair_review": "docs/rebel/M06-kernel-value-repair-6b7865-validation.md",
+  "repair_review": "docs/rebel/M06-kernel-value-repair.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -31,33 +28,22 @@
     "kernelValueObservable_bound", "kernelValue_payoff_zero", "kernelValue_optimum_zero",
     "kernelValue_variation_two", "kernelValue_same_query_different_values", "depthKernel_changed_query"
   ],
-  "failed_candidates": [
-    {
-      "commit": "3ef56a217e22903aba945f1c3417e4810d468e73",
-      "target_run": 36292013486,
-      "target_job": 108543785041,
-      "artifact": 10922611596,
-      "status": "failed reserved recall binder; full log inspected",
-      "review": "docs/rebel/M06-kernel-value-repair.md"
-    },
-    {
-      "commit": "6b7865e312af3108568566187468e4df97bbd8eb",
-      "target_run": 36292478763,
-      "target_job": 108545087124,
-      "artifact": 10923021191,
-      "zip_sha256": "55aeb19589e4b356cd281a4d058e60423450ef039921ef54560228d3c869c4a9",
-      "log_sha256": "0944472bbf1748739f458be77ef2e929b70b4952b93f596e3c83bd6a5482f191",
-      "status": "failed attainment rewrite, triangle lemma name and additive monotonicity orientation; full artifact inspected",
-      "lint_and_axioms": "skipped after compilation failure",
-      "review": "docs/rebel/M06-kernel-value-repair-6b7865-validation.md"
-    }
-  ],
+  "failed_candidate": {
+    "commit": "3ef56a217e22903aba945f1c3417e4810d468e73",
+    "target_run": 36292013486,
+    "target_job": 108543785041,
+    "artifact": 10922611596,
+    "status": "failure: complete job log read through GitHub plugin",
+    "diagnostic": "PBSKernelValueTransport.lean lines 51,79,99 use the reserved token recall as a binder; subsequent fallback/parser errors cascade",
+    "lint_and_axioms": "not run because declared-target compilation failed",
+    "source_snapshot_and_python_review": "docs/rebel/M06-kernel-value-transport-3ef5-validation.md"
+  },
   "validation": {
-    "compiler": "pending exact second-repair commit CI",
-    "normal_and_slow_lint": "pending exact second-repair commit CI",
-    "transitive_axioms": "pending complete exact second-repair artifact inspection",
-    "core_blob": "028a1a3ee6ab792a9a579fa811c2071018fe5506",
-    "integration_blob": "528b8d5603d6a08156c262fdd61bc8536a209944",
+    "compiler": "pending exact repair commit CI",
+    "normal_and_slow_lint": "pending exact repair commit CI",
+    "transitive_axioms": "pending complete exact repair artifact inspection",
+    "core_blob": "c7508cf0204cc2c81ac967a622534c198a1c57c2",
+    "integration_blob": "f264a5fd297aa65ba282a167d1c2f699cf6b145b",
     "example_blob": "5b4d4507e67d7bcc9ad5cb6938bf070b70ebd5b7",
     "root_blob": "08fe85893fd45d90d743d50d14e03be273462716",
     "targets_blob": "37b4d120956203b7878ff58f29f67552c1483b57",
@@ -70,13 +56,14 @@
     "new_python_tests": 8,
     "exhaustive_cases": 4050,
     "local_python_tests": 149,
-    "local_python_commit": "6b7865e312af3108568566187468e4df97bbd8eb",
-    "local_python_status": "pass on exact plugin-downloaded 6b7865 source; not second-repair Lean acceptance",
+    "local_python_status": "prior exact 3ef5 source pass recorded separately; not new repair-commit or Lean acceptance",
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
-    "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md"
+    "baseline_global_run": 36289929759,
+    "baseline_global_job": 108538058392,
+    "baseline_global_status": "accepted at dac8; source-specific review in docs/rebel/M06-depth-native-gap-global-accepted.md"
   },
   "remaining": [
-    "Exact repaired compiler, normal/slow lint and complete axiom validation",
+    "Exact repair compiler, normal/slow lint and complete axiom validation",
     "Identify actual recursively re-solved posterior kernels and derive small kernel rates",
     "Native and late value transport with changed opposing policies",
     "Small primitive support leakage for unrestricted constructed solvers",
