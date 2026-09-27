@@ -214,7 +214,7 @@ theorem pbsInformationDepthCFRTaggedExecution_tags
     (pbsInformationDepthCFRTaggedExecution M slice own fallback payoff cut remaining
       bound loss noise t opponents steps).map Prod.fst = (cfrIterationLaw t).product own := by
   simp only [pbsInformationDepthCFRTaggedExecution, FinDist.map_bind, FinDist.map_comp,
-    Function.comp_def, FinDist.map_const, FinDist.bind_pure]
+    Function.comp_def, FinDist.map_const, FinDist.bind_const, FinDist.bind_pure]
 
 /-- Selecting an actual execution event derives the reciprocal-event bound
 for the JOINT seed/type query. The gap still uses the original type kernels

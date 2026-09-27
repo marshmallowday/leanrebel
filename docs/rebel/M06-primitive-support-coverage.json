@@ -37,10 +37,18 @@
     "target_review": "docs/rebel/M06-primitive-support-target-accepted.md",
     "global_run": 36287339585,
     "global_job": 108530593276,
-    "global_status": "static architecture, widths, ledger/fixtures and runtime passed; compiler/lint/axiom step in progress",
+    "global_status": "success; complete exact 35d0 artifact and every axiom record inspected",
+    "global_artifact": 10920889550,
+    "global_zip_sha256": "c97a2b3ad7029a4b42383a8c96af3af5459d81099d92e894ce4264446e5ef86a",
+    "global_log_sha256": "ad7233a31281e458609d9f33d7415bf9639859561675bd1d1b834a10143687f3",
+    "global_axiom_records": 5003,
+    "global_lint_modules": 254,
+    "global_review": "docs/rebel/M06-primitive-support-global-accepted.md",
+    "previous_global_observation": "static architecture, widths, ledger/fixtures and runtime passed; compiler/lint/axiom step in progress",
     "full_ci_run": 36287339593,
     "full_ci_job": 108530515400,
-    "full_ci_status": "in progress in Lean action step when separately inspected",
+    "full_ci_status": "success in separately fetched job-step metadata; Lean action, all architecture/reachability gates, full lint and tracked cleanliness passed",
+    "previous_full_ci_observation": "in progress in Lean action step when separately inspected",
     "inventory_run": 36287339601,
     "inventory_job": 108530477522,
     "inventory_status": "success",
@@ -96,5 +104,5 @@
     "inherited_global_review": "docs/rebel/M06-schedule-support-global-accepted.md",
     "previous_inherited_global_observation": "Final artifact had not yet been inspected; source branch was preserved."
   },
-  "remaining": ["Final exact-source global and full-CI validation", "Discharge small primitive rates for the unrestricted constructed solver", "Changed-PBS native and late value gaps", "Source-specific signed CarriedResolveStepBounds", "SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"]
+  "remaining": ["Discharge small primitive rates for the unrestricted constructed solver", "Changed-PBS native and late value gaps", "Source-specific signed CarriedResolveStepBounds", "SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"]
 }
