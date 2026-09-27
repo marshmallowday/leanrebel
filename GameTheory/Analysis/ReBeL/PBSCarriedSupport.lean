@@ -87,7 +87,7 @@ theorem carriedMemorySequence_eventMass_le_supportCharge
                 (stage label).fuel) +
               carriedMemorySupportCharge M initial unknown who stage labels
                 (states.bind (carriedMemoryStep M initial unknown who (stage label)))) :=
-          add_le_add_left (add_le_add_right nextBound _) _
+          add_le_add le_rfl (add_le_add nextBound le_rfl)
         _ = _ := rfl
 
 /-- The actual first-hit probability is at most one and at most the composed
