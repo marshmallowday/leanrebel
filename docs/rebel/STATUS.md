@@ -1,49 +1,50 @@
-# ReBeL status — changed-kernel candidate; M06 incomplete
+# ReBeL status — changed-kernel compiler repair; M06 incomplete
 
-Continue rebel/m06-kernel-value-transport-20260927. Its parent is
-372c9c94261f5e553ff9ce619816b7ca9cf7493b, the evidence checkpoint above the
-latest starting 0285093f7a992b65f7fd9027cc8009e6c20da026. Main is accepted M05,
-not the latest M06. All earlier source, failure and validation history remains.
-The depth-native implementation branch is preserved at 51d5 for its own CI.
+Continue rebel/m06-kernel-value-repair-20260927, based on the latest observed
+checkpoint dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb. Main is accepted M05,
+not the latest M06. The original changed-kernel source 3ef56a217e22903aba945f1c3417e4810d468e73
+and the independent 51d5 evidence remain on their existing branches.
 
-## New dependency slice and immediate validation
+## Immediate task and checkpoint
 
-PBSKernelValueTransport controls every legal conditional response and the
-actual attained conditional optimum under a change of complete compatible
-joint-history kernels, with the SAME opposing policies and horizon. The
-conditional-gap change costs twice the bounded-payoff kernel discrepancy.
-PBSDepthKernelGap integrates this with the actual noisy depth parent under its
-actual correlated event-selected seed/type law. It retains finite-T residuals,
-computed average comparison opponents and the actual positive event denominator.
-Fresh types may be explicitly retagged and fresh kernels may depend on the seed.
+The complete 3ef5 TARGET log (run 36292013486 / job 108543785041) was inspected
+through the GitHub plugin. Compilation FAILED: PBSKernelValueTransport used
+reserved token recall as three perfect-recall binders. Lint and axioms were
+skipped. The focused repair renames those binders and their uses to hrecall;
+no mathematical assumptions, claims, coefficients, controls or audit gates change.
+See M06-kernel-value-repair.md and M06-kernel-value-transport-coverage.json.
+The full prior ledger is archived at M06-kernel-value-transport-coverage-at-dac8.json.
 
-Three added modules appear in the public root, target manifest and exact-source
-auditor. The expected target/global counts are 116/259 modules. Compiler,
-normal/slow lint and transitive axioms are PENDING exact-source CI and complete
-artifact inspection. See M06-kernel-value-transport-coverage.json and its semantic
-review. The 149 prepared-source Python tests (eight new fixtures, including
-4050 exhaustive cases) pass; this is not Lean or exact new-commit acceptance.
+Inspect the exact repair commit's target compilation and complete lint/axiom
+artifact next, repairing any newly exposed diagnostics. The expected counts
+remain 116 targeted / 259 global modules. Global and full-CI results require
+separate checks. No Lean acceptance of the changed-kernel slice is claimed.
 
-## Accepted inherited target, separately pending global
+## Preserved dependency slice
 
-51d525ecbce26a1ba5ddaf9033aca7daa73dce23 TARGET 36289929760 / job 108537936248
-completed successfully. Its complete artifact 10921753407 was inspected:
-113 normal/slow module lints and 1871 complete unique allowlisted axiom records,
-including multiline records, all nine core names and four proof controls.
-M06-depth-native-gap-target-accepted.md owns that result. The byte-identical
-prior detailed coverage is archived as M06-depth-native-gap-coverage-at-0285.json;
-failed d15f/2f6e candidates and earlier pending observations were not erased.
+PBSKernelValueTransport controls every legal conditional response, the actual
+attained optimum and the fixed-policy conditional gap under changes of complete
+compatible joint-history kernels, with the SAME opponent and horizon.
+PBSDepthKernelGap applies this to the actual noisy depth parent and its actual
+correlated event-selected seed/type query, with finite-T residuals and the
+positive event denominator. Fresh kernels can depend on the seed and types can
+be explicitly retagged. Exact 3ef5 Python/source-snapshot evidence is recorded
+in M06-kernel-value-transport-3ef5-validation.md; it is not repair acceptance.
 
-51d5 GLOBAL 36289929759 / job 108538058392 and FULL CI 36289929756 /
-job 108537973949 still require separate final checks. Neither the target pass
-nor a documentation-only run proves those results. Older 35d0, 4784, 3dfa and
-b833 accepted evidence must not be repeated or mistaken for new-source evidence.
+## Accepted inherited evidence
+
+51d525ecbce26a1ba5ddaf9033aca7daa73dce23 TARGET 36289929760 /
+job 108537936248 is accepted separately in M06-depth-native-gap-target-accepted.md.
+Its GLOBAL 36289929759 / job 108538058392 and FULL CI 36289929756 /
+job 108537973949 were already separately accepted in checkpoint dac8;
+see M06-depth-native-gap-global-accepted.md. These results apply to 51d5 only.
+Historical failed candidates and pending observations remain in archived ledgers.
 
 ## Open mathematical obligations
 
-Fresh compatible kernels are explicit data, not yet identified with a particular
-recursive resolver's actual posteriors. The measured full L1 kernel charge need
-not be small. Opposing-policy changes, source-specific small kernel/leakage rates,
+Fresh compatible kernels remain explicit data, not yet a construction of a
+particular recursive resolver's actual posteriors. Full L1 discrepancy need not
+be small. Opposing-policy changes, source-specific small kernel/leakage rates,
 late-value transport and constructed signed CarriedResolveStepBounds remain open.
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 are still pending.
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
 M06 is incomplete; learner convergence is not independent test-time safety.
