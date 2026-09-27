@@ -186,7 +186,6 @@ theorem pbsRootValueReadout_law (rootCut : Nat)
     exact FinDist.map_congr_of_eq_on_support (fun h _ =>
       pbsRootValueReadout_trace M roots rootCut rootDepth who h)
   rw [recode, pbsRootDecodeProfile_law M roots rootCut rootDepth, FinDist.map_comp]
-  simp only [Function.comp_apply, Option.map_some]
   apply FinDist.map_bind_of_retained
   intro first hf later hl
   have memory := prefixAt_infoOf_reaches M rootCut who
@@ -245,6 +244,7 @@ theorem pbsRootValueReadout_original (rootCut : Nat)
         constructor
         · exact Option.some.inj
         · exact congrArg some)]
+    rfl
   dsimp only [conditionalOracleValue] at recode
   rw [recode]
   apply FinDist.condOnFibre_expect_bind
@@ -321,6 +321,7 @@ theorem pbsRootDepthFullTarget_original {observations : List M.PublicSignal}
   have payoffRead : pbsRootPayoff belief.law payoff who =
       (fun h : (pbsRootProtocol belief.law).History => h.state.elim 0 (payoff who)) := by
     funext h
+    dsimp only [pbsRootPayoff]
     cases h.state <;> rfl
   dsimp only [pbsRootDepthFullTarget]
   rw [show cut + 1 + remaining = (cut + remaining) + 1 by omega, payoffRead]
