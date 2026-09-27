@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "fa95a3d06b2061b18fa678518c2adf0531650377",
+  "parent": "b0f22a67dba7d1adfb1e743cf2730da2d59b60f7",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -14,8 +14,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-628b6212.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-1698e9ba.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-9457c198.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-b0f22a67.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-fa95a3d.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-b0f22a67.json"
   ],
   "semantic_review": "docs/rebel/M06-kernel-value-transport.md",
   "repair_review": "docs/rebel/M06-opponent-value-transport-b0f22a67-failure.md",
@@ -68,17 +67,17 @@
     "source_artifact": 10925660242
   },
   "validation": {
-    "compiler": "pending carried-value batch SHA",
-    "normal_and_slow_lint": "pending carried-value batch SHA",
-    "transitive_axioms": "pending carried-value batch SHA",
-    "core_blob": "6c69f28c67858621d887724d0bb9dd9355940680",
+    "compiler": "pending exact addition-monotonicity repair SHA",
+    "normal_and_slow_lint": "pending exact addition-monotonicity repair SHA",
+    "transitive_axioms": "pending exact addition-monotonicity repair SHA",
+    "core_blob": "73d9a3e15653677d40d0aecab8625af75b6ca9cf",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
-    "root_blob": "a0b3c360c71e00a43af53449946651b2e9082f04",
-    "targets_blob": "524f37f35fd45f6bd1f1cd0328c8661438a2a877",
-    "audit_consumer_blob": "c73b069b7dfbdb1bacc408a04041ff0900e6b616",
-    "expected_target_modules": 118,
-    "expected_global_modules": 261,
+    "root_blob": "08fe85893fd45d90d743d50d14e03be273462716",
+    "targets_blob": "37b4d120956203b7878ff58f29f67552c1483b57",
+    "audit_consumer_blob": "52383a4d48c12576208598773bde0c7e0fdb5591",
+    "expected_target_modules": 116,
+    "expected_global_modules": 259,
     "python_file": "scripts/rebel/tests/test_kernel_value_transport.py",
     "python_blob": "31614fa879377d164e63132047022aed6683877b",
     "new_python_tests": 12,
@@ -89,15 +88,19 @@
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md",
     "previous_python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
-    "expected_total_python_tests": 160,
-    "historical_coverage_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
-    "expected_build_targets": 156
+    "expected_total_python_tests": 153,
+    "historical_coverage_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800"
   },
   "remaining": [
-    "Verify the entire carried-value batch at its exact SHA",
-    "Identify recursive type kernels needed for solver value comparisons",
-    "Derive useful solver-specific small source/execution/support rates or stronger signed value envelopes",
-    "Close original SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 acceptance with paper correspondence"
+    "Compile and audit the new changed-opponent extension at its exact SHA",
+    "Identify actual recursively re-solved posterior kernels and derive small kernel rates",
+    "Derive useful small opposing-policy execution rates and compose late values",
+    "Small primitive support leakage for unrestricted constructed solvers",
+    "Constructed signed CarriedResolveStepBounds",
+    "SEARCH-FRONTIER",
+    "SEARCH-CFRD",
+    "SEARCH-ERROR",
+    "SAFE-THEOREM3"
   ],
   "baseline_acceptance": {
     "commit": "9457c198126f3c8b7cb1045bbed2e0053788636f",
@@ -120,7 +123,7 @@
     "evidence": "docs/rebel/M06-opponent-value-transport.md"
   },
   "opponent_transport": {
-    "status": "accepted_at_fa95a3d",
+    "status": "pending_exact_repair_actions",
     "semantic_review": "docs/rebel/M06-opponent-value-transport.md",
     "declarations": [
       "responseExecutionCharge",
@@ -140,53 +143,5 @@
     "new_fraction_tests": 4,
     "exhaustive_response_cases": 4608,
     "remaining": "Small execution costs, actual recursive posterior identification, late-value composition and signed CarriedResolveStepBounds are not proved."
-  },
-  "latest_accepted": {
-    "commit": "fa95a3d06b2061b18fa678518c2adf0531650377",
-    "target_run": 36303420502,
-    "target_job": 108575282842,
-    "target_declarations": 1912,
-    "target_modules": 116,
-    "global_run": 36303420514,
-    "global_job": 108575283035,
-    "global_declarations": 5062,
-    "global_modules": 259,
-    "ci_run": 36303420528,
-    "ci_job": 108575282589,
-    "inventory_run": 36303420513,
-    "inventory_job": 108575282866,
-    "python_tests": 153,
-    "all_runs": "success",
-    "evidence": "docs/rebel/M06-opponent-value-transport-fa95a3d-accepted.md"
-  },
-  "carried_value_batch": {
-    "status": "pending_exact_actions",
-    "semantic_review": "docs/rebel/M06-carried-value-batch.md",
-    "modules": [
-      "GameTheory.Analysis.ReBeL.PBSCarriedValue",
-      "GameTheory.Analysis.ReBeL.Examples.PBSCarriedValue"
-    ],
-    "declarations": [
-      "carriedMemoryStep_selected_expect",
-      "carriedReplacementExecutionCharge",
-      "carriedReplacementExecutionCharge_nonneg",
-      "carriedMemoryStep_selected_loss_le",
-      "carriedSequenceExecutionCharge",
-      "executeCarriedResolves_loss_le_executionCharge",
-      "privateRecursiveResolve_inherits_executionCharge",
-      "carriedReplacementExecutionCharge_le_rate",
-      "carriedResolveStepBounds_of_executionRate",
-      "cfrDDepth_recursive_security_executionCharge",
-      "pbsCarriedDepthSequence_value_loss_le"
-    ],
-    "new_fraction_tests": 7,
-    "primitive_rate_hypotheses": "not discharged by finite-iteration Nash",
-    "posterior_scope": "actual stored chosen-model posterior; not factual unknown-opponent posterior equality",
-    "blobs": {
-      "GameTheory/Analysis/ReBeL/PBSOpponentModelTransport.lean": "742700bd8149a333b4e2fce1f147bcf1e7d56380",
-      "GameTheory/Analysis/ReBeL/PBSCarriedValue.lean": "f7cbf7c3c40e4d1febd94570db455dcc2e20f83a",
-      "GameTheory/Analysis/ReBeL/Examples/PBSCarriedValue.lean": "d3884981c26d7ea77eb4cbb7b44bd535c1d9a9c1",
-      "scripts/rebel/tests/test_carried_value_transport.py": "f4c047adf113b594c09e82a29fe1f7cc488ec4f9"
-    }
   }
 }

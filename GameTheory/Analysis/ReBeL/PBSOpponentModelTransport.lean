@@ -425,4 +425,140 @@ theorem carriedMemoryStep_law_unsupported_le (initial : K → Profile M.behavior
   rw [FinDist.expect_indicator_eq_probOf]
   exact carriedMemoryStep_unsupported_le M initial unknown who stage state
 
+/-- The primitive execution discrepancy and every actual-prefix contribution
+are nonnegative, without any small-error hypothesis. -/
+theorem executionKernelCharge_nonneg
+    (first second : Profile M.behavioralSignature) (fuel : Nat)
+    (actual : FinDist E.History) :
+    0 ≤ executionKernelCharge M first second fuel actual := by
+  induction fuel generalizing actual with
+  | zero => exact le_refl _
+  | succ fuel ih =>
+      apply add_nonneg _ (ih _)
+      calc
+        0 = actual.expect (fun _ => (0 : ℝ)) := (FinDist.expect_const actual 0).symm
+        _ ≤ _ := by
+          apply FinDist.expect_mono
+          intro history _
+          exact FinDist.atomVariation_nonneg _ _
+
+/-- Splitting a horizon preserves the actual checkpoint law in the remaining
+execution charge. The model law is not substituted at the checkpoint. -/
+theorem executionKernelCharge_add
+    (first second : Profile M.behavioralSignature) (before after : Nat)
+    (actual : FinDist E.History) :
+    executionKernelCharge M first second (before + after) actual =
+      executionKernelCharge M first second before actual +
+        executionKernelCharge M first second after
+          (actual.bind (M.runBehavioralFrom first before)) := by
+  induction before generalizing actual with
+  | zero =>
+      have zeroKernel : M.runBehavioralFrom first 0 = FinDist.pure := rfl
+      simp only [Nat.zero_add, executionKernelCharge, zeroKernel, FinDist.bind_pure, zero_add]
+  | succ before ih =>
+      have checkpoint :
+          actual.bind (M.runBehavioralFrom first (before + 1)) =
+            (actual.bind (M.runBehavioralFrom first 1)).bind
+              (M.runBehavioralFrom first before) := by
+        rw [FinDist.bind_bind]
+        apply FinDist.bind_congr
+        intro history _
+        simpa only [Nat.add_comm 1 before] using
+          M.runBehavioralFrom_add first 1 before history
+      rw [Nat.succ_add]
+      simp only [executionKernelCharge]
+      rw [ih, checkpoint]
+      exact (add_assoc _ _ _).symm
+
+/-- A primitive bound on each one-step canonical kernel supplies a linear
+fuel allowance. Smallness must be established for these kernels themselves. -/
+theorem executionKernelCharge_le_mul
+    (first second : Profile M.behavioralSignature) (rate : ℝ)
+    (steps : ∀ history, FinDist.atomVariation
+      (M.runBehavioralFrom first 1 history) (M.runBehavioralFrom second 1 history) ≤ rate)
+    (fuel : Nat) (actual : FinDist E.History) :
+    executionKernelCharge M first second fuel actual ≤ (fuel : ℝ) * rate := by
+  induction fuel generalizing actual with
+  | zero => simp only [executionKernelCharge, Nat.cast_zero, zero_mul, le_refl]
+  | succ fuel ih =>
+      calc
+        _ ≤ rate + (fuel : ℝ) * rate := by
+          apply add_le_add _ (ih _)
+          apply FinDist.expect_le_of_forall
+          intro history _
+          exact steps history
+        _ = ((fuel + 1 : Nat) : ℝ) * rate := by push_cast; ring
+
+/-- Incoming source variation and primitive opponent/model kernel rates remain
+separate. A supported but differently weighted incoming law is not set to zero. -/
+theorem carriedOpponentModelCharge_le_rate {past : List M.PublicSignal}
+    (belief : PublicBelief M.toInfoSignals past) (actual : FinDist E.History)
+    (chosen unknown : Profile M.behavioralSignature) (who : Fin 2)
+    (incoming rate : ℝ)
+    (initial : FinDist.atomVariation actual belief.law ≤ incoming)
+    (steps : ∀ history, FinDist.atomVariation
+      (M.runBehavioralFrom (Profile.update unknown who (chosen who)) 1 history)
+      (M.runBehavioralFrom chosen 1 history) ≤ rate)
+    (fuel : Nat) :
+    carriedOpponentModelCharge M belief actual chosen unknown who fuel ≤
+      incoming + (fuel : ℝ) * rate :=
+  add_le_add initial (executionKernelCharge_le_mul M _ chosen rate steps fuel actual)
+
+omit [Fintype E.History] in
+/-- The carried update is the certified MODEL posterior of the chosen
+continuation at every model-supported public observation. -/
+theorem carriedBeliefUpdate_eq_atObservation {past : List M.PublicSignal}
+    (belief : PublicBelief M.toInfoSignals past) (chosen : Profile M.behavioralSignature)
+    (fuel : Nat) (observed : List M.PublicSignal)
+    (positive : observed ∈ (PublicBelief.publicLaw (S := M.toInfoSignals)
+      (PublicBelief.continuationLaw M chosen fuel belief)).support) :
+    carriedBeliefUpdate M (some belief) chosen fuel observed =
+      some (PublicBelief.atObservation
+        (PublicBelief.continuationLaw M chosen fuel belief) observed positive) := by
+  classical
+  exact dif_pos ((PublicBelief.possible_iff_mem_publicLaw _ _).mpr positive)
+
+omit [Fintype E.History] in
+/-- The actual recursive step stores this certified model posterior. The
+factual history determines only its public observation; it never resets the PBS. -/
+theorem resolvedNextState_belief_eq_atObservation
+    (state : PrivateIterationState M K)
+    (belief : PublicBelief M.toInfoSignals (publicTrace M.toInfoSignals state.history.trace))
+    (stored : state.belief = some belief)
+    (chosen : Profile M.behavioralSignature) (fuel : Nat) (history : E.History)
+    (positive : publicTrace M.toInfoSignals history.trace ∈
+      (PublicBelief.publicLaw (S := M.toInfoSignals)
+        (PublicBelief.continuationLaw M chosen fuel belief)).support) :
+    (resolvedNextState M state chosen fuel history).belief =
+      some (PublicBelief.atObservation
+        (PublicBelief.continuationLaw M chosen fuel belief)
+        (publicTrace M.toInfoSignals history.trace) positive) := by
+  simpa only [resolvedNextState, stored] using
+    carriedBeliefUpdate_eq_atObservation M belief chosen fuel
+      (publicTrace M.toInfoSignals history.trace) positive
+
+/-- Primitive source and canonical execution rates control the mean
+conditional defect under the actual public law, including absent model queries.
+No lower bound on public reach and no posterior equality are assumed. -/
+theorem carriedOpponentModel_public_transport_le_rate {past : List M.PublicSignal}
+    (belief : PublicBelief M.toInfoSignals past) (actual : FinDist E.History)
+    (chosen unknown : Profile M.behavioralSignature) (who : Fin 2)
+    (incoming rate : ℝ)
+    (initial : FinDist.atomVariation actual belief.law ≤ incoming)
+    (steps : ∀ history, FinDist.atomVariation
+      (M.runBehavioralFrom (Profile.update unknown who (chosen who)) 1 history)
+      (M.runBehavioralFrom chosen 1 history) ≤ rate)
+    (fuel : Nat) :
+    let realLaw := actual.bind
+      (M.runBehavioralFrom (Profile.update unknown who (chosen who)) fuel)
+    let modelLaw := PublicBelief.continuationLaw M chosen fuel belief
+    (PublicBelief.publicLaw (S := M.toInfoSignals) realLaw).expect
+      (FinDist.conditionalTransportDefect realLaw modelLaw
+        (fun history => publicTrace M.toInfoSignals history.trace)) ≤
+      2 * (incoming + (fuel : ℝ) * rate) := by
+  exact (carriedOpponentModelCharge_controls_public_transport M belief actual chosen
+    unknown who fuel).trans (mul_le_mul_of_nonneg_left
+      (carriedOpponentModelCharge_le_rate M belief actual chosen unknown who
+        incoming rate initial steps fuel) (by norm_num))
+
 end GameTheory.ReBeL

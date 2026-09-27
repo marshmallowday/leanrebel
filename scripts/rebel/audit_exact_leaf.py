@@ -129,6 +129,8 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
     "GameTheory.Analysis.ReBeL.PBSDepthKernelGap",
     "GameTheory.Analysis.ReBeL.Examples.PBSKernelValueTransport",
+    "GameTheory.Analysis.ReBeL.PBSCarriedValue",
+    "GameTheory.Analysis.ReBeL.Examples.PBSCarriedValue",
 )
 AUDITOR = r'''
 open Lean Elab Command in

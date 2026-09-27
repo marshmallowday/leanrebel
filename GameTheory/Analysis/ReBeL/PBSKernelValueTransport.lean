@@ -280,4 +280,34 @@ theorem conditionalGap_abs_le_old_add_executionCharge
         first second replacement oldType newType bound nonneg bounded) le_rfl).trans_eq
           (add_comm _ _)
 
+/-- Primitive one-step bounds for legal responses turn the measured
+changed-opponent gap cost into a horizon rate. The root discrepancy remains
+separate. Solver Nash accuracy alone does not supply the primitive premise. -/
+theorem conditionalGap_abs_sub_le_executionRate
+    (fresh : TypeBeliefSlice M nextObservations who U) (hrecall : M.PerfectRecall)
+    (fallback : Profile M.strategicSignature) (fuel : Nat) (payoff : E.History → ℝ)
+    (first second : Profile M.behavioralSignature) (replacement : M.BehavioralPolicy who)
+    (oldType : T) (newType : U) (bound rate : ℝ) (nonneg : 0 ≤ bound)
+    (bounded : ∀ history, |payoff history| ≤ bound)
+    (steps : ∀ (response : M.BehavioralPolicy who) history, FinDist.atomVariation
+      (M.runBehavioralFrom (Profile.update first who response) 1 history)
+      (M.runBehavioralFrom (Profile.update second who response) 1 history) ≤ rate) :
+    |(fresh.infoValue fallback fuel payoff second newType -
+        fresh.conditionalPayoff second fuel payoff replacement newType) -
+      (old.infoValue fallback fuel payoff first oldType -
+        old.conditionalPayoff first fuel payoff replacement oldType)| ≤
+      2 * bound * FinDist.atomVariation (old.kernel oldType).law (fresh.kernel newType).law +
+        2 * bound * (fuel : ℝ) * rate := by
+  have responseBound (response : M.BehavioralPolicy who) :
+      old.responseExecutionCharge first second fuel response oldType ≤ (fuel : ℝ) * rate :=
+    executionKernelCharge_le_mul M _ _ rate (steps response) fuel (old.kernel oldType).law
+  have optimumBound : old.optimalResponseExecutionCharge fresh fallback fuel payoff
+      first second oldType ≤ (fuel : ℝ) * rate :=
+    max_le (responseBound _) (responseBound _)
+  have costs := mul_le_mul_of_nonneg_left
+    (add_le_add optimumBound (responseBound replacement)) nonneg
+  have gap := old.conditionalGap_abs_sub_le_executionCharge fresh hrecall fallback
+    fuel payoff first second replacement oldType newType bound nonneg bounded
+  nlinarith only [costs, gap]
+
 end GameTheory.ReBeL.TypeBeliefSlice
