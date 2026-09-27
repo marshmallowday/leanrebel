@@ -1,7 +1,7 @@
-# ReBeL status — grouped value-target repair pending CI; M06 incomplete
+# ReBeL status — value-target example repair pending CI; M06 incomplete
 
 Continue rebel/m06-kernel-value-repair-20260927 from re-read HEAD
-fc21b53175a5b65f7a7bfc3ff5dd74a8c2627972. Main remains
+8936cbaf98c0cc7980ae97946109e15ff6f46d96. Main remains
 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. The GitHub plugin reconfirmed
 marshmallowday and repository admin/push access. The chat baseline is
 9457c198126f3c8b7cb1045bbed2e0053788636f.
@@ -14,15 +14,15 @@ CI 36329638855, ReBeL checks 36329638875, targeted 36329638834 and inventory
 and 169 Python tests. See M06-summary-coupling-e123cb8-accepted.md.
 This evidence does not validate the following new source.
 
-The fc21b53 batch failed in CFRDValueTarget: unmatched conditional-law
-branch reduction, a reserved recall binder, and redundant ring after
-field_simp. All three compiler workflows reported the same causes.
-Inventory and the checks job's 176 Python tests, static architecture and
-rational runtime passed. Full new-source lint/axiom acceptance was not reached.
-The grouped repair makes the fiber proposition explicit, rewrites the law,
-renames the binders hrecall, removes ring and simplifies terminal branches.
-See M06-value-target-fc21b53-failure.md for complete run/job/artifact evidence.
-Definitions and statements, workflow, tests and audit standards are unchanged.
+The 8936cba repair compiled CFRDValueTarget successfully in all three
+compiler jobs, clearing the previous conditional/binder/tactic failures.
+The example then failed to infer finite rooted local menus for its explicit
+generic comparator. Local rooted choice Fintype and full-AOH equality
+instances now mirror the parent solver's construction. Statements and
+library core are unchanged. Full new-source lint/axioms remain pending.
+Checks passed static architecture, rational runtime and 176 Python tests;
+inventory independently passed 176 tests. See
+M06-value-target-8936cba-failure.md for exact run/job/artifact evidence.
 
 The new combined batch adds root information-value target vectors computed
 from the actual coupled CFR-D round's searched prefix and returned predictions.

@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "8936cbaf98c0cc7980ae97946109e15ff6f46d96",
+  "parent": "fc21b53175a5b65f7a7bfc3ff5dd74a8c2627972",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -25,7 +25,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-d54ec59.json"
   ],
   "semantic_review": "docs/rebel/M06-value-target-batch.md",
-  "repair_review": "docs/rebel/M06-value-target-8936cba-failure.md",
+  "repair_review": "docs/rebel/M06-value-target-fc21b53-failure.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -60,8 +60,7 @@
     "docs/rebel/M06-carried-value-c975ad7-failure.md",
     "docs/rebel/M06-signed-kernel-9d2bee9-failure.md",
     "docs/rebel/M06-signed-kernel-6b6c4ab-failure.md",
-    "docs/rebel/M06-value-target-fc21b53-failure.md",
-    "docs/rebel/M06-value-target-8936cba-failure.md"
+    "docs/rebel/M06-value-target-fc21b53-failure.md"
   ],
   "previous_feedback": {
     "commit": "d54ec59cfaa17a117a9a720d1b85ba64842f4315",
@@ -82,9 +81,9 @@
     "evidence": "docs/rebel/M06-signed-kernel-d54ec59-accepted.md"
   },
   "validation": {
-    "compiler": "pending exact root-value-target example repair SHA",
-    "normal_and_slow_lint": "pending exact root-value-target example repair SHA",
-    "transitive_axioms": "pending exact root-value-target example repair SHA",
+    "compiler": "pending exact grouped root-value-target repair SHA",
+    "normal_and_slow_lint": "pending exact grouped root-value-target repair SHA",
+    "transitive_axioms": "pending exact grouped root-value-target repair SHA",
     "core_blob": "5a0091144c5611c1fe4d5173b826ca5bef6ef50c",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
@@ -297,7 +296,7 @@
     }
   },
   "root_value_target_batch": {
-    "status": "example_repair_pending_exact_sha_actions",
+    "status": "repair_pending_exact_sha_actions",
     "semantic_review": "docs/rebel/M06-value-target-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.CFRDValueTarget",
@@ -334,27 +333,18 @@
     ],
     "blobs": {
       "GameTheory/Analysis/ReBeL/CFRDValueTarget.lean": "1b1a4bdfc6f089364c8aa0b059bc96b5bb0eb86f",
-      "GameTheory/Analysis/ReBeL/Examples/CFRDValueTarget.lean": "3bb0f57972164c82dc0798282150dd0f593307a1",
+      "GameTheory/Analysis/ReBeL/Examples/CFRDValueTarget.lean": "db70eb6faa64849c6359bd8c421c33c599f80637",
       "GameTheory/Analysis/ReBeL.lean": "17bea56410e96c09c5380267796630bbae162256",
       "scripts/rebel/tests/test_value_target.py": "de525eed5d2f91e69de5b0906c8c620955a96019"
     },
-    "failed_source": "8936cbaf98c0cc7980ae97946109e15ff6f46d96",
-    "failure_review": "docs/rebel/M06-value-target-8936cba-failure.md",
+    "failed_source": "fc21b53175a5b65f7a7bfc3ff5dd74a8c2627972",
+    "failure_review": "docs/rebel/M06-value-target-fc21b53-failure.md",
     "python_acceptance": {
-      "commit": "8936cbaf98c0cc7980ae97946109e15ff6f46d96",
-      "run": 36337366537,
-      "job": 108670669853,
+      "commit": "fc21b53175a5b65f7a7bfc3ff5dd74a8c2627972",
+      "run": 36333997909,
+      "job": 108661231868,
       "tests": 176,
       "result": "success; not repaired-source Lean acceptance"
-    },
-    "core_compile": {
-      "commit": "8936cbaf98c0cc7980ae97946109e15ff6f46d96",
-      "runs": [
-        36337366569,
-        36337366533,
-        36337366542
-      ],
-      "result": "success; full lint/axioms not reached"
     }
   },
   "frontier_source_acceptance": {

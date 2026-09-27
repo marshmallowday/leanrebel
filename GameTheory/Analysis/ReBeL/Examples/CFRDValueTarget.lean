@@ -20,6 +20,22 @@ open GameTheory.Math.Probability
 local instance targetHistoryFintype : Fintype (protocol fullPrior).History :=
   historyFintype fullPrior
 
+/-- The generic comparator explicitly requests finite rooted local menus.
+Construct the same subtype enumeration used inside the parent solver. -/
+local instance targetRootChoiceFintype (roots : FinDist (protocol fullPrior).History)
+    (who : Fin 2)
+    (info : (pbsRootFullInformation (reducedModel fullPrior) roots).InfoState who) :
+    Fintype ((pbsRootFullInformation (reducedModel fullPrior) roots).Choice who info) := by
+  classical
+  infer_instance
+
+/-- The explicit comparator also uses the reference solver's classical
+equality on rooted full action-observation histories. -/
+local instance targetRootInfoDecidableEq (roots : FinDist (protocol fullPrior).History)
+    (who : Fin 2) :
+    DecidableEq ((pbsRootFullInformation (reducedModel fullPrior) roots).InfoState who) :=
+  Classical.decEq _
+
 /-- Nonzero prediction bias is propagated through the current learner's
 backed-up, per-information-state vector and every finite uniform average. -/
 theorem valueTarget_noisy_mean (t : Nat) [NeZero t]
