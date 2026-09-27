@@ -6,18 +6,17 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "b0f22a67dba7d1adfb1e743cf2730da2d59b60f7",
+  "parent": "9457c198126f3c8b7cb1045bbed2e0053788636f",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-6b7865.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-628b6212.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-1698e9ba.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-9457c198.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-b0f22a67.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-9457c198.json"
   ],
   "semantic_review": "docs/rebel/M06-kernel-value-transport.md",
-  "repair_review": "docs/rebel/M06-opponent-value-transport-b0f22a67-failure.md",
+  "repair_review": "docs/rebel/M06-kernel-value-repair-1698e9ba-validation.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -45,32 +44,24 @@
     "docs/rebel/M06-kernel-value-repair.md",
     "docs/rebel/M06-kernel-value-repair-6b7865-validation.md",
     "docs/rebel/M06-kernel-value-repair-628b6212-validation.md",
-    "docs/rebel/M06-kernel-value-repair-1698e9ba-validation.md",
-    "docs/rebel/M06-opponent-value-transport-b0f22a67-failure.md"
+    "docs/rebel/M06-kernel-value-repair-1698e9ba-validation.md"
   ],
   "previous_feedback": {
-    "commit": "b0f22a67dba7d1adfb1e743cf2730da2d59b60f7",
-    "target_run": 36300697701,
-    "target_job": 108567667974,
-    "target_artifact": 10926185342,
-    "target_status": "failed at line 214 addition monotonicity; target lint and axioms skipped",
-    "global_run": 36300697766,
-    "global_job": 108567668311,
-    "global_artifact": 10926110427,
-    "global_status": "failed frozen coverage base check before tests/runtime/compiler/lint/axioms",
-    "ci_run": 36300697693,
-    "ci_job": 108567667876,
-    "ci_status": "same Lean elaboration failure; post-build audits skipped",
-    "inventory_run": 36300697721,
-    "inventory_job": 108567667950,
-    "inventory_status": "failed frozen coverage base check",
-    "source_artifact": 10925660242
+    "commit": "1698e9ba212f4082cd7d601c13f3d0350e170bdf",
+    "target_run": 36293359962,
+    "target_job": 108547527220,
+    "target_artifact": 10923455928,
+    "target_log_sha256": "f7df110991b22a98df36c6949c6a98f02e0ab6f509a1a980dc728b9981729e42",
+    "target_status": "core and depth integration built; only observable-bound control failed; lint and axioms skipped",
+    "global_run": 36293359964,
+    "global_job": 108547527375,
+    "global_status": "unchanged architecture, ledger and runtime gates passed; compiler/lint/axiom step in progress at last inspection"
   },
   "validation": {
-    "compiler": "pending exact addition-monotonicity repair SHA",
-    "normal_and_slow_lint": "pending exact addition-monotonicity repair SHA",
-    "transitive_axioms": "pending exact addition-monotonicity repair SHA",
-    "core_blob": "73d9a3e15653677d40d0aecab8625af75b6ca9cf",
+    "compiler": "pending new changed-opponent extension SHA",
+    "normal_and_slow_lint": "pending new changed-opponent extension SHA",
+    "transitive_axioms": "pending new changed-opponent extension SHA",
+    "core_blob": "fdadab9a1d3803ea0d1137fce2eec8775025b864",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
     "root_blob": "08fe85893fd45d90d743d50d14e03be273462716",
@@ -88,8 +79,7 @@
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md",
     "previous_python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
-    "expected_total_python_tests": 153,
-    "historical_coverage_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800"
+    "expected_total_python_tests": 153
   },
   "remaining": [
     "Compile and audit the new changed-opponent extension at its exact SHA",
@@ -123,7 +113,7 @@
     "evidence": "docs/rebel/M06-opponent-value-transport.md"
   },
   "opponent_transport": {
-    "status": "pending_exact_repair_actions",
+    "status": "pending_exact_commit_actions",
     "semantic_review": "docs/rebel/M06-opponent-value-transport.md",
     "declarations": [
       "responseExecutionCharge",

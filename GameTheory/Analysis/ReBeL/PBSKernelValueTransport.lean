@@ -211,10 +211,10 @@ theorem infoValue_abs_sub_le_executionCharge
     le_max_right _ _
   have firstBound := abs_le.mp ((old.conditionalPayoff_abs_sub_le_executionCharge fresh
     first second fuel payoff left oldType newType bound nonneg bounded).trans
-      (mul_le_mul_of_nonneg_left (add_le_add_left leftCost _) nonneg))
+      (mul_le_mul_of_nonneg_left (add_le_add le_rfl leftCost) nonneg))
   have secondBound := abs_le.mp ((old.conditionalPayoff_abs_sub_le_executionCharge fresh
     first second fuel payoff right oldType newType bound nonneg bounded).trans
-      (mul_le_mul_of_nonneg_left (add_le_add_left rightCost _) nonneg))
+      (mul_le_mul_of_nonneg_left (add_le_add le_rfl rightCost) nonneg))
   have leftAttains : old.conditionalPayoff first fuel payoff left oldType =
       old.infoValue fallback fuel payoff first oldType :=
     old.simultaneousResponse_attains fallback fuel payoff first oldType
