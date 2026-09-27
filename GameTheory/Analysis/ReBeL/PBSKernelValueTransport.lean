@@ -48,7 +48,7 @@ variable [∀ player, Fintype (E.Action player)]
 Eq. (1) optima, including off-path completed types and nonunique maximizers.
 The opponent and horizon are fixed, not independently re-solved. -/
 theorem infoValue_abs_sub_le_kernelVariation
-    (fresh : TypeBeliefSlice M nextObservations who U) (recall : M.PerfectRecall)
+    (fresh : TypeBeliefSlice M nextObservations who U) (hrecall : M.PerfectRecall)
     (fallback : Profile M.strategicSignature) (fuel : Nat) (payoff : E.History → ℝ)
     (opponents : Profile M.behavioralSignature) (oldType : T) (newType : U)
     (bound : ℝ) (bounded : ∀ history, |payoff history| ≤ bound) :
@@ -56,16 +56,16 @@ theorem infoValue_abs_sub_le_kernelVariation
       fresh.infoValue fallback fuel payoff opponents newType| ≤
       bound * FinDist.atomVariation (old.kernel oldType).law (fresh.kernel newType).law := by
   obtain ⟨left, leftAttains⟩ :=
-    (old.infoValue_isGreatest recall fallback fuel payoff opponents oldType).1
+    (old.infoValue_isGreatest hrecall fallback fuel payoff opponents oldType).1
   obtain ⟨right, rightAttains⟩ :=
-    (fresh.infoValue_isGreatest recall fallback fuel payoff opponents newType).1
+    (fresh.infoValue_isGreatest hrecall fallback fuel payoff opponents newType).1
   have first := abs_le.mp (old.conditionalPayoff_abs_sub_le_kernelVariation fresh
     opponents fuel payoff left oldType newType bound bounded)
   have second := abs_le.mp (old.conditionalPayoff_abs_sub_le_kernelVariation fresh
     opponents fuel payoff right oldType newType bound bounded)
-  have leftBound := fresh.conditionalPayoff_le_infoValue recall fallback fuel payoff
+  have leftBound := fresh.conditionalPayoff_le_infoValue hrecall fallback fuel payoff
     opponents newType left
-  have rightBound := old.conditionalPayoff_le_infoValue recall fallback fuel payoff
+  have rightBound := old.conditionalPayoff_le_infoValue hrecall fallback fuel payoff
     opponents oldType right
   rw [leftAttains] at first
   rw [rightAttains] at second
@@ -76,7 +76,7 @@ theorem infoValue_abs_sub_le_kernelVariation
 one for the fixed policy payoff. This bounds the signed change in either
 direction without replacing it by a certificate assumed from the caller. -/
 theorem conditionalGap_abs_sub_le_kernelVariation
-    (fresh : TypeBeliefSlice M nextObservations who U) (recall : M.PerfectRecall)
+    (fresh : TypeBeliefSlice M nextObservations who U) (hrecall : M.PerfectRecall)
     (fallback : Profile M.strategicSignature) (fuel : Nat) (payoff : E.History → ℝ)
     (opponents : Profile M.behavioralSignature) (replacement : M.BehavioralPolicy who)
     (oldType : T) (newType : U) (bound : ℝ)
@@ -86,7 +86,7 @@ theorem conditionalGap_abs_sub_le_kernelVariation
       (old.infoValue fallback fuel payoff opponents oldType -
         old.conditionalPayoff opponents fuel payoff replacement oldType)| ≤
       2 * bound * FinDist.atomVariation (old.kernel oldType).law (fresh.kernel newType).law := by
-  have values := abs_le.mp (old.infoValue_abs_sub_le_kernelVariation fresh recall
+  have values := abs_le.mp (old.infoValue_abs_sub_le_kernelVariation fresh hrecall
     fallback fuel payoff opponents oldType newType bound bounded)
   have policies := abs_le.mp (old.conditionalPayoff_abs_sub_le_kernelVariation fresh
     opponents fuel payoff replacement oldType newType bound bounded)
@@ -96,7 +96,7 @@ theorem conditionalGap_abs_sub_le_kernelVariation
 /-- The changed-kernel absolute gap is bounded by the old gap plus the exact
 kernel charge. The type domains may differ; the two queried types are explicit. -/
 theorem conditionalGap_abs_le_old_add_kernelVariation
-    (fresh : TypeBeliefSlice M nextObservations who U) (recall : M.PerfectRecall)
+    (fresh : TypeBeliefSlice M nextObservations who U) (hrecall : M.PerfectRecall)
     (fallback : Profile M.strategicSignature) (fuel : Nat) (payoff : E.History → ℝ)
     (opponents : Profile M.behavioralSignature) (replacement : M.BehavioralPolicy who)
     (oldType : T) (newType : U) (bound : ℝ)
@@ -115,7 +115,7 @@ theorem conditionalGap_abs_le_old_add_kernelVariation
     _ ≤ |freshGap - oldGap| + |oldGap| := abs_add _ _
     _ ≤ 2 * bound * FinDist.atomVariation (old.kernel oldType).law
         (fresh.kernel newType).law + |oldGap| :=
-      add_le_add_right (old.conditionalGap_abs_sub_le_kernelVariation fresh recall
+      add_le_add_right (old.conditionalGap_abs_sub_le_kernelVariation fresh hrecall
         fallback fuel payoff opponents replacement oldType newType bound bounded) _
     _ = _ := add_comm _ _
 

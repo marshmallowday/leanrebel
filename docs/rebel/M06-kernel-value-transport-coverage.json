@@ -7,30 +7,23 @@
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-transport-20260927",
   "parent": "372c9c94261f5e553ff9ce619816b7ca9cf7493b",
+  "repair_parent": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "latest_starting_checkpoint": "0285093f7a992b65f7fd9027cc8009e6c20da026",
   "semantic_review": "docs/rebel/M06-kernel-value-transport.md",
+  "failure_review": "docs/rebel/M06-kernel-value-transport-3ef5-failure.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
-  "declarations": [
-    "conditionalPayoff_abs_sub_le_kernelVariation",
-    "infoValue_abs_sub_le_kernelVariation",
-    "conditionalGap_abs_sub_le_kernelVariation",
-    "conditionalGap_abs_le_old_add_kernelVariation"
-  ],
+  "declarations": ["conditionalPayoff_abs_sub_le_kernelVariation", "infoValue_abs_sub_le_kernelVariation", "conditionalGap_abs_sub_le_kernelVariation", "conditionalGap_abs_le_old_add_kernelVariation"],
   "integration_module": "GameTheory.Analysis.ReBeL.PBSDepthKernelGap",
   "integration_declaration": "GameTheory.ReBeL.pbsInformationDepthCFR_conditioned_kernelGap_le",
   "example_module": "GameTheory.Analysis.ReBeL.Examples.PBSKernelValueTransport",
   "controls_namespace": "GameTheory.ReBeL.Examples.HiddenTypes",
-  "controls": [
-    "kernelValueBelief", "kernelValueSlice", "kernelValueObservable",
-    "kernelValueObservable_bound", "kernelValue_payoff_zero", "kernelValue_optimum_zero",
-    "kernelValue_variation_two", "kernelValue_same_query_different_values", "depthKernel_changed_query"
-  ],
+  "controls": ["kernelValueBelief", "kernelValueSlice", "kernelValueObservable", "kernelValueObservable_bound", "kernelValue_payoff_zero", "kernelValue_optimum_zero", "kernelValue_variation_two", "kernelValue_same_query_different_values", "depthKernel_changed_query"],
   "validation": {
-    "compiler": "pending exact implementation CI",
-    "normal_and_slow_lint": "pending exact implementation CI",
-    "transitive_axioms": "pending complete exact implementation artifact inspection",
-    "core_blob": "c968c342409328e91e572a02b813ba4c671f5c67",
+    "compiler": "pending exact repaired implementation CI",
+    "normal_and_slow_lint": "pending exact repaired implementation CI",
+    "transitive_axioms": "pending complete exact repaired implementation artifact inspection",
+    "core_blob": "c7508cf0204cc2c81ac967a622534c198a1c57c2",
     "integration_blob": "f264a5fd297aa65ba282a167d1c2f699cf6b145b",
     "example_blob": "5b4d4507e67d7bcc9ad5cb6938bf070b70ebd5b7",
     "root_blob": "08fe85893fd45d90d743d50d14e03be273462716",
@@ -44,18 +37,32 @@
     "new_python_tests": 8,
     "exhaustive_cases": 4050,
     "local_python_tests": 149,
-    "local_python_status": "pass on prepared exact 51d5 snapshot plus the new blobs; not exact new-commit or Lean acceptance",
+    "local_python_source": "3ef56a217e22903aba945f1c3417e4810d468e73",
+    "local_python_status": "pass on exact unmodified downloaded 3ef5 source; ledger/inventory also passed; not Lean acceptance",
+    "local_python_log_sha256": "52ccab9a1d54089bd85923c0b2fd99230392b6b55a93bcaf48f1f8919bfb1ddd",
+    "snapshot_artifact": 10922865720,
+    "snapshot_zip_sha256": "adeb3798943899f9907c58710d0cc87095d3e64cfcc78fea45269adafa7d9a7c",
+    "snapshot_tar_sha256": "bd16032e4ac5b9d57999863dd1793b5f3ba88ad6f3f74a408511921a6043aeaf",
+    "failed_candidate": {
+      "source": "3ef56a217e22903aba945f1c3417e4810d468e73",
+      "target_run": 36292013486,
+      "target_job": 108543785041,
+      "artifact": 10922611596,
+      "log_sha256": "c81d2fb6267edcd993c0b6414b51cdf2343c377771b99b28aa0934d00f6f6754",
+      "error": "PBSKernelValueTransport.lean:51:56 reserved recall binder and cascading parser errors",
+      "core_blob": "c968c342409328e91e572a02b813ba4c671f5c67",
+      "normal_and_slow_lint": "not run after failed compilation",
+      "transitive_axioms": "not run after failed compilation",
+      "global_run": 36292013600,
+      "global_job": 108543785374,
+      "global_observation": "static, widths, fixtures and runtime passed; no complete success claimed",
+      "full_ci_run": 36292013455
+    },
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_run": 36289929759,
     "baseline_global_job": 108538058392,
-    "baseline_global_status": "separate final global artifact not yet inspected"
+    "baseline_global_status": "pass: complete exact 51d5 global artifact inspected; 5021 unique allowlisted records and 256 lint modules; not new-source acceptance",
+    "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md"
   },
-  "remaining": [
-    "Exact implementation compiler, normal/slow lint and complete axiom validation",
-    "Identify actual recursively re-solved posterior kernels and derive small kernel rates",
-    "Native and late value transport with changed opposing policies",
-    "Small primitive support leakage for unrestricted constructed solvers",
-    "Constructed signed CarriedResolveStepBounds",
-    "SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"
-  ]
+  "remaining": ["Exact repaired implementation compiler, normal/slow lint and complete axiom validation", "Identify actual recursively re-solved posterior kernels and derive small kernel rates", "Native and late value transport with changed opposing policies", "Small primitive support leakage for unrestricted constructed solvers", "Constructed signed CarriedResolveStepBounds", "SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"]
 }
