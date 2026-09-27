@@ -1,58 +1,64 @@
-# ReBeL status — randomized resolver support candidate; M06 incomplete
+# ReBeL status — native randomized resolver support, M06 incomplete
 
-## Resume branch and implemented slice
+## Resume point
 
-Continue the newest HEAD of `rebel/m06-resolver-support-20260927`, based on
-`3d272004909c9e70226aeb430813d3d53f038fdd`, not main or an older M06 branch.
-The original support-rate source b833d49b430ac44c433658f3cc72fd130ff0a87f and
-combined integration 7326f1e40011b1d4329f09e743491cc7bc7e5746 are retained.
-Main stays at accepted M05 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
+Continue the latest HEAD of `rebel/m06-resolver-support-20260927`. It descends
+from latest starting checkpoint 3d272004909c9e70226aeb430813d3d53f038fdd,
+support implementation b833d49b430ac44c433658f3cc72fd130ff0a87f, and integrated
+7326f1e40011b1d4329f09e743491cc7bc7e5746. Main remains accepted M05 at
+6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. No force-push or branch deletion.
 
-9894e45bbc0505debd44957a4a7446302d2b7902 added the native randomized public
-resolver support bound and retained-memory/actual-full-state-law corollaries.
-63aa262540b7dc633ea511c6cc727aaa49bde585 added actual two-iterate noisy CFR,
-stopped-missing and paired-model positive/negative Lean consumers, plus eight
-Fraction fixtures. The current repair removes two unnecessary authored
-transport steps without changing statements or any frozen validation gate.
-Read M06-resolver-support.md, M06-resolver-support-controls.md and the dedicated
-coverage and validation-history files for precise scope and evidence.
+9894e45bbc0505debd44957a4a7446302d2b7902 added seven native resolver-support
+definitions/theorems, retaining the chosen profile/model/history coupling and
+averaging the result over actual full-state laws. 63aa262540b7dc633ea511c6cc727aaa49bde585
+added four Lean controls and eight exact Fraction tests. e0e46a994be4c0e5c0d5096cf4c59f11bad84f38
+removed two authored transport steps to satisfy the unchanged zero budget.
+461a926c198d0801ab659b4d1773ded7fd6fd5f8 repaired the negative control's bind
+identity and an unused simp argument. The current successor repairs only the
+stopped-state indicator proof, without changing any statement or assumption.
 
-## Validation boundary and resumable failures
+Read M06-resolver-support.md for semantics, M06-resolver-support-controls.md
+for consumers, and the subordinate coverage JSON for declaration identities.
+The validation history and separate 63aa/461 failure records retain actual
+failed attempts instead of silently presenting them as passed.
 
-The randomized resolver additions remain candidates until the exact repaired
-source's compiler, normal/slow lint and transitive axiom records are inspected.
-63aa's global ReBeL job 108511831794 (run 36280700956) correctly rejected
-TRANSPORT_ANALYSIS_SOURCE=2 against the unchanged zero budget before compiling.
-The repair uses direct predicate normalization and definitional equality;
-this is not yet a compiler pass. The 63aa target run 36280700975 / job
-108512019610 was still compiling when inspected, and its source inventory
-36280700991 / job 108511831808 had passed. Successor SHA workflows may cancel
-same-branch candidate runs; never treat cancelled or old runs as new evidence.
+## Validation state
 
-All 120 Python tests passed locally on the exact 63aa source archive downloaded
-through the GitHub plugin. The eight new tests include 4,374 exact kernel-grid
-cases and expose the unsoundness of pooling selected model supports. This is
-not a Lean compile. Original statements, examples, coverage.json, target and
-axiom consumers, umbrellas, gates and pins were byte-compared and preserved.
+The complete new slice is NOT yet compiler/lint/axiom accepted. 63aa's core
+module compiled, but its example module failed and its separate global job
+correctly rejected TRANSPORT_ANALYSIS_SOURCE=2. The transport repair kept the
+budget at zero. 461's static architecture and line-width steps passed, but
+its target run 36281256829 / job 108513412501 failed at the stopped branch's
+existential simplification. Its complete artifact 10918699965 was inspected;
+see M06-resolver-support-461-failure.md. The current repair proves the indicator
+comparison separately and uses native definitional equality, not a transport
+step. Inspect its own target SHA and all subsequent validation before acceptance.
 
-The previously pending b833 GLOBAL ReBeL run 36277876590 / job 108504099546
-has now succeeded. Its complete artifact 10918521959 was downloaded and checked:
-4,939 fully parsed allowlisted transitive axiom records, 253 normal/slow lint
-passes, global validation pass and static architecture pass. Read
-M06-support-rates-b833-global-validation.md for exact SHA-256 digests and scope.
-This closes that baseline validation task only; it does not certify new code.
-Earlier b833 target/full-CI and failed f14 records remain unchanged.
+Both downloaded exact 63aa and 461 source snapshots passed all 120 Python
+fixtures locally, including the new 4,374 exact kernel-grid cases. These are
+not Lean proofs. Both source inventories passed. Original examples, coverage,
+proof statements, audit/target consumers, architecture/workflow gates, umbrella
+and dependency pins remain unchanged. No local Git or direct GitHub HTTP was used.
 
-## Remaining M06 and next action
+The inherited b833 GLOBAL run 36277876590 / job 108504099546 succeeded and its
+complete artifact 10918521959 was actually inspected: 4,939 fully parsed
+allowlisted transitive axiom records, 253 module lint passes, global validation
+and frozen architecture pass. M06-support-rates-b833-global-validation.md
+records the exact hashes and scope. That closes baseline validation only;
+it does not certify later declarations. Earlier failed and target/full-CI
+records remain intact.
 
-Inspect the latest repaired HEAD's targeted/full/global CI and repair actual
-compiler diagnostics, then retain exact source, logs, lint and axiom evidence.
-Do not repeat completed baseline work or promote uncompiled declarations.
-Full native schedule first-exit composition, small accumulated support rates,
+## Next action and unclosed obligations
+
+Fetch the latest repaired HEAD's targeted compiler output, normal/slow lint and
+all transitive axiom records. Check full/global jobs separately, retaining exact
+SHA/run/job identities and pending versus failed versus successful outcomes.
+Do not repeat the completed baseline work or infer acceptance from names.
+
+Native finite-schedule first-exit composition, small primitive support leakage,
 changed-PBS native/late value gaps and source-specific CarriedResolveStepBounds
-remain open. A supported model PBS is not the actual conditional law or a
-security value bound. Preserve joint-type compatibility, the same comparison
-opponent, actual event denominators and finite-T residuals. No learner
-convergence premise bypasses test-time safety.
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending;
-M06 is incomplete. M07 onward retains one integration branch per milestone.
+remain open. Support containment alone is neither actual/model posterior equality
+nor a security value bound. Keep joint-type compatibility, actual public event
+denominators, the same unknown comparison opponent and finite-T residuals.
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
+M06 is incomplete; no learner convergence premise bypasses test-time safety.

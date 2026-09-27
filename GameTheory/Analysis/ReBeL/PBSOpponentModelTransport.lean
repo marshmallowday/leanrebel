@@ -334,8 +334,11 @@ theorem carriedResolvedStep_unsupported_le (plays : K → Profile M.behavioralSi
           using estimate
   · rw [carriedResolvedStep, if_neg live, carriedResolvedSupportCharge, if_neg live]
     rw [← FinDist.expect_indicator_eq_probOf, FinDist.expect_pure]
-    simp only [Set.mem_ofPred_eq, carriedStateSupported]
-    split_ifs <;> simp_all
+    have stoppedBound :
+        (if ¬ carriedStateSupported M state then (1 : ℝ) else 0) ≤
+          if carriedStateSupported M state then 0 else 1 := by
+      by_cases supported : carriedStateSupported M state <;> simp [supported]
+    exact stoppedBound
 
 omit [Fintype E.History] in
 /-- At a live supported input, only the kernel leakage remains, averaged under
