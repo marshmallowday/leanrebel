@@ -5,7 +5,8 @@
   "status": "in_progress",
   "source": "project",
   "source_locator": "docs/rebel/ROADMAP.md M06; native finite-schedule support composition",
-  "branch": "rebel/m06-schedule-support-20260927",
+  "branch": "rebel/m06-schedule-support-review-20260927",
+  "implementation_branch": "rebel/m06-schedule-support-20260927",
   "parent": "7944888ce60f11282d78b8b84b8be84fa9a3f540",
   "semantic_review": "docs/rebel/M06-schedule-support.md",
   "module": "GameTheory.Analysis.ReBeL.PBSCarriedSupport",
@@ -20,7 +21,10 @@
   "controls_namespace": "GameTheory.ReBeL.Examples.CarriedSupport",
   "controls": ["quarterLeak", "empty_schedule", "two_stage_hit", "three_stage_hit_not_visits"],
   "validation": {
-    "compiler": "pending exact-source CI",
+    "source": "370384f660a3c57e8f08e98bcf40e3f7528020bb",
+    "target_run": 36283825513,
+    "target_job": 108520661241,
+    "compiler": "declared-target compile step running at review checkpoint",
     "normal_and_slow_lint": "pending exact-source CI",
     "transitive_axioms": "pending exact-source CI",
     "core_blob": "8cb33a008f87e6a357ba8520cf66d0fcf4123275",
@@ -29,7 +33,13 @@
     "audit_consumer_blob": "6b3b2c8b3405a3070f0130c4722c4645e1dfd68b",
     "local_inherited_python_tests": 120,
     "local_inherited_python_status": "pass; numerical fixtures are not Lean verification",
-    "baseline_target_review": "docs/rebel/M06-resolver-support-target-accepted.md"
+    "new_python_tests": 7,
+    "new_python_file": "scripts/rebel/tests/test_schedule_support.py",
+    "new_python_sha256": "8757a730be9e4dc0c27d6bfc5cf300d8306ec0cd77ef6462df53142ceed3cfeb",
+    "local_total_python_tests": 127,
+    "local_total_python_status": "pass on the source snapshot with four source/consumer changes and the new seven-fixture file; not a Lean run",
+    "baseline_target_review": "docs/rebel/M06-resolver-support-target-accepted.md",
+    "baseline_global_review": "docs/rebel/M06-resolver-support-global-accepted.md"
   },
   "remaining": [
     "Exact-source compiler, lint and complete axiom review for this new slice",
