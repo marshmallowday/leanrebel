@@ -1,53 +1,39 @@
-# ReBeL status — primitive rates compiled; audits pending; M06 incomplete
+# ReBeL status — primitive target accepted; M06 incomplete
 
-Continue `rebel/m06-primitive-support-validation-20260927`, the evidence-only
-descendant of source 35d0bc04dcc12c3badad5a577f5218b5cc6d9a75. Preserve source
-branch `rebel/m06-primitive-support-checkpoint-20260927` at 35d0 while its
-validation completes. Failed d6c5 remains on the original implementation branch.
-The chain retains ae3443d, 03d75bf and the original latest 2a7c55a checkpoint.
-Main is accepted M05, not latest M06. No force push, deletion or pin update.
+Continue rebel/m06-primitive-support-validation-20260927, the evidence chain
+above latest starting checkpoint 37a4f2c5cc20e285bca054e4a0c544232a218235.
+Source 35d0bc04dcc12c3badad5a577f5218b5cc6d9a75 remains unchanged on
+rebel/m06-primitive-support-checkpoint-20260927 so its global checks can finish.
+Main remains accepted M05. No source, dependency, workflow or gate is changed.
 
-## Exact current compiler progress and next check
+## Completed exact target review
 
-TARGET 36287339648 / job 108530477785 compiled every declared M06 target
-successfully. Its subsequent normal/slow lint and transitive-axiom step was
-still running. Obtain its complete final artifact and inspect every record;
-compiler-step success alone is NOT target acceptance. The owning primitive
-coverage and M06-primitive-support-35d0-validation.md identify exact declarations,
-source blobs and every separate run.
+35d0 target 36287339648 / job 108530477785 succeeded. The complete artifact
+10920709979 was downloaded and inspected: every declared M06 target compiled,
+111 explicit normal/slow lints passed and all 1,853 complete unique transitive
+axiom records were checked against propext/Classical.choice/Quot.sound only.
+All seven new core and five proof-control names are present. The owning
+M06-primitive-support-coverage.json and M06-primitive-support-target-accepted.md
+record exact identities, hashes and the superseded pending observation.
+Do not redo this target acceptance or inherited 4784/3dfa/b833 reviews.
 
-GLOBAL 36287339585 / job 108530593276 passed static architecture, widths,
-ledger/inventory/fixtures and rational runtime, and was in compiler/lint/axioms.
-FULL CI 36287339593 / job 108530515400 was still in its Lean action step.
-INVENTORY 36287339601 / job 108530477522 succeeded. Check these independently.
-No new final lint or axiom acceptance is claimed from older-source results.
+35d0 global 36287339585 / job 108530593276 and full CI 36287339593 /
+job 108530515400 still require independent final review. Only prior progress
+has been observed here, not a completed global artifact or full-CI acceptance.
+All 134 exact-source arithmetic fixtures and previous failure records remain.
 
-The exact 35d0 snapshot artifact 10921345479 was downloaded through the GitHub
-connector, its source identity and both Lean blobs checked, then extracted
-without git. All 134 Python fixtures plus ledger/inventory structure checks
-passed on that unmodified source. This is arithmetic, not local Lean evidence.
-The prior publicTrace universe failure is repaired by using the actual
-fullInformation M signal index; the generic math and all controls are preserved.
+## Next dependency-closed slice
 
-## Completed inherited acceptance
+Extend the native conditional draw-gap result to the actual noisy depth-CFR
+parent used by pbsCarriedDepthResolver. Existing PBSNativeConditionalGap concerns
+ordinary information-set CFR, so it does not by itself validate this depth-limited
+source. Preserve the existing pbsRootDepthBudget, positive child tolerance,
+noise bound, separate search/execution horizons and fixed comparison opponent.
+Actual event conditioning must retain its probability denominator and joint
+seed/type correlation; changed conditional PBS kernels are a separate obligation.
 
-Do not repeat 4784 target/global inspections: target 1,823 complete allowlisted
-records and 111 normal/slow lints; global 4,988 complete unique allowed records
-and 254 lints, with full static and runtime reports actually inspected. Full CI
-passed separately in job-step metadata. Owning schedule coverage and
-M06-schedule-support-global-accepted.md retain exact evidence and earlier pending
-observations. The d6c5, 370384 and e1 failures remain recorded, along with older
-3dfa/b833 accepted evidence. None of these is acceptance of 35d0.
-
-## Remaining proof obligations
-
-Seven core definitions/theorems now compile for primitive good-state leakage
-and native first-hit probability, excluding the last transition and repeated
-bad visits. Five Lean controls and seven Fraction fixtures preserve absorbing
-failure, initial defects, private model pairing and the same unknown opponent.
-Primitive smallness for unrestricted finite-T CFR is still an obligation.
-Changed-PBS native/late signed value gaps and constructed CarriedResolveStepBounds
-remain open. Preserve joint compatibility, actual public-event denominators,
-finite-T residuals and the R5 source distinction. SEARCH-FRONTIER, SEARCH-CFRD,
-SEARCH-ERROR and SAFE-THEOREM3 stay pending. M06 is incomplete; learner
-convergence does not substitute for independent test-time safety.
+Primitive smallness for unrestricted finite-T CFR, changed-PBS native/late
+signed value gaps and constructed CarriedResolveStepBounds remain open.
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
+M06 is incomplete. No learner-convergence assumption or background monitoring
+is used to bypass test-time safety.
