@@ -123,6 +123,7 @@ MODULES = (
     "GameTheory.Math.Probability.FinDistKernelVariation",
     "GameTheory.Analysis.ReBeL.PBSOpponentModelTransport",
     "GameTheory.Analysis.ReBeL.Examples.PBSOpponentModelTransport",
+    "GameTheory.Analysis.ReBeL.PBSCarriedSupport",
 )
 AUDITOR = r'''
 open Lean Elab Command in

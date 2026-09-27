@@ -1,0 +1,41 @@
+{
+  "kind": "project_dependency_candidate",
+  "milestone": "M06",
+  "milestone_complete": false,
+  "status": "in_progress",
+  "source": "project",
+  "source_locator": "docs/rebel/ROADMAP.md M06; native finite-schedule support composition",
+  "branch": "rebel/m06-schedule-support-20260927",
+  "parent": "7944888ce60f11282d78b8b84b8be84fa9a3f540",
+  "semantic_review": "docs/rebel/M06-schedule-support.md",
+  "module": "GameTheory.Analysis.ReBeL.PBSCarriedSupport",
+  "namespace": "GameTheory.ReBeL",
+  "declarations": [
+    "carriedMemorySupportCharge",
+    "carriedMemorySequence_eventMass_le_supportCharge",
+    "carriedMemorySequence_firstHit_le_supportCharge",
+    "pbsCarriedDepthFirstHitProbability_le_supportCharge",
+    "pbsCarriedDepth_support_future_error"
+  ],
+  "controls_namespace": "GameTheory.ReBeL.Examples.CarriedSupport",
+  "controls": ["quarterLeak", "empty_schedule", "two_stage_hit", "three_stage_hit_not_visits"],
+  "validation": {
+    "compiler": "pending exact-source CI",
+    "normal_and_slow_lint": "pending exact-source CI",
+    "transitive_axioms": "pending exact-source CI",
+    "core_blob": "8cb33a008f87e6a357ba8520cf66d0fcf4123275",
+    "root_blob": "3a6c00ba817a902000d87a4d672111e56acfd2cb",
+    "targets_blob": "1701f89d911e5d4c43bf5e0c1ef0a0b0ea206175",
+    "audit_consumer_blob": "6b3b2c8b3405a3070f0130c4722c4645e1dfd68b",
+    "local_inherited_python_tests": 120,
+    "local_inherited_python_status": "pass; numerical fixtures are not Lean verification",
+    "baseline_target_review": "docs/rebel/M06-resolver-support-target-accepted.md"
+  },
+  "remaining": [
+    "Exact-source compiler, lint and complete axiom review for this new slice",
+    "Small primitive support leakage for the constructed resolver",
+    "Changed-PBS native and late value gaps",
+    "Source-specific signed CarriedResolveStepBounds",
+    "SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"
+  ]
+}

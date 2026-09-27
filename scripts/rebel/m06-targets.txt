@@ -146,3 +146,4 @@ GameTheory.Analysis.ReBeL.Examples.PBSConditionedNativeGap
 GameTheory.Math.Probability.FinDistKernelVariation
 GameTheory.Analysis.ReBeL.PBSOpponentModelTransport
 GameTheory.Analysis.ReBeL.Examples.PBSOpponentModelTransport
+GameTheory.Analysis.ReBeL.PBSCarriedSupport
