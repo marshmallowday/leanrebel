@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "d2af110a66a149f963fd93c33617d0469fa71d79",
+  "parent": "8936cbaf98c0cc7980ae97946109e15ff6f46d96",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -22,10 +22,9 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-d771e88.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-9d2bee9.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-6b6c4ab.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-d54ec59.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-d2af110.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-d54ec59.json"
   ],
-  "semantic_review": "docs/rebel/M06-root-memory-batch.md",
+  "semantic_review": "docs/rebel/M06-value-target-batch.md",
   "repair_review": "docs/rebel/M06-value-target-8936cba-failure.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
@@ -65,35 +64,35 @@
     "docs/rebel/M06-value-target-8936cba-failure.md"
   ],
   "previous_feedback": {
-    "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
-    "target_run": 36329638834,
-    "target_job": 108648987636,
-    "target_declarations": 1990,
+    "commit": "d54ec59cfaa17a117a9a720d1b85ba64842f4315",
+    "target_run": 36325714657,
+    "target_job": 108637977713,
+    "target_declarations": 1974,
     "target_modules": 118,
-    "global_run": 36329638875,
-    "global_job": 108648987936,
-    "global_declarations": 5138,
+    "global_run": 36325714645,
+    "global_job": 108637977836,
+    "global_declarations": 5129,
     "global_modules": 261,
-    "ci_run": 36329638855,
-    "ci_job": 108648987757,
-    "inventory_run": 36329638914,
-    "inventory_job": 108648987889,
-    "python_tests": 169,
+    "ci_run": 36325714671,
+    "ci_job": 108637977692,
+    "inventory_run": 36325714665,
+    "inventory_job": 108637978961,
+    "python_tests": 164,
     "all_runs": "success",
-    "evidence": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md"
+    "evidence": "docs/rebel/M06-signed-kernel-d54ec59-accepted.md"
   },
   "validation": {
-    "compiler": "pending exact retained-root batch SHA",
-    "normal_and_slow_lint": "pending exact retained-root batch SHA",
-    "transitive_axioms": "pending exact retained-root batch SHA",
+    "compiler": "pending exact root-value-target example repair SHA",
+    "normal_and_slow_lint": "pending exact root-value-target example repair SHA",
+    "transitive_axioms": "pending exact root-value-target example repair SHA",
     "core_blob": "5a0091144c5611c1fe4d5173b826ca5bef6ef50c",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
-    "root_blob": "89f2c1b9a85a6cbd0f4d77b615ba2faafeea7d11",
-    "targets_blob": "97ee4da7a44edf2cec3d9b277b2fec71f9ae4385",
-    "audit_consumer_blob": "c46b076470b9eac016255874381e7ff7abcea705",
-    "expected_target_modules": 122,
-    "expected_global_modules": 264,
+    "root_blob": "17bea56410e96c09c5380267796630bbae162256",
+    "targets_blob": "0b44a341982fd3c3d8537a4118e9516dfa958586",
+    "audit_consumer_blob": "4d040df39b73eaca37e7aa4e4085e9055ffee5e0",
+    "expected_target_modules": 120,
+    "expected_global_modules": 263,
     "python_file": "scripts/rebel/tests/test_kernel_value_transport.py",
     "python_blob": "31614fa879377d164e63132047022aed6683877b",
     "new_python_tests": 12,
@@ -104,13 +103,14 @@
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md",
     "previous_python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
-    "expected_total_python_tests": 181,
+    "expected_total_python_tests": 176,
     "historical_coverage_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
-    "expected_build_targets": 160
+    "expected_build_targets": 158
   },
   "remaining": [
-    "Validate the retained-root value bridge at its exact SHA and review root-target/average-policy source mapping",
-    "Instantiate stored-model posterior comparisons throughout recursive solver analysis",
+    "Validate the complete root-value-target batch at its exact SHA",
+    "Review supported-root and per-iteration value-target source correspondence before accepting P-CFRD-TARGET/P-CFRD-AVERAGE",
+    "Instantiate stored-model posterior comparisons throughout the recursive solver analysis",
     "Derive useful small signed costs or common-summary/payoff bounds for actual independent recursive solves",
     "Close remaining SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 source acceptance"
   ],
@@ -157,22 +157,22 @@
     "remaining": "Small execution costs, actual recursive posterior identification, late-value composition and signed CarriedResolveStepBounds are not proved."
   },
   "latest_accepted": {
-    "commit": "d2af110a66a149f963fd93c33617d0469fa71d79",
-    "target_run": 36340716907,
-    "target_job": 108680123954,
-    "target_declarations": 2032,
-    "target_modules": 120,
-    "global_run": 36340716875,
-    "global_job": 108680124103,
-    "global_declarations": 5178,
-    "global_modules": 263,
-    "ci_run": 36340716890,
-    "ci_job": 108680123914,
-    "inventory_run": 36340716940,
-    "inventory_job": 108680124110,
-    "python_tests": 176,
+    "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
+    "target_run": 36329638834,
+    "target_job": 108648987636,
+    "target_declarations": 1990,
+    "target_modules": 118,
+    "global_run": 36329638875,
+    "global_job": 108648987936,
+    "global_declarations": 5138,
+    "global_modules": 261,
+    "ci_run": 36329638855,
+    "ci_job": 108648987757,
+    "inventory_run": 36329638914,
+    "inventory_job": 108648987889,
+    "python_tests": 169,
     "all_runs": "success",
-    "evidence": "docs/rebel/M06-value-target-d2af110-accepted.md"
+    "evidence": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md"
   },
   "carried_value_batch": {
     "status": "accepted_at_d771e88",
@@ -297,7 +297,7 @@
     }
   },
   "root_value_target_batch": {
-    "status": "accepted_dependency_at_d2af110",
+    "status": "example_repair_pending_exact_sha_actions",
     "semantic_review": "docs/rebel/M06-value-target-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.CFRDValueTarget",
@@ -355,24 +355,6 @@
         36337366542
       ],
       "result": "success; full lint/axioms not reached"
-    },
-    "acceptance": {
-      "commit": "d2af110a66a149f963fd93c33617d0469fa71d79",
-      "target_run": 36340716907,
-      "target_job": 108680123954,
-      "target_declarations": 2032,
-      "target_modules": 120,
-      "global_run": 36340716875,
-      "global_job": 108680124103,
-      "global_declarations": 5178,
-      "global_modules": 263,
-      "ci_run": 36340716890,
-      "ci_job": 108680123914,
-      "inventory_run": 36340716940,
-      "inventory_job": 108680124110,
-      "python_tests": 176,
-      "all_runs": "success",
-      "evidence": "docs/rebel/M06-value-target-d2af110-accepted.md"
     }
   },
   "frontier_source_acceptance": {
@@ -384,53 +366,5 @@
       "P-SEARCH-LEAF"
     ],
     "review": "docs/rebel/M06-frontier-accepted.md"
-  },
-  "root_memory_batch": {
-    "status": "pending_exact_sha_actions",
-    "semantic_review": "docs/rebel/M06-root-memory-batch.md",
-    "modules": [
-      "GameTheory.Math.Probability.FinDistRetainedLabel",
-      "GameTheory.Analysis.ReBeL.CFRDValueTargetMemory",
-      "GameTheory.Analysis.ReBeL.Examples.CFRDValueTarget"
-    ],
-    "declarations": [
-      "GameTheory.Math.Probability.FinDist.condOnFibre_expect_div",
-      "GameTheory.Math.Probability.FinDist.condOnFibre_expect_absent",
-      "GameTheory.Math.Probability.FinDist.map_bind_of_retained",
-      "GameTheory.Math.Probability.FinDist.condOnFibre_expect_bind",
-      "GameTheory.Math.Probability.FinDist.condOnFibre_expect_map",
-      "GameTheory.ReBeL.valueTarget_run_reaches",
-      "GameTheory.ReBeL.valueTarget_run_advances",
-      "GameTheory.ReBeL.pbsRootValueReadout_persistent",
-      "GameTheory.ReBeL.pbsRootValueReadout_tower",
-      "GameTheory.ReBeL.valueTarget_rootedAt_positive",
-      "GameTheory.ReBeL.valueTarget_rootedAt_prefix",
-      "GameTheory.ReBeL.pbsRootValueReadout_trace",
-      "GameTheory.ReBeL.pbsRootValueReadout_law",
-      "GameTheory.ReBeL.pbsRootValueReadout_original",
-      "GameTheory.ReBeL.pbsRootDepthFullTarget",
-      "GameTheory.ReBeL.pbsRootDepthFullTarget_eq",
-      "GameTheory.ReBeL.pbsRootDepthFullTarget_original",
-      "GameTheory.ReBeL.pbsRootDepthValueTarget_support",
-      "GameTheory.ReBeL.pbsRootDepthValueTargetMean_full_error",
-      "GameTheory.ReBeL.pbsRootDepthValueTargetMean_original_error",
-      "GameTheory.ReBeL.Examples.HiddenTypes.valueTarget_original_mean",
-      "GameTheory.ReBeL.Examples.HiddenTypes.valueTarget_root_law"
-    ],
-    "new_fraction_tests": 5,
-    "expected_python_tests": 181,
-    "expected_build_targets": 160,
-    "expected_targeted_modules": 122,
-    "expected_global_modules": 264,
-    "scope": "Retained root-label law/support, conditional tower and original-game conditional values, actual noisy parent mean numerical error; not solver convergence or recursive small-cost acceptance.",
-    "blobs": {
-      "GameTheory/Math/Probability/FinDistRetainedLabel.lean": "a947b7b28210bf5018f33bdb3497365d835b519c",
-      "GameTheory/Analysis/ReBeL/CFRDValueTargetMemory.lean": "4db3feefb0283e4b75568859977ae7ee1da6b892",
-      "GameTheory/Analysis/ReBeL/Examples/CFRDValueTarget.lean": "5896a36adc4e4245b55385bab8aa1abfbd3c3025",
-      "GameTheory/Analysis/ReBeL.lean": "89f2c1b9a85a6cbd0f4d77b615ba2faafeea7d11",
-      "scripts/rebel/m06-targets.txt": "97ee4da7a44edf2cec3d9b277b2fec71f9ae4385",
-      "scripts/rebel/audit_exact_leaf.py": "c46b076470b9eac016255874381e7ff7abcea705",
-      "scripts/rebel/tests/test_value_target.py": "e52b52338a485c1e1e3c5b7e25052ff92ebca482"
-    }
   }
 }

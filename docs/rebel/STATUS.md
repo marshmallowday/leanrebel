@@ -1,66 +1,53 @@
-# ReBeL status — value-target example repair pending CI; M06 incomplete
+# ReBeL status — retained-root value batch pending CI; M06 incomplete
 
 Continue rebel/m06-kernel-value-repair-20260927 from re-read HEAD
-8936cbaf98c0cc7980ae97946109e15ff6f46d96. Main remains
+d2af110a66a149f963fd93c33617d0469fa71d79. Main remains
 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. The GitHub plugin reconfirmed
 marshmallowday and repository admin/push access. The chat baseline is
 9457c198126f3c8b7cb1045bbed2e0053788636f.
 
-The constructed-summary batch is accepted at e123cb8 only.
-CI 36329638855, ReBeL checks 36329638875, targeted 36329638834 and inventory
-36329638914 all succeeded on that SHA. Complete logs contain 1990 targeted/
-5138 global unique transitive axiom records, only permitted axioms, all
-118/261 module lint passes, full build/architecture/rational-runtime success
-and 169 Python tests. See M06-summary-coupling-e123cb8-accepted.md.
-This evidence does not validate the following new source.
+The complete root-target batch and its repair loop are accepted at d2af110:
+CI 36340716890, ReBeL checks 36340716875, targeted 36340716907 and source
+inventory 36340716940 all succeeded on that exact SHA. Complete logs contain
+2032 targeted/5178 global unique transitive axiom records, only permitted
+axioms, all 120/263 module lint passes, full build/architecture/rational runtime
+success and 176 Python tests. See M06-value-target-d2af110-accepted.md.
+This does not verify the following new source.
 
-The 8936cba repair compiled CFRDValueTarget successfully in all three
-compiler jobs, clearing the previous conditional/binder/tactic failures.
-The example then failed to infer finite rooted local menus for its explicit
-generic comparator. Local rooted choice Fintype and full-AOH equality
-instances now mirror the parent solver's construction. Statements and
-library core are unchanged. Full new-source lint/axioms remain pending.
-Checks passed static architecture, rational runtime and 176 Python tests;
-inventory independently passed 176 tests. See
-M06-value-target-8936cba-failure.md for exact run/job/artifact evidence.
+The new batch joins conditional kernel algebra, root-memory persistence,
+root-label probability/support, full-horizon and original-game conditional
+values, and the actual noisy finite-child parent's mean target error.
+Examples and five Fraction tests cover correlated/rare roots, stopping,
+off-support conventions and incorrectly replacing root memory by later
+observations. See M06-root-memory-batch.md. All changes remain pending
+their own same-SHA compiler, lint, axiom, architecture and test checks.
 
-The new combined batch adds root information-value target vectors computed
-from the actual coupled CFR-D round's searched prefix and returned predictions.
-Terminal utility bypasses prediction. Information-local root conditioning
-preserves the live-vector error bound, even for arbitrarily small positive
-root mass. Componentwise uniform means have exact sum and online-update
-identities and preserve numerical error. The canonical rooted noisy finite-
-child parent supplies its own accuracy proof from bounded prediction noise.
-Examples and seven independent Fraction controls accompany the implementation.
-See M06-value-target-batch.md for source correspondence and semantic boundaries.
+Expected validation: 160 build targets, 122 targeted/264 global audit modules,
+181 Python tests. Previous targets/modules/tests are retained. Workflow and
+audit rules are unchanged; no Lean or Python test was run inside the plugin.
 
-Source review accepts the unchanged frontier at e123cb8:
-SEARCH-FRONTIER, P-SEARCH-SETUP and P-SEARCH-LEAF. See
-M06-frontier-accepted.md and append-only coverage-updates/M06-frontier.json.
+The unchanged frontier is accepted via coverage-updates/M06-frontier.json.
 The frozen coverage.json remains blob 2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
-Root-target source rows, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain
-pending. The new code must pass its own exact-SHA Actions before acceptance.
+P-CFRD-TARGET/P-CFRD-AVERAGE, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3
+remain pending. Target arithmetic alone does not discharge average-policy
+convergence; the new original-game meaning bridge also needs exact-source
+validation and source review before acceptance.
 
-Expected validation surface increases from 156 to 158 build targets,
-118 to 120 targeted / 261 to 263 global audit modules, and 169 to 176 Python
-tests. No prior target/module/test is removed. Workflow, architecture gates
-and axiom allowlist are unchanged. All new-source verification is pending.
+The numerical target estimate compares the mean of actual same-round
+continuations. It assumes no final-iterate or network convergence, preserves
+the original correlated PBS, and does not equate the selected model posterior
+with an unknown opponent's factual law. Absent root entries are not observed
+training samples. No small cost for arbitrary independent recursive solving
+has been derived from Nash precision.
 
-The numerical target bound is relative to the mean of actual same-round
-continuations. It is not target convergence, joint-average-profile equality,
-or last-iterate convergence. Absent root labels are explicitly separate from
-observed training support. Stored MODEL posteriors remain distinct from an
-unknown opponent's factual law. Summary-law equality/small diameter have not
-been derived for arbitrary independent recursive re-solving.
+Remaining: new-source verification and root-target/algorithm acceptance;
+useful small-cost bounds for the actual recursive solver; full recursive
+application of stored-posterior comparisons; remaining SEARCH-CFRD/
+SEARCH-ERROR/SAFE-THEOREM3 acceptance. Preserve printed R5 and corrected/
+restricted statements separately, finite-T residuals and child tolerance.
 
-Use only the main agent, no subagents. Implement related items and fixes in
+Use only the main agent, no subagents. Combine related items and fixes in
 large dependency-ordered batches. After a ref update, confirm separate
 same-SHA workflows and schedule this chat once about 50 minutes later in
 Asia/Tokyo. If still running then, schedule another one-shot check about
 10 minutes later. Do not stop workflows or poll continuously.
-
-Remaining: useful small-cost bounds for the actual recursive solver;
-recursive instantiation of the stored-posterior comparisons; supported-root
-and target/algorithm source review; SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3
-acceptance. Preserve the printed R5 mismatch and finite-T residual, and do
-not assume network training convergence. M06 remains incomplete.

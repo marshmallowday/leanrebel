@@ -6,7 +6,7 @@ controls. A second two-coordinate trace distinguishes vector averaging from
 last-iterate output without making a convergence assertion.
 -/
 
-import GameTheory.Analysis.ReBeL.CFRDValueTarget
+import GameTheory.Analysis.ReBeL.CFRDValueTargetMemory
 import GameTheory.Analysis.ReBeL.Examples.PBSCarriedDepth
 
 noncomputable section
@@ -81,5 +81,42 @@ theorem valueTarget_vector_control :
       cfrDValueTargetMean targetVectorControl 2 true = 4 ∧
       targetVectorControl 1 false = 1 ∧ targetVectorControl 1 true = 6 := by
   norm_num [cfrDValueTargetMean_eq_sum, targetVectorControl, Finset.sum_range_succ]
+
+/-- The noisy parent's comparator is now an original-game conditional value,
+with its correlated belief and actual decoded round held fixed. -/
+theorem valueTarget_original_mean (t : Nat) [NeZero t]
+    (type : (model fullPrior).InfoState 0) :
+    let M := reducedModel fullPrior
+    let roots := depthControlBelief.law
+    |pbsRootDepthValueTargetMean M roots pbsRootControlFallback cfrPayoff
+        1 1 2 (1 / 4) (depthControlNoise roots) t 0 type -
+      cfrDValueTargetMean (fun n tag =>
+        conditionalOracleValue roots (fun h => (model fullPrior).infoOf 0 h.trace)
+          (fun h => ((model fullPrior).runBehavioralFrom
+            (pbsRootDecodeProfile M roots 1
+              (pbsRootDepthIterate M roots pbsRootControlFallback cfrPayoff
+                1 1 2 (1 / 4) (depthControlNoise roots) n)) 2 h).expect (cfrPayoff 0))
+          tag) t type| ≤ 1 / 8 := by
+  intro M roots
+  apply pbsRootDepthValueTargetMean_original_error M depthControlBelief
+    pbsRootControlFallback cfrPayoff 1 1 2 (1 / 4) (depthControlNoise roots)
+    (1 / 8) (by norm_num)
+  intro n trunk who info
+  norm_num [depthControlNoise]
+
+/-- Root-label mass remains the original own-type law for every genuine
+noisy parent iterate and for any length of its continuation. -/
+theorem valueTarget_root_law (round fuel : Nat) :
+    let M := reducedModel fullPrior
+    let roots := depthControlBelief.law
+    (((pbsRootFullInformation M roots).runBehavioral
+      (pbsRootDepthIterate M roots pbsRootControlFallback cfrPayoff
+        1 1 2 (1 / 4) (depthControlNoise roots) round) (fuel + 1)).map
+      (fun h => pbsRootValueReadout M roots 0
+        ((pbsRootFullInformation M roots).infoOf 0 h.trace))) =
+      roots.map (fun h => some ((model fullPrior).infoOf 0 h.trace)) := by
+  intro M roots
+  exact pbsRootValueReadout_law M roots 1
+    (pbsRoot_publicBelief_depth M depthControlBelief) _ fuel 0
 
 end GameTheory.ReBeL.Examples.HiddenTypes
