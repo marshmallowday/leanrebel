@@ -1,42 +1,46 @@
-# ReBeL status — carried posterior/rates/signed late-value batch pending CI; M06 incomplete
+# ReBeL status — carried-value proof/architecture repair pending CI; M06 incomplete
 
 Continue rebel/m06-kernel-value-repair-20260927 from re-read HEAD
-fa95a3d06b2061b18fa678518c2adf0531650377. Main is
-6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. The connected login is marshmallowday;
-admin/push permissions and the branch head were checked through the GitHub plugin.
+ed2fad241260b8df23d7e47448a817ca9458e464. Main remains
+6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. Connected login marshmallowday
+and current admin/push permissions were rechecked through the GitHub plugin.
 
-The preceding repair PASSED all four exact-SHA runs: CI 36303420528,
-ReBeL checks 36303420514, target 36303420502, inventory 36303420513.
-Complete logs show 153 Python tests, 1912 targeted / 5062 global axiom records,
-116 / 259 audited modules, only propext/Classical.choice/Quot.sound, complete
-lint/build/architecture success. See M06-opponent-value-transport-fa95a3d-accepted.md.
+The ed2fad batch's source inventory run 36306984806 passed 160 Python tests,
+including all seven new Fraction controls. CI 36306984820 and target
+36306984787 failed on the same unused Nat.zero_add simp argument in
+PBSOpponentModelTransport. ReBeL checks 36306984802 failed static architecture:
+one change tactic in the new PBSCarriedValue violated the zero Analysis
+source-transport budget. Complete job logs and artifact metadata were inspected.
 
-Following the user's batching instruction, this candidate combines:
-- Exact stored chosen-model posterior identification and primitive execution rates.
-- Conditional gap rate consumption, retaining full root-law discrepancy.
-- Same-private-draw stage plus late-continuation identity and derived signed loss.
-- Native full-state forward composition and initial CFR security connection.
-- Constructed CarriedResolveStepBounds from primitive rates and a horizon cap.
-- Actual noisy solver consumers, three Lean controls and seven Fraction tests.
+This combined repair removes the unused simp argument and uses explicit
+definition simplification for the selected-state projection proof. It changes
+no mathematical statement, implementation behavior, checker, expected budget,
+workflow, dependency or test. See M06-carried-value-ed2fad-failure.md.
+New downstream proofs, lint and transitive axioms have not yet been checked
+because the earlier compiler error blocked them. Do not count them accepted.
 
-Read M06-carried-value-batch.md for full declarations, assumptions, batch boundary,
-source obligations and semantic limits. All these changes await this new source's
-Actions; the accepted fa95a3d results do not validate them.
-The expected retained/enlarged surfaces are 156 build targets, 118 targeted and
-261 global audit modules, and 160 Python tests. No workflow or trust gate changes.
+The full implementation and semantic boundaries remain in M06-carried-value-batch.md.
+It combines chosen-model posterior identification, primitive rates, conditional
+gap transport, same-private-draw late continuation, native forward signed loss,
+CFR security connection, constructed step bounds, solver examples and controls.
+Retain 156 build targets, 118 targeted/261 global audit modules and 160 tests.
+The accepted fa95a3d results remain historical, not evidence for repaired source.
 
-The historical coverage.json must stay at blob
-2fc8cc9ad6607d61bfe397707fb96ac322fbb800. Progress is in the M06 owner ledger;
-its previous complete state is archived at the fa95a3d checkpoint.
+Historical coverage.json must stay at blob
+2fc8cc9ad6607d61bfe397707fb96ac322fbb800. Progress belongs in the M06 owner
+ledger, with the previous complete state archived at the ed2fad checkpoint.
+
+The user's additional instruction prohibits subagents. All further work is by
+the main agent. After this repair passes all required verification, implement
+remaining related M06 tasks in large dependency-ordered batches, and consolidate
+CI fixes. Do not insert a workflow wait after each small lemma or file.
 
 After updating the branch, confirm distinct CI, ReBeL checks and M06 targeted
-runs on that SHA, then schedule this chat once for ref-update plus approximately
-50 minutes in Asia/Tokyo and end. If runs are still executing, schedule a later
-one-shot check instead of repeated polling. Do not stop running workflows.
+runs at that SHA; schedule this chat once for ref-update plus approximately
+50 minutes in Asia/Tokyo and end. If still running at the next check, schedule
+another single check about 20 minutes later. Do not stop running workflows.
 
-On feedback, fix all observed errors together. After acceptance, continue with
-large related implementation batches. Remaining: identify recursive type kernels;
-derive useful solver-specific small source/execution/support rates or stronger
-signed value envelopes; finish SEARCH-FRONTIER/SEARCH-CFRD/SEARCH-ERROR and the
-separately stated corrected/restricted SAFE-THEOREM3. Primitive-rate hypotheses
-are not consequences of Nash accuracy. M06 is incomplete.
+Remaining: recursive type-kernel identification; useful solver-specific small
+source/execution/support rates or stronger signed value envelopes; original
+SEARCH-FRONTIER/SEARCH-CFRD/SEARCH-ERROR and corrected/restricted SAFE-THEOREM3
+acceptance. Primitive rates are not consequences of Nash accuracy. M06 is incomplete.

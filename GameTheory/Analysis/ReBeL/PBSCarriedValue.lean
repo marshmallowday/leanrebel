@@ -45,10 +45,8 @@ theorem carriedMemoryStep_selected_expect
     apply FinDist.expect_congr
     intro chosen _
     rw [FinDist.expect_map]
-    change (M.runBehavioralFrom (Profile.update unknown who (chosen who))
-        stage.fuel state.history).expect (fun history =>
-          (M.runBehavioralFrom (Profile.update unknown who (chosen who))
-            remaining history).expect payoff) = _
+    dsimp only [carriedSelectedTail, storeCarriedDraw, resolvedNextState,
+      carriedMemoryProfile, List.headD_cons]
     rw [← FinDist.expect_bind, ← M.runBehavioralFrom_add]
   · simp only [if_neg live, carriedMemoryStep, FinDist.expect_map, carriedResolvedStep,
       FinDist.expect_pure, storeCarriedDraw, carriedSelectedTail,

@@ -454,7 +454,7 @@ theorem executionKernelCharge_add
   induction before generalizing actual with
   | zero =>
       have zeroKernel : M.runBehavioralFrom first 0 = FinDist.pure := rfl
-      simp only [Nat.zero_add, executionKernelCharge, zeroKernel, FinDist.bind_pure, zero_add]
+      simp only [executionKernelCharge, zeroKernel, FinDist.bind_pure, zero_add]
   | succ before ih =>
       have checkpoint :
           actual.bind (M.runBehavioralFrom first (before + 1)) =
