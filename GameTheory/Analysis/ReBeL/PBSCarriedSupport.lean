@@ -55,9 +55,14 @@ theorem carriedMemorySequence_eventMass_le_supportCharge
   classical
   induction schedule generalizing states with
   | nil =>
-      change 0 ≤ states.probOf _ + 0
-      rw [add_zero]
-      exact ENNReal.toReal_nonneg
+      simp only [FinDist.sequenceEventMass, carriedMemorySupportCharge, add_zero]
+      rw [← FinDist.expect_indicator_eq_probOf]
+      calc
+        0 = states.expect (fun _ => (0 : ℝ)) := (FinDist.expect_const states 0).symm
+        _ ≤ _ := by
+          apply FinDist.expect_mono
+          intro state _
+          split_ifs <;> norm_num
   | cons label labels ih =>
       have headBound : states.probOf (event label) ≤
           states.probOf {state | ¬ carriedStateSupported M state} := by
