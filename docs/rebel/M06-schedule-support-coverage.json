@@ -16,13 +16,7 @@
   "architecture_review": "docs/rebel/M06-schedule-support-architecture.md",
   "module": "GameTheory.Analysis.ReBeL.PBSCarriedSupport",
   "namespace": "GameTheory.ReBeL",
-  "declarations": [
-    "carriedMemorySupportCharge",
-    "carriedMemorySequence_eventMass_le_supportCharge",
-    "carriedMemorySequence_firstHit_le_supportCharge",
-    "pbsCarriedDepthFirstHitProbability_le_supportCharge",
-    "pbsCarriedDepth_support_future_error"
-  ],
+  "declarations": ["carriedMemorySupportCharge", "carriedMemorySequence_eventMass_le_supportCharge", "carriedMemorySequence_firstHit_le_supportCharge", "pbsCarriedDepthFirstHitProbability_le_supportCharge", "pbsCarriedDepth_support_future_error"],
   "controls_namespace": "GameTheory.ReBeL.Examples.CarriedSupport",
   "controls": ["quarterLeak", "empty_schedule", "two_stage_hit", "three_stage_hit_not_visits"],
   "validation": {
@@ -47,7 +41,14 @@
     "expected_global_modules": 254,
     "global_run": 36284548923,
     "global_job": 108522699001,
-    "global_status": "real static gate, widths, fixture and runtime steps passed; compiler/lint/axioms still running in independently queried step metadata",
+    "global_status": "success: complete artifact actually inspected; 4988 complete unique allowlisted axiom records and 254 module lint passes",
+    "previous_global_observation": "Real static gate, widths, fixture and runtime steps had passed; compiler/lint/axioms were still running at the earlier independently queried checkpoint.",
+    "global_artifact": 10920945334,
+    "global_zip_sha256": "3ba6663afb0621ba9ef733b7c1d5b79ffc5cef07fcd60936be2f8aa334cde5f7",
+    "global_log_sha256": "ea3a76b462802102111a202b15fcb464525c614e36364ab7dbef4ae20155512c",
+    "global_axiom_records": 4988,
+    "global_lint_modules": 254,
+    "global_review": "docs/rebel/M06-schedule-support-global-accepted.md",
     "full_ci_run": 36284548898,
     "full_ci_job": 108522802089,
     "full_ci_status": "success: build, full public-library lint, architecture phases and clean tracked files in separately inspected job-step metadata",
@@ -88,11 +89,5 @@
     "baseline_target_review": "docs/rebel/M06-resolver-support-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-resolver-support-global-accepted.md"
   },
-  "remaining": [
-    "Independent final global ReBeL artifact and complete axiom review for 4784",
-    "Small primitive support leakage for the constructed resolver",
-    "Changed-PBS native and late value gaps",
-    "Source-specific signed CarriedResolveStepBounds",
-    "SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"
-  ]
+  "remaining": ["Small primitive support leakage for the constructed resolver", "Changed-PBS native and late value gaps", "Source-specific signed CarriedResolveStepBounds", "SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"]
 }
