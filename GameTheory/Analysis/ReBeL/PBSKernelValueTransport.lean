@@ -358,3 +358,81 @@ theorem conditionalGap_abs_sub_le_executionRate
   nlinarith only [costs, gap]
 
 end GameTheory.ReBeL.TypeBeliefSlice
+
+
+namespace GameTheory.ReBeL
+
+open GameTheory.Protocol ExecutionProtocol InformationModel
+open GameTheory.Math.Probability
+
+universe us ua up uq uk ut uv
+variable {E : ExecutionProtocol.{0, us, ua} (Fin 2)}
+variable (M : InformationModel.{0, us, ua, up, uq, uk} E)
+variable [Fintype E.History] [∀ player, Fintype (E.Action player)]
+
+/-- Compare a prior joint-PBS slice with the actual next state's stored-model
+slice. Both supported kernels are replaced by their concrete conditionals.
+Different type domains and changed comparison opponents remain explicit;
+neither posterior equality to the factual opponent nor small drift is assumed. -/
+theorem resolvedNextState_conditionalGap_le {K : Type*} {T : Type ut} {U : Type uv}
+    (state : PrivateIterationState M K)
+    (belief : PublicBelief M.toInfoSignals (publicTrace M.toInfoSignals state.history.trace))
+    (stored : state.belief = some belief)
+    (chosen : Profile M.behavioralSignature) (steps : Nat) (history : E.History)
+    (positive : publicTrace M.toInfoSignals history.trace ∈
+      (PublicBelief.publicLaw (S := M.toInfoSignals)
+        (PublicBelief.continuationLaw M chosen steps belief)).support)
+    (who : Fin 2)
+    (oldMemory : RootTypeMemory M (publicTrace M.toInfoSignals state.history.trace) who T)
+    (oldOff : T → PublicBelief M.toInfoSignals
+      (publicTrace M.toInfoSignals state.history.trace))
+    (oldCompatible : ∀ type h, h ∈ (oldOff type).law.support →
+      oldMemory.typeAt (M.infoOf who h.trace) = type)
+    (newMemory : RootTypeMemory M (publicTrace M.toInfoSignals history.trace) who U)
+    (newOff : U → PublicBelief M.toInfoSignals (publicTrace M.toInfoSignals history.trace))
+    (newCompatible : ∀ type h, h ∈ (newOff type).law.support →
+      newMemory.typeAt (M.infoOf who h.trace) = type)
+    (oldType : T) (newType : U)
+    (oldReached : oldType ∈
+      (belief.law.map (fun h => oldMemory.typeAt (M.infoOf who h.trace))).support)
+    (hrecall : M.PerfectRecall) (fallback : Profile M.strategicSignature)
+    (fuel : Nat) (payoff : E.History → ℝ)
+    (first second : Profile M.behavioralSignature) (replacement : M.BehavioralPolicy who)
+    (bound : ℝ) (nonneg : 0 ≤ bound) (bounded : ∀ h, |payoff h| ≤ bound) :
+    let modelLaw := PublicBelief.continuationLaw M chosen steps belief
+    let posterior := PublicBelief.atObservation modelLaw
+      (publicTrace M.toInfoSignals history.trace) positive
+    let old := TypeBeliefSlice.ofJointBelief oldMemory belief oldOff oldCompatible
+    let fresh := TypeBeliefSlice.ofJointBelief newMemory posterior newOff newCompatible
+    (resolvedNextState M state chosen steps history).belief = some posterior ∧
+      (newType ∈ (posterior.law.map
+        (fun h => newMemory.typeAt (M.infoOf who h.trace))).support →
+        |fresh.infoValue fallback fuel payoff second newType -
+          fresh.conditionalPayoff second fuel payoff replacement newType| ≤
+        |old.infoValue fallback fuel payoff first oldType -
+          old.conditionalPayoff first fuel payoff replacement oldType| +
+        (2 * bound * FinDist.atomVariation
+          (belief.law.condOnFibre (fun h => oldMemory.typeAt (M.infoOf who h.trace)) oldType)
+          ((modelLaw.condOnFibre (fun h => publicTrace M.toInfoSignals h.trace)
+            (publicTrace M.toInfoSignals history.trace)).condOnFibre
+              (fun h => newMemory.typeAt (M.infoOf who h.trace)) newType) +
+          bound * (old.optimalResponseExecutionCharge fresh fallback fuel payoff
+            first second oldType +
+            old.responseExecutionCharge first second fuel replacement oldType))) := by
+  intro modelLaw posterior old fresh
+  have identified := resolvedNextState_typeKernel_law M state belief stored chosen steps
+    history positive who newMemory newOff newCompatible newType
+  constructor
+  · exact identified.1
+  · intro newReached
+    have oldKernel : (old.kernel oldType).law =
+        belief.law.condOnFibre (fun h => oldMemory.typeAt (M.infoOf who h.trace)) oldType :=
+      TypeBeliefSlice.ofJointBelief_kernel_law oldMemory belief oldOff oldCompatible
+        oldType oldReached
+    have newKernel := identified.2 newReached
+    have estimate := old.conditionalGap_abs_le_old_add_executionCharge fresh hrecall
+      fallback fuel payoff first second replacement oldType newType bound nonneg bounded
+    rw [oldKernel, newKernel] at estimate
+    exact estimate
+
+end GameTheory.ReBeL

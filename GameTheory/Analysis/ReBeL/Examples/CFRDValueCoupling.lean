@@ -87,6 +87,30 @@ theorem wrong_marginal_rejected :
   have masses := congrArg (fun law : FinDist Bool => law.prob true) equal
   norm_num [FinDist.map_pure, FinDist.prob_pure_eq_ite] at masses
 
+
+/-- Summary matching constructs the witness from the two marginals; the
+manually supplied joint law in the earlier control is no longer required. -/
+theorem summary_payoff_law : old.map value = fresh.map value := by
+  rw [old, fresh, FinDist.map_comp, FinDist.map_comp]
+  apply FinDist.map_congr_of_eq_on_support
+  intro pair reached
+  have supported : pair = ((false, false), (false, true)) ∨
+      pair = ((true, false), (true, true)) :=
+    (FinDist.mem_support_mix_pure_iff (1 / 2) (by norm_num) (by norm_num)
+      (by norm_num) (by norm_num) _ _ pair).mp reached
+  rcases supported with equal | equal <;> subst pair <;> rfl
+
+/-- The constructed coupling has both exact marginals and zero directed cost
+for this nonconstant payoff despite maximal history-label variation. -/
+theorem summary_constructed_control :
+    (FinDist.summaryCoupling old fresh value value).map Prod.fst = old ∧
+    (FinDist.summaryCoupling old fresh value value).map Prod.snd = fresh ∧
+    FinDist.directedValueCost (FinDist.summaryCoupling old fresh value value)
+      value value = 0 := by
+  exact ⟨FinDist.summaryCoupling_fst _ _ _ _,
+    FinDist.summaryCoupling_snd _ _ _ _ summary_payoff_law,
+    FinDist.directedValueCost_summaryCoupling_payoff _ _ _ _ summary_payoff_law⟩
+
 end GameTheory.ReBeL.Examples.ValueCoupling
 
 namespace GameTheory.ReBeL.Examples.HiddenTypes

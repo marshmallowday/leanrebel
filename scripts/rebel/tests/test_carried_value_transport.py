@@ -91,6 +91,25 @@ def posterior(prior, likelihood):
             for state, weight in prior.items()}
 
 
+
+def pushforward(law, observe):
+    return bind(law, lambda outcome: {observe(outcome): F(1)})
+
+
+def summary_coupling(first, second, left, right):
+    """Sample the first outcome, then condition the second on its summary.
+
+    Like Lean's total condOnFibre, an absent fiber falls back to second.
+    Only equal summary laws certify the second marginal.
+    """
+    def paired(a):
+        mass = sum((weight for b, weight in second.items()
+                    if right(b) == left(a)), F(0))
+        conditional = ({b: weight / mass for b, weight in second.items()
+                        if right(b) == left(a)} if mass else second)
+        return {(a, b): weight for b, weight in conditional.items()}
+    return bind(first, paired)
+
 class CarriedValueTransportTests(unittest.TestCase):
     def test_late_tail_charge_cannot_be_replaced_by_stage_charge(self):
         cases = 0
@@ -370,6 +389,131 @@ class CarriedValueTransportTests(unittest.TestCase):
         self.assertEqual(total_signed, F(2, 3))
         self.assertEqual(total_cost, F(1))
         self.assertLess(total_cost, total_kernel)
+
+
+    def test_constructed_summary_coupling_exact_marginals(self):
+        cases = 0
+        for probability in (F(0), F(1, 4), F(1, 2), F(3, 4), F(1)):
+            for split in (F(1, 3), F(2, 3)):
+                first = {(label, "new"): mass for label, mass
+                         in bernoulli(probability).items() if mass}
+                second = {(label, copy): mass * weight
+                          for label, mass in bernoulli(probability).items()
+                          for copy, weight in ((0, split), (1, 1 - split))
+                          if mass * weight}
+                label = lambda outcome: outcome[0]
+                joint = summary_coupling(first, second, label, label)
+                self.assertEqual(pushforward(joint, lambda pair: pair[0]), first)
+                self.assertEqual(pushforward(joint, lambda pair: pair[1]), second)
+                self.assertTrue(all(label(a) == label(b) for a, b in joint))
+                value = lambda outcome: F(2 * outcome[0] - 1)
+                self.assertEqual(expect(joint, lambda pair:
+                                        max(F(0), value(pair[1]) - value(pair[0]))), 0)
+                self.assertEqual(variation(first, second), 2)
+                cases += 1
+        self.assertEqual(cases, 10)
+
+    def test_matching_means_does_not_certify_summary_coupling(self):
+        first = {-1: F(1, 2), 1: F(1, 2)}
+        second = {0: F(1)}
+        identity = lambda value: value
+        self.assertEqual(expect(first, identity), expect(second, identity))
+        joint = summary_coupling(second, first, identity, identity)
+        self.assertEqual(pushforward(joint, lambda pair: pair[0]), second)
+        self.assertEqual(expect(joint, lambda pair:
+                                max(F(0), pair[1] - pair[0])), F(1, 2))
+        # A changed nonempty fiber silently reweights the second marginal
+        # unless equality of the full summary distributions is checked.
+        wrong_first = {0: F(3, 4), 1: F(1, 4)}
+        wrong_second = {0: F(1, 4), 1: F(3, 4)}
+        invalid = summary_coupling(wrong_first, wrong_second, identity, identity)
+        self.assertNotEqual(pushforward(invalid, lambda pair: pair[1]), wrong_second)
+
+    def test_summary_bin_diameter_and_direction(self):
+        cases = 0
+        for error in (F(1, 16), F(1, 4), F(1, 2)):
+            for probability in (F(1, 4), F(1, 2), F(3, 4)):
+                # Both laws use the same bin mass, with different within-bin values.
+                first = {(label, F(0)): mass for label, mass
+                         in bernoulli(probability).items()}
+                second = {(label, error): mass for label, mass
+                          in bernoulli(probability).items()}
+                observe = lambda outcome: outcome[0]
+                value = lambda outcome: F(outcome[0]) + outcome[1]
+                joint = summary_coupling(first, second, observe, observe)
+                cost = expect(joint, lambda pair:
+                              max(F(0), value(pair[1]) - value(pair[0])))
+                reverse = summary_coupling(second, first, observe, observe)
+                self.assertEqual(cost, error)
+                self.assertEqual(expect(second, value) - expect(first, value), error)
+                self.assertEqual(expect(reverse, lambda pair:
+                                        max(F(0), value(pair[1]) - value(pair[0]))), 0)
+                self.assertEqual(variation(first, second), 2)
+                cases += 1
+        self.assertEqual(cases, 9)
+
+    def test_summary_couplings_follow_native_forward_states_and_late_tail(self):
+        cases = 0
+        for error, probability, late in product(
+                (F(1, 16), F(1, 4), F(1, 2)),
+                (F(1, 4), F(1, 2), F(3, 4)), (1, 2, 3)):
+            states = {((0,), 0): F(1, 3), ((1,), 1): F(2, 3)}
+            payoff = lambda history: F(history[0]) + error * (1 - history[-1])
+            observe = lambda history: history[0]
+            before = expect(states, lambda state: selected_value(state, 2 + late, payoff))
+            signed_total, coupled_total = F(0), F(0)
+            for remaining in (1 + late, late):
+                draw = lambda state: bernoulli(probability)
+                def costs(state):
+                    old = run({state[0]: F(1)}, fixed_policy(state[1]), 1 + remaining)
+                    fresh = bind(resolve_step(state, 1, draw), lambda next_state:
+                                 run({next_state[0]: F(1)}, fixed_policy(next_state[1]),
+                                     remaining))
+                    self.assertEqual(pushforward(fresh, observe), pushforward(old, observe))
+                    joint = summary_coupling(fresh, old, observe, observe)
+                    self.assertEqual(pushforward(joint, lambda pair: pair[0]), fresh)
+                    self.assertEqual(pushforward(joint, lambda pair: pair[1]), old)
+                    signed = expect(old, payoff) - expect(fresh, payoff)
+                    cost = expect(joint, lambda pair:
+                                  max(F(0), payoff(pair[1]) - payoff(pair[0])))
+                    self.assertLessEqual(signed, cost)
+                    self.assertLessEqual(cost, error)
+                    return signed, cost
+                signed_total += expect(states, lambda state: costs(state)[0])
+                coupled_total += expect(states, lambda state: costs(state)[1])
+                states = bind(states, lambda state: resolve_step(state, 1, draw))
+            after = expect(states, lambda state: selected_value(state, late, payoff))
+            self.assertEqual(before - after, signed_total)
+            self.assertLessEqual(signed_total, coupled_total)
+            self.assertLessEqual(coupled_total, 2 * error)
+            cases += 1
+        self.assertEqual(cases, 27)
+
+    def test_stored_model_type_gap_uses_concrete_double_conditioning(self):
+        prior = {(0, 0): F(1, 10), (0, 1): F(2, 10),
+                 (1, 0): F(3, 10), (1, 1): F(4, 10)}
+        cases = 0
+        for seed in (0, 1):
+            likelihood = {state: F(3, 4) if state[1] == seed else F(1, 4)
+                          for state in prior}
+            stored = posterior(prior, likelihood)
+            factual = posterior(prior, {state: 1 - likelihood[state] for state in prior})
+            self.assertNotEqual(stored, factual)
+            for own_type in (0, 1):
+                old = posterior(prior, {state: F(state[0] == own_type) for state in prior})
+                new = posterior(stored, {state: F(state[0] == own_type) for state in prior})
+                direct = posterior(prior, {state: likelihood[state] *
+                                          F(state[0] == own_type) for state in prior})
+                self.assertEqual(new, direct)
+                value = lambda action, state: F(1 if action == state[1] else -1)
+                for replacement in (0, 1):
+                    gap = lambda law: max(expect(law, lambda state: value(a, state))
+                                          for a in (0, 1)) - expect(
+                                              law, lambda state: value(replacement, state))
+                    self.assertLessEqual(abs(gap(new)), abs(gap(old)) +
+                                         2 * variation(old, direct))
+                    cases += 1
+        self.assertEqual(cases, 8)
 
 
 if __name__ == '__main__':

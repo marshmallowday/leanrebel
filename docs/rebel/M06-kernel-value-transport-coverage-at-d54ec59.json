@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "d54ec59cfaa17a117a9a720d1b85ba64842f4315",
+  "parent": "6b6c4ab3ce5dd934806a3a9f4f3a35010549f387",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -21,10 +21,9 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-c975ad7.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-d771e88.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-9d2bee9.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-6b6c4ab.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-d54ec59.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-6b6c4ab.json"
   ],
-  "semantic_review": "docs/rebel/M06-summary-coupling-batch.md",
+  "semantic_review": "docs/rebel/M06-signed-kernel-batch.md",
   "repair_review": "docs/rebel/M06-signed-kernel-6b6c4ab-failure.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
@@ -62,28 +61,29 @@
     "docs/rebel/M06-signed-kernel-6b6c4ab-failure.md"
   ],
   "previous_feedback": {
-    "commit": "d54ec59cfaa17a117a9a720d1b85ba64842f4315",
-    "target_run": 36325714657,
-    "target_job": 108637977713,
-    "target_declarations": 1974,
-    "target_modules": 118,
-    "global_run": 36325714645,
-    "global_job": 108637977836,
-    "global_declarations": 5129,
-    "global_modules": 261,
-    "ci_run": 36325714671,
-    "ci_job": 108637977692,
-    "inventory_run": 36325714665,
-    "inventory_job": 108637978961,
+    "commit": "6b6c4ab3ce5dd934806a3a9f4f3a35010549f387",
+    "target_run": 36322384519,
+    "target_job": 108628587396,
+    "target_artifact": 10932753111,
+    "target_status": "four unused-section-instance errors; complete build/lint/axioms blocked",
+    "global_run": 36322384401,
+    "global_job": 108628586922,
+    "global_artifact": 10933211130,
+    "global_status": "architecture, 164 Python tests and rational runtime passed; same four unused-section-instance errors",
+    "ci_run": 36322384444,
+    "ci_job": 108628587135,
+    "ci_status": "same four unused-section-instance errors; postbuild gates skipped",
+    "inventory_run": 36322384377,
+    "inventory_job": 108628586869,
+    "inventory_status": "success",
     "python_tests": 164,
-    "all_runs": "success",
-    "evidence": "docs/rebel/M06-signed-kernel-d54ec59-accepted.md"
+    "source_artifact": 10932049124
   },
   "validation": {
-    "compiler": "pending exact constructed-summary batch SHA",
-    "normal_and_slow_lint": "pending exact constructed-summary batch SHA",
-    "transitive_axioms": "pending exact constructed-summary batch SHA",
-    "core_blob": "5a0091144c5611c1fe4d5173b826ca5bef6ef50c",
+    "compiler": "pending exact redundant-instance repair SHA",
+    "normal_and_slow_lint": "pending exact redundant-instance repair SHA",
+    "transitive_axioms": "pending exact redundant-instance repair SHA",
+    "core_blob": "47158e9e40a47352fc7e326532ca5de95a869669",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
     "root_blob": "a0b3c360c71e00a43af53449946651b2e9082f04",
@@ -101,14 +101,14 @@
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md",
     "previous_python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
-    "expected_total_python_tests": 169,
+    "expected_total_python_tests": 164,
     "historical_coverage_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
     "expected_build_targets": 156
   },
   "remaining": [
-    "Validate the complete constructed-summary batch at its exact SHA",
-    "Instantiate actual stored-posterior comparisons throughout the remaining recursive solver analysis",
-    "Derive common-summary laws and useful payoff bounds, or alternative small-cost estimates, from the actual solver",
+    "Verify the entire signed-kernel batch at its exact SHA",
+    "Instantiate identified stored-posterior kernels for every recursive solver value comparison",
+    "Derive useful solver-specific small source/execution/support rates or construct low-cost signed value couplings",
     "Close original SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 acceptance with paper correspondence"
   ],
   "baseline_acceptance": {
@@ -154,22 +154,22 @@
     "remaining": "Small execution costs, actual recursive posterior identification, late-value composition and signed CarriedResolveStepBounds are not proved."
   },
   "latest_accepted": {
-    "commit": "d54ec59cfaa17a117a9a720d1b85ba64842f4315",
-    "target_run": 36325714657,
-    "target_job": 108637977713,
-    "target_declarations": 1974,
+    "commit": "d771e88c97ac1b244812a6d5da99900a61be64ba",
+    "target_run": 36315829868,
+    "target_job": 108610231896,
+    "target_declarations": 1949,
     "target_modules": 118,
-    "global_run": 36325714645,
-    "global_job": 108637977836,
-    "global_declarations": 5129,
+    "global_run": 36315829918,
+    "global_job": 108610231974,
+    "global_declarations": 5099,
     "global_modules": 261,
-    "ci_run": 36325714671,
-    "ci_job": 108637977692,
-    "inventory_run": 36325714665,
-    "inventory_job": 108637978961,
-    "python_tests": 164,
+    "ci_run": 36315829902,
+    "ci_job": 108610232019,
+    "inventory_run": 36315829852,
+    "inventory_job": 108610231945,
+    "python_tests": 160,
     "all_runs": "success",
-    "evidence": "docs/rebel/M06-signed-kernel-d54ec59-accepted.md"
+    "evidence": "docs/rebel/M06-carried-value-d771e88-accepted.md"
   },
   "carried_value_batch": {
     "status": "accepted_at_d771e88",
@@ -210,7 +210,7 @@
     "acceptance_review": "docs/rebel/M06-carried-value-d771e88-accepted.md"
   },
   "signed_kernel_batch": {
-    "status": "accepted_at_d54ec59",
+    "status": "pending_exact_redundant_instance_repair_actions",
     "semantic_review": "docs/rebel/M06-signed-kernel-batch.md",
     "declarations": [
       "ofJointBelief_kernel_law",
@@ -247,42 +247,11 @@
     "posterior_scope": "supported type kernel of actual stored chosen-model posterior; not factual unknown-opponent posterior",
     "signed_scope": "exact stagewise loss under actual forward laws and derived coupling/primitive bounds; no small unrestricted-solver rate claimed",
     "python_acceptance": {
-      "commit": "d54ec59cfaa17a117a9a720d1b85ba64842f4315",
-      "run": 36325714665,
-      "job": 108637978961,
+      "commit": "6b6c4ab3ce5dd934806a3a9f4f3a35010549f387",
+      "run": 36322384377,
+      "job": 108628586869,
       "tests": 164,
       "result": "success"
-    },
-    "acceptance_review": "docs/rebel/M06-signed-kernel-d54ec59-accepted.md"
-  },
-  "summary_coupling_batch": {
-    "status": "pending_exact_sha_actions",
-    "semantic_review": "docs/rebel/M06-summary-coupling-batch.md",
-    "declarations": [
-      "summaryCoupling",
-      "summaryCoupling_fst",
-      "summaryCoupling_snd",
-      "summaryCoupling_support",
-      "directedValueCost_summaryCoupling_le",
-      "directedValueCost_summaryCoupling_payoff",
-      "carriedResolveStepBounds_of_summary",
-      "carriedSignedSequenceLoss_le_summary",
-      "privateRecursiveResolve_inherits_summary",
-      "resolvedNextState_conditionalGap_le",
-      "summary_payoff_law",
-      "summary_constructed_control",
-      "carriedValue_noisy_two_stage_summary"
-    ],
-    "blobs": {
-      "GameTheory/Math/Probability/FinDistValueCoupling.lean": "14e38932eb465a77208ee8388c42a559c1881417",
-      "GameTheory/Analysis/ReBeL/PBSCarriedValue.lean": "fcbd341c45a4b40f88e9321fb77c5ffa425b55d3",
-      "GameTheory/Analysis/ReBeL/PBSKernelValueTransport.lean": "5a0091144c5611c1fe4d5173b826ca5bef6ef50c",
-      "GameTheory/Analysis/ReBeL/Examples/CFRDValueCoupling.lean": "47a55b88355077933d791fd157375c08b2b747ea",
-      "GameTheory/Analysis/ReBeL/Examples/PBSCarriedValue.lean": "e2df76fe36f3d15c6f8a08c45b91af26bf408404",
-      "scripts/rebel/tests/test_carried_value_transport.py": "0b3fba2ce9f44a97471344200845741895c60172"
-    },
-    "new_fraction_tests": 5,
-    "expected_python_tests": 169,
-    "scope": "constructed coupling from full observable-law equality and supported payoff ranges; concrete stored-model kernel comparison; no unrestricted-solver rate claimed"
+    }
   }
 }

@@ -142,4 +142,39 @@ theorem carriedValue_selected_typeKernel {T : Type*}
     _ positive, resolvedNextState_typeKernel_law M depthControlState depthControlBelief
       rfl chosen 1 history positive 0 memory offPath compatible type⟩
 
+
+/-- The actual noisy two-stage schedule consumes constructed summary
+couplings. Its premises compare observable laws and supported payoff ranges,
+not whole-history kernels or caller-supplied coupling certificates. -/
+theorem carriedValue_noisy_two_stage_summary {S : Type*}
+    (unknown : Profile (model fullPrior).behavioralSignature)
+    (error : ℝ) (nonneg : 0 ≤ error)
+    (observe : CarriedResolveStage (model fullPrior) Unit → Nat →
+      PrivateIterationState (model fullPrior)
+        (CarriedResolveMemory (model fullPrior) Unit) → (protocol fullPrior).History → S)
+    (same : ∀ stage remaining state,
+      (carriedReplacementOutcome (model fullPrior) (fun _ : Unit => carriedBitProfile false)
+        unknown 0 stage remaining state).map (observe stage remaining state) =
+      (carriedSelectedTail (model fullPrior) (fun _ : Unit => carriedBitProfile false)
+        unknown 0 (stage.fuel + remaining) state).map (observe stage remaining state))
+    (bounded : ∀ stage remaining state fresh,
+      fresh ∈ (carriedReplacementOutcome (model fullPrior)
+        (fun _ : Unit => carriedBitProfile false) unknown 0 stage remaining state).support →
+      ∀ old, old ∈ (carriedSelectedTail (model fullPrior)
+        (fun _ : Unit => carriedBitProfile false) unknown 0
+          (stage.fuel + remaining) state).support →
+      observe stage remaining state fresh = observe stage remaining state old →
+        cfrPayoff 0 old - cfrPayoff 0 fresh ≤ error) :
+    carriedSignedSequenceLoss (model fullPrior) (fun _ : Unit => carriedBitProfile false)
+      unknown 0 0 (cfrPayoff 0) depthControlStages
+      (FinDist.pure (enterCarriedMemory (model fullPrior) depthControlState)) ≤ 2 * error := by
+  have total : (depthControlStages.map (fun _ => error)).sum = error + error := by
+    simp only [depthControlStages, List.map_cons, List.map_nil, List.sum_cons,
+      List.sum_nil, add_zero]
+  have estimate := carriedSignedSequenceLoss_le_summary (model fullPrior)
+    (fun _ : Unit => carriedBitProfile false) unknown 0 0 (cfrPayoff 0) (fun _ => error)
+    (fun _ => nonneg) observe same bounded depthControlStages
+    (FinDist.pure (enterCarriedMemory (model fullPrior) depthControlState))
+  simpa only [total, two_mul] using estimate
+
 end GameTheory.ReBeL.Examples.HiddenTypes

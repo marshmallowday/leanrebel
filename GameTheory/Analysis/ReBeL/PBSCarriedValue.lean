@@ -484,6 +484,114 @@ theorem privateRecursiveResolve_inherits_signedLoss
   unfold privateRecursiveResolve
   linarith only [prior, identity]
 
+
+section SummaryBounds
+
+variable {S : Type*}
+
+omit [Fintype E.History] in
+/-- Matching an observable law constructs the outcome coupling used by the
+signed stage certificate. Neither a coupling nor the desired expectation
+inequality is supplied. The observation is proof-side data, not a solver input. -/
+theorem carriedResolveStepBounds_of_summary
+    (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2) (finalFuel : Nat)
+    (payoff : E.History → ℝ) (allowance : CarriedResolveStage M K → ℝ)
+    (nonneg : ∀ stage, 0 ≤ allowance stage)
+    (observe : CarriedResolveStage M K → Nat →
+      PrivateIterationState M (CarriedResolveMemory M K) → E.History → S)
+    (same : ∀ stage remaining state,
+      (carriedReplacementOutcome M initial unknown who stage remaining state).map
+          (observe stage remaining state) =
+        (carriedSelectedTail M initial unknown who (stage.fuel + remaining) state).map
+          (observe stage remaining state))
+    (bounded : ∀ stage remaining state fresh,
+      fresh ∈ (carriedReplacementOutcome M initial unknown who stage remaining state).support →
+      ∀ old, old ∈
+        (carriedSelectedTail M initial unknown who (stage.fuel + remaining) state).support →
+      observe stage remaining state fresh = observe stage remaining state old →
+        payoff old - payoff fresh ≤ allowance stage)
+    (stages : List (CarriedResolveStage M K))
+    (states : FinDist (PrivateIterationState M (CarriedResolveMemory M K))) :
+    CarriedResolveStepBounds M initial unknown who finalFuel payoff allowance stages states := by
+  apply carriedResolveStepBounds_of_valueCoupling M initial unknown who finalFuel
+    payoff allowance nonneg
+    (fun stage remaining state => FinDist.summaryCoupling
+      (carriedReplacementOutcome M initial unknown who stage remaining state)
+      (carriedSelectedTail M initial unknown who (stage.fuel + remaining) state)
+      (observe stage remaining state) (observe stage remaining state))
+  · intro stage remaining state
+    exact FinDist.summaryCoupling_fst _ _ _ _
+  · intro stage remaining state
+    exact FinDist.summaryCoupling_snd _ _ _ _ (same stage remaining state)
+  · intro stage remaining state pair reached
+    obtain ⟨fresh, old, equal⟩ := FinDist.summaryCoupling_support _ _ _ _
+      (same stage remaining state) pair reached
+    exact bounded stage remaining state pair.1 fresh pair.2 old equal
+
+omit [Fintype E.History] in
+/-- The constructed summary couplings bound the exact signed forward loss
+by the stage allowances, retaining every stage's late continuation horizon. -/
+theorem carriedSignedSequenceLoss_le_summary
+    (initial : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2) (finalFuel : Nat)
+    (payoff : E.History → ℝ) (allowance : CarriedResolveStage M K → ℝ)
+    (nonneg : ∀ stage, 0 ≤ allowance stage)
+    (observe : CarriedResolveStage M K → Nat →
+      PrivateIterationState M (CarriedResolveMemory M K) → E.History → S)
+    (same : ∀ stage remaining state,
+      (carriedReplacementOutcome M initial unknown who stage remaining state).map
+          (observe stage remaining state) =
+        (carriedSelectedTail M initial unknown who (stage.fuel + remaining) state).map
+          (observe stage remaining state))
+    (bounded : ∀ stage remaining state fresh,
+      fresh ∈ (carriedReplacementOutcome M initial unknown who stage remaining state).support →
+      ∀ old, old ∈
+        (carriedSelectedTail M initial unknown who (stage.fuel + remaining) state).support →
+      observe stage remaining state fresh = observe stage remaining state old →
+        payoff old - payoff fresh ≤ allowance stage)
+    (stages : List (CarriedResolveStage M K))
+    (states : FinDist (PrivateIterationState M (CarriedResolveMemory M K))) :
+    carriedSignedSequenceLoss M initial unknown who finalFuel payoff stages states ≤
+      (stages.map allowance).sum := by
+  rw [← executeCarriedResolves_loss_eq_signed]
+  exact executeCarriedResolves_loss_le M initial unknown who finalFuel payoff allowance
+    stages states (carriedResolveStepBounds_of_summary M initial unknown who finalFuel
+      payoff allowance nonneg observe same bounded stages states)
+
+omit [Fintype E.History] in
+/-- The actual private-prefix law inherits its initial security bound through
+the constructed summary coupling certificates; any finite-T residual in that
+initial bound survives. No factual/model posterior identification is used. -/
+theorem privateRecursiveResolve_inherits_summary
+    (seed : FinDist K) (plays : K → Profile M.behavioralSignature)
+    (unknown : Profile M.behavioralSignature) (who : Fin 2) (cut finalFuel : Nat)
+    (payoff : E.History → ℝ) (allowance : CarriedResolveStage M K → ℝ)
+    (nonneg : ∀ stage, 0 ≤ allowance stage)
+    (observe : CarriedResolveStage M K → Nat →
+      PrivateIterationState M (CarriedResolveMemory M K) → E.History → S)
+    (same : ∀ stage remaining state,
+      (carriedReplacementOutcome M plays unknown who stage remaining state).map
+          (observe stage remaining state) =
+        (carriedSelectedTail M plays unknown who (stage.fuel + remaining) state).map
+          (observe stage remaining state))
+    (bounded : ∀ stage remaining state fresh,
+      fresh ∈ (carriedReplacementOutcome M plays unknown who stage remaining state).support →
+      ∀ old, old ∈
+        (carriedSelectedTail M plays unknown who (stage.fuel + remaining) state).support →
+      observe stage remaining state fresh = observe stage remaining state old →
+        payoff old - payoff fresh ≤ allowance stage)
+    (stages : List (CarriedResolveStage M K)) (lower : ℝ)
+    (prior : lower ≤ (privateCarriedContinue M seed plays unknown who cut
+      (carriedResolveFuel M finalFuel stages)).expect payoff) :
+    lower - (stages.map allowance).sum ≤
+      (privateRecursiveResolve M seed plays unknown who cut finalFuel stages).expect payoff :=
+  privateRecursiveResolve_inherits_bound M seed plays unknown who cut finalFuel stages
+    payoff allowance lower prior (carriedResolveStepBounds_of_summary M plays unknown who
+      finalFuel payoff allowance nonneg observe same bounded stages _)
+
+end SummaryBounds
+
 section InitialSecurity
 
 variable [∀ who info, Fintype (M.Choice who info)]
