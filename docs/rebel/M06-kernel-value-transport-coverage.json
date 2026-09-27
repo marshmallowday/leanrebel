@@ -1,0 +1,61 @@
+{
+  "kind": "project_dependency_candidate",
+  "source": "project",
+  "source_locator": "docs/rebel/ROADMAP.md M06; changed compatible conditional kernels with fixed opposing policies",
+  "milestone": "M06",
+  "milestone_complete": false,
+  "status": "in_progress",
+  "branch": "rebel/m06-kernel-value-transport-20260927",
+  "parent": "372c9c94261f5e553ff9ce619816b7ca9cf7493b",
+  "latest_starting_checkpoint": "0285093f7a992b65f7fd9027cc8009e6c20da026",
+  "semantic_review": "docs/rebel/M06-kernel-value-transport.md",
+  "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
+  "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
+  "declarations": [
+    "conditionalPayoff_abs_sub_le_kernelVariation",
+    "infoValue_abs_sub_le_kernelVariation",
+    "conditionalGap_abs_sub_le_kernelVariation",
+    "conditionalGap_abs_le_old_add_kernelVariation"
+  ],
+  "integration_module": "GameTheory.Analysis.ReBeL.PBSDepthKernelGap",
+  "integration_declaration": "GameTheory.ReBeL.pbsInformationDepthCFR_conditioned_kernelGap_le",
+  "example_module": "GameTheory.Analysis.ReBeL.Examples.PBSKernelValueTransport",
+  "controls_namespace": "GameTheory.ReBeL.Examples.HiddenTypes",
+  "controls": [
+    "kernelValueBelief", "kernelValueSlice", "kernelValueObservable",
+    "kernelValueObservable_bound", "kernelValue_payoff_zero", "kernelValue_optimum_zero",
+    "kernelValue_variation_two", "kernelValue_same_query_different_values", "depthKernel_changed_query"
+  ],
+  "validation": {
+    "compiler": "pending exact implementation CI",
+    "normal_and_slow_lint": "pending exact implementation CI",
+    "transitive_axioms": "pending complete exact implementation artifact inspection",
+    "core_blob": "c968c342409328e91e572a02b813ba4c671f5c67",
+    "integration_blob": "f264a5fd297aa65ba282a167d1c2f699cf6b145b",
+    "example_blob": "5b4d4507e67d7bcc9ad5cb6938bf070b70ebd5b7",
+    "root_blob": "08fe85893fd45d90d743d50d14e03be273462716",
+    "targets_blob": "37b4d120956203b7878ff58f29f67552c1483b57",
+    "audit_consumer_blob": "52383a4d48c12576208598773bde0c7e0fdb5591",
+    "expected_target_modules": 116,
+    "expected_global_modules": 259,
+    "python_file": "scripts/rebel/tests/test_kernel_value_transport.py",
+    "python_blob": "e121114c9894aecb8c809861cad9bfb1eaaa6a65",
+    "python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
+    "new_python_tests": 8,
+    "exhaustive_cases": 4050,
+    "local_python_tests": 149,
+    "local_python_status": "pass on prepared exact 51d5 snapshot plus the new blobs; not exact new-commit or Lean acceptance",
+    "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
+    "baseline_global_run": 36289929759,
+    "baseline_global_job": 108538058392,
+    "baseline_global_status": "separate final global artifact not yet inspected"
+  },
+  "remaining": [
+    "Exact implementation compiler, normal/slow lint and complete axiom validation",
+    "Identify actual recursively re-solved posterior kernels and derive small kernel rates",
+    "Native and late value transport with changed opposing policies",
+    "Small primitive support leakage for unrestricted constructed solvers",
+    "Constructed signed CarriedResolveStepBounds",
+    "SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"
+  ]
+}

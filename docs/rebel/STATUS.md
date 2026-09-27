@@ -1,56 +1,49 @@
-# ReBeL status — noisy depth-native gap compiled; final audits pending; M06 incomplete
+# ReBeL status — changed-kernel candidate; M06 incomplete
 
-## Latest resumable branch
+Continue rebel/m06-kernel-value-transport-20260927. Its parent is
+372c9c94261f5e553ff9ce619816b7ca9cf7493b, the evidence checkpoint above the
+latest starting 0285093f7a992b65f7fd9027cc8009e6c20da026. Main is accepted M05,
+not the latest M06. All earlier source, failure and validation history remains.
+The depth-native implementation branch is preserved at 51d5 for its own CI.
 
-Continue rebel/m06-depth-native-gap-checkpoint-20260927, the evidence chain
-above source 51d525ecbce26a1ba5ddaf9033aca7daa73dce23. The implementation branch
-rebel/m06-depth-native-gap-20260927 is intentionally left at 51d5 so its
-validation is not cancelled by evidence commits. The chain retains the latest
-starting checkpoint 37a4f2c5cc20e285bca054e4a0c544232a218235 and every source/
-repair. Main remains accepted M05, not the latest M06 source.
+## New dependency slice and immediate validation
 
-## Immediate validation task
+PBSKernelValueTransport controls every legal conditional response and the
+actual attained conditional optimum under a change of complete compatible
+joint-history kernels, with the SAME opposing policies and horizon. The
+conditional-gap change costs twice the bounded-payoff kernel discrepancy.
+PBSDepthKernelGap integrates this with the actual noisy depth parent under its
+actual correlated event-selected seed/type law. It retains finite-T residuals,
+computed average comparison opponents and the actual positive event denominator.
+Fresh types may be explicitly retagged and fresh kernels may depend on the seed.
 
-51d5 TARGET run 36289929760 / job 108537936248 PASSED its entire declared-target
-compiler step, including the repaired example module. The subsequent complete
-lint/axiom step was still in progress. Obtain its final artifact and inspect all
-113 normal/slow module lints and every complete transitive-axiom record, including
-the nine new core and four proof-control names. This compiler-step pass does
-NOT establish complete target acceptance. The owning 51d5 validation note
-records this newer observation and retains the initial pending observation.
+Three added modules appear in the public root, target manifest and exact-source
+auditor. The expected target/global counts are 116/259 modules. Compiler,
+normal/slow lint and transitive axioms are PENDING exact-source CI and complete
+artifact inspection. See M06-kernel-value-transport-coverage.json and its semantic
+review. The 149 prepared-source Python tests (eight new fixtures, including
+4050 exhaustive cases) pass; this is not Lean or exact new-commit acceptance.
 
-51d5 GLOBAL run 36289929759 / job 108538058392 independently passed static
-architecture, widths, fixtures and rational runtime and was in compiler/lint/
-axioms. Full CI 36289929756 / job 108537973949 was also in progress. Check their
-final results independently; the global consumer has 256 modules. Neither
-older-source nor documentation-only CI certifies this implementation.
+## Accepted inherited target, separately pending global
 
-Source snapshot 10921838892 / job 108538058496 was downloaded, checked and
-extracted without local git. All 141 tests and ledger/inventory checks passed
-on the exact unmodified 51d5 source. Source blobs, declared names and consumers
-were checked. These are arithmetic/static results, not complete Lean validation.
-M06-depth-native-gap-51d5-validation.md and its coverage JSON record exact
-identities, hashes, assumptions and next checks. Both failed candidates remain
-preserved. No further source repair is indicated by the successful compiler step.
+51d525ecbce26a1ba5ddaf9033aca7daa73dce23 TARGET 36289929760 / job 108537936248
+completed successfully. Its complete artifact 10921753407 was inspected:
+113 normal/slow module lints and 1871 complete unique allowlisted axiom records,
+including multiline records, all nine core names and four proof controls.
+M06-depth-native-gap-target-accepted.md owns that result. The byte-identical
+prior detailed coverage is archived as M06-depth-native-gap-coverage-at-0285.json;
+failed d15f/2f6e candidates and earlier pending observations were not erased.
 
-## Completed work and remaining mathematics
+51d5 GLOBAL 36289929759 / job 108538058392 and FULL CI 36289929756 /
+job 108537973949 still require separate final checks. Neither the target pass
+nor a documentation-only run proves those results. Older 35d0, 4784, 3dfa and
+b833 accepted evidence must not be repeated or mistaken for new-source evidence.
 
-Do not redo inherited 35d0 target/global acceptance: 1,853 complete target axiom
-records / 111 lints; 5,003 global records / 254 lints, all allowlisted, with actual
-archives inspected. Full 35d0 CI separately succeeded in job metadata. Owning
-primitive coverage and accepted notes retain hashes and previous observations.
-Earlier 4784/3dfa/b833 acceptances and all failure history remain intact.
+## Open mathematical obligations
 
-The new slice derives conditional native gaps of actual noisy depth-parent
-iterates, constructed finite-iteration budget, computed tolerance and actual-
-event joint seed/type selection. It retains the fixed average comparison
-opponent, numerical and positive-child-loss terms, finite-T residual and actual
-positive event denominator. The allocated-quarter example is genuinely noisy.
-Tag selection does NOT identify changed conditional PBS kernels, nor change
-the opponent used in the gap definition to the arbitrary execution opponent.
-
-Unrestricted primitive support smallness, changed-PBS native/late value transport
-and constructed signed CarriedResolveStepBounds remain open. SEARCH-FRONTIER,
-SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 stay pending. M06 is incomplete;
-learner convergence is not a substitute for test-time safety. No background
-monitoring is implied.
+Fresh compatible kernels are explicit data, not yet identified with a particular
+recursive resolver's actual posteriors. The measured full L1 kernel charge need
+not be small. Opposing-policy changes, source-specific small kernel/leakage rates,
+late-value transport and constructed signed CarriedResolveStepBounds remain open.
+SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 are still pending.
+M06 is incomplete; learner convergence is not independent test-time safety.

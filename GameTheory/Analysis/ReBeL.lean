@@ -226,3 +226,6 @@ import GameTheory.Analysis.ReBeL.Examples.PBSOpponentModelTransport
 import GameTheory.Analysis.ReBeL.PBSCarriedSupport
 import GameTheory.Analysis.ReBeL.PBSDepthNativeGap
 import GameTheory.Analysis.ReBeL.Examples.PBSDepthNativeGap
+import GameTheory.Analysis.ReBeL.PBSKernelValueTransport
+import GameTheory.Analysis.ReBeL.PBSDepthKernelGap
+import GameTheory.Analysis.ReBeL.Examples.PBSKernelValueTransport
