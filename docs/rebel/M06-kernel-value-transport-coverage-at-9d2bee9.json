@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "9d2bee9370e25a85fe384f8d3d095afc6be1c6c3",
+  "parent": "d771e88c97ac1b244812a6d5da99900a61be64ba",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -19,11 +19,10 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-ed2fad.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-d0ba3c8.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-c975ad7.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-d771e88.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-9d2bee9.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-d771e88.json"
   ],
   "semantic_review": "docs/rebel/M06-signed-kernel-batch.md",
-  "repair_review": "docs/rebel/M06-signed-kernel-9d2bee9-failure.md",
+  "repair_review": "docs/rebel/M06-carried-value-c975ad7-failure.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -55,32 +54,34 @@
     "docs/rebel/M06-opponent-value-transport-b0f22a67-failure.md",
     "docs/rebel/M06-carried-value-ed2fad-failure.md",
     "docs/rebel/M06-carried-value-d0ba3c8-failure.md",
-    "docs/rebel/M06-carried-value-c975ad7-failure.md",
-    "docs/rebel/M06-signed-kernel-9d2bee9-failure.md"
+    "docs/rebel/M06-carried-value-c975ad7-failure.md"
   ],
   "previous_feedback": {
-    "commit": "9d2bee9370e25a85fe384f8d3d095afc6be1c6c3",
-    "target_run": 36319333905,
-    "target_job": 108620001489,
-    "target_artifact": 10931364850,
-    "target_status": "failed TypeBeliefSlice supported-kernel branch simplification; downstream build/lint/axioms blocked",
-    "global_run": 36319333885,
-    "global_job": 108620001622,
-    "global_artifact": 10932446951,
-    "global_status": "architecture, 164 Python tests and rational runtime passed; same kernel proof failure before complete lint/axioms",
-    "ci_run": 36319333902,
-    "ci_job": 108620001530,
-    "ci_status": "same TypeBeliefSlice compilation failure; postbuild gates skipped",
-    "inventory_run": 36319333863,
-    "inventory_job": 108620001505,
-    "inventory_status": "success",
-    "python_tests": 164,
-    "source_artifact": 10931597604
+    "commit": "d771e88c97ac1b244812a6d5da99900a61be64ba",
+    "target_run": 36315829868,
+    "target_job": 108610231896,
+    "target_declarations": 1949,
+    "target_modules": 118,
+    "global_run": 36315829918,
+    "global_job": 108610231974,
+    "global_declarations": 5099,
+    "global_modules": 261,
+    "ci_run": 36315829902,
+    "ci_job": 108610232019,
+    "inventory_run": 36315829852,
+    "inventory_job": 108610231945,
+    "python_tests": 160,
+    "all_runs": "success",
+    "evidence": "docs/rebel/M06-carried-value-d771e88-accepted.md",
+    "normal_and_slow_lint": "pass",
+    "transitive_axioms": "all 1949 targeted / 5099 global records inspected; allowed three axioms only",
+    "architecture": "pass",
+    "rational_runtime": "pass"
   },
   "validation": {
-    "compiler": "pending exact fibre-witness repair SHA",
-    "normal_and_slow_lint": "pending exact fibre-witness repair SHA",
-    "transitive_axioms": "pending exact fibre-witness repair SHA",
+    "compiler": "pending exact signed-kernel batch SHA",
+    "normal_and_slow_lint": "pending exact signed-kernel batch SHA",
+    "transitive_axioms": "pending exact signed-kernel batch SHA",
     "core_blob": "58c19143af15adc3904525c14621c6740b79bdf6",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
@@ -208,7 +209,7 @@
     "acceptance_review": "docs/rebel/M06-carried-value-d771e88-accepted.md"
   },
   "signed_kernel_batch": {
-    "status": "pending_exact_fibre_witness_repair_actions",
+    "status": "pending_exact_sha_actions",
     "semantic_review": "docs/rebel/M06-signed-kernel-batch.md",
     "declarations": [
       "ofJointBelief_kernel_law",
@@ -234,7 +235,7 @@
       "carriedValue_selected_typeKernel"
     ],
     "blobs": {
-      "GameTheory/Analysis/ReBeL/TypeBeliefSlice.lean": "2a63c8eba615b7b0f5f6d81dbbcaec7c5f880dad",
+      "GameTheory/Analysis/ReBeL/TypeBeliefSlice.lean": "c6fc57907237ee0ea499c2b8d9c7fa5aa4e34fbd",
       "GameTheory/Analysis/ReBeL/PBSKernelValueTransport.lean": "58c19143af15adc3904525c14621c6740b79bdf6",
       "GameTheory/Analysis/ReBeL/PBSOpponentModelTransport.lean": "bc639069d928666e606cbb92cef1f8a82d376ba4",
       "GameTheory/Analysis/ReBeL/PBSCarriedValue.lean": "0f7b5e6122c139280cc7b7087e1d2eeb149f812f",
@@ -243,13 +244,6 @@
     },
     "new_fraction_tests": 4,
     "posterior_scope": "supported type kernel of actual stored chosen-model posterior; not factual unknown-opponent posterior",
-    "signed_scope": "exact stagewise loss under actual forward laws and derived coupling/primitive bounds; no small unrestricted-solver rate claimed",
-    "python_acceptance": {
-      "commit": "9d2bee9370e25a85fe384f8d3d095afc6be1c6c3",
-      "run": 36319333863,
-      "job": 108620001505,
-      "tests": 164,
-      "result": "success"
-    }
+    "signed_scope": "exact stagewise loss under actual forward laws and derived coupling/primitive bounds; no small unrestricted-solver rate claimed"
   }
 }

@@ -193,7 +193,12 @@ theorem ofJointBelief_kernel_law
     rw [FinDist.support_map] at reached
     obtain ⟨history, supported, same⟩ := reached
     exact ⟨history, same, supported⟩
-  simp only [ofJointBelief, conditionedKernel, FinDist.condOnFibre, dif_pos positive]
+  have positiveFibre : ∃ history ∈
+      (fun h : E.History => memory.typeAt (M.infoOf who h.trace)) ⁻¹' {type},
+        history ∈ belief.law.support := positive
+  dsimp only [ofJointBelief]
+  rw [conditionedKernel, dif_pos positive, FinDist.condOnFibre, dif_pos positiveFibre]
+  rfl
 
 /-- An absent type retains the explicit physical completion. It is never
 declared equal to a posterior at a zero-probability event. -/
