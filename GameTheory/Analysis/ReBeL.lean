@@ -224,3 +224,5 @@ import GameTheory.Math.Probability.FinDistKernelVariation
 import GameTheory.Analysis.ReBeL.PBSOpponentModelTransport
 import GameTheory.Analysis.ReBeL.Examples.PBSOpponentModelTransport
 import GameTheory.Analysis.ReBeL.PBSCarriedSupport
+import GameTheory.Analysis.ReBeL.PBSDepthNativeGap
+import GameTheory.Analysis.ReBeL.Examples.PBSDepthNativeGap

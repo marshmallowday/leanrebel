@@ -124,6 +124,8 @@ MODULES = (
     "GameTheory.Analysis.ReBeL.PBSOpponentModelTransport",
     "GameTheory.Analysis.ReBeL.Examples.PBSOpponentModelTransport",
     "GameTheory.Analysis.ReBeL.PBSCarriedSupport",
+    "GameTheory.Analysis.ReBeL.PBSDepthNativeGap",
+    "GameTheory.Analysis.ReBeL.Examples.PBSDepthNativeGap",
 )
 AUDITOR = r'''
 open Lean Elab Command in
