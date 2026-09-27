@@ -49,9 +49,9 @@ def kernelValueObservable (history : (protocol fullPrior).History) : ℝ :=
 theorem kernelValueObservable_bound (history : (protocol fullPrior).History) :
     |kernelValueObservable history| ≤ 1 := by
   unfold kernelValueObservable
-  cases history.state with
-  | first types => split <;> norm_num
-  | _ => norm_num
+  split
+  · split <;> norm_num
+  · norm_num
 
 /-- At zero continuation fuel the two compatible kernels really disagree,
 for every fixed policy. This boundary does not assert zero-game payoff. -/

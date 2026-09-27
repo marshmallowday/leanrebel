@@ -1,48 +1,34 @@
-# ReBeL status — changed-kernel control and architecture repair; M06 incomplete
+# ReBeL status — final observable-bound repair pending CI; M06 incomplete
 
-Continue rebel/m06-kernel-value-repair-20260927. The third focused repair is a
-child of 628b6212a9c64189c99355a6aea46fcc0487b9d7; the starting latest checkpoint
-was dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb, not main. Earlier commits and
-source-specific failure/acceptance evidence remain preserved.
+Continue rebel/m06-kernel-value-repair-20260927, now a child of
+1698e9ba212f4082cd7d601c13f3d0350e170bdf. Work started from the latest prior
+checkpoint dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb, not main. Earlier source
+commits and failure/acceptance evidence remain preserved.
 
-## Latest inspected feedback and repair
+1698e9ba TARGET 36293359962 / job 108547527220 compiled the generic kernel-value
+lemmas and actual noisy depth-parent integration. The only remaining compiler
+failure was the observable-bound control: its split selected an unreduced outer
+match, not the inner conditional. This repair splits the outer match directly,
+then the inner conditional. The sharp-discrepancy control's earlier rewrite
+error is gone. No theorem statement, premise, source definition or gate changes.
 
-628b6212 TARGET 36292939236 / job 108546359029 compiled both the generic kernel
-value transport and its actual noisy depth-parent integration. The example
-module then FAILED: a Bool projection split did not reduce the conditional,
-and eager slice unfolding prevented the intended explicit payoff rewrite.
-Both control proofs are repaired without changing or deleting any statement.
+See M06-kernel-value-repair-1698e9ba-validation.md for the complete failed artifact,
+exact source archive and 149 passing Python tests. The owner ledger is
+M06-kernel-value-transport-coverage.json; its full predecessor is archived at
+M06-kernel-value-transport-coverage-at-1698e9ba.json. All historical reviews remain.
 
-628b6212 GLOBAL 36292939304 / job 108546413147 FAILED the static architecture
-gate: analysis transport expected 0, got 2. Replace the two unnecessary change
-steps in the attained-maxima proof with ordinary beta reduction by dsimp only.
-No gate, expected count, dependency pin, import or theorem premise is changed.
-See M06-kernel-value-repair-628b6212-validation.md for complete artifact hashes,
-exact diagnostics and independently checked source/Python evidence.
+Next inspect this new exact source's TARGET, GLOBAL and FULL CI separately.
+Require all 154 declared build targets, 116 targeted / 259 global module audits,
+complete transitive axiom records including the named controls, and normal/slow
+lint. At 1698e9ba the unchanged global architecture, ledger and rational-runtime
+gates passed, but TARGET lint/axioms were skipped after the control failed.
+No complete changed-kernel slice acceptance is yet claimed.
 
-The owner ledger M06-kernel-value-transport-coverage.json is current, with its
-full predecessor archived at M06-kernel-value-transport-coverage-at-628b6212.json.
-All 149 Python tests and coverage/inventory structure checks passed on exact
-628b6212 source; INVENTORY 36292939239 succeeded. These are not new-source Lean
-acceptance. That failed source's lint/axiom validation never ran.
-
-## Immediate continuation
-
-Inspect the new exact-SHA target and global runs. Require all declared controls,
-116 targeted / 259 global module audits, complete allowed-axiom records and
-normal/slow lint. Keep the 154-entry build manifest and all public imports.
-FULL CI is separate; prior run 36292939302 / job 108546412609 had no inspected
-final result and may be superseded by the new push. No completed changed-kernel
-slice is claimed until its exact source is validated.
-
-## Preserved scope and remaining mathematics
-
-The same comparison opponent, horizon, actual correlated event-selected query,
-finite-T error and event denominator remain explicit. New complete compatible
-kernels can depend on the seed and queried types can be retagged. This does not
-identify them with actual recursively re-solved posteriors or make their L1
-variation small. Changed opponents, small primitive kernel/leakage rates,
-late-value transport and constructed signed CarriedResolveStepBounds remain open.
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-The accepted 51d5 target/global/full-CI evidence is separate in the depth-native
-gap acceptance reviews. M06 is incomplete; learner convergence is not test-time safety.
+The same opposing policies, horizon, actual correlated event-selected query,
+finite-T residual and event denominator remain explicit. Compatible fresh
+kernels are not yet identified as actual recursively re-solved posteriors;
+their full L1 variation need not be small. Changed opponents, small primitive
+kernel/leakage rates, late-value transport and constructed signed
+CarriedResolveStepBounds remain open. SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR
+and SAFE-THEOREM3 remain pending. The accepted 51d5 depth-native evidence is
+separate. M06 remains incomplete; learner convergence is not test-time safety.

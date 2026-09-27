@@ -6,16 +6,15 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "1698e9ba212f4082cd7d601c13f3d0350e170bdf",
+  "parent": "628b6212a9c64189c99355a6aea46fcc0487b9d7",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-6b7865.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-628b6212.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-1698e9ba.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-628b6212.json"
   ],
   "semantic_review": "docs/rebel/M06-kernel-value-transport.md",
-  "repair_review": "docs/rebel/M06-kernel-value-repair-1698e9ba-validation.md",
+  "repair_review": "docs/rebel/M06-kernel-value-repair-628b6212-validation.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -36,27 +35,27 @@
   "failed_candidate_reviews": [
     "docs/rebel/M06-kernel-value-repair.md",
     "docs/rebel/M06-kernel-value-repair-6b7865-validation.md",
-    "docs/rebel/M06-kernel-value-repair-628b6212-validation.md",
-    "docs/rebel/M06-kernel-value-repair-1698e9ba-validation.md"
+    "docs/rebel/M06-kernel-value-repair-628b6212-validation.md"
   ],
   "previous_feedback": {
-    "commit": "1698e9ba212f4082cd7d601c13f3d0350e170bdf",
-    "target_run": 36293359962,
-    "target_job": 108547527220,
-    "target_artifact": 10923455928,
-    "target_log_sha256": "f7df110991b22a98df36c6949c6a98f02e0ab6f509a1a980dc728b9981729e42",
-    "target_status": "core and depth integration built; only observable-bound control failed; lint and axioms skipped",
-    "global_run": 36293359964,
-    "global_job": 108547527375,
-    "global_status": "unchanged architecture, ledger and runtime gates passed; compiler/lint/axiom step in progress at last inspection"
+    "commit": "628b6212a9c64189c99355a6aea46fcc0487b9d7",
+    "target_run": 36292939236,
+    "target_job": 108546359029,
+    "target_artifact": 10922359582,
+    "target_log_sha256": "40ce935678972fd814b895618445e57553e82a1e5536bee4ddf54a8ee518509e",
+    "target_status": "core and depth integration built; two example proof failures; lint and axioms skipped",
+    "global_run": 36292939304,
+    "global_job": 108546413147,
+    "global_artifact": 10922897732,
+    "global_status": "failed static architecture: analysis transport expected 0, got 2; no Lean validation ran"
   },
   "validation": {
-    "compiler": "pending exact observable-repair commit CI",
-    "normal_and_slow_lint": "pending exact observable-repair commit CI",
-    "transitive_axioms": "pending complete exact observable-repair artifact inspection",
+    "compiler": "pending exact third-repair commit CI",
+    "normal_and_slow_lint": "pending exact third-repair commit CI",
+    "transitive_axioms": "pending complete exact third-repair artifact inspection",
     "core_blob": "9e519e8742fd91d13603f82e37b424917ae4b595",
     "integration_blob": "528b8d5603d6a08156c262fdd61bc8536a209944",
-    "example_blob": "d55b92c1e79629b6a7683a23b90f325d2c517bcc",
+    "example_blob": "71daae42830b6708794351c68ac3628092eb5533",
     "root_blob": "08fe85893fd45d90d743d50d14e03be273462716",
     "targets_blob": "37b4d120956203b7878ff58f29f67552c1483b57",
     "audit_consumer_blob": "52383a4d48c12576208598773bde0c7e0fdb5591",
@@ -68,8 +67,8 @@
     "new_python_tests": 8,
     "exhaustive_cases": 4050,
     "local_python_tests": 149,
-    "local_python_commit": "1698e9ba212f4082cd7d601c13f3d0350e170bdf",
-    "local_python_status": "pass on exact plugin-downloaded 1698e9ba source; not new-source Lean acceptance",
+    "local_python_commit": "628b6212a9c64189c99355a6aea46fcc0487b9d7",
+    "local_python_status": "pass on exact plugin-downloaded 628b6212 source; not third-repair Lean acceptance",
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md"
   },
