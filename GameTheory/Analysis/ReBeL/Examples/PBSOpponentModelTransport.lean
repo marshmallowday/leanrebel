@@ -233,7 +233,9 @@ theorem randomized_model_pooling_undercharges :
     have supported : history ∈ actualPrefix.support := by
       fin_cases history <;>
         norm_num [actualPrefix, FinDist.mem_support_mix_iff, FinDist.mem_support_pure]
-    simpa only [retain, FinDist.bind_pure] using supported
+    have retained : actualPrefix.bind retain = actualPrefix := FinDist.bind_pure actualPrefix
+    rw [retained]
+    exact supported
 
 /-- In the same nontrivial private mixture, executing each selected model itself
 has zero paired support failure. This positive control does not discard the seed. -/
@@ -243,7 +245,7 @@ theorem randomized_selected_model_supported :
         {pair | pair.2 ∉ (retain pair.1).support} = 0 := by
   classical
   rw [← FinDist.expect_indicator_eq_probOf, FinDist.expect_bind]
-  simp [FinDist.expect_map, retain, FinDist.expect_pure, FinDist.mem_support_pure,
+  simp [retain, FinDist.expect_pure, FinDist.mem_support_pure,
     FinDist.expect_const]
 
 end GameTheory.ReBeL.Examples.OpponentModelTransport
