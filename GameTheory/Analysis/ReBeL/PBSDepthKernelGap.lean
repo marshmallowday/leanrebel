@@ -6,7 +6,8 @@ Fresh compatible kernels and an explicit type readout may depend on that seed.
 Only the exact measured kernel discrepancy is added to the constructed native
 budget. The same computed average comparison opponent and horizon are retained.
 This is not a smallness theorem for arbitrary re-solving or an identification
-of supplied fresh kernels with a particular resolver's posterior.
+of supplied fresh kernels with a particular resolver's posterior. The final
+consumer additionally charges changed comparison opponents along actual prefixes.
 -/
 
 import GameTheory.Analysis.ReBeL.PBSDepthNativeGap
@@ -83,6 +84,71 @@ theorem pbsInformationDepthCFR_conditioned_kernelGap_le
         2 * bound * query.expect (fun pair => FinDist.atomVariation (slice.kernel pair.2).law
           ((fresh pair.1).kernel (retag pair)).law) := by
       rw [FinDist.expect_add, FinDist.expect_smul]
+    _ ≤ _ := add_le_add
+      (pbsInformationDepthCFR_conditioned_native_mean_abs_le M slice own fallback payoff zeroSum
+        cut remaining bound error loss hb he hl bounded noise noiseBound t opponents steps
+        event possible) le_rfl
+
+
+/-- The native noisy-parent gap survives changed comparison opponents as well
+as changed root kernels. Each selected seed keeps its own fresh profile; the
+execution opponent that selected the query remains a separate argument. -/
+theorem pbsInformationDepthCFR_conditioned_executionGap_le
+    (slice : TypeBeliefSlice (fullInformation M) observations who T) (own : FinDist T)
+    (fallback : Profile M.strategicSignature) (payoff : Fin 2 → E.History → ℝ)
+    (zeroSum : IsZeroSum (fun history player => payoff player history))
+    (cut remaining : Nat) (bound error loss : ℝ)
+    (hb : 0 ≤ bound) (he : 0 ≤ error) (hl : 0 < loss)
+    (bounded : ∀ player history, |payoff player history| ≤ bound)
+    (noise : PBSRootDepthNoise M (slice.mixture own).law)
+    (noiseBound : ∀ n trunk player info, |noise n trunk player info| ≤ error)
+    (t : Nat) [NeZero t]
+    (opponents : Profile (fullInformation M).behavioralSignature) (steps : Nat)
+    (event : Set ((Fin t × T) × E.History))
+    (possible : ∃ point ∈ event, point ∈
+      (pbsInformationDepthCFRTaggedExecution M slice own fallback payoff cut remaining
+        bound loss noise t opponents steps).support)
+    (fresh : Fin t → TypeBeliefSlice (fullInformation M) nextObservations who U)
+    (retag : Fin t × T → U)
+    (freshOpponents : Fin t → Profile (fullInformation M).behavioralSignature) :
+    let average := pbsInformationDepthCFR M (slice.mixture own) fallback payoff cut remaining
+      bound loss noise t
+    let execution := pbsInformationDepthCFRTaggedExecution M slice own fallback payoff cut
+      remaining bound loss noise t opponents steps
+    let query := (execution.condOn event possible).map Prod.fst
+    let response := fun seed : Fin t =>
+      pbsInformationDepthCFRIterate M (slice.mixture own) fallback payoff cut remaining
+        bound loss noise seed.val who
+    let charge := fun pair : Fin t × T =>
+      2 * bound * FinDist.atomVariation (slice.kernel pair.2).law
+        ((fresh pair.1).kernel (retag pair)).law +
+      bound * (slice.optimalResponseExecutionCharge (fresh pair.1)
+        (fun player => liftPolicy M player (fallback player)) (cut + remaining) (payoff who)
+        average (freshOpponents pair.1) pair.2 +
+        slice.responseExecutionCharge average (freshOpponents pair.1)
+          (cut + remaining) (response pair.1) pair.2)
+    query.expect (fun pair =>
+      |(fresh pair.1).infoValue (fun player => liftPolicy M player (fallback player))
+          (cut + remaining) (payoff who) (freshOpponents pair.1) (retag pair) -
+        (fresh pair.1).conditionalPayoff (freshOpponents pair.1) (cut + remaining)
+          (payoff who) (response pair.1) (retag pair)|) ≤
+      pbsRootDepthBudget M (slice.mixture own).law fallback cut remaining bound error loss t /
+        execution.probOf event + query.expect charge := by
+  intro average execution query response charge
+  calc
+    _ ≤ query.expect (fun pair =>
+        |pbsInformationDepthCFRConditionalDrawGap M slice own fallback payoff cut remaining
+          bound loss noise t pair.2 pair.1| + charge pair) := by
+      apply FinDist.expect_mono
+      intro pair _
+      exact slice.conditionalGap_abs_le_old_add_executionCharge (fresh pair.1)
+        (fullSignals_perfectRecall M.toInfoSignals)
+        (fun player => liftPolicy M player (fallback player)) (cut + remaining) (payoff who)
+        average (freshOpponents pair.1) (response pair.1) pair.2 (retag pair)
+        bound hb (bounded who)
+    _ = query.expect (fun pair =>
+        |pbsInformationDepthCFRConditionalDrawGap M slice own fallback payoff cut remaining
+          bound loss noise t pair.2 pair.1|) + query.expect charge := FinDist.expect_add _ _ _
     _ ≤ _ := add_le_add
       (pbsInformationDepthCFR_conditioned_native_mean_abs_le M slice own fallback payoff zeroSum
         cut remaining bound error loss hb he hl bounded noise noiseBound t opponents steps

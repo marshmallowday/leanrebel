@@ -83,5 +83,64 @@ class KernelValueTransportTests(unittest.TestCase):
         self.assertEqual(sum(variation(kernels[i], kernels[1-i]) for i in range(2)), 4)
 
 
+
+class ExecutionValueTransportTests(unittest.TestCase):
+    def test_exhaustive_changed_opponent_kernels(self):
+        # Two physical roots, two own responses, two terminal payoffs.
+        # A response selects its own transition row; opponent changes both
+        # rows. Optimize old and fresh outcomes independently, including ties.
+        weights = [F(0), F(1, 2), F(1)]
+        cases = 0
+        for p, q in product(weights, repeat=2):
+            old, fresh = (p, 1 - p), (q, 1 - q)
+            root_cost = variation(old, fresh)
+            for bits in product((F(0), F(1)), repeat=8):
+                first = ((bits[0], bits[1]), (bits[2], bits[3]))
+                second = ((bits[4], bits[5]), (bits[6], bits[7]))
+                left = [expect(old, [2 * x - 1 for x in row]) for row in first]
+                right = [expect(fresh, [2 * x - 1 for x in row]) for row in second]
+                charge = [expect(old, [2 * abs(a - b) for a, b in zip(x, y)])
+                          for x, y in zip(first, second)]
+                i = max(range(2), key=left.__getitem__)
+                j = max(range(2), key=right.__getitem__)
+                optimum_cost = max(charge[i], charge[j])
+                self.assertLessEqual(abs(max(left) - max(right)), root_cost + optimum_cost)
+                for chosen in range(2):
+                    drift = (max(right) - right[chosen]) - (max(left) - left[chosen])
+                    self.assertLessEqual(abs(drift),
+                                         2 * root_cost + optimum_cost + charge[chosen])
+                    cases += 1
+        self.assertEqual(cases, 4608)
+
+    def test_retained_response_charge_cannot_be_omitted(self):
+        # The maximizing response is unchanged; a different retained response
+        # loses two units solely because the opposing continuation changes.
+        left, right = (F(1), F(1)), (F(1), F(-1))
+        optimum_cost, retained_cost = F(0), F(2)
+        drift = (max(right) - right[1]) - (max(left) - left[1])
+        self.assertGreater(drift, optimum_cost)
+        self.assertEqual(drift, optimum_cost + retained_cost)
+
+    def test_both_maximizers_are_needed(self):
+        # Checking only the OLD maximizing response misses the NEW optimum.
+        left, right = (F(0), F(-1)), (F(0), F(1))
+        old_response_cost, new_response_cost = F(0), F(2)
+        self.assertGreater(max(right) - max(left), old_response_cost)
+        self.assertLessEqual(abs(max(right) - max(left)),
+                             max(old_response_cost, new_response_cost))
+        # Reversing profiles requires the other side of the same max bound.
+        self.assertGreater(abs(max(left) - max(right)), old_response_cost)
+
+    def test_stochastic_opponent_cost_uses_first_prefix(self):
+        law = (F(1, 4), F(3, 4))
+        first, second = (F(3, 4), F(1, 2)), (F(1, 4), F(1, 2))
+        charge = expect(law, [2 * abs(a - b) for a, b in zip(first, second)])
+        drift = abs(expect(law, [2 * x - 1 for x in first]) -
+                    expect(law, [2 * x - 1 for x in second]))
+        self.assertEqual(charge, F(1, 4))
+        self.assertEqual(drift, charge)
+        self.assertGreater(drift, expect((F(0), F(1)), (F(1), F(0))))
+
+
 if __name__ == '__main__':
     unittest.main()

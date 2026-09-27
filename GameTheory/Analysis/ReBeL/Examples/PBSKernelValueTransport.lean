@@ -141,4 +141,68 @@ theorem depthKernel_changed_query
   dsimp only [execution] at unitMass
   simpa only [unitMass, div_one, Nat.reduceAdd, show (2 : ℝ) * 2 = 4 by norm_num] using estimate
 
+
+/-- Different root kernels still cost two at zero fuel, while even arbitrarily
+different opponent profiles cost zero execution steps. The costs are separate. -/
+theorem kernelExecution_zero_fuel
+    (first second : Profile (model fullPrior).behavioralSignature)
+    (replacement : (model fullPrior).BehavioralPolicy 0) :
+    (kernelValueSlice false).responseExecutionCharge first second 0 replacement () = 0 ∧
+      |(kernelValueSlice false).conditionalPayoff first 0 kernelValueObservable replacement () -
+        (kernelValueSlice true).conditionalPayoff second 0 kernelValueObservable replacement ()| =
+        2 := by
+  constructor
+  · rfl
+  · rw [kernelValue_payoff_zero, kernelValue_payoff_zero]
+    norm_num
+
+/-- A genuine two-iterate noisy parent is compared with a separately computed
+budgeted child's opposing policy at the changed pure-root belief. The retained
+own response is the parent iterate, and all comparison costs remain explicit. -/
+theorem depthKernel_changed_child_opponents
+    (opponents : Profile (model fullPrior).behavioralSignature) :
+    let M := reducedModel fullPrior
+    let slice := fullAOHBeliefSlice M depthControlBelief 0
+    let own := fullAOHOwnLaw M depthControlBelief 0
+    let fresh := fullAOHBeliefSlice M (kernelValueBelief true) 0
+    let noise := depthControlNoise (slice.mixture own).law
+    let average := pbsInformationDepthCFR M (slice.mixture own) pbsRootControlFallback
+      cfrPayoff 1 1 2 (1 / 4) noise 2
+    let child := pbsInformationBudgetProfile M (kernelValueBelief true) pbsRootControlFallback
+      2 (fun h player => cfrPayoff player h) 2 (1 / 8)
+    let execution := pbsInformationDepthCFRTaggedExecution M slice own pbsRootControlFallback
+      cfrPayoff 1 1 2 (1 / 4) noise 2 opponents 1
+    let response := fun seed : Fin 2 =>
+      pbsInformationDepthCFRIterate M (slice.mixture own) pbsRootControlFallback
+        cfrPayoff 1 1 2 (1 / 4) noise seed.val 0
+    ∃ possible : ∃ point ∈ (Set.univ : Set _), point ∈ execution.support,
+      let query := (execution.condOn Set.univ possible).map Prod.fst
+      query.expect (fun pair =>
+        |fresh.infoValue (fun player => liftPolicy M player (pbsRootControlFallback player))
+            2 (cfrPayoff 0) child pair.2 -
+          fresh.conditionalPayoff child 2 (cfrPayoff 0) (response pair.1) pair.2|) ≤
+        pbsRootDepthBudget M (slice.mixture own).law pbsRootControlFallback
+          1 1 2 (1 / 8) (1 / 4) 2 +
+        query.expect (fun pair =>
+          4 * FinDist.atomVariation (slice.kernel pair.2).law (fresh.kernel pair.2).law +
+          2 * (slice.optimalResponseExecutionCharge fresh
+            (fun player => liftPolicy M player (pbsRootControlFallback player))
+            2 (cfrPayoff 0) average child pair.2 +
+            slice.responseExecutionCharge average child 2 (response pair.1) pair.2)) := by
+  intro M slice own fresh noise average child execution response
+  obtain ⟨point, reached⟩ := execution.support_nonempty
+  let possible : ∃ point ∈ (Set.univ : Set _), point ∈ execution.support :=
+    ⟨point, Set.mem_univ _, reached⟩
+  refine ⟨possible, ?_⟩
+  have unitMass : execution.probOf Set.univ = 1 := by
+    rw [← FinDist.expect_indicator_eq_probOf]
+    simp only [Set.mem_univ, if_true, FinDist.expect_const]
+  have estimate := pbsInformationDepthCFR_conditioned_executionGap_le M slice own
+    pbsRootControlFallback cfrPayoff (cumulative_zeroSum fullPrior) 1 1 2 (1 / 8) (1 / 4)
+    (by norm_num) (by norm_num) (by norm_num) cfrPayoff_abs_le_two noise
+    (by intro n trunk player info; norm_num [noise, depthControlNoise]) 2 opponents 1
+    Set.univ possible (fun _ => fresh) Prod.snd (fun _ => child)
+  dsimp only [execution] at unitMass
+  simpa only [unitMass, div_one, Nat.reduceAdd, show (2 : ℝ) * 2 = 4 by norm_num] using estimate
+
 end GameTheory.ReBeL.Examples.HiddenTypes

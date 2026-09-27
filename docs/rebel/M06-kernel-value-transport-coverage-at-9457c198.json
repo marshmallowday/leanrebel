@@ -6,14 +6,13 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "9457c198126f3c8b7cb1045bbed2e0053788636f",
+  "parent": "1698e9ba212f4082cd7d601c13f3d0350e170bdf",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-6b7865.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-628b6212.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-1698e9ba.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-9457c198.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-1698e9ba.json"
   ],
   "semantic_review": "docs/rebel/M06-kernel-value-transport.md",
   "repair_review": "docs/rebel/M06-kernel-value-repair-1698e9ba-validation.md",
@@ -30,15 +29,9 @@
   "example_module": "GameTheory.Analysis.ReBeL.Examples.PBSKernelValueTransport",
   "controls_namespace": "GameTheory.ReBeL.Examples.HiddenTypes",
   "controls": [
-    "kernelValueBelief",
-    "kernelValueSlice",
-    "kernelValueObservable",
-    "kernelValueObservable_bound",
-    "kernelValue_payoff_zero",
-    "kernelValue_optimum_zero",
-    "kernelValue_variation_two",
-    "kernelValue_same_query_different_values",
-    "depthKernel_changed_query"
+    "kernelValueBelief", "kernelValueSlice", "kernelValueObservable",
+    "kernelValueObservable_bound", "kernelValue_payoff_zero", "kernelValue_optimum_zero",
+    "kernelValue_variation_two", "kernelValue_same_query_different_values", "depthKernel_changed_query"
   ],
   "failed_candidate_reviews": [
     "docs/rebel/M06-kernel-value-repair.md",
@@ -58,80 +51,34 @@
     "global_status": "unchanged architecture, ledger and runtime gates passed; compiler/lint/axiom step in progress at last inspection"
   },
   "validation": {
-    "compiler": "pending new changed-opponent extension SHA",
-    "normal_and_slow_lint": "pending new changed-opponent extension SHA",
-    "transitive_axioms": "pending new changed-opponent extension SHA",
-    "core_blob": "fdadab9a1d3803ea0d1137fce2eec8775025b864",
-    "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
-    "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
+    "compiler": "pending exact observable-repair commit CI",
+    "normal_and_slow_lint": "pending exact observable-repair commit CI",
+    "transitive_axioms": "pending complete exact observable-repair artifact inspection",
+    "core_blob": "9e519e8742fd91d13603f82e37b424917ae4b595",
+    "integration_blob": "528b8d5603d6a08156c262fdd61bc8536a209944",
+    "example_blob": "d55b92c1e79629b6a7683a23b90f325d2c517bcc",
     "root_blob": "08fe85893fd45d90d743d50d14e03be273462716",
     "targets_blob": "37b4d120956203b7878ff58f29f67552c1483b57",
     "audit_consumer_blob": "52383a4d48c12576208598773bde0c7e0fdb5591",
     "expected_target_modules": 116,
     "expected_global_modules": 259,
     "python_file": "scripts/rebel/tests/test_kernel_value_transport.py",
-    "python_blob": "31614fa879377d164e63132047022aed6683877b",
-    "new_python_tests": 12,
+    "python_blob": "e121114c9894aecb8c809861cad9bfb1eaaa6a65",
+    "python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
+    "new_python_tests": 8,
     "exhaustive_cases": 4050,
     "local_python_tests": 149,
     "local_python_commit": "1698e9ba212f4082cd7d601c13f3d0350e170bdf",
     "local_python_status": "pass on exact plugin-downloaded 1698e9ba source; not new-source Lean acceptance",
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
-    "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md",
-    "previous_python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
-    "expected_total_python_tests": 153
+    "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md"
   },
   "remaining": [
-    "Compile and audit the new changed-opponent extension at its exact SHA",
+    "Exact repaired compiler, unchanged static architecture, normal/slow lint and complete axiom validation",
     "Identify actual recursively re-solved posterior kernels and derive small kernel rates",
-    "Derive useful small opposing-policy execution rates and compose late values",
+    "Native and late value transport with changed opposing policies",
     "Small primitive support leakage for unrestricted constructed solvers",
     "Constructed signed CarriedResolveStepBounds",
-    "SEARCH-FRONTIER",
-    "SEARCH-CFRD",
-    "SEARCH-ERROR",
-    "SAFE-THEOREM3"
-  ],
-  "baseline_acceptance": {
-    "commit": "9457c198126f3c8b7cb1045bbed2e0053788636f",
-    "target_run": 36293799005,
-    "target_job": 108548763050,
-    "target_declarations": 1899,
-    "target_modules": 116,
-    "global_run": 36293799056,
-    "global_job": 108548806226,
-    "global_declarations": 5049,
-    "global_modules": 259,
-    "ci_run": 36293799070,
-    "ci_job": 108548896246,
-    "all_runs": "success",
-    "axioms": [
-      "propext",
-      "Classical.choice",
-      "Quot.sound"
-    ],
-    "evidence": "docs/rebel/M06-opponent-value-transport.md"
-  },
-  "opponent_transport": {
-    "status": "pending_exact_commit_actions",
-    "semantic_review": "docs/rebel/M06-opponent-value-transport.md",
-    "declarations": [
-      "responseExecutionCharge",
-      "responseExecutionCharge_self",
-      "conditionalPayoff_abs_sub_le_executionCharge",
-      "optimalResponseExecutionCharge",
-      "optimalResponseExecutionCharge_self",
-      "infoValue_abs_sub_le_executionCharge",
-      "conditionalGap_abs_sub_le_executionCharge",
-      "conditionalGap_abs_le_old_add_executionCharge"
-    ],
-    "integration": "GameTheory.ReBeL.pbsInformationDepthCFR_conditioned_executionGap_le",
-    "controls": [
-      "GameTheory.ReBeL.Examples.HiddenTypes.kernelExecution_zero_fuel",
-      "GameTheory.ReBeL.Examples.HiddenTypes.depthKernel_changed_child_opponents"
-    ],
-    "new_fraction_tests": 4,
-    "exhaustive_response_cases": 4608,
-    "remaining": "Small execution costs, actual recursive posterior identification, late-value composition and signed CarriedResolveStepBounds are not proved."
-  }
+    "SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"
+  ]
 }
