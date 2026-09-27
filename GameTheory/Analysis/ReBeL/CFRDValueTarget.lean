@@ -35,7 +35,8 @@ theorem terminalExact_root_error (law : FinDist Leaf) (observe : Leaf → Info)
       (law.condOnFibre (fun leaf => root (observe leaf)) type).expect value| ≤ error := by
   classical
   let event := (fun leaf => root (observe leaf)) ⁻¹' {type}
-  by_cases possible : ∃ leaf ∈ event, leaf ∈ law.support
+  by_cases possible : ∃ leaf ∈ (fun leaf => root (observe leaf)) ⁻¹' {type},
+      leaf ∈ law.support
   · have density : ∀ leaf, (law.condOn event possible).prob leaf =
         law.prob leaf * (if root (observe leaf) = type then (law.probOf event)⁻¹ else 0) := by
       intro leaf
@@ -44,11 +45,18 @@ theorem terminalExact_root_error (law : FinDist Leaf) (observe : Leaf → Info)
       · simp only [event, Set.mem_preimage, Set.mem_singleton_iff, same, if_true,
           div_eq_mul_inv]
       · simp only [event, Set.mem_preimage, Set.mem_singleton_iff, same, if_false, mul_zero]
-    simp only [FinDist.condOnFibre, dif_pos possible]
+    have conditioned : law.condOnFibre (fun leaf => root (observe leaf)) type =
+        law.condOn event possible := by
+      dsimp only [FinDist.condOnFibre]
+      rw [dif_pos possible]
+    simp only [conditioned]
     exact terminalExact_reweight_error law (law.condOn event possible) observe live
       (fun info => if root info = type then (law.probOf event)⁻¹ else 0)
       density value prediction error nonneg accurate
-  · simp only [FinDist.condOnFibre, dif_neg possible]
+  · have conditioned : law.condOnFibre (fun leaf => root (observe leaf)) type = law := by
+      dsimp only [FinDist.condOnFibre]
+      rw [dif_neg possible]
+    simp only [conditioned]
     exact terminalExact_reweight_error law law observe live (fun _ => 1)
       (fun _ => (mul_one _).symm) value prediction error nonneg accurate
 
@@ -82,7 +90,7 @@ theorem cfrDValueTargetMean_succ {Index : Type*} (target : Nat → Index → ℝ
   have nonzero : (t : ℝ) ≠ 0 := Nat.cast_ne_zero.mpr (NeZero.ne t)
   have nextNonzero : (t : ℝ) + 1 ≠ 0 := ne_of_gt (by positivity)
   simp only [Nat.cast_add, Nat.cast_one]
-  field_simp [nonzero, nextNonzero] <;> ring
+  field_simp [nonzero, nextNonzero]
 
 /-- Per-round numerical error survives averaging without a factor of T.
 This compares two value traces, not either trace with a Nash value. -/
@@ -142,7 +150,7 @@ def cfrDDepthExactTarget (clock : ObservationClock M)
 
 /-- Reweight the actual live-vector contract to each root information label.
 Hidden-state pointwise accuracy and a minimum root mass are unnecessary. -/
-theorem cfrDDepthValueTarget_error (clock : ObservationClock M) (recall : M.PerfectRecall)
+theorem cfrDDepthValueTarget_error (clock : ObservationClock M) (hrecall : M.PerfectRecall)
     (fallback : Profile M.strategicSignature) (payoff : ι → E.History → ℝ)
     (cut remaining : Nat) (oracle : CFRDValueOracle M) (round : Nat)
     (who : ι) {Root : Type*} (root : M.InfoState who → Root) (type : Root)
@@ -157,7 +165,7 @@ theorem cfrDDepthValueTarget_error (clock : ObservationClock M) (recall : M.Perf
     (fun history => M.infoOf who history.trace) root type (cfrDCutLive remaining)
     (fun history => (M.runBehavioralFrom profile remaining history).expect (payoff who))
     (prediction who) error nonneg
-    (cfrDCutAccurate_factual M recall profile fallback who (payoff who) cut remaining
+    (cfrDCutAccurate_factual M hrecall profile fallback who (payoff who) cut remaining
       (prediction who) error (accurate round who))
   have terminalExact :
       cfrDCutLeafValue M who (payoff who) remaining (prediction who) =
@@ -167,8 +175,8 @@ theorem cfrDDepthValueTarget_error (clock : ObservationClock M) (recall : M.Perf
     funext history
     dsimp only [cfrDCutLeafValue]
     by_cases live : cfrDCutLive remaining history = true
-    · rw [if_pos live, if_pos live]
-    · rw [if_neg live, if_neg live, cfrDCutValue_stopped M profile _ _ _ live]
+    · simp only [if_pos live]
+    · simp only [if_neg live, cfrDCutValue_stopped M profile _ _ _ live]
   dsimp only [cfrDDepthValueTarget, cfrDDepthExactTarget, conditionalOracleValue]
   rw [terminalExact]
   exact bound
@@ -176,7 +184,7 @@ theorem cfrDDepthValueTarget_error (clock : ObservationClock M) (recall : M.Perf
 /-- The stored average vector inherits the oracle's numerical accuracy.
 The comparator is the mean of same-round conditional continuations, not the
 last iterate and not evaluation of independently averaged player policies. -/
-theorem cfrDDepthValueTargetMean_error (clock : ObservationClock M) (recall : M.PerfectRecall)
+theorem cfrDDepthValueTargetMean_error (clock : ObservationClock M) (hrecall : M.PerfectRecall)
     (fallback : Profile M.strategicSignature) (payoff : ι → E.History → ℝ)
     (cut remaining : Nat) (oracle : CFRDValueOracle M) (t : Nat) [NeZero t]
     (who : ι) {Root : Type*} (root : M.InfoState who → Root) (type : Root)
@@ -190,7 +198,7 @@ theorem cfrDDepthValueTargetMean_error (clock : ObservationClock M) (recall : M.
         t type| ≤ error := by
   apply cfrDValueTargetMean_error
   intro n _
-  exact cfrDDepthValueTarget_error M clock recall fallback payoff cut remaining oracle
+  exact cfrDDepthValueTarget_error M clock hrecall fallback payoff cut remaining oracle
     n who root type error nonneg accurate
 
 end Driver
