@@ -2,18 +2,30 @@
 
 Implementation: 51d525ecbce26a1ba5ddaf9033aca7daa73dce23 on
 rebel/m06-depth-native-gap-20260927. The documentation-only continuation is
-rebel/m06-depth-native-gap-checkpoint-20260927, directly above that source.
+rebel/m06-depth-native-gap-checkpoint-20260927, above that source.
 The implementation branch is left unchanged so its target/global/full checks
-can finish. This checkpoint does not change source, dependencies or gates.
+can finish. These evidence commits do not change source, dependencies or gates.
 
-## Actual validation observations
+## Latest observed compiler result
 
-TARGET run 36289929760 / job 108537936248 was in its declared-target compiler
-step when checked. Complete target acceptance is NOT claimed. Fetch the final
-m06-targeted artifact, verify the exact 51d5 source and Lean 4.33.1, and inspect
-all complete transitive-axiom records and all 113 normal/slow module lints.
-Confirm all nine new core names and four new proof controls, not just the final
-pass marker. The allowlist remains propext, Classical.choice and Quot.sound.
+After checkpoint 272cf7a2207805df0207f5979dbe35d203dfb23f, TARGET run
+36289929760 / job 108537936248 reported SUCCESS for its entire
+Compile the declared M06 targets step. This includes the repaired example module
+as well as all nine core declarations. Its subsequent complete lint/transitive-
+axiom validation step was still in progress. This is a compiler-step pass, NOT
+complete target acceptance. No final target artifact or all-record audit is
+claimed yet. The earlier pending observation below and in the owning JSON is
+retained as history; the next task is final lint/axiom artifact inspection,
+not another implementation repair of the already compiled source.
+
+## Earlier validation observations and remaining checks
+
+At the initial documentation checkpoint the same TARGET run was in its
+compiler step. Fetch its final m06-targeted artifact, verify exact 51d5 and
+Lean 4.33.1, and inspect all complete transitive-axiom records and all 113
+normal/slow module lints. Confirm every one of the nine new core and four
+proof-control names, not just the final pass marker. The allowlist remains
+propext, Classical.choice and Quot.sound.
 
 GLOBAL run 36289929759 / job 108538058392 independently passed static
 architecture, widths, fixtures and rational runtime steps; its complete
