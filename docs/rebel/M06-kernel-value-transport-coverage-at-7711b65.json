@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "7711b65f98851187eef0e05c66b5ba569e03ccf0",
+  "parent": "107bbaa5d7017e0dc92a85acfab73b90ac81618d",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -26,8 +26,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-d2af110.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-bc9b95b.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-0e71e36.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-107bbaa.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-7711b65.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-107bbaa.json"
   ],
   "semantic_review": "docs/rebel/M06-recursive-target-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
@@ -67,8 +66,7 @@
     "docs/rebel/M06-value-target-fc21b53-failure.md",
     "docs/rebel/M06-value-target-8936cba-failure.md",
     "docs/rebel/M06-root-memory-bc9b95b-failure.md",
-    "docs/rebel/M06-root-memory-0e71e36-failure.md",
-    "docs/rebel/M06-recursive-target-7711b65-failure.md"
+    "docs/rebel/M06-root-memory-0e71e36-failure.md"
   ],
   "previous_feedback": {
     "commit": "d2af110a66a149f963fd93c33617d0469fa71d79",
@@ -89,9 +87,9 @@
     "evidence": "docs/rebel/M06-value-target-d2af110-accepted.md"
   },
   "validation": {
-    "compiler": "pending recursive-training proof-style repair exact SHA",
-    "normal_and_slow_lint": "pending recursive-training proof-style repair exact SHA",
-    "transitive_axioms": "pending recursive-training proof-style repair exact SHA",
+    "compiler": "pending recursive-training-output exact SHA",
+    "normal_and_slow_lint": "pending recursive-training-output exact SHA",
+    "transitive_axioms": "pending recursive-training-output exact SHA",
     "core_blob": "5a0091144c5611c1fe4d5173b826ca5bef6ef50c",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
@@ -467,7 +465,7 @@
     }
   },
   "recursive_target_batch": {
-    "status": "proof_style_repair_pending_exact_sha_actions",
+    "status": "pending_exact_sha_actions",
     "semantic_review": "docs/rebel/M06-recursive-target-batch.md",
     "modules": [
       "GameTheory/Analysis/ReBeL/PBSComposedValueTarget.lean",
@@ -506,21 +504,12 @@
     "scope": "Same actual composed/recursive parent and decoded original-game target mean, paired with finite-budget policy guarantee. No fresh re-solving small cost or target Nash convergence.",
     "blobs": {
       "GameTheory/Analysis/ReBeL/PBSComposedValueTarget.lean": "e997c5e10a60f57ae8f06a4681197520785aa8ce",
-      "GameTheory/Analysis/ReBeL/PBSRecursiveValueTarget.lean": "0dc5dd55906cdd919dd11a933ece010091bf27ff",
+      "GameTheory/Analysis/ReBeL/PBSRecursiveValueTarget.lean": "0d3d76469a980580bb0a3469969add8d27bab3f2",
       "GameTheory/Analysis/ReBeL/Examples/PBSRecursiveValueTarget.lean": "31f0855c69bbc734092b3429186886213cdd0e4c",
       "GameTheory/Analysis/ReBeL.lean": "259d65119cae15144362b66273750ba5e4811f6e",
       "scripts/rebel/m06-targets.txt": "a5ae7fc637dafbe7667e8e37de8d2849fbb682f7",
       "scripts/rebel/audit_exact_leaf.py": "efe3741288d6f0ae0fb5bcd1ce43702bec030130",
       "scripts/rebel/tests/test_recursive_value_target.py": "a732facb10efaa054a37db73ba9ef754e3fa7f0b"
-    },
-    "failed_source": "7711b65f98851187eef0e05c66b5ba569e03ccf0",
-    "failure_review": "docs/rebel/M06-recursive-target-7711b65-failure.md",
-    "python_acceptance": {
-      "commit": "7711b65f98851187eef0e05c66b5ba569e03ccf0",
-      "run": 36355626233,
-      "job": 108722665255,
-      "tests": 185,
-      "result": "success; not repaired-source Lean acceptance"
     }
   },
   "root_target_source_acceptance": {
@@ -530,6 +519,5 @@
     "ids": [
       "P-CFRD-TARGET"
     ]
-  },
-  "repair_review": "docs/rebel/M06-recursive-target-7711b65-failure.md"
+  }
 }

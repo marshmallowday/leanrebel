@@ -1,7 +1,7 @@
-# ReBeL status — recursive training output pending Actions; M06 incomplete
+# ReBeL status — recursive training proof-style repair pending Actions; M06 incomplete
 
 Continue rebel/m06-kernel-value-repair-20260927 from re-read HEAD
-107bbaa5d7017e0dc92a85acfab73b90ac81618d. Main is
+7711b65f98851187eef0e05c66b5ba569e03ccf0. Main is
 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. GitHub plugin access was
 reconfirmed as marshmallowday/admin. Chat baseline:
 9457c198126f3c8b7cb1045bbed2e0053788636f.
@@ -14,7 +14,16 @@ permitted axioms, all 122/264 module lint passes, full build/architecture/
 rational runtime and 181 Python tests. The target manifest has 160 entries.
 See M06-root-memory-107bbaa-accepted.md. This success does not verify new source.
 
-The new batch integrates root targets with the actual composed oracle and
+The 7711b65 batch failed all three compiler jobs on the same proof-style
+diagnostic at PBSRecursiveValueTarget.lean:108: letI was used in a proposition.
+The local proof instance is repaired to let _ without changing statements,
+premises, definitions, workflows or audit rules. PBSComposedValueTarget compiled.
+Static architecture, rational runtime and 185 Python tests succeeded, but the
+downstream example and complete lint/axiom audit remain unverified. See
+M06-recursive-target-7711b65-failure.md for full job/artifact evidence.
+The repaired source requires new exact-SHA Actions.
+
+The pending batch integrates root targets with the actual composed oracle and
 arbitrary-depth recursive solver. It preserves the same recursive child,
 noisy learner trace, finite round count, joint PBS and original-game full
 continuation. pbsRecursiveTrainingOutput returns both the existing average

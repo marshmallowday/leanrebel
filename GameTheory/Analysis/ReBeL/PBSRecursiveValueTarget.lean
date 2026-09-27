@@ -105,7 +105,7 @@ theorem pbsRecursiveTargetRound_error (noise : PBSRecursiveDepthNoise.{u})
   | nil => simp only [pbsRecursiveTargetRound, pbsRecursiveOriginalRound,
       pbsRecursiveTargetError, sub_self, abs_zero, le_refl]
   | cons cut tail =>
-      letI : Fintype (pbsRootProtocol belief.law).History := pbsRootHistoryFintype belief.law
+      let _ : Fintype (pbsRootProtocol belief.law).History := pbsRootHistoryFintype belief.law
       apply pbsComposedValueTarget_error
       · exact (pbsDepthAllocationError_pos _ tolerance positive).le
       · exact noiseBound M belief.law _
