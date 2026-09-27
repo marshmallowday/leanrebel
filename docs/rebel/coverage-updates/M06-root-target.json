@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "base_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
+  "milestone": "M06",
+  "updates": [
+    {
+      "id": "P-CFRD-TARGET",
+      "from_status": "pending",
+      "status": "verified",
+      "evidence": [
+        {
+          "commit": "107bbaa5d7017e0dc92a85acfab73b90ac81618d",
+          "module": "GameTheory/Analysis/ReBeL/CFRDValueTarget.lean",
+          "declaration": "GameTheory.ReBeL.pbsRootDepthValueTarget",
+          "source_blob": "1b1a4bdfc6f089364c8aa0b059bc96b5bb0eb86f",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_exact_leaf.py; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-root-memory-107bbaa-accepted.md; CI 36351689781/job108711471388; checks36351689813/job108711471281; target36351689718/job108711470862",
+          "axioms_log": "Complete decoded logs: 2059 targeted and 5200 global unique transitive records, only propext/Classical.choice/Quot.sound; 122/264 module lint passes.",
+          "semantic_review": "docs/rebel/M06-root-target-accepted.md",
+          "assumptions": "Canonical finite legal full-AOH protocol and joint public belief; original finite cut plus remaining horizon and administrative root draw. Numerical propagation assumes the explicit same-round noise bound, not per-iterate Nash or learner convergence. Absent labels retain total fallback and are excluded from observed support.",
+          "source_reading": "Main p6 section5.1: per-round information-state root vector from current strategy and leaf predictions."
+        },
+        {
+          "commit": "107bbaa5d7017e0dc92a85acfab73b90ac81618d",
+          "module": "GameTheory/Analysis/ReBeL/CFRDValueTargetMemory.lean",
+          "declaration": "GameTheory.ReBeL.pbsRootDepthValueTarget_support",
+          "source_blob": "04f9c66ca14a0c040f8a8a60edb35a574f238bc9",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_exact_leaf.py; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-root-memory-107bbaa-accepted.md; CI 36351689781/job108711471388; checks36351689813/job108711471281; target36351689718/job108711470862",
+          "axioms_log": "Complete decoded logs: 2059 targeted and 5200 global unique transitive records, only propext/Classical.choice/Quot.sound; 122/264 module lint passes.",
+          "semantic_review": "docs/rebel/M06-root-target-accepted.md",
+          "assumptions": "Canonical finite legal full-AOH protocol and joint public belief; original finite cut plus remaining horizon and administrative root draw. Numerical propagation assumes the explicit same-round noise bound, not per-iterate Nash or learner convergence. Absent labels retain total fallback and are excluded from observed support.",
+          "source_reading": "Supported root coordinates coincide with incoming own-information support; not a hidden-state vector."
+        },
+        {
+          "commit": "107bbaa5d7017e0dc92a85acfab73b90ac81618d",
+          "module": "GameTheory/Analysis/ReBeL/CFRDValueTargetMemory.lean",
+          "declaration": "GameTheory.ReBeL.pbsRootDepthValueTargetMean_original_error",
+          "source_blob": "04f9c66ca14a0c040f8a8a60edb35a574f238bc9",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_exact_leaf.py; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-root-memory-107bbaa-accepted.md; CI 36351689781/job108711471388; checks36351689813/job108711471281; target36351689718/job108711470862",
+          "axioms_log": "Complete decoded logs: 2059 targeted and 5200 global unique transitive records, only propext/Classical.choice/Quot.sound; 122/264 module lint passes.",
+          "semantic_review": "docs/rebel/M06-root-target-accepted.md",
+          "assumptions": "Canonical finite legal full-AOH protocol and joint public belief; original finite cut plus remaining horizon and administrative root draw. Numerical propagation assumes the explicit same-round noise bound, not per-iterate Nash or learner convergence. Absent labels retain total fallback and are excluded from observed support.",
+          "source_reading": "Original-game meaning and numerical accuracy of the uniform current-round vector mean; no target convergence claim."
+        }
+      ]
+    }
+  ]
+}

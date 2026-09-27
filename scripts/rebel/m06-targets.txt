@@ -158,3 +158,6 @@ GameTheory.Analysis.ReBeL.CFRDValueTarget
 GameTheory.Analysis.ReBeL.Examples.CFRDValueTarget
 GameTheory.Analysis.ReBeL.CFRDValueTargetMemory
 GameTheory.Math.Probability.FinDistRetainedLabel
+GameTheory.Analysis.ReBeL.PBSComposedValueTarget
+GameTheory.Analysis.ReBeL.PBSRecursiveValueTarget
+GameTheory.Analysis.ReBeL.Examples.PBSRecursiveValueTarget

@@ -13,6 +13,9 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULES = (
+    "GameTheory.Analysis.ReBeL.PBSComposedValueTarget",
+    "GameTheory.Analysis.ReBeL.PBSRecursiveValueTarget",
+    "GameTheory.Analysis.ReBeL.Examples.PBSRecursiveValueTarget",
     "GameTheory.Math.Probability.FinDistRetainedLabel",
     "GameTheory.Analysis.ReBeL.CFRDValueTargetMemory",
     "GameTheory.Analysis.ReBeL.CFRDValueTarget",
