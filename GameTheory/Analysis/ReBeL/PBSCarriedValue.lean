@@ -25,7 +25,7 @@ variable {K : Type*}
 /-- The private draw used for the stage is also the draw used by its late
 selected continuation. This equality keeps the actual history and model PBS
 paired in memory; it does not replace the state law by a product of marginals. -/
-theorem carriedMemoryStep_selected_expect
+theorem carriedMemoryStep_selected_late_expect
     (initial : K → Profile M.behavioralSignature)
     (unknown : Profile M.behavioralSignature) (who : Fin 2)
     (stage : CarriedResolveStage M K) (remaining : Nat)
@@ -101,7 +101,7 @@ theorem carriedMemoryStep_selected_loss_le
       (carriedMemoryStep M initial unknown who stage state).expect (fun next =>
         (carriedSelectedTail M initial unknown who remaining next).expect payoff) ≤
       bound * carriedReplacementExecutionCharge M initial unknown who stage remaining state := by
-  rw [carriedMemoryStep_selected_expect]
+  rw [carriedMemoryStep_selected_late_expect]
   by_cases live : cfrDCutLive stage.fuel state.history = true
   · rw [if_pos live, carriedReplacementExecutionCharge, if_pos live]
     rw [← FinDist.expect_smul, ← FinDist.expect_const

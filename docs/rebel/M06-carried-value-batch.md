@@ -45,7 +45,7 @@ acceptance condition is weakened to treat these costs as small.
    2*B*rootVariation + 2*B*fuel*rate. Its primitive hypothesis quantifies over
    legal own responses and histories; it is not inferred from scalar Nash.
 
-4. New PBSCarriedValue proves carriedMemoryStep_selected_expect. In a live
+4. New PBSCarriedValue proves carriedMemoryStep_selected_late_expect. In a live
    stage, the same private profile draw executes stage.fuel and the remaining
    late horizon. At a stopped stage the prior selected profile is preserved.
    The proof uses canonical runBehavioralFrom_add and existing memory updates.
