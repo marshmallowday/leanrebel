@@ -33,7 +33,8 @@ theorem carriedValue_noisy_two_stage
       2 * carriedSequenceExecutionCharge M initial unknown 0 0
         depthControlStages (FinDist.pure state) := by
   intro M initial state
-  simpa only [FinDist.expect_pure, FinDist.pure_bind, rootedDepth_schedule_fuel] using
+  have totalFuel : carriedResolveFuel M 0 depthControlStages = 2 := rfl
+  simpa only [FinDist.expect_pure, FinDist.pure_bind, totalFuel] using
     executeCarriedResolves_loss_le_executionCharge M initial unknown 0 0
       (cfrPayoff 0) 2 (by norm_num) (cfrPayoff_abs_le_two 0)
       depthControlStages (FinDist.pure state)

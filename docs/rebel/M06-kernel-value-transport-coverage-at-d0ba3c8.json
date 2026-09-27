@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "d0ba3c83e2e6771d998bc28ff99edb1e3980c5d4",
+  "parent": "ed2fad241260b8df23d7e47448a817ca9458e464",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -16,11 +16,10 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-9457c198.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-b0f22a67.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-fa95a3d.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-ed2fad.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-d0ba3c8.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-ed2fad.json"
   ],
   "semantic_review": "docs/rebel/M06-kernel-value-transport.md",
-  "repair_review": "docs/rebel/M06-carried-value-d0ba3c8-failure.md",
+  "repair_review": "docs/rebel/M06-carried-value-ed2fad-failure.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -50,32 +49,31 @@
     "docs/rebel/M06-kernel-value-repair-628b6212-validation.md",
     "docs/rebel/M06-kernel-value-repair-1698e9ba-validation.md",
     "docs/rebel/M06-opponent-value-transport-b0f22a67-failure.md",
-    "docs/rebel/M06-carried-value-ed2fad-failure.md",
-    "docs/rebel/M06-carried-value-d0ba3c8-failure.md"
+    "docs/rebel/M06-carried-value-ed2fad-failure.md"
   ],
   "previous_feedback": {
-    "commit": "d0ba3c83e2e6771d998bc28ff99edb1e3980c5d4",
-    "target_run": 36309904952,
-    "target_job": 108593701634,
-    "target_artifact": 10929180448,
-    "target_status": "failed concrete example fuel simplification; core carried-value module compiled; postbuild lint/axioms not reached",
-    "global_run": 36309904962,
-    "global_job": 108593701863,
-    "global_artifact": 10929256539,
-    "global_status": "static architecture and 160 Python tests passed; same example compile failure; full lint/axioms not reached",
-    "ci_run": 36309904959,
-    "ci_job": 108593701574,
-    "ci_status": "failed same example fuel mismatch; postbuild gates skipped",
-    "inventory_run": 36309904951,
-    "inventory_job": 108593701481,
+    "commit": "ed2fad241260b8df23d7e47448a817ca9458e464",
+    "target_run": 36306984787,
+    "target_job": 108585454930,
+    "target_artifact": 10928305218,
+    "target_status": "failed upstream unused simp argument; downstream compilation/lint/axioms not reached",
+    "global_run": 36306984802,
+    "global_job": 108585454945,
+    "global_artifact": 10927352115,
+    "global_status": "failed static architecture TRANSPORT_ANALYSIS_SOURCE=1 expected 0; compiler/runtime/tests not reached",
+    "ci_run": 36306984820,
+    "ci_job": 108585454998,
+    "ci_status": "failed same upstream Lean unused simp argument; postbuild gates skipped",
+    "inventory_run": 36306984806,
+    "inventory_job": 108585455401,
     "inventory_status": "success",
     "python_tests": 160,
-    "source_artifact": 10928204979
+    "source_artifact": 10928265011
   },
   "validation": {
-    "compiler": "pending exact concrete fuel repair SHA",
-    "normal_and_slow_lint": "pending exact concrete fuel repair SHA",
-    "transitive_axioms": "pending exact concrete fuel repair SHA",
+    "compiler": "pending exact combined proof/architecture repair SHA",
+    "normal_and_slow_lint": "pending exact combined proof/architecture repair SHA",
+    "transitive_axioms": "pending exact combined proof/architecture repair SHA",
     "core_blob": "6c69f28c67858621d887724d0bb9dd9355940680",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
@@ -165,7 +163,7 @@
     "evidence": "docs/rebel/M06-opponent-value-transport-fa95a3d-accepted.md"
   },
   "carried_value_batch": {
-    "status": "pending_exact_concrete_fuel_repair_actions",
+    "status": "pending_exact_combined_repair_actions",
     "semantic_review": "docs/rebel/M06-carried-value-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.PBSCarriedValue",
@@ -190,13 +188,13 @@
     "blobs": {
       "GameTheory/Analysis/ReBeL/PBSOpponentModelTransport.lean": "2267714436bb251e0fce2169936f20472262f988",
       "GameTheory/Analysis/ReBeL/PBSCarriedValue.lean": "1cfac6dd7733906e23cffdfcf4706595c432e917",
-      "GameTheory/Analysis/ReBeL/Examples/PBSCarriedValue.lean": "79bfb5020a8f1627c9017e18d9901330d262c98b",
+      "GameTheory/Analysis/ReBeL/Examples/PBSCarriedValue.lean": "d3884981c26d7ea77eb4cbb7b44bd535c1d9a9c1",
       "scripts/rebel/tests/test_carried_value_transport.py": "f4c047adf113b594c09e82a29fe1f7cc488ec4f9"
     },
     "python_acceptance": {
-      "commit": "d0ba3c83e2e6771d998bc28ff99edb1e3980c5d4",
-      "run": 36309904951,
-      "job": 108593701481,
+      "commit": "ed2fad241260b8df23d7e47448a817ca9458e464",
+      "run": 36306984806,
+      "job": 108585455401,
       "tests": 160,
       "result": "success"
     }

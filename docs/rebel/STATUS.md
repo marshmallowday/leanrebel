@@ -1,23 +1,24 @@
-# ReBeL status — carried-value proof/architecture repair pending CI; M06 incomplete
+# ReBeL status — carried-value example repair pending CI; M06 incomplete
 
 Continue rebel/m06-kernel-value-repair-20260927 from re-read HEAD
-ed2fad241260b8df23d7e47448a817ca9458e464. Main remains
+d0ba3c83e2e6771d998bc28ff99edb1e3980c5d4. Main remains
 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. Connected login marshmallowday
 and current admin/push permissions were rechecked through the GitHub plugin.
 
-The ed2fad batch's source inventory run 36306984806 passed 160 Python tests,
-including all seven new Fraction controls. CI 36306984820 and target
-36306984787 failed on the same unused Nat.zero_add simp argument in
-PBSOpponentModelTransport. ReBeL checks 36306984802 failed static architecture:
-one change tactic in the new PBSCarriedValue violated the zero Analysis
-source-transport budget. Complete job logs and artifact metadata were inspected.
+At d0ba3c8, source inventory 36309904951 passed 160 Python tests.
+ReBeL checks 36309904962 passed static architecture (including zero Analysis
+source transport) and all 160 tests. The earlier unused simp and architecture
+failures are resolved. Core posterior, kernel, carried-value and depth-gap
+modules compile. CI 36309904959, target 36309904952 and ReBeL checks all fail
+one concrete example: the generic schedule fuel did not simplify to 2 under
+the local model alias. Complete logs and artifact metadata were inspected.
 
-This combined repair removes the unused simp argument and uses explicit
-definition simplification for the selected-state projection proof. It changes
-no mathematical statement, implementation behavior, checker, expected budget,
-workflow, dependency or test. See M06-carried-value-ed2fad-failure.md.
-New downstream proofs, lint and transitive axioms have not yet been checked
-because the earlier compiler error blocked them. Do not count them accepted.
+This repair supplies the local definitional fuel equality to the existing
+simplification. It changes no mathematical statement, implementation behavior,
+checker, expected budget, workflow, dependency or test.
+See M06-carried-value-d0ba3c8-failure.md for exact evidence.
+Full postbuild lint and transitive axioms have not yet been checked.
+The carried-value batch is not accepted until the repaired SHA passes.
 
 The full implementation and semantic boundaries remain in M06-carried-value-batch.md.
 It combines chosen-model posterior identification, primitive rates, conditional
@@ -28,7 +29,7 @@ The accepted fa95a3d results remain historical, not evidence for repaired source
 
 Historical coverage.json must stay at blob
 2fc8cc9ad6607d61bfe397707fb96ac322fbb800. Progress belongs in the M06 owner
-ledger, with the previous complete state archived at the ed2fad checkpoint.
+ledger, with the previous complete state archived at the d0ba3c8 checkpoint.
 
 The user's additional instruction prohibits subagents. All further work is by
 the main agent. After this repair passes all required verification, implement
