@@ -7,7 +7,7 @@
   "status": "in_progress",
   "branch": "rebel/m06-depth-native-gap-20260927",
   "parent": "345bc642284ff51a26a244fd36e47583a77d3879",
-  "repair_parent": "d15f68b5ca4377f06a69aa5e71c76013770ed766",
+  "repair_parent": "2f6e8c44f507324e0900a2ac1ee6b4341fbeaa19",
   "latest_starting_checkpoint": "37a4f2c5cc20e285bca054e4a0c544232a218235",
   "semantic_review": "docs/rebel/M06-depth-native-gap.md",
   "failure_review": "docs/rebel/M06-depth-native-gap-d15f-failure.md",
@@ -26,13 +26,18 @@
   ],
   "example_module": "GameTheory.Analysis.ReBeL.Examples.PBSDepthNativeGap",
   "controls_namespace": "GameTheory.ReBeL.Examples.HiddenTypes",
-  "controls": ["depthNativeGap_two_iterates", "depthNativeGap_allocated_quarter", "depthNativeGap_certain_query", "depthNativeGap_impossible_query"],
+  "controls": [
+    "depthNativeGap_two_iterates",
+    "depthNativeGap_allocated_quarter",
+    "depthNativeGap_certain_query",
+    "depthNativeGap_impossible_query"
+  ],
   "validation": {
-    "compiler": "pending exact repaired-source CI; d15f failure is preserved below",
+    "compiler": "pending new example-repair source; core compiled at 2f6e, but exact target failed the certain-event control",
     "normal_and_slow_lint": "pending exact repaired-source CI",
     "transitive_axioms": "pending complete exact repaired-source record inspection",
     "core_blob": "29a19748709fdc1269728ee423656f48433b5e00",
-    "example_blob": "3cfd217c981817ca416daaccc6bb98db86a67c80",
+    "example_blob": "97477d7f65c122f80c8f14653b74513d85fc766a",
     "root_blob": "5d01aef17454ff0cde6f9fc49d186160680a88cf",
     "targets_blob": "5606a89e6dd75afb308f59a690921c618f7947fd",
     "audit_consumer_blob": "26bf9d52a0fa85881f451d92ef54f29d0648770d",
@@ -56,20 +61,61 @@
       "full_ci_observation": "in progress when first inspected; no acceptance claimed",
       "repair": "Use existing public FinDist.bind_const before outer bind_pure; all statements and gates unchanged"
     },
-    "snapshot_artifact": 10921517832,
-    "snapshot_source": "d15f68b5ca4377f06a69aa5e71c76013770ed766",
-    "snapshot_zip_sha256": "3ed3c6c04f82743f30296ed5f8e16cd5b588e6909e18a0f6aff87f4625774cbd",
-    "snapshot_tar_sha256": "c9703e4b6338017f7fc311fd2fe59db1302fb77bb2e1c9fdcddca3967f62766c",
+    "snapshot_artifact": 10921823300,
+    "snapshot_source": "2f6e8c44f507324e0900a2ac1ee6b4341fbeaa19",
+    "snapshot_zip_sha256": "a93814744499af5b5424ffd100902571a723ac337335da19f95dffa87be6405d",
+    "snapshot_tar_sha256": "1bed8ce3d072c7bd3e61ccd44b246baf9550b310ba6c7b046f9442739c1f6a1a",
     "local_python_tests": 141,
     "new_python_tests": 7,
     "python_file": "scripts/rebel/tests/test_depth_native_gap.py",
     "python_sha256": "79e7384cb19f1f06537e25a50d0cc6c42f633bae0d6e88f471d8e99ecdffaebc",
-    "local_python_source": "d15f68b5ca4377f06a69aa5e71c76013770ed766",
-    "local_python_status": "pass on unmodified exact downloaded d15f source; not Lean evidence",
-    "local_python_log_sha256": "2e3d7589a71b80563d7158c2eee01929dbecbfcb1cb1d5213fab7672ecab8df7",
+    "local_python_source": "2f6e8c44f507324e0900a2ac1ee6b4341fbeaa19",
+    "local_python_status": "141 tests passed on unmodified exact downloaded 2f6e source; ledger and inventory also passed; not Lean evidence",
+    "local_python_log_sha256": "4d53ab007e3ceebf241464acd1d94bea6d93d8529ec39c69c42c667a2f909a99",
     "previous_python_observation": "141 tests also passed on prepared exact-35d0 snapshot plus new source before submission",
     "inherited_primitive_target_review": "docs/rebel/M06-primitive-support-target-accepted.md",
-    "inherited_primitive_global_review": "docs/rebel/M06-primitive-support-global-accepted.md"
+    "inherited_primitive_global_review": "docs/rebel/M06-primitive-support-global-accepted.md",
+    "second_failed_candidate": {
+      "source": "2f6e8c44f507324e0900a2ac1ee6b4341fbeaa19",
+      "target_run": 36289474910,
+      "target_job": 108536659316,
+      "target_artifact": 10921592602,
+      "target_zip_sha256": "65d49176cf62250e3da3b779f36b4989476fbf1ca56d7b24e39e4bc688044796",
+      "target_log_sha256": "caa85061fe8cf90100ab47fa8a3f1e2f3486ec9539b4e546ec1f257a32d9cb16",
+      "compiler": "core compiled; target failed Examples/PBSDepthNativeGap.lean:99:2 because unitMass used a local execution abbreviation",
+      "example_blob": "3cfd217c981817ca416daaccc6bb98db86a67c80",
+      "normal_and_slow_lint": "not run after failed compilation",
+      "transitive_axioms": "not run after failed compilation",
+      "global_run": 36289474899,
+      "global_job": 108536845843,
+      "global_observation": "static, width, fixtures and runtime passed; compiler/lint/axioms in progress when inspected",
+      "full_ci_run": 36289474886,
+      "full_ci_job": 108536768333,
+      "full_ci_observation": "Lean action in progress; no complete acceptance",
+      "repair": "unfold only the local execution abbreviation in unitMass before rewriting; all statements and core proofs unchanged"
+    },
+    "previous_snapshot": {
+      "snapshot_artifact": 10921517832,
+      "snapshot_source": "d15f68b5ca4377f06a69aa5e71c76013770ed766",
+      "snapshot_zip_sha256": "3ed3c6c04f82743f30296ed5f8e16cd5b588e6909e18a0f6aff87f4625774cbd",
+      "snapshot_tar_sha256": "c9703e4b6338017f7fc311fd2fe59db1302fb77bb2e1c9fdcddca3967f62766c"
+    },
+    "previous_exact_python": {
+      "local_python_source": "d15f68b5ca4377f06a69aa5e71c76013770ed766",
+      "local_python_status": "pass on unmodified exact downloaded d15f source; not Lean evidence",
+      "local_python_log_sha256": "2e3d7589a71b80563d7158c2eee01929dbecbfcb1cb1d5213fab7672ecab8df7"
+    }
   },
-  "remaining": ["Exact repaired-source compiler/lint/axiom acceptance", "Changed conditional PBS kernels and fixed-opponent value transport", "Small primitive leakage for unrestricted constructed solvers", "Constructed signed CarriedResolveStepBounds", "SEARCH-FRONTIER", "SEARCH-CFRD", "SEARCH-ERROR", "SAFE-THEOREM3"]
+  "remaining": [
+    "Exact repaired-source compiler/lint/axiom acceptance",
+    "Changed conditional PBS kernels and fixed-opponent value transport",
+    "Small primitive leakage for unrestricted constructed solvers",
+    "Constructed signed CarriedResolveStepBounds",
+    "SEARCH-FRONTIER",
+    "SEARCH-CFRD",
+    "SEARCH-ERROR",
+    "SAFE-THEOREM3"
+  ],
+  "previous_repair_parent": "d15f68b5ca4377f06a69aa5e71c76013770ed766",
+  "additional_failure_review": "docs/rebel/M06-depth-native-gap-2f6e-failure.md"
 }

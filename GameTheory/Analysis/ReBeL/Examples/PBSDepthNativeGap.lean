@@ -96,6 +96,7 @@ theorem depthNativeGap_certain_query
     (by norm_num) (by norm_num) (by norm_num) cfrPayoff_abs_le_two noise
     (by intro n trunk player info; norm_num [noise, depthControlNoise])
     2 opponents 1 Set.univ possible
+  dsimp only [execution] at unitMass
   simpa only [unitMass, div_one] using estimate
 
 /-- A zero-mass event cannot manufacture a conditional native query, including
