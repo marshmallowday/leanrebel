@@ -1,51 +1,56 @@
-# ReBeL status — constructed-summary batch pending CI; M06 incomplete
+# ReBeL status — root value-target batch pending CI; M06 incomplete
 
 Continue rebel/m06-kernel-value-repair-20260927 from re-read HEAD
-d54ec59cfaa17a117a9a720d1b85ba64842f4315. Main remains
-6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. The GitHub plugin rechecked
-marshmallowday and current repository admin/push and collaborator admin access.
+e123cb860ce0a56c2705a375b9ff1e403f7580be. Main remains
+6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. The GitHub plugin reconfirmed
+marshmallowday and repository admin/push access. The chat baseline is
+9457c198126f3c8b7cb1045bbed2e0053788636f.
 
-The signed-kernel batch and all repairs are accepted at d54ec59 only.
-CI 36325714671, ReBeL checks 36325714645, targeted 36325714657 and inventory
-36325714665 all succeeded on that SHA. Complete logs contain 1974 targeted/
-5129 global unique transitive axiom records, only the permitted three axioms,
-all 118/261 module lint passes, full build/architecture/rational-runtime
-success and 164 Python tests. See M06-signed-kernel-d54ec59-accepted.md.
+The constructed-summary batch is accepted at e123cb8 only.
+CI 36329638855, ReBeL checks 36329638875, targeted 36329638834 and inventory
+36329638914 all succeeded on that SHA. Complete logs contain 1990 targeted/
+5138 global unique transitive axiom records, only permitted axioms, all
+118/261 module lint passes, full build/architecture/rational-runtime success
+and 169 Python tests. See M06-summary-coupling-e123cb8-accepted.md.
 This evidence does not validate the following new source.
 
-The new combined batch constructs summary-matched finite-law couplings,
-proves their exact marginals/support and directed payoff bounds, consumes
-them in signed recursive certificates, forward sums and inherited security,
-and connects an actual stored-model posterior directly to the changed-kernel/
-changed-opponent conditional gap theorem. The old and new supported type
-kernels are explicit conditionals of the incoming and propagated joint PBS.
-The actual noisy two-stage schedule and a nonconstant disjoint-support
-example consume these constructions. Five independent Fraction tests cover
-marginals, absent summaries, failed premises, small bin diameters, late-fuel
-forward composition and stored-model type-gap comparisons.
-See M06-summary-coupling-batch.md for the dependency order and boundary.
+The new combined batch adds root information-value target vectors computed
+from the actual coupled CFR-D round's searched prefix and returned predictions.
+Terminal utility bypasses prediction. Information-local root conditioning
+preserves the live-vector error bound, even for arbitrarily small positive
+root mass. Componentwise uniform means have exact sum and online-update
+identities and preserve numerical error. The canonical rooted noisy finite-
+child parent supplies its own accuracy proof from bounded prediction noise.
+Examples and seven independent Fraction controls accompany the implementation.
+See M06-value-target-batch.md for source correspondence and semantic boundaries.
 
-The common-summary distribution equality and payoff diameter are sufficient
-conditions, not consequences of approximate Nash. The general noisy solver's
-small-rate proof and complete recursive instantiation remain open.
-The native resolver and its private sampling are unchanged. No hidden state,
-unknown opponent or analysis coupling is added to its runtime inputs.
-Stored MODEL posteriors are not equated to factual unknown-opponent posteriors.
+Source review accepts the unchanged frontier at e123cb8:
+SEARCH-FRONTIER, P-SEARCH-SETUP and P-SEARCH-LEAF. See
+M06-frontier-accepted.md and append-only coverage-updates/M06-frontier.json.
+The frozen coverage.json remains blob 2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
+Root-target source rows, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain
+pending. The new code must pass its own exact-SHA Actions before acceptance.
 
-All new-source Actions checks are pending. Retain 156 build targets and
-118 targeted/261 global audit modules; expected Python tests increase to 169.
-No workflow, audit or specification is weakened. Historical coverage.json
-remains at blob 2fc8cc9ad6607d61bfe397707fb96ac322fbb800; the owner ledger
-at d54ec59 is archived verbatim. Original acceptance rows remain unchanged.
+Expected validation surface increases from 156 to 158 build targets,
+118 to 120 targeted / 261 to 263 global audit modules, and 169 to 176 Python
+tests. No prior target/module/test is removed. Workflow, architecture gates
+and axiom allowlist are unchanged. All new-source verification is pending.
 
-Use the main agent only, no subagents. Implement related items and fixes in
-large batches, not individual lemma commits. After each branch update,
-confirm separate same-SHA workflows and schedule this chat once about
-50 minutes after the update in Asia/Tokyo. If still running then, schedule
-another single check about 10 minutes later. Do not stop or continuously poll.
+The numerical target bound is relative to the mean of actual same-round
+continuations. It is not target convergence, joint-average-profile equality,
+or last-iterate convergence. Absent root labels are explicitly separate from
+observed training support. Stored MODEL posteriors remain distinct from an
+unknown opponent's factual law. Summary-law equality/small diameter have not
+been derived for arbitrary independent recursive re-solving.
 
-Remaining: discharge useful small-cost conditions for the actual recursive
-solver, instantiate the stored-posterior comparisons throughout the recursion,
-and complete SEARCH-FRONTIER/SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 source
-correspondence and acceptance. Preserve the printed R5 mismatch, finite-T
-residual, and independence from learner convergence. M06 is incomplete.
+Use only the main agent, no subagents. Implement related items and fixes in
+large dependency-ordered batches. After a ref update, confirm separate
+same-SHA workflows and schedule this chat once about 50 minutes later in
+Asia/Tokyo. If still running then, schedule another one-shot check about
+10 minutes later. Do not stop workflows or poll continuously.
+
+Remaining: useful small-cost bounds for the actual recursive solver;
+recursive instantiation of the stored-posterior comparisons; supported-root
+and target/algorithm source review; SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3
+acceptance. Preserve the printed R5 mismatch and finite-T residual, and do
+not assume network training convergence. M06 remains incomplete.

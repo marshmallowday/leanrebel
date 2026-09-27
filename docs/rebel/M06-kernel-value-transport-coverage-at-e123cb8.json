@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
+  "parent": "d54ec59cfaa17a117a9a720d1b85ba64842f4315",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -24,7 +24,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-6b6c4ab.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-d54ec59.json"
   ],
-  "semantic_review": "docs/rebel/M06-value-target-batch.md",
+  "semantic_review": "docs/rebel/M06-summary-coupling-batch.md",
   "repair_review": "docs/rebel/M06-signed-kernel-6b6c4ab-failure.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
@@ -80,17 +80,17 @@
     "evidence": "docs/rebel/M06-signed-kernel-d54ec59-accepted.md"
   },
   "validation": {
-    "compiler": "pending exact root-value-target batch SHA",
-    "normal_and_slow_lint": "pending exact root-value-target batch SHA",
-    "transitive_axioms": "pending exact root-value-target batch SHA",
+    "compiler": "pending exact constructed-summary batch SHA",
+    "normal_and_slow_lint": "pending exact constructed-summary batch SHA",
+    "transitive_axioms": "pending exact constructed-summary batch SHA",
     "core_blob": "5a0091144c5611c1fe4d5173b826ca5bef6ef50c",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
-    "root_blob": "17bea56410e96c09c5380267796630bbae162256",
-    "targets_blob": "0b44a341982fd3c3d8537a4118e9516dfa958586",
-    "audit_consumer_blob": "4d040df39b73eaca37e7aa4e4085e9055ffee5e0",
-    "expected_target_modules": 120,
-    "expected_global_modules": 263,
+    "root_blob": "a0b3c360c71e00a43af53449946651b2e9082f04",
+    "targets_blob": "524f37f35fd45f6bd1f1cd0328c8661438a2a877",
+    "audit_consumer_blob": "c73b069b7dfbdb1bacc408a04041ff0900e6b616",
+    "expected_target_modules": 118,
+    "expected_global_modules": 261,
     "python_file": "scripts/rebel/tests/test_kernel_value_transport.py",
     "python_blob": "31614fa879377d164e63132047022aed6683877b",
     "new_python_tests": 12,
@@ -101,16 +101,15 @@
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md",
     "previous_python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
-    "expected_total_python_tests": 176,
+    "expected_total_python_tests": 169,
     "historical_coverage_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
-    "expected_build_targets": 158
+    "expected_build_targets": 156
   },
   "remaining": [
-    "Validate the complete root-value-target batch at its exact SHA",
-    "Review supported-root and per-iteration value-target source correspondence before accepting P-CFRD-TARGET/P-CFRD-AVERAGE",
-    "Instantiate stored-model posterior comparisons throughout the recursive solver analysis",
-    "Derive useful small signed costs or common-summary/payoff bounds for actual independent recursive solves",
-    "Close remaining SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 source acceptance"
+    "Validate the complete constructed-summary batch at its exact SHA",
+    "Instantiate actual stored-posterior comparisons throughout the remaining recursive solver analysis",
+    "Derive common-summary laws and useful payoff bounds, or alternative small-cost estimates, from the actual solver",
+    "Close original SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 acceptance with paper correspondence"
   ],
   "baseline_acceptance": {
     "commit": "9457c198126f3c8b7cb1045bbed2e0053788636f",
@@ -155,22 +154,22 @@
     "remaining": "Small execution costs, actual recursive posterior identification, late-value composition and signed CarriedResolveStepBounds are not proved."
   },
   "latest_accepted": {
-    "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
-    "target_run": 36329638834,
-    "target_job": 108648987636,
-    "target_declarations": 1990,
+    "commit": "d54ec59cfaa17a117a9a720d1b85ba64842f4315",
+    "target_run": 36325714657,
+    "target_job": 108637977713,
+    "target_declarations": 1974,
     "target_modules": 118,
-    "global_run": 36329638875,
-    "global_job": 108648987936,
-    "global_declarations": 5138,
+    "global_run": 36325714645,
+    "global_job": 108637977836,
+    "global_declarations": 5129,
     "global_modules": 261,
-    "ci_run": 36329638855,
-    "ci_job": 108648987757,
-    "inventory_run": 36329638914,
-    "inventory_job": 108648987889,
-    "python_tests": 169,
+    "ci_run": 36325714671,
+    "ci_job": 108637977692,
+    "inventory_run": 36325714665,
+    "inventory_job": 108637978961,
+    "python_tests": 164,
     "all_runs": "success",
-    "evidence": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md"
+    "evidence": "docs/rebel/M06-signed-kernel-d54ec59-accepted.md"
   },
   "carried_value_batch": {
     "status": "accepted_at_d771e88",
@@ -257,7 +256,7 @@
     "acceptance_review": "docs/rebel/M06-signed-kernel-d54ec59-accepted.md"
   },
   "summary_coupling_batch": {
-    "status": "accepted_at_e123cb8",
+    "status": "pending_exact_sha_actions",
     "semantic_review": "docs/rebel/M06-summary-coupling-batch.md",
     "declarations": [
       "summaryCoupling",
@@ -284,67 +283,6 @@
     },
     "new_fraction_tests": 5,
     "expected_python_tests": 169,
-    "scope": "constructed coupling from full observable-law equality and supported payoff ranges; concrete stored-model kernel comparison; no unrestricted-solver rate claimed",
-    "acceptance_review": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md",
-    "python_acceptance": {
-      "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
-      "run": 36329638914,
-      "job": 108648987889,
-      "tests": 169,
-      "result": "success"
-    }
-  },
-  "root_value_target_batch": {
-    "status": "pending_exact_sha_actions",
-    "semantic_review": "docs/rebel/M06-value-target-batch.md",
-    "modules": [
-      "GameTheory.Analysis.ReBeL.CFRDValueTarget",
-      "GameTheory.Analysis.ReBeL.Examples.CFRDValueTarget"
-    ],
-    "new_fraction_tests": 7,
-    "expected_python_tests": 176,
-    "expected_build_targets": 158,
-    "expected_targeted_modules": 120,
-    "expected_global_modules": 263,
-    "scope": "Actual current-round predicted root vector, terminal-exact backup, root conditioning and uniform accumulation; numerical error relative to same-round continuations, not equilibrium or network convergence.",
-    "declarations": [
-      "GameTheory.ReBeL.terminalExact_root_error",
-      "GameTheory.ReBeL.cfrDValueTargetMean",
-      "GameTheory.ReBeL.cfrDValueTargetMean_eq_sum",
-      "GameTheory.ReBeL.cfrDValueTargetMean_one",
-      "GameTheory.ReBeL.cfrDValueTargetMean_succ",
-      "GameTheory.ReBeL.cfrDValueTargetMean_error",
-      "GameTheory.ReBeL.cfrDDepthValueTarget",
-      "GameTheory.ReBeL.cfrDDepthValueTargetSupport",
-      "GameTheory.ReBeL.cfrDDepthExactTarget",
-      "GameTheory.ReBeL.cfrDDepthValueTarget_error",
-      "GameTheory.ReBeL.cfrDDepthValueTargetMean_error",
-      "GameTheory.ReBeL.pbsRootValueReadout",
-      "GameTheory.ReBeL.pbsRootValueReadout_snapshot",
-      "GameTheory.ReBeL.pbsRootDepthValueTarget",
-      "GameTheory.ReBeL.pbsRootDepthValueTarget_error",
-      "GameTheory.ReBeL.pbsRootDepthValueTargetMean",
-      "GameTheory.ReBeL.pbsRootDepthValueTargetMean_error",
-      "GameTheory.ReBeL.Examples.HiddenTypes.valueTarget_noisy_mean",
-      "GameTheory.ReBeL.Examples.HiddenTypes.valueTarget_no_hidden_leak",
-      "GameTheory.ReBeL.Examples.HiddenTypes.targetVectorControl",
-      "GameTheory.ReBeL.Examples.HiddenTypes.valueTarget_vector_control"
-    ],
-    "blobs": {
-      "GameTheory/Analysis/ReBeL/CFRDValueTarget.lean": "de4cfd423518093f2b675888392e39116c92b580",
-      "GameTheory/Analysis/ReBeL/Examples/CFRDValueTarget.lean": "db70eb6faa64849c6359bd8c421c33c599f80637",
-      "GameTheory/Analysis/ReBeL.lean": "17bea56410e96c09c5380267796630bbae162256",
-      "scripts/rebel/tests/test_value_target.py": "de525eed5d2f91e69de5b0906c8c620955a96019"
-    }
-  },
-  "frontier_source_acceptance": {
-    "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
-    "journal": "docs/rebel/coverage-updates/M06-frontier.json",
-    "rows": [
-      "SEARCH-FRONTIER",
-      "P-SEARCH-SETUP",
-      "P-SEARCH-LEAF"
-    ],
-    "review": "docs/rebel/M06-frontier-accepted.md"
+    "scope": "constructed coupling from full observable-law equality and supported payoff ranges; concrete stored-model kernel comparison; no unrestricted-solver rate claimed"
   }
 }

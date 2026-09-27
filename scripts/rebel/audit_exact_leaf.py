@@ -13,6 +13,8 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULES = (
+    "GameTheory.Analysis.ReBeL.CFRDValueTarget",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDValueTarget",
     "GameTheory.Math.Probability.FinDistConditioning",
     "GameTheory.Analysis.ReBeL.CFRDFactualChild",
     "GameTheory.Analysis.ReBeL.CFRDFactualQuery",

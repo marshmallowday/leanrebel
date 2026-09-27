@@ -154,3 +154,5 @@ GameTheory.Analysis.ReBeL.PBSDepthKernelGap
 GameTheory.Analysis.ReBeL.Examples.PBSKernelValueTransport
 GameTheory.Analysis.ReBeL.PBSCarriedValue
 GameTheory.Analysis.ReBeL.Examples.PBSCarriedValue
+GameTheory.Analysis.ReBeL.CFRDValueTarget
+GameTheory.Analysis.ReBeL.Examples.CFRDValueTarget

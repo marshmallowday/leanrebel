@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "base_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
+  "milestone": "M06",
+  "updates": [
+    {
+      "id": "SEARCH-FRONTIER",
+      "from_status": "pending",
+      "status": "verified",
+      "evidence": [
+        {
+          "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
+          "module": "GameTheory/ReBeL/Frontier.lean",
+          "declaration": "GameTheory.ReBeL.publicFrontier_info_closed",
+          "source_blob": "f8cbdf8d294f8a2e3cd0d134297347f4f5036697",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md; CI run 36329638855/job 108648987757; ReBeL checks run 36329638875/job 108648987936",
+          "axioms_log": "Full decoded ReBeL job 108648987936: 5138 unique complete transitive records; only propext, Classical.choice, Quot.sound. Targeted job 108648987636: 1990 records.",
+          "semantic_review": "docs/rebel/M06-frontier-accepted.md",
+          "assumptions": "Canonical legal information-local protocol; finite player index and finite fuel. Root decoding uses full AOH and common public root depth; one administrative chance step. No Nash, oracle-accuracy or learner-convergence assumption.",
+          "source_reading": "Main sections 3/5.1: public stopping is closed under each player's full information equivalence."
+        },
+        {
+          "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
+          "module": "GameTheory/ReBeL/Frontier.lean",
+          "declaration": "GameTheory.ReBeL.frontierRun_bind_continuation",
+          "source_blob": "f8cbdf8d294f8a2e3cd0d134297347f4f5036697",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md; CI run 36329638855/job 108648987757; ReBeL checks run 36329638875/job 108648987936",
+          "axioms_log": "Full decoded ReBeL job 108648987936: 5138 unique complete transitive records; only propext, Classical.choice, Quot.sound. Targeted job 108648987636: 1990 records.",
+          "semantic_review": "docs/rebel/M06-frontier-accepted.md",
+          "assumptions": "Canonical legal information-local protocol; finite player index and finite fuel. Root decoding uses full AOH and common public root depth; one administrative chance step. No Nash, oracle-accuracy or learner-convergence assumption.",
+          "source_reading": "Main section 5.1: a finite stopped subgame retains exactly the continuation of the canonical runner."
+        },
+        {
+          "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
+          "module": "GameTheory/ReBeL/Frontier.lean",
+          "declaration": "GameTheory.ReBeL.frontierValue_exact",
+          "source_blob": "f8cbdf8d294f8a2e3cd0d134297347f4f5036697",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md; CI run 36329638855/job 108648987757; ReBeL checks run 36329638875/job 108648987936",
+          "axioms_log": "Full decoded ReBeL job 108648987936: 5138 unique complete transitive records; only propext, Classical.choice, Quot.sound. Targeted job 108648987636: 1990 records.",
+          "semantic_review": "docs/rebel/M06-frontier-accepted.md",
+          "assumptions": "Canonical legal information-local protocol; finite player index and finite fuel. Root decoding uses full AOH and common public root depth; one administrative chance step. No Nash, oracle-accuracy or learner-convergence assumption.",
+          "source_reading": "Main section 5.1: terminal utility and live-cut continuation remain distinct in the backed-up value."
+        }
+      ]
+    },
+    {
+      "id": "P-SEARCH-SETUP",
+      "from_status": "pending",
+      "status": "verified",
+      "evidence": [
+        {
+          "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
+          "module": "GameTheory/ReBeL/Frontier.lean",
+          "declaration": "GameTheory.ReBeL.frontierRun_support",
+          "source_blob": "f8cbdf8d294f8a2e3cd0d134297347f4f5036697",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md; CI run 36329638855/job 108648987757; ReBeL checks run 36329638875/job 108648987936",
+          "axioms_log": "Full decoded ReBeL job 108648987936: 5138 unique complete transitive records; only propext, Classical.choice, Quot.sound. Targeted job 108648987636: 1990 records.",
+          "semantic_review": "docs/rebel/M06-frontier-accepted.md",
+          "assumptions": "Canonical legal information-local protocol; finite player index and finite fuel. Root decoding uses full AOH and common public root depth; one administrative chance step. No Nash, oracle-accuracy or learner-convergence assumption.",
+          "source_reading": "Main pp.5-6: every searched leaf is a public cut, terminal, or exhausted finite horizon."
+        },
+        {
+          "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
+          "module": "GameTheory/ReBeL/ConditionalOracle.lean",
+          "declaration": "GameTheory.ReBeL.frontierIterationQueries_bind",
+          "source_blob": "ef127269fe1218804346e8dccc00a2fc1cd3eebe",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md; CI run 36329638855/job 108648987757; ReBeL checks run 36329638875/job 108648987936",
+          "axioms_log": "Full decoded ReBeL job 108648987936: 5138 unique complete transitive records; only propext, Classical.choice, Quot.sound. Targeted job 108648987636: 1990 records.",
+          "semantic_review": "docs/rebel/M06-frontier-accepted.md",
+          "assumptions": "Canonical legal information-local protocol; finite player index and finite fuel. Root decoding uses full AOH and common public root depth; one administrative chance step. No Nash, oracle-accuracy or learner-convergence assumption.",
+          "source_reading": "Main section 5.1: current stopped discrete histories convert losslessly to joint public-belief queries."
+        },
+        {
+          "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
+          "module": "GameTheory/Analysis/ReBeL/PBSRootDecode.lean",
+          "declaration": "GameTheory.ReBeL.pbsRootDecodeProfile_law",
+          "source_blob": "6215b5e6896c70da67d65f7d60d4047cf5c85db0",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md; CI run 36329638855/job 108648987757; ReBeL checks run 36329638875/job 108648987936",
+          "axioms_log": "Full decoded ReBeL job 108648987936: 5138 unique complete transitive records; only propext, Classical.choice, Quot.sound. Targeted job 108648987636: 1990 records.",
+          "semantic_review": "docs/rebel/M06-frontier-accepted.md",
+          "assumptions": "Canonical legal information-local protocol; finite player index and finite fuel. Root decoding uses full AOH and common public root depth; one administrative chance step. No Nash, oracle-accuracy or learner-convergence assumption.",
+          "source_reading": "Main section 5.1: arbitrary rooted solver policies decode to the original joint-PBS continuation law; public root depth and administrative fuel are explicit."
+        }
+      ]
+    },
+    {
+      "id": "P-SEARCH-LEAF",
+      "from_status": "pending",
+      "status": "verified",
+      "evidence": [
+        {
+          "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
+          "module": "GameTheory/ReBeL/Frontier.lean",
+          "declaration": "GameTheory.ReBeL.frontierRun_terminal",
+          "source_blob": "f8cbdf8d294f8a2e3cd0d134297347f4f5036697",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md; CI run 36329638855/job 108648987757; ReBeL checks run 36329638875/job 108648987936",
+          "axioms_log": "Full decoded ReBeL job 108648987936: 5138 unique complete transitive records; only propext, Classical.choice, Quot.sound. Targeted job 108648987636: 1990 records.",
+          "semantic_review": "docs/rebel/M06-frontier-accepted.md",
+          "assumptions": "Canonical legal information-local protocol; finite player index and finite fuel. Root decoding uses full AOH and common public root depth; one administrative chance step. No Nash, oracle-accuracy or learner-convergence assumption.",
+          "source_reading": "Main section 5.1: a true terminal is absorbing before any further search."
+        },
+        {
+          "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
+          "module": "GameTheory/ReBeL/Frontier.lean",
+          "declaration": "GameTheory.ReBeL.frontierValue_exact",
+          "source_blob": "f8cbdf8d294f8a2e3cd0d134297347f4f5036697",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md; CI run 36329638855/job 108648987757; ReBeL checks run 36329638875/job 108648987936",
+          "axioms_log": "Full decoded ReBeL job 108648987936: 5138 unique complete transitive records; only propext, Classical.choice, Quot.sound. Targeted job 108648987636: 1990 records.",
+          "semantic_review": "docs/rebel/M06-frontier-accepted.md",
+          "assumptions": "Canonical legal information-local protocol; finite player index and finite fuel. Root decoding uses full AOH and common public root depth; one administrative chance step. No Nash, oracle-accuracy or learner-convergence assumption.",
+          "source_reading": "Main section 5.1: actual terminal payoff bypasses the prediction; only live search cuts use continuation values."
+        }
+      ]
+    }
+  ]
+}
