@@ -1,58 +1,62 @@
-# ReBeL status — schedule-support abstraction repair; M06 incomplete
+# ReBeL status — exact schedule-support checkpoint; M06 incomplete
 
 ## Latest resumable branch
 
-Continue `rebel/m06-schedule-support-review-20260927`. The abstraction correction
-is a direct descendant of e1e5a37e26a6d01d2c1cb209d28ca583cfc42054, keeping b0e's
-seven finite-schedule fixtures, the 370384 implementation, and all inherited M06
-work. The original failed candidate remains preserved on
-`rebel/m06-schedule-support-20260927`. Initial latest checkpoint f3c and source
-3dfa remain in the ancestry. Main is accepted M05, not the latest M06 branch.
+Continue `rebel/m06-schedule-support-checkpoint-20260927`, an evidence-only
+descendant of implementation 4784d83b41c644c043557ac1080fa2df1991be18. The source
+branch `rebel/m06-schedule-support-review-20260927` is preserved at 4784 so its
+in-progress checks are not cancelled by documentation writes. The ancestry
+retains e1, b0e, 370384, 7944888, the original latest f3c checkpoint and all M06
+native support work. Main remains accepted M05, not the latest M06 source.
 
-## Actual failures and corrections
+## Exact-source evidence and immediate next check
 
-370384 TARGET run 36283825513 / job 108520661241 failed at
-PBSCarriedSupport.lean:90:10. Complete artifact 10920246119 confirms the additive
-monotonicity nesting error; stale in-progress job summaries were superseded.
-The e1 correction uses explicit add_le_add nesting without changing statements.
+4784 TARGET run 36284548964 / job 108522796260 was compiling the declared M06
+targets when reviewed. Next obtain its final m06-targeted artifact and inspect
+complete compiler, normal/slow lint and every transitive-axiom record for all
+111 audited modules, including all new names. No new Lean acceptance is claimed.
 
-The independent e1 GLOBAL run 36284378049 / job 108522217037 then reported
-static architecture FAILURE before compiler setup. Complete artifact 10920495339
-shows one analysis transport and one outside-owner representation token where
-both fixed budgets are zero. The new nil proof used change and an ENNReal lemma.
-This correction replaces them with public FinDist expectation/indicator
-nonnegativity, preserving the abstraction boundary rather than editing gates.
+4784 GLOBAL run 36284548923 / job 108522699001 independently passed the real
+unchanged static architecture gate, widths, ledger/fixtures and rational runtime
+steps, and was in its compiler/lint/axiom step. Full CI 36284548898 /
+job 108522802089 was separately in progress. These are metadata observations,
+not a completed global/full-CI audit. Check eventual artifacts independently.
 
-Current core blob: ff5bf151d7e8bb146c02a5eeb1749972a77e42a9. No statement, control,
-fixture, dependency pin, workflow, audit consumer or gate budget is weakened.
-M06-schedule-support-validation.md, M06-schedule-support-architecture.md and the
-owning coverage JSON preserve every failed source, run and exact repair.
-Next inspect this correction's own compiler, normal/slow lint and complete
-transitive-axiom evidence. These checks and the actual global gate are pending.
-Neither local lexical checks nor an inherited pass accepts the new source.
+The exact source snapshot (artifact 10920061478, snapshot job 108522699098)
+was downloaded through the connector, hashes checked and unpacked without git.
+All 127 arithmetic fixtures plus ledger/inventory checks passed on the EXACT
+unmodified 4784 extraction. All five core declarations, four control names and
+every root/build/audit consumer were checked. This is not Lean verification.
+See M06-schedule-support-4784-validation.md and the owning coverage JSON for
+exact hashes, source, run/job identities, expectations and next checks.
 
-## Completed inherited evidence: do not repeat
+## Preserved failure history and completed baseline
 
-Exact 3dfa TARGET: 1,797 complete unique allowlisted records / 110 module lints.
-Exact 3dfa GLOBAL run 36281726986 / job 108514756082: success; artifact
-10920070597 completely inspected, 4,962 complete records / 253 module lints,
-static VERIFIED=1 and exact-source runtime pass. Full CI 36281726988 /
-job 108514874942 independently reports every step successful. See
-M06-resolver-support-global-accepted.md and its owning coverage JSON. Earlier
-b833 global evidence remains accepted. None validates new source.
+370384 failed a nested additive monotonicity term; e1 repaired that term but
+failed the analysis transport and representation-owner budgets. 4784 uses only
+the public FinDist expectation/indicator API in the nil case. Every statement,
+parameter, control, fixture, dependency and gate is preserved. The two failure
+notes and the owning ledger retain actual diagnostics and artifact identities.
 
-## Proof scope and remaining tasks
+Do NOT repeat inherited 3dfa target/global acceptance: 1,797 target records /
+110 target lints; 4,962 complete global records / 253 global lints, all allowed,
+with the actual complete archives inspected. Full 3dfa CI separately succeeded.
+M06-resolver-support-global-accepted.md and its coverage JSON own those results;
+b833 global evidence remains accepted too. Neither validates new source.
 
-The finite-schedule candidate bounds visits and first-hit probability under
-actual full-state prefixes, with native noisy depth-CFR and bounded-future
-sampling consumers. The sum may overcount and includes the last transition;
-first-hit itself observes stage inputs only. Three Lean controls and seven
-Fraction tests distinguish these boundaries and wrong private-model weighting.
-All 127 local arithmetic fixtures passed; these are not Lean proofs.
+## Proof scope and remaining obligations
 
-Small primitive leakage, changed-PBS native/late value gaps and source-specific
-signed CarriedResolveStepBounds remain open. Keep the same unknown opponent,
-joint compatibility, public-event denominators and finite-T residuals.
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-M06 is incomplete; learner convergence is not a substitute for test-time safety.
-No background monitoring is implied.
+The candidate composes native support charges under actual full-state prefix
+laws, bounds visits and first-hit probability, and specializes to noisy
+depth-CFR with a bounded-future sampling comparison. It retains private-model
+pairing and the same unknown opponent. Its forward sum may overcount and
+includes the last transition; first-hit itself observes stage inputs only.
+The three Lean controls and seven Fraction fixtures separate these boundaries
+and wrong private-model weighting, including 2,187 inhomogeneous schedule cases.
+
+Small primitive leakage, changed-PBS native/late signed value gaps and the
+constructed CarriedResolveStepBounds remain open. Preserve joint compatibility,
+public-event denominators and finite-T residuals. SEARCH-FRONTIER, SEARCH-CFRD,
+SEARCH-ERROR and SAFE-THEOREM3 remain pending. M06 is incomplete; learner
+convergence is not a substitute for test-time safety. No background monitoring
+is implied.
