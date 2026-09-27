@@ -67,10 +67,7 @@ theorem infoValue_abs_sub_le_kernelVariation
     opponents newType left
   have rightBound := old.conditionalPayoff_le_infoValue hrecall fallback fuel payoff
     opponents oldType right
-  change old.conditionalPayoff opponents fuel payoff left oldType =
-    old.infoValue fallback fuel payoff opponents oldType at leftAttains
-  change fresh.conditionalPayoff opponents fuel payoff right newType =
-    fresh.infoValue fallback fuel payoff opponents newType at rightAttains
+  dsimp only at leftAttains rightAttains
   rw [leftAttains] at first
   rw [rightAttains] at second
   exact abs_le.mpr ⟨by linarith only [second.1, rightBound],

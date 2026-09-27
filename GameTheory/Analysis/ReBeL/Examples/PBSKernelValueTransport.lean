@@ -50,7 +50,7 @@ theorem kernelValueObservable_bound (history : (protocol fullPrior).History) :
     |kernelValueObservable history| ≤ 1 := by
   unfold kernelValueObservable
   cases history.state with
-  | first types => cases types.2 <;> norm_num
+  | first types => split <;> norm_num
   | _ => norm_num
 
 /-- At zero continuation fuel the two compatible kernels really disagree,
@@ -85,7 +85,8 @@ theorem kernelValue_variation_two
     kernelValueObservable_bound
   have upper := FinDist.atomVariation_le_two
     (kernelValueBelief false).law (kernelValueBelief true).law
-  norm_num [kernelValue_payoff_zero, kernelValueSlice] at lower
+  rw [kernelValue_payoff_zero, kernelValue_payoff_zero] at lower
+  norm_num [kernelValueSlice] at lower
   exact le_antisymm upper lower
 
 /-- Identical own-type weights, public observation and opposing policies do
