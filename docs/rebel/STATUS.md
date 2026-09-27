@@ -1,49 +1,53 @@
-# ReBeL status — primitive support type-index repair; M06 incomplete
+# ReBeL status — primitive rates compiled; audits pending; M06 incomplete
 
-Continue `rebel/m06-primitive-support-checkpoint-20260927`, now containing the
-single-expression native resolver type-index repair above evidence checkpoint
-ae3443df4fced7e8169e3a20cfe1ec1d426a70e2. All d6c5 code and inherited 4784
-acceptance remain in its ancestry. Main is accepted M05, not latest M06.
-The original source branch `rebel/m06-primitive-support-20260927` remains at
-failed d6c50c6607c5f449cdf7bbf1bc34cd09c5680443 for reproducible diagnostics.
+Continue `rebel/m06-primitive-support-validation-20260927`, the evidence-only
+descendant of source 35d0bc04dcc12c3badad5a577f5218b5cc6d9a75. Preserve source
+branch `rebel/m06-primitive-support-checkpoint-20260927` at 35d0 while its
+validation completes. Failed d6c5 remains on the original implementation branch.
+The chain retains ae3443d, 03d75bf and the original latest 2a7c55a checkpoint.
+Main is accepted M05, not latest M06. No force push, deletion or pin update.
 
-## Compiler failure and precise repair
+## Exact current compiler progress and next check
 
-The complete d6c5 TARGET log from run 36286902665 / job 108529260920 and
-artifact 10920609369 establishes failure at PBSCarriedSupport.lean:262:74.
-A prior job summary still displayed compilation in progress. The native factory
-uses fullInformation M; its dependent carried belief cannot be indexed by the
-original M's different publicTrace universe instantiation. The repair uses
-(fullInformation M).toInfoSignals at that argument, without a cast, a universe
-restriction or any weakened premise or conclusion. The generic math file and
-all five Lean controls are unchanged. See M06-primitive-support-d6c5-failure.md.
+TARGET 36287339648 / job 108530477785 compiled every declared M06 target
+successfully. Its subsequent normal/slow lint and transitive-axiom step was
+still running. Obtain its complete final artifact and inspect every record;
+compiler-step success alone is NOT target acceptance. The owning primitive
+coverage and M06-primitive-support-35d0-validation.md identify exact declarations,
+source blobs and every separate run.
 
-Next inspect this repaired commit's own target compiler feedback, then all
-normal/slow lint and complete axiom records, and global/full CI independently.
-The failed source's target lint/axiom step never ran. Both edited modules remain
-in the existing 111-module target and 254-module global audit consumers; no
-workflow, gate, dependency pin, allowlist or control was relaxed.
+GLOBAL 36287339585 / job 108530593276 passed static architecture, widths,
+ledger/inventory/fixtures and rational runtime, and was in compiler/lint/axioms.
+FULL CI 36287339593 / job 108530515400 was still in its Lean action step.
+INVENTORY 36287339601 / job 108530477522 succeeded. Check these independently.
+No new final lint or axiom acceptance is claimed from older-source results.
 
-All 134 Python fixtures and ledger/inventory checks passed on the exact d6c5
-snapshot downloaded through the connector. That arithmetic evidence is not
-Lean verification, and the repaired source needs its own compiler evidence.
+The exact 35d0 snapshot artifact 10921345479 was downloaded through the GitHub
+connector, its source identity and both Lean blobs checked, then extracted
+without git. All 134 Python fixtures plus ledger/inventory structure checks
+passed on that unmodified source. This is arithmetic, not local Lean evidence.
+The prior publicTrace universe failure is repaired by using the actual
+fullInformation M signal index; the generic math and all controls are preserved.
 
 ## Completed inherited acceptance
 
-Do not repeat 4784 target/global audit work: 1,823 target records / 111 lints;
-4,988 complete unique global records / 254 lints, all allowlisted. Its full
-static, runtime and global validation artifacts were inspected. Full CI passed
-separately in job-step metadata. The owning schedule coverage and
-M06-schedule-support-global-accepted.md record the exact results. Prior 370384/e1
-failures and 3dfa/b833 acceptance remain preserved, not evidence for newer code.
+Do not repeat 4784 target/global inspections: target 1,823 complete allowlisted
+records and 111 normal/slow lints; global 4,988 complete unique allowed records
+and 254 lints, with full static and runtime reports actually inspected. Full CI
+passed separately in job-step metadata. Owning schedule coverage and
+M06-schedule-support-global-accepted.md retain exact evidence and earlier pending
+observations. The d6c5, 370384 and e1 failures remain recorded, along with older
+3dfa/b833 accepted evidence. None of these is acceptance of 35d0.
 
-## Proof scope and remaining work
+## Remaining proof obligations
 
-The candidate derives first-hit probability rates only from good-state primitive
-leakage and omits the last transition. It preserves actual full-state laws,
-private model pairing and the same unknown opponent. Primitive smallness for
-unrestricted finite-T CFR, changed-PBS native/late signed value gaps and
-constructed CarriedResolveStepBounds remain open. Preserve joint compatibility,
-actual public-event denominators, finite-T residuals and the R5 distinction.
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 stay pending.
-M06 is incomplete. No learner-convergence assumption substitutes for safety.
+Seven core definitions/theorems now compile for primitive good-state leakage
+and native first-hit probability, excluding the last transition and repeated
+bad visits. Five Lean controls and seven Fraction fixtures preserve absorbing
+failure, initial defects, private model pairing and the same unknown opponent.
+Primitive smallness for unrestricted finite-T CFR is still an obligation.
+Changed-PBS native/late signed value gaps and constructed CarriedResolveStepBounds
+remain open. Preserve joint compatibility, actual public-event denominators,
+finite-T residuals and the R5 source distinction. SEARCH-FRONTIER, SEARCH-CFRD,
+SEARCH-ERROR and SAFE-THEOREM3 stay pending. M06 is incomplete; learner
+convergence does not substitute for independent test-time safety.
