@@ -1,33 +1,33 @@
-# ReBeL status — changed-kernel syntax repair; M06 incomplete
+# ReBeL status — changed-kernel proof repair; M06 incomplete
 
-Continue rebel/m06-kernel-value-transport-20260927. This repair descends from
-dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb on the evidence-checkpoint branch,
-retaining original latest0285, parent372, implementation3ef5 and every audit.
-Main is accepted M05, not latest M06. No force-push, deletion or pin change.
+Continue rebel/m06-kernel-value-transport-20260927. The repair descends from
+44501411d319c50547611e771c6050a12692d01f, retaining latest original0285,
+parent372, original3ef5 and evidence checkpointdac8. Main is accepted M05,
+not the latest M06. All source, failure and accepted evidence is retained.
 
-3ef5 TARGET36292013486 / job108543785041 failed because recall was a reserved
-command token, not a binder identifier. The full failed artifact was inspected.
-The repair only renames that binder and its uses to hrecall. All theorem types,
-controls, consumers and constants remain. Exact repaired-source compilation,
-normal/slow lint and complete axiom acceptance are still pending. The owning
-M06-kernel-value-transport-coverage.json and failure note preserve exact evidence.
+The4450 target failed at beta-redex rewrite matching, the abs_add spelling and
+an additive-monotonicity summand order. The full artifact was inspected. Repairs
+normalize the two attainment witnesses, use abs_add_le and explicit add_le_add,
+and reuse canonical zero-fuel APIs in controls. Every mathematical statement,
+constant, fixture, dependency and frozen gate is unchanged. No new Lean acceptance
+is claimed: obtain exact repaired-source target artifacts next, and inspect
+compiler, all116 normal/slow lints and every complete transitive-axiom record.
 
-The three added modules derive fixed-opponent conditional value/gap stability
-under changed compatible joint kernels, then integrate the actual noisy depth
-parent under its actual correlated event-selected query. Expected targeted/global
-audit counts remain116/259. All149 Python tests, ledger and inventory checks pass
-on the exact unmodified3ef5 snapshot; this is not Lean acceptance of the repair.
+The generic slice bounds payoff, actual attained optimum and gap changes between
+complete compatible joint kernels with fixed opposing policies. Its depth bridge
+uses the actual noisy parent, computed average opponent, joint selected query,
+actual event denominator and finite-T residual. Expected global audit count259.
+All149 Python fixtures pass on the exact4450 source, not merely a prepared tree;
+this does not verify the new Lean repair. Owning coverage and both failure notes
+retain hashes, exact source snapshots, run/job identities and pending boundaries.
 
-Do not repeat inherited51d5 acceptance: the complete target and global archives
-were inspected (1871/5021 complete unique allowlisted axiom records,113/256
-normal/slow module lints). Full CI36289929756 / job108537973949 separately passed
-all required steps. Owning depth-native coverage and accepted notes retain exact
-hashes and earlier failed/pending history; the full old coverage is archived
-byte-identically. None of these results verifies the new kernel source.
+Inherited51d5 target and global acceptance is complete:1871/5021 unique allowed
+axiom records and113/256 normal/slow lints. Full CI36289929756/job108537973949
+passed independently. Do not repeat or apply that evidence to this new source.
 
-Fresh compatible kernels are explicit data, not yet identified with a particular
-recursive resolver's posteriors. The full L1 kernel allowance need not be small.
-Changing opposing policies, small primitive leakage/kernel rates, late-value
-transport and constructed signed CarriedResolveStepBounds remain open.
-SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-M06 is incomplete; learner convergence is not independent test-time safety.
+Fresh kernels/readout are compatible explicit data, not yet identified with an
+actual recursive resolver's posterior. Kernel smallness, changing opposing
+policies, primitive support rates, late-value transport and constructed signed
+CarriedResolveStepBounds remain open. SEARCH-FRONTIER, SEARCH-CFRD, SEARCH-ERROR
+and SAFE-THEOREM3 stay pending. M06 is incomplete; learner convergence does not
+substitute for independent test-time safety.

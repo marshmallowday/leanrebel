@@ -60,9 +60,8 @@ theorem kernelValue_payoff_zero (bit : Bool)
     (replacement : (model fullPrior).BehavioralPolicy 0) :
     (kernelValueSlice bit).conditionalPayoff opponents 0 kernelValueObservable replacement () =
       if bit then 1 else -1 := by
-  simp [TypeBeliefSlice.conditionalPayoff, PublicBelief.continuationLaw,
-    kernelValueSlice, kernelValueBelief, InformationModel.runBehavioralFrom,
-    kernelValueObservable, fullDraw, drawHistory, History.extend]
+  rw [TypeBeliefSlice.conditionalPayoff, PublicBelief.continuationLaw_zero]
+  exact FinDist.expect_pure (fullDraw (false, bit)) kernelValueObservable
 
 /-- The actual attained conditional optimum has the same explicit value;
 no equilibrium or numerical optimizer certificate is assumed. -/
@@ -85,7 +84,8 @@ theorem kernelValue_variation_two
     kernelValueObservable_bound
   have upper := FinDist.atomVariation_le_two
     (kernelValueBelief false).law (kernelValueBelief true).law
-  norm_num [kernelValue_payoff_zero, kernelValueSlice] at lower
+  rw [kernelValue_payoff_zero, kernelValue_payoff_zero] at lower
+  norm_num at lower
   exact le_antisymm upper lower
 
 /-- Identical own-type weights, public observation and opposing policies do
@@ -124,6 +124,7 @@ theorem depthKernel_changed_query
           1 1 2 (1 / 8) (1 / 4) 2 +
         4 * query.expect (fun pair =>
           FinDist.atomVariation (slice.kernel pair.2).law (fresh.kernel pair.2).law) := by
+  classical
   intro M slice own fresh noise average execution
   obtain ⟨point, reached⟩ := execution.support_nonempty
   let possible : ∃ point ∈ (Set.univ : Set _), point ∈ execution.support :=
