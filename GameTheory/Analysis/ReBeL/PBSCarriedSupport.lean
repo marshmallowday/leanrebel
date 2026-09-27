@@ -259,7 +259,8 @@ theorem pbsCarriedDepthFirstHitProbability_le_primitiveRate
     (nonnegative : ∀ parameters, 0 ≤ rate parameters)
     (leakage : ∀ parameters state, carriedStateSupported (fullInformation M) state →
       ∀ chosen ∈ ((pbsCarriedDepthConfiguredStage M fallback payoff initial parameters).resolver
-        state.iteration (publicTrace M.toInfoSignals state.history.trace) state.belief).support,
+        state.iteration (publicTrace (fullInformation M).toInfoSignals state.history.trace)
+        state.belief).support,
         ∀ h, ((fullInformation M).runBehavioralFrom
           (Profile.update unknown who (chosen who)) 1 h).probOf
             {next | next ∉ ((fullInformation M).runBehavioralFrom chosen 1 h).support} ≤
