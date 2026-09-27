@@ -46,6 +46,72 @@ theorem sequenceFirstHitProbability_le_one (step : I → A → FinDist A)
     sequenceFirstHitProbability step event stages law ≤ 1 :=
   FinDist.prob_le_one _ _
 
+/-- Only transitions followed by another stage input can create an observed
+first hit. In particular, the final output is not silently added to the schedule. -/
+def firstHitRateBudget (rate : I → ℝ) : List I → ℝ
+  | [] => 0
+  | [_] => 0
+  | label :: next :: labels => rate label + firstHitRateBudget rate (next :: labels)
+
+/-- A sum of nonnegative inter-stage leakage rates is nonnegative. -/
+theorem firstHitRateBudget_nonneg (rate : I → ℝ)
+    (nonnegative : ∀ label, 0 ≤ rate label) (schedule : List I) :
+    0 ≤ firstHitRateBudget rate schedule := by
+  induction schedule with
+  | nil => exact le_refl _
+  | cons label labels ih =>
+      cases labels with
+      | nil => exact le_refl _
+      | cons next labels => exact add_nonneg (nonnegative label) ih
+
+/-- Only leakage from GOOD states needs a primitive bound. Bad states may
+persist or recover arbitrarily: their later visits are not charged again.
+Events may be narrower than the common bad set, and the initial law is arbitrary. -/
+theorem sequenceFirstHitProbability_le_rateBudget
+    (step : I → A → FinDist A) (bad : Set A) (event : I → Set A)
+    (contained : ∀ label, event label ⊆ bad)
+    (rate : I → ℝ) (nonnegative : ∀ label, 0 ≤ rate label)
+    (leakage : ∀ label state, state ∉ bad → (step label state).probOf bad ≤ rate label)
+    (schedule : List I) (law : FinDist A) :
+    sequenceFirstHitProbability step event schedule law ≤
+      law.probOf bad + firstHitRateBudget rate schedule := by
+  classical
+  have pointwise (labels : List I) (state : A) :
+      (sequenceFirstHit step event labels state).prob true ≤
+        (if state ∈ bad then (1 : ℝ) else 0) + firstHitRateBudget rate labels := by
+    induction labels generalizing state with
+    | nil =>
+        by_cases hit : state ∈ bad <;>
+          simp [sequenceFirstHit, prob_pure_eq_ite, firstHitRateBudget, hit]
+    | cons label labels ih =>
+        by_cases hit : state ∈ bad
+        · have unitBound := prob_le_one (sequenceFirstHit step event (label :: labels) state) true
+          have budgetNonnegative := firstHitRateBudget_nonneg rate nonnegative (label :: labels)
+          rw [if_pos hit]
+          linarith
+        · have outside : state ∉ event label := fun found => hit (contained label found)
+          rw [sequenceFirstHit, if_neg outside, prob_bind, if_neg hit, zero_add]
+          cases labels with
+          | nil => simp [sequenceFirstHit, prob_pure_eq_ite, firstHitRateBudget, expect_const]
+          | cons next labels =>
+              calc
+                _ ≤ (step label state).expect (fun target =>
+                    (if target ∈ bad then (1 : ℝ) else 0) +
+                      firstHitRateBudget rate (next :: labels)) :=
+                  expect_mono fun target _ => ih target
+                _ = (step label state).probOf bad + firstHitRateBudget rate (next :: labels) := by
+                  rw [expect_add, expect_indicator_eq_probOf, expect_const]
+                _ ≤ rate label + firstHitRateBudget rate (next :: labels) :=
+                  add_le_add (leakage label state hit) le_rfl
+                _ = _ := rfl
+  calc
+    _ = law.expect (fun state => (sequenceFirstHit step event schedule state).prob true) :=
+      prob_bind _ _ _
+    _ ≤ law.expect (fun state =>
+        (if state ∈ bad then (1 : ℝ) else 0) + firstHitRateBudget rate schedule) :=
+      expect_mono fun state _ => pointwise schedule state
+    _ = _ := by rw [expect_add, expect_indicator_eq_probOf, expect_const]
+
 /-- Integrate signed pointwise error bounds without assuming constant allowances. -/
 private theorem firstHit_average (law : FinDist A) (first second allowance : A → ℝ)
     (bounded : ∀ state ∈ law.support, |first state - second state| ≤ allowance state) :
