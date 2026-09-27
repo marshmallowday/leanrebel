@@ -11,7 +11,7 @@
   "integration_parent": "7326f1e40011b1d4329f09e743491cc7bc7e5746",
   "validation_checkpoint": "3de54cc88fe0ccb87e2aa603c4d833ac5a3d1662",
   "semantic_review": "docs/rebel/M06-support-rates.md",
-  "current_validation_record": "docs/rebel/M06-support-rates-b833-validation.md",
+  "current_validation_record": "docs/rebel/M06-support-rates-b833-global-validation.md",
   "historical_validation_record": "docs/rebel/M06-support-rates-validation.md",
   "source_blobs": {
     "GameTheory/Math/Probability/FinDistKernelVariation.lean": "42c6a646deb428f3a7ec57053281fb3724811c1c",
@@ -67,11 +67,18 @@
       "artifact": 10917649066,
       "zip_sha256": "641ecf4edd5dfd7d500d1bda9f6d87ee3ee2db7f6fa242ef6c953169f5818f30",
       "log_sha256": "f7a826619086fc1214a2926c9c7cda29605f7ce28b3bb9dd87e50fc6af106b7f",
-      "build_jobs": [3475, 3467],
+      "build_jobs": [
+        3475,
+        3467
+      ],
       "lint_passes": 110,
       "complete_axiom_records": 1774,
       "new_public_declarations_checked": 16,
-      "allowlist": ["propext", "Classical.choice", "Quot.sound"],
+      "allowlist": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
       "final_gate": "EXACT_LEAF_VALIDATION_PASS modules=110",
       "new_declaration_excerpt": "docs/rebel/M06-support-rates-axioms.log",
       "excerpt_sha256": "188f6cc81602781922d1e70632d21a8f8354c6f74427c6a91b62f357cf826d09"
@@ -90,11 +97,31 @@
       "python_tests": 112
     },
     "all_rebel": {
-      "status": "pending",
+      "status": "inspected_success",
+      "source": "b833d49b430ac44c433658f3cc72fd130ff0a87f",
       "run": 36277876590,
       "job": 108504099546,
-      "last_observed_stage": "Compile and lint every ReBeL module and audit transitive axioms",
-      "next_check": "Fetch final exact-source jobs/artifacts and inspect complete diagnostics; do not substitute the target or full-CI results."
+      "artifact": 10918521959,
+      "zip_sha256": "551e996b9ae537a019ec6369db73beedda04cb442593f35a0583afd88818e10e",
+      "log_sha256": "0c4727733579cd0002067524a944eaddfce8ea00eaf9ecb58e98aaea9d7e9767",
+      "log_bytes": 1655894,
+      "complete_axiom_records": 4939,
+      "lint_passes": 253,
+      "allowlist": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "final_gate": "REBEL_VALIDATION_PASS modules=253",
+      "actual_output_review": "docs/rebel/M06-support-rates-b833-global-validation.md",
+      "prior_observation": {
+        "status": "pending",
+        "run": 36277876590,
+        "job": 108504099546,
+        "last_observed_stage": "Compile and lint every ReBeL module and audit transitive axioms",
+        "next_check": "Fetch final exact-source jobs/artifacts and inspect complete diagnostics; do not substitute the target or full-CI results."
+      },
+      "scope": "Inherited b833 implementation only; does not validate later resolver-support changes."
     },
     "source_snapshot": {
       "run": 36277876590,
@@ -114,5 +141,6 @@
     "local_lean_execution": false,
     "documentation_checkpoint_head_ci": "not_claimed_complete"
   },
-  "unproved_bridge": "The bound is for a fixed-profile finite continuation. Small one-step leakage for independently re-solved schedules, changed-PBS native/late gaps, actual/model conditional-law identification and CarriedResolveStepBounds remain open. Support dominance is an explicit sufficient premise, not an established property of arbitrary opponents."
+  "unproved_bridge": "The bound is for a fixed-profile finite continuation. Small one-step leakage for independently re-solved schedules, changed-PBS native/late gaps, actual/model conditional-law identification and CarriedResolveStepBounds remain open. Support dominance is an explicit sufficient premise, not an established property of arbitrary opponents.",
+  "target_and_full_ci_validation_record": "docs/rebel/M06-support-rates-b833-validation.md"
 }
