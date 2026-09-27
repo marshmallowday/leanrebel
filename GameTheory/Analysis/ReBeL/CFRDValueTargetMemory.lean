@@ -134,7 +134,8 @@ theorem valueTarget_rootedAt_prefix {Action Private Public : Type*}
           simp only [AOH.length]
           omega
         rw [AOH.rootedAt_eq_snapshot_of_length_le cut _ atCut,
-          AOH.prefixAt_eq_of_length_le 1 _ (Nat.le_refl 1),
+          AOH.prefixAt_eq_of_length_le 1
+            (AOH.rootedSnapshot (AOH.step prior action privateObs publicObs)) (Nat.le_refl 1),
           AOH.prefixAt_eq_of_length_le cut _ atCut]
       · rw [AOH.rootedAt_step cut prior (Nat.le_of_not_gt before),
           AOH.prefixAt_step_of_le 1 _ _ _ _ (valueTarget_rootedAt_positive cut prior),
@@ -161,6 +162,7 @@ theorem pbsRootValueReadout_trace (rootCut : Nat)
         _ = _ := by
           dsimp only [pbsRootValueReadout]
           rw [valueTarget_rootedAt_prefix]
+          rfl
 
 /-- The full law of root labels is the input PBS own-type law, independent
 of the searched profile, elapsed fuel and subsequent private observations. -/
@@ -172,18 +174,19 @@ theorem pbsRootValueReadout_law (rootCut : Nat)
       (fun h => pbsRootValueReadout M roots who
         ((pbsRootFullInformation M roots).infoOf who h.trace))) =
       roots.map (fun h => some ((fullInformation M).infoOf who h.trace)) := by
-  let label : E.History → Option ((fullInformation M).InfoState who) :=
-    fun h => some (((fullInformation M).infoOf who h.trace).prefixAt rootCut)
+  let label : E.History → (fullInformation M).InfoState who :=
+    fun h => ((fullInformation M).infoOf who h.trace).prefixAt rootCut
   have recode :
       (((pbsRootFullInformation M roots).runBehavioral profile (fuel + 1)).map
         (fun h => pbsRootValueReadout M roots who
           ((pbsRootFullInformation M roots).infoOf who h.trace))) =
       ((((pbsRootFullInformation M roots).runBehavioral profile (fuel + 1)).map
-        History.state).map (fun state => state.bind label)) := by
+        History.state).map (fun state => state.map label)) := by
     rw [FinDist.map_comp]
     exact FinDist.map_congr_of_eq_on_support (fun h _ =>
       pbsRootValueReadout_trace M roots rootCut rootDepth who h)
   rw [recode, pbsRootDecodeProfile_law M roots rootCut rootDepth, FinDist.map_comp]
+  simp only [Function.comp_apply, Option.map_some]
   apply FinDist.map_bind_of_retained
   intro first hf later hl
   have memory := prefixAt_infoOf_reaches M rootCut who
@@ -219,11 +222,13 @@ theorem pbsRootValueReadout_original (rootCut : Nat)
       (fun h => rootLabel h.state) := by
     funext h
     exact pbsRootValueReadout_trace M roots rootCut rootDepth who h
+  have mapped := FinDist.condOnFibre_expect_map
+    ((pbsRootFullInformation M roots).runBehavioral profile (fuel + 1))
+    (fun h : (pbsRootProtocol roots).History => h.state) rootLabel (some type)
+    (fun state : Option E.History => state.elim 0 payoff)
   dsimp only [conditionalOracleValue]
-  rw [readout, ← FinDist.condOnFibre_expect_map _ History.state rootLabel (some type)
-    (fun state : Option E.History => state.elim 0 payoff),
-    pbsRootDecodeProfile_law M roots rootCut rootDepth,
-    FinDist.condOnFibre_expect_map _ some rootLabel]
+  rw [readout, ← mapped, pbsRootDecodeProfile_law M roots rootCut rootDepth]
+  rw [FinDist.condOnFibre_expect_map _ some rootLabel]
   have recode :
       conditionalOracleValue
         (roots.bind ((fullInformation M).runBehavioralFrom
@@ -313,10 +318,16 @@ theorem pbsRootDepthFullTarget_original {observations : List M.PublicSignal}
             (pbsRootDepthIterate M belief.law fallback payoff
               cut remaining bound loss noise round))
           (cut + remaining) h).expect (payoff who)) type := by
-  dsimp only [pbsRootDepthFullTarget, pbsRootPayoff]
-  rw [show cut + 1 + remaining = (cut + remaining) + 1 by omega]
+  have payoffRead : pbsRootPayoff belief.law payoff who =
+      (fun h : (pbsRootProtocol belief.law).History => h.state.elim 0 (payoff who)) := by
+    funext h
+    cases h.state <;> rfl
+  dsimp only [pbsRootDepthFullTarget]
+  rw [show cut + 1 + remaining = (cut + remaining) + 1 by omega, payoffRead]
   exact pbsRootValueReadout_original M belief.law (observations.length - 1)
-    (pbsRoot_publicBelief_depth M belief) _ (cut + remaining) who type (payoff who)
+    (pbsRoot_publicBelief_depth M belief)
+    (pbsRootDepthIterate M belief.law fallback payoff cut remaining bound loss noise round)
+    (cut + remaining) who type (payoff who)
 
 /-- Root target support is exactly the original PBS type support for every
 actual noisy round. Neither zero-reach actions nor later stopping delete roots. -/
@@ -374,7 +385,21 @@ theorem pbsRootDepthValueTargetMean_original_error {observations : List M.Public
             (cut + remaining) h).expect (payoff who)) tag) t type| ≤ error := by
   have result := pbsRootDepthValueTargetMean_full_error M belief.law fallback payoff
     cut remaining bound loss noise error nonneg noiseBound t who type
-  simpa only [pbsRootDepthFullTarget_original] using result
+  have same :
+      (fun n => pbsRootDepthFullTarget M belief.law fallback payoff
+        cut remaining bound loss noise n who) =
+      (fun n tag =>
+        conditionalOracleValue belief.law (fun h => (fullInformation M).infoOf who h.trace)
+          (fun h => ((fullInformation M).runBehavioralFrom
+            (pbsRootDecodeProfile M belief.law (observations.length - 1)
+              (pbsRootDepthIterate M belief.law fallback payoff
+                cut remaining bound loss noise n))
+            (cut + remaining) h).expect (payoff who)) tag) := by
+    funext n tag
+    exact pbsRootDepthFullTarget_original M belief fallback payoff
+      cut remaining bound loss noise n who tag
+  rw [same] at result
+  exact result
 
 end Rooted
 

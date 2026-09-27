@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "bc9b95ba04dae6ed0c8580a72c8547b982a6eeed",
+  "parent": "d2af110a66a149f963fd93c33617d0469fa71d79",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -23,11 +23,10 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-9d2bee9.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-6b6c4ab.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-d54ec59.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-d2af110.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-bc9b95b.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-d2af110.json"
   ],
   "semantic_review": "docs/rebel/M06-root-memory-batch.md",
-  "repair_review": "docs/rebel/M06-root-memory-bc9b95b-failure.md",
+  "repair_review": "docs/rebel/M06-value-target-8936cba-failure.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -63,8 +62,7 @@
     "docs/rebel/M06-signed-kernel-9d2bee9-failure.md",
     "docs/rebel/M06-signed-kernel-6b6c4ab-failure.md",
     "docs/rebel/M06-value-target-fc21b53-failure.md",
-    "docs/rebel/M06-value-target-8936cba-failure.md",
-    "docs/rebel/M06-root-memory-bc9b95b-failure.md"
+    "docs/rebel/M06-value-target-8936cba-failure.md"
   ],
   "previous_feedback": {
     "commit": "e123cb860ce0a56c2705a375b9ff1e403f7580be",
@@ -85,9 +83,9 @@
     "evidence": "docs/rebel/M06-summary-coupling-e123cb8-accepted.md"
   },
   "validation": {
-    "compiler": "pending exact retained-root proof-repair SHA",
-    "normal_and_slow_lint": "pending exact retained-root proof-repair SHA",
-    "transitive_axioms": "pending exact retained-root proof-repair SHA",
+    "compiler": "pending exact retained-root batch SHA",
+    "normal_and_slow_lint": "pending exact retained-root batch SHA",
+    "transitive_axioms": "pending exact retained-root batch SHA",
     "core_blob": "5a0091144c5611c1fe4d5173b826ca5bef6ef50c",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
@@ -388,7 +386,7 @@
     "review": "docs/rebel/M06-frontier-accepted.md"
   },
   "root_memory_batch": {
-    "status": "proof_repair_pending_exact_sha_actions",
+    "status": "pending_exact_sha_actions",
     "semantic_review": "docs/rebel/M06-root-memory-batch.md",
     "modules": [
       "GameTheory.Math.Probability.FinDistRetainedLabel",
@@ -427,21 +425,12 @@
     "scope": "Retained root-label law/support, conditional tower and original-game conditional values, actual noisy parent mean numerical error; not solver convergence or recursive small-cost acceptance.",
     "blobs": {
       "GameTheory/Math/Probability/FinDistRetainedLabel.lean": "a947b7b28210bf5018f33bdb3497365d835b519c",
-      "GameTheory/Analysis/ReBeL/CFRDValueTargetMemory.lean": "47a51cd99cdca88750ebdc651069743ea5ab7e69",
+      "GameTheory/Analysis/ReBeL/CFRDValueTargetMemory.lean": "4db3feefb0283e4b75568859977ae7ee1da6b892",
       "GameTheory/Analysis/ReBeL/Examples/CFRDValueTarget.lean": "5896a36adc4e4245b55385bab8aa1abfbd3c3025",
       "GameTheory/Analysis/ReBeL.lean": "89f2c1b9a85a6cbd0f4d77b615ba2faafeea7d11",
       "scripts/rebel/m06-targets.txt": "97ee4da7a44edf2cec3d9b277b2fec71f9ae4385",
       "scripts/rebel/audit_exact_leaf.py": "c46b076470b9eac016255874381e7ff7abcea705",
       "scripts/rebel/tests/test_value_target.py": "e52b52338a485c1e1e3c5b7e25052ff92ebca482"
-    },
-    "failed_source": "bc9b95ba04dae6ed0c8580a72c8547b982a6eeed",
-    "failure_review": "docs/rebel/M06-root-memory-bc9b95b-failure.md",
-    "python_acceptance": {
-      "commit": "bc9b95ba04dae6ed0c8580a72c8547b982a6eeed",
-      "run": 36345031498,
-      "job": 108692377543,
-      "tests": 181,
-      "result": "success; not repaired-source Lean acceptance"
     }
   }
 }

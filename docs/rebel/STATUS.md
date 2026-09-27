@@ -1,7 +1,7 @@
-# ReBeL status — retained-root value batch pending CI; M06 incomplete
+# ReBeL status — retained-root proof repair pending CI; M06 incomplete
 
 Continue rebel/m06-kernel-value-repair-20260927 from re-read HEAD
-d2af110a66a149f963fd93c33617d0469fa71d79. Main remains
+bc9b95ba04dae6ed0c8580a72c8547b982a6eeed. Main remains
 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. The GitHub plugin reconfirmed
 marshmallowday and repository admin/push access. The chat baseline is
 9457c198126f3c8b7cb1045bbed2e0053788636f.
@@ -13,6 +13,15 @@ inventory 36340716940 all succeeded on that exact SHA. Complete logs contain
 axioms, all 120/263 module lint passes, full build/architecture/rational runtime
 success and 176 Python tests. See M06-value-target-d2af110-accepted.md.
 This does not verify the following new source.
+
+The bc9b95b batch failed all three compiler jobs on the same six proof
+elaboration errors in CFRDValueTargetMemory. The new FinDistRetainedLabel
+module compiled. Static architecture, rational runtime and 181 Python tests
+passed; complete lint/axiom audits were not reached. The combined repair
+makes snapshot/recoding arguments explicit and proves callback/trace function
+equalities before rewriting. Definitions and mathematical statements are
+unchanged. See M06-root-memory-bc9b95b-failure.md. The repaired source must
+pass its own exact-SHA Actions.
 
 The new batch joins conditional kernel algebra, root-memory persistence,
 root-label probability/support, full-horizon and original-game conditional
