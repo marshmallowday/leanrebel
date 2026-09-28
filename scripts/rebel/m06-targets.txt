@@ -173,3 +173,6 @@ GameTheory.Analysis.ReBeL.Examples.PBSStoredChildReplay
 GameTheory.Math.Probability.FinDistConditioningError
 GameTheory.Analysis.ReBeL.CFRDStoredChildDefect
 GameTheory.Analysis.ReBeL.Examples.CFRDStoredChildDefect
+GameTheory.Analysis.ReBeL.PBSRecursivePosteriorValue
+GameTheory.Analysis.ReBeL.PBSRecursiveRecomputedValue
+GameTheory.Analysis.ReBeL.Examples.PBSRecursiveRecomputedValue

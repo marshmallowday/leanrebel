@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "ce81eaecde20fb02de0a191ba1ceb64e32bafe16",
+  "parent": "4b40364ffe22ddea0d04d7c6f6db79a390f721f0",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -37,10 +37,9 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-376b118.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-99cfe59.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-133dc24.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-4b40364.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-ce81eae.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-4b40364.json"
   ],
-  "semantic_review": "docs/rebel/M06-recomputed-value-batch.md",
+  "semantic_review": "docs/rebel/M06-stopped-mass-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -84,24 +83,18 @@
     "docs/rebel/M06-stopped-mass-4b40364-failure.md"
   ],
   "previous_feedback": {
-    "commit": "ce81eaecde20fb02de0a191ba1ceb64e32bafe16",
-    "ci_run": 36403639157,
-    "ci_job": 108867095432,
-    "global_run": 36403639007,
-    "global_job": 108867093945,
-    "target_run": 36403639103,
-    "target_job": 108867094098,
-    "inventory_run": 36403638970,
-    "inventory_job": 108867093388,
-    "target_declarations": 2221,
-    "global_declarations": 5357,
-    "target_modules": 137,
-    "global_modules": 278,
-    "build_targets": 175,
+    "commit": "4b40364ffe22ddea0d04d7c6f6db79a390f721f0",
+    "ci_run": 36397392172,
+    "ci_job": 108846912244,
+    "global_run": 36397392250,
+    "global_job": 108846912325,
+    "target_run": 36397392185,
+    "target_job": 108846912525,
+    "inventory_run": 36397392214,
+    "inventory_job": 108846912779,
     "python_tests": 205,
-    "all_runs": "success",
-    "evidence": "docs/rebel/M06-stopped-mass-ce81eae-accepted.md",
-    "result": "all four workflows successful; full decoded records reviewed"
+    "result": "three compiler failures, inventory success; seven identical diagnostics",
+    "evidence": "docs/rebel/M06-stopped-mass-4b40364-failure.md"
   },
   "validation": {
     "compiler": "pending new-SHA GitHub Actions",
@@ -113,8 +106,8 @@
     "root_blob": "3cad603cc1bc991819216f67439a6a7a28ea3f2b",
     "targets_blob": "a791fe2b25005c4cc87d74ff1d969bedf897b7b5",
     "audit_consumer_blob": "54e935d2405e6f19fbfc373833cac953785c20bc",
-    "expected_target_modules": 140,
-    "expected_global_modules": 281,
+    "expected_target_modules": 137,
+    "expected_global_modules": 278,
     "python_file": "scripts/rebel/tests/test_kernel_value_transport.py",
     "python_blob": "31614fa879377d164e63132047022aed6683877b",
     "new_python_tests": 12,
@@ -125,14 +118,14 @@
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md",
     "previous_python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
-    "expected_total_python_tests": 210,
+    "expected_total_python_tests": 205,
     "historical_coverage_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
-    "expected_build_targets": 178
+    "expected_build_targets": 175
   },
   "remaining": [
-    "Validate new recomputed-value source on its exact SHA; dependency results do not promote original-source obligations.",
-    "Identify internal chance-rooted child with decoded original-game fresh solves, retaining posterior/noise/fallback/budget/clock.",
-    "Derive useful small bounds on the explicit solver-specific changed-value terms and actual native support defects; neither posterior positivity nor Nash accuracy supplies them.",
+    "Validate new stopped-mass source on the same SHA; no original source row promoted by dependency statements.",
+    "Identify internal chance-rooted child with decoded original-game fresh solves, retaining noise/fallback/budget/clock.",
+    "Account for changed solver kernels and derive useful native-chain support/signed replacement costs; stopped public mass need not be small.",
     "Complete source correspondence and acceptance of SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3; retain finite-T and child errors and distinguish printed R5."
   ],
   "baseline_acceptance": {
@@ -178,23 +171,22 @@
     "remaining": "Small execution costs, actual recursive posterior identification, late-value composition and signed CarriedResolveStepBounds are not proved."
   },
   "latest_accepted": {
-    "commit": "ce81eaecde20fb02de0a191ba1ceb64e32bafe16",
-    "ci_run": 36403639157,
-    "ci_job": 108867095432,
-    "global_run": 36403639007,
-    "global_job": 108867093945,
-    "target_run": 36403639103,
-    "target_job": 108867094098,
-    "inventory_run": 36403638970,
-    "inventory_job": 108867093388,
-    "target_declarations": 2221,
-    "global_declarations": 5357,
-    "target_modules": 137,
-    "global_modules": 278,
-    "build_targets": 175,
-    "python_tests": 205,
+    "commit": "133dc247945486c48f055815b4262261f6fff5f2",
+    "target_run": 36390994535,
+    "target_job": 108826546503,
+    "target_declarations": 2192,
+    "target_modules": 134,
+    "global_run": 36390994487,
+    "global_job": 108826545910,
+    "global_declarations": 5333,
+    "global_modules": 276,
+    "ci_run": 36390994514,
+    "ci_job": 108826546365,
+    "inventory_run": 36390994579,
+    "inventory_job": 108826546488,
+    "python_tests": 200,
     "all_runs": "success",
-    "evidence": "docs/rebel/M06-stopped-mass-ce81eae-accepted.md"
+    "evidence": "docs/rebel/M06-stored-child-133dc24-accepted.md"
   },
   "carried_value_batch": {
     "status": "accepted_at_d771e88",
@@ -792,7 +784,7 @@
     }
   },
   "stopped_mass_batch": {
-    "status": "accepted dependency on exact ce81eae Actions; not original-source obligation acceptance",
+    "status": "type repair pending exact-SHA Actions",
     "semantic_review": "docs/rebel/M06-stopped-mass-batch.md",
     "modules": [
       "GameTheory.Math.Probability.FinDistConditioningError",
@@ -848,69 +840,6 @@
       "module": "GameTheory.Math.Probability.FinDistConditioningError",
       "blob": "23db111fe46c9804ee85eb54802b64a1ce697052",
       "result": "compiled in three jobs; complete lint/axioms not reached"
-    },
-    "accepted": {
-      "commit": "ce81eaecde20fb02de0a191ba1ceb64e32bafe16",
-      "ci_run": 36403639157,
-      "ci_job": 108867095432,
-      "global_run": 36403639007,
-      "global_job": 108867093945,
-      "target_run": 36403639103,
-      "target_job": 108867094098,
-      "inventory_run": 36403638970,
-      "inventory_job": 108867093388,
-      "target_declarations": 2221,
-      "global_declarations": 5357,
-      "target_modules": 137,
-      "global_modules": 278,
-      "build_targets": 175,
-      "python_tests": 205,
-      "all_runs": "success",
-      "evidence": "docs/rebel/M06-stopped-mass-ce81eae-accepted.md"
-    }
-  },
-  "recomputed_value_batch": {
-    "status": "pending exact-SHA Actions",
-    "semantic_review": "docs/rebel/M06-recomputed-value-batch.md",
-    "modules": [
-      "GameTheory.Analysis.ReBeL.PBSRecursivePosteriorValue",
-      "GameTheory.Analysis.ReBeL.PBSRecursiveRecomputedValue",
-      "GameTheory.Analysis.ReBeL.Examples.PBSRecursiveRecomputedValue"
-    ],
-    "declarations": [
-      "GameTheory.ReBeL.recursivePolicyValueChange",
-      "GameTheory.ReBeL.recursivePolicyValueChange_abs_le",
-      "GameTheory.ReBeL.cfrDFactualChild_changedPolicy_residual",
-      "GameTheory.ReBeL.pbsRecursiveDepthDraw_public_child_residual",
-      "GameTheory.ReBeL.PBSRecursiveResolveConfig",
-      "GameTheory.ReBeL.pbsRecursiveConfigStage",
-      "GameTheory.ReBeL.pbsRecursiveRecomputedOutcome",
-      "GameTheory.ReBeL.pbsRecursiveRecomputedOutcome_value",
-      "GameTheory.ReBeL.pbsRecursiveRecomputedLoss",
-      "GameTheory.ReBeL.pbsRecursiveRecomputedLoss_eq_policyValueChange",
-      "GameTheory.ReBeL.pbsRecursiveReplacement_expected_loss_le",
-      "GameTheory.ReBeL.pbsRecursiveRecomputedBudget",
-      "GameTheory.ReBeL.carriedSignedSequenceLoss_le_recomputedBudget",
-      "GameTheory.ReBeL.privateRecursiveResolve_inherits_recomputedBudget",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recomputedConfigs",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recomputed_noisy_chain",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recomputed_zero_stage",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recomputed_noisy_parent_residual"
-    ],
-    "python_file": "scripts/rebel/tests/test_recomputed_value.py",
-    "python_tests": 5,
-    "scope": "Changed recursive computations retain their signed value difference; posterior filtering controls only its residual. Actual fresh-stage loss is bounded by computed old-versus-average values plus actual unsupported-state mass, accumulated under native full-state forward laws. Neither term is yet shown small.",
-    "blobs": {
-      "GameTheory/Analysis/ReBeL/PBSRecursivePosteriorValue.lean": "8244b3e286ac9feb300be0982c115bcd5f5b780d",
-      "GameTheory/Analysis/ReBeL/PBSRecursiveRecomputedValue.lean": "c9d14a091cf054347a86d7e8bd4defdec3c7551c",
-      "GameTheory/Analysis/ReBeL/Examples/PBSRecursiveRecomputedValue.lean": "d659104c3fe4a303be2ced4d3b765c7180b118ec",
-      "scripts/rebel/tests/test_recomputed_value.py": "13f988e8ca0dc1141d1d2468af4fae6c1571b353",
-      "scripts/rebel/m06-targets.txt": "a23ed2197c44d3ebc5def50ddd18e8cfeee593cb",
-      "scripts/rebel/audit_exact_leaf.py": "899171472344414863ce9723750b3f4a35f6c9dc",
-      "GameTheory/Analysis/ReBeL.lean": "2438d1c4ca2ccf1e49a9f617765b0106568fea43",
-      "docs/rebel/M06-stopped-mass-ce81eae-accepted.md": "e9ffd00a66ecb1c03995106db3ffeb975100e480",
-      "docs/rebel/M06-recomputed-value-batch.md": "96a9ea9943ce2f4927c51d0fdd0baae4354aec1c",
-      "docs/rebel/STATUS.md": "bc4dccf1ec19d2e24c57c1b04d27e4e108c8aa40"
     }
   }
 }

@@ -1,65 +1,52 @@
-# ReBeL status — stopped-mass type repair pending Actions; M06 incomplete
+# ReBeL status — recomputed recursive value batch pending Actions; M06 incomplete
 
 Work branch: rebel/m06-kernel-value-repair-20260927.
-Repair parent: 4b40364ffe22ddea0d04d7c6f6db79a390f721f0.
-Last fully accepted dependency: 133dc247945486c48f055815b4262261f6fff5f2.
-Default main, separately checked: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
-Plugin account marshmallowday has admin/push permission. Chat baseline:
-9457c198126f3c8b7cb1045bbed2e0053788636f.
+Implementation parent and last fully accepted dependency:
+ce81eaecde20fb02de0a191ba1ceb64e32bafe16.
+Default main: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
+Chat baseline: 9457c198126f3c8b7cb1045bbed2e0053788636f.
+GitHub account marshmallowday has admin/push permission.
 
-The stored-child repair loop is accepted at 133dc24: CI36390994514,
-checks36390994487, targeted36390994535 and inventory36390994579 all succeeded.
-Complete decoded logs contain 2192 targeted/5333 global unique transitive axiom
-records, permitted three axioms only, all 134/276 module lint passes, full
-build/architecture/rational runtime, and 200 Python tests (7.747s/8.217s).
-See M06-stored-child-133dc24-accepted.md. This validates its 172 targets, not
-the new source.
+The stopped-mass repair loop is accepted: CI36403639157, checks36403639007,
+target36403639103 and inventory36403638970 all passed on ce81eae.
+Complete decoded logs: 2221 targeted/5357 global unique transitive axiom
+records using only the permitted three axioms, 137/278 modules passing lint,
+full build4304/lintbuild4074, all architecture checks, rational runtime,
+and 205 Python tests (9.561s/9.821s). See M06-stopped-mass-ce81eae-accepted.md.
+This is not validation of the new source.
 
-The stopped-mass candidate 4b40364 failed CI36397392172, checks36397392250
-and targeted36397392185 with the same implicit PublicBelief.condition signal
-universe mismatch plus one deprecated simp lemma. Inventory36397392214 passed.
-FinDistConditioningError compiled in all three jobs; checks/inventory passed
-205 Python tests (9.005s/8.843s). Complete lint/axiom checks remain unaccepted.
-The repair explicitly supplies the full model's signal carrier at all six core
-and two example condition constructors, and replaces the deprecated lemma.
-All downstream consumers were statically rechecked; no compile success is
-claimed before new-SHA Actions. See M06-stopped-mass-4b40364-failure.md.
-The exact previous owner ledger is retained at
-M06-kernel-value-transport-coverage-at-4b40364.json.
+The coherent new batch separates the signed policy-value change caused by
+recomputing a solver from the public/live posterior filtering residual. It
+instantiates actual recursive private draws with separate tolerances, then
+derives a native signed replacement budget from recomputed values plus actual
+off-support state mass. Configurations can change noise/cuts/tolerance/fuel at
+every stage; later costs use native full-state forward laws and the same private
+draw through stage plus late fuel. Initial security is inherited with this
+explicit computed budget. Three actual hidden-type Lean consumers and five
+Fraction controls accompany the batch. See M06-recomputed-value-batch.md,
+including the precommit type-review evidence and limits.
 
-The new coherent batch handles public observations mixing live and stopped
-histories. It proves nested conditional expectation error from discarded mass,
-identifies the actual parent-round saved public posterior without termination
-visibility, characterizes factual-child support, and carries the quantitative
-bound through fixed full-future kernels. It recovers zero error for the actual
-hidden-type noisy recursive parent using that game's proved visibility.
-Tight and constant-value Lean examples and five Fraction controls accompany it.
-See M06-stopped-mass-batch.md, including the precommit type-signature review.
+Expected surface: 178 targets, 140 targeted/281 global modules, 210 Python tests.
+Compilation/lint/axiom/Python execution is pending exact-SHA Actions. All previous
+targets are retained; workflow definitions, audit criteria, deployed algorithms
+and previously journal-pinned sources are unchanged. No local execution is claimed.
 
-Expected new surface: 175 targets, 137 targeted/278 global audit modules,
-205 Python tests. No local Lean/Python execution is claimed. All old targets,
-workflow definitions, audit criteria and deployed solver definitions are unchanged.
-
-Remaining: changes of the solver's continuation kernel; internal chance-rooted
-child versus original-game fresh solver computation with full configuration;
-small actual native-chain support/signed replacement losses; SEARCH-CFRD,
-SEARCH-ERROR and SAFE-THEOREM3. Discarded model mass need not be small, and
-the new bound only compares the SAME continuation kernel. A dedicated negative
-control rejects applying it to different policies solved from different PBSs.
+Remaining: prove useful bounds on changed-policy and actual support terms;
+identify internal chance-rooted children with original-game fresh solvers with
+all posterior/noise/fallback/budget/clock settings; finish SEARCH-CFRD,
+SEARCH-ERROR and SAFE-THEOREM3 source correspondence and acceptance.
+A computed budget is not a small convergence rate. Stored MODEL posteriors are
+not identified with unknown-opponent factual posteriors; carried priors are
+not reset. Keep hidden correlation, native private memory, finite-T and child
+errors, and printed R5 versus corrected statements separate.
 
 P-CFRD-AVERAGE, P-CFRD-TARGET, SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
-remain accepted in their pinned journals. No original-source row is promoted
-by this batch. Frozen coverage.json stays at
-2fc8cc9ad6607d61bfe397707fb96ac322fbb800. The preceding owner ledger is preserved
-as M06-kernel-value-transport-coverage-at-133dc24.json.
+remain accepted in unchanged pinned journals. No source row is promoted here.
+Frozen coverage.json remains 2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
+The exact previous owner ledger is preserved at
+M06-kernel-value-transport-coverage-at-ce81eae.json.
 
-Keep correlated joint beliefs and native full-state weights, one private draw
-through stage plus late fuel, finite-T/child errors and the distinction between
-stored MODEL and unknown opponent's posterior. Do not reset carried priors or
-infer close policies/kernels from Nash accuracy. Printed R5 and corrected
-statements remain separate; no final-iterate or network convergence is claimed.
-
-Main agent only. Review actual types through all consumers before every commit;
-batch related implementations and fixes. Verify separate same-SHA workflows
-after ref updates, then schedule a one-shot check about 50 minutes later in JST.
-If still running, schedule another one-shot about 10 minutes later; do not cancel.
+Main agent only. Review actual types through all consumers before every commit.
+Batch related implementations and fixes. Confirm separate same-SHA runs after
+ref update, then schedule a one-shot about 50 minutes later in JST; if still
+running, schedule another one-shot about 10 minutes later. Do not cancel workflows.
