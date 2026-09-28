@@ -188,3 +188,6 @@ GameTheory.Math.Probability.FinDistRangeError
 GameTheory.Analysis.ReBeL.PBSRecursiveQueryCost
 GameTheory.Analysis.ReBeL.CFRDRecursiveQuerySecurity
 GameTheory.Analysis.ReBeL.Examples.PBSRecursiveQueryCost
+GameTheory.Analysis.ReBeL.PBSRecursivePotential
+GameTheory.Analysis.ReBeL.PBSRecursivePotentialSecurity
+GameTheory.Analysis.ReBeL.Examples.PBSRecursivePotential

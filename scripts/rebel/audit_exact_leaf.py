@@ -13,6 +13,9 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULES = (
+    "GameTheory.Analysis.ReBeL.PBSRecursivePotential",
+    "GameTheory.Analysis.ReBeL.PBSRecursivePotentialSecurity",
+    "GameTheory.Analysis.ReBeL.Examples.PBSRecursivePotential",
     "GameTheory.Math.Probability.FinDistRangeError",
     "GameTheory.Analysis.ReBeL.PBSRecursiveQueryCost",
     "GameTheory.Analysis.ReBeL.CFRDRecursiveQuerySecurity",

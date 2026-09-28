@@ -265,3 +265,6 @@ import GameTheory.Math.Probability.FinDistRangeError
 import GameTheory.Analysis.ReBeL.PBSRecursiveQueryCost
 import GameTheory.Analysis.ReBeL.CFRDRecursiveQuerySecurity
 import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveQueryCost
+import GameTheory.Analysis.ReBeL.PBSRecursivePotential
+import GameTheory.Analysis.ReBeL.PBSRecursivePotentialSecurity
+import GameTheory.Analysis.ReBeL.Examples.PBSRecursivePotential
