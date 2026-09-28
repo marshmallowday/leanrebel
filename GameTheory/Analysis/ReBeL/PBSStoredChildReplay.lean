@@ -44,8 +44,10 @@ theorem pbsRecursiveResolver_composed_input
       cut remaining (publicTrace M.toInfoSignals history.trace))
     (plays : (K × Profile (fullInformation M).behavioralSignature) →
       Profile (fullInformation M).behavioralSignature) :
-    let solve := pbsRecursiveDepth recursiveNoise cuts E M fallback payoff bound
-    let trunk := cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round
+    let solve : PBSChildSolve M :=
+      pbsRecursiveDepth recursiveNoise cuts E M fallback payoff bound
+    let trunk : Profile (fullInformation M).behavioralSignature :=
+      cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round
     let child := cfrDFactualChildBelief M trunk cut remaining
       (publicTrace M.toInfoSignals history.trace) possible
     let next := cfrDComposedNextState M fallback payoff cut remaining loss solve noise round
@@ -87,8 +89,10 @@ theorem pbsRecursiveResolver_composed_law
     (plays : (K × Profile (fullInformation M).behavioralSignature) →
       Profile (fullInformation M).behavioralSignature)
     (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (fuel : Nat) :
-    let solve := pbsRecursiveDepth recursiveNoise cuts E M fallback payoff bound
-    let trunk := cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round
+    let solve : PBSChildSolve M :=
+      pbsRecursiveDepth recursiveNoise cuts E M fallback payoff bound
+    let trunk : Profile (fullInformation M).behavioralSignature :=
+      cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round
     let child := cfrDFactualChildBelief M trunk cut remaining
       (publicTrace M.toInfoSignals history.trace) possible
     let next := cfrDComposedNextState M fallback payoff cut remaining loss solve noise round
@@ -131,8 +135,10 @@ theorem pbsRecursiveResolver_composed_value
       Profile (fullInformation M).behavioralSignature)
     (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (fuel : Nat)
     (value : E.History → ℝ) :
-    let solve := pbsRecursiveDepth recursiveNoise cuts E M fallback payoff bound
-    let trunk := cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round
+    let solve : PBSChildSolve M :=
+      pbsRecursiveDepth recursiveNoise cuts E M fallback payoff bound
+    let trunk : Profile (fullInformation M).behavioralSignature :=
+      cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round
     let child := cfrDFactualChildBelief M trunk cut remaining
       (publicTrace M.toInfoSignals history.trace) possible
     let next := cfrDComposedNextState M fallback payoff cut remaining loss solve noise round

@@ -66,10 +66,12 @@ theorem hiddenStoredChild (loss : ℝ) (round : Nat)
         (pbsRecursiveDepth pbsRecursiveAllocatedNoise [1] (protocol fullPrior)
           (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2) storedChildNoise round)
       2 1 (publicTrace (signals fullPrior) history.trace)) :
-    let solve := pbsRecursiveDepth pbsRecursiveAllocatedNoise [1] (protocol fullPrior)
-      (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2
-    let trunk := cfrDComposedTrunk (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
-      2 1 loss solve storedChildNoise round
+    let solve : PBSChildSolve (reducedModel fullPrior) :=
+      pbsRecursiveDepth pbsRecursiveAllocatedNoise [1] (protocol fullPrior)
+        (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2
+    let trunk : Profile (model fullPrior).behavioralSignature :=
+      cfrDComposedTrunk (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
+        2 1 loss solve storedChildNoise round
     (cfrDComposedNextState (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2 1 loss
       solve storedChildNoise round storedChildInitial history).belief =
     some (cfrDFactualChildBelief (reducedModel fullPrior) trunk 2 1
@@ -89,10 +91,12 @@ theorem hiddenStoredChild_resolver (loss : ℝ) (round : Nat)
       2 1 (publicTrace (signals fullPrior) history.trace))
     (plays : (Unit × Profile (model fullPrior).behavioralSignature) →
       Profile (model fullPrior).behavioralSignature) :
-    let solve := pbsRecursiveDepth pbsRecursiveAllocatedNoise [1] (protocol fullPrior)
-      (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2
-    let trunk := cfrDComposedTrunk (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
-      2 1 loss solve storedChildNoise round
+    let solve : PBSChildSolve (reducedModel fullPrior) :=
+      pbsRecursiveDepth pbsRecursiveAllocatedNoise [1] (protocol fullPrior)
+        (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2
+    let trunk : Profile (model fullPrior).behavioralSignature :=
+      cfrDComposedTrunk (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
+        2 1 loss solve storedChildNoise round
     let child := cfrDFactualChildBelief (reducedModel fullPrior) trunk 2 1
       (publicTrace (signals fullPrior) history.trace) possible
     let next := cfrDComposedNextState (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
