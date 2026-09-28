@@ -83,7 +83,8 @@ theorem hiddenStoredPublic (loss : ℝ) (round : Nat)
         2 1 loss solve storedChildNoise round
     (cfrDComposedNextState (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2 1 loss
       solve storedChildNoise round storedChildInitial history).belief =
-    some (PublicBelief.condition ((model fullPrior).runBehavioral trunk 2)
+    some (PublicBelief.condition (S := (model fullPrior).toInfoSignals)
+      ((model fullPrior).runBehavioral trunk 2)
       (publicTrace (model fullPrior).toInfoSignals history.trace)
       (cfrDFactualChildPossible_public (reducedModel fullPrior) trunk 2 1 _ possible)) := by
   intro solve trunk
@@ -110,7 +111,8 @@ theorem hiddenStoredPublic_future_error {Outcome : Type*}
       cfrDComposedTrunk (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
         2 1 loss solve storedChildNoise round
     let obs := publicTrace (model fullPrior).toInfoSignals history.trace
-    let posterior := PublicBelief.condition ((model fullPrior).runBehavioral trunk 2) obs
+    let posterior := PublicBelief.condition (S := (model fullPrior).toInfoSignals)
+      ((model fullPrior).runBehavioral trunk 2) obs
       (cfrDFactualChildPossible_public (reducedModel fullPrior) trunk 2 1 obs possible)
     let child := cfrDFactualChildBelief (reducedModel fullPrior) trunk 2 1 obs possible
     (cfrDComposedNextState (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2 1 loss

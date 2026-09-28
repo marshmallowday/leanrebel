@@ -1,7 +1,8 @@
-# ReBeL status — stopped-mass batch pending Actions; M06 incomplete
+# ReBeL status — stopped-mass type repair pending Actions; M06 incomplete
 
 Work branch: rebel/m06-kernel-value-repair-20260927.
-Base for this batch: 133dc247945486c48f055815b4262261f6fff5f2.
+Repair parent: 4b40364ffe22ddea0d04d7c6f6db79a390f721f0.
+Last fully accepted dependency: 133dc247945486c48f055815b4262261f6fff5f2.
 Default main, separately checked: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Plugin account marshmallowday has admin/push permission. Chat baseline:
 9457c198126f3c8b7cb1045bbed2e0053788636f.
@@ -13,6 +14,18 @@ records, permitted three axioms only, all 134/276 module lint passes, full
 build/architecture/rational runtime, and 200 Python tests (7.747s/8.217s).
 See M06-stored-child-133dc24-accepted.md. This validates its 172 targets, not
 the new source.
+
+The stopped-mass candidate 4b40364 failed CI36397392172, checks36397392250
+and targeted36397392185 with the same implicit PublicBelief.condition signal
+universe mismatch plus one deprecated simp lemma. Inventory36397392214 passed.
+FinDistConditioningError compiled in all three jobs; checks/inventory passed
+205 Python tests (9.005s/8.843s). Complete lint/axiom checks remain unaccepted.
+The repair explicitly supplies the full model's signal carrier at all six core
+and two example condition constructors, and replaces the deprecated lemma.
+All downstream consumers were statically rechecked; no compile success is
+claimed before new-SHA Actions. See M06-stopped-mass-4b40364-failure.md.
+The exact previous owner ledger is retained at
+M06-kernel-value-transport-coverage-at-4b40364.json.
 
 The new coherent batch handles public observations mixing live and stopped
 histories. It proves nested conditional expectation error from discarded mass,

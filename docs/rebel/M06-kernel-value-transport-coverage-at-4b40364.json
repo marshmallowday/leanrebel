@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "4b40364ffe22ddea0d04d7c6f6db79a390f721f0",
+  "parent": "133dc247945486c48f055815b4262261f6fff5f2",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -36,8 +36,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-d71d661.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-376b118.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-99cfe59.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-133dc24.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-4b40364.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-133dc24.json"
   ],
   "semantic_review": "docs/rebel/M06-stopped-mass-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
@@ -79,22 +78,26 @@
     "docs/rebel/M06-root-memory-bc9b95b-failure.md",
     "docs/rebel/M06-root-memory-0e71e36-failure.md",
     "docs/rebel/M06-recursive-target-7711b65-failure.md",
-    "docs/rebel/M06-average-limit-cc4ba60-failure.md",
-    "docs/rebel/M06-stopped-mass-4b40364-failure.md"
+    "docs/rebel/M06-average-limit-cc4ba60-failure.md"
   ],
   "previous_feedback": {
-    "commit": "4b40364ffe22ddea0d04d7c6f6db79a390f721f0",
-    "ci_run": 36397392172,
-    "ci_job": 108846912244,
-    "global_run": 36397392250,
-    "global_job": 108846912325,
-    "target_run": 36397392185,
-    "target_job": 108846912525,
-    "inventory_run": 36397392214,
-    "inventory_job": 108846912779,
-    "python_tests": 205,
-    "result": "three compiler failures, inventory success; seven identical diagnostics",
-    "evidence": "docs/rebel/M06-stopped-mass-4b40364-failure.md"
+    "commit": "133dc247945486c48f055815b4262261f6fff5f2",
+    "target_run": 36390994535,
+    "target_job": 108826546503,
+    "target_declarations": 2192,
+    "target_modules": 134,
+    "global_run": 36390994487,
+    "global_job": 108826545910,
+    "global_declarations": 5333,
+    "global_modules": 276,
+    "ci_run": 36390994514,
+    "ci_job": 108826546365,
+    "inventory_run": 36390994579,
+    "inventory_job": 108826546488,
+    "python_tests": 200,
+    "all_runs": "success",
+    "evidence": "docs/rebel/M06-stored-child-133dc24-accepted.md",
+    "result": "full accepted dependency source; not new stopped-mass validation"
   },
   "validation": {
     "compiler": "pending new-SHA GitHub Actions",
@@ -784,7 +787,7 @@
     }
   },
   "stopped_mass_batch": {
-    "status": "type repair pending exact-SHA Actions",
+    "status": "pending exact-SHA Actions",
     "semantic_review": "docs/rebel/M06-stopped-mass-batch.md",
     "modules": [
       "GameTheory.Math.Probability.FinDistConditioningError",
@@ -815,31 +818,15 @@
     "scope": "Actual saved public MODEL posterior without observable termination; live-child support and stopped-mass quantitative bound for the SAME future kernel. Does not bound changes to a recomputed solver policy.",
     "blobs": {
       "GameTheory/Math/Probability/FinDistConditioningError.lean": "23db111fe46c9804ee85eb54802b64a1ce697052",
-      "GameTheory/Analysis/ReBeL/CFRDStoredChildDefect.lean": "bd3a4b816ae23ca4385500d23321a25c16aed9eb",
-      "GameTheory/Analysis/ReBeL/Examples/CFRDStoredChildDefect.lean": "2239e3482c4862d52fadf61b9c0156f2dc688c67",
+      "GameTheory/Analysis/ReBeL/CFRDStoredChildDefect.lean": "e82c4c973d4b5b64e9a0ca96c05b905ec7ffa39d",
+      "GameTheory/Analysis/ReBeL/Examples/CFRDStoredChildDefect.lean": "e58bf7fbc6d97f123e9df1196cb6f21bcca0eb04",
       "scripts/rebel/tests/test_stored_child_defect.py": "f639c96fb3b93648d582af234e0896b733358c3a",
       "GameTheory/Analysis/ReBeL.lean": "ec6e985e53e4232cf1d70543bd1740a643aac1b1",
       "scripts/rebel/m06-targets.txt": "188e85a294b0194d760214c4b11f016e288eb92c",
       "scripts/rebel/audit_exact_leaf.py": "cbe244646a39b6d340b60d6635f1d9ebe839d4ec",
       "docs/rebel/M06-stored-child-133dc24-accepted.md": "baee8f1f588ee9479138e6517c7f5f93397b7fc9",
       "docs/rebel/M06-stopped-mass-batch.md": "4bce6bd44a624c5b1e1df244c47d109ef289ed2d",
-      "docs/rebel/STATUS.md": "46db3f55233cedac8c377d1971278ba94f91b724",
-      "docs/rebel/M06-stopped-mass-4b40364-failure.md": "ac929101f98db99c2337aea86e2c9cfd2587e5ad"
-    },
-    "failed_source": "4b40364ffe22ddea0d04d7c6f6db79a390f721f0",
-    "failure_review": "docs/rebel/M06-stopped-mass-4b40364-failure.md",
-    "python_acceptance": {
-      "commit": "4b40364ffe22ddea0d04d7c6f6db79a390f721f0",
-      "run": 36397392214,
-      "job": 108846912779,
-      "tests": 205,
-      "result": "success"
-    },
-    "math_compile": {
-      "commit": "4b40364ffe22ddea0d04d7c6f6db79a390f721f0",
-      "module": "GameTheory.Math.Probability.FinDistConditioningError",
-      "blob": "23db111fe46c9804ee85eb54802b64a1ce697052",
-      "result": "compiled in three jobs; complete lint/axioms not reached"
+      "docs/rebel/STATUS.md": "1f6c0842efbe8efed07e0319bc75dcd731ebde69"
     }
   }
 }

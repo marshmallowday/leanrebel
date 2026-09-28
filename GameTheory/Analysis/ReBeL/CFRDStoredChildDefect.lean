@@ -33,7 +33,8 @@ theorem carriedBeliefUpdate_eq_publicCut
     (possible : PublicBelief.Possible (S := (fullInformation M).toInfoSignals)
       ((fullInformation M).runBehavioral trunk cut) obs) :
     carriedBeliefUpdate (fullInformation M) (some prior) chosen cut obs =
-      some (PublicBelief.condition ((fullInformation M).runBehavioral trunk cut) obs
+      some (PublicBelief.condition (S := (fullInformation M).toInfoSignals)
+        ((fullInformation M).runBehavioral trunk cut) obs
         possible) := by
   classical
   have law : PublicBelief.continuationLaw (fullInformation M) chosen cut prior =
@@ -51,7 +52,8 @@ theorem cfrDFactualChild_public_error
     (obs : List M.PublicSignal)
     (possible : CFRDFactualChildPossible M trunk cut remaining obs)
     (value : E.History → ℝ) (bound : ℝ) (bounded : ∀ h, |value h| ≤ bound) :
-    |(PublicBelief.condition ((fullInformation M).runBehavioral trunk cut) obs
+    |(PublicBelief.condition (S := (fullInformation M).toInfoSignals)
+      ((fullInformation M).runBehavioral trunk cut) obs
         (cfrDFactualChildPossible_public M trunk cut remaining obs possible)).law.expect value -
       (cfrDFactualChildBelief M trunk cut remaining obs possible).law.expect value| ≤
       2 * bound *
@@ -75,7 +77,7 @@ theorem cfrDFactualChild_public_error
       {h | publicTrace (fullInformation M).toInfoSignals h.trace = obs ∧
         cfrDCutLive remaining h ≠ true} := by
     ext h
-    simp only [Set.mem_inter_iff, Set.mem_setOf_eq, Set.mem_compl_iff]
+    simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, Set.mem_compl_iff]
     tauto
   rw [discarded] at estimate
   exact estimate
@@ -110,7 +112,8 @@ theorem cfrDFactualChild_public_support
     (obs : List M.PublicSignal)
     (possible : CFRDFactualChildPossible M trunk cut remaining obs) (history : E.History) :
     history ∈ (cfrDFactualChildBelief M trunk cut remaining obs possible).law.support ↔
-      history ∈ (PublicBelief.condition ((fullInformation M).runBehavioral trunk cut) obs
+      history ∈ (PublicBelief.condition (S := (fullInformation M).toInfoSignals)
+        ((fullInformation M).runBehavioral trunk cut) obs
         (cfrDFactualChildPossible_public M trunk cut remaining obs possible)).law.support ∧
       cfrDCutLive remaining history = true := by
   constructor
@@ -139,7 +142,8 @@ theorem cfrDFactualChild_public_continuation_error {Outcome : Type*}
     (possible : CFRDFactualChildPossible M trunk cut remaining obs)
     (continuation : E.History → FinDist Outcome) (value : Outcome → ℝ)
     (bound : ℝ) (bounded : ∀ outcome, |value outcome| ≤ bound) :
-    |((PublicBelief.condition ((fullInformation M).runBehavioral trunk cut) obs
+    |((PublicBelief.condition (S := (fullInformation M).toInfoSignals)
+      ((fullInformation M).runBehavioral trunk cut) obs
         (cfrDFactualChildPossible_public M trunk cut remaining obs possible)).law.bind
           continuation).expect value -
       ((cfrDFactualChildBelief M trunk cut remaining obs possible).law.bind
@@ -176,7 +180,7 @@ theorem cfrDComposedRound_storedPublic {K : Type*}
       (publicTrace (fullInformation M).toInfoSignals history.trace)) :
     (cfrDComposedNextState M fallback payoff cut remaining loss solve noise round
       state history).belief =
-    some (PublicBelief.condition
+    some (PublicBelief.condition (S := (fullInformation M).toInfoSignals)
       ((fullInformation M).runBehavioral
         (cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round) cut)
       (publicTrace (fullInformation M).toInfoSignals history.trace) possible) := by
@@ -204,7 +208,8 @@ theorem cfrDComposedRound_storedPublic_continuation_error {K Outcome : Type*}
     let trunk : Profile (fullInformation M).behavioralSignature :=
       cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round
     let obs := publicTrace (fullInformation M).toInfoSignals history.trace
-    let posterior := PublicBelief.condition ((fullInformation M).runBehavioral trunk cut) obs
+    let posterior := PublicBelief.condition (S := (fullInformation M).toInfoSignals)
+      ((fullInformation M).runBehavioral trunk cut) obs
       (cfrDFactualChildPossible_public M trunk cut remaining obs possible)
     let child := cfrDFactualChildBelief M trunk cut remaining obs possible
     (cfrDComposedNextState M fallback payoff cut remaining loss solve noise round
