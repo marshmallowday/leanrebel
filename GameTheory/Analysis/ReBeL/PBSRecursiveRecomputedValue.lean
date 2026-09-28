@@ -73,26 +73,34 @@ theorem pbsRecursiveRecomputedOutcome_value
     (pbsRecursiveRecomputedOutcome M fallback payoff bound initial unknown who
       config remaining state).expect value := by
   unfold carriedReplacementOutcome
-  rw [FinDist.expect_bind, carriedMemoryStep_selected_late_expect]
-  dsimp only [pbsRecursiveConfigStage, pbsRecursiveDepthStage]
+  rw [FinDist.expect_bind]
   by_cases live : cfrDCutLive config.fuel state.history = true
-  · rw [if_pos live, pbsRecursiveRecomputedOutcome, if_pos live]
-    cases stored : state.belief with
+  · cases stored : state.belief with
     | none =>
-        simp only [pbsRecursiveDepthResolver, FinDist.expect_pure, carriedSelectedTail]
+        have stageLive :
+            cfrDCutLive
+              (pbsRecursiveConfigStage M fallback payoff bound initial config).fuel
+              state.history = true := live
+        rw [carriedMemoryStep_selected_late_expect, if_pos stageLive]
+        simp only [pbsRecursiveConfigStage, pbsRecursiveDepthStage,
+          pbsRecursiveDepthResolver, stored, FinDist.expect_pure,
+          pbsRecursiveRecomputedOutcome, if_pos live, carriedSelectedTail]
     | some belief =>
         have supported : state.history ∈ belief.law.support := by
           by_contra absent
           apply outside
           refine ⟨live, ?_⟩
           simpa only [stored] using absent
-        simp only [pbsRecursiveDepthResolver]
-        have equal := congrArg (fun law : FinDist E.History => law.expect value)
-          (pbsRecursiveDepthDraw_from_support M config.noise config.cuts fallback payoff
-            bound belief config.tolerance unknown who (config.fuel + remaining)
-            state.history supported)
-        simpa only [FinDist.expect_bind] using equal
-  · rw [if_neg live, pbsRecursiveRecomputedOutcome, if_neg live]
+        simp only [pbsRecursiveRecomputedOutcome, if_pos live, stored]
+        exact pbsRecursiveDepthStage_selected_late_value M config.noise config.cuts
+          fallback payoff bound config.tolerance initial unknown who config.fuel remaining
+          state belief stored live supported value
+  · have stageStopped :
+        ¬ cfrDCutLive
+          (pbsRecursiveConfigStage M fallback payoff bound initial config).fuel
+          state.history = true := live
+    rw [carriedMemoryStep_selected_late_expect, if_neg stageStopped,
+      pbsRecursiveRecomputedOutcome, if_neg live]
 
 /-- Signed old-minus-recomputed value, retaining gains and the full late fuel. -/
 def pbsRecursiveRecomputedLoss

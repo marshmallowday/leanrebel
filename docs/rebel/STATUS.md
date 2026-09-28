@@ -1,8 +1,8 @@
-# ReBeL status — recomputed recursive value batch pending Actions; M06 incomplete
+# ReBeL status — recomputed-value conditional repair pending Actions; M06 incomplete
 
 Work branch: rebel/m06-kernel-value-repair-20260927.
-Implementation parent and last fully accepted dependency:
-ce81eaecde20fb02de0a191ba1ceb64e32bafe16.
+Repair parent: cbda1b336c5a8705813376340597cfba51851021.
+Last fully accepted dependency: ce81eaecde20fb02de0a191ba1ceb64e32bafe16.
 Default main: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline: 9457c198126f3c8b7cb1045bbed2e0053788636f.
 GitHub account marshmallowday has admin/push permission.
@@ -14,6 +14,19 @@ records using only the permitted three axioms, 137/278 modules passing lint,
 full build4304/lintbuild4074, all architecture checks, rational runtime,
 and 205 Python tests (9.561s/9.821s). See M06-stopped-mass-ce81eae-accepted.md.
 This is not validation of the new source.
+
+The cbda1b3 batch failed CI36410876412, checks36410876476 and target36410876360
+with two identical diagnostics in pbsRecursiveRecomputedOutcome_value.
+Partial stage-alias unfolding left the if condition and its implicit Decidable
+argument at different transparency forms. The repair uses the accepted
+selected-late-value theorem directly for supported saved beliefs, and consumes
+unreduced-stage conditions before unfolding in missing/stopped branches.
+Statements, definitions, premises and all consumers are unchanged. Complete
+decoded logs confirm PBSRecursivePosteriorValue compiled, static checks and
+rational runtime passed, and 210 Python tests passed (9.409s/10.131s).
+Example/umbrella compilation and complete lint/axiom gates remain unaccepted.
+See M06-recomputed-value-cbda1b3-failure.md for diagnostics and the precommit
+type/instance review through the consumers. Static review is not compilation.
 
 The coherent new batch separates the signed policy-value change caused by
 recomputing a solver from the public/live posterior filtering residual. It
@@ -44,7 +57,7 @@ P-CFRD-AVERAGE, P-CFRD-TARGET, SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
 remain accepted in unchanged pinned journals. No source row is promoted here.
 Frozen coverage.json remains 2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
 The exact previous owner ledger is preserved at
-M06-kernel-value-transport-coverage-at-ce81eae.json.
+M06-kernel-value-transport-coverage-at-cbda1b3.json.
 
 Main agent only. Review actual types through all consumers before every commit.
 Batch related implementations and fixes. Confirm separate same-SHA runs after
