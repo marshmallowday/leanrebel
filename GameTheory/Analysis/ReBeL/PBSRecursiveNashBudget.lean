@@ -61,7 +61,7 @@ def pbsRecursiveNashEnvelope
   if cfrDCutLive config.fuel state.history = true then
     match state.belief with
     | some belief => config.tolerance + bound *
-        nashReplacementTransport (fullInformation M)
+        nashReplacementTransport.{u} (E := E) (fullInformation.{0, u, u, u, u, u} M)
           (carriedMemoryProfile (fullInformation M) initial state.iteration)
           (pbsRecursiveDepth config.noise config.cuts E M fallback payoff bound belief
             config.tolerance) unknown who (config.fuel + remaining)

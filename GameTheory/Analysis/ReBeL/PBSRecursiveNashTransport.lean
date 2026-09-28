@@ -104,28 +104,23 @@ theorem pbsRecursiveDepth_replacement_le
     (payoff : Fin 2 → E.History → ℝ) (zeroSum : IsZeroSum (fun h player => payoff player h))
     (bound : ℝ) (nonneg : 0 ≤ bound) (bounded : ∀ player h, |payoff player h| ≤ bound)
     {observations : List M.PublicSignal}
-    (belief : PublicBelief (fullInformation M).toInfoSignals observations)
+    (belief : PublicBelief (fullInformation.{0, u, u, u, u, u} M).toInfoSignals observations)
     (tolerance : ℝ) (positive : 0 < tolerance)
-    (old unknown : Profile (fullInformation M).behavioralSignature)
+    (old unknown : Profile (fullInformation.{0, u, u, u, u, u} M).behavioralSignature)
     (who : Fin 2) (actual : FinDist E.History) :
     let fresh := pbsRecursiveDepth noise cuts E M fallback payoff bound belief tolerance
     recursivePolicyValueChange M old fresh unknown who cuts.sum actual (payoff who) ≤
-      tolerance + bound * nashReplacementTransport (fullInformation M)
+      tolerance + bound * nashReplacementTransport.{u} (E := E)
+        (fullInformation.{0, u, u, u, u, u} M)
         old fresh unknown who cuts.sum actual belief.law := by
   intro fresh
-  have equilibrium :
-      IsNash (behavioralBeliefForm (fullInformation M) belief cuts.sum)
-        (euPreferenceWithin tolerance (fun h player => payoff player h)) fresh :=
-    pbsRecursiveDepth_isNash.{u} noise noiseBound cuts (E := E) M fallback payoff zeroSum
-      bound nonneg bounded belief tolerance positive
-  have estimate := behavioralNash_replacement_le.{u} (E := E) (fullInformation M)
-    belief old fresh unknown who cuts.sum actual payoff tolerance bound nonneg
-    (bounded who) equilibrium
-  change actual.expect (fun history =>
-    ((fullInformation M).runBehavioralFrom
-      (Profile.update unknown who (old who)) cuts.sum history).expect (payoff who) -
-    ((fullInformation M).runBehavioralFrom
-      (Profile.update unknown who (fresh who)) cuts.sum history).expect (payoff who)) ≤ _
+  have equilibrium := @pbsRecursiveDepth_isNash.{u} noise noiseBound cuts E M
+    inferInstance inferInstance fallback payoff zeroSum bound nonneg bounded
+    observations belief tolerance positive
+  have estimate := @behavioralNash_replacement_le.{u} E
+    (fullInformation.{0, u, u, u, u, u} M) inferInstance observations belief
+    old fresh unknown who cuts.sum actual payoff tolerance bound nonneg (bounded who) equilibrium
+  unfold recursivePolicyValueChange
   rw [FinDist.expect_sub]
   simpa only [FinDist.expect_bind] using estimate
 
@@ -137,15 +132,15 @@ theorem pbsRecursiveDepth_model_replacement_le
     (payoff : Fin 2 → E.History → ℝ) (zeroSum : IsZeroSum (fun h player => payoff player h))
     (bound : ℝ) (nonneg : 0 ≤ bound) (bounded : ∀ player h, |payoff player h| ≤ bound)
     {observations : List M.PublicSignal}
-    (belief : PublicBelief (fullInformation M).toInfoSignals observations)
+    (belief : PublicBelief (fullInformation.{0, u, u, u, u, u} M).toInfoSignals observations)
     (tolerance : ℝ) (positive : 0 < tolerance)
-    (old : Profile (fullInformation M).behavioralSignature) (who : Fin 2) :
+    (old : Profile (fullInformation.{0, u, u, u, u, u} M).behavioralSignature) (who : Fin 2) :
     let fresh := pbsRecursiveDepth noise cuts E M fallback payoff bound belief tolerance
     recursivePolicyValueChange M old fresh fresh who cuts.sum belief.law (payoff who) ≤
       tolerance := by
   intro fresh
   have estimate := pbsRecursiveDepth_replacement_le.{u} (E := E) M noise noiseBound cuts
     fallback payoff zeroSum bound nonneg bounded belief tolerance positive old fresh who belief.law
-  simpa only [nashReplacementTransport_same, mul_zero, add_zero] using estimate
+  simpa only [nashReplacementTransport_same.{u}, mul_zero, add_zero] using estimate
 
 end GameTheory.ReBeL
