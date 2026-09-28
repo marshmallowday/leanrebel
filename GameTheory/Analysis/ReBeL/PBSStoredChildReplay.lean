@@ -41,7 +41,7 @@ theorem pbsRecursiveResolver_composed_input
     (possible : CFRDFactualChildPossible M
       (cfrDComposedTrunk M fallback payoff cut remaining loss
         (pbsRecursiveDepth recursiveNoise cuts E M fallback payoff bound) noise round)
-      cut remaining (publicTrace M.toInfoSignals history.trace))
+      cut remaining (publicTrace (fullInformation M).toInfoSignals history.trace))
     (plays : (K × Profile (fullInformation M).behavioralSignature) →
       Profile (fullInformation M).behavioralSignature) :
     let solve : PBSChildSolve M :=
@@ -49,13 +49,13 @@ theorem pbsRecursiveResolver_composed_input
     let trunk : Profile (fullInformation M).behavioralSignature :=
       cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round
     let child := cfrDFactualChildBelief M trunk cut remaining
-      (publicTrace M.toInfoSignals history.trace) possible
+      (publicTrace (fullInformation M).toInfoSignals history.trace) possible
     let next := cfrDComposedNextState M fallback payoff cut remaining loss solve noise round
       state history
     next.belief = some child ∧
       pbsRecursiveDepthResolver recursiveNoise cuts M fallback payoff bound
         (child.law.positiveMassFloor * loss) plays next.iteration
-        (publicTrace M.toInfoSignals history.trace) next.belief =
+        (publicTrace (fullInformation M).toInfoSignals history.trace) next.belief =
       pbsRecursiveDepthDraw recursiveNoise cuts M fallback payoff bound child
         (child.law.positiveMassFloor * loss) := by
   intro solve trunk child next
@@ -81,11 +81,12 @@ theorem pbsRecursiveResolver_composed_law
     (possible : CFRDFactualChildPossible M
       (cfrDComposedTrunk M fallback payoff cut remaining loss
         (pbsRecursiveDepth recursiveNoise cuts E M fallback payoff bound) noise round)
-      cut remaining (publicTrace M.toInfoSignals history.trace))
+      cut remaining (publicTrace (fullInformation M).toInfoSignals history.trace))
     (supported : history ∈ (cfrDFactualChildBelief M
       (cfrDComposedTrunk M fallback payoff cut remaining loss
         (pbsRecursiveDepth recursiveNoise cuts E M fallback payoff bound) noise round)
-      cut remaining (publicTrace M.toInfoSignals history.trace) possible).law.support)
+      cut remaining (publicTrace (fullInformation M).toInfoSignals history.trace)
+        possible).law.support)
     (plays : (K × Profile (fullInformation M).behavioralSignature) →
       Profile (fullInformation M).behavioralSignature)
     (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (fuel : Nat) :
@@ -94,12 +95,12 @@ theorem pbsRecursiveResolver_composed_law
     let trunk : Profile (fullInformation M).behavioralSignature :=
       cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round
     let child := cfrDFactualChildBelief M trunk cut remaining
-      (publicTrace M.toInfoSignals history.trace) possible
+      (publicTrace (fullInformation M).toInfoSignals history.trace) possible
     let next := cfrDComposedNextState M fallback payoff cut remaining loss solve noise round
       state history
     (pbsRecursiveDepthResolver recursiveNoise cuts M fallback payoff bound
       (child.law.positiveMassFloor * loss) plays next.iteration
-      (publicTrace M.toInfoSignals history.trace) next.belief).bind (fun chosen =>
+      (publicTrace (fullInformation M).toInfoSignals history.trace) next.belief).bind (fun chosen =>
         (fullInformation M).runBehavioralFrom
           (Profile.update unknown who (chosen who)) fuel history) =
       (fullInformation M).runBehavioralFrom
@@ -126,11 +127,12 @@ theorem pbsRecursiveResolver_composed_value
     (possible : CFRDFactualChildPossible M
       (cfrDComposedTrunk M fallback payoff cut remaining loss
         (pbsRecursiveDepth recursiveNoise cuts E M fallback payoff bound) noise round)
-      cut remaining (publicTrace M.toInfoSignals history.trace))
+      cut remaining (publicTrace (fullInformation M).toInfoSignals history.trace))
     (supported : history ∈ (cfrDFactualChildBelief M
       (cfrDComposedTrunk M fallback payoff cut remaining loss
         (pbsRecursiveDepth recursiveNoise cuts E M fallback payoff bound) noise round)
-      cut remaining (publicTrace M.toInfoSignals history.trace) possible).law.support)
+      cut remaining (publicTrace (fullInformation M).toInfoSignals history.trace)
+        possible).law.support)
     (plays : (K × Profile (fullInformation M).behavioralSignature) →
       Profile (fullInformation M).behavioralSignature)
     (unknown : Profile (fullInformation M).behavioralSignature) (who : Fin 2) (fuel : Nat)
@@ -140,14 +142,15 @@ theorem pbsRecursiveResolver_composed_value
     let trunk : Profile (fullInformation M).behavioralSignature :=
       cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round
     let child := cfrDFactualChildBelief M trunk cut remaining
-      (publicTrace M.toInfoSignals history.trace) possible
+      (publicTrace (fullInformation M).toInfoSignals history.trace) possible
     let next := cfrDComposedNextState M fallback payoff cut remaining loss solve noise round
       state history
     (pbsRecursiveDepthResolver recursiveNoise cuts M fallback payoff bound
       (child.law.positiveMassFloor * loss) plays next.iteration
-      (publicTrace M.toInfoSignals history.trace) next.belief).expect (fun chosen =>
-        ((fullInformation M).runBehavioralFrom
-          (Profile.update unknown who (chosen who)) fuel history).expect value) =
+      (publicTrace (fullInformation M).toInfoSignals history.trace) next.belief).expect
+        (fun chosen =>
+          ((fullInformation M).runBehavioralFrom
+            (Profile.update unknown who (chosen who)) fuel history).expect value) =
       ((fullInformation M).runBehavioralFrom
         (Profile.update unknown who
           (cfrDComposedChildProfile M trunk fallback cut remaining loss solve who))

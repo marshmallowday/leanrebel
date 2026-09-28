@@ -65,7 +65,7 @@ theorem hiddenStoredChild (loss : ℝ) (round : Nat)
       (cfrDComposedTrunk (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2 1 loss
         (pbsRecursiveDepth pbsRecursiveAllocatedNoise [1] (protocol fullPrior)
           (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2) storedChildNoise round)
-      2 1 (publicTrace (signals fullPrior) history.trace)) :
+      2 1 (publicTrace (model fullPrior).toInfoSignals history.trace)) :
     let solve : PBSChildSolve (reducedModel fullPrior) :=
       pbsRecursiveDepth pbsRecursiveAllocatedNoise [1] (protocol fullPrior)
         (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2
@@ -75,7 +75,7 @@ theorem hiddenStoredChild (loss : ℝ) (round : Nat)
     (cfrDComposedNextState (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2 1 loss
       solve storedChildNoise round storedChildInitial history).belief =
     some (cfrDFactualChildBelief (reducedModel fullPrior) trunk 2 1
-      (publicTrace (signals fullPrior) history.trace) possible) := by
+      (publicTrace (model fullPrior).toInfoSignals history.trace) possible) := by
   exact cfrDComposedRound_storedChild (reducedModel fullPrior)
     (hiddenTypes_publicTermination fullPrior) pbsRootControlFallback cfrPayoff 2 1 loss _
     storedChildNoise round storedChildInitial recursiveInitialBelief rfl rfl history possible
@@ -88,7 +88,7 @@ theorem hiddenStoredChild_resolver (loss : ℝ) (round : Nat)
       (cfrDComposedTrunk (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2 1 loss
         (pbsRecursiveDepth pbsRecursiveAllocatedNoise [1] (protocol fullPrior)
           (reducedModel fullPrior) pbsRootControlFallback cfrPayoff 2) storedChildNoise round)
-      2 1 (publicTrace (signals fullPrior) history.trace))
+      2 1 (publicTrace (model fullPrior).toInfoSignals history.trace))
     (plays : (Unit × Profile (model fullPrior).behavioralSignature) →
       Profile (model fullPrior).behavioralSignature) :
     let solve : PBSChildSolve (reducedModel fullPrior) :=
@@ -98,13 +98,13 @@ theorem hiddenStoredChild_resolver (loss : ℝ) (round : Nat)
       cfrDComposedTrunk (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
         2 1 loss solve storedChildNoise round
     let child := cfrDFactualChildBelief (reducedModel fullPrior) trunk 2 1
-      (publicTrace (signals fullPrior) history.trace) possible
+      (publicTrace (model fullPrior).toInfoSignals history.trace) possible
     let next := cfrDComposedNextState (reducedModel fullPrior) pbsRootControlFallback cfrPayoff
       2 1 loss solve storedChildNoise round storedChildInitial history
     next.belief = some child ∧
       pbsRecursiveDepthResolver pbsRecursiveAllocatedNoise [1] (reducedModel fullPrior)
         pbsRootControlFallback cfrPayoff 2 (child.law.positiveMassFloor * loss) plays
-        next.iteration (publicTrace (signals fullPrior) history.trace) next.belief =
+        next.iteration (publicTrace (model fullPrior).toInfoSignals history.trace) next.belief =
       pbsRecursiveDepthDraw pbsRecursiveAllocatedNoise [1] (reducedModel fullPrior)
         pbsRootControlFallback cfrPayoff 2 child (child.law.positiveMassFloor * loss) :=
   pbsRecursiveResolver_composed_input (reducedModel fullPrior) pbsRecursiveAllocatedNoise

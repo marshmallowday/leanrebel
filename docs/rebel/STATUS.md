@@ -1,7 +1,7 @@
 # ReBeL status — stored-child elaboration repair pending Actions; M06 incomplete
 
 Continue rebel/m06-kernel-value-repair-20260927 from re-read HEAD
-376b118d0b87c2ef84d3dde7d1cb90c20b7f72a9. Default main remains separately
+99cfe593f08280a6f0eb791c44319ff8a42df43f. Default main remains separately
 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. GitHub plugin identity and permission
 were reconfirmed as marshmallowday/admin, with push access. Chat baseline:
 9457c198126f3c8b7cb1045bbed2e0053788636f.
@@ -14,16 +14,15 @@ normal/slow module lint passes, full build/architecture/rational runtime and
 195 Python tests. The manifest has 169 targets. See
 M06-recursive-replay-8bf7814-accepted.md. This does not validate new source.
 
-The stored-child repair 376b118 compiles CFRDStoredChild in all three Lean
-jobs, resolving the previous trace-proof error. The next PBSStoredChildReplay
-module hits the default 200000-heartbeat elaboration limit at three possible
-proof arguments after untyped solver/trunk aliases. The combined repair gives
-the three solver aliases explicit PBSChildSolve types and behavioral trunk
-types, and applies the same fix to both concrete example consumers.
-No heartbeat limit, statement, semantic assumption, workflow or audit rule is
-changed. Checks/inventory passed 200 tests (8.509s/8.230s); static audits and
-rational runtime passed. Complete build/lint/axiom acceptance remains pending.
-See M06-stored-child-376b118-failure.md for exact-source evidence.
+The stored-child repair 99cfe59 removes the three elaboration timeouts with
+explicit solver/trunk types. CFRDStoredChild compiles in all three jobs.
+The downstream consumer now reports six mismatches between original and
+full-information public-trace indices. This repair consistently uses the
+native full-information signal carrier in all three consumer statements and
+both concrete examples. Public signals, semantic hypotheses, recursive solver
+and budgets are unchanged. Checks/inventory passed 200 tests (9.281s/9.714s);
+static audits and rational runtime passed. Full build/lint/axiom acceptance is
+still pending. See M06-stored-child-99cfe59-failure.md for exact evidence.
 
 The new stored-child batch proves public-only and live-public posterior
 identity under supported liveness, derives that condition when termination is
@@ -53,7 +52,7 @@ P-CFRD-AVERAGE, P-CFRD-TARGET, SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
 remain accepted through their existing pinned journals. No new source-level
 obligation is promoted by the new dependency batch. Frozen coverage.json
 remains blob2fc8cc9ad6607d61bfe397707fb96ac322fbb800. The prior owner ledger is
-preserved as M06-kernel-value-transport-coverage-at-376b118.json.
+preserved as M06-kernel-value-transport-coverage-at-99cfe59.json.
 
 Retain full joint PBS correlations, the selected private profile and its
 own MODEL posterior, one draw through stage plus late horizon, and actual

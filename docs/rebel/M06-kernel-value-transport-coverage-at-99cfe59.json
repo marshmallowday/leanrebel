@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "99cfe593f08280a6f0eb791c44319ff8a42df43f",
+  "parent": "376b118d0b87c2ef84d3dde7d1cb90c20b7f72a9",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -34,8 +34,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-8bf7814.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-ad3b6bc.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-d71d661.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-376b118.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-99cfe59.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-376b118.json"
   ],
   "semantic_review": "docs/rebel/M06-stored-child-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
@@ -80,20 +79,20 @@
     "docs/rebel/M06-average-limit-cc4ba60-failure.md"
   ],
   "previous_feedback": {
-    "commit": "99cfe593f08280a6f0eb791c44319ff8a42df43f",
-    "ci_run": 36386358269,
-    "ci_job": 108812455311,
-    "global_run": 36386358240,
-    "global_job": 108812455291,
-    "target_run": 36386358259,
-    "target_job": 108812455475,
-    "inventory_run": 36386358235,
-    "inventory_job": 108812455748,
-    "build": "CFRDStoredChild compiles; timeouts resolved; six original/full public-trace index mismatches in consumer",
+    "commit": "376b118d0b87c2ef84d3dde7d1cb90c20b7f72a9",
+    "ci_run": 36382191159,
+    "ci_job": 108800075258,
+    "global_run": 36382191075,
+    "global_job": 108800074801,
+    "target_run": 36382191142,
+    "target_job": 108800074913,
+    "inventory_run": 36382190987,
+    "inventory_job": 108800074317,
+    "build": "CFRDStoredChild compiles; PBSStoredChildReplay three elaboration timeouts",
     "python_tests": 200,
     "python_result": "success",
     "lint_axioms": "not reached; not accepted",
-    "evidence": "docs/rebel/M06-stored-child-99cfe59-failure.md"
+    "evidence": "docs/rebel/M06-stored-child-376b118-failure.md"
   },
   "validation": {
     "compiler": "pending stored child elaboration repair exact SHA",
@@ -556,7 +555,7 @@
       "P-CFRD-TARGET"
     ]
   },
-  "repair_review": "docs/rebel/M06-stored-child-99cfe59-failure.md",
+  "repair_review": "docs/rebel/M06-stored-child-376b118-failure.md",
   "average_limit_batch": {
     "status": "accepted_at_ba26c02",
     "semantic_review": "docs/rebel/M06-average-limit-batch.md",
@@ -735,31 +734,30 @@
     "scope": "Actual played composed round MODEL posterior equals its factual live child when termination is publicly observable and initial law/prefix match; existing recursive resolver consumes exact mass-scaled child input, yielding supported same-computation law/value. Root-wrapper equivalence and actual support costs remain open.",
     "blobs": {
       "GameTheory/Analysis/ReBeL/CFRDStoredChild.lean": "ca04ee7940fb9d65b902e6657629a8ed05df0ad2",
-      "GameTheory/Analysis/ReBeL/PBSStoredChildReplay.lean": "0ff1876a2c809055a953cc9a0948cc585a97e5dc",
-      "GameTheory/Analysis/ReBeL/Examples/PBSStoredChildReplay.lean": "19b18193300a7d6c0007d904f366db1a0216b7e2",
+      "GameTheory/Analysis/ReBeL/PBSStoredChildReplay.lean": "1ec1a6cc6717275c3f7dac0cc012164a748359dd",
+      "GameTheory/Analysis/ReBeL/Examples/PBSStoredChildReplay.lean": "dea3be2779504c5ccafa432088ad9c807cc30e82",
       "scripts/rebel/tests/test_stored_child.py": "d44cab1ad03d2eceab1ef57e2295380f4cebb5ac",
       "GameTheory/Analysis/ReBeL.lean": "3cad603cc1bc991819216f67439a6a7a28ea3f2b",
       "scripts/rebel/m06-targets.txt": "a791fe2b25005c4cc87d74ff1d969bedf897b7b5",
       "scripts/rebel/audit_exact_leaf.py": "54e935d2405e6f19fbfc373833cac953785c20bc",
       "docs/rebel/M06-recursive-replay-8bf7814-accepted.md": "dafc7775d4053b268ed3298c908307adf1538e72",
       "docs/rebel/M06-stored-child-batch.md": "3d344edfb53e734d049e573ee9daaabb320f2efd",
-      "docs/rebel/STATUS.md": "4ff176622bcb20b431e841cb51874c431f143ea0",
+      "docs/rebel/STATUS.md": "610436b202cc01d305eaff1780de64058302d07b",
       "docs/rebel/M06-stored-child-ad3b6bc-failure.md": "cdad53672fd610e52120a23f2a866196ce40f2a1",
       "docs/rebel/M06-stored-child-d71d661-failure.md": "ca9a5186ec396b0a959e88e73d55d433536b873a",
-      "docs/rebel/M06-stored-child-376b118-failure.md": "241bf0ebaf6eafeb7802a69e7a7d75b38d017aa3",
-      "docs/rebel/M06-stored-child-99cfe59-failure.md": "aaf89441fd8a667fd1b23ee45ed640ac387f78b0"
+      "docs/rebel/M06-stored-child-376b118-failure.md": "241bf0ebaf6eafeb7802a69e7a7d75b38d017aa3"
     },
-    "failed_source": "99cfe593f08280a6f0eb791c44319ff8a42df43f",
-    "failure_review": "docs/rebel/M06-stored-child-99cfe59-failure.md",
+    "failed_source": "376b118d0b87c2ef84d3dde7d1cb90c20b7f72a9",
+    "failure_review": "docs/rebel/M06-stored-child-376b118-failure.md",
     "python_acceptance": {
-      "commit": "99cfe593f08280a6f0eb791c44319ff8a42df43f",
-      "run": 36386358235,
-      "job": 108812455748,
+      "commit": "376b118d0b87c2ef84d3dde7d1cb90c20b7f72a9",
+      "run": 36382190987,
+      "job": 108800074317,
       "tests": 200,
       "result": "success; not repaired-source Lean acceptance"
     },
     "core_compile": {
-      "commit": "99cfe593f08280a6f0eb791c44319ff8a42df43f",
+      "commit": "376b118d0b87c2ef84d3dde7d1cb90c20b7f72a9",
       "module": "GameTheory.Analysis.ReBeL.CFRDStoredChild",
       "blob": "ca04ee7940fb9d65b902e6657629a8ed05df0ad2",
       "result": "compiled in all three jobs; not full lint/axiom acceptance"
