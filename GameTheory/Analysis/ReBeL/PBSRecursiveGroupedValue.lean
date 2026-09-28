@@ -89,7 +89,9 @@ theorem pbsRecursiveGroup_loss_eq
   intro state supported
   obtain ⟨live, old, computed⟩ := agrees state supported
   cases stored : state.belief with
-  | none => simp only [stored, Option.map_none] at computed
+  | none =>
+      simp only [stored, Option.map_none] at computed
+      cases computed
   | some belief =>
       have fresh :
           pbsRecursiveDepth config.noise config.cuts E M fallback payoff bound belief
@@ -264,7 +266,9 @@ theorem pbsRecursiveNativeGroupKey_compatible
   by_cases live : cfrDCutLive config.fuel state.history = true
   · rw [if_pos live] at tagged
     cases stored : state.belief with
-    | none => simp only [stored, Option.map_none] at tagged
+    | none =>
+        simp only [stored, Option.map_none] at tagged
+        cases tagged
     | some belief =>
         simp only [stored, Option.map_some, Option.some.injEq] at tagged
         subst query
@@ -272,6 +276,7 @@ theorem pbsRecursiveNativeGroupKey_compatible
         rw [stored]
         rfl
   · simp only [if_neg live] at tagged
+    cases tagged
 
 /-- Leaving every group uncertified recovers the exact recomputed expectation
 for any correlated joint law, including stopped and missing-PBS states. -/

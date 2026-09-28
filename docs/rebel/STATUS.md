@@ -1,10 +1,22 @@
-# ReBeL status — canonical grouped security pending Actions; M06 incomplete
+# ReBeL status — grouped Option-branch repair pending Actions; M06 incomplete
 
 Work branch: rebel/m06-kernel-value-repair-20260927.
-Batch parent and accepted dependency: 5a4710d92c4a39c5eed565650cd96c068ee8ae21.
+Repair parent: a0892dcb783e05041bb7d222287daa1361b1cd4e.
+Accepted dependency: 5a4710d92c4a39c5eed565650cd96c068ee8ae21.
 Default main: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline: 9457c198126f3c8b7cb1045bbed2e0053788636f.
 GitHub account marshmallowday has admin/push permission.
+
+a0892dcb failed CI36474810425/checks36474810236/target36474810276 on three
+unfinished impossible Option-equality branches. Inventory36474810191 passed.
+All three are repaired together with explicit constructor elimination after
+the existing restricted simp. Definitions, theorem signatures, assumptions,
+instances, solver behavior, examples, tests and workflow settings are unchanged.
+Checks passed static2metrics0, rational runtime and225tests9.396s;
+inventory225tests9.026s. Downstream build/full lint/axioms remain unaccepted.
+See M06-grouped-security-a0892dcb-failure.md for full common diagnostics,
+artifact metadata and consumer-wide static type review. New-SHA Actions
+are required; this is not compilation success.
 
 The finite-parent unused-instance repair loop is complete on5a4710d.
 CI36465657834, checks36465654384, target36465654230, inventory36465654373
@@ -53,8 +65,8 @@ promoted by this batch. M06-theorem3-interpretation.md retains the adopted
 independent error/T formula, source comparison and explicit child loss.
 Frozen coverage.json remains2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
 Previous owner ledger is preserved at
-M06-kernel-value-transport-coverage-at-5a4710d.json with blob
-78bbbd19537137ffebe51c211d49a83d08e51af9.
+M06-kernel-value-transport-coverage-at-a0892dcb.json with blob
+621eb5a91e2a10c57c00280adf21258614ea3c50.
 
 Main agent only. Check actual types through all consumers before committing;
 batch related work. Confirm separate same-SHA runs, then schedule one

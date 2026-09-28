@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "a0892dcb783e05041bb7d222287daa1361b1cd4e",
+  "parent": "5a4710d92c4a39c5eed565650cd96c068ee8ae21",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -47,8 +47,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-3e84fcb.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-e590b4f.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-ce432689.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-5a4710d.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-a0892dcb.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-5a4710d.json"
   ],
   "semantic_review": "docs/rebel/M06-grouped-security-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
@@ -97,39 +96,36 @@
     "docs/rebel/M06-nash-transport-481c5ab-failure.md",
     "docs/rebel/M06-nash-transport-67fbf8c-failure.md",
     "docs/rebel/M06-nash-transport-3e84fcb-failure.md",
-    "docs/rebel/M06-recursive-security-ce432689-failure.md",
-    "docs/rebel/M06-grouped-security-a0892dcb-failure.md"
+    "docs/rebel/M06-recursive-security-ce432689-failure.md"
   ],
   "previous_feedback": {
-    "commit": "a0892dcb783e05041bb7d222287daa1361b1cd4e",
-    "ci_run": 36474810425,
-    "ci_job": 109105717843,
-    "global_run": 36474810236,
-    "global_job": 109105716931,
-    "source_job": 109105716577,
-    "target_run": 36474810276,
-    "target_job": 109105716988,
-    "inventory_run": 36474810191,
-    "inventory_job": 109105716304,
-    "result": "Three identical unsolved impossible Option branches in three compiler jobs; downstream build/full lint/axioms unaccepted",
-    "python_tests": 225,
+    "commit": "ce432689668ce58a0c8040820b7d06179582064f",
+    "ci_run": 36459218256,
+    "ci_job": 109053251997,
+    "global_run": 36459218063,
+    "global_job": 109053247528,
+    "target_run": 36459218039,
+    "target_job": 109053246630,
+    "inventory_run": 36459218193,
+    "inventory_job": 109053246826,
+    "result": "Three compiler jobs failed on one unusedSectionVars diagnostic listing two redundant instances; downstream/full lint/axioms unaccepted",
+    "python_tests": 220,
     "python_seconds": {
-      "checks": 9.396,
-      "inventory": 9.026
+      "checks": 9.791,
+      "inventory": 8.984
     },
     "rational_runtime": "pass",
     "static_metrics": {
       "LIBRARY_LINES_OVER_100": 0,
       "TRANSPORT_ANALYSIS_SOURCE": 0
     },
-    "axiom_records": 0,
-    "evidence": "docs/rebel/M06-grouped-security-a0892dcb-failure.md",
+    "evidence": "docs/rebel/M06-recursive-security-ce432689-failure.md",
     "artifacts": {
-      "target": 10992953139,
-      "global": 10994153618,
-      "source": 10993011419
+      "target": 10987058779,
+      "global": 10987123905,
+      "source": 10985929178
     },
-    "artifact_contents": "ZIP unread; complete decoded job logs reviewed"
+    "artifact_contents": "ZIP unread; complete decoded logs reviewed"
   },
   "validation": {
     "compiler": "pending new-SHA GitHub Actions",
@@ -1117,7 +1113,7 @@
     }
   },
   "grouped_security_batch": {
-    "status": "Option constructor-contradiction repair pending exact new-SHA Actions",
+    "status": "implementation pending same-SHA Actions",
     "semantic_review": "docs/rebel/M06-grouped-security-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.PBSRecursiveGroupedValue",
@@ -1150,7 +1146,7 @@
     "python_tests": 5,
     "scope": "Canonical grouping of the actual joint native state law automatically discharges common incumbent/PBS computation coherence; conditional history-marginal Nash bounds feed the unchanged native schedule and actual finite noisy parent's security. Calibration/opponent/support small rates and rooted/original solver equivalence remain open.",
     "blobs": {
-      "GameTheory/Analysis/ReBeL/PBSRecursiveGroupedValue.lean": "121ae4041e2b4ffdb66f330f70c4269b3875dfa5",
+      "GameTheory/Analysis/ReBeL/PBSRecursiveGroupedValue.lean": "e14e45da70ff6c5ea622358b874a9263d491189e",
       "GameTheory/Analysis/ReBeL/PBSRecursiveGroupedSecurity.lean": "e1c0a9a70b1424706fb8fd8c4eb659e5b6a23538",
       "GameTheory/Analysis/ReBeL/Examples/PBSRecursiveGroupedSecurity.lean": "09ac7b7f362209f63bda0513d641248cf60c81a7",
       "scripts/rebel/tests/test_grouped_security.py": "85eed2769babd58f5435adf6bb52d94550f2bd66",
@@ -1159,17 +1155,7 @@
       "scripts/rebel/audit_exact_leaf.py": "8f26e635ac60ba078eefbeb85973b9fad905ffa1",
       "docs/rebel/M06-recursive-security-5a4710d-accepted.md": "327bc84bdc601584a081b368a6de577c28ac04ae",
       "docs/rebel/M06-grouped-security-batch.md": "8f114676dbd7bb30e2f0438954be6ec225bca03c",
-      "docs/rebel/STATUS.md": "1b024a4c9564630428dca95bdc03085bab998dd2",
-      "docs/rebel/M06-grouped-security-a0892dcb-failure.md": "2675731bec9ef173f0fb495e5b99cec73812eb28"
-    },
-    "repair_review": "docs/rebel/M06-grouped-security-a0892dcb-failure.md",
-    "failed_source": "a0892dcb783e05041bb7d222287daa1361b1cd4e",
-    "python_acceptance": {
-      "commit": "a0892dcb783e05041bb7d222287daa1361b1cd4e",
-      "tests": 225,
-      "checks_run": 36474810236,
-      "inventory_run": 36474810191,
-      "result": "success; not new-SHA acceptance"
+      "docs/rebel/STATUS.md": "e0006aec2e2133ad7761ca5d02d1561783e79a9c"
     }
   }
 }
