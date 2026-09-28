@@ -1,66 +1,52 @@
-# ReBeL status — stored-child elaboration repair pending Actions; M06 incomplete
+# ReBeL status — stopped-mass batch pending Actions; M06 incomplete
 
-Continue rebel/m06-kernel-value-repair-20260927 from re-read HEAD
-99cfe593f08280a6f0eb791c44319ff8a42df43f. Default main remains separately
-6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. GitHub plugin identity and permission
-were reconfirmed as marshmallowday/admin, with push access. Chat baseline:
+Work branch: rebel/m06-kernel-value-repair-20260927.
+Base for this batch: 133dc247945486c48f055815b4262261f6fff5f2.
+Default main, separately checked: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
+Plugin account marshmallowday has admin/push permission. Chat baseline:
 9457c198126f3c8b7cb1045bbed2e0053788636f.
 
-The recursive replay batch is accepted at 8bf7814. CI36370397855,
-checks36370397903, targeted36370397856 and inventory36370397861 succeeded
-on that exact SHA. Complete decoded logs contain 2157 targeted/5298 global
-unique transitive axiom records, permitted three axioms only, all 131/273
-normal/slow module lint passes, full build/architecture/rational runtime and
-195 Python tests. The manifest has 169 targets. See
-M06-recursive-replay-8bf7814-accepted.md. This does not validate new source.
+The stored-child repair loop is accepted at 133dc24: CI36390994514,
+checks36390994487, targeted36390994535 and inventory36390994579 all succeeded.
+Complete decoded logs contain 2192 targeted/5333 global unique transitive axiom
+records, permitted three axioms only, all 134/276 module lint passes, full
+build/architecture/rational runtime, and 200 Python tests (7.747s/8.217s).
+See M06-stored-child-133dc24-accepted.md. This validates its 172 targets, not
+the new source.
 
-The stored-child repair 99cfe59 removes the three elaboration timeouts with
-explicit solver/trunk types. CFRDStoredChild compiles in all three jobs.
-The downstream consumer now reports six mismatches between original and
-full-information public-trace indices. This repair consistently uses the
-native full-information signal carrier in all three consumer statements and
-both concrete examples. Public signals, semantic hypotheses, recursive solver
-and budgets are unchanged. Checks/inventory passed 200 tests (9.281s/9.714s);
-static audits and rational runtime passed. Full build/lint/axiom acceptance is
-still pending. See M06-stored-child-99cfe59-failure.md for exact evidence.
+The new coherent batch handles public observations mixing live and stopped
+histories. It proves nested conditional expectation error from discarded mass,
+identifies the actual parent-round saved public posterior without termination
+visibility, characterizes factual-child support, and carries the quantitative
+bound through fixed full-future kernels. It recovers zero error for the actual
+hidden-type noisy recursive parent using that game's proved visibility.
+Tight and constant-value Lean examples and five Fraction controls accompany it.
+See M06-stopped-mass-batch.md, including the precommit type-signature review.
 
-The new stored-child batch proves public-only and live-public posterior
-identity under supported liveness, derives that condition when termination is
-publicly observable, and connects the actual noisy composed round's trunk
-prefix to its saved MODEL posterior. The existing recursive resolver then
-consumes the derived factual child and exact mass-scaled target, with supported
-unknown-opponent law/value replay through arbitrary late fuel.
-The canonical hidden-type game's original phase signal proves the required
-termination visibility. Two actual noisy-parent stored-state/resolver consumers
-and five rational negative-control tests accompany the integration.
-See M06-stored-child-batch.md.
+Expected new surface: 175 targets, 137 targeted/278 global audit modules,
+205 Python tests. No local Lean/Python execution is claimed. All old targets,
+workflow definitions, audit criteria and deployed solver definitions are unchanged.
 
-Expected new surface: 172 build targets, 134 targeted/276 global audit modules,
-200 Python tests. Existing targets, workflow, audit criteria and algorithm
-definitions are unchanged. No local Lean or Python execution is claimed.
-
-Remaining: identify internal chance-rooted child computations with decoded
-original-game fresh solves, preserving actual noise/fallback/budget settings;
-handle live-public versus public conditioning wherever termination is not
-publicly observable; prove required support or small signed replacement costs
-for the native full-state recursive chain; finish SEARCH-CFRD, SEARCH-ERROR
-and SAFE-THEOREM3 source acceptance. Same PBS laws alone do not prove the same
-solver computation, nor does Nash accuracy imply close policies or kernels.
-A positive public observation is not a hidden-history support certificate.
+Remaining: changes of the solver's continuation kernel; internal chance-rooted
+child versus original-game fresh solver computation with full configuration;
+small actual native-chain support/signed replacement losses; SEARCH-CFRD,
+SEARCH-ERROR and SAFE-THEOREM3. Discarded model mass need not be small, and
+the new bound only compares the SAME continuation kernel. A dedicated negative
+control rejects applying it to different policies solved from different PBSs.
 
 P-CFRD-AVERAGE, P-CFRD-TARGET, SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
-remain accepted through their existing pinned journals. No new source-level
-obligation is promoted by the new dependency batch. Frozen coverage.json
-remains blob2fc8cc9ad6607d61bfe397707fb96ac322fbb800. The prior owner ledger is
-preserved as M06-kernel-value-transport-coverage-at-99cfe59.json.
+remain accepted in their pinned journals. No original-source row is promoted
+by this batch. Frozen coverage.json stays at
+2fc8cc9ad6607d61bfe397707fb96ac322fbb800. The preceding owner ledger is preserved
+as M06-kernel-value-transport-coverage-at-133dc24.json.
 
-Retain full joint PBS correlations, the selected private profile and its
-own MODEL posterior, one draw through stage plus late horizon, and actual
-native forward weights. Never reset a carried prior, identify it with an
-unknown opponent's posterior, omit finite-T/child error, or claim last-iterate
-or network convergence. Printed R5 and corrected statements stay separate.
+Keep correlated joint beliefs and native full-state weights, one private draw
+through stage plus late fuel, finite-T/child errors and the distinction between
+stored MODEL and unknown opponent's posterior. Do not reset carried priors or
+infer close policies/kernels from Nash accuracy. Printed R5 and corrected
+statements remain separate; no final-iterate or network convergence is claimed.
 
-Use the main agent only. Batch related work in dependency order and fixes
-together. After each ref update confirm same-SHA separate workflows, schedule
-one check about 50 minutes later in Asia/Tokyo, and end. If still running,
-schedule another one-shot check about 10 minutes later. Do not stop workflows.
+Main agent only. Review actual types through all consumers before every commit;
+batch related implementations and fixes. Verify separate same-SHA workflows
+after ref updates, then schedule a one-shot check about 50 minutes later in JST.
+If still running, schedule another one-shot about 10 minutes later; do not cancel.

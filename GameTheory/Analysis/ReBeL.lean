@@ -247,3 +247,6 @@ import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveReplay
 import GameTheory.Analysis.ReBeL.CFRDStoredChild
 import GameTheory.Analysis.ReBeL.PBSStoredChildReplay
 import GameTheory.Analysis.ReBeL.Examples.PBSStoredChildReplay
+import GameTheory.Math.Probability.FinDistConditioningError
+import GameTheory.Analysis.ReBeL.CFRDStoredChildDefect
+import GameTheory.Analysis.ReBeL.Examples.CFRDStoredChildDefect

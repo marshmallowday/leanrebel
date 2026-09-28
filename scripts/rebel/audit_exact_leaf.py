@@ -13,6 +13,9 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULES = (
+    "GameTheory.Math.Probability.FinDistConditioningError",
+    "GameTheory.Analysis.ReBeL.CFRDStoredChildDefect",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDStoredChildDefect",
     "GameTheory.Analysis.ReBeL.CFRDStoredChild",
     "GameTheory.Analysis.ReBeL.PBSStoredChildReplay",
     "GameTheory.Analysis.ReBeL.Examples.PBSStoredChildReplay",
