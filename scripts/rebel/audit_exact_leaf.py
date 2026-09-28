@@ -13,6 +13,9 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULES = (
+    "GameTheory.Analysis.ReBeL.PBSRecursiveNashTransport",
+    "GameTheory.Analysis.ReBeL.PBSRecursiveNashBudget",
+    "GameTheory.Analysis.ReBeL.Examples.PBSRecursiveNashTransport",
     "GameTheory.Analysis.ReBeL.PBSRecursivePosteriorValue",
     "GameTheory.Analysis.ReBeL.PBSRecursiveRecomputedValue",
     "GameTheory.Analysis.ReBeL.Examples.PBSRecursiveRecomputedValue",

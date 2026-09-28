@@ -176,3 +176,6 @@ GameTheory.Analysis.ReBeL.Examples.CFRDStoredChildDefect
 GameTheory.Analysis.ReBeL.PBSRecursivePosteriorValue
 GameTheory.Analysis.ReBeL.PBSRecursiveRecomputedValue
 GameTheory.Analysis.ReBeL.Examples.PBSRecursiveRecomputedValue
+GameTheory.Analysis.ReBeL.PBSRecursiveNashTransport
+GameTheory.Analysis.ReBeL.PBSRecursiveNashBudget
+GameTheory.Analysis.ReBeL.Examples.PBSRecursiveNashTransport

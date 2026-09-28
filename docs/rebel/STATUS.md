@@ -1,63 +1,56 @@
-# ReBeL status — recomputed-value field-documentation repair pending Actions; M06 incomplete
+# ReBeL status — Nash replacement batch pending Actions; M06 incomplete
 
 Work branch: rebel/m06-kernel-value-repair-20260927.
-Repair parent: d9c73f034e9a1600acbaa5b77c22ffdd0e76674a.
-Last fully accepted dependency: ce81eaecde20fb02de0a191ba1ceb64e32bafe16.
+Parent and last fully accepted dependency: 7f5526ca40282dd11a42301e5d12cad9ac3eb37e.
 Default main: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline: 9457c198126f3c8b7cb1045bbed2e0053788636f.
 GitHub account marshmallowday has admin/push permission.
 
-The stopped-mass repair loop is accepted: CI36403639157, checks36403639007,
-target36403639103 and inventory36403638970 all passed on ce81eae.
-Complete decoded logs: 2221 targeted/5357 global unique transitive axiom
-records using only the permitted three axioms, 137/278 modules passing lint,
-full build4304/lintbuild4074, all architecture checks, rational runtime,
-and 205 Python tests (9.561s/9.821s). See M06-stopped-mass-ce81eae-accepted.md.
-This is not validation of the new source.
+The recomputed-value repair loop is complete on 7f5526c:
+CI36422271712, checks36422271598, target36422271775, inventory36422271594 all passed.
+Complete decoded logs contain 2275 targeted/5411 global unique axiom records,
+only the permitted three axioms, all 140/281 module lint passes including slow
+checks, full build4307/lintbuild4077, all architecture checks, rational runtime,
+and 210 Python tests (7.924s/8.261s).
+See M06-recomputed-value-7f5526c-accepted.md. This is not new-source validation.
 
-The d9c73f0 conditional repair compiled, including concrete examples and umbrella.
-CI36416665284, checks36416665256 and target36416665342 then failed on the same
-four missing field docstrings in PBSRecursiveResolveConfig. This repair adds
-only those docstrings; executable Lean text, types and all proofs are unchanged.
-Complete decoded logs confirm full build4307/lintbuild4077, all architecture
-checks, static metrics at zero, rational runtime and 210 tests (8.218s/10.105s).
-All 2275 targeted/5411 global unique axiom records use only the permitted three
-axioms. Complete normal/slow lint did not pass, so the batch is not accepted.
-See M06-recomputed-value-d9c73f0-failure.md for full evidence and the precommit
-field/constructor/consumer review. New-SHA Actions remain required.
+The new coherent batch derives a replacement bound from the actual recursive
+solver's Nash theorem. It adds explicit root-law discrepancy and two opposing-
+policy execution charges, with primitive finite-fuel rates, rather than assuming
+the old/new own policies are close. Under the same model law and computed
+opponent the remaining bound is the actual requested solver tolerance.
 
-The coherent new batch separates the signed policy-value change caused by
-recomputing a solver from the public/live posterior filtering residual. It
-instantiates actual recursive private draws with separate tolerances, then
-derives a native signed replacement budget from recomputed values plus actual
-off-support state mass. Configurations can change noise/cuts/tolerance/fuel at
-every stage; later costs use native full-state forward laws and the same private
-draw through stage plus late fuel. Initial security is inherited with this
-explicit computed budget. Three actual hidden-type Lean consumers and five
-Fraction controls accompany the batch. See M06-recomputed-value-batch.md,
-including the precommit type-review evidence and limits.
+PBSRecursiveNashAligned requires each solve to cover its stage plus every later
+stage and late fuel. This prevents applying a short-horizon Nash theorem to a
+longer local replacement. The native envelope, forward budget, signed loss and
+initial-security theorem preserve actual private draws, stored posteriors and
+unsupported-state penalties. Concrete noisy hidden-type consumers prove a
+model-opponent 1/8 bound, native two-stage integration and a horizon-mismatch
+negative control. Five Fraction tests cover 729 finite combinations and the
+root/opponent/support/horizon boundaries. See M06-nash-transport-batch.md.
 
-Expected surface: 178 targets, 140 targeted/281 global modules, 210 Python tests.
-Compilation/lint/axiom/Python execution is pending exact-SHA Actions. All previous
-targets are retained; workflow definitions, audit criteria, deployed algorithms
-and previously journal-pinned sources are unchanged. No local execution is claimed.
+Expected new surface: 181 build targets, 143 targeted/284 global modules and
+215 Python tests. Existing targets remain; workflows, audit criteria, solver
+algorithms and journal-pinned sources are unchanged. Static type review is
+recorded through all consumers; actual validation requires new-SHA Actions.
 
-Remaining: prove useful bounds on changed-policy and actual support terms;
-identify internal chance-rooted children with original-game fresh solvers with
-all posterior/noise/fallback/budget/clock settings; finish SEARCH-CFRD,
-SEARCH-ERROR and SAFE-THEOREM3 source correspondence and acceptance.
-A computed budget is not a small convergence rate. Stored MODEL posteriors are
-not identified with unknown-opponent factual posteriors; carried priors are
-not reset. Keep hidden correlation, native private memory, finite-T and child
-errors, and printed R5 versus corrected statements separate.
+Remaining work is grouped in dependency order: sharpen the actual root,
+opponent and support terms into useful fresh-chain rates; identify internal
+chance-rooted children with original-game fresh solvers including noise,
+posterior, fallback, budget and clock; finish SEARCH-CFRD/SEARCH-ERROR/
+SAFE-THEOREM3 source correspondence and acceptance.
+The singleton-to-PBS bound can be loose even when aggregate laws agree.
+A computed or transported budget is not a small convergence rate.
+Stored MODEL posteriors are not the unknown opponent's factual posterior.
+Keep hidden correlation, native memory, finite-T/child tolerances and printed
+R5 versus corrected claims separate. No network convergence is assumed.
 
 P-CFRD-AVERAGE, P-CFRD-TARGET, SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
-remain accepted in unchanged pinned journals. No source row is promoted here.
+remain accepted in unchanged journals. No source row is promoted here.
 Frozen coverage.json remains 2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
-The exact previous owner ledger is preserved at
-M06-kernel-value-transport-coverage-at-d9c73f0.json.
+The previous owner ledger is preserved at
+M06-kernel-value-transport-coverage-at-7f5526c.json.
 
-Main agent only. Review actual types through all consumers before every commit.
-Batch related implementations and fixes. Confirm separate same-SHA runs after
-ref update, then schedule a one-shot about 50 minutes later in JST; if still
-running, schedule another one-shot about 10 minutes later. Do not cancel workflows.
+Main agent only; review actual types before each commit. Batch related changes.
+Confirm separate same-SHA runs, schedule once about 50 minutes later in JST,
+and if still running schedule once about 10 minutes later. Do not cancel runs.
