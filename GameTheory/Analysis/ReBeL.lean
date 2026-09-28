@@ -261,3 +261,7 @@ import GameTheory.Analysis.ReBeL.Examples.CFRDRecursiveSecurity
 import GameTheory.Analysis.ReBeL.PBSRecursiveGroupedValue
 import GameTheory.Analysis.ReBeL.PBSRecursiveGroupedSecurity
 import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveGroupedSecurity
+import GameTheory.Math.Probability.FinDistRangeError
+import GameTheory.Analysis.ReBeL.PBSRecursiveQueryCost
+import GameTheory.Analysis.ReBeL.CFRDRecursiveQuerySecurity
+import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveQueryCost

@@ -1,74 +1,67 @@
-# ReBeL status — grouped Option-branch repair pending Actions; M06 incomplete
+# ReBeL status — actual query/diameter batch pending Actions; M06 incomplete
 
 Work branch: rebel/m06-kernel-value-repair-20260927.
-Repair parent: a0892dcb783e05041bb7d222287daa1361b1cd4e.
-Accepted dependency: 5a4710d92c4a39c5eed565650cd96c068ee8ae21.
+Batch parent and accepted dependency: f51ac5a306943bcaf4203a2b5e564b3f3f307d76.
 Default main: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline: 9457c198126f3c8b7cb1045bbed2e0053788636f.
-GitHub account marshmallowday has admin/push permission.
+Authenticated account marshmallowday has admin/push permission.
 
-a0892dcb failed CI36474810425/checks36474810236/target36474810276 on three
-unfinished impossible Option-equality branches. Inventory36474810191 passed.
-All three are repaired together with explicit constructor elimination after
-the existing restricted simp. Definitions, theorem signatures, assumptions,
-instances, solver behavior, examples, tests and workflow settings are unchanged.
-Checks passed static2metrics0, rational runtime and225tests9.396s;
-inventory225tests9.026s. Downstream build/full lint/axioms remain unaccepted.
-See M06-grouped-security-a0892dcb-failure.md for full common diagnostics,
-artifact metadata and consumer-wide static type review. New-SHA Actions
-are required; this is not compilation success.
+The a0892dcb/f51ac5a grouped-proof repair loop is complete.
+CI36481429715, checks36481429781, target36481429659 and inventory36481429515
+all succeeded at f51ac5a. Complete logs show2390 targeted/5526 global
+unique axiom records, only the permitted3 axioms, all148/289 configured
+module lint passes and final markers, full build4315/lintbuild4085,
+architecture3VERIFIED, static2metrics0, rational runtime and225tests
+(checks8.119s/inventory10.412s). See M06-grouped-security-f51ac5a-accepted.md.
+Artifact metadata was read; ZIPs were not. These results do not validate
+the new query-cost source.
 
-The finite-parent unused-instance repair loop is complete on5a4710d.
-CI36465657834, checks36465654384, target36465654230, inventory36465654373
-all succeeded at that SHA. Complete decoded logs show2343 targeted/5479
-global unique axiom records, only the permitted three axioms, all145/286
-configured module lint passes, full build4312/lintbuild4082, architecture
-3VERIFIED, static2metrics0, rational runtime and220tests
-(checks9.339s/inventory10.466s). See
-M06-recursive-security-5a4710d-accepted.md. Artifact metadata was inspected;
-ZIP contents were not read. These results do not validate the new source.
+The new integrated batch derives zero exact native signed loss when no
+fresh query occurs (stopped or missing PBS), then payoff interval width
+times actual fresh-query probability. Unsupported hidden histories WITH
+a saved PBS still count. List induction accumulates expected query visits
+under the unchanged native full-state law, retaining the same private
+draw through stage+late and all saved-model correlations.
 
-The new coherent batch groups the actual native joint state law by the
-carried incumbent, public index and saved joint PBS. Key compatibility with
-the actual same-config recursive computation is proved, not supplied by the
-caller. It compares each conditional history marginal with its model PBS
-before averaging root discrepancy. Uncertified cells retain exact signed
-cost; absent labels are unused. Actual unsupported mass remains explicit.
-The native full-state step, private draw and stored-PBS pairing are unchanged.
+The actual finite sampled noisy parent supplies initial security.
+cfrDRecursiveQuery_security keeps its prediction error, finite-T term and
+2*child loss, adding payoff diameter times actual query visits.
+cfrDRecursiveQuery_capped_security takes the smaller complete-chain bound
+from this and the accepted grouped budget. No support term is silently
+deleted: the second bound directly covers unsupported actual queries.
+It requires no model/factual posterior equality or opponent agreement.
 
-The grouped charge feeds the complete native schedule and the actual finite
-sampled noisy parent's security theorem. Independent prediction error,
-finite outer regret, twice child loss and the grouped native budget remain.
-Hidden-type consumers use parentcut1/fresh[1,1]/stage1/late1 and
-parentcut2/fresh[1]/stage1/late0, both total horizon3. Five Fraction controls
-cover calibrated mixtures versus singleton overcharge, retained private
-correlation, actual label weights/support penalties, opponent discrepancies,
-and native forward/late/stopped behavior. These are independent controls,
-not actual CFR executions.
+Concrete hidden-type consumers use bias1/8, childloss1/4, bound2 and
+interval[-2,2], with parentcut1/fresh[1,1]/stage1/late1 and
+parentcut2/fresh[1]/stage1/late0 (both total horizon3).
+Zero fuel with late2 and arbitrary saved state has zero signed loss.
+Five independent Fraction controls cover rare query tightness, shifted
+intervals, inactive cases, unsupported queries, native joint forward
+visits, retained late draws, both global min branches and parent terms.
+They are not actual CFR executions.
 
-See M06-grouped-security-batch.md for derivation, complete static type review
-and the mathematical batch boundary. Expected verification surface:
-186 build targets,148 targeted/289 global modules,225 Python tests.
-All newly added source awaits its own exact-SHA Actions.
+See M06-query-cost-batch.md for full derivation, static type review,
+dependency-ordered remaining groups and the mathematical batch boundary.
+Expected surface:190 build targets,152 targeted/292 global modules,
+230 Python tests. New-SHA Actions are required. Existing solver definitions,
+workflow triggers, heartbeat limits, audit standards and tests are preserved.
 
-Remaining groups: derive useful actual conditional-root/opponent/support
-rates; establish internal chance-rooted/fresh-original solver correspondence
-including posterior/noise/fallback/budget/clock; finish full recursive
-small-rate safety and SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 acceptance.
-Canonical grouping alone does not establish calibration or arbitrary unknown
-opponent agreement. Stored MODEL is not the factual posterior. There is no
-prior reset, private-information leak, or Nash-to-policy-closeness inference.
+Remaining: derive useful solver-specific conditional-root/opponent/support
+rates, identify internal chance-rooted child with fresh original computation
+including posterior/noise/fallback/budget/clock, complete recursive small-rate
+safety and SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 acceptance. Query visits
+can exceed1 and need not decrease with search T. The new cap is not a
+vanishing-rate theorem. No prior reset or Nash-to-policy-closeness inference.
 
-P-CFRD-AVERAGE, P-CFRD-TARGET, SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
-remain accepted under unchanged journals and pinned source. No source row is
-promoted by this batch. M06-theorem3-interpretation.md retains the adopted
-independent error/T formula, source comparison and explicit child loss.
-Frozen coverage.json remains2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
-Previous owner ledger is preserved at
-M06-kernel-value-transport-coverage-at-a0892dcb.json with blob
-621eb5a91e2a10c57c00280adf21258614ea3c50.
+Existing P-CFRD-AVERAGE/P-CFRD-TARGET and SEARCH-FRONTIER/
+P-SEARCH-SETUP/P-SEARCH-LEAF acceptance journals and pins are unchanged.
+No source obligation is promoted. Frozen coverage.json retains
+2fc8cc9ad6607d61bfe397707fb96ac322fbb800. Previous owner ledger is preserved
+at M06-kernel-value-transport-coverage-at-f51ac5a.json with original blob
+1ba4c1f6080887a1ba4cc21d6ac9c6a89a999375.
 
-Main agent only. Check actual types through all consumers before committing;
-batch related work. Confirm separate same-SHA runs, then schedule one
-follow-up about50minutes after push in JST (10minutes if still running).
-Do not cancel workflows. Full M06 remains incomplete.
+Main agent only. Review types through all consumers before committing,
+batch related changes and fixes, confirm separate same-SHA runs, then
+schedule one follow-up about50minutes after push in JST. If still running,
+check once and defer about10minutes. Never cancel active workflows.
+Full M06 remains incomplete.

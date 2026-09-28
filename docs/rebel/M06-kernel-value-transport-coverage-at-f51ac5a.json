@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "f51ac5a306943bcaf4203a2b5e564b3f3f307d76",
+  "parent": "a0892dcb783e05041bb7d222287daa1361b1cd4e",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -48,10 +48,9 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-e590b4f.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-ce432689.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-5a4710d.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-a0892dcb.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-f51ac5a.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-a0892dcb.json"
   ],
-  "semantic_review": "docs/rebel/M06-query-cost-batch.md",
+  "semantic_review": "docs/rebel/M06-grouped-security-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -142,8 +141,8 @@
     "root_blob": "3cad603cc1bc991819216f67439a6a7a28ea3f2b",
     "targets_blob": "a791fe2b25005c4cc87d74ff1d969bedf897b7b5",
     "audit_consumer_blob": "54e935d2405e6f19fbfc373833cac953785c20bc",
-    "expected_target_modules": 152,
-    "expected_global_modules": 292,
+    "expected_target_modules": 148,
+    "expected_global_modules": 289,
     "python_file": "scripts/rebel/tests/test_kernel_value_transport.py",
     "python_blob": "31614fa879377d164e63132047022aed6683877b",
     "new_python_tests": 12,
@@ -154,15 +153,15 @@
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md",
     "previous_python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
-    "expected_total_python_tests": 230,
+    "expected_total_python_tests": 225,
     "historical_coverage_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
-    "expected_build_targets": 190
+    "expected_build_targets": 186
   },
   "remaining": [
-    "Validate query no-op, interval cost, native visit telescope, finite-parent security and cap consumers on the new exact SHA.",
-    "Derive solver-specific small conditional-root/opponent/support rates; payoff diameter times query visits is useful for rare queries but is not a vanishing rate in T.",
-    "Identify required internal chance-rooted child with original-game fresh computation, preserving posterior/protocol-dependent noise/fallback/budget/clock.",
-    "Complete recursive small-rate safety and SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 source acceptance; prediction, finite-T and child terms remain independent."
+    "Validate canonical grouping, native budget and finite-parent consumers on the new exact SHA; prior 5a4710d success does not validate them.",
+    "Derive useful actual conditional-root/opponent/support rates. Canonical grouping proves computation coherence but does not prove calibration for arbitrary unknown opponents.",
+    "Identify each required internal chance-rooted child with the original-game fresh computation, retaining posterior/noise/fallback/budget/clock.",
+    "Complete recursive small-rate safety and SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 source acceptance; keep prediction, finite-T and child terms separate."
   ],
   "baseline_acceptance": {
     "commit": "9457c198126f3c8b7cb1045bbed2e0053788636f",
@@ -207,24 +206,24 @@
     "remaining": "Small execution costs, actual recursive posterior identification, late-value composition and signed CarriedResolveStepBounds are not proved."
   },
   "latest_accepted": {
-    "commit": "f51ac5a306943bcaf4203a2b5e564b3f3f307d76",
-    "ci_run": 36481429715,
-    "ci_job": 109127745613,
-    "global_run": 36481429781,
-    "global_job": 109127746410,
-    "source_job": 109127746036,
-    "target_run": 36481429659,
-    "target_job": 109127746916,
-    "inventory_run": 36481429515,
-    "inventory_job": 109127745607,
-    "target_declarations": 2390,
-    "global_declarations": 5526,
-    "target_modules": 148,
-    "global_modules": 289,
-    "build_targets": 186,
-    "python_tests": 225,
+    "commit": "5a4710d92c4a39c5eed565650cd96c068ee8ae21",
+    "ci_run": 36465657834,
+    "ci_job": 109074970230,
+    "global_run": 36465654384,
+    "global_job": 109074957095,
+    "source_job": 109074956778,
+    "target_run": 36465654230,
+    "target_job": 109074953285,
+    "inventory_run": 36465654373,
+    "inventory_job": 109074953443,
+    "target_declarations": 2343,
+    "global_declarations": 5479,
+    "target_modules": 145,
+    "global_modules": 286,
+    "build_targets": 183,
+    "python_tests": 220,
     "all_runs": "success",
-    "evidence": "docs/rebel/M06-grouped-security-f51ac5a-accepted.md"
+    "evidence": "docs/rebel/M06-recursive-security-5a4710d-accepted.md"
   },
   "carried_value_batch": {
     "status": "accepted_at_d771e88",
@@ -1118,7 +1117,7 @@
     }
   },
   "grouped_security_batch": {
-    "status": "accepted dependency on exact f51ac5a Actions; not original-source obligation acceptance",
+    "status": "Option constructor-contradiction repair pending exact new-SHA Actions",
     "semantic_review": "docs/rebel/M06-grouped-security-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.PBSRecursiveGroupedValue",
@@ -1171,68 +1170,6 @@
       "checks_run": 36474810236,
       "inventory_run": 36474810191,
       "result": "success; not new-SHA acceptance"
-    },
-    "acceptance": {
-      "commit": "f51ac5a306943bcaf4203a2b5e564b3f3f307d76",
-      "ci_run": 36481429715,
-      "ci_job": 109127745613,
-      "global_run": 36481429781,
-      "global_job": 109127746410,
-      "source_job": 109127746036,
-      "target_run": 36481429659,
-      "target_job": 109127746916,
-      "inventory_run": 36481429515,
-      "inventory_job": 109127745607,
-      "target_declarations": 2390,
-      "global_declarations": 5526,
-      "target_modules": 148,
-      "global_modules": 289,
-      "build_targets": 186,
-      "python_tests": 225,
-      "all_runs": "success",
-      "evidence": "docs/rebel/M06-grouped-security-f51ac5a-accepted.md"
-    }
-  },
-  "query_cost_batch": {
-    "status": "implementation pending same-SHA Actions",
-    "semantic_review": "docs/rebel/M06-query-cost-batch.md",
-    "modules": [
-      "GameTheory.Math.Probability.FinDistRangeError",
-      "GameTheory.Analysis.ReBeL.PBSRecursiveQueryCost",
-      "GameTheory.Analysis.ReBeL.CFRDRecursiveQuerySecurity",
-      "GameTheory.Analysis.ReBeL.Examples.PBSRecursiveQueryCost"
-    ],
-    "declarations": [
-      "GameTheory.Math.Probability.FinDist.expect_sub_le_of_eq_off_event_range",
-      "GameTheory.Math.Probability.FinDist.expect_bind_sub_le_of_eq_off_event_range",
-      "GameTheory.ReBeL.pbsRecursiveQueryEvent",
-      "GameTheory.ReBeL.pbsRecursiveReplacement_inactive",
-      "GameTheory.ReBeL.pbsRecursiveReplacement_le_queryMass",
-      "GameTheory.ReBeL.pbsRecursiveQueryVisits",
-      "GameTheory.ReBeL.carriedSignedSequenceLoss_le_queryVisits",
-      "GameTheory.ReBeL.privateRecursiveResolve_inherits_queryVisits",
-      "GameTheory.ReBeL.cfrDRecursiveQuery_security",
-      "GameTheory.ReBeL.cfrDRecursiveQuery_capped_security",
-      "GameTheory.ReBeL.Examples.HiddenTypes.queryCost_noisy_parent",
-      "GameTheory.ReBeL.Examples.HiddenTypes.queryCost_last_decision",
-      "GameTheory.ReBeL.Examples.HiddenTypes.queryCost_zero_fuel",
-      "GameTheory.ReBeL.Examples.HiddenTypes.queryCost_empty"
-    ],
-    "python_file": "scripts/rebel/tests/test_recursive_query_cost.py",
-    "python_tests": 5,
-    "scope": "Zero native signed replacement loss off actual fresh queries; interval diameter times actual query visits covers even unsupported queries and caps the full grouped finite-parent guarantee. Does not prove query rarity, a vanishing solver-specific rate or rooted/original computation identity.",
-    "blobs": {
-      "GameTheory/Math/Probability/FinDistRangeError.lean": "ecef1d9f8bd007d95667b55d28cdb8611c138f2b",
-      "GameTheory/Analysis/ReBeL/PBSRecursiveQueryCost.lean": "260fb299e9cd324d0f11d53b0403fe7690336743",
-      "GameTheory/Analysis/ReBeL/CFRDRecursiveQuerySecurity.lean": "c14695ed315c0f1113a79d4fdf01208ec5f96cda",
-      "GameTheory/Analysis/ReBeL/Examples/PBSRecursiveQueryCost.lean": "1d743513f6904003b928915c0f83f2f79fb815a4",
-      "scripts/rebel/tests/test_recursive_query_cost.py": "aea504eb642a76bb285083d31c21915afed6b05b",
-      "docs/rebel/M06-grouped-security-f51ac5a-accepted.md": "989b6c44701c5105a646b5be52a1f8830278fc2d",
-      "GameTheory/Analysis/ReBeL.lean": "557834687d4c6b65cd390386c2b96d78e86efdc1",
-      "scripts/rebel/m06-targets.txt": "ff70397b86364beaafc8064b5883debccbd86877",
-      "scripts/rebel/audit_exact_leaf.py": "b97000187ff382a4418cf82de2d9f7cbbfb666e4",
-      "docs/rebel/M06-query-cost-batch.md": "ab499198bf19e7c638031bdc6b6dd2ecf17d5dbe",
-      "docs/rebel/STATUS.md": "b2b7f43ea9d267324335d2809c5b175a0be58eac"
     }
   }
 }
