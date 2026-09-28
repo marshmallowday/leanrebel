@@ -29,6 +29,16 @@ def PubliclyObservableTermination : Prop :=
     publicTrace M.toInfoSignals first.trace = publicTrace M.toInfoSignals second.trace →
       (E.terminal first.state ↔ E.terminal second.state)
 
+-- The information-state universe changes under full AOH refinement, even
+-- though its public observations do not. Relate the two traces explicitly.
+private theorem storedChild_publicTrace_full {state : E.State} (trace : E.Trace state) :
+    publicTrace (fullInformation M).toInfoSignals trace = publicTrace M.toInfoSignals trace := by
+  induction trace with
+  | start => rfl
+  | extend prior joint legal realized ih =>
+      exact congrArg
+        (fun observations => M.publicSignal ⟨_, joint, legal, _, realized⟩ :: observations) ih
+
 private theorem storedChild_belief_ext {obs : List M.PublicSignal}
     (first second : PublicBelief (fullInformation M).toInfoSignals obs)
     (same : first.law = second.law) : first = second := by
@@ -54,8 +64,10 @@ theorem cfrDFactualChildBelief_eq_public
     (obs : List M.PublicSignal)
     (possible : CFRDFactualChildPossible M trunk cut remaining obs)
     (liveFiber : ∀ h ∈ ((fullInformation M).runBehavioral trunk cut).support,
-      publicTrace M.toInfoSignals h.trace = obs → cfrDCutLive remaining h = true) :
-    PublicBelief.condition? ((fullInformation M).runBehavioral trunk cut) obs =
+      publicTrace (fullInformation M).toInfoSignals h.trace = obs →
+        cfrDCutLive remaining h = true) :
+    PublicBelief.condition? (S := (fullInformation M).toInfoSignals)
+      ((fullInformation M).runBehavioral trunk cut) obs =
       some (cfrDFactualChildBelief M trunk cut remaining obs possible) := by
   classical
   have publicPossible := cfrDFactualChildPossible_public M trunk cut remaining obs possible
@@ -75,14 +87,18 @@ theorem cfrDFactualChild_liveFiber
     (obs : List M.PublicSignal)
     (possible : CFRDFactualChildPossible M trunk cut remaining obs) :
     ∀ h ∈ ((fullInformation M).runBehavioral trunk cut).support,
-      publicTrace M.toInfoSignals h.trace = obs → cfrDCutLive remaining h = true := by
+      publicTrace (fullInformation M).toInfoSignals h.trace = obs →
+        cfrDCutLive remaining h = true := by
   obtain ⟨first, member, _⟩ := possible
   have firstLive : remaining ≠ 0 ∧ ¬ E.terminal first.state := by
     simpa only [cfrDCutLive, decide_eq_true_eq] using member.2
   intro history _ same
   simp only [cfrDCutLive, decide_eq_true_eq]
+  have original : publicTrace M.toInfoSignals history.trace =
+      publicTrace M.toInfoSignals first.trace := by
+    simpa only [storedChild_publicTrace_full] using same.trans member.1.symm
   exact ⟨firstLive.1, fun terminal =>
-    firstLive.2 ((observable history first (same.trans member.1.symm)).mp terminal)⟩
+    firstLive.2 ((observable history first original).mp terminal)⟩
 
 /-- Start from an actual stored initial law and propagate the chosen model.
 Only a proved prefix-law equality is used; the actual opponent is irrelevant
@@ -93,18 +109,19 @@ theorem carriedBeliefUpdate_eq_factualChild
     (initial : prior.law = FinDist.pure E.initHistory)
     (chosen trunk : Profile (fullInformation M).behavioralSignature)
     (cut remaining : Nat) (obs : List M.PublicSignal)
-    (prefix : (fullInformation M).runBehavioral chosen cut =
+    (prefixLaw : (fullInformation M).runBehavioral chosen cut =
       (fullInformation M).runBehavioral trunk cut)
     (possible : CFRDFactualChildPossible M trunk cut remaining obs)
     (liveFiber : ∀ h ∈ ((fullInformation M).runBehavioral trunk cut).support,
-      publicTrace M.toInfoSignals h.trace = obs → cfrDCutLive remaining h = true) :
+      publicTrace (fullInformation M).toInfoSignals h.trace = obs →
+        cfrDCutLive remaining h = true) :
     carriedBeliefUpdate (fullInformation M) (some prior) chosen cut obs =
       some (cfrDFactualChildBelief M trunk cut remaining obs possible) := by
   have law : PublicBelief.continuationLaw (fullInformation M) chosen cut prior =
       (fullInformation M).runBehavioral trunk cut := by
     dsimp only [PublicBelief.continuationLaw]
     rw [initial, FinDist.pure_bind]
-    exact prefix
+    exact prefixLaw
   dsimp only [carriedBeliefUpdate, Option.bind]
   rw [law]
   exact cfrDFactualChildBelief_eq_public M trunk cut remaining obs possible liveFiber
@@ -172,7 +189,7 @@ theorem cfrDComposedRound_storedChild {K : Type*}
     (history : E.History)
     (possible : CFRDFactualChildPossible M
       (cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round)
-      cut remaining (publicTrace M.toInfoSignals history.trace)) :
+      cut remaining (publicTrace (fullInformation M).toInfoSignals history.trace)) :
     (resolvedNextState (fullInformation M) state
       (cfrDDepthPlay (fullInformation M) (fullObservationClock M)
         (cfrDInformationFallback M fallback) payoff cut remaining
@@ -180,7 +197,7 @@ theorem cfrDComposedRound_storedChild {K : Type*}
       cut history).belief =
     some (cfrDFactualChildBelief M
       (cfrDComposedTrunk M fallback payoff cut remaining loss solve noise round)
-      cut remaining (publicTrace M.toInfoSignals history.trace) possible) := by
+      cut remaining (publicTrace (fullInformation M).toInfoSignals history.trace) possible) := by
   simp only [resolvedNextState, stored]
   exact carriedBeliefUpdate_eq_factualChild M prior initial _ _ cut remaining _
     (cfrDComposedRound_prefixLaw M fallback payoff cut remaining loss solve noise round)

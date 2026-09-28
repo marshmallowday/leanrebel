@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "ad3b6bcc94ba8f5f44d418a2d920e9651d722645",
+  "parent": "8bf78145c843a82580d89322bef13603434fddb9",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -31,8 +31,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-4de8c48.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-cc4ba60.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-ba26c02.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-8bf7814.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-ad3b6bc.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-8bf7814.json"
   ],
   "semantic_review": "docs/rebel/M06-stored-child-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
@@ -77,25 +76,27 @@
     "docs/rebel/M06-average-limit-cc4ba60-failure.md"
   ],
   "previous_feedback": {
-    "commit": "ad3b6bcc94ba8f5f44d418a2d920e9651d722645",
-    "ci_run": 36374785262,
-    "ci_job": 108778283990,
-    "global_run": 36374785236,
-    "global_job": 108778283941,
-    "target_run": 36374785220,
-    "target_job": 108778283970,
-    "inventory_run": 36374785218,
-    "inventory_job": 108778283858,
-    "build": "failed: original/full signal universe mismatch and reserved prefix binder",
-    "python_tests": 200,
-    "python_result": "success",
-    "lint_axioms": "not reached; not accepted",
-    "evidence": "docs/rebel/M06-stored-child-ad3b6bc-failure.md"
+    "commit": "8bf78145c843a82580d89322bef13603434fddb9",
+    "target_run": 36370397856,
+    "target_job": 108765321127,
+    "target_declarations": 2157,
+    "target_modules": 131,
+    "global_run": 36370397903,
+    "global_job": 108765321056,
+    "global_declarations": 5298,
+    "global_modules": 273,
+    "ci_run": 36370397855,
+    "ci_job": 108765320992,
+    "inventory_run": 36370397861,
+    "inventory_job": 108765321012,
+    "python_tests": 195,
+    "all_runs": "success",
+    "evidence": "docs/rebel/M06-recursive-replay-8bf7814-accepted.md"
   },
   "validation": {
-    "compiler": "pending stored child elaboration repair exact SHA",
-    "normal_and_slow_lint": "pending stored child elaboration repair exact SHA",
-    "transitive_axioms": "pending stored child elaboration repair exact SHA",
+    "compiler": "pending stored child batch exact SHA",
+    "normal_and_slow_lint": "pending stored child batch exact SHA",
+    "transitive_axioms": "pending stored child batch exact SHA",
     "core_blob": "5a0091144c5611c1fe4d5173b826ca5bef6ef50c",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
@@ -553,7 +554,7 @@
       "P-CFRD-TARGET"
     ]
   },
-  "repair_review": "docs/rebel/M06-stored-child-ad3b6bc-failure.md",
+  "repair_review": "docs/rebel/M06-average-limit-cc4ba60-failure.md",
   "average_limit_batch": {
     "status": "accepted_at_ba26c02",
     "semantic_review": "docs/rebel/M06-average-limit-batch.md",
@@ -700,7 +701,7 @@
     "semantic_review": "docs/rebel/M06-average-accepted.md"
   },
   "stored_child_batch": {
-    "status": "repair pending exact-SHA Actions",
+    "status": "candidate pending exact-SHA Actions",
     "semantic_review": "docs/rebel/M06-stored-child-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.CFRDStoredChild",
@@ -731,7 +732,7 @@
     "python_tests": 5,
     "scope": "Actual played composed round MODEL posterior equals its factual live child when termination is publicly observable and initial law/prefix match; existing recursive resolver consumes exact mass-scaled child input, yielding supported same-computation law/value. Root-wrapper equivalence and actual support costs remain open.",
     "blobs": {
-      "GameTheory/Analysis/ReBeL/CFRDStoredChild.lean": "e210ce956b0074c2e3de3de6f82d08789a62904a",
+      "GameTheory/Analysis/ReBeL/CFRDStoredChild.lean": "145b29d1dcdecfcd880c2619ff727182f661a7be",
       "GameTheory/Analysis/ReBeL/PBSStoredChildReplay.lean": "215f2906e5821d9aa9cb6da04eb809db5a9dc5b1",
       "GameTheory/Analysis/ReBeL/Examples/PBSStoredChildReplay.lean": "d5bad39ee06d473bd3670aa4dceb8cfa25334fb5",
       "scripts/rebel/tests/test_stored_child.py": "d44cab1ad03d2eceab1ef57e2295380f4cebb5ac",
@@ -740,17 +741,7 @@
       "scripts/rebel/audit_exact_leaf.py": "54e935d2405e6f19fbfc373833cac953785c20bc",
       "docs/rebel/M06-recursive-replay-8bf7814-accepted.md": "dafc7775d4053b268ed3298c908307adf1538e72",
       "docs/rebel/M06-stored-child-batch.md": "3d344edfb53e734d049e573ee9daaabb320f2efd",
-      "docs/rebel/STATUS.md": "876188f6769ed36820c5dbb856337001d9f17367",
-      "docs/rebel/M06-stored-child-ad3b6bc-failure.md": "cdad53672fd610e52120a23f2a866196ce40f2a1"
-    },
-    "failed_source": "ad3b6bcc94ba8f5f44d418a2d920e9651d722645",
-    "failure_review": "docs/rebel/M06-stored-child-ad3b6bc-failure.md",
-    "python_acceptance": {
-      "commit": "ad3b6bcc94ba8f5f44d418a2d920e9651d722645",
-      "run": 36374785218,
-      "job": 108778283858,
-      "tests": 200,
-      "result": "success; not new-source Lean acceptance"
+      "docs/rebel/STATUS.md": "6efc2fa2036fccdca2b9bbe11981fa641c9a0ee0"
     }
   }
 }
