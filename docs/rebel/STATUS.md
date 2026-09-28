@@ -1,10 +1,19 @@
-# ReBeL status — actual query/diameter batch pending Actions; M06 incomplete
+# ReBeL status — query-cost proof repair pending Actions; M06 incomplete
 
 Work branch: rebel/m06-kernel-value-repair-20260927.
-Batch parent and accepted dependency: f51ac5a306943bcaf4203a2b5e564b3f3f307d76.
+Repair parent: fb27d899a6f74359cdb28d1bed9790f16934d6cf.
+Accepted dependency: f51ac5a306943bcaf4203a2b5e564b3f3f307d76.
 Default main: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline: 9457c198126f3c8b7cb1045bbed2e0053788636f.
 Authenticated account marshmallowday has admin/push permission.
+
+The fb27d899 candidate failed in all three compiler jobs with the same
+unclosed Option.isSome equality and unused simp argument. Both proof
+expressions are repaired together; definitions and signatures are unchanged.
+Checks passed static2metrics0, rational runtime and230tests10.193s;
+inventory passed230tests10.535s. Full build/lint/axioms remain unaccepted.
+See M06-query-cost-fb27d899-failure.md for complete diagnostics, metadata
+and dependency-to-example static type review. New-SHA Actions are required.
 
 The a0892dcb/f51ac5a grouped-proof repair loop is complete.
 CI36481429715, checks36481429781, target36481429659 and inventory36481429515

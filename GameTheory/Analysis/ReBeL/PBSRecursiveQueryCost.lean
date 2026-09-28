@@ -53,9 +53,9 @@ theorem pbsRecursiveReplacement_inactive
     cases stored : state.belief with
     | none =>
         simp only [pbsRecursiveConfigStage, pbsRecursiveDepthStage,
-          pbsRecursiveDepthResolver, stored, FinDist.expect_pure, carriedSelectedTail, sub_self]
+          pbsRecursiveDepthResolver, FinDist.expect_pure, carriedSelectedTail, sub_self]
     | some _belief =>
-        exact False.elim (inactive ⟨live, by rw [stored]⟩)
+        exact False.elim (inactive ⟨live, by rw [stored]; rfl⟩)
   · have stageStopped :
         ¬ cfrDCutLive (pbsRecursiveConfigStage M fallback payoff bound initial config).fuel
           state.history = true := live

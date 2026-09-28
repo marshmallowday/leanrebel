@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "fb27d899a6f74359cdb28d1bed9790f16934d6cf",
+  "parent": "f51ac5a306943bcaf4203a2b5e564b3f3f307d76",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -49,8 +49,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-ce432689.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-5a4710d.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-a0892dcb.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-f51ac5a.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-fb27d899.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-f51ac5a.json"
   ],
   "semantic_review": "docs/rebel/M06-query-cost-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
@@ -100,25 +99,24 @@
     "docs/rebel/M06-nash-transport-67fbf8c-failure.md",
     "docs/rebel/M06-nash-transport-3e84fcb-failure.md",
     "docs/rebel/M06-recursive-security-ce432689-failure.md",
-    "docs/rebel/M06-grouped-security-a0892dcb-failure.md",
-    "docs/rebel/M06-query-cost-fb27d899-failure.md"
+    "docs/rebel/M06-grouped-security-a0892dcb-failure.md"
   ],
   "previous_feedback": {
-    "commit": "fb27d899a6f74359cdb28d1bed9790f16934d6cf",
-    "ci_run": 36488890248,
-    "ci_job": 109152430323,
-    "global_run": 36488890157,
-    "global_job": 109152429832,
-    "source_job": 109152430088,
-    "target_run": 36488890162,
-    "target_job": 109152429835,
-    "inventory_run": 36488890193,
-    "inventory_job": 109152429770,
-    "result": "Identical Option.isSome goal and unused simp argument in three compiler jobs; full build/lint/axioms unaccepted",
-    "python_tests": 230,
+    "commit": "a0892dcb783e05041bb7d222287daa1361b1cd4e",
+    "ci_run": 36474810425,
+    "ci_job": 109105717843,
+    "global_run": 36474810236,
+    "global_job": 109105716931,
+    "source_job": 109105716577,
+    "target_run": 36474810276,
+    "target_job": 109105716988,
+    "inventory_run": 36474810191,
+    "inventory_job": 109105716304,
+    "result": "Three identical unsolved impossible Option branches in three compiler jobs; downstream build/full lint/axioms unaccepted",
+    "python_tests": 225,
     "python_seconds": {
-      "checks": 10.193,
-      "inventory": 10.535
+      "checks": 9.396,
+      "inventory": 9.026
     },
     "rational_runtime": "pass",
     "static_metrics": {
@@ -126,11 +124,11 @@
       "TRANSPORT_ANALYSIS_SOURCE": 0
     },
     "axiom_records": 0,
-    "evidence": "docs/rebel/M06-query-cost-fb27d899-failure.md",
+    "evidence": "docs/rebel/M06-grouped-security-a0892dcb-failure.md",
     "artifacts": {
-      "target": 11001381193,
-      "global": 11000904085,
-      "source": 11000900658
+      "target": 10992953139,
+      "global": 10994153618,
+      "source": 10993011419
     },
     "artifact_contents": "ZIP unread; complete decoded job logs reviewed"
   },
@@ -1196,7 +1194,7 @@
     }
   },
   "query_cost_batch": {
-    "status": "proof repair pending same-SHA Actions",
+    "status": "implementation pending same-SHA Actions",
     "semantic_review": "docs/rebel/M06-query-cost-batch.md",
     "modules": [
       "GameTheory.Math.Probability.FinDistRangeError",
@@ -1225,7 +1223,7 @@
     "scope": "Zero native signed replacement loss off actual fresh queries; interval diameter times actual query visits covers even unsupported queries and caps the full grouped finite-parent guarantee. Does not prove query rarity, a vanishing solver-specific rate or rooted/original computation identity.",
     "blobs": {
       "GameTheory/Math/Probability/FinDistRangeError.lean": "ecef1d9f8bd007d95667b55d28cdb8611c138f2b",
-      "GameTheory/Analysis/ReBeL/PBSRecursiveQueryCost.lean": "9e2d0dd834f5865965c54628c21ef678d9782fbd",
+      "GameTheory/Analysis/ReBeL/PBSRecursiveQueryCost.lean": "260fb299e9cd324d0f11d53b0403fe7690336743",
       "GameTheory/Analysis/ReBeL/CFRDRecursiveQuerySecurity.lean": "c14695ed315c0f1113a79d4fdf01208ec5f96cda",
       "GameTheory/Analysis/ReBeL/Examples/PBSRecursiveQueryCost.lean": "1d743513f6904003b928915c0f83f2f79fb815a4",
       "scripts/rebel/tests/test_recursive_query_cost.py": "aea504eb642a76bb285083d31c21915afed6b05b",
@@ -1234,8 +1232,7 @@
       "scripts/rebel/m06-targets.txt": "ff70397b86364beaafc8064b5883debccbd86877",
       "scripts/rebel/audit_exact_leaf.py": "b97000187ff382a4418cf82de2d9f7cbbfb666e4",
       "docs/rebel/M06-query-cost-batch.md": "ab499198bf19e7c638031bdc6b6dd2ecf17d5dbe",
-      "docs/rebel/STATUS.md": "b1eb9f53d91aec9fc57ca138e9c1d05c65696531"
-    },
-    "failure_review": "docs/rebel/M06-query-cost-fb27d899-failure.md"
+      "docs/rebel/STATUS.md": "b2b7f43ea9d267324335d2809c5b175a0be58eac"
+    }
   }
 }
