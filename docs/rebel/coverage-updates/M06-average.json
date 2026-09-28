@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "base_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
+  "milestone": "M06",
+  "updates": [
+    {
+      "id": "P-CFRD-AVERAGE",
+      "from_status": "pending",
+      "status": "verified",
+      "evidence": [
+        {
+          "commit": "ba26c0250ee255aeeee1b80365b5f0693c9eeb5f",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_exact_leaf.py; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-average-limit-ba26c02-accepted.md; CI36365999282/job108752407529; checks36365999338/job108752407844; target36365999348/job108752407579",
+          "axioms_log": "Complete 2130 targeted/5271 global unique transitive records, allowed propext/Classical.choice/Quot.sound only; 128/270 full module normal/slow lint passes.",
+          "semantic_review": "docs/rebel/M06-average-accepted.md",
+          "assumptions": "Finite legal perfect-recall full-AOH protocol, zero-sum bounded utilities. Exact constructed backend gives epsilon-N Nash-error convergence on a fixed trace. Actual finite noisy children retain fixed numerical/child error floor. No last-iterate, specified-equilibrium-profile, target-Nash-value or learner convergence.",
+          "source_reading": "Main p6 section5.1: uniform per-round root-value averaging and Nash-error convergence of the average policy, with exactness and approximation floor distinguished.",
+          "module": "GameTheory/Analysis/ReBeL/CFRDValueTarget.lean",
+          "declaration": "GameTheory.ReBeL.cfrDValueTargetMean_eq_sum",
+          "source_blob": "1b1a4bdfc6f089364c8aa0b059bc96b5bb0eb86f"
+        },
+        {
+          "commit": "ba26c0250ee255aeeee1b80365b5f0693c9eeb5f",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_exact_leaf.py; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-average-limit-ba26c02-accepted.md; CI36365999282/job108752407529; checks36365999338/job108752407844; target36365999348/job108752407579",
+          "axioms_log": "Complete 2130 targeted/5271 global unique transitive records, allowed propext/Classical.choice/Quot.sound only; 128/270 full module normal/slow lint passes.",
+          "semantic_review": "docs/rebel/M06-average-accepted.md",
+          "assumptions": "Finite legal perfect-recall full-AOH protocol, zero-sum bounded utilities. Exact constructed backend gives epsilon-N Nash-error convergence on a fixed trace. Actual finite noisy children retain fixed numerical/child error floor. No last-iterate, specified-equilibrium-profile, target-Nash-value or learner convergence.",
+          "source_reading": "Main p6 section5.1: uniform per-round root-value averaging and Nash-error convergence of the average policy, with exactness and approximation floor distinguished.",
+          "module": "GameTheory/Analysis/ReBeL/CFRDAverageLimit.lean",
+          "declaration": "GameTheory.ReBeL.cfrDConstructedExactAverage_converges",
+          "source_blob": "ed4c5ffe2502c9e10d80552c4f30e184702031a3"
+        },
+        {
+          "commit": "ba26c0250ee255aeeee1b80365b5f0693c9eeb5f",
+          "build_command": "lake build; lake lint; python3 scripts/rebel/audit_exact_leaf.py; python3 scripts/rebel/audit_axioms.py",
+          "build_log": "docs/rebel/M06-average-limit-ba26c02-accepted.md; CI36365999282/job108752407529; checks36365999338/job108752407844; target36365999348/job108752407579",
+          "axioms_log": "Complete 2130 targeted/5271 global unique transitive records, allowed propext/Classical.choice/Quot.sound only; 128/270 full module normal/slow lint passes.",
+          "semantic_review": "docs/rebel/M06-average-accepted.md",
+          "assumptions": "Finite legal perfect-recall full-AOH protocol, zero-sum bounded utilities. Exact constructed backend gives epsilon-N Nash-error convergence on a fixed trace. Actual finite noisy children retain fixed numerical/child error floor. No last-iterate, specified-equilibrium-profile, target-Nash-value or learner convergence.",
+          "source_reading": "Main p6 section5.1: uniform per-round root-value averaging and Nash-error convergence of the average policy, with exactness and approximation floor distinguished.",
+          "module": "GameTheory/Analysis/ReBeL/PBSAverageLimit.lean",
+          "declaration": "GameTheory.ReBeL.pbsRecursiveParentAverage_after",
+          "source_blob": "c48eb855b3a3c44a8bcfee213cf472ed4973e304"
+        }
+      ]
+    }
+  ]
+}
