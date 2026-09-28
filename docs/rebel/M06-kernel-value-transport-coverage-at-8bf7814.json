@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "8bf78145c843a82580d89322bef13603434fddb9",
+  "parent": "ba26c0250ee255aeeee1b80365b5f0693c9eeb5f",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -30,10 +30,9 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-7711b65.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-4de8c48.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-cc4ba60.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-ba26c02.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-8bf7814.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-ba26c02.json"
   ],
-  "semantic_review": "docs/rebel/M06-stored-child-batch.md",
+  "semantic_review": "docs/rebel/M06-recursive-replay-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -76,35 +75,35 @@
     "docs/rebel/M06-average-limit-cc4ba60-failure.md"
   ],
   "previous_feedback": {
-    "commit": "8bf78145c843a82580d89322bef13603434fddb9",
-    "target_run": 36370397856,
-    "target_job": 108765321127,
-    "target_declarations": 2157,
-    "target_modules": 131,
-    "global_run": 36370397903,
-    "global_job": 108765321056,
-    "global_declarations": 5298,
-    "global_modules": 273,
-    "ci_run": 36370397855,
-    "ci_job": 108765320992,
-    "inventory_run": 36370397861,
-    "inventory_job": 108765321012,
-    "python_tests": 195,
+    "commit": "ba26c0250ee255aeeee1b80365b5f0693c9eeb5f",
+    "target_run": 36365999348,
+    "target_job": 108752407579,
+    "target_declarations": 2130,
+    "target_modules": 128,
+    "global_run": 36365999338,
+    "global_job": 108752407844,
+    "global_declarations": 5271,
+    "global_modules": 270,
+    "ci_run": 36365999282,
+    "ci_job": 108752407529,
+    "inventory_run": 36365999284,
+    "inventory_job": 108752407410,
+    "python_tests": 190,
     "all_runs": "success",
-    "evidence": "docs/rebel/M06-recursive-replay-8bf7814-accepted.md"
+    "evidence": "docs/rebel/M06-average-limit-ba26c02-accepted.md"
   },
   "validation": {
-    "compiler": "pending stored child batch exact SHA",
-    "normal_and_slow_lint": "pending stored child batch exact SHA",
-    "transitive_axioms": "pending stored child batch exact SHA",
+    "compiler": "pending recursive replay batch exact SHA",
+    "normal_and_slow_lint": "pending recursive replay batch exact SHA",
+    "transitive_axioms": "pending recursive replay batch exact SHA",
     "core_blob": "5a0091144c5611c1fe4d5173b826ca5bef6ef50c",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
-    "root_blob": "3cad603cc1bc991819216f67439a6a7a28ea3f2b",
-    "targets_blob": "a791fe2b25005c4cc87d74ff1d969bedf897b7b5",
-    "audit_consumer_blob": "54e935d2405e6f19fbfc373833cac953785c20bc",
-    "expected_target_modules": 134,
-    "expected_global_modules": 276,
+    "root_blob": "a4111bc30845c8fdd2abc788dbcf1ecbe3ffdb2a",
+    "targets_blob": "5e6a4689c0d623fe0b560af18040dd31f7b01e2b",
+    "audit_consumer_blob": "964de90a2fe0ea3e1300b3488eced9fdcb16c7ed",
+    "expected_target_modules": 131,
+    "expected_global_modules": 273,
     "python_file": "scripts/rebel/tests/test_kernel_value_transport.py",
     "python_blob": "31614fa879377d164e63132047022aed6683877b",
     "new_python_tests": 12,
@@ -115,15 +114,15 @@
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md",
     "previous_python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
-    "expected_total_python_tests": 200,
+    "expected_total_python_tests": 195,
     "historical_coverage_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
-    "expected_build_targets": 172
+    "expected_build_targets": 169
   },
   "remaining": [
-    "Validate stored-child source on its exact SHA",
-    "Prove rooted/original solver configuration correspondence at every required fresh recursive comparison, preserving posterior, noise and mass-scaled tolerance",
-    "Discharge actual hidden-history support or derive small off-support and signed replacement costs for the native forward chain",
-    "Complete SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 source acceptance, keeping printed R5 separate from corrected finite-time bounds"
+    "Validate recursive replay source on its exact SHA",
+    "Identify parent factual live-public child PBS and rooted solver configuration with each later native resolver input",
+    "Derive small signed replacement/support costs for actual fresh recursive chains",
+    "Complete SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 source acceptance without conflating printed R5"
   ],
   "baseline_acceptance": {
     "commit": "9457c198126f3c8b7cb1045bbed2e0053788636f",
@@ -168,22 +167,22 @@
     "remaining": "Small execution costs, actual recursive posterior identification, late-value composition and signed CarriedResolveStepBounds are not proved."
   },
   "latest_accepted": {
-    "commit": "8bf78145c843a82580d89322bef13603434fddb9",
-    "target_run": 36370397856,
-    "target_job": 108765321127,
-    "target_declarations": 2157,
-    "target_modules": 131,
-    "global_run": 36370397903,
-    "global_job": 108765321056,
-    "global_declarations": 5298,
-    "global_modules": 273,
-    "ci_run": 36370397855,
-    "ci_job": 108765320992,
-    "inventory_run": 36370397861,
-    "inventory_job": 108765321012,
-    "python_tests": 195,
+    "commit": "4de8c48f532575440c8159dfe15c96fc1c7180f0",
+    "target_run": 36358641774,
+    "target_job": 108731272601,
+    "target_declarations": 2097,
+    "target_modules": 125,
+    "global_run": 36358641785,
+    "global_job": 108731271893,
+    "global_declarations": 5238,
+    "global_modules": 267,
+    "ci_run": 36358641830,
+    "ci_job": 108731272133,
+    "inventory_run": 36358641777,
+    "inventory_job": 108731271726,
+    "python_tests": 185,
     "all_runs": "success",
-    "evidence": "docs/rebel/M06-recursive-replay-8bf7814-accepted.md"
+    "evidence": "docs/rebel/M06-recursive-target-4de8c48-accepted.md"
   },
   "carried_value_batch": {
     "status": "accepted_at_d771e88",
@@ -629,7 +628,7 @@
     }
   },
   "recursive_replay": {
-    "status": "accepted_dependency_at_8bf7814",
+    "status": "candidate pending exact-SHA Actions",
     "modules": [
       "GameTheory.Analysis.ReBeL.PBSRecursiveReplay",
       "GameTheory.Analysis.ReBeL.PBSRecursiveCarriedReplay",
@@ -673,24 +672,6 @@
       "docs/rebel/coverage-updates/M06-average.json": "ce0e97d1a68bb9bbea27d044965ceecc4a307380",
       "docs/rebel/M06-recursive-replay-batch.md": "f0e2cea42fa829602d96286991a044c891624e76",
       "docs/rebel/STATUS.md": "7be791919f4d94ac16eabbda2fb5234ad06c4166"
-    },
-    "acceptance": {
-      "commit": "8bf78145c843a82580d89322bef13603434fddb9",
-      "target_run": 36370397856,
-      "target_job": 108765321127,
-      "target_declarations": 2157,
-      "target_modules": 131,
-      "global_run": 36370397903,
-      "global_job": 108765321056,
-      "global_declarations": 5298,
-      "global_modules": 273,
-      "ci_run": 36370397855,
-      "ci_job": 108765320992,
-      "inventory_run": 36370397861,
-      "inventory_job": 108765321012,
-      "python_tests": 195,
-      "all_runs": "success",
-      "evidence": "docs/rebel/M06-recursive-replay-8bf7814-accepted.md"
     }
   },
   "average_limit_acceptance": {
@@ -699,49 +680,5 @@
     "evidence": "docs/rebel/M06-average-limit-ba26c02-accepted.md",
     "journal": "docs/rebel/coverage-updates/M06-average.json",
     "semantic_review": "docs/rebel/M06-average-accepted.md"
-  },
-  "stored_child_batch": {
-    "status": "candidate pending exact-SHA Actions",
-    "semantic_review": "docs/rebel/M06-stored-child-batch.md",
-    "modules": [
-      "GameTheory.Analysis.ReBeL.CFRDStoredChild",
-      "GameTheory.Analysis.ReBeL.PBSStoredChildReplay",
-      "GameTheory.Analysis.ReBeL.Examples.PBSStoredChildReplay"
-    ],
-    "declarations": [
-      "GameTheory.ReBeL.PubliclyObservableTermination",
-      "GameTheory.ReBeL.cfrDFactualChildPossible_public",
-      "GameTheory.ReBeL.cfrDFactualChildBelief_eq_public",
-      "GameTheory.ReBeL.cfrDFactualChild_liveFiber",
-      "GameTheory.ReBeL.carriedBeliefUpdate_eq_factualChild",
-      "GameTheory.ReBeL.cfrDComposedTrunk",
-      "GameTheory.ReBeL.cfrDComposedRound_prefixLaw",
-      "GameTheory.ReBeL.cfrDComposedNextState",
-      "GameTheory.ReBeL.cfrDComposedRound_storedChild",
-      "GameTheory.ReBeL.pbsRecursiveResolver_composed_input",
-      "GameTheory.ReBeL.pbsRecursiveResolver_composed_law",
-      "GameTheory.ReBeL.pbsRecursiveResolver_composed_value",
-      "GameTheory.ReBeL.Examples.HiddenTypes.storedPublic_head",
-      "GameTheory.ReBeL.Examples.HiddenTypes.hiddenTypes_publicTermination",
-      "GameTheory.ReBeL.Examples.HiddenTypes.storedChildInitial",
-      "GameTheory.ReBeL.Examples.HiddenTypes.storedChildNoise",
-      "GameTheory.ReBeL.Examples.HiddenTypes.hiddenStoredChild",
-      "GameTheory.ReBeL.Examples.HiddenTypes.hiddenStoredChild_resolver"
-    ],
-    "python_file": "scripts/rebel/tests/test_stored_child.py",
-    "python_tests": 5,
-    "scope": "Actual played composed round MODEL posterior equals its factual live child when termination is publicly observable and initial law/prefix match; existing recursive resolver consumes exact mass-scaled child input, yielding supported same-computation law/value. Root-wrapper equivalence and actual support costs remain open.",
-    "blobs": {
-      "GameTheory/Analysis/ReBeL/CFRDStoredChild.lean": "145b29d1dcdecfcd880c2619ff727182f661a7be",
-      "GameTheory/Analysis/ReBeL/PBSStoredChildReplay.lean": "215f2906e5821d9aa9cb6da04eb809db5a9dc5b1",
-      "GameTheory/Analysis/ReBeL/Examples/PBSStoredChildReplay.lean": "d5bad39ee06d473bd3670aa4dceb8cfa25334fb5",
-      "scripts/rebel/tests/test_stored_child.py": "d44cab1ad03d2eceab1ef57e2295380f4cebb5ac",
-      "GameTheory/Analysis/ReBeL.lean": "3cad603cc1bc991819216f67439a6a7a28ea3f2b",
-      "scripts/rebel/m06-targets.txt": "a791fe2b25005c4cc87d74ff1d969bedf897b7b5",
-      "scripts/rebel/audit_exact_leaf.py": "54e935d2405e6f19fbfc373833cac953785c20bc",
-      "docs/rebel/M06-recursive-replay-8bf7814-accepted.md": "dafc7775d4053b268ed3298c908307adf1538e72",
-      "docs/rebel/M06-stored-child-batch.md": "3d344edfb53e734d049e573ee9daaabb320f2efd",
-      "docs/rebel/STATUS.md": "6efc2fa2036fccdca2b9bbe11981fa641c9a0ee0"
-    }
   }
 }

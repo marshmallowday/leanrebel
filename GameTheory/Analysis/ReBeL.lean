@@ -244,3 +244,6 @@ import GameTheory.Analysis.ReBeL.Examples.CFRDAverageLimit
 import GameTheory.Analysis.ReBeL.PBSRecursiveReplay
 import GameTheory.Analysis.ReBeL.PBSRecursiveCarriedReplay
 import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveReplay
+import GameTheory.Analysis.ReBeL.CFRDStoredChild
+import GameTheory.Analysis.ReBeL.PBSStoredChildReplay
+import GameTheory.Analysis.ReBeL.Examples.PBSStoredChildReplay

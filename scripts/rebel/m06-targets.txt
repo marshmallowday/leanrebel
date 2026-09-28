@@ -167,3 +167,6 @@ GameTheory.Analysis.ReBeL.Examples.CFRDAverageLimit
 GameTheory.Analysis.ReBeL.PBSRecursiveReplay
 GameTheory.Analysis.ReBeL.PBSRecursiveCarriedReplay
 GameTheory.Analysis.ReBeL.Examples.PBSRecursiveReplay
+GameTheory.Analysis.ReBeL.CFRDStoredChild
+GameTheory.Analysis.ReBeL.PBSStoredChildReplay
+GameTheory.Analysis.ReBeL.Examples.PBSStoredChildReplay

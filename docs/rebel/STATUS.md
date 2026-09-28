@@ -1,63 +1,56 @@
-# ReBeL status — recursive replay pending Actions; M06 incomplete
+# ReBeL status — stored-child integration pending Actions; M06 incomplete
 
 Continue rebel/m06-kernel-value-repair-20260927 from re-read HEAD
-ba26c0250ee255aeeee1b80365b5f0693c9eeb5f. Default main is separately
-6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. Plugin identity/permissions:
-marshmallowday/admin with push access. Chat baseline:
+8bf78145c843a82580d89322bef13603434fddb9. Default main remains separately
+6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. GitHub plugin identity and permission
+were reconfirmed as marshmallowday/admin, with push access. Chat baseline:
 9457c198126f3c8b7cb1045bbed2e0053788636f.
 
-The fixed-trace average-limit batch is accepted at ba26c02. CI36365999282,
-checks36365999338, targeted36365999348 and inventory36365999284 all succeeded
-on that SHA. Complete decoded logs contain 2130 targeted and 5271 global
-unique transitive axiom records, permitted three axioms only, all 128/270
+The recursive replay batch is accepted at 8bf7814. CI36370397855,
+checks36370397903, targeted36370397856 and inventory36370397861 succeeded
+on that exact SHA. Complete decoded logs contain 2157 targeted/5298 global
+unique transitive axiom records, permitted three axioms only, all 131/273
 normal/slow module lint passes, full build/architecture/rational runtime and
-190 Python tests. The manifest has 166 targets. See
-M06-average-limit-ba26c02-accepted.md; this does not validate new replay code.
+195 Python tests. The manifest has 169 targets. See
+M06-recursive-replay-8bf7814-accepted.md. This does not validate new source.
 
-P-CFRD-AVERAGE is accepted by the append-only M06-average.json journal and
-M06-average-accepted.md. One fixed exact constructed oracle/trace has an
-epsilon-N Nash-error limit; finite noisy recursive children retain their
-error floor. Uniform root-vector arithmetic is accepted separately from any
-claim of target convergence to Nash values. Last-iterate, specified-profile
-and network convergence are not claimed.
+The new stored-child batch proves public-only and live-public posterior
+identity under supported liveness, derives that condition when termination is
+publicly observable, and connects the actual noisy composed round's trunk
+prefix to its saved MODEL posterior. The existing recursive resolver then
+consumes the derived factual child and exact mass-scaled target, with supported
+unknown-opponent law/value replay through arbitrary late fuel.
+The canonical hidden-type game's original phase signal proves the required
+termination visibility. Two actual noisy-parent stored-state/resolver consumers
+and five rational negative-control tests accompany the integration.
+See M06-stored-child-batch.md.
 
-The new batch connects actual recursive private draws to supported-root and
-arbitrarily reweighted laws, then to the parent's EXACT factual child and
-mass-scaled tolerance. Public splicing and own-zero-reach completion preserve
-the unknown-opponent comparison. The actual native carried resolver admits
-a history-first disintegration retaining its private draw and its own saved
-model posterior. Arbitrary later kernels and the full stage-plus-late value
-are covered; a genuinely matching incumbent has zero signed local loss.
-See M06-recursive-replay-batch.md.
+Expected new surface: 172 build targets, 134 targeted/276 global audit modules,
+200 Python tests. Existing targets, workflow, audit criteria and algorithm
+definitions are unchanged. No local Lean or Python execution is claimed.
 
-Expected new verification: 169 targets, 131 targeted/273 global audit modules,
-195 Python tests. New core/core/example modules are registered without removing
-existing targets. Four actual Lean consumers and five rational controls are
-included. Workflows, audit criteria and algorithm definitions are unchanged.
-No local Lean or Python execution is claimed.
+Remaining: identify internal chance-rooted child computations with decoded
+original-game fresh solves, preserving actual noise/fallback/budget settings;
+handle live-public versus public conditioning wherever termination is not
+publicly observable; prove required support or small signed replacement costs
+for the native full-state recursive chain; finish SEARCH-CFRD, SEARCH-ERROR
+and SAFE-THEOREM3 source acceptance. Same PBS laws alone do not prove the same
+solver computation, nor does Nash accuracy imply close policies or kernels.
+A positive public observation is not a hidden-history support certificate.
 
-SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending. We still must prove
-the parent's factual live-public child agrees with the later stored MODEL PBS
-and rooted solver configuration at every required recursive comparison,
-derive useful small signed costs/support rates for the actual fresh chain,
-and finish the original-source acceptance. The new exact replay applies only
-to the matching computation. Nash accuracy does not imply policy/kernel
-closeness, and a history marginal cannot replace the native memory joint law.
+P-CFRD-AVERAGE, P-CFRD-TARGET, SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
+remain accepted through their existing pinned journals. No new source-level
+obligation is promoted by the new dependency batch. Frozen coverage.json
+remains blob2fc8cc9ad6607d61bfe397707fb96ac322fbb800. The prior owner ledger is
+preserved as M06-kernel-value-transport-coverage-at-8bf7814.json.
 
-P-CFRD-TARGET remains accepted through M06-root-target.json;
-SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF through their earlier journal.
-All pinned sources remain unchanged. Historical coverage.json stays at
-2fc8cc9ad6607d61bfe397707fb96ac322fbb800. The prior owner ledger is preserved
-as M06-kernel-value-transport-coverage-at-ba26c02.json.
+Retain full joint PBS correlations, the selected private profile and its
+own MODEL posterior, one draw through stage plus late horizon, and actual
+native forward weights. Never reset a carried prior, identify it with an
+unknown opponent's posterior, omit finite-T/child error, or claim last-iterate
+or network convergence. Printed R5 and corrected statements stay separate.
 
-Correlated joint PBS/root AOH conditioning, administrative cut+1 and original
-cut+remaining fuel, child tolerance and finite-T terms remain explicit.
-Absent events use legal total fallbacks. Stored MODEL posteriors are not
-identified with unknown-opponent factual posteriors. Printed R5 and corrected
-or restricted statements stay separate.
-
-Use only the main agent. Group related implementations and fixes in large
-dependency-ordered batches. Verify separate workflows on every new SHA, then
-schedule this chat once about 50 minutes after ref update in Asia/Tokyo.
-If still running, schedule another one-shot check about 10 minutes later.
-Do not stop workflows or poll continuously.
+Use the main agent only. Batch related work in dependency order and fixes
+together. After each ref update confirm same-SHA separate workflows, schedule
+one check about 50 minutes later in Asia/Tokyo, and end. If still running,
+schedule another one-shot check about 10 minutes later. Do not stop workflows.
