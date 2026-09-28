@@ -1,7 +1,7 @@
-# ReBeL status — Nash universe repair pending Actions; M06 incomplete
+# ReBeL status — Nash specialization repair pending Actions; M06 incomplete
 
 Work branch: rebel/m06-kernel-value-repair-20260927.
-Repair parent: 67fbf8c81259c980ef71aced53a23fdfa6730d5a.
+Repair parent: 3e84fcbf0fec06e3a054f899b85208b36a42432c.
 Last fully accepted dependency: 7f5526ca40282dd11a42301e5d12cad9ac3eb37e.
 Default main: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline: 9457c198126f3c8b7cb1045bbed2e0053788636f.
@@ -15,17 +15,15 @@ checks, full build4307/lintbuild4077, all architecture checks, rational runtime,
 and 210 Python tests (7.924s/8.261s).
 See M06-recomputed-value-7f5526c-accepted.md. This is not new-source validation.
 
-The 67fbf8c repair did not resolve the universe constraint: CI/target failed
-at the same declaration, followed by two dependent diagnostics. checks failed
-earlier on TRANSPORT_ANALYSIS_SOURCE=1 from the newly introduced tactic.
-Inventory alone passed 215 Python tests (9.192s); checks did not reach Python,
-rational runtime or Lean. See M06-nash-transport-67fbf8c-failure.md for full
-decoded diagnostics and artifact metadata.
-This repair specifies the full model's six universes also in theorem
-signatures and the native envelope, explicitly applies helper arguments, and
-unfolds the signed-value definition without the forbidden tactic. No audit
-criterion or mathematical premise changes. All consumers/examples were
-statically reviewed; compilation and all exact-SHA gates remain pending.
+The 3e84fcb candidate resolved the prior universe and architecture diagnostics,
+but CI/checks/target failed on the same model-opponent specialization: simp did
+not identify the computed solver expression with its local fresh abbreviation.
+This repair gives the comparison its complete expected type and rewrites with
+the fully instantiated zero-transport equality. Only one proof changes.
+checks static metrics are zero, rational runtime passed, and checks/inventory
+passed 215 tests (9.460s/11.435s). Full build/lint/axioms remain unaccepted.
+See M06-nash-transport-3e84fcb-failure.md for complete diagnostics, metadata and
+static review through all consumers/examples. New-SHA Actions are required.
 
 The new coherent batch derives a replacement bound from the actual recursive
 solver's Nash theorem. It adds explicit root-law discrepancy and two opposing-
@@ -62,7 +60,7 @@ P-CFRD-AVERAGE, P-CFRD-TARGET, SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
 remain accepted in unchanged journals. No source row is promoted here.
 Frozen coverage.json remains 2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
 The previous owner ledger is preserved at
-M06-kernel-value-transport-coverage-at-67fbf8c.json.
+M06-kernel-value-transport-coverage-at-3e84fcb.json.
 
 Main agent only; review actual types before each commit. Batch related changes.
 Confirm separate same-SHA runs, schedule once about 50 minutes later in JST,

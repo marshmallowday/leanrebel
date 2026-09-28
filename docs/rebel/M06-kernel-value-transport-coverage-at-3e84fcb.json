@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "3e84fcbf0fec06e3a054f899b85208b36a42432c",
+  "parent": "67fbf8c81259c980ef71aced53a23fdfa6730d5a",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -43,8 +43,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-d9c73f0.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-7f5526c.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-481c5ab.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-67fbf8c.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-3e84fcb.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-67fbf8c.json"
   ],
   "semantic_review": "docs/rebel/M06-nash-transport-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
@@ -91,35 +90,24 @@
     "docs/rebel/M06-recomputed-value-cbda1b3-failure.md",
     "docs/rebel/M06-recomputed-value-d9c73f0-failure.md",
     "docs/rebel/M06-nash-transport-481c5ab-failure.md",
-    "docs/rebel/M06-nash-transport-67fbf8c-failure.md",
-    "docs/rebel/M06-nash-transport-3e84fcb-failure.md"
+    "docs/rebel/M06-nash-transport-67fbf8c-failure.md"
   ],
   "previous_feedback": {
-    "commit": "3e84fcbf0fec06e3a054f899b85208b36a42432c",
-    "ci_run": 36444326613,
-    "ci_job": 109002569475,
-    "global_run": 36444326452,
-    "global_job": 109002569549,
-    "target_run": 36444326569,
-    "target_job": 109002569479,
-    "inventory_run": 36444326767,
-    "inventory_job": 109002569972,
-    "result": "Universe and architecture diagnostics resolved; CI/checks/target failed at model-opponent specialization's local fresh alias simplification; full downstream/lint/axiom not accepted",
-    "python_tests": 215,
-    "python_seconds": {
-      "checks": 9.46,
-      "inventory": 11.435
-    },
-    "rational_runtime": "pass",
-    "static_metrics": {
-      "LIBRARY_LINES_OVER_100": 0,
-      "TRANSPORT_ANALYSIS_SOURCE": 0
-    },
-    "evidence": "docs/rebel/M06-nash-transport-3e84fcb-failure.md",
+    "commit": "67fbf8c81259c980ef71aced53a23fdfa6730d5a",
+    "ci_run": 36437007977,
+    "ci_job": 108977417577,
+    "global_run": 36437008209,
+    "global_job": 108977418562,
+    "target_run": 36437008002,
+    "target_job": 108977418085,
+    "inventory_run": 36437007856,
+    "inventory_job": 108977417046,
+    "result": "CI/target same unresolved universe plus dependent diagnostics; checks failed architecture transport token (1 vs 0), before runtime/Python/Lean; inventory 215 tests passed 9.192s; not accepted",
+    "evidence": "docs/rebel/M06-nash-transport-67fbf8c-failure.md",
     "artifacts": {
-      "target": 10980426150,
-      "global": 10982110082,
-      "source": 10979564604
+      "target": 10976023031,
+      "global": 10975514067,
+      "source": 10975693957
     },
     "artifact_contents": "ZIP unread; complete decoded logs reviewed"
   },
@@ -964,7 +952,7 @@
     }
   },
   "nash_transport_batch": {
-    "status": "model-opponent specialization proof repair pending exact-SHA Actions",
+    "status": "signature universe and architecture repair pending exact-SHA Actions",
     "semantic_review": "docs/rebel/M06-nash-transport-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.PBSRecursiveNashTransport",
@@ -997,7 +985,7 @@
     "python_tests": 5,
     "scope": "Actual recursive Nash error plus root-law and opposing-policy execution discrepancies, horizon-aligned native full-state composition, separate sampling-support penalties. Only model-law/model-opponent specialization removes transport; no general small native-chain rate or rooted-solver equivalence is asserted.",
     "blobs": {
-      "GameTheory/Analysis/ReBeL/PBSRecursiveNashTransport.lean": "ce72245aa8752b6967cb4ccecf46abc7d63202be",
+      "GameTheory/Analysis/ReBeL/PBSRecursiveNashTransport.lean": "f424418ca3ae7381bee062524c14780225f1bfe0",
       "GameTheory/Analysis/ReBeL/PBSRecursiveNashBudget.lean": "6cb5cb3259efe196bb6896a251aaa383b1149e9d",
       "GameTheory/Analysis/ReBeL/Examples/PBSRecursiveNashTransport.lean": "60a45cd2b0e9f5b45f5e7afa330f28e7416bbe55",
       "scripts/rebel/m06-targets.txt": "7e2e222eac840d34b96f5ddea3027665157e3979",
@@ -1006,8 +994,8 @@
       "scripts/rebel/tests/test_nash_transport.py": "62bb9a9d5ff58b25073e449583de03ad50d06fb4",
       "docs/rebel/M06-recomputed-value-7f5526c-accepted.md": "486251356776042d31c6ee6bbac2ec95e5222671",
       "docs/rebel/M06-nash-transport-batch.md": "bd8adeb0b75af4d1be8ca4eccd83608d7139058f",
-      "docs/rebel/STATUS.md": "7e3a151a8a67a9ee7ee6426355fd9689ba67cc24"
+      "docs/rebel/STATUS.md": "d6f471419c76f1d50e463bc753f0c2d1180f7f99"
     },
-    "repair_review": "docs/rebel/M06-nash-transport-3e84fcb-failure.md"
+    "repair_review": "docs/rebel/M06-nash-transport-67fbf8c-failure.md"
   }
 }

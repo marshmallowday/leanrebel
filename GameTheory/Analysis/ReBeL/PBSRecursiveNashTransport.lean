@@ -139,8 +139,16 @@ theorem pbsRecursiveDepth_model_replacement_le
     recursivePolicyValueChange M old fresh fresh who cuts.sum belief.law (payoff who) ≤
       tolerance := by
   intro fresh
-  have estimate := pbsRecursiveDepth_replacement_le.{u} (E := E) M noise noiseBound cuts
-    fallback payoff zeroSum bound nonneg bounded belief tolerance positive old fresh who belief.law
-  simpa only [nashReplacementTransport_same.{u}, mul_zero, add_zero] using estimate
+  have estimate :
+      recursivePolicyValueChange M old fresh fresh who cuts.sum belief.law (payoff who) ≤
+        tolerance + bound * nashReplacementTransport.{u} (E := E)
+          (fullInformation.{0, u, u, u, u, u} M) old fresh fresh who cuts.sum
+          belief.law belief.law :=
+    pbsRecursiveDepth_replacement_le.{u} (E := E) M noise noiseBound cuts fallback payoff
+      zeroSum bound nonneg bounded belief tolerance positive old fresh who belief.law
+  have same := nashReplacementTransport_same.{u} (E := E)
+    (fullInformation.{0, u, u, u, u, u} M) old fresh who cuts.sum belief.law
+  rw [same, mul_zero, add_zero] at estimate
+  exact estimate
 
 end GameTheory.ReBeL
