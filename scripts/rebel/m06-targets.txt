@@ -179,3 +179,5 @@ GameTheory.Analysis.ReBeL.Examples.PBSRecursiveRecomputedValue
 GameTheory.Analysis.ReBeL.PBSRecursiveNashTransport
 GameTheory.Analysis.ReBeL.PBSRecursiveNashBudget
 GameTheory.Analysis.ReBeL.Examples.PBSRecursiveNashTransport
+GameTheory.Analysis.ReBeL.CFRDRecursiveSecurity
+GameTheory.Analysis.ReBeL.Examples.CFRDRecursiveSecurity

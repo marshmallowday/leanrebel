@@ -1,67 +1,66 @@
-# ReBeL status — Nash specialization repair pending Actions; M06 incomplete
+# ReBeL status — finite parent/native chain integration pending; M06 incomplete
 
 Work branch: rebel/m06-kernel-value-repair-20260927.
-Repair parent: 3e84fcbf0fec06e3a054f899b85208b36a42432c.
-Last fully accepted dependency: 7f5526ca40282dd11a42301e5d12cad9ac3eb37e.
+Batch parent and accepted dependency: e590b4f805a2ec90f84c66e75d66e586fc27fa91.
 Default main: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline: 9457c198126f3c8b7cb1045bbed2e0053788636f.
 GitHub account marshmallowday has admin/push permission.
 
-The recomputed-value repair loop is complete on 7f5526c:
-CI36422271712, checks36422271598, target36422271775, inventory36422271594 all passed.
-Complete decoded logs contain 2275 targeted/5411 global unique axiom records,
-only the permitted three axioms, all 140/281 module lint passes including slow
-checks, full build4307/lintbuild4077, all architecture checks, rational runtime,
-and 210 Python tests (7.924s/8.261s).
-See M06-recomputed-value-7f5526c-accepted.md. This is not new-source validation.
+The Nash transport repair loop is complete on e590b4f: CI36451061294,
+checks36451061358, target36451061397 and inventory36451061654 all succeeded.
+Complete decoded logs contain 2328 targeted/5464 global unique axiom records,
+only the permitted three axioms, all 143/284 module lint passes, full
+build4310/lintbuild4080, architecture3VERIFIED, static2metrics0, rational runtime
+and 215 Python tests (checks9.309s/inventory10.935s).
+See M06-nash-transport-e590b4f-accepted.md. Artifact metadata was inspected;
+ZIP contents were not read. These results do not validate new source.
 
-The 3e84fcb candidate resolved the prior universe and architecture diagnostics,
-but CI/checks/target failed on the same model-opponent specialization: simp did
-not identify the computed solver expression with its local fresh abbreviation.
-This repair gives the comparison its complete expected type and rewrites with
-the fully instantiated zero-transport equality. Only one proof changes.
-checks static metrics are zero, rational runtime passed, and checks/inventory
-passed 215 tests (9.460s/11.435s). Full build/lint/axioms remain unaccepted.
-See M06-nash-transport-3e84fcb-failure.md for complete diagnostics, metadata and
-static review through all consumers/examples. New-SHA Actions are required.
+The new coherent batch connects the actual noisy sampled finite-child parent's
+initial security to the actual native recursive fresh-solving chain. It retains
+the private parent iteration and native draw/saved-PBS joint laws. Its separate
+terms are numerical prediction error, finite parent regret, 2*child loss and
+the recomputed or solver-derived Nash replacement/support budget.
+The initial-security premise is discharged by the constructed parent theorem.
+It does not establish that all native replacement costs are small.
 
-The new coherent batch derives a replacement bound from the actual recursive
-solver's Nash theorem. It adds explicit root-law discrepancy and two opposing-
-policy execution charges, with primitive finite-fuel rates, rather than assuming
-the old/new own policies are close. Under the same model law and computed
-opponent the remaining bound is the actual requested solver tolerance.
+The new hidden-type consumer uses bias1/8, childloss1/4, parentcut1 and
+freshcuts[1,1]/tol1/8/stage1/late1 (total horizon3). A second consumer trains
+through parentcut2 and then uses freshcuts[1]/stage1/late0. Other consumers retain the
+finite term at zero prediction error and zero fresh budget on empty schedules.
+Five rational controls cover independent allowances, structural depth
+recurrence, native full-state telescoping, actual support and stop/late cases.
+See M06-recursive-security-batch.md for static type review and batch boundaries.
+Expected surface: 183 build targets, 145 targeted/286 global modules, 220 tests.
+Only new-SHA Actions can validate this source.
 
-PBSRecursiveNashAligned requires each solve to cover its stage plus every later
-stage and late fuel. This prevents applying a short-horizon Nash theorem to a
-longer local replacement. The native envelope, forward budget, signed loss and
-initial-security theorem preserve actual private draws, stored posteriors and
-unsupported-state penalties. Concrete noisy hidden-type consumers prove a
-model-opponent 1/8 bound, native two-stage integration and a horizon-mismatch
-negative control. Five Fraction tests cover 729 finite combinations and the
-root/opponent/support/horizon boundaries. See M06-nash-transport-batch.md.
+Theorem 3 source comparison is recorded in M06-theorem3-interpretation.md:
+the user PDF matches pinned arXiv-v2 SHA256
+69322b213028142bccd9fa5531623cca0b19666bab56015b589e84a43913eb44.
+Printed p8/p21/p22 delta*C1+delta*C2/sqrt(T) is preserved separately.
+Proof base/induction and Appendix I support C1*delta+C2/sqrt(T), with extra
+child loss explicit. The extra delta is a likely typo, not author-confirmed.
+A positive allowance alone is not a counterexample proving positive actual
+error. Constants do not hide delta/T dependence. The parent has positive T,
+nonnegative numerical tolerance, finite legal full-AOH structure, bounded
+two-player zero-sum payoff and separately discharged continuation quality.
 
-Expected new surface: 181 build targets, 143 targeted/284 global modules and
-215 Python tests. Existing targets remain; workflows, audit criteria, solver
-algorithms and journal-pinned sources are unchanged. Static type review is
-recorded through all consumers; actual validation requires new-SHA Actions.
-
-Remaining work is grouped in dependency order: sharpen the actual root,
-opponent and support terms into useful fresh-chain rates; identify internal
-chance-rooted children with original-game fresh solvers including noise,
-posterior, fallback, budget and clock; finish SEARCH-CFRD/SEARCH-ERROR/
-SAFE-THEOREM3 source correspondence and acceptance.
-The singleton-to-PBS bound can be loose even when aggregate laws agree.
-A computed or transported budget is not a small convergence rate.
-Stored MODEL posteriors are not the unknown opponent's factual posterior.
-Keep hidden correlation, native memory, finite-T/child tolerances and printed
-R5 versus corrected claims separate. No network convergence is assumed.
+Remaining groups: sharpen actual native root/opponent/support terms into useful
+small bounds; prove internal chance-rooted/fresh-original computational
+correspondence including noise/posterior/fallback/budget/clock; finish full
+recursive safety and SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 source acceptance.
+Pointwise singleton bounds can be loose even when aggregate laws agree.
+Stored MODEL is not the unknown opponent's factual posterior. No prior reset,
+private-seed disclosure, Nash-to-policy-closeness inference, or convergence
+assumption about the learner/final iterate/target Nash value is permitted.
 
 P-CFRD-AVERAGE, P-CFRD-TARGET, SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
 remain accepted in unchanged journals. No source row is promoted here.
 Frozen coverage.json remains 2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
 The previous owner ledger is preserved at
-M06-kernel-value-transport-coverage-at-3e84fcb.json.
+M06-kernel-value-transport-coverage-at-e590b4f.json with blob
+29b9494a5983d9f731f8062d72187d48e02e39ef.
 
-Main agent only; review actual types before each commit. Batch related changes.
-Confirm separate same-SHA runs, schedule once about 50 minutes later in JST,
-and if still running schedule once about 10 minutes later. Do not cancel runs.
+Main agent only; review actual types through all consumers before each commit.
+Batch related changes. Confirm separate same-SHA runs, schedule once about
+50 minutes later in JST, or once 10 minutes later if still running.
+Do not cancel workflows. Full M06 remains incomplete.

@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "e590b4f805a2ec90f84c66e75d66e586fc27fa91",
+  "parent": "3e84fcbf0fec06e3a054f899b85208b36a42432c",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -44,10 +44,9 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-7f5526c.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-481c5ab.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-67fbf8c.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-3e84fcb.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-e590b4f.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-3e84fcb.json"
   ],
-  "semantic_review": "docs/rebel/M06-recursive-security-batch.md",
+  "semantic_review": "docs/rebel/M06-nash-transport-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -134,8 +133,8 @@
     "root_blob": "3cad603cc1bc991819216f67439a6a7a28ea3f2b",
     "targets_blob": "a791fe2b25005c4cc87d74ff1d969bedf897b7b5",
     "audit_consumer_blob": "54e935d2405e6f19fbfc373833cac953785c20bc",
-    "expected_target_modules": 145,
-    "expected_global_modules": 286,
+    "expected_target_modules": 143,
+    "expected_global_modules": 284,
     "python_file": "scripts/rebel/tests/test_kernel_value_transport.py",
     "python_blob": "31614fa879377d164e63132047022aed6683877b",
     "new_python_tests": 12,
@@ -146,15 +145,15 @@
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md",
     "previous_python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
-    "expected_total_python_tests": 220,
+    "expected_total_python_tests": 215,
     "historical_coverage_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
-    "expected_build_targets": 183
+    "expected_build_targets": 181
   },
   "remaining": [
-    "Validate the finite-parent/native-chain integration on its exact SHA; acceptance of e590b4f dependencies does not validate new declarations.",
-    "Sharpen actual native root/opponent/support costs into useful small bounds; conditional grouping must preserve private draw and stored posterior correlation.",
-    "Identify each required internal chance-rooted child with the original-game fresh computation, retaining posterior/noise/fallback/budget/clock.",
-    "Complete full recursive safety and SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 source correspondence, preserving independent prediction/finite-iteration/child terms and printed-versus-adopted R5."
+    "Validate new recomputed-value source on its exact SHA; dependency results do not promote original-source obligations.",
+    "Identify internal chance-rooted child with decoded original-game fresh solves, retaining posterior/noise/fallback/budget/clock.",
+    "Derive useful small bounds on the explicit solver-specific changed-value terms and actual native support defects; neither posterior positivity nor Nash accuracy supplies them.",
+    "Complete source correspondence and acceptance of SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3; retain finite-T and child errors and distinguish printed R5."
   ],
   "baseline_acceptance": {
     "commit": "9457c198126f3c8b7cb1045bbed2e0053788636f",
@@ -199,23 +198,23 @@
     "remaining": "Small execution costs, actual recursive posterior identification, late-value composition and signed CarriedResolveStepBounds are not proved."
   },
   "latest_accepted": {
-    "commit": "e590b4f805a2ec90f84c66e75d66e586fc27fa91",
-    "ci_run": 36451061294,
-    "ci_job": 109025632565,
-    "global_run": 36451061358,
-    "global_job": 109025632233,
-    "target_run": 36451061397,
-    "target_job": 109025632613,
-    "inventory_run": 36451061654,
-    "inventory_job": 109025632840,
-    "target_declarations": 2328,
-    "global_declarations": 5464,
-    "target_modules": 143,
-    "global_modules": 284,
-    "build_targets": 181,
-    "python_tests": 215,
+    "commit": "7f5526ca40282dd11a42301e5d12cad9ac3eb37e",
+    "ci_run": 36422271712,
+    "ci_job": 108927635040,
+    "global_run": 36422271598,
+    "global_job": 108927633698,
+    "target_run": 36422271775,
+    "target_job": 108927634835,
+    "inventory_run": 36422271594,
+    "inventory_job": 108927634201,
+    "target_declarations": 2275,
+    "global_declarations": 5411,
+    "target_modules": 140,
+    "global_modules": 281,
+    "build_targets": 178,
+    "python_tests": 210,
     "all_runs": "success",
-    "evidence": "docs/rebel/M06-nash-transport-e590b4f-accepted.md"
+    "evidence": "docs/rebel/M06-recomputed-value-7f5526c-accepted.md"
   },
   "carried_value_batch": {
     "status": "accepted_at_d771e88",
@@ -965,7 +964,7 @@
     }
   },
   "nash_transport_batch": {
-    "status": "accepted dependency on exact e590b4f Actions; not original-source obligation acceptance",
+    "status": "model-opponent specialization proof repair pending exact-SHA Actions",
     "semantic_review": "docs/rebel/M06-nash-transport-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.PBSRecursiveNashTransport",
@@ -1009,81 +1008,6 @@
       "docs/rebel/M06-nash-transport-batch.md": "bd8adeb0b75af4d1be8ca4eccd83608d7139058f",
       "docs/rebel/STATUS.md": "7e3a151a8a67a9ee7ee6426355fd9689ba67cc24"
     },
-    "repair_review": "docs/rebel/M06-nash-transport-3e84fcb-failure.md",
-    "acceptance": {
-      "commit": "e590b4f805a2ec90f84c66e75d66e586fc27fa91",
-      "ci_run": 36451061294,
-      "ci_job": 109025632565,
-      "global_run": 36451061358,
-      "global_job": 109025632233,
-      "target_run": 36451061397,
-      "target_job": 109025632613,
-      "inventory_run": 36451061654,
-      "inventory_job": 109025632840,
-      "target_declarations": 2328,
-      "global_declarations": 5464,
-      "target_modules": 143,
-      "global_modules": 284,
-      "build_targets": 181,
-      "python_tests": 215,
-      "all_runs": "success",
-      "evidence": "docs/rebel/M06-nash-transport-e590b4f-accepted.md"
-    }
-  },
-  "theorem3_interpretation": {
-    "review": "docs/rebel/M06-theorem3-interpretation.md",
-    "pdf_sha256": "69322b213028142bccd9fa5531623cca0b19666bab56015b589e84a43913eb44",
-    "edition": "arXiv v2; 25 pages; identical to user PDF",
-    "printed": "delta*C1 + delta*C2/sqrt(T)",
-    "printed_pages": [
-      8,
-      21,
-      22
-    ],
-    "adopted": "C1*delta + C2/sqrt(T); necessary child loss and native chain charges remain separate",
-    "support_pages": [
-      21,
-      22,
-      23,
-      25
-    ],
-    "status": "likely typo interpretation, not author-confirmed; no actual-error counterexample from a positive upper bound alone",
-    "source_obligations": "SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 remain pending; milestone incomplete"
-  },
-  "recursive_security_batch": {
-    "status": "pending exact-SHA Actions; not original-source acceptance",
-    "semantic_review": "docs/rebel/M06-recursive-security-batch.md",
-    "modules": [
-      "GameTheory.Analysis.ReBeL.CFRDRecursiveSecurity",
-      "GameTheory.Analysis.ReBeL.Examples.CFRDRecursiveSecurity"
-    ],
-    "declarations": [
-      "GameTheory.ReBeL.cfrDRecursiveRecomputed_security",
-      "GameTheory.ReBeL.cfrDRecursiveNash_security",
-      "GameTheory.ReBeL.cfrDRecursive_zero_prediction_allowance",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recursiveSecurityConfigs",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recursiveSecurityConfigs_aligned",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recursiveSecurity_noisy_parent",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recursiveSecurityLastConfigs",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recursiveSecurityLastConfigs_aligned",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recursiveSecurity_last_decision",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recursiveSecurity_exact_prediction",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recursiveSecurity_empty_budget"
-    ],
-    "python_file": "scripts/rebel/tests/test_recursive_security.py",
-    "python_tests": 5,
-    "scope": "Actual noisy sampled finite-child parent supplies initial security to native recursive execution. Independent finite-T/numerical/2*child loss plus computed or Nash transport/support charge. No general small fresh-chain rate or solver representation equivalence.",
-    "blobs": {
-      "GameTheory/Analysis/ReBeL/CFRDRecursiveSecurity.lean": "8113752150dfd8c0aa6e18b67cfb63162fde2c31",
-      "GameTheory/Analysis/ReBeL/Examples/CFRDRecursiveSecurity.lean": "a3234a5ee0949e819ec78b934b23caf5993c65d0",
-      "scripts/rebel/tests/test_recursive_security.py": "9312b3f67a949dd052484cfc29aed6f349a5eeed",
-      "docs/rebel/M06-nash-transport-e590b4f-accepted.md": "03041135c58fb2ddb2612cf220e05953d169112e",
-      "docs/rebel/M06-theorem3-interpretation.md": "0558afcf11f32dcfe788bdf6aac415b16749301d",
-      "docs/rebel/M06-recursive-security-batch.md": "a1ec9f90ddfff429e450a9489c28bb7a66725beb",
-      "docs/rebel/STATUS.md": "15325373f70016310154e08d03a8db3f4adce950",
-      "GameTheory/Analysis/ReBeL.lean": "4d84ab01a30c6b735f77c55dba10b00867468cc8",
-      "scripts/rebel/m06-targets.txt": "f2cfa3f149c12b2715e54dcfb0c643a186d9e0d3",
-      "scripts/rebel/audit_exact_leaf.py": "4d259ec8153a136edb64c69dd1006f389744e4b5"
-    }
+    "repair_review": "docs/rebel/M06-nash-transport-3e84fcb-failure.md"
   }
 }

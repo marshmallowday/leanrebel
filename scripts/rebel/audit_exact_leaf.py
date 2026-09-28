@@ -13,6 +13,8 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULES = (
+    "GameTheory.Analysis.ReBeL.CFRDRecursiveSecurity",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDRecursiveSecurity",
     "GameTheory.Analysis.ReBeL.PBSRecursiveNashTransport",
     "GameTheory.Analysis.ReBeL.PBSRecursiveNashBudget",
     "GameTheory.Analysis.ReBeL.Examples.PBSRecursiveNashTransport",
