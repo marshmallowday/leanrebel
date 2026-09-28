@@ -24,9 +24,13 @@ variable {K : Type*}
 /-- A schedule records every actual recursive solver configuration separately.
 Changing a tolerance or noise allocation is not silently treated as a replay. -/
 structure PBSRecursiveResolveConfig where
+  /-- Noise allocation supplied to this stage's actual recursive solver. -/
   noise : PBSRecursiveDepthNoise.{u}
+  /-- Ordered recursive depth cuts used by this stage's solver. -/
   cuts : List Nat
+  /-- Requested tolerance passed to this stage's recursive solve. -/
   tolerance : ℝ
+  /-- Native execution fuel for this stage, excluding the retained late horizon. -/
   fuel : Nat
 
 /-- Convert a recorded configuration to the existing, unchanged native stage. -/

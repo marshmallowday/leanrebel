@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "d9c73f034e9a1600acbaa5b77c22ffdd0e76674a",
+  "parent": "cbda1b336c5a8705813376340597cfba51851021",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -39,8 +39,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-133dc24.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-4b40364.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-ce81eae.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-cbda1b3.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-d9c73f0.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-cbda1b3.json"
   ],
   "semantic_review": "docs/rebel/M06-recomputed-value-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
@@ -84,24 +83,21 @@
     "docs/rebel/M06-recursive-target-7711b65-failure.md",
     "docs/rebel/M06-average-limit-cc4ba60-failure.md",
     "docs/rebel/M06-stopped-mass-4b40364-failure.md",
-    "docs/rebel/M06-recomputed-value-cbda1b3-failure.md",
-    "docs/rebel/M06-recomputed-value-d9c73f0-failure.md"
+    "docs/rebel/M06-recomputed-value-cbda1b3-failure.md"
   ],
   "previous_feedback": {
-    "commit": "d9c73f034e9a1600acbaa5b77c22ffdd0e76674a",
-    "ci_run": 36416665284,
-    "ci_job": 108909319237,
-    "global_run": 36416665256,
-    "global_job": 108909319048,
-    "target_run": 36416665342,
-    "target_job": 108909318819,
-    "inventory_run": 36416665258,
-    "inventory_job": 108909318613,
+    "commit": "cbda1b336c5a8705813376340597cfba51851021",
+    "ci_run": 36410876412,
+    "ci_job": 108890489866,
+    "global_run": 36410876476,
+    "global_job": 108890490469,
+    "target_run": 36410876360,
+    "target_job": 108890489545,
+    "inventory_run": 36410876580,
+    "inventory_job": 108890490470,
     "python_tests": 210,
-    "targeted_axiom_records": 2275,
-    "global_axiom_records": 5411,
-    "result": "all builds and complete axiom records pass; three lint jobs fail on the same four undocumented structure fields; inventory success",
-    "evidence": "docs/rebel/M06-recomputed-value-d9c73f0-failure.md"
+    "result": "three compiler failures with the same two conditional-instance diagnostics; inventory success",
+    "evidence": "docs/rebel/M06-recomputed-value-cbda1b3-failure.md"
   },
   "validation": {
     "compiler": "pending new-SHA GitHub Actions",
@@ -870,7 +866,7 @@
     }
   },
   "recomputed_value_batch": {
-    "status": "field-documentation repair pending exact-SHA Actions",
+    "status": "conditional-instance proof repair pending exact-SHA Actions",
     "semantic_review": "docs/rebel/M06-recomputed-value-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.PBSRecursivePosteriorValue",
@@ -902,7 +898,7 @@
     "scope": "Changed recursive computations retain their signed value difference; posterior filtering controls only its residual. Actual fresh-stage loss is bounded by computed old-versus-average values plus actual unsupported-state mass, accumulated under native full-state forward laws. Neither term is yet shown small.",
     "blobs": {
       "GameTheory/Analysis/ReBeL/PBSRecursivePosteriorValue.lean": "8244b3e286ac9feb300be0982c115bcd5f5b780d",
-      "GameTheory/Analysis/ReBeL/PBSRecursiveRecomputedValue.lean": "21bdf43f9cf4d69caf07f347bd379b444b2afb00",
+      "GameTheory/Analysis/ReBeL/PBSRecursiveRecomputedValue.lean": "9ff1759fca084e05f3f1f1be19638fbd45cc7d94",
       "GameTheory/Analysis/ReBeL/Examples/PBSRecursiveRecomputedValue.lean": "d659104c3fe4a303be2ced4d3b765c7180b118ec",
       "scripts/rebel/tests/test_recomputed_value.py": "13f988e8ca0dc1141d1d2468af4fae6c1571b353",
       "scripts/rebel/m06-targets.txt": "a23ed2197c44d3ebc5def50ddd18e8cfeee593cb",
@@ -910,17 +906,16 @@
       "GameTheory/Analysis/ReBeL.lean": "2438d1c4ca2ccf1e49a9f617765b0106568fea43",
       "docs/rebel/M06-stopped-mass-ce81eae-accepted.md": "e9ffd00a66ecb1c03995106db3ffeb975100e480",
       "docs/rebel/M06-recomputed-value-batch.md": "96a9ea9943ce2f4927c51d0fdd0baae4354aec1c",
-      "docs/rebel/STATUS.md": "42cb1acf47431c317da54afd76fe3448651a972f",
-      "docs/rebel/M06-recomputed-value-cbda1b3-failure.md": "423a727abdf26cc32a6dca9f04b876b7de8491d2",
-      "docs/rebel/M06-recomputed-value-d9c73f0-failure.md": "9b760b20d6e2a4be33f9dd8fbc5204174944aac7"
+      "docs/rebel/STATUS.md": "b7731b8122d24e559c7153e26916cca769d77c73",
+      "docs/rebel/M06-recomputed-value-cbda1b3-failure.md": "423a727abdf26cc32a6dca9f04b876b7de8491d2"
     },
-    "failed_source": "d9c73f034e9a1600acbaa5b77c22ffdd0e76674a",
-    "failure_review": "docs/rebel/M06-recomputed-value-d9c73f0-failure.md",
+    "failed_source": "cbda1b336c5a8705813376340597cfba51851021",
+    "failure_review": "docs/rebel/M06-recomputed-value-cbda1b3-failure.md",
     "python_acceptance": {
-      "commit": "d9c73f034e9a1600acbaa5b77c22ffdd0e76674a",
+      "commit": "cbda1b336c5a8705813376340597cfba51851021",
       "tests": 210,
-      "checks_run": 36416665256,
-      "inventory_run": 36416665258,
+      "checks_run": 36410876476,
+      "inventory_run": 36410876580,
       "result": "success"
     }
   }

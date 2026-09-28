@@ -1,7 +1,7 @@
-# ReBeL status — recomputed-value conditional repair pending Actions; M06 incomplete
+# ReBeL status — recomputed-value field-documentation repair pending Actions; M06 incomplete
 
 Work branch: rebel/m06-kernel-value-repair-20260927.
-Repair parent: cbda1b336c5a8705813376340597cfba51851021.
+Repair parent: d9c73f034e9a1600acbaa5b77c22ffdd0e76674a.
 Last fully accepted dependency: ce81eaecde20fb02de0a191ba1ceb64e32bafe16.
 Default main: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline: 9457c198126f3c8b7cb1045bbed2e0053788636f.
@@ -15,18 +15,16 @@ full build4304/lintbuild4074, all architecture checks, rational runtime,
 and 205 Python tests (9.561s/9.821s). See M06-stopped-mass-ce81eae-accepted.md.
 This is not validation of the new source.
 
-The cbda1b3 batch failed CI36410876412, checks36410876476 and target36410876360
-with two identical diagnostics in pbsRecursiveRecomputedOutcome_value.
-Partial stage-alias unfolding left the if condition and its implicit Decidable
-argument at different transparency forms. The repair uses the accepted
-selected-late-value theorem directly for supported saved beliefs, and consumes
-unreduced-stage conditions before unfolding in missing/stopped branches.
-Statements, definitions, premises and all consumers are unchanged. Complete
-decoded logs confirm PBSRecursivePosteriorValue compiled, static checks and
-rational runtime passed, and 210 Python tests passed (9.409s/10.131s).
-Example/umbrella compilation and complete lint/axiom gates remain unaccepted.
-See M06-recomputed-value-cbda1b3-failure.md for diagnostics and the precommit
-type/instance review through the consumers. Static review is not compilation.
+The d9c73f0 conditional repair compiled, including concrete examples and umbrella.
+CI36416665284, checks36416665256 and target36416665342 then failed on the same
+four missing field docstrings in PBSRecursiveResolveConfig. This repair adds
+only those docstrings; executable Lean text, types and all proofs are unchanged.
+Complete decoded logs confirm full build4307/lintbuild4077, all architecture
+checks, static metrics at zero, rational runtime and 210 tests (8.218s/10.105s).
+All 2275 targeted/5411 global unique axiom records use only the permitted three
+axioms. Complete normal/slow lint did not pass, so the batch is not accepted.
+See M06-recomputed-value-d9c73f0-failure.md for full evidence and the precommit
+field/constructor/consumer review. New-SHA Actions remain required.
 
 The coherent new batch separates the signed policy-value change caused by
 recomputing a solver from the public/live posterior filtering residual. It
@@ -57,7 +55,7 @@ P-CFRD-AVERAGE, P-CFRD-TARGET, SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
 remain accepted in unchanged pinned journals. No source row is promoted here.
 Frozen coverage.json remains 2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
 The exact previous owner ledger is preserved at
-M06-kernel-value-transport-coverage-at-cbda1b3.json.
+M06-kernel-value-transport-coverage-at-d9c73f0.json.
 
 Main agent only. Review actual types through all consumers before every commit.
 Batch related implementations and fixes. Confirm separate same-SHA runs after
