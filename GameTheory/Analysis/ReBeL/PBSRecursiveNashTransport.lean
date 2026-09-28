@@ -113,11 +113,21 @@ theorem pbsRecursiveDepth_replacement_le
       tolerance + bound * nashReplacementTransport (fullInformation M)
         old fresh unknown who cuts.sum actual belief.law := by
   intro fresh
-  have estimate := behavioralNash_replacement_le (fullInformation M) belief old fresh unknown
-    who cuts.sum actual payoff tolerance bound nonneg (bounded who)
-    (pbsRecursiveDepth_isNash noise noiseBound cuts M fallback payoff zeroSum bound
-      nonneg bounded belief tolerance positive)
-  simpa only [recursivePolicyValueChange, FinDist.expect_sub, FinDist.expect_bind] using estimate
+  have equilibrium :
+      IsNash (behavioralBeliefForm (fullInformation M) belief cuts.sum)
+        (euPreferenceWithin tolerance (fun h player => payoff player h)) fresh :=
+    pbsRecursiveDepth_isNash.{u} noise noiseBound cuts (E := E) M fallback payoff zeroSum
+      bound nonneg bounded belief tolerance positive
+  have estimate := behavioralNash_replacement_le.{u} (E := E) (fullInformation M)
+    belief old fresh unknown who cuts.sum actual payoff tolerance bound nonneg
+    (bounded who) equilibrium
+  change actual.expect (fun history =>
+    ((fullInformation M).runBehavioralFrom
+      (Profile.update unknown who (old who)) cuts.sum history).expect (payoff who) -
+    ((fullInformation M).runBehavioralFrom
+      (Profile.update unknown who (fresh who)) cuts.sum history).expect (payoff who)) ≤ _
+  rw [FinDist.expect_sub]
+  simpa only [FinDist.expect_bind] using estimate
 
 /-- On the modeled root law against the computed opposing policy, only the
 actual solver tolerance remains. The old own policy is entirely arbitrary. -/
@@ -134,8 +144,8 @@ theorem pbsRecursiveDepth_model_replacement_le
     recursivePolicyValueChange M old fresh fresh who cuts.sum belief.law (payoff who) ≤
       tolerance := by
   intro fresh
-  have estimate := pbsRecursiveDepth_replacement_le M noise noiseBound cuts fallback payoff
-    zeroSum bound nonneg bounded belief tolerance positive old fresh who belief.law
+  have estimate := pbsRecursiveDepth_replacement_le.{u} (E := E) M noise noiseBound cuts
+    fallback payoff zeroSum bound nonneg bounded belief tolerance positive old fresh who belief.law
   simpa only [nashReplacementTransport_same, mul_zero, add_zero] using estimate
 
 end GameTheory.ReBeL

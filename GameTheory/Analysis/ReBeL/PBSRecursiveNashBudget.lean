@@ -94,11 +94,11 @@ theorem pbsRecursiveRecomputedLoss_le_nashEnvelope
     | none => simp only [pbsRecursiveNashEnvelope, if_pos live, stored, le_refl]
     | some belief =>
         simp only [pbsRecursiveNashEnvelope, if_pos live, stored]
-        rw [pbsRecursiveRecomputedLoss_eq_policyValueChange M fallback payoff bound initial
-          unknown who config remaining state belief stored live]
+        rw [pbsRecursiveRecomputedLoss_eq_policyValueChange (E := E) (K := K) M fallback
+          payoff bound initial unknown who config remaining state belief stored live (payoff who)]
         simpa only [horizon] using
-          (pbsRecursiveDepth_replacement_le M config.noise noiseBound config.cuts fallback
-            payoff zeroSum bound nonneg bounded belief config.tolerance positive
+          (pbsRecursiveDepth_replacement_le.{u} (E := E) M config.noise noiseBound config.cuts
+            fallback payoff zeroSum bound nonneg bounded belief config.tolerance positive
             (carriedMemoryProfile (fullInformation M) initial state.iteration) unknown who
             (FinDist.pure state.history))
   · simp only [pbsRecursiveNashEnvelope, if_neg live, le_refl]

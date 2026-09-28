@@ -1,7 +1,8 @@
-# ReBeL status — Nash replacement batch pending Actions; M06 incomplete
+# ReBeL status — Nash universe repair pending Actions; M06 incomplete
 
 Work branch: rebel/m06-kernel-value-repair-20260927.
-Parent and last fully accepted dependency: 7f5526ca40282dd11a42301e5d12cad9ac3eb37e.
+Repair parent: 481c5ab492be7326b82b3238bb2deb2dbbfd7418.
+Last fully accepted dependency: 7f5526ca40282dd11a42301e5d12cad9ac3eb37e.
 Default main: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline: 9457c198126f3c8b7cb1045bbed2e0053788636f.
 GitHub account marshmallowday has admin/push permission.
@@ -13,6 +14,17 @@ only the permitted three axioms, all 140/281 module lint passes including slow
 checks, full build4307/lintbuild4077, all architecture checks, rational runtime,
 and 210 Python tests (7.924s/8.261s).
 See M06-recomputed-value-7f5526c-accepted.md. This is not new-source validation.
+
+The 481c5ab candidate failed CI/checks/target on the same unresolved universe
+constraint in the recursive Nash bridge, with two downstream diagnostics.
+checks/inventory passed 215 tests (9.419s/10.226s), static metrics were zero
+and rational runtime passed. Full Lean build/lint/axiom acceptance is pending.
+See M06-nash-transport-481c5ab-failure.md for complete decoded diagnostics and
+artifact metadata. This repair makes the helper universe/protocol explicit,
+types the equilibrium and expands the signed expectation with an explicit
+goal. The native consumer also supplies its dependent arguments explicitly.
+All downstream consumers/examples were statically reviewed; only Actions can
+confirm compilation. Mathematical statements and solver behavior are unchanged.
 
 The new coherent batch derives a replacement bound from the actual recursive
 solver's Nash theorem. It adds explicit root-law discrepancy and two opposing-
@@ -49,7 +61,7 @@ P-CFRD-AVERAGE, P-CFRD-TARGET, SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
 remain accepted in unchanged journals. No source row is promoted here.
 Frozen coverage.json remains 2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
 The previous owner ledger is preserved at
-M06-kernel-value-transport-coverage-at-7f5526c.json.
+M06-kernel-value-transport-coverage-at-481c5ab.json.
 
 Main agent only; review actual types before each commit. Batch related changes.
 Confirm separate same-SHA runs, schedule once about 50 minutes later in JST,
