@@ -1,7 +1,8 @@
-# ReBeL status — finite parent/native chain integration pending; M06 incomplete
+# ReBeL status — unused instance repair pending Actions; M06 incomplete
 
 Work branch: rebel/m06-kernel-value-repair-20260927.
-Batch parent and accepted dependency: e590b4f805a2ec90f84c66e75d66e586fc27fa91.
+Repair parent: ce432689668ce58a0c8040820b7d06179582064f.
+Last fully accepted dependency: e590b4f805a2ec90f84c66e75d66e586fc27fa91.
 Default main: 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline: 9457c198126f3c8b7cb1045bbed2e0053788636f.
 GitHub account marshmallowday has admin/push permission.
@@ -14,6 +15,16 @@ build4310/lintbuild4080, architecture3VERIFIED, static2metrics0, rational runtim
 and 215 Python tests (checks9.309s/inventory10.935s).
 See M06-nash-transport-e590b4f-accepted.md. Artifact metadata was inspected;
 ZIP contents were not read. These results do not validate new source.
+
+ce432689 failed CI36459218256/checks36459218063/target36459218039 on the
+same unusedSectionVars diagnostic in cfrDRecursive_zero_prediction_allowance.
+The repair omits only its unused action-Fintype and full-InfoState-DecidableEq
+section instances. Its proposition/proof and both principal security theorems
+are unchanged. All consumers were rechecked; no linter is disabled.
+checks static metrics0/rational runtime and 220tests9.791s passed;
+inventory36459218193 passed 220tests8.984s. Full lint/axioms and downstream
+build are not accepted. See M06-recursive-security-ce432689-failure.md for
+complete-log evidence, metadata and the static type-review limitation.
 
 The new coherent batch connects the actual noisy sampled finite-child parent's
 initial security to the actual native recursive fresh-solving chain. It retains
@@ -57,8 +68,8 @@ P-CFRD-AVERAGE, P-CFRD-TARGET, SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
 remain accepted in unchanged journals. No source row is promoted here.
 Frozen coverage.json remains 2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
 The previous owner ledger is preserved at
-M06-kernel-value-transport-coverage-at-e590b4f.json with blob
-29b9494a5983d9f731f8062d72187d48e02e39ef.
+M06-kernel-value-transport-coverage-at-ce432689.json with blob
+683b3576a4399c7043b624268522cec1e42acf34.
 
 Main agent only; review actual types through all consumers before each commit.
 Batch related changes. Confirm separate same-SHA runs, schedule once about

@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "ce432689668ce58a0c8040820b7d06179582064f",
+  "parent": "e590b4f805a2ec90f84c66e75d66e586fc27fa91",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -45,8 +45,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-481c5ab.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-67fbf8c.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-3e84fcb.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-e590b4f.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-ce432689.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-e590b4f.json"
   ],
   "semantic_review": "docs/rebel/M06-recursive-security-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
@@ -94,35 +93,34 @@
     "docs/rebel/M06-recomputed-value-d9c73f0-failure.md",
     "docs/rebel/M06-nash-transport-481c5ab-failure.md",
     "docs/rebel/M06-nash-transport-67fbf8c-failure.md",
-    "docs/rebel/M06-nash-transport-3e84fcb-failure.md",
-    "docs/rebel/M06-recursive-security-ce432689-failure.md"
+    "docs/rebel/M06-nash-transport-3e84fcb-failure.md"
   ],
   "previous_feedback": {
-    "commit": "ce432689668ce58a0c8040820b7d06179582064f",
-    "ci_run": 36459218256,
-    "ci_job": 109053251997,
-    "global_run": 36459218063,
-    "global_job": 109053247528,
-    "target_run": 36459218039,
-    "target_job": 109053246630,
-    "inventory_run": 36459218193,
-    "inventory_job": 109053246826,
-    "result": "Three compiler jobs failed on one unusedSectionVars diagnostic listing two redundant instances; downstream/full lint/axioms unaccepted",
-    "python_tests": 220,
+    "commit": "3e84fcbf0fec06e3a054f899b85208b36a42432c",
+    "ci_run": 36444326613,
+    "ci_job": 109002569475,
+    "global_run": 36444326452,
+    "global_job": 109002569549,
+    "target_run": 36444326569,
+    "target_job": 109002569479,
+    "inventory_run": 36444326767,
+    "inventory_job": 109002569972,
+    "result": "Universe and architecture diagnostics resolved; CI/checks/target failed at model-opponent specialization's local fresh alias simplification; full downstream/lint/axiom not accepted",
+    "python_tests": 215,
     "python_seconds": {
-      "checks": 9.791,
-      "inventory": 8.984
+      "checks": 9.46,
+      "inventory": 11.435
     },
     "rational_runtime": "pass",
     "static_metrics": {
       "LIBRARY_LINES_OVER_100": 0,
       "TRANSPORT_ANALYSIS_SOURCE": 0
     },
-    "evidence": "docs/rebel/M06-recursive-security-ce432689-failure.md",
+    "evidence": "docs/rebel/M06-nash-transport-3e84fcb-failure.md",
     "artifacts": {
-      "target": 10987058779,
-      "global": 10987123905,
-      "source": 10985929178
+      "target": 10980426150,
+      "global": 10982110082,
+      "source": 10979564604
     },
     "artifact_contents": "ZIP unread; complete decoded logs reviewed"
   },
@@ -1053,7 +1051,7 @@
     "source_obligations": "SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 remain pending; milestone incomplete"
   },
   "recursive_security_batch": {
-    "status": "scoped unused-section-instance repair pending exact-SHA Actions",
+    "status": "pending exact-SHA Actions; not original-source acceptance",
     "semantic_review": "docs/rebel/M06-recursive-security-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.CFRDRecursiveSecurity",
@@ -1076,18 +1074,16 @@
     "python_tests": 5,
     "scope": "Actual noisy sampled finite-child parent supplies initial security to native recursive execution. Independent finite-T/numerical/2*child loss plus computed or Nash transport/support charge. No general small fresh-chain rate or solver representation equivalence.",
     "blobs": {
-      "GameTheory/Analysis/ReBeL/CFRDRecursiveSecurity.lean": "b7f4942b1eaa079726d6d97e78a7f0292102b08f",
+      "GameTheory/Analysis/ReBeL/CFRDRecursiveSecurity.lean": "8113752150dfd8c0aa6e18b67cfb63162fde2c31",
       "GameTheory/Analysis/ReBeL/Examples/CFRDRecursiveSecurity.lean": "a3234a5ee0949e819ec78b934b23caf5993c65d0",
       "scripts/rebel/tests/test_recursive_security.py": "9312b3f67a949dd052484cfc29aed6f349a5eeed",
       "docs/rebel/M06-nash-transport-e590b4f-accepted.md": "03041135c58fb2ddb2612cf220e05953d169112e",
       "docs/rebel/M06-theorem3-interpretation.md": "0558afcf11f32dcfe788bdf6aac415b16749301d",
       "docs/rebel/M06-recursive-security-batch.md": "a1ec9f90ddfff429e450a9489c28bb7a66725beb",
-      "docs/rebel/STATUS.md": "5f3cae26c2255f59cc986c0509be114c4e625535",
+      "docs/rebel/STATUS.md": "15325373f70016310154e08d03a8db3f4adce950",
       "GameTheory/Analysis/ReBeL.lean": "4d84ab01a30c6b735f77c55dba10b00867468cc8",
       "scripts/rebel/m06-targets.txt": "f2cfa3f149c12b2715e54dcfb0c643a186d9e0d3",
-      "scripts/rebel/audit_exact_leaf.py": "4d259ec8153a136edb64c69dd1006f389744e4b5",
-      "docs/rebel/M06-recursive-security-ce432689-failure.md": "371c3d2ef0dc9fe7219a44fcb239f418dcf155fc"
-    },
-    "repair_review": "docs/rebel/M06-recursive-security-ce432689-failure.md"
+      "scripts/rebel/audit_exact_leaf.py": "4d259ec8153a136edb64c69dd1006f389744e4b5"
+    }
   }
 }

@@ -129,6 +129,8 @@ theorem cfrDRecursiveNash_security
   dsimp only at security
   linarith only [security, budget]
 
+omit [∀ who, Fintype (E.Action who)]
+    [∀ who, DecidableEq ((fullInformation.{0, u, u, u, u, u} M).InfoState who)] in
 /-- Exact numerical predictions leave finite parent regret AND child loss.
 This is an identity of allowances, not a claim that actual error attains them. -/
 theorem cfrDRecursive_zero_prediction_allowance
