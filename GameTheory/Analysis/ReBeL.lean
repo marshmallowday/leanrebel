@@ -238,3 +238,6 @@ import GameTheory.Math.Probability.FinDistRetainedLabel
 import GameTheory.Analysis.ReBeL.PBSComposedValueTarget
 import GameTheory.Analysis.ReBeL.PBSRecursiveValueTarget
 import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveValueTarget
+import GameTheory.Analysis.ReBeL.CFRDAverageLimit
+import GameTheory.Analysis.ReBeL.PBSAverageLimit
+import GameTheory.Analysis.ReBeL.Examples.CFRDAverageLimit

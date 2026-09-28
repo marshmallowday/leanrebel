@@ -13,6 +13,9 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULES = (
+    "GameTheory.Analysis.ReBeL.CFRDAverageLimit",
+    "GameTheory.Analysis.ReBeL.PBSAverageLimit",
+    "GameTheory.Analysis.ReBeL.Examples.CFRDAverageLimit",
     "GameTheory.Analysis.ReBeL.PBSComposedValueTarget",
     "GameTheory.Analysis.ReBeL.PBSRecursiveValueTarget",
     "GameTheory.Analysis.ReBeL.Examples.PBSRecursiveValueTarget",

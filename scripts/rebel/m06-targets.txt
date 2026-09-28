@@ -161,3 +161,6 @@ GameTheory.Math.Probability.FinDistRetainedLabel
 GameTheory.Analysis.ReBeL.PBSComposedValueTarget
 GameTheory.Analysis.ReBeL.PBSRecursiveValueTarget
 GameTheory.Analysis.ReBeL.Examples.PBSRecursiveValueTarget
+GameTheory.Analysis.ReBeL.CFRDAverageLimit
+GameTheory.Analysis.ReBeL.PBSAverageLimit
+GameTheory.Analysis.ReBeL.Examples.CFRDAverageLimit

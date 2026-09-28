@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "4de8c48f532575440c8159dfe15c96fc1c7180f0",
+  "parent": "7711b65f98851187eef0e05c66b5ba569e03ccf0",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -27,10 +27,9 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-bc9b95b.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-0e71e36.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-107bbaa.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-7711b65.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-4de8c48.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-7711b65.json"
   ],
-  "semantic_review": "docs/rebel/M06-average-limit-batch.md",
+  "semantic_review": "docs/rebel/M06-recursive-target-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -72,35 +71,35 @@
     "docs/rebel/M06-recursive-target-7711b65-failure.md"
   ],
   "previous_feedback": {
-    "commit": "107bbaa5d7017e0dc92a85acfab73b90ac81618d",
-    "target_run": 36351689718,
-    "target_job": 108711470862,
-    "target_declarations": 2059,
-    "target_modules": 122,
-    "global_run": 36351689813,
-    "global_job": 108711471281,
-    "global_declarations": 5200,
-    "global_modules": 264,
-    "ci_run": 36351689781,
-    "ci_job": 108711471388,
-    "inventory_run": 36351689774,
-    "inventory_job": 108711471302,
-    "python_tests": 181,
+    "commit": "d2af110a66a149f963fd93c33617d0469fa71d79",
+    "target_run": 36340716907,
+    "target_job": 108680123954,
+    "target_declarations": 2032,
+    "target_modules": 120,
+    "global_run": 36340716875,
+    "global_job": 108680124103,
+    "global_declarations": 5178,
+    "global_modules": 263,
+    "ci_run": 36340716890,
+    "ci_job": 108680123914,
+    "inventory_run": 36340716940,
+    "inventory_job": 108680124110,
+    "python_tests": 176,
     "all_runs": "success",
-    "evidence": "docs/rebel/M06-root-memory-107bbaa-accepted.md"
+    "evidence": "docs/rebel/M06-value-target-d2af110-accepted.md"
   },
   "validation": {
-    "compiler": "pending fixed-trace average-limit batch exact SHA",
-    "normal_and_slow_lint": "pending fixed-trace average-limit batch exact SHA",
-    "transitive_axioms": "pending fixed-trace average-limit batch exact SHA",
+    "compiler": "pending recursive-training proof-style repair exact SHA",
+    "normal_and_slow_lint": "pending recursive-training proof-style repair exact SHA",
+    "transitive_axioms": "pending recursive-training proof-style repair exact SHA",
     "core_blob": "5a0091144c5611c1fe4d5173b826ca5bef6ef50c",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
-    "root_blob": "9543b8dd5b4ee09c0dd41898d54afcbbadcfa423",
-    "targets_blob": "8edbcb7260ae2551eda5e38d9adaadbcc5be7bbc",
-    "audit_consumer_blob": "c43a776fc95fcaa036a83e8f7ad89c762bd9fe5b",
-    "expected_target_modules": 128,
-    "expected_global_modules": 270,
+    "root_blob": "259d65119cae15144362b66273750ba5e4811f6e",
+    "targets_blob": "a5ae7fc637dafbe7667e8e37de8d2849fbb682f7",
+    "audit_consumer_blob": "efe3741288d6f0ae0fb5bcd1ce43702bec030130",
+    "expected_target_modules": 125,
+    "expected_global_modules": 267,
     "python_file": "scripts/rebel/tests/test_kernel_value_transport.py",
     "python_blob": "31614fa879377d164e63132047022aed6683877b",
     "new_python_tests": 12,
@@ -111,12 +110,12 @@
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md",
     "previous_python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
-    "expected_total_python_tests": 190,
+    "expected_total_python_tests": 185,
     "historical_coverage_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
-    "expected_build_targets": 166
+    "expected_build_targets": 163
   },
   "remaining": [
-    "Validate fixed-trace average-limit source and review P-CFRD-AVERAGE with accepted root-vector arithmetic",
+    "Validate recursive training output at its exact SHA and review fixed-trace average-policy source convergence",
     "Instantiate stored-model posterior comparisons throughout independent recursive re-solving analysis",
     "Derive useful small signed costs for actual fresh recursive solves",
     "Close P-CFRD-AVERAGE, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 source acceptance"
@@ -164,22 +163,22 @@
     "remaining": "Small execution costs, actual recursive posterior identification, late-value composition and signed CarriedResolveStepBounds are not proved."
   },
   "latest_accepted": {
-    "commit": "4de8c48f532575440c8159dfe15c96fc1c7180f0",
-    "target_run": 36358641774,
-    "target_job": 108731272601,
-    "target_declarations": 2097,
-    "target_modules": 125,
-    "global_run": 36358641785,
-    "global_job": 108731271893,
-    "global_declarations": 5238,
-    "global_modules": 267,
-    "ci_run": 36358641830,
-    "ci_job": 108731272133,
-    "inventory_run": 36358641777,
-    "inventory_job": 108731271726,
-    "python_tests": 185,
+    "commit": "107bbaa5d7017e0dc92a85acfab73b90ac81618d",
+    "target_run": 36351689718,
+    "target_job": 108711470862,
+    "target_declarations": 2059,
+    "target_modules": 122,
+    "global_run": 36351689813,
+    "global_job": 108711471281,
+    "global_declarations": 5200,
+    "global_modules": 264,
+    "ci_run": 36351689781,
+    "ci_job": 108711471388,
+    "inventory_run": 36351689774,
+    "inventory_job": 108711471302,
+    "python_tests": 181,
     "all_runs": "success",
-    "evidence": "docs/rebel/M06-recursive-target-4de8c48-accepted.md"
+    "evidence": "docs/rebel/M06-root-memory-107bbaa-accepted.md"
   },
   "carried_value_batch": {
     "status": "accepted_at_d771e88",
@@ -468,7 +467,7 @@
     }
   },
   "recursive_target_batch": {
-    "status": "accepted_dependency_at_4de8c48",
+    "status": "proof_style_repair_pending_exact_sha_actions",
     "semantic_review": "docs/rebel/M06-recursive-target-batch.md",
     "modules": [
       "GameTheory/Analysis/ReBeL/PBSComposedValueTarget.lean",
@@ -517,29 +516,11 @@
     "failed_source": "7711b65f98851187eef0e05c66b5ba569e03ccf0",
     "failure_review": "docs/rebel/M06-recursive-target-7711b65-failure.md",
     "python_acceptance": {
-      "commit": "4de8c48f532575440c8159dfe15c96fc1c7180f0",
-      "run": 36358641777,
-      "job": 108731271726,
+      "commit": "7711b65f98851187eef0e05c66b5ba569e03ccf0",
+      "run": 36355626233,
+      "job": 108722665255,
       "tests": 185,
-      "result": "success"
-    },
-    "acceptance": {
-      "commit": "4de8c48f532575440c8159dfe15c96fc1c7180f0",
-      "target_run": 36358641774,
-      "target_job": 108731272601,
-      "target_declarations": 2097,
-      "target_modules": 125,
-      "global_run": 36358641785,
-      "global_job": 108731271893,
-      "global_declarations": 5238,
-      "global_modules": 267,
-      "ci_run": 36358641830,
-      "ci_job": 108731272133,
-      "inventory_run": 36358641777,
-      "inventory_job": 108731271726,
-      "python_tests": 185,
-      "all_runs": "success",
-      "evidence": "docs/rebel/M06-recursive-target-4de8c48-accepted.md"
+      "result": "success; not repaired-source Lean acceptance"
     }
   },
   "root_target_source_acceptance": {
@@ -550,51 +531,5 @@
       "P-CFRD-TARGET"
     ]
   },
-  "repair_review": "docs/rebel/M06-recursive-target-7711b65-failure.md",
-  "average_limit_batch": {
-    "status": "pending_exact_sha_actions",
-    "semantic_review": "docs/rebel/M06-average-limit-batch.md",
-    "modules": [
-      "GameTheory.Analysis.ReBeL.CFRDAverageLimit",
-      "GameTheory.Analysis.ReBeL.PBSAverageLimit",
-      "GameTheory.Analysis.ReBeL.Examples.CFRDAverageLimit"
-    ],
-    "declarations": [
-      "GameTheory.ReBeL.cfrDAverageThreshold",
-      "GameTheory.ReBeL.cfrDAverageThreshold_pos",
-      "GameTheory.ReBeL.cfrDAverageRate_after",
-      "GameTheory.ReBeL.cfrDDepthAverageErrorFloor",
-      "GameTheory.ReBeL.cfrDDepthAverageFiniteFactor",
-      "GameTheory.ReBeL.cfrDDepthAverageBudget_after",
-      "GameTheory.ReBeL.cfrDDepthAverage_after",
-      "GameTheory.ReBeL.cfrDDepthAverage_approaches",
-      "GameTheory.ReBeL.cfrDConstructedExactAverage_converges",
-      "GameTheory.ReBeL.cfrDInformationAverage_after",
-      "GameTheory.ReBeL.pbsRootDepthBudget_after",
-      "GameTheory.ReBeL.pbsInformationDepthAverage_after",
-      "GameTheory.ReBeL.pbsComposedDepthAverage_after",
-      "GameTheory.ReBeL.pbsRecursiveParentAverage",
-      "GameTheory.ReBeL.pbsRecursiveParentAverage_allocated",
-      "GameTheory.ReBeL.pbsRecursiveParentAverage_after",
-      "GameTheory.ReBeL.Examples.HiddenTypes.exactDriverAverage_converges",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recursiveAverage_allocated",
-      "GameTheory.ReBeL.Examples.HiddenTypes.recursiveAverage_after",
-      "GameTheory.ReBeL.Examples.HiddenTypes.averageThreshold_zero"
-    ],
-    "new_fraction_tests": 5,
-    "expected_python_tests": 190,
-    "expected_build_targets": 166,
-    "expected_targeted_modules": 128,
-    "expected_global_modules": 270,
-    "scope": "One fixed oracle trace: all-later-count floor+epsilon bound; constructed exact child gives vanishing Nash error. Actual finite recursive parent retains fixed noise/child floor, with allocated-count identity. No final-iterate/profile/network convergence or fresh re-solving safety.",
-    "blobs": {
-      "GameTheory/Analysis/ReBeL/CFRDAverageLimit.lean": "52ed384e465ec045869e02e72a5a3dad0c7e1e1e",
-      "GameTheory/Analysis/ReBeL/PBSAverageLimit.lean": "f0eba9725c303d901f860ad24887562b963ebccb",
-      "GameTheory/Analysis/ReBeL/Examples/CFRDAverageLimit.lean": "e652ad88cebafd6a8631da7597c427e575821231",
-      "GameTheory/Analysis/ReBeL.lean": "9543b8dd5b4ee09c0dd41898d54afcbbadcfa423",
-      "scripts/rebel/m06-targets.txt": "8edbcb7260ae2551eda5e38d9adaadbcc5be7bbc",
-      "scripts/rebel/audit_exact_leaf.py": "c43a776fc95fcaa036a83e8f7ad89c762bd9fe5b",
-      "scripts/rebel/tests/test_average_limit.py": "a621a0e0a7360b6cf5fdc1f505c8fe95b2145a02"
-    }
-  }
+  "repair_review": "docs/rebel/M06-recursive-target-7711b65-failure.md"
 }

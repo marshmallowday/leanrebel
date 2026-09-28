@@ -1,61 +1,56 @@
-# ReBeL status — recursive training proof-style repair pending Actions; M06 incomplete
+# ReBeL status — fixed-trace average-limit batch pending Actions; M06 incomplete
 
-Continue rebel/m06-kernel-value-repair-20260927 from re-read HEAD
-7711b65f98851187eef0e05c66b5ba569e03ccf0. Main is
+Continue rebel/m06-kernel-value-repair-20260927 from accepted HEAD
+4de8c48f532575440c8159dfe15c96fc1c7180f0. Default main is separately
 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. GitHub plugin access was
 reconfirmed as marshmallowday/admin. Chat baseline:
 9457c198126f3c8b7cb1045bbed2e0053788636f.
 
-The retained-root batch and repair loop are accepted at 107bbaa.
-CI 36351689781, checks 36351689813, targeted 36351689718 and inventory
-36351689774 all succeeded on that SHA. Complete decoded logs contain 2059
-targeted and 5200 global unique transitive axiom records, only the three
-permitted axioms, all 122/264 module lint passes, full build/architecture/
-rational runtime and 181 Python tests. The target manifest has 160 entries.
-See M06-root-memory-107bbaa-accepted.md. This success does not verify new source.
+The recursive training batch and its proof-style repair are accepted at
+4de8c48. CI 36358641830, checks 36358641785, targeted 36358641774 and
+inventory 36358641777 all succeeded on that SHA. Complete decoded logs contain
+2097 targeted and 5238 global unique transitive axiom records, only the three
+permitted axioms, all 125/267 module lint passes, full build/architecture/
+rational runtime and 185 Python tests. The manifest has 163 targets.
+See M06-recursive-target-4de8c48-accepted.md. This does not verify new source.
 
-The 7711b65 batch failed all three compiler jobs on the same proof-style
-diagnostic at PBSRecursiveValueTarget.lean:108: letI was used in a proposition.
-The local proof instance is repaired to let _ without changing statements,
-premises, definitions, workflows or audit rules. PBSComposedValueTarget compiled.
-Static architecture, rational runtime and 185 Python tests succeeded, but the
-downstream example and complete lint/axiom audit remain unverified. See
-M06-recursive-target-7711b65-failure.md for full job/artifact evidence.
-The repaired source requires new exact-SHA Actions.
+The new batch connects an explicit all-later-count threshold through CFR-D
+regret bounds, exact and finite noisy children, original PBS decoding and the
+actual recursive parent. With one oracle and its learning trace fixed, the
+own-reach average approaches the explicit numerical/child error floor.
+The constructed exact driver has zero floor and a quantified epsilon-N Nash
+error guarantee. The finite recursive parent retains its positive noise and
+child tolerance; its allocated-count identity is the existing solver.
+Concrete hidden-type examples and five Fraction controls are included.
+See M06-average-limit-batch.md.
 
-The pending batch integrates root targets with the actual composed oracle and
-arbitrary-depth recursive solver. It preserves the same recursive child,
-noisy learner trace, finite round count, joint PBS and original-game full
-continuation. pbsRecursiveTrainingOutput returns both the existing average
-policy and an information-state target vector, with separate policy and
-numerical-mean guarantees. Empty schedules and zero-width cuts are explicit.
-Three Lean integration modules and four Fraction tests are registered together.
-See M06-recursive-target-batch.md. Expected validation is now 163 build targets,
-125 targeted/267 global audit modules and 185 Python tests. Existing coverage
-is retained; workflows and audit criteria are unchanged. No local Lean or
-Python execution is claimed.
+Expected new verification: 166 build targets, 128 targeted/270 global audit
+modules and 190 Python tests. Existing targets remain. Workflows and audit
+criteria are unchanged. No local Lean or Python execution is claimed.
 
-Unchanged 107bbaa source supports P-CFRD-TARGET via the append-only
-coverage-updates/M06-root-target.json and M06-root-target-accepted.md.
-SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF remain accepted via their prior
-journal. The historical coverage.json is still blob
-2fc8cc9ad6607d61bfe397707fb96ac322fbb800. All pinned proof sources are unchanged.
+P-CFRD-AVERAGE remains pending until this new source passes exact-SHA Actions
+and original-source review, alongside the already accepted uniform value
+target arithmetic. SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
+Small signed costs for actual fresh recursive re-solving and complete use of
+stored-model posterior comparisons in that safety analysis still need proof.
+The new batch does not imply close kernels from accurate Nash policies.
 
-P-CFRD-AVERAGE, SEARCH-CFRD, SEARCH-ERROR and SAFE-THEOREM3 remain pending.
-The fixed-trace average-policy convergence clause is not accepted merely from
-vector arithmetic or a finite-budget result. Remaining work also includes
-small signed loss bounds for actual fresh recursive re-solving and complete
-application of model-posterior comparisons in that analysis.
+P-CFRD-TARGET remains accepted through coverage-updates/M06-root-target.json;
+SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF through their earlier journal.
+All pinned sources are unchanged. Historical coverage.json remains blob
+2fc8cc9ad6607d61bfe397707fb96ac322fbb800. The previous owner ledger is preserved
+as M06-kernel-value-transport-coverage-at-4de8c48.json.
 
-The target comparator is the mean of same-round original continuations.
-It is not a final iterate, independently mixed joint policy, or asserted Nash
-value vector. Absent labels use a total fallback and are not observed samples.
-The stored model law is not equated to an unknown opponent's factual law.
-Nash precision does not imply close policies or kernels. Printed R5 and
-corrected/restricted statements remain separate; finite-T and child tolerance
-are retained, and no network convergence is assumed.
+Nash-error convergence does not assert a limiting equilibrium profile, a
+convergent final iterate or a convergent network. Numerical root means compare
+with same-round original continuations, not an independently averaged joint
+policy or a Nash value vector. Correlated joint PBS/root AOH conditioning,
+cut+1 administrative fuel, positive child loss and finite-T terms remain.
+Absent labels use explicit total fallbacks; stored model beliefs are not
+equated with an unknown opponent's factual posterior. Printed R5 and corrected
+or restricted statements stay separate.
 
-Use only the main agent. Combine related implementations and fixes in large
+Use only the main agent. Group related implementations and fixes in large
 dependency-ordered batches. Confirm separate workflows on each new SHA, then
 schedule this chat once about 50 minutes after the branch update in Asia/Tokyo.
 If still running, schedule another one-shot check about 10 minutes later.
