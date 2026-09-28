@@ -258,3 +258,6 @@ import GameTheory.Analysis.ReBeL.PBSRecursiveNashBudget
 import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveNashTransport
 import GameTheory.Analysis.ReBeL.CFRDRecursiveSecurity
 import GameTheory.Analysis.ReBeL.Examples.CFRDRecursiveSecurity
+import GameTheory.Analysis.ReBeL.PBSRecursiveGroupedValue
+import GameTheory.Analysis.ReBeL.PBSRecursiveGroupedSecurity
+import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveGroupedSecurity

@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "5a4710d92c4a39c5eed565650cd96c068ee8ae21",
+  "parent": "ce432689668ce58a0c8040820b7d06179582064f",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -46,10 +46,9 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-67fbf8c.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-3e84fcb.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-e590b4f.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-ce432689.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-5a4710d.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-ce432689.json"
   ],
-  "semantic_review": "docs/rebel/M06-grouped-security-batch.md",
+  "semantic_review": "docs/rebel/M06-recursive-security-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
   "namespace": "GameTheory.ReBeL.TypeBeliefSlice",
   "declarations": [
@@ -137,8 +136,8 @@
     "root_blob": "3cad603cc1bc991819216f67439a6a7a28ea3f2b",
     "targets_blob": "a791fe2b25005c4cc87d74ff1d969bedf897b7b5",
     "audit_consumer_blob": "54e935d2405e6f19fbfc373833cac953785c20bc",
-    "expected_target_modules": 148,
-    "expected_global_modules": 289,
+    "expected_target_modules": 145,
+    "expected_global_modules": 286,
     "python_file": "scripts/rebel/tests/test_kernel_value_transport.py",
     "python_blob": "31614fa879377d164e63132047022aed6683877b",
     "new_python_tests": 12,
@@ -149,15 +148,15 @@
     "baseline_target_review": "docs/rebel/M06-depth-native-gap-target-accepted.md",
     "baseline_global_review": "docs/rebel/M06-depth-native-gap-global-accepted.md",
     "previous_python_sha256": "efaf494734686d26b711270fd3f45c3d4f732f5a255b389fcab1253fa99566c2",
-    "expected_total_python_tests": 225,
+    "expected_total_python_tests": 220,
     "historical_coverage_blob": "2fc8cc9ad6607d61bfe397707fb96ac322fbb800",
-    "expected_build_targets": 186
+    "expected_build_targets": 183
   },
   "remaining": [
-    "Validate canonical grouping, native budget and finite-parent consumers on the new exact SHA; prior 5a4710d success does not validate them.",
-    "Derive useful actual conditional-root/opponent/support rates. Canonical grouping proves computation coherence but does not prove calibration for arbitrary unknown opponents.",
+    "Validate the finite-parent/native-chain integration on its exact SHA; acceptance of e590b4f dependencies does not validate new declarations.",
+    "Sharpen actual native root/opponent/support costs into useful small bounds; conditional grouping must preserve private draw and stored posterior correlation.",
     "Identify each required internal chance-rooted child with the original-game fresh computation, retaining posterior/noise/fallback/budget/clock.",
-    "Complete recursive small-rate safety and SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 source acceptance; keep prediction, finite-T and child terms separate."
+    "Complete full recursive safety and SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 source correspondence, preserving independent prediction/finite-iteration/child terms and printed-versus-adopted R5."
   ],
   "baseline_acceptance": {
     "commit": "9457c198126f3c8b7cb1045bbed2e0053788636f",
@@ -202,24 +201,23 @@
     "remaining": "Small execution costs, actual recursive posterior identification, late-value composition and signed CarriedResolveStepBounds are not proved."
   },
   "latest_accepted": {
-    "commit": "5a4710d92c4a39c5eed565650cd96c068ee8ae21",
-    "ci_run": 36465657834,
-    "ci_job": 109074970230,
-    "global_run": 36465654384,
-    "global_job": 109074957095,
-    "source_job": 109074956778,
-    "target_run": 36465654230,
-    "target_job": 109074953285,
-    "inventory_run": 36465654373,
-    "inventory_job": 109074953443,
-    "target_declarations": 2343,
-    "global_declarations": 5479,
-    "target_modules": 145,
-    "global_modules": 286,
-    "build_targets": 183,
-    "python_tests": 220,
+    "commit": "e590b4f805a2ec90f84c66e75d66e586fc27fa91",
+    "ci_run": 36451061294,
+    "ci_job": 109025632565,
+    "global_run": 36451061358,
+    "global_job": 109025632233,
+    "target_run": 36451061397,
+    "target_job": 109025632613,
+    "inventory_run": 36451061654,
+    "inventory_job": 109025632840,
+    "target_declarations": 2328,
+    "global_declarations": 5464,
+    "target_modules": 143,
+    "global_modules": 284,
+    "build_targets": 181,
+    "python_tests": 215,
     "all_runs": "success",
-    "evidence": "docs/rebel/M06-recursive-security-5a4710d-accepted.md"
+    "evidence": "docs/rebel/M06-nash-transport-e590b4f-accepted.md"
   },
   "carried_value_batch": {
     "status": "accepted_at_d771e88",
@@ -1055,7 +1053,7 @@
     "source_obligations": "SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 remain pending; milestone incomplete"
   },
   "recursive_security_batch": {
-    "status": "accepted dependency on exact 5a4710d Actions; not original-source obligation acceptance",
+    "status": "scoped unused-section-instance repair pending exact-SHA Actions",
     "semantic_review": "docs/rebel/M06-recursive-security-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.CFRDRecursiveSecurity",
@@ -1090,72 +1088,6 @@
       "scripts/rebel/audit_exact_leaf.py": "4d259ec8153a136edb64c69dd1006f389744e4b5",
       "docs/rebel/M06-recursive-security-ce432689-failure.md": "371c3d2ef0dc9fe7219a44fcb239f418dcf155fc"
     },
-    "repair_review": "docs/rebel/M06-recursive-security-ce432689-failure.md",
-    "acceptance": {
-      "commit": "5a4710d92c4a39c5eed565650cd96c068ee8ae21",
-      "ci_run": 36465657834,
-      "ci_job": 109074970230,
-      "global_run": 36465654384,
-      "global_job": 109074957095,
-      "source_job": 109074956778,
-      "target_run": 36465654230,
-      "target_job": 109074953285,
-      "inventory_run": 36465654373,
-      "inventory_job": 109074953443,
-      "target_declarations": 2343,
-      "global_declarations": 5479,
-      "target_modules": 145,
-      "global_modules": 286,
-      "build_targets": 183,
-      "python_tests": 220,
-      "all_runs": "success",
-      "evidence": "docs/rebel/M06-recursive-security-5a4710d-accepted.md"
-    }
-  },
-  "grouped_security_batch": {
-    "status": "implementation pending same-SHA Actions",
-    "semantic_review": "docs/rebel/M06-grouped-security-batch.md",
-    "modules": [
-      "GameTheory.Analysis.ReBeL.PBSRecursiveGroupedValue",
-      "GameTheory.Analysis.ReBeL.PBSRecursiveGroupedSecurity",
-      "GameTheory.Analysis.ReBeL.Examples.PBSRecursiveGroupedSecurity"
-    ],
-    "declarations": [
-      "GameTheory.ReBeL.PBSRecursiveGroupQuery",
-      "GameTheory.ReBeL.PBSRecursiveGroupAgrees",
-      "GameTheory.ReBeL.PBSRecursiveGroupingCompatible",
-      "GameTheory.ReBeL.pbsRecursiveGroup_loss_eq",
-      "GameTheory.ReBeL.pbsRecursiveGroup_loss_le",
-      "GameTheory.ReBeL.pbsRecursiveGroup_calibrated_loss_le",
-      "GameTheory.ReBeL.pbsRecursiveGroupedCharge",
-      "GameTheory.ReBeL.pbsRecursiveRecomputedLoss_expect_le_groupedCharge",
-      "GameTheory.ReBeL.pbsRecursiveNativeGroupKey",
-      "GameTheory.ReBeL.pbsRecursiveNativeGroupKey_compatible",
-      "GameTheory.ReBeL.pbsRecursiveGroupedCharge_none",
-      "GameTheory.ReBeL.pbsRecursiveGroupedBudget",
-      "GameTheory.ReBeL.pbsRecursiveRecomputedBudget_le_groupedBudget",
-      "GameTheory.ReBeL.carriedSignedSequenceLoss_le_groupedBudget",
-      "GameTheory.ReBeL.cfrDRecursiveGrouped_security",
-      "GameTheory.ReBeL.Examples.HiddenTypes.groupedSecurity_noisy_parent",
-      "GameTheory.ReBeL.Examples.HiddenTypes.groupedSecurity_last_decision",
-      "GameTheory.ReBeL.Examples.HiddenTypes.groupedSecurity_key_compatible",
-      "GameTheory.ReBeL.Examples.HiddenTypes.groupedSecurity_uncertified",
-      "GameTheory.ReBeL.Examples.HiddenTypes.groupedSecurity_empty"
-    ],
-    "python_file": "scripts/rebel/tests/test_grouped_security.py",
-    "python_tests": 5,
-    "scope": "Canonical grouping of the actual joint native state law automatically discharges common incumbent/PBS computation coherence; conditional history-marginal Nash bounds feed the unchanged native schedule and actual finite noisy parent's security. Calibration/opponent/support small rates and rooted/original solver equivalence remain open.",
-    "blobs": {
-      "GameTheory/Analysis/ReBeL/PBSRecursiveGroupedValue.lean": "e14e45da70ff6c5ea622358b874a9263d491189e",
-      "GameTheory/Analysis/ReBeL/PBSRecursiveGroupedSecurity.lean": "e1c0a9a70b1424706fb8fd8c4eb659e5b6a23538",
-      "GameTheory/Analysis/ReBeL/Examples/PBSRecursiveGroupedSecurity.lean": "09ac7b7f362209f63bda0513d641248cf60c81a7",
-      "scripts/rebel/tests/test_grouped_security.py": "85eed2769babd58f5435adf6bb52d94550f2bd66",
-      "GameTheory/Analysis/ReBeL.lean": "05aacaa96ac57b6017e64af3fb1a4d76d6a78fc5",
-      "scripts/rebel/m06-targets.txt": "e72d43db0783f6b2f12bd4b157eb148021db3d94",
-      "scripts/rebel/audit_exact_leaf.py": "8f26e635ac60ba078eefbeb85973b9fad905ffa1",
-      "docs/rebel/M06-recursive-security-5a4710d-accepted.md": "327bc84bdc601584a081b368a6de577c28ac04ae",
-      "docs/rebel/M06-grouped-security-batch.md": "8f114676dbd7bb30e2f0438954be6ec225bca03c",
-      "docs/rebel/STATUS.md": "e0006aec2e2133ad7761ca5d02d1561783e79a9c"
-    }
+    "repair_review": "docs/rebel/M06-recursive-security-ce432689-failure.md"
   }
 }

@@ -13,6 +13,9 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULES = (
+    "GameTheory.Analysis.ReBeL.PBSRecursiveGroupedValue",
+    "GameTheory.Analysis.ReBeL.PBSRecursiveGroupedSecurity",
+    "GameTheory.Analysis.ReBeL.Examples.PBSRecursiveGroupedSecurity",
     "GameTheory.Analysis.ReBeL.CFRDRecursiveSecurity",
     "GameTheory.Analysis.ReBeL.Examples.CFRDRecursiveSecurity",
     "GameTheory.Analysis.ReBeL.PBSRecursiveNashTransport",
