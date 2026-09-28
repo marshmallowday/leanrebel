@@ -96,7 +96,8 @@ theorem cfrDFactualChild_liveFiber
   simp only [cfrDCutLive, decide_eq_true_eq]
   have original : publicTrace M.toInfoSignals history.trace =
       publicTrace M.toInfoSignals first.trace := by
-    simpa only [storedChild_publicTrace_full] using same.trans member.1.symm
+    exact (storedChild_publicTrace_full M history.trace).symm.trans
+      ((same.trans member.1.symm).trans (storedChild_publicTrace_full M first.trace))
   exact ⟨firstLive.1, fun terminal =>
     firstLive.2 ((observable history first original).mp terminal)⟩
 
