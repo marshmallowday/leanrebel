@@ -123,7 +123,7 @@ theorem cfrDDepthAverage_after (clock : ObservationClock M) (hrecall : M.Perfect
   intro who replacement
   have gain := finite who replacement
   rw [euPreferenceWithin_apply] at gain ⊢
-  exact gain.trans (add_le_add_left budget _)
+  exact gain.trans (add_le_add le_rfl budget)
 
 /-- Epsilon-N convergence to the fixed error floor. Positive counts are indexed
 as t+1, covering the same infinite trace without a total empty-average convention. -/

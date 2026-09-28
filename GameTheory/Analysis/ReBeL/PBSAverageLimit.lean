@@ -83,7 +83,7 @@ theorem pbsInformationDepthAverage_after
   intro who replacement
   have gain := finite who replacement
   rw [euPreferenceWithin_apply] at gain ⊢
-  exact gain.trans (add_le_add_left budget _)
+  exact gain.trans (add_le_add le_rfl budget)
 
 /-- A fixed composed child computation also admits the all-later-count bound.
 Its accuracy is a local smaller-solver premise, not the conclusion being proved. -/
@@ -125,7 +125,7 @@ theorem pbsComposedDepthAverage_after
   intro who replacement
   have gain := finite who replacement
   rw [euPreferenceWithin_apply] at gain ⊢
-  exact gain.trans (add_le_add_left budget _)
+  exact gain.trans (add_le_add le_rfl budget)
 
 end Rooted
 

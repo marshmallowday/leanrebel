@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "cc4ba60a4d934db97bde5cb95cfb6471a9b7e1ee",
+  "parent": "4de8c48f532575440c8159dfe15c96fc1c7180f0",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -28,8 +28,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-0e71e36.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-107bbaa.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-7711b65.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-4de8c48.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-cc4ba60.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-4de8c48.json"
   ],
   "semantic_review": "docs/rebel/M06-average-limit-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
@@ -70,8 +69,7 @@
     "docs/rebel/M06-value-target-8936cba-failure.md",
     "docs/rebel/M06-root-memory-bc9b95b-failure.md",
     "docs/rebel/M06-root-memory-0e71e36-failure.md",
-    "docs/rebel/M06-recursive-target-7711b65-failure.md",
-    "docs/rebel/M06-average-limit-cc4ba60-failure.md"
+    "docs/rebel/M06-recursive-target-7711b65-failure.md"
   ],
   "previous_feedback": {
     "commit": "107bbaa5d7017e0dc92a85acfab73b90ac81618d",
@@ -92,9 +90,9 @@
     "evidence": "docs/rebel/M06-root-memory-107bbaa-accepted.md"
   },
   "validation": {
-    "compiler": "pending average-limit addition repair exact SHA",
-    "normal_and_slow_lint": "pending average-limit addition repair exact SHA",
-    "transitive_axioms": "pending average-limit addition repair exact SHA",
+    "compiler": "pending fixed-trace average-limit batch exact SHA",
+    "normal_and_slow_lint": "pending fixed-trace average-limit batch exact SHA",
+    "transitive_axioms": "pending fixed-trace average-limit batch exact SHA",
     "core_blob": "5a0091144c5611c1fe4d5173b826ca5bef6ef50c",
     "integration_blob": "bd365dd14dc85a49ae9015793337fd924da6dc1c",
     "example_blob": "b7f7c3e4e3b1169e93e7d297948990197c0801db",
@@ -552,9 +550,9 @@
       "P-CFRD-TARGET"
     ]
   },
-  "repair_review": "docs/rebel/M06-average-limit-cc4ba60-failure.md",
+  "repair_review": "docs/rebel/M06-recursive-target-7711b65-failure.md",
   "average_limit_batch": {
-    "status": "addition_repair_pending_exact_sha_actions",
+    "status": "pending_exact_sha_actions",
     "semantic_review": "docs/rebel/M06-average-limit-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.CFRDAverageLimit",
@@ -590,22 +588,13 @@
     "expected_global_modules": 270,
     "scope": "One fixed oracle trace: all-later-count floor+epsilon bound; constructed exact child gives vanishing Nash error. Actual finite recursive parent retains fixed noise/child floor, with allocated-count identity. No final-iterate/profile/network convergence or fresh re-solving safety.",
     "blobs": {
-      "GameTheory/Analysis/ReBeL/CFRDAverageLimit.lean": "ed4c5ffe2502c9e10d80552c4f30e184702031a3",
-      "GameTheory/Analysis/ReBeL/PBSAverageLimit.lean": "c48eb855b3a3c44a8bcfee213cf472ed4973e304",
+      "GameTheory/Analysis/ReBeL/CFRDAverageLimit.lean": "52ed384e465ec045869e02e72a5a3dad0c7e1e1e",
+      "GameTheory/Analysis/ReBeL/PBSAverageLimit.lean": "f0eba9725c303d901f860ad24887562b963ebccb",
       "GameTheory/Analysis/ReBeL/Examples/CFRDAverageLimit.lean": "e652ad88cebafd6a8631da7597c427e575821231",
       "GameTheory/Analysis/ReBeL.lean": "9543b8dd5b4ee09c0dd41898d54afcbbadcfa423",
       "scripts/rebel/m06-targets.txt": "8edbcb7260ae2551eda5e38d9adaadbcc5be7bbc",
       "scripts/rebel/audit_exact_leaf.py": "c43a776fc95fcaa036a83e8f7ad89c762bd9fe5b",
       "scripts/rebel/tests/test_average_limit.py": "a621a0e0a7360b6cf5fdc1f505c8fe95b2145a02"
-    },
-    "failed_source": "cc4ba60a4d934db97bde5cb95cfb6471a9b7e1ee",
-    "failure_review": "docs/rebel/M06-average-limit-cc4ba60-failure.md",
-    "python_acceptance": {
-      "commit": "cc4ba60a4d934db97bde5cb95cfb6471a9b7e1ee",
-      "run": 36362617164,
-      "job": 108742656037,
-      "tests": 190,
-      "result": "success; not repaired-source Lean acceptance"
     }
   }
 }

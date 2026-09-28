@@ -1,7 +1,7 @@
-# ReBeL status — fixed-trace average-limit batch pending Actions; M06 incomplete
+# ReBeL status — average-limit addition repair pending Actions; M06 incomplete
 
-Continue rebel/m06-kernel-value-repair-20260927 from accepted HEAD
-4de8c48f532575440c8159dfe15c96fc1c7180f0. Default main is separately
+Continue rebel/m06-kernel-value-repair-20260927 from re-read HEAD
+cc4ba60a4d934db97bde5cb95cfb6471a9b7e1ee. Default main is separately
 6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098. GitHub plugin access was
 reconfirmed as marshmallowday/admin. Chat baseline:
 9457c198126f3c8b7cb1045bbed2e0053788636f.
@@ -14,7 +14,15 @@ permitted axioms, all 125/267 module lint passes, full build/architecture/
 rational runtime and 185 Python tests. The manifest has 163 targets.
 See M06-recursive-target-4de8c48-accepted.md. This does not verify new source.
 
-The new batch connects an explicit all-later-count threshold through CFR-D
+The cc4ba60 batch failed all three compiler jobs at CFRDAverageLimit.lean:126
+on the orientation of add_le_add_left. Use add_le_add le_rfl budget in that
+proof and the two identical downstream PBSAverageLimit consumers, repaired
+together without changing definitions, statements, assumptions or audit rules.
+Static architecture, rational runtime and 190 Python tests succeeded, but
+downstream build and complete lint/axioms remain unverified. See
+M06-average-limit-cc4ba60-failure.md. Repaired source needs exact-SHA Actions.
+
+The pending batch connects an explicit all-later-count threshold through CFR-D
 regret bounds, exact and finite noisy children, original PBS decoding and the
 actual recursive parent. With one oracle and its learning trace fixed, the
 own-reach average approaches the explicit numerical/child error floor.
@@ -39,7 +47,7 @@ P-CFRD-TARGET remains accepted through coverage-updates/M06-root-target.json;
 SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF through their earlier journal.
 All pinned sources are unchanged. Historical coverage.json remains blob
 2fc8cc9ad6607d61bfe397707fb96ac322fbb800. The previous owner ledger is preserved
-as M06-kernel-value-transport-coverage-at-4de8c48.json.
+as M06-kernel-value-transport-coverage-at-cc4ba60.json.
 
 Nash-error convergence does not assert a limiting equilibrium profile, a
 convergent final iterate or a convergent network. Numerical root means compare
