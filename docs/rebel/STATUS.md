@@ -1,4 +1,4 @@
-# ReBeL status — rooted-child dependent-index repair pending Actions; M06 incomplete
+# ReBeL status — rooted-child consumer proof repair pending Actions; M06 incomplete
 
 Branch: rebel/m06-kernel-value-repair-20260927.
 Accepted parent: c1edc995d1a9790ae569c3edbdd23c2a7e99199b.
@@ -15,16 +15,17 @@ See M06-cross-query-value-c1edc99-accepted.md. Artifact metadata was read;
 ZIP contents were not. This closes the previous example repair loop but does
 not validate the new source.
 
-fee60dd failed CI36515895487/checks36515895505/target36515895531 on the
-same dependent Trace endpoint naming error; inventory36515895504 succeeded.
-Checks passed static metrics0/rational runtime/245tests9.163s; inventory
-passed245tests10.847s. Complete logs have zero axiom records, so downstream
-build/lint/axioms remain unaccepted. See M06-rooted-child-decode-fee60dd-failure.md.
-The repair uses the existing state endpoint in the extend case, matching the
-accepted pbsRoot_behavioralChooser pattern. Only this proof branch and evidence
-change; definitions/signatures/instances/solver/tests/audits are unchanged.
-All downstream consumers and five examples were rechecked statically; this
-is not new-SHA compiler acceptance.
+3246e17 failed CI36520126583/checks36520126486/target36520126559 on two
+PBSRootChildRecursive proof consumers; inventory36520126534 succeeded.
+The previous decode repair compiled in all three jobs (4.2/3.6/3.7s).
+Checks passed static metrics0/rational runtime/245tests9.671s; inventory
+passed245tests10.117s. Complete compiler logs have zero axiom records.
+The repair closes the selected child's definitional equality with rfl and
+normalizes the scalar-comparison goal's fuel with the existing horizon equality.
+Definitions, signatures, assumptions, instances and solver behavior are unchanged.
+All downstream consumers and five examples were rechecked statically.
+See M06-rooted-child-decode-3246e17-failure.md for complete diagnostics and limits.
+The repaired source and downstream full build/lint/axioms await same-SHA Actions.
 
 The new PBSRootChildDecode/PBSRootChildRecursive batch decodes an existing
 noninitial rooted child joint PBS, preserving arbitrary full continuation and
@@ -54,6 +55,6 @@ Keep prediction error, finite-T and childloss independent.
 P-CFRD-AVERAGE/P-CFRD-TARGET and SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
 remain accepted in their existing journals. Frozen coverage.json stays at blob
 2fc8cc9ad6607d61bfe397707fb96ac322fbb800. The previous dedicated ledger is
-preserved byte-for-byte as M06-kernel-value-transport-coverage-at-fee60dd.json.
+preserved byte-for-byte as M06-kernel-value-transport-coverage-at-3246e17.json.
 M06 and the full Theorem3 remain incomplete. Printed/adopted source interpretation
 is recorded in M06-theorem3-interpretation.md.

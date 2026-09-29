@@ -84,6 +84,7 @@ theorem pbsRootChildRecursive_selected
         (child.law.positiveMassFloor * loss) := by
   intro child
   simp only [pbsRootChildRecursiveProfile, cfrDComposedChildTable, dif_pos possible]
+  rfl
 
 /-- The parent's actual public splice continues with the decoded selected
 recursive child, for all later fuel. The old outer cut still decodes local AOHs. -/
@@ -254,6 +255,7 @@ theorem pbsRootChildRecursive_fresh_value
     internalNash freshNash
     (fun _ => by simpa only [sub_self, abs_zero] using (le_refl (0 : ℝ)))
   rw [add_zero, horizon] at estimate
+  rw [horizon]
   exact estimate
 
 end GameTheory.ReBeL
