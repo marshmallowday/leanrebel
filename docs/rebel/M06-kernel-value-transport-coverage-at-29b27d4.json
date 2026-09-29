@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "29b27d475d96e67c46914d1b6e902e5baf71a03c",
+  "parent": "ffab72bcee96bd262a0a1c5f3966a5e96b41aed7",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -52,8 +52,7 @@
     "docs/rebel/M06-kernel-value-transport-coverage-at-f51ac5a.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-fb27d899.json",
     "docs/rebel/M06-kernel-value-transport-coverage-at-799b190.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-ffab72b.json",
-    "docs/rebel/M06-kernel-value-transport-coverage-at-29b27d4.json"
+    "docs/rebel/M06-kernel-value-transport-coverage-at-ffab72b.json"
   ],
   "semantic_review": "docs/rebel/M06-cross-query-value-batch.md",
   "module": "GameTheory.Analysis.ReBeL.PBSKernelValueTransport",
@@ -104,37 +103,44 @@
     "docs/rebel/M06-nash-transport-3e84fcb-failure.md",
     "docs/rebel/M06-recursive-security-ce432689-failure.md",
     "docs/rebel/M06-grouped-security-a0892dcb-failure.md",
-    "docs/rebel/M06-query-cost-fb27d899-failure.md",
-    "docs/rebel/M06-cross-query-value-29b27d4-failure.md"
+    "docs/rebel/M06-query-cost-fb27d899-failure.md"
   ],
   "previous_feedback": {
-    "commit": "29b27d475d96e67c46914d1b6e902e5baf71a03c",
-    "ci_run": 36505835454,
-    "ci_job": 109206960343,
-    "global_run": 36505835263,
-    "global_job": 109206959496,
-    "source_job": 109206959230,
-    "target_run": 36505835377,
-    "target_job": 109206959849,
-    "inventory_run": 36505835389,
-    "inventory_job": 109206960177,
-    "result": "three compiler jobs failed on identical two example type mismatches; both core modules compiled; full build/lint/axioms not accepted",
-    "evidence": "docs/rebel/M06-cross-query-value-29b27d4-failure.md",
-    "python_tests": 240,
+    "commit": "ffab72bcee96bd262a0a1c5f3966a5e96b41aed7",
+    "ci_run": 36500385539,
+    "ci_job": 109189573393,
+    "global_run": 36500385536,
+    "global_job": 109189573062,
+    "source_job": 109189573357,
+    "target_run": 36500385608,
+    "target_job": 109189574126,
+    "inventory_run": 36500385571,
+    "inventory_job": 109189573359,
+    "target_declarations": 2437,
+    "global_declarations": 5571,
+    "target_modules": 155,
+    "global_modules": 295,
+    "build_targets": 193,
+    "python_tests": 235,
+    "all_runs": "success",
+    "evidence": "docs/rebel/M06-security-potential-ffab72b-accepted.md",
+    "result": "success; full decoded logs and exact lint/axiom sets reviewed",
     "python_seconds": {
-      "checks": 9.879,
-      "inventory": 6.481
+      "checks": 9.688,
+      "inventory": 10.078
     },
+    "full_build": 4322,
+    "lint_build": 4092,
     "rational_runtime": "pass",
     "static_metrics": {
       "LIBRARY_LINES_OVER_100": 0,
       "TRANSPORT_ANALYSIS_SOURCE": 0
     },
-    "axiom_records": 0,
     "artifacts": {
-      "target": 11007615872,
-      "global": 11008280470,
-      "source": 11007345431
+      "ci": 11005212570,
+      "global": 11007211036,
+      "target": 11006051835,
+      "source": 11004951013
     },
     "artifact_contents": "ZIP unread; metadata inspected"
   },
@@ -1327,7 +1333,7 @@
     }
   },
   "cross_query_value_batch": {
-    "status": "two example proof repairs pending same-SHA Actions",
+    "status": "implementation pending same-SHA Actions",
     "semantic_review": "docs/rebel/M06-cross-query-value-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.PBSRecursiveValueStability",
@@ -1352,16 +1358,14 @@
     "blobs": {
       "GameTheory/Analysis/ReBeL/PBSRecursiveValueStability.lean": "4dc749214daf4432c85751d35975cf4b06512679",
       "GameTheory/Analysis/ReBeL/CFRDStoredSolveValue.lean": "d5c00b63f888cce84395acc2423a52c2e7a7868e",
-      "GameTheory/Analysis/ReBeL/Examples/PBSRecursiveValueStability.lean": "b54966f28b2109efe26d545e6c938a372de662e3",
+      "GameTheory/Analysis/ReBeL/Examples/PBSRecursiveValueStability.lean": "74ff1813a421e4ece75a4ebe2f16a17a4fac93dc",
       "scripts/rebel/tests/test_recursive_cross_query.py": "196a97a8f1943c449b2a93148e88efa938069823",
       "GameTheory/Analysis/ReBeL.lean": "96dfd4a0b697628ca2d2fad8f668a3b59fc975c7",
       "scripts/rebel/m06-targets.txt": "45efbc2240dbf34b8cacd39db3e67f51cc630307",
       "scripts/rebel/audit_exact_leaf.py": "d10acf298cd8c865a4a14eea1020ac394c540500",
       "docs/rebel/M06-security-potential-ffab72b-accepted.md": "0774a73fb3d7cd5c10e3c2137ac45d34117fe6bd",
       "docs/rebel/M06-cross-query-value-batch.md": "53350bbaaa956a804f42d15918630758bbddc5bc",
-      "docs/rebel/STATUS.md": "d0a9c8a8783fd0320a8d3dbd6d9fd8475a18e50e",
-      "docs/rebel/M06-cross-query-value-29b27d4-failure.md": "685d18c3bfffdf2bbf7fedc31e5ab8570aa603ca"
-    },
-    "repair_review": "docs/rebel/M06-cross-query-value-29b27d4-failure.md"
+      "docs/rebel/STATUS.md": "96d8daa60502a80cf9badf9fc762ed0ce982b283"
+    }
   }
 }

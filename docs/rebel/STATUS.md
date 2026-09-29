@@ -1,7 +1,8 @@
-# ReBeL status — cross-query values pending Actions; M06 incomplete
+# ReBeL status — cross-query example repair pending Actions; M06 incomplete
 
 Branch: rebel/m06-kernel-value-repair-20260927.
-Parent and accepted dependency:ffab72bcee96bd262a0a1c5f3966a5e96b41aed7.
+Repair parent:29b27d475d96e67c46914d1b6e902e5baf71a03c.
+Accepted dependency:ffab72bcee96bd262a0a1c5f3966a5e96b41aed7.
 Default main:6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline:9457c198126f3c8b7cb1045bbed2e0053788636f.
 Account marshmallowday has push/admin permission.
@@ -14,6 +15,16 @@ Full build4322/lintbuild4092, architecture3VERIFIED, static2metrics0,
 rational runtime and235tests (checks9.688s/inventory10.078s) passed.
 See M06-security-potential-ffab72b-accepted.md. Artifact metadata was read;
 ZIP contents were not. These results do not validate the new source.
+
+Candidate29b27d4 failed at two final simpa-only type matches in the new
+example (lines53/74). All three compiler jobs compiled both new core modules,
+but full build/lint/axiom validation is not accepted. Checks passed static
+metrics0, rational runtime,240tests9.879s; inventory240tests6.481s.
+The repair separates let reduction, zero-error rewriting and exact type
+checking in both examples. Definition/signature/instance/core/test/workflow/
+audit criteria are unchanged. See M06-cross-query-value-29b27d4-failure.md
+for complete identical diagnostics, artifact metadata and static review.
+A new SHA must pass all gates; static alias/fuel review is not compilation.
 
 New PBSRecursiveValueStability compares two ACTUAL recursive solver outputs
 on different PBSs, using cross deviations and one uniform fixed-profile
@@ -56,8 +67,8 @@ target. No prior reset, posterior calibration or policy closeness is assumed.
 
 All accepted source journals/pins remain unchanged. Frozen coverage.json:
 2fc8cc9ad6607d61bfe397707fb96ac322fbb800. Previous owner ledger preserved
-at M06-kernel-value-transport-coverage-at-ffab72b.json, original blob
-14c8922307cd48a3af1b099ba22c8ab9433301c7. Theorem3 interpretation remains
+at M06-kernel-value-transport-coverage-at-29b27d4.json, original blob
+d7568e056a1a331d4e8a0782b800ff532a64fd1e. Theorem3 interpretation remains
 in M06-theorem3-interpretation.md; finite-T and child loss stay independent.
 
 Main agent only; review types before each commit, batch related work and

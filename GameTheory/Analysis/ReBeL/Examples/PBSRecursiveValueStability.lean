@@ -50,7 +50,9 @@ theorem crossQuery_partition_value (who : Player) :
     pbsRootControlFallback pbsRootControlFallback cfrPayoff (cumulative_zeroSum fullPrior)
     2 (by norm_num) cfrPayoff_abs_le_two recursiveInitialBelief recursiveInitialBelief
     (1 / 8) (1 / 4) (by norm_num) (by norm_num) who
-  simpa only [FinDist.atomVariation_self, mul_zero, add_zero] using estimate
+  dsimp only at estimate
+  rw [FinDist.atomVariation_self, mul_zero, add_zero] at estimate
+  exact estimate
 
 /-- The actual [3] private draw secures the earlier [1,1,1] computed model
 value against any fixed unknown opponent. The second tolerance is charged
@@ -71,7 +73,9 @@ theorem crossQuery_partition_private
     pbsRootControlFallback pbsRootControlFallback cfrPayoff (cumulative_zeroSum fullPrior)
     2 (by norm_num) cfrPayoff_abs_le_two recursiveInitialBelief recursiveInitialBelief
     (1 / 8) (1 / 4) (by norm_num) (by norm_num) who unknown
-  simpa only [FinDist.atomVariation_self, mul_zero, add_zero] using estimate
+  dsimp only at estimate
+  rw [FinDist.atomVariation_self, mul_zero, add_zero] at estimate
+  exact estimate
 
 /-- The real noisy parent stores its public posterior. Two independently
 recomputed one-step searches on that posterior and its live child have a
