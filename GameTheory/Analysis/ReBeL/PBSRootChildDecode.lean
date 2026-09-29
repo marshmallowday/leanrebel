@@ -43,8 +43,8 @@ theorem pbsRootChildRead_public
       have impossible : (none : Option (List M.PublicSignal)) = some observations :=
         (List.cons.inj observed).1
       cases impossible
-  | @extend source target prior joint legal realized =>
-      cases target with
+  | @extend source _ prior joint legal realized =>
+      cases state with
       | none =>
           have impossible : (none : Option (List M.PublicSignal)) = some observations :=
             (List.cons.inj observed).1
