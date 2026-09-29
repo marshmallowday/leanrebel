@@ -6,7 +6,7 @@
   "milestone_complete": false,
   "status": "in_progress",
   "branch": "rebel/m06-kernel-value-repair-20260927",
-  "parent": "1bc8827dae4f5ba7f1903abf172536e155bf5a14",
+  "parent": "3f09be2d2b6bbb5e222e6b189f5bc409362ad148",
   "latest_starting_checkpoint": "dac8bd902ba368357d4a53f0d0b6b90a6d3dddeb",
   "history": [
     "docs/rebel/M06-kernel-value-transport-coverage-at-dac8.json",
@@ -111,26 +111,25 @@
     "docs/rebel/M06-query-cost-fb27d899-failure.md",
     "docs/rebel/M06-cross-query-value-29b27d4-failure.md",
     "docs/rebel/M06-rooted-child-decode-fee60dd-failure.md",
-    "docs/rebel/M06-rooted-child-decode-3246e17-failure.md",
-    "docs/rebel/M06-rooted-stored-query-1bc8827-failure.md"
+    "docs/rebel/M06-rooted-child-decode-3246e17-failure.md"
   ],
   "previous_feedback": {
-    "commit": "1bc8827dae4f5ba7f1903abf172536e155bf5a14",
-    "ci_run": 36529480526,
-    "ci_job": 109279686667,
-    "global_run": 36529480546,
-    "global_job": 109279686864,
-    "source_job": 109279686674,
-    "target_run": 36529480522,
-    "target_job": 109279686148,
-    "inventory_run": 36529480587,
-    "inventory_job": 109279686455,
-    "result": "Identical rewrite failure under local let binders at PBSRootStoredValue:140; downstream/full build/lint/axioms unaccepted",
-    "evidence": "docs/rebel/M06-rooted-stored-query-1bc8827-failure.md",
-    "python_tests": 250,
+    "commit": "3246e17090f3c363b79ef8bc3b74e12b2cb6d857",
+    "ci_run": 36520126583,
+    "ci_job": 109250935502,
+    "global_run": 36520126486,
+    "global_job": 109250935341,
+    "source_job": 109250935574,
+    "target_run": 36520126559,
+    "target_job": 109250935910,
+    "inventory_run": 36520126534,
+    "inventory_job": 109250935719,
+    "result": "PBSRootChildDecode compiled in all three jobs; recursive consumer failed on identical selected definitional equality and one-sided horizon rewrite; full build/lint/axioms not accepted",
+    "evidence": "docs/rebel/M06-rooted-child-decode-3246e17-failure.md",
+    "python_tests": 245,
     "python_seconds": {
-      "checks": 9.851,
-      "inventory": 10.78
+      "checks": 9.671,
+      "inventory": 10.117
     },
     "rational_runtime": "pass",
     "static_metrics": {
@@ -139,9 +138,9 @@
     },
     "axiom_records": 0,
     "artifacts": {
-      "target": 11015887872,
-      "global": 11015659423,
-      "source": 11016340721
+      "target": 11012926426,
+      "global": 11013486997,
+      "source": 11013065027
     },
     "artifact_contents": "ZIP unread; metadata inspected"
   },
@@ -1466,7 +1465,7 @@
     }
   },
   "rooted_stored_query_batch": {
-    "status": "let reduction repair pending exact-SHA Actions",
+    "status": "pending exact-SHA Actions",
     "semantic_review": "docs/rebel/M06-rooted-stored-query-batch.md",
     "modules": [
       "GameTheory.Analysis.ReBeL.PBSRootStoredValue",
@@ -1493,7 +1492,7 @@
     "python_tests": 5,
     "scope": "Project the actual rooted parent saved public-only MODEL posterior into the original game; preserve stopped atoms and conditional mass error; derive scalar comparison and actual fresh private security from independent recursive solvers on decoded public/live laws. Does not assert native factual calibration, algorithm/policy identity, or full recursive small rate.",
     "blobs": {
-      "GameTheory/Analysis/ReBeL/PBSRootStoredValue.lean": "3ae45f152c3ea6bda2f9d64684b58e7c82123dc2",
+      "GameTheory/Analysis/ReBeL/PBSRootStoredValue.lean": "e1f38db9a5c31271c41193e1f8d3698f9528b0df",
       "GameTheory/Analysis/ReBeL/PBSRootStoredState.lean": "77a21c55ea21bcd80202c2b33d54eafc1233f9bc",
       "GameTheory/Analysis/ReBeL/Examples/PBSRootStoredValue.lean": "a608acb082b2a2d7754df929da59b68963846510",
       "scripts/rebel/tests/test_rooted_stored_query.py": "94631d347bf0547a76d12c5851e803a124548426",
@@ -1503,7 +1502,6 @@
       "docs/rebel/M06-rooted-child-decode-3f09be2-accepted.md": "a46805872191d90abb2cc5afea0dd6ca91b1b217",
       "docs/rebel/M06-rooted-stored-query-batch.md": "ab0106f5453156983ac50ba6784b0126e33ef276",
       "docs/rebel/STATUS.md": "76a520f0bf426bc2073062cd6373149341694e0c"
-    },
-    "failure_review": "docs/rebel/M06-rooted-stored-query-1bc8827-failure.md"
+    }
   }
 }

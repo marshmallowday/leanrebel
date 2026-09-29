@@ -137,6 +137,7 @@ theorem pbsRootStored_fresh_value
     observations past possible
     ((fullInformation.{0, u, u, u, u, u} M).runBehavioralFrom profile remaining)
     (payoff who) bound (bounded who)
+  dsimp only at error
   rw [abs_sub_comm] at error
   exact error
 

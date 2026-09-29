@@ -1,7 +1,7 @@
-# ReBeL status — rooted saved-public query batch pending Actions; M06 incomplete
+# ReBeL status — rooted saved-query let reduction repair pending Actions; M06 incomplete
 
 Branch: rebel/m06-kernel-value-repair-20260927.
-Accepted parent: 3f09be2d2b6bbb5e222e6b189f5bc409362ad148.
+Accepted baseline: 3f09be2d2b6bbb5e222e6b189f5bc409362ad148.
 Default main:6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline:9457c198126f3c8b7cb1045bbed2e0053788636f.
 
@@ -14,6 +14,15 @@ rational runtime and245tests (checks9.410s/inventory6.268s) passed.
 See M06-rooted-child-decode-3f09be2-accepted.md. Artifact metadata was read;
 ZIP contents were not. This closes the fee60dd/3246e17/3f09be2 repair loop,
 but does not validate the new source.
+
+Candidate1bc8827 failed all three compiler jobs at PBSRootStoredValue:140.
+The returned common-kernel estimate retained local let binders, preventing
+abs_sub_comm from finding its target. This repair inserts dsimp only at error
+before the rewrite; definitions, signatures and other proofs are unchanged.
+Checks passed static2metrics0, rational runtime and250tests9.851s;
+inventory passed250tests10.780s. Full build/lint/axioms remain unaccepted.
+See M06-rooted-stored-query-1bc8827-failure.md for complete diagnostic,
+artifact metadata, all-consumer type review and its static-only limits.
 
 The new PBSRootStoredValue/PBSRootStoredState batch connects the actual rooted
 parent's saved public-only MODEL law to the decoded original solver input.
@@ -45,5 +54,5 @@ Prediction error, finite-T and childloss remain independent.
 P-CFRD-AVERAGE/P-CFRD-TARGET and SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
 remain accepted in existing journals. Frozen coverage.json stays at blob
 2fc8cc9ad6607d61bfe397707fb96ac322fbb800. The previous dedicated ledger is
-preserved byte-for-byte as M06-kernel-value-transport-coverage-at-3f09be2.json.
+preserved byte-for-byte as M06-kernel-value-transport-coverage-at-1bc8827.json.
 M06 and the full Theorem3 remain incomplete.
