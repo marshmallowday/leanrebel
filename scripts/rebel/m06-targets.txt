@@ -191,3 +191,6 @@ GameTheory.Analysis.ReBeL.Examples.PBSRecursiveQueryCost
 GameTheory.Analysis.ReBeL.PBSRecursivePotential
 GameTheory.Analysis.ReBeL.PBSRecursivePotentialSecurity
 GameTheory.Analysis.ReBeL.Examples.PBSRecursivePotential
+GameTheory.Analysis.ReBeL.PBSRecursiveValueStability
+GameTheory.Analysis.ReBeL.CFRDStoredSolveValue
+GameTheory.Analysis.ReBeL.Examples.PBSRecursiveValueStability

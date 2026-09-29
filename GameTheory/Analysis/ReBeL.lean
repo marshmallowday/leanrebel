@@ -268,3 +268,6 @@ import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveQueryCost
 import GameTheory.Analysis.ReBeL.PBSRecursivePotential
 import GameTheory.Analysis.ReBeL.PBSRecursivePotentialSecurity
 import GameTheory.Analysis.ReBeL.Examples.PBSRecursivePotential
+import GameTheory.Analysis.ReBeL.PBSRecursiveValueStability
+import GameTheory.Analysis.ReBeL.CFRDStoredSolveValue
+import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveValueStability
