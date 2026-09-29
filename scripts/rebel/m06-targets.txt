@@ -197,3 +197,6 @@ GameTheory.Analysis.ReBeL.Examples.PBSRecursiveValueStability
 GameTheory.Analysis.ReBeL.PBSRootChildDecode
 GameTheory.Analysis.ReBeL.PBSRootChildRecursive
 GameTheory.Analysis.ReBeL.Examples.PBSRootChildRecursive
+GameTheory.Analysis.ReBeL.PBSRootStoredValue
+GameTheory.Analysis.ReBeL.PBSRootStoredState
+GameTheory.Analysis.ReBeL.Examples.PBSRootStoredValue
