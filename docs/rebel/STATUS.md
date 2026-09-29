@@ -1,77 +1,48 @@
-# ReBeL status — cross-query example repair pending Actions; M06 incomplete
+# ReBeL status — rooted-child decode batch pending Actions; M06 incomplete
 
 Branch: rebel/m06-kernel-value-repair-20260927.
-Repair parent:29b27d475d96e67c46914d1b6e902e5baf71a03c.
-Accepted dependency:ffab72bcee96bd262a0a1c5f3966a5e96b41aed7.
+Accepted parent: c1edc995d1a9790ae569c3edbdd23c2a7e99199b.
 Default main:6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline:9457c198126f3c8b7cb1045bbed2e0053788636f.
-Account marshmallowday has push/admin permission.
 
-Exact ffab72b passed CI36500385539, checks36500385536,
-target36500385608 and inventory36500385571. Complete logs yielded
-2437/5571 unique targeted/global axiom records, only the3 permitted axioms;
-all155/295 lint modules matched the registered sets and final markers.
-Full build4322/lintbuild4092, architecture3VERIFIED, static2metrics0,
-rational runtime and235tests (checks9.688s/inventory10.078s) passed.
-See M06-security-potential-ffab72b-accepted.md. Artifact metadata was read;
-ZIP contents were not. These results do not validate the new source.
+Exact c1edc99 passed CI36510226509, checks36510226707,
+target36510226622 and inventory36510226764. Complete decoded logs contain
+2450/5584 unique targeted/global axiom records with only the3 permitted axioms.
+All158/298 lint modules exactly matched registered sets and final markers.
+Full build4325/lintbuild4095, architecture3VERIFIED, static2metrics0,
+rational runtime and240tests (checks9.289s/inventory10.791s) passed.
+See M06-cross-query-value-c1edc99-accepted.md. Artifact metadata was read;
+ZIP contents were not. This closes the previous example repair loop but does
+not validate the new source.
 
-Candidate29b27d4 failed at two final simpa-only type matches in the new
-example (lines53/74). All three compiler jobs compiled both new core modules,
-but full build/lint/axiom validation is not accepted. Checks passed static
-metrics0, rational runtime,240tests9.879s; inventory240tests6.481s.
-The repair separates let reduction, zero-error rewriting and exact type
-checking in both examples. Definition/signature/instance/core/test/workflow/
-audit criteria are unchanged. See M06-cross-query-value-29b27d4-failure.md
-for complete identical diagnostics, artifact metadata and static review.
-A new SHA must pass all gates; static alias/fuel review is not compilation.
+The new PBSRootChildDecode/PBSRootChildRecursive batch decodes an existing
+noninitial rooted child joint PBS, preserving arbitrary full continuation and
+deviation laws at unchanged child fuel. It connects the parent's actual table
+entry and public splice, including positiveMassFloor*loss, to the decoded
+recursive solver. Actual private draws and Nash transfer on this MODEL law;
+an independently recomputed original solver has scalar gap bounded by the two
+requested tolerances at the same remaining horizon. No policy identity is
+inferred. A real noisy rooted hidden-type parent and five Fraction controls
+cover the integration and failure boundaries.
+See M06-rooted-child-decode-batch.md for signatures, assumptions and static review.
 
-New PBSRecursiveValueStability compares two ACTUAL recursive solver outputs
-on different PBSs, using cross deviations and one uniform fixed-profile
-root error. Both Nash premises are supplied by the independent computations.
-Noise, cut partition, fallback and tolerance may differ; protocol, payoff
-and total horizon agree. A concrete bound is the sum of both tolerances
-plus bound*L1(root laws). The second finite private draw secures the first
-computed model value with firstTolerance+2*secondTolerance+rootError against
-any fixed unknown opponent, on the second model law.
+Expected validation:199 build targets,161 targeted/301 global audit modules,
+245 Python tests. All previous targets remain registered. New source is
+unverified until same-SHA Actions and complete-log review. Solver definitions,
+workflow/audit criteria, heartbeat limits and source acceptance pins are unchanged.
+Commit-before review is static, never described as a successful Lean check.
 
-CFRDStoredSolveValue applies the accepted fixed-kernel stopped-mass bound
-BEFORE the Nash comparison, so independently recomputed public/live self-play
-values differ by at most both tolerances plus2*bound*stoppedMass/publicReach.
-The actual public posterior is not silently filtered. A real noisy-parent
-example keeps the stored-state equality and proves zero stopped mass from
-this game's public termination property. Other consumers compare [1,1,1]
-and[3] searches, including the actual private draw.
+Next dependencies: actual native successive-query calibration and conditional
+incumbent/selfplay/root/support costs; varying clock/horizon connection; useful
+solver-specific small bounds and full recursive safety; remaining original
+SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 acceptance. Decoded MODEL law is not the
+unknown factual law. Native private/history correlations and retained late draw
+remain required; no prior reset or Nash-to-policy-closeness step is valid.
+Keep prediction error, finite-T and childloss independent.
 
-Five independent Fraction controls cover729 cross-root/profile combinations,
-public/live rare reach and sharp denominator, scalar/typewise/policy
-distinctions, private security with separate solver errors, mismatched
-horizon, resampled late draws and lost conditional correlation.
-They are not executions of CFR. Expected surface:196 build targets,
-158 targeted/298 global audit modules,240 Python tests. New-SHA Actions required.
-
-See M06-cross-query-value-batch.md for actual signatures, type review and
-batch boundary. The static review includes full-information universe/index
-alignment, explicit condition S, observation-dependent PBSs, independent
-solver arguments, fuel equations and every concrete consumer. It caught a
-keyword binder before commit. Static review is not compiler success.
-
-Remaining: new-SHA validation; useful small native conditional-root/support
-and incumbent/potential differences across actual successive queries;
-internal chance-rooted/fresh-original correspondence with noise/fallback/
-budget/clock/root encoding; full recursive small-rate safety and
-SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 source acceptance.
-Same-horizon scalar stability is not conditional vector equality or solver
-identity. Fresh self-play is not an asserted exact game value or network
-target. No prior reset, posterior calibration or policy closeness is assumed.
-
-All accepted source journals/pins remain unchanged. Frozen coverage.json:
-2fc8cc9ad6607d61bfe397707fb96ac322fbb800. Previous owner ledger preserved
-at M06-kernel-value-transport-coverage-at-29b27d4.json, original blob
-d7568e056a1a331d4e8a0782b800ff532a64fd1e. Theorem3 interpretation remains
-in M06-theorem3-interpretation.md; finite-T and child loss stay independent.
-
-Main agent only; review types before each commit, batch related work and
-fixes, confirm separate same-SHA runs, schedule one check about50minutes
-after push in JST. If still running, check once and defer about10minutes.
-Never cancel active workflows. Full M06 remains incomplete.
+P-CFRD-AVERAGE/P-CFRD-TARGET and SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
+remain accepted in their existing journals. Frozen coverage.json stays at blob
+2fc8cc9ad6607d61bfe397707fb96ac322fbb800. The previous dedicated ledger is
+preserved byte-for-byte as M06-kernel-value-transport-coverage-at-c1edc99.json.
+M06 and the full Theorem3 remain incomplete. Printed/adopted source interpretation
+is recorded in M06-theorem3-interpretation.md.

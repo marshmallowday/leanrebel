@@ -271,3 +271,6 @@ import GameTheory.Analysis.ReBeL.Examples.PBSRecursivePotential
 import GameTheory.Analysis.ReBeL.PBSRecursiveValueStability
 import GameTheory.Analysis.ReBeL.CFRDStoredSolveValue
 import GameTheory.Analysis.ReBeL.Examples.PBSRecursiveValueStability
+import GameTheory.Analysis.ReBeL.PBSRootChildDecode
+import GameTheory.Analysis.ReBeL.PBSRootChildRecursive
+import GameTheory.Analysis.ReBeL.Examples.PBSRootChildRecursive
