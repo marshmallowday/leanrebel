@@ -277,3 +277,6 @@ import GameTheory.Analysis.ReBeL.Examples.PBSRootChildRecursive
 import GameTheory.Analysis.ReBeL.PBSRootStoredValue
 import GameTheory.Analysis.ReBeL.PBSRootStoredState
 import GameTheory.Analysis.ReBeL.Examples.PBSRootStoredValue
+import GameTheory.Math.Probability.FinDistConditionalMass
+import GameTheory.Analysis.ReBeL.PBSRootQueryMass
+import GameTheory.Analysis.ReBeL.Examples.PBSRootQueryMass

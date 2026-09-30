@@ -13,6 +13,9 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULES = (
+    "GameTheory.Math.Probability.FinDistConditionalMass",
+    "GameTheory.Analysis.ReBeL.PBSRootQueryMass",
+    "GameTheory.Analysis.ReBeL.Examples.PBSRootQueryMass",
     "GameTheory.Analysis.ReBeL.PBSRootStoredValue",
     "GameTheory.Analysis.ReBeL.PBSRootStoredState",
     "GameTheory.Analysis.ReBeL.Examples.PBSRootStoredValue",

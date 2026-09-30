@@ -1,58 +1,53 @@
-# ReBeL status — rooted saved-query let reduction repair pending Actions; M06 incomplete
+# ReBeL status — query-mass batch pending Actions; M06 incomplete
 
 Branch: rebel/m06-kernel-value-repair-20260927.
-Accepted baseline: 3f09be2d2b6bbb5e222e6b189f5bc409362ad148.
+Accepted baseline:300175a31f8d40d27e40d31b7b60fe6ce228a39f.
 Default main:6a6cbdaa8b4fb43b35a9d3e555a7c1a614130098.
 Chat baseline:9457c198126f3c8b7cb1045bbed2e0053788636f.
 
-Exact 3f09be2 passed CI36524194641, checks36524194648,
-target36524194642 and inventory36524194628. Complete decoded logs contain
-2489/5623 unique targeted/global axiom records with only the3 permitted axioms.
-All161/301 lint modules matched the exact registered selection sets and final
-markers. Full build4328/lintbuild4098, architecture3VERIFIED, static2metrics0,
-rational runtime and245tests (checks9.410s/inventory6.268s) passed.
-See M06-rooted-child-decode-3f09be2-accepted.md. Artifact metadata was read;
-ZIP contents were not. This closes the fee60dd/3246e17/3f09be2 repair loop,
-but does not validate the new source.
+Exact300175a passed CI36534551520, checks36534551536,
+target36534551490 and inventory36534551486. Complete decoded logs contain
+2508/5642 unique targeted/global axiom records with only the3 permitted axioms.
+All164/304 lint modules matched the registered selection sets and final
+markers. Full build4331/lintbuild4101, architecture3VERIFIED, static2metrics0,
+rational runtime and250tests (checks9.345s/inventory10.887s) passed.
+See M06-rooted-stored-query-300175a-accepted.md. Artifact metadata was read;
+ZIP contents were not. The1bc8827/300175a returned-let repair loop is closed.
+This evidence does not validate the new source.
 
-Candidate1bc8827 failed all three compiler jobs at PBSRootStoredValue:140.
-The returned common-kernel estimate retained local let binders, preventing
-abs_sub_comm from finding its target. This repair inserts dsimp only at error
-before the rewrite; definitions, signatures and other proofs are unchanged.
-Checks passed static2metrics0, rational runtime and250tests9.851s;
-inventory passed250tests10.780s. Full build/lint/axioms remain unaccepted.
-See M06-rooted-stored-query-1bc8827-failure.md for complete diagnostic,
-artifact metadata, all-consumer type review and its static-only limits.
+The integrated FinDistConditionalMass/PBSRootQueryMass batch removes inverse
+public reach from the MODEL-weighted stopped contribution by exact
+disintegration. Different incoming query weights retain actual/model L1.
+Actual internal child requests remain massFloor*parentLoss, bounded by
+parentLoss; scalar comparisons add freshError, private MODEL security adds
+2*freshError. Both recursive Nash premises come from the actual solvers.
+Concrete noisy rooted hidden-type examples and5 independent Fraction controls
+are included. See M06-rooted-query-mass-batch.md for signatures and scope.
 
-The new PBSRootStoredValue/PBSRootStoredState batch connects the actual rooted
-parent's saved public-only MODEL law to the decoded original solver input.
-Stopped histories remain in the saved posterior. Its discrepancy from the
-internal live child is bounded by2*bound*stoppedPublicMass/publicReach for
-each fixed continuation kernel. Independently recomputed scalar values add
-both solver tolerances; actual fresh private security adds another fresh
-tolerance. Both recursive Nash premises are derived from actual solvers.
-Native state/private memory and actual selected-round prefix are unchanged.
-A concrete noisy rooted hidden-type parent consumes the saved-law, scalar
-and private-security results with its mass-scaled internal request, plus the
-missing-PBS boundary. Five independent Fraction controls cover the failures.
-See M06-rooted-stored-query-batch.md for scope, assumptions and static review.
+This is a restricted query diagnostic. Excluded labels have diagnostic zero,
+not a proved zero native cost. Its arbitrary native checkpoint supplies actual
+history weights, but saved PBS/incumbent correspondence to the fixed parent
+and factual unknown-opponent security remain separate obligations.
+No solver or native transition is changed.
 
-Expected validation:202 build targets,164 targeted/304 global audit modules,
-250 Python tests. All previous targets remain registered. New source is
-unverified until same-SHA Actions and complete-log review. Solver definitions,
-workflow/audit criteria, heartbeat limits and source pins are unchanged.
-Commit-before type review is static, never a successful Lean check.
+Expected validation:205 build targets,167 targeted/306 global audit modules,
+255 Python tests. All previous targets remain registered. New source is
+unverified until same-SHA Actions and complete-log review. Static type review
+is not a Lean compile. Workflow/audit criteria, heartbeat limits, source pins
+and existing solver definitions are unchanged.
 
-Next dependencies: native successive-query calibration and conditional
-incumbent/selfplay/root/support costs; changing-clock connection; useful
-solver-specific small bounds and full recursive safety; remaining original
-SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 acceptance. Decoded saved MODEL law is not
-unknown factual law. Native private/history correlations and retained late draw
-remain required; no prior reset or Nash-to-policy-closeness step is valid.
+Next: validate this SHA; connect actual successive native query states with
+their MODEL comparisons and changing clocks; derive solver-specific small
+incumbent/root/support/stopped costs; close recursive safety and original
+SEARCH-CFRD/SEARCH-ERROR/SAFE-THEOREM3 acceptance. Native private/history/PBS
+correlations and retained late draws remain required. No prior reset,
+MODEL=factual-posterior equality or Nash-to-policy-closeness step is assumed.
 Prediction error, finite-T and childloss remain independent.
 
-P-CFRD-AVERAGE/P-CFRD-TARGET and SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF
-remain accepted in existing journals. Frozen coverage.json stays at blob
-2fc8cc9ad6607d61bfe397707fb96ac322fbb800. The previous dedicated ledger is
-preserved byte-for-byte as M06-kernel-value-transport-coverage-at-1bc8827.json.
-M06 and the full Theorem3 remain incomplete.
+Existing P-CFRD-AVERAGE/P-CFRD-TARGET and
+SEARCH-FRONTIER/P-SEARCH-SETUP/P-SEARCH-LEAF acceptances remain unchanged.
+Frozen coverage.json stays at blob2fc8cc9ad6607d61bfe397707fb96ac322fbb800.
+The parent dedicated ledger is preserved byte-for-byte as
+M06-kernel-value-transport-coverage-at-300175a.json (blob
+5843fd87d58735b480dd8cbbbdd6fb75fd9b186b).
+M06 and full Theorem3 remain incomplete.

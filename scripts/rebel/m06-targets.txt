@@ -200,3 +200,6 @@ GameTheory.Analysis.ReBeL.Examples.PBSRootChildRecursive
 GameTheory.Analysis.ReBeL.PBSRootStoredValue
 GameTheory.Analysis.ReBeL.PBSRootStoredState
 GameTheory.Analysis.ReBeL.Examples.PBSRootStoredValue
+GameTheory.Math.Probability.FinDistConditionalMass
+GameTheory.Analysis.ReBeL.PBSRootQueryMass
+GameTheory.Analysis.ReBeL.Examples.PBSRootQueryMass
